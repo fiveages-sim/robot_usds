@@ -8,6 +8,12 @@
 # 克隆仓库
 git clone git@github.com:fiveages-sim/robot_usds.git
 cd robot_usds
+
+# 安装 Git LFS（若未安装）
+git lfs install
+
+# 拉取 LFS 文件
+git lfs pull
 ```
 
 ## 模型

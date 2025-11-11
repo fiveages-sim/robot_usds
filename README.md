@@ -8,6 +8,12 @@ Robot USD model files for ROS2 Control simulation.
 # Clone the repository
 git clone git@github.com:fiveages-sim/robot_usds.git
 cd robot_usds
+
+# Install Git LFS (if not installed)
+git lfs install
+
+# Pull LFS files
+git lfs pull
 ```
 
 ## Models
