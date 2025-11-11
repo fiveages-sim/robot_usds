@@ -57,7 +57,7 @@ mkdir -p environment
 cd environment
 
 # Clone the environment assets repository
-git clone https://github.com/fiveages-sim/fiveages-env-usds fiveages_env
+git clone git@github.com:fiveages-sim/fiveages-env-usds.git fiveages_env
 ```
 
 After cloning, your directory layout should look like:
