@@ -14,6 +14,9 @@ git lfs install
 
 # 拉取 LFS 文件
 git lfs pull
+
+# 初始化并更新子模块
+git submodule update --init --recursive
 ```
 
 ## 模型

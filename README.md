@@ -14,6 +14,9 @@ git lfs install
 
 # Pull LFS files
 git lfs pull
+
+# Initialize and update submodules
+git submodule update --init --recursive
 ```
 
 ## Models
