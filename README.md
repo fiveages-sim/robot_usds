@@ -9,12 +9,6 @@ Robot USD model files for ROS2 Control simulation.
 git clone git@github.com:fiveages-sim/robot_usds.git
 cd robot_usds
 
-# Install Git LFS (if not installed)
-git lfs install
-
-# Pull LFS files
-git lfs pull
-
 # Initialize and update submodules
 git submodule update --init --recursive
 ```
@@ -25,11 +19,31 @@ git submodule update --init --recursive
     - ChangingTek_AG2F120S
     - ChangingTek_AG2F90_C
         - ChangingTek_AG2F90_C with soft pad (rigid body simulation)
+    - ChangingTek_AG2F90_C_Soft
+    - Inspire_EG2_4C2
+    - Jodell_RG75
+    - OmniPicker
+    - Robotiq_85
 - Manipulator
+    - ARX5_agilex
     - DobotCR5
         - Dobot CR5 Dual Arm
     - Elite_EC66
     - Agilex Piper
+    - rm65
+- Humanoid
+    - Agibot_G1
+    - FiveAges_W1
+- Mobile Base
+    - Agilex_Tracer
+- Mobile Manipulator
+    - Agilex_Aloha_V1
+    - Agilex_Aloha_V2
+- Sensors
+    - d405
+    - d435
+    - dabai
+    - mid360
 
 ## Directory Structure
 
@@ -39,6 +53,10 @@ The core directory is `robots`, which contains the following subfolders and reso
 robots/
   grippers/           # Gripper models and their configurations
   manipulators/       # Manipulator models, environment samples, and configurations
+  humannoid/          # Humanoid robot models and configurations
+  mobile_base/        # Mobile base models and configurations
+  mobile_manipulator/ # Mobile manipulator models and configurations
+  sensors/            # Sensor models
   README.md
   LICENSE
 ```

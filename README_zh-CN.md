@@ -9,12 +9,6 @@
 git clone git@github.com:fiveages-sim/robot_usds.git
 cd robot_usds
 
-# 安装 Git LFS（若未安装）
-git lfs install
-
-# 拉取 LFS 文件
-git lfs pull
-
 # 初始化并更新子模块
 git submodule update --init --recursive
 ```
@@ -25,11 +19,31 @@ git submodule update --init --recursive
     - ChangingTek_AG2F120S
     - ChangingTek_AG2F90_C
         - ChangingTek_AG2F90_C 的软垫版本（刚体模拟）
+    - ChangingTek_AG2F90_C_Soft
+    - Inspire_EG2_4C2
+    - Jodell_RG75
+    - OmniPicker
+    - Robotiq_85
 - Manipulator（机械臂）
+    - ARX5_agilex
     - DobotCR5
         - Dobot CR5 双臂
     - Elite_EC66
     - Agilex Piper
+    - rm65
+- Humanoid（人形机器人）
+    - Agibot_G1
+    - FiveAges_W1
+- Mobile Base（移动底盘）
+    - Agilex_Tracer
+- Mobile Manipulator（移动机械臂）
+    - Agilex_Aloha_V1
+    - Agilex_Aloha_V2
+- Sensors（传感器）
+    - d405
+    - d435
+    - dabai
+    - mid360
 
 ## 文件结构
 
@@ -39,6 +53,10 @@ git submodule update --init --recursive
 robots/
   grippers/           # 夹爪模型及按功能拆分的配置
   manipulators/       # 机械臂模型、环境示例与配置
+  humannoid/          # 人形机器人模型及配置
+  mobile_base/        # 移动底盘模型及配置
+  mobile_manipulator/ # 移动机械臂模型及配置
+  sensors/            # 传感器模型
   README.md
   LICENSE
 ```
