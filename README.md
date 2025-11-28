@@ -2,6 +2,12 @@
 
 Robot USD model files for ROS2 Control simulation.
 
+
+
+https://github.com/user-attachments/assets/5aea688f-bd91-41c7-8ce3-bc57e192f31e
+
+
+
 ## Clone and Setup
 
 ```bash
