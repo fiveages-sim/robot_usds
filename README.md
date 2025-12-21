@@ -6,7 +6,20 @@ Robot USD model files for ROS2 Control simulation.
 
 https://github.com/user-attachments/assets/5aea688f-bd91-41c7-8ce3-bc57e192f31e
 
+## Gallery
 
+<div align="center">
+
+| | | |
+|:---:|:---:|:---:|
+| <img src=".images/agibot_g1.png" alt="Agibot G1" width="300"/> | <img src=".images/agilex_aloha_split.png" alt="Agilex Aloha Split" width="300"/> | <img src=".images/agilex_aloha_v1.png" alt="Agilex Aloha V1" width="300"/> |
+| **Agibot G1** | **Agilex Aloha Split** | **Agilex Aloha V1** |
+| <img src=".images/agilex_aloha_v2.png" alt="Agilex Aloha V2" width="300"/> | <img src=".images/galaxea_r1_lite.png" alt="Galaxea R1 Lite" width="300"/> | <img src=".images/galaxea_r1.png" alt="Galaxea R1" width="300"/> |
+| **Agilex Aloha V2** | **Galaxea R1 Lite** | **Galaxea R1** |
+| <img src=".images/galaxea_r1_pro.png" alt="Galaxea R1 Pro" width="300"/> | | |
+| **Galaxea R1 Pro** | | |
+
+</div>
 
 ## Clone and Setup
 
@@ -21,35 +34,50 @@ git submodule update --init --recursive
 
 ## Models
 
-- Gripper
+- **Gripper**
     - ChangingTek_AG2F120S
     - ChangingTek_AG2F90_C
         - ChangingTek_AG2F90_C with soft pad (rigid body simulation)
     - ChangingTek_AG2F90_C_Soft
+    - Galaxea_G1
     - Inspire_EG2_4C2
     - Jodell_RG75
     - OmniPicker
     - Robotiq_85
-- Manipulator
+- **Manipulator**
     - ARX5_agilex
     - DobotCR5
         - Dobot CR5 Dual Arm
     - Elite_EC66
-    - Agilex Piper
+    - Galaxea
+        - A1
+        - A1X
+        - A1Y
+    - Piper
     - rm65
-- Humanoid
+- **Humanoid**
     - Agibot_G1
+    - Agibot_G2
     - FiveAges_W1
-- Mobile Base
+    - FiveAges_W2
+    - Galaxea_R1
+        - Galaxea_R1_Pro
+- **Mobile Base**
+    - Agilex_Ranger_Mini
     - Agilex_Tracer
-- Mobile Manipulator
+    - Agilex_Tracer_V2
+- **Mobile Manipulator**
+    - Agilex_Aloha_Spilt
     - Agilex_Aloha_V1
     - Agilex_Aloha_V2
-- Sensors
+    - Galaxea_R1_Lite
+- **Sensors**
     - d405
     - d435
     - dabai
     - mid360
+    - orbbec_336
+    - orbbec_336L
 
 ## Directory Structure
 
