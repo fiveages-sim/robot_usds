@@ -14,10 +14,12 @@ https://github.com/user-attachments/assets/5aea688f-bd91-41c7-8ce3-bc57e192f31e
 |:---:|:---:|:---:|
 | <img src=".images/agibot_g1.png" alt="Agibot G1" width="300"/> | <img src=".images/agilex_aloha_split.png" alt="Agilex Aloha Split" width="300"/> | <img src=".images/agilex_aloha_v1.png" alt="Agilex Aloha V1" width="300"/> |
 | **Agibot G1** | **Agilex Aloha Split** | **Agilex Aloha V1** |
-| <img src=".images/agilex_aloha_v2.png" alt="Agilex Aloha V2" width="300"/> | <img src=".images/arx_lift.png" alt="ARX Lift" width="300"/> | <img src=".images/galaxea_r1_lite.png" alt="Galaxea R1 Lite" width="300"/> |
-| **Agilex Aloha V2** | **ARX Lift** | **Galaxea R1 Lite** |
-| <img src=".images/galaxea_r1.png" alt="Galaxea R1" width="300"/> | <img src=".images/galaxea_r1_pro.png" alt="Galaxea R1 Pro" width="300"/> | |
-| **Galaxea R1** | **Galaxea R1 Pro** | |
+| <img src=".images/agilex_aloha_v2.png" alt="Agilex Aloha V2" width="300"/> | <img src=".images/arx_lift.png" alt="ARX Lift" width="300"/> | <img src=".images/arx_x7s.png" alt="ARX X7S" width="300"/> |
+| **Agilex Aloha V2** | **ARX Lift** | **ARX X7S** |
+| <img src=".images/astribot_s1.png" alt="Astribot S1" width="300"/> | <img src=".images/galaxea_r1_lite.png" alt="Galaxea R1 Lite" width="300"/> | <img src=".images/galaxea_r1.png" alt="Galaxea R1" width="300"/> |
+| **Astribot S1** | **Galaxea R1 Lite** | **Galaxea R1** |
+| <img src=".images/galaxea_r1_pro.png" alt="Galaxea R1 Pro" width="300"/> | | |
+| **Galaxea R1 Pro** | | |
 
 </div>
 
@@ -62,6 +64,8 @@ git submodule update --init --recursive
     - Agibot_G1
     - Agibot_G2
     - ARX_Lift
+    - ARX_X7S
+    - Astribot_S1
     - FiveAges_W1
     - FiveAges_W2
     - Galaxea_R1
