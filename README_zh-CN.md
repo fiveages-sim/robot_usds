@@ -12,14 +12,14 @@ https://github.com/user-attachments/assets/5aea688f-bd91-41c7-8ce3-bc57e192f31e
 
 | | | |
 |:---:|:---:|:---:|
-| <img src=".images/agibot_g1.png" alt="Agibot G1" width="300"/> | <img src=".images/agilex_aloha_split.png" alt="Agilex Aloha Split" width="300"/> | <img src=".images/agilex_aloha_v1.png" alt="Agilex Aloha V1" width="300"/> |
+| <img src=".images/agibot_g1.png" alt="Agibot G1" width="300"> | <img src=".images/agilex_aloha_split.png" alt="Agilex Aloha Split" width="300"> | <img src=".images/agilex_aloha_v1.png" alt="Agilex Aloha V1" width="300"> |
 | **Agibot G1** | **Agilex Aloha Split** | **Agilex Aloha V1** |
-| <img src=".images/agilex_aloha_v2.png" alt="Agilex Aloha V2" width="300"/> | <img src=".images/arx_lift.png" alt="ARX Lift" width="300"/> | <img src=".images/arx_x7s.png" alt="ARX X7S" width="300"/> |
+| <img src=".images/agilex_aloha_v2.png" alt="Agilex Aloha V2" width="300"> | <img src=".images/arx_lift.png" alt="ARX Lift" width="300"> | <img src=".images/arx_x7s.png" alt="ARX X7S" width="300"> |
 | **Agilex Aloha V2** | **ARX Lift** | **ARX X7S** |
-| <img src=".images/astribot_s1.png" alt="Astribot S1" width="300"/> | <img src=".images/galaxea_r1_lite.png" alt="Galaxea R1 Lite" width="300"/> | <img src=".images/galaxea_r1.png" alt="Galaxea R1" width="300"/> |
+| <img src=".images/astribot_s1.png" alt="Astribot S1" width="300"> | <img src=".images/galaxea_r1_lite.png" alt="Galaxea R1 Lite" width="300"> | <img src=".images/galaxea_r1.png" alt="Galaxea R1" width="300"> |
 | **Astribot S1** | **Galaxea R1 Lite** | **Galaxea R1** |
-| <img src=".images/galaxea_r1_pro.png" alt="Galaxea R1 Pro" width="300"/> | <img src=".images/ai2_bot2.png" alt="Agibot G1" width="300"/> | |
-| **Galaxea R1 Pro** | **Ai2 Bot2**  | |
+| <img src=".images/galaxea_r1_pro.png" alt="Galaxea R1 Pro" width="300"> | <img src=".images/galbot%20one.png" alt="Galbot One" width="300"> | <img src=".images/realman%20aidal.png" alt="Realman Aidal" width="300"> |
+| **Galaxea R1 Pro** | **Galbot One** | **Realman Aidal** |
 
 </div>
 
@@ -37,56 +37,60 @@ git submodule update --init --recursive
 ## 模型
 
 - **Gripper（夹爪）**
-    - ChangingTek_AG2F120S
-    - ChangingTek_AG2F90_C
-        - ChangingTek_AG2F90_C 的软垫版本（刚体模拟）
-    - ChangingTek_AG2F90_C_Soft
-    - Galaxea_G1
-    - Inspire_EG2_4C2
-    - Jodell_RG75
+    - ChangingTek AG2F120S
+    - ChangingTek AG2F90-C
+    - Galaxea G1
+    - Inspire EG2 4C2
+    - Jodell RG75
     - OmniPicker
-    - Robotiq_85
+    - Robotiq 85
+- **Dexterous Hand（灵巧手）**
+    - BrainCo Revo1
+    - BrainCo Revo2
+    - LinkerHand o6
+    - LinkerHand o7
 - **Manipulator（机械臂）**
     - ARX
         - R5
         - X5
-    - ARX5_agilex
+    - ARX5 agilex
     - DobotCR5
-        - Dobot CR5 双臂
-    - Elite_EC66
+        - Dobot CR5 Dual Arm
+    - Elite EC66
     - Galaxea
         - A1
         - A1X
         - A1Y
     - Piper
-    - rm65
+    - Realman RM75
 - **Humanoid（人形机器人）**
-    - Agibot_G1
-    - Agibot_G2
-    - Ai2_Bot2
-    - ARX_Lift
-    - ARX_X7S
-    - Astribot_S1
-    - FiveAges_W1
-    - FiveAges_W2
-    - Galaxea_R1
-        - Galaxea_R1_Pro
+    - Agibot G1
+    - Agibot G2
+    - ARX Lift
+    - ARX X7S
+    - Astribot S1
+    - FiveAges W1
+    - FiveAges W2
+    - Galbot One
+    - Galaxea R1
+        - Galaxea R1 Pro
+    - Realman Aidal
 - **Mobile Base（移动底盘）**
-    - Agilex_Ranger_Mini
-    - Agilex_Tracer
-    - Agilex_Tracer_V2
+    - Agilex Ranger Mini
+    - Agilex Tracer
+    - Agilex Tracer V2
 - **Mobile Manipulator（移动机械臂）**
-    - Agilex_Aloha_Spilt
-    - Agilex_Aloha_V1
-    - Agilex_Aloha_V2
-    - Galaxea_R1_Lite
+    - Agilex Aloha Spilt
+    - Agilex Aloha V1
+    - Agilex Aloha V2
+    - Galaxea R1 Lite
 - **Sensors（传感器）**
     - d405
     - d435
     - dabai
     - mid360
-    - orbbec_336
-    - orbbec_336L
+    - orbbec 336
+    - orbbec 336L
 
 ## 文件结构
 
@@ -95,6 +99,7 @@ git submodule update --init --recursive
 ```bash
 robots/
   grippers/           # 夹爪模型及按功能拆分的配置
+  dexhands/           # 灵巧手模型及配置
   manipulators/       # 机械臂模型、环境示例与配置
   humannoid/          # 人形机器人模型及配置
   mobile_base/        # 移动底盘模型及配置
