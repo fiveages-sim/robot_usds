@@ -18,8 +18,8 @@ https://github.com/user-attachments/assets/5aea688f-bd91-41c7-8ce3-bc57e192f31e
 | **Agilex Aloha V2** | **ARX Lift** | **ARX X7S** |
 | <img src=".images/astribot_s1.png" alt="Astribot S1" width="300"/> | <img src=".images/galaxea_r1_lite.png" alt="Galaxea R1 Lite" width="300"/> | <img src=".images/galaxea_r1.png" alt="Galaxea R1" width="300"/> |
 | **Astribot S1** | **Galaxea R1 Lite** | **Galaxea R1** |
-| <img src=".images/galaxea_r1_pro.png" alt="Galaxea R1 Pro" width="300"/> | | |
-| **Galaxea R1 Pro** | | |
+| <img src=".images/galaxea_r1_pro.png" alt="Galaxea R1 Pro" width="300"/> | <img src=".images/ai2_bot2.png" alt="Agibot G1" width="300"/> | |
+| **Galaxea R1 Pro** | **Ai2 Bot2**  | |
 
 </div>
 
@@ -63,6 +63,7 @@ git submodule update --init --recursive
 - **Humanoid（人形机器人）**
     - Agibot_G1
     - Agibot_G2
+    - Ai2_Bot2
     - ARX_Lift
     - ARX_X7S
     - Astribot_S1
