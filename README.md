@@ -20,6 +20,8 @@ https://github.com/user-attachments/assets/5aea688f-bd91-41c7-8ce3-bc57e192f31e
 | **Astribot S1** | **Galaxea R1 Lite** | **Galaxea R1** |
 | <img src=".images/galaxea_r1_pro.png" alt="Galaxea R1 Pro" width="300"> | <img src=".images/galbot%20one.png" alt="Galbot One" width="300"> | <img src=".images/realman%20aidal.png" alt="Realman Aidal" width="300"> |
 | **Galaxea R1 Pro** | **Galbot One** | **Realman Aidal** |
+| <img src=".images/ai2_bot2.png" alt="Ai2_Bot2" width="300"> | | |
+| **Ai2 Bot2** | | |
 
 </div>
 
@@ -66,6 +68,7 @@ git submodule update --init --recursive
 - **Humanoid**
     - Agibot G1
     - Agibot G2
+    - Ai2 Bot2
     - ARX Lift
     - ARX X7S
     - Astribot S1
