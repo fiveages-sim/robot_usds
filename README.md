@@ -12,14 +12,14 @@ https://github.com/user-attachments/assets/5aea688f-bd91-41c7-8ce3-bc57e192f31e
 
 | | | |
 |:---:|:---:|:---:|
-| <img src=".images/agibot_g1.png" alt="Agibot G1" width="300"/> | <img src=".images/agilex_aloha_split.png" alt="Agilex Aloha Split" width="300"/> | <img src=".images/agilex_aloha_v1.png" alt="Agilex Aloha V1" width="300"/> |
+| <div style="width:300px;height:300px;margin:0 auto;overflow:hidden;"><img src=".images/agibot_g1.png" alt="Agibot G1" style="width:100%;height:100%;object-fit:cover;object-position:center;display:block;"/></div> | <div style="width:300px;height:300px;margin:0 auto;overflow:hidden;"><img src=".images/agilex_aloha_split.png" alt="Agilex Aloha Split" style="width:100%;height:100%;object-fit:cover;object-position:center;display:block;"/></div> | <div style="width:300px;height:300px;margin:0 auto;overflow:hidden;"><img src=".images/agilex_aloha_v1.png" alt="Agilex Aloha V1" style="width:100%;height:100%;object-fit:cover;object-position:center;display:block;"/></div> |
 | **Agibot G1** | **Agilex Aloha Split** | **Agilex Aloha V1** |
-| <img src=".images/agilex_aloha_v2.png" alt="Agilex Aloha V2" width="300"/> | <img src=".images/arx_lift.png" alt="ARX Lift" width="300"/> | <img src=".images/arx_x7s.png" alt="ARX X7S" width="300"/> |
+| <div style="width:300px;height:300px;margin:0 auto;overflow:hidden;"><img src=".images/agilex_aloha_v2.png" alt="Agilex Aloha V2" style="width:100%;height:100%;object-fit:cover;object-position:center;display:block;"/></div> | <div style="width:300px;height:300px;margin:0 auto;overflow:hidden;"><img src=".images/arx_lift.png" alt="ARX Lift" style="width:100%;height:100%;object-fit:cover;object-position:center;display:block;"/></div> | <div style="width:300px;height:300px;margin:0 auto;overflow:hidden;"><img src=".images/arx_x7s.png" alt="ARX X7S" style="width:100%;height:100%;object-fit:cover;object-position:center;display:block;"/></div> |
 | **Agilex Aloha V2** | **ARX Lift** | **ARX X7S** |
-| <img src=".images/astribot_s1.png" alt="Astribot S1" width="300"/> | <img src=".images/galaxea_r1_lite.png" alt="Galaxea R1 Lite" width="300"/> | <img src=".images/galaxea_r1.png" alt="Galaxea R1" width="300"/> |
+| <div style="width:300px;height:300px;margin:0 auto;overflow:hidden;"><img src=".images/astribot_s1.png" alt="Astribot S1" style="width:100%;height:100%;object-fit:cover;object-position:center;display:block;"/></div> | <div style="width:300px;height:300px;margin:0 auto;overflow:hidden;"><img src=".images/galaxea_r1_lite.png" alt="Galaxea R1 Lite" style="width:100%;height:100%;object-fit:cover;object-position:center;display:block;"/></div> | <div style="width:300px;height:300px;margin:0 auto;overflow:hidden;"><img src=".images/galaxea_r1.png" alt="Galaxea R1" style="width:100%;height:100%;object-fit:cover;object-position:center;display:block;"/></div> |
 | **Astribot S1** | **Galaxea R1 Lite** | **Galaxea R1** |
-| <img src=".images/galaxea_r1_pro.png" alt="Galaxea R1 Pro" width="300"/> | | |
-| **Galaxea R1 Pro** | | |
+| <div style="width:300px;height:300px;margin:0 auto;overflow:hidden;"><img src=".images/galaxea_r1_pro.png" alt="Galaxea R1 Pro" style="width:100%;height:100%;object-fit:cover;object-position:center;display:block;"/></div> | <div style="width:300px;height:300px;margin:0 auto;overflow:hidden;"><img src=".images/galbot%20one.png" alt="Galbot One" style="width:100%;height:100%;object-fit:cover;object-position:center;display:block;"/></div> | <div style="width:300px;height:300px;margin:0 auto;overflow:hidden;"><img src=".images/realman%20aidal.png" alt="Realman RM75 Aidal" style="width:100%;height:100%;object-fit:cover;object-position:center;display:block;"/></div> |
+| **Galaxea R1 Pro** | **Galbot One** | **Realman RM75 (Aidal)** |
 
 </div>
 
@@ -59,7 +59,8 @@ git submodule update --init --recursive
         - A1X
         - A1Y
     - Piper
-    - rm65
+    - Realman_RM75
+        - Aidal
 - **Humanoid**
     - Agibot_G1
     - Agibot_G2
@@ -68,6 +69,7 @@ git submodule update --init --recursive
     - Astribot_S1
     - FiveAges_W1
     - FiveAges_W2
+    - Galbot_One
     - Galaxea_R1
         - Galaxea_R1_Pro
 - **Mobile Base**
