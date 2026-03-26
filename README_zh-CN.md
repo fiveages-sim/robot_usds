@@ -6,26 +6,26 @@
 
 https://github.com/user-attachments/assets/5aea688f-bd91-41c7-8ce3-bc57e192f31e
 
-## 照片墙
+## 1. 照片墙
 
 <div align="center">
 
 | | | |
 |:---:|:---:|:---:|
-| <img src=".images/agibot_g1.png" alt="Agibot G1" width="300"> | <img src=".images/agilex_aloha_split.png" alt="Agilex Aloha Split" width="300"> | <img src=".images/agilex_aloha_v1.png" alt="Agilex Aloha V1" width="300"> |
-| **Agibot G1** | **Agilex Aloha Split** | **Agilex Aloha V1** |
-| <img src=".images/agilex_aloha_v2.png" alt="Agilex Aloha V2" width="300"> | <img src=".images/arx_lift.png" alt="ARX Lift" width="300"> | <img src=".images/arx_x7s.png" alt="ARX X7S" width="300"> |
-| **Agilex Aloha V2** | **ARX Lift** | **ARX X7S** |
-| <img src=".images/astribot_s1.png" alt="Astribot S1" width="300"> | <img src=".images/galaxea_r1_lite.png" alt="Galaxea R1 Lite" width="300"> | <img src=".images/galaxea_r1.png" alt="Galaxea R1" width="300"> |
-| **Astribot S1** | **Galaxea R1 Lite** | **Galaxea R1** |
-| <img src=".images/galaxea_r1_pro.png" alt="Galaxea R1 Pro" width="300"> | <img src=".images/galbot%20one.png" alt="Galbot One" width="300"> | <img src=".images/realman%20aidal.png" alt="Realman Aidal" width="300"> |
-| **Galaxea R1 Pro** | **Galbot One** | **Realman Aidal** |
-| <img src=".images/ai2_bot2.png" alt="Ai2_Bot2" width="300"> | | |
-| **Ai2 Bot2** | | |
+| <img src=".images/agibot_g1.png" alt="智元 G1" width="300"> | <img src=".images/agilex_aloha_split.png" alt="松灵 Aloha Split" width="300"> | <img src=".images/agilex_aloha_v1.png" alt="松灵 Aloha V1" width="300"> |
+| **智元 G1** | **松灵 Aloha Split** | **松灵 Aloha V1** |
+| <img src=".images/agilex_aloha_v2.png" alt="松灵 Aloha V2" width="300"> | <img src=".images/arx_lift.png" alt="方舟无限 Lift" width="300"> | <img src=".images/arx_x7s.png" alt="方舟无限 X7S" width="300"> |
+| **松灵 Aloha V2** | **方舟无限 Lift** | **方舟无限 X7S** |
+| <img src=".images/astribot_s1.png" alt="星尘智能 S1" width="300"> | <img src=".images/galaxea_r1_lite.png" alt="星海图 R1 Lite" width="300"> | <img src=".images/galaxea_r1.png" alt="星海图 R1" width="300"> |
+| **星尘智能 S1** | **星海图 R1 Lite** | **星海图 R1** |
+| <img src=".images/galaxea_r1_pro.png" alt="星海图 R1 Pro" width="300"> | <img src=".images/galbot%20one.png" alt="银河通用 Galbot One" width="300"> | <img src=".images/realman%20aidal.png" alt="睿尔曼 Aidal" width="300"> |
+| **星海图 R1 Pro** | **银河通用 Galbot One** | **睿尔曼 Aidal** |
+| <img src=".images/ai2_bot2.png" alt="智平方 Bot2" width="300"> | <img src=".images/arx_lift2s.png" alt="方舟无限 Lift2S" width="300"> | |
+| **智平方 Bot2** | **方舟无限 Lift2S** | |
 
 </div>
 
-## 克隆与初始化
+## 2. 克隆与初始化
 
 ```bash
 # 克隆仓库
@@ -36,66 +36,108 @@ cd robot_usds
 git submodule update --init --recursive
 ```
 
-## 模型
+## 3. 模型
 
-- **Gripper（夹爪）**
-    - ChangingTek AG2F120S
-    - ChangingTek AG2F90-C
-    - Galaxea G1
-    - Inspire EG2 4C2
-    - Jodell RG75
-    - OmniPicker
+### 3.1 中文简称与英文标识对照
+
+展示名尽量采用 **「中文简称 + 型号」**（与 **智元 G1** 同类）；下表给出与仓库目录、USD 中常用 **英文标识** 的对应关系。
+
+| 中文简称 | 英文品牌 / 常用标识 |
+|:---|:---|
+| 智元 | Agibot、OmniPicker |
+| 松灵 | Agilex、Piper |
+| 方舟无限 | ARX |
+| 星尘智能 | Astribot |
+| 星海图 | Galaxea |
+| 银河通用 | Galbot |
+| 睿尔曼 | Realman |
+| 越疆 | Dobot |
+| 艾利特 | Elite |
+| 因时 | Inspire |
+| 强脑 | BrainCo |
+| 灵心巧手 | LinkerHand |
+| 知行 | ChangingTek |
+| 钧舵 | Jodell |
+| 智平方 | Ai2 |
+| 中科第五纪 | FiveAges |
+| 优必选 | Ubtech |
+| 天机智能 | Marvin（系列） |
+| （保留英文） | Robotiq |
+
+### 3.2 按类别列出
+
+- **Gripper（夹爪）** — 对应 `grippers/` 下目录名
+    - 知行 AG2F120S
+    - 知行 AG2F90
+    - 星海图 G1
+    - 因时 EG2 4C2
+    - 钧舵 RG75
+    - 智元 OmniPicker
     - Robotiq 85
-- **Dexterous Hand（灵巧手）**
-    - BrainCo Revo1
-    - BrainCo Revo2
-    - LinkerHand o6
-    - LinkerHand o7
-- **Manipulator（机械臂）**
-    - ARX
-        - R5
-        - X5
-    - ARX5 agilex
-    - DobotCR5
-        - Dobot CR5 Dual Arm
-    - Elite EC66
-    - Galaxea
+- **Dexterous Hand（灵巧手）** — 对应 `dexhands/` 下目录名
+    - 强脑 Revo1
+    - 强脑 Revo2
+    - 灵心巧手 o6
+    - 灵心巧手 o7
+- **Manipulator（机械臂）** — 对应 `manipulators/` 下目录名
+    - 方舟无限（`manipulators/ARX/`）
+        - `ARX_R5`
+        - `ARX_X5`
+        - `ARX5_Agilex`
+        - `ARX5_Gripper_2023`
+        - `ARX5_Gripper_2025`
+    - 越疆 DobotCR5
+        - 越疆 Dobot CR5 Dual Arm
+    - 艾利特 EC66
+    - 星海图（`manipulators/Galaxea/`）
         - A1
         - A1X
         - A1Y
-    - Piper
-    - Realman RM75
-- **Humanoid（人形机器人）**
-    - Agibot G1
-    - Agibot G2
-    - Ai2 Bot2
-    - ARX Lift
-    - ARX X7S
-    - Astribot S1
-    - FiveAges W1
-    - FiveAges W2
-    - Galbot One
-    - Galaxea R1
-        - Galaxea R1 Pro
-    - Realman Aidal
-- **Mobile Base（移动底盘）**
-    - Agilex Ranger Mini
-    - Agilex Tracer
-    - Agilex Tracer V2
-- **Mobile Manipulator（移动机械臂）**
-    - Agilex Aloha Spilt
-    - Agilex Aloha V1
-    - Agilex Aloha V2
-    - Galaxea R1 Lite
-- **Sensors（传感器）**
-    - d405
-    - d435
+    - 松灵（`manipulators/Agilex/`）
+        - Piper
+    - 天机智能 Marvin
+    - 睿尔曼 RM75（`Realman_RM75`）
+- **Humanoid（人形机器人）** — 对应 `humannoid/` 下目录名
+    - 智元 G1
+    - 智元 G2
+    - 智平方 Bot2
+    - 方舟无限 Lift（`humannoid/ARX_Lift`）
+    - 方舟无限 X7S（`humannoid/ARX_X7S`）
+    - 星尘智能 S1
+    - 越疆 Atom（`Dobot_Atom`）
+    - 中科第五纪 W1
+    - 中科第五纪 W2
+    - 银河通用 Galbot One（`Galbot_One`）
+    - 星海图 R1（`Galaxea_R1`）
+        - 星海图 R1 Pro
+    - 睿尔曼 Aidal（`Realman_AIDAL`）
+    - 优必选（`Ubtech`）
+- **Mobile Base（移动底盘）** — 对应 `mobile_base/` 下目录名
+    - 松灵 Ranger Mini
+    - 松灵 Tracer
+    - 松灵 Tracer V2
+- **Mobile Manipulator（移动机械臂）** — 对应 `mobile_manipulator/` 下目录名
+    - 松灵 Aloha Spilt
+    - 松灵 Aloha V1
+    - 松灵 Aloha V2
+    - 方舟无限 Lift2S（`mobile_manipulator/ARX_Lift2S`）
+    - 星海图 R1 Lite（`mobile_manipulator/Galaxea_R1_Lite`）
+- **Sensors（传感器）** — 对应 `sensors/` 下 `.usd` 资源
+    - 英特尔实感 D405（Intel RealSense）
+    - 英特尔实感 D415（Intel RealSense）
+    - 英特尔实感 D435（Intel RealSense）
     - dabai
     - mid360
-    - orbbec 336
-    - orbbec 336L
+    - oradar ms500
+    - 奥比中光 orbbec 336
+    - 奥比中光 orbbec 336L
+    - 奥比中光 orbbec dabai dw
+    - usb camera 01
+- **Stands（支架）** — 对应 `stands/` 下目录名
+    - Dual Stand1
+    - Dual Stand2
 
-## 文件结构
+## 4. 文件结构
 
 项目核心目录为 `robots`，包含以下子目录与资源：
 
@@ -108,13 +150,14 @@ robots/
   mobile_base/        # 移动底盘模型及配置
   mobile_manipulator/ # 移动机械臂模型及配置
   sensors/            # 传感器模型
+  stands/             # 支架 / 工装模型
   README.md
   LICENSE
 ```
 
 `manipulators/*/envs/` 下的部分场景依赖外部环境资源（纹理、资产、共享组件等）。
 
-## 使用环境内容
+## 5. 使用环境内容
 
 如需使用环境的内容，请在与 `robots` 同级的位置新建一个 `environment` 文件夹，并在该文件夹内克隆 `fiveages_env`：
 
