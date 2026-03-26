@@ -6,7 +6,7 @@ Robot USD model files for ROS2 Control simulation.
 
 https://github.com/user-attachments/assets/5aea688f-bd91-41c7-8ce3-bc57e192f31e
 
-## Gallery
+## 1. Gallery
 
 <div align="center">
 
@@ -20,12 +20,12 @@ https://github.com/user-attachments/assets/5aea688f-bd91-41c7-8ce3-bc57e192f31e
 | **Astribot S1** | **Galaxea R1 Lite** | **Galaxea R1** |
 | <img src=".images/galaxea_r1_pro.png" alt="Galaxea R1 Pro" width="300"> | <img src=".images/galbot%20one.png" alt="Galbot One" width="300"> | <img src=".images/realman%20aidal.png" alt="Realman Aidal" width="300"> |
 | **Galaxea R1 Pro** | **Galbot One** | **Realman Aidal** |
-| <img src=".images/ai2_bot2.png" alt="Ai2_Bot2" width="300"> | | |
-| **Ai2 Bot2** | | |
+| <img src=".images/ai2_bot2.png" alt="Ai2 Bot2" width="300"> | <img src=".images/arx_lift2s.png" alt="ARX Lift2S" width="300"> | |
+| **Ai2 Bot2** | **ARX Lift2S** | |
 
 </div>
 
-## Clone and Setup
+## 2. Clone and Setup
 
 ```bash
 # Clone the repository
@@ -36,11 +36,13 @@ cd robot_usds
 git submodule update --init --recursive
 ```
 
-## Models
+## 3. Models
+
+### 3.1 Models by category
 
 - **Gripper**
     - ChangingTek AG2F120S
-    - ChangingTek AG2F90-C
+    - ChangingTek AG2F90
     - Galaxea G1
     - Inspire EG2 4C2
     - Jodell RG75
@@ -52,10 +54,12 @@ git submodule update --init --recursive
     - LinkerHand o6
     - LinkerHand o7
 - **Manipulator**
-    - ARX
-        - R5
-        - X5
-    - ARX5 agilex
+    - ARX (`manipulators/ARX/`)
+        - ARX R5 (`ARX_R5`)
+        - ARX X5 (`ARX_X5`)
+        - ARX5 Agilex (`ARX5_Agilex`)
+        - ARX5 Gripper 2023 (`ARX5_Gripper_2023`)
+        - ARX5 Gripper 2025 (`ARX5_Gripper_2025`)
     - DobotCR5
         - Dobot CR5 Dual Arm
     - Elite EC66
@@ -63,21 +67,25 @@ git submodule update --init --recursive
         - A1
         - A1X
         - A1Y
-    - Piper
+    - Agilex
+        - Piper
+    - Marvin (Tianji AI series)
     - Realman RM75
 - **Humanoid**
     - Agibot G1
     - Agibot G2
     - Ai2 Bot2
-    - ARX Lift
-    - ARX X7S
+    - ARX Lift (`humannoid/ARX_Lift`)
+    - ARX X7S (`humannoid/ARX_X7S`)
     - Astribot S1
+    - Dobot Atom
     - FiveAges W1
     - FiveAges W2
     - Galbot One
     - Galaxea R1
         - Galaxea R1 Pro
     - Realman Aidal
+    - Ubtech
 - **Mobile Base**
     - Agilex Ranger Mini
     - Agilex Tracer
@@ -86,16 +94,24 @@ git submodule update --init --recursive
     - Agilex Aloha Spilt
     - Agilex Aloha V1
     - Agilex Aloha V2
+    - ARX Lift2S (`mobile_manipulator/ARX_Lift2S`)
     - Galaxea R1 Lite
 - **Sensors**
     - d405
+    - d415
     - d435
     - dabai
     - mid360
+    - oradar ms500
     - orbbec 336
     - orbbec 336L
+    - orbbec dabai dw
+    - usb camera 01
+- **Stands**
+    - Dual Stand1
+    - Dual Stand2
 
-## Directory Structure
+## 4. Directory Structure
 
 The core directory is `robots`, which contains the following subfolders and resources:
 
@@ -108,13 +124,14 @@ robots/
   mobile_base/        # Mobile base models and configurations
   mobile_manipulator/ # Mobile manipulator models and configurations
   sensors/            # Sensor models
+  stands/             # Stand / fixture models
   README.md
   LICENSE
 ```
 
 Some scenes under `manipulators/*/envs/` depend on external environment assets (textures, shared assets, etc.).
 
-## Using Environment Assets
+## 5. Using Environment Assets
 
 To use environment assets, create an `environment` folder at the same level as `robots`, then clone `fiveages_env` inside it:
 
