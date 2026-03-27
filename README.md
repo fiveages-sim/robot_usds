@@ -6,24 +6,26 @@ Robot USD model files for ROS2 Control simulation.
 
 https://github.com/user-attachments/assets/5aea688f-bd91-41c7-8ce3-bc57e192f31e
 
-## Gallery
+## 1. Gallery
 
 <div align="center">
 
 | | | |
 |:---:|:---:|:---:|
-| <img src=".images/agibot_g1.png" alt="Agibot G1" width="300"/> | <img src=".images/agilex_aloha_split.png" alt="Agilex Aloha Split" width="300"/> | <img src=".images/agilex_aloha_v1.png" alt="Agilex Aloha V1" width="300"/> |
+| <img src=".images/agibot_g1.png" alt="Agibot G1" width="300"> | <img src=".images/agilex_aloha_split.png" alt="Agilex Aloha Split" width="300"> | <img src=".images/agilex_aloha_v1.png" alt="Agilex Aloha V1" width="300"> |
 | **Agibot G1** | **Agilex Aloha Split** | **Agilex Aloha V1** |
-| <img src=".images/agilex_aloha_v2.png" alt="Agilex Aloha V2" width="300"/> | <img src=".images/arx_lift.png" alt="ARX Lift" width="300"/> | <img src=".images/arx_x7s.png" alt="ARX X7S" width="300"/> |
+| <img src=".images/agilex_aloha_v2.png" alt="Agilex Aloha V2" width="300"> | <img src=".images/arx_lift.png" alt="ARX Lift" width="300"> | <img src=".images/arx_x7s.png" alt="ARX X7S" width="300"> |
 | **Agilex Aloha V2** | **ARX Lift** | **ARX X7S** |
-| <img src=".images/astribot_s1.png" alt="Astribot S1" width="300"/> | <img src=".images/galaxea_r1_lite.png" alt="Galaxea R1 Lite" width="300"/> | <img src=".images/galaxea_r1.png" alt="Galaxea R1" width="300"/> |
+| <img src=".images/astribot_s1.png" alt="Astribot S1" width="300"> | <img src=".images/galaxea_r1_lite.png" alt="Galaxea R1 Lite" width="300"> | <img src=".images/galaxea_r1.png" alt="Galaxea R1" width="300"> |
 | **Astribot S1** | **Galaxea R1 Lite** | **Galaxea R1** |
-| <img src=".images/galaxea_r1_pro.png" alt="Galaxea R1 Pro" width="300"/> | | |
-| **Galaxea R1 Pro** | | |
+| <img src=".images/galaxea_r1_pro.png" alt="Galaxea R1 Pro" width="300"> | <img src=".images/galbot%20one.png" alt="Galbot One" width="300"> | <img src=".images/realman%20aidal.png" alt="Realman Aidal" width="300"> |
+| **Galaxea R1 Pro** | **Galbot One** | **Realman Aidal** |
+| <img src=".images/ai2_bot2.png" alt="Ai2 Bot2" width="300"> | <img src=".images/arx_lift2s.png" alt="ARX Lift2S" width="300"> | |
+| **Ai2 Bot2** | **ARX Lift2S** | |
 
 </div>
 
-## Clone and Setup
+## 2. Clone and Setup
 
 ```bash
 # Clone the repository
@@ -34,78 +36,102 @@ cd robot_usds
 git submodule update --init --recursive
 ```
 
-## Models
+## 3. Models
+
+### 3.1 Models by category
 
 - **Gripper**
-    - ChangingTek_AG2F120S
-    - ChangingTek_AG2F90_C
-        - ChangingTek_AG2F90_C with soft pad (rigid body simulation)
-    - ChangingTek_AG2F90_C_Soft
-    - Galaxea_G1
-    - Inspire_EG2_4C2
-    - Jodell_RG75
+    - ChangingTek AG2F120S
+    - ChangingTek AG2F90
+    - Galaxea G1
+    - Inspire EG2 4C2
+    - Jodell RG75
     - OmniPicker
-    - Robotiq_85
+    - Robotiq 85
+- **Dexterous Hand**
+    - BrainCo Revo1
+    - BrainCo Revo2
+    - LinkerHand o6
+    - LinkerHand o7
 - **Manipulator**
-    - ARX
-        - R5
-        - X5
-    - ARX5_agilex
+    - ARX (`manipulators/ARX/`)
+        - ARX R5 (`ARX_R5`)
+        - ARX X5 (`ARX_X5`)
+        - ARX5 Agilex (`ARX5_Agilex`)
+        - ARX5 Gripper 2023 (`ARX5_Gripper_2023`)
+        - ARX5 Gripper 2025 (`ARX5_Gripper_2025`)
     - DobotCR5
         - Dobot CR5 Dual Arm
-    - Elite_EC66
+    - Elite EC66
     - Galaxea
         - A1
         - A1X
         - A1Y
-    - Piper
-    - rm65
+    - Agilex
+        - Piper
+    - Marvin (Tianji AI series)
+    - Realman RM75
 - **Humanoid**
-    - Agibot_G1
-    - Agibot_G2
-    - ARX_Lift
-    - ARX_X7S
-    - Astribot_S1
-    - FiveAges_W1
-    - FiveAges_W2
-    - Galaxea_R1
-        - Galaxea_R1_Pro
+    - Agibot G1
+    - Agibot G2
+    - Ai2 Bot2
+    - ARX Lift (`humannoid/ARX_Lift`)
+    - ARX X7S (`humannoid/ARX_X7S`)
+    - Astribot S1
+    - Dobot Atom
+    - FiveAges W1
+    - FiveAges W2
+    - Galbot One
+    - Galaxea R1
+        - Galaxea R1 Pro
+    - Realman Aidal
+    - Ubtech
 - **Mobile Base**
-    - Agilex_Ranger_Mini
-    - Agilex_Tracer
-    - Agilex_Tracer_V2
+    - Agilex Ranger Mini
+    - Agilex Tracer
+    - Agilex Tracer V2
 - **Mobile Manipulator**
-    - Agilex_Aloha_Spilt
-    - Agilex_Aloha_V1
-    - Agilex_Aloha_V2
-    - Galaxea_R1_Lite
+    - Agilex Aloha Spilt
+    - Agilex Aloha V1
+    - Agilex Aloha V2
+    - ARX Lift2S (`mobile_manipulator/ARX_Lift2S`)
+    - Galaxea R1 Lite
 - **Sensors**
     - d405
+    - d415
     - d435
     - dabai
     - mid360
-    - orbbec_336
-    - orbbec_336L
+    - oradar ms500
+    - orbbec 336
+    - orbbec 336L
+    - orbbec dabai dw
+    - usb camera 01
+- **Stands**
+    - Dual Stand1
+    - Dual Stand2
 
-## Directory Structure
+## 4. Directory Structure
 
 The core directory is `robots`, which contains the following subfolders and resources:
 
 ```bash
 robots/
   grippers/           # Gripper models and their configurations
+  dexhands/           # Dexterous hand models and their configurations
   manipulators/       # Manipulator models, environment samples, and configurations
   humannoid/          # Humanoid robot models and configurations
   mobile_base/        # Mobile base models and configurations
   mobile_manipulator/ # Mobile manipulator models and configurations
   sensors/            # Sensor models
+  stands/             # Stand / fixture models
   README.md
   LICENSE
 ```
 
 Some scenes under `manipulators/*/envs/` depend on external environment assets (textures, shared assets, etc.).
 
-## Using Environment Assets
+## 5. Using Environment Assets
 
 To use environment assets, create an `environment` folder at the same level as `robots`, then clone `fiveages_env` inside it:
 
