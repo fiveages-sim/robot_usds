@@ -20,8 +20,8 @@ https://github.com/user-attachments/assets/5aea688f-bd91-41c7-8ce3-bc57e192f31e
 | **星尘智能 S1** | **星海图 R1 Lite** | **星海图 R1** |
 | <img src=".images/galaxea_r1_pro.png" alt="星海图 R1 Pro" width="300"> | <img src=".images/galbot%20one.png" alt="银河通用 Galbot One" width="300"> | <img src=".images/realman%20aidal.png" alt="睿尔曼 Aidal" width="300"> |
 | **星海图 R1 Pro** | **银河通用 Galbot One** | **睿尔曼 Aidal** |
-| <img src=".images/ai2_bot2.png" alt="智平方 Bot2" width="300"> | <img src=".images/arx_lift2s.png" alt="方舟无限 Lift2S" width="300"> | |
-| **智平方 Bot2** | **方舟无限 Lift2S** | |
+| <img src=".images/ai2_bot2.png" alt="智平方 Bot2" width="300"> | <img src=".images/arx_lift2s.png" alt="方舟无限 Lift2S" width="300"> | <img src=".images/galbot%20zero.png" alt="银河通用 Galbot Zero" width="300"> |
+| **智平方 Bot2** | **方舟无限 Lift2S** | **银河通用 Galbot Zero** |
 
 </div>
 
@@ -108,6 +108,7 @@ git submodule update --init --recursive
     - 中科第五纪 W1
     - 中科第五纪 W2
     - 银河通用 Galbot One（`Galbot_One`）
+    - 银河通用 Galbot Zero（`Galbot_Zero`）
     - 星海图 R1（`Galaxea_R1`）
         - 星海图 R1 Pro
     - 睿尔曼 Aidal（`Realman_AIDAL`）
