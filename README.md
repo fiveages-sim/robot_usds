@@ -27,6 +27,8 @@ https://github.com/user-attachments/assets/5aea688f-bd91-41c7-8ce3-bc57e192f31e
 
 ## 2. Clone and Setup
 
+**Note:** Some robot assets are distributed as **Git submodules**. You must run the submodule init/update below so that each repository is checked out at the **path expected by this project** (see [§2.1](#21-git-submodules)). Otherwise those assets are missing or empty, and dependent scenes or USD references will not load correctly.
+
 ```bash
 # Clone the repository
 git clone git@github.com:fiveages-sim/robot_usds.git
@@ -35,6 +37,21 @@ cd robot_usds
 # Initialize and update submodules
 git submodule update --init --recursive
 ```
+
+### 2.1 Git submodules
+
+The following models are **Git submodules** (vendored repositories, checked in as gitlinks at fixed paths in this superproject). Paths are **relative to the `robot_usds` repository root**; init/update must populate **these exact locations** (not arbitrary folders) so that relative paths between USDs resolve. After a plain `git clone`, the submodule directories are empty or absent until you run the commands in §2.
+
+| Path | Upstream repository | `branch` in `.gitmodules`* |
+|------|---------------------|----------------------------|
+| `humannoid/FiveAges_W1` | [fiveages-sim/fa-w1-usds](https://github.com/fiveages-sim/fa-w1-usds) | `main` |
+| `humannoid/FiveAges_W2` | [fiveages-sim/fa-w2-usds](https://github.com/fiveages-sim/fa-w2-usds) | `main` |
+| `humannoid/Agibot_G2` | [fiveages-sim/agibot-g2-usds](https://github.com/fiveages-sim/agibot-g2-usds) | — |
+| `manipulators/Marvin` | [fiveages-sim/marvin-usds](https://github.com/fiveages-sim/marvin-usds) | `main` |
+| `humannoid/Ubtech` | [fiveages-sim/ubtech-usds](https://github.com/fiveages-sim/ubtech-usds) | `main` |
+| `humannoid/Galbot` | [fiveages-sim/galbot-usds](https://github.com/fiveages-sim/galbot-usds) | `main` |
+
+\*A `branch` value is the remote branch recorded for that submodule. If empty, the superproject still pins a specific commit; use `git submodule update` to check out the recorded revision.
 
 ## 3. Models
 
@@ -81,8 +98,10 @@ git submodule update --init --recursive
     - Dobot Atom
     - FiveAges W1
     - FiveAges W2
-    - Galbot One
-    - Galbot Zero
+    - Galbot (`humannoid/Galbot` submodule)
+        - Galbot One (`Galbot_One`)
+        - Galbot Zero (`Galbot_Zero`)
+        - Galbot G1 (`Galbot_G1`)
     - Galaxea R1
         - Galaxea R1 Pro
     - Realman Aidal

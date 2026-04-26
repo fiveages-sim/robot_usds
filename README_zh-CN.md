@@ -27,6 +27,8 @@ https://github.com/user-attachments/assets/5aea688f-bd91-41c7-8ce3-bc57e192f31e
 
 ## 2. 克隆与初始化
 
+**说明：** 部分机器人资产以 **Git 子模块** 管理，**必须**按本仓库约定的路径将子模块初始化并拉取到正确位置（见下节命令与 [§2.1](#21-子模块git) 中的路径表），相关 USD 与层引用才能被正常解析；只克隆父仓库、不执行子模块更新时，这些目录会为空或不存在，相关场景无法正常使用。
+
 ```bash
 # 克隆仓库
 git clone git@github.com:fiveages-sim/robot_usds.git
@@ -35,6 +37,21 @@ cd robot_usds
 # 初始化并更新子模块
 git submodule update --init --recursive
 ```
+
+### 2.1 子模块（Git）
+
+以下目录为 **Git 子模块**（在父仓库中通过子模块 commit 与固定路径挂载）。**路径均相对于本仓库 `robot_usds` 根目录，且需落在表中位置**（子模块必须检出到这些路径，而不是任意副本），否则与主仓库内其他 USD 的相对引用会失效。仅在上面的「初始化并更新子模块」执行完成后，这些目录中才会有完整内容。
+
+| 路径 | 上游仓库 | `.gitmodules` 中的 `branch`* |
+|------|----------|------------------------------|
+| `humannoid/FiveAges_W1` | [fiveages-sim/fa-w1-usds](https://github.com/fiveages-sim/fa-w1-usds) | `main` |
+| `humannoid/FiveAges_W2` | [fiveages-sim/fa-w2-usds](https://github.com/fiveages-sim/fa-w2-usds) | `main` |
+| `humannoid/Agibot_G2` | [fiveages-sim/agibot-g2-usds](https://github.com/fiveages-sim/agibot-g2-usds) | — |
+| `manipulators/Marvin` | [fiveages-sim/marvin-usds](https://github.com/fiveages-sim/marvin-usds) | `main` |
+| `humannoid/Ubtech` | [fiveages-sim/ubtech-usds](https://github.com/fiveages-sim/ubtech-usds) | `main` |
+| `humannoid/Galbot` | [fiveages-sim/galbot-usds](https://github.com/fiveages-sim/galbot-usds) | `main` |
+
+\*`branch` 为子模块配置里记录的远程分支，便于 `git submodule update --remote` 等；未填写时，父仓库仍通过固定 commit 锁版本，使用 `git submodule update` 会检出所记录的该提交。
 
 ## 3. 模型
 
@@ -107,8 +124,10 @@ git submodule update --init --recursive
     - 越疆 Atom（`Dobot_Atom`）
     - 中科第五纪 W1
     - 中科第五纪 W2
-    - 银河通用 Galbot One（`Galbot_One`）
-    - 银河通用 Galbot Zero（`Galbot_Zero`）
+    - 银河通用 Galbot（`humannoid/Galbot` 子模块）
+        - Galbot One（`Galbot_One`）
+        - Galbot Zero（`Galbot_Zero`）
+        - Galbot G1（`Galbot_G1`）
     - 星海图 R1（`Galaxea_R1`）
         - 星海图 R1 Pro
     - 睿尔曼 Aidal（`Realman_AIDAL`）
