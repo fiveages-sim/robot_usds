@@ -22,6 +22,8 @@ https://github.com/user-attachments/assets/5aea688f-bd91-41c7-8ce3-bc57e192f31e
 | **Galaxea R1 Pro** | **Galbot One** | **Realman Aidal** |
 | <img src=".images/ai2_bot2.png" alt="Ai2 Bot2" width="300"> | <img src=".images/arx_lift2s.png" alt="ARX Lift2S" width="300"> | <img src=".images/galbot%20zero.png" alt="Galbot Zero" width="300"> |
 | **Ai2 Bot2** | **ARX Lift2S** | **Galbot Zero** |
+| <img src=".images/galbot%20s1.png" alt="Galbot S1" width="300"> | <img src=".images/galbot%20g1.png" alt="Galbot G1" width="300"> | |
+| **Galbot S1** | **Galbot G1** | |
 
 </div>
 
@@ -101,6 +103,7 @@ The following models are **Git submodules** (vendored repositories, checked in a
     - Galbot (`humannoid/Galbot` submodule)
         - Galbot One (`Galbot_One`)
         - Galbot Zero (`Galbot_Zero`)
+        - Galbot S1 (`Galbot_S1`)
         - Galbot G1 (`Galbot_G1`)
     - Galaxea R1
         - Galaxea R1 Pro

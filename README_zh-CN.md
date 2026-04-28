@@ -22,6 +22,8 @@ https://github.com/user-attachments/assets/5aea688f-bd91-41c7-8ce3-bc57e192f31e
 | **星海图 R1 Pro** | **银河通用 Galbot One** | **睿尔曼 Aidal** |
 | <img src=".images/ai2_bot2.png" alt="智平方 Bot2" width="300"> | <img src=".images/arx_lift2s.png" alt="方舟无限 Lift2S" width="300"> | <img src=".images/galbot%20zero.png" alt="银河通用 Galbot Zero" width="300"> |
 | **智平方 Bot2** | **方舟无限 Lift2S** | **银河通用 Galbot Zero** |
+| <img src=".images/galbot%20s1.png" alt="银河通用 Galbot S1" width="300"> | <img src=".images/galbot%20g1.png" alt="银河通用 Galbot G1" width="300"> | |
+| **银河通用 S1** | **银河通用 G1** | |
 
 </div>
 
@@ -127,6 +129,7 @@ git submodule update --init --recursive
     - 银河通用 Galbot（`humannoid/Galbot` 子模块）
         - Galbot One（`Galbot_One`）
         - Galbot Zero（`Galbot_Zero`）
+        - Galbot S1（`Galbot_S1`）
         - Galbot G1（`Galbot_G1`）
     - 星海图 R1（`Galaxea_R1`）
         - 星海图 R1 Pro
