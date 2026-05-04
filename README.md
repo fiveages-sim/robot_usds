@@ -46,12 +46,12 @@ The following models are **Git submodules** (vendored repositories, checked in a
 
 | Path | Upstream repository | `branch` in `.gitmodules`* |
 |------|---------------------|----------------------------|
-| `humannoid/FiveAges_W1` | [fiveages-sim/fa-w1-usds](https://github.com/fiveages-sim/fa-w1-usds) | `main` |
-| `humannoid/FiveAges_W2` | [fiveages-sim/fa-w2-usds](https://github.com/fiveages-sim/fa-w2-usds) | `main` |
-| `humannoid/Agibot_G2` | [fiveages-sim/agibot-g2-usds](https://github.com/fiveages-sim/agibot-g2-usds) | — |
+| `humanoid/FiveAges_W1` | [fiveages-sim/fa-w1-usds](https://github.com/fiveages-sim/fa-w1-usds) | `main` |
+| `humanoid/FiveAges_W2` | [fiveages-sim/fa-w2-usds](https://github.com/fiveages-sim/fa-w2-usds) | `main` |
+| `humanoid/Agibot_G2` | [fiveages-sim/agibot-g2-usds](https://github.com/fiveages-sim/agibot-g2-usds) | — |
 | `manipulators/Marvin` | [fiveages-sim/marvin-usds](https://github.com/fiveages-sim/marvin-usds) | `main` |
-| `humannoid/Ubtech` | [fiveages-sim/ubtech-usds](https://github.com/fiveages-sim/ubtech-usds) | `main` |
-| `humannoid/Galbot` | [fiveages-sim/galbot-usds](https://github.com/fiveages-sim/galbot-usds) | `main` |
+| `humanoid/Ubtech` | [fiveages-sim/ubtech-usds](https://github.com/fiveages-sim/ubtech-usds) | `main` |
+| `humanoid/Galbot` | [fiveages-sim/galbot-usds](https://github.com/fiveages-sim/galbot-usds) | `main` |
 
 \*A `branch` value is the remote branch recorded for that submodule. If empty, the superproject still pins a specific commit; use `git submodule update` to check out the recorded revision.
 
@@ -94,13 +94,13 @@ The following models are **Git submodules** (vendored repositories, checked in a
     - Agibot G1
     - Agibot G2
     - Ai2 Bot2
-    - ARX Lift (`humannoid/ARX_Lift`)
-    - ARX X7S (`humannoid/ARX_X7S`)
+    - ARX Lift (`humanoid/ARX_Lift`)
+    - ARX X7S (`humanoid/ARX_X7S`)
     - Astribot S1
     - Dobot Atom
     - FiveAges W1
     - FiveAges W2
-    - Galbot (`humannoid/Galbot` submodule)
+    - Galbot (`humanoid/Galbot` submodule)
         - Galbot One (`Galbot_One`)
         - Galbot Zero (`Galbot_Zero`)
         - Galbot S1 (`Galbot_S1`)
@@ -143,7 +143,7 @@ robots/
   grippers/           # Gripper models and their configurations
   dexhands/           # Dexterous hand models and their configurations
   manipulators/       # Manipulator models, environment samples, and configurations
-  humannoid/          # Humanoid robot models and configurations
+  humanoid/          # Humanoid robot models and configurations
   mobile_base/        # Mobile base models and configurations
   mobile_manipulator/ # Mobile manipulator models and configurations
   sensors/            # Sensor models

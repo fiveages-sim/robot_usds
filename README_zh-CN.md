@@ -46,12 +46,12 @@ git submodule update --init --recursive
 
 | 路径 | 上游仓库 | `.gitmodules` 中的 `branch`* |
 |------|----------|------------------------------|
-| `humannoid/FiveAges_W1` | [fiveages-sim/fa-w1-usds](https://github.com/fiveages-sim/fa-w1-usds) | `main` |
-| `humannoid/FiveAges_W2` | [fiveages-sim/fa-w2-usds](https://github.com/fiveages-sim/fa-w2-usds) | `main` |
-| `humannoid/Agibot_G2` | [fiveages-sim/agibot-g2-usds](https://github.com/fiveages-sim/agibot-g2-usds) | — |
+| `humanoid/FiveAges_W1` | [fiveages-sim/fa-w1-usds](https://github.com/fiveages-sim/fa-w1-usds) | `main` |
+| `humanoid/FiveAges_W2` | [fiveages-sim/fa-w2-usds](https://github.com/fiveages-sim/fa-w2-usds) | `main` |
+| `humanoid/Agibot_G2` | [fiveages-sim/agibot-g2-usds](https://github.com/fiveages-sim/agibot-g2-usds) | — |
 | `manipulators/Marvin` | [fiveages-sim/marvin-usds](https://github.com/fiveages-sim/marvin-usds) | `main` |
-| `humannoid/Ubtech` | [fiveages-sim/ubtech-usds](https://github.com/fiveages-sim/ubtech-usds) | `main` |
-| `humannoid/Galbot` | [fiveages-sim/galbot-usds](https://github.com/fiveages-sim/galbot-usds) | `main` |
+| `humanoid/Ubtech` | [fiveages-sim/ubtech-usds](https://github.com/fiveages-sim/ubtech-usds) | `main` |
+| `humanoid/Galbot` | [fiveages-sim/galbot-usds](https://github.com/fiveages-sim/galbot-usds) | `main` |
 
 \*`branch` 为子模块配置里记录的远程分支，便于 `git submodule update --remote` 等；未填写时，父仓库仍通过固定 commit 锁版本，使用 `git submodule update` 会检出所记录的该提交。
 
@@ -116,17 +116,17 @@ git submodule update --init --recursive
         - Piper
     - 天机智能 Marvin
     - 睿尔曼 RM75（`Realman_RM75`）
-- **Humanoid（人形机器人）** — 对应 `humannoid/` 下目录名
+- **Humanoid（人形机器人）** — 对应 `humanoid/` 下目录名
     - 智元 G1
     - 智元 G2
     - 智平方 Bot2
-    - 方舟无限 Lift（`humannoid/ARX_Lift`）
-    - 方舟无限 X7S（`humannoid/ARX_X7S`）
+    - 方舟无限 Lift（`humanoid/ARX_Lift`）
+    - 方舟无限 X7S（`humanoid/ARX_X7S`）
     - 星尘智能 S1
     - 越疆 Atom（`Dobot_Atom`）
     - 中科第五纪 W1
     - 中科第五纪 W2
-    - 银河通用 Galbot（`humannoid/Galbot` 子模块）
+    - 银河通用 Galbot（`humanoid/Galbot` 子模块）
         - Galbot One（`Galbot_One`）
         - Galbot Zero（`Galbot_Zero`）
         - Galbot S1（`Galbot_S1`）
@@ -169,7 +169,7 @@ robots/
   grippers/           # 夹爪模型及按功能拆分的配置
   dexhands/           # 灵巧手模型及配置
   manipulators/       # 机械臂模型、环境示例与配置
-  humannoid/          # 人形机器人模型及配置
+  humanoid/          # 人形机器人模型及配置
   mobile_base/        # 移动底盘模型及配置
   mobile_manipulator/ # 移动机械臂模型及配置
   sensors/            # 传感器模型
