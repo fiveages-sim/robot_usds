@@ -75,8 +75,8 @@ git submodule update --init --recursive
     - Agibot G1
     - Agibot G2
     - Ai2 Bot2
-    - ARX Lift (`humannoid/ARX_Lift`)
-    - ARX X7S (`humannoid/ARX_X7S`)
+    - ARX Lift (`humanoid/ARX_Lift`)
+    - ARX X7S (`humanoid/ARX_X7S`)
     - Astribot S1
     - Dobot Atom
     - FiveAges W1
@@ -121,7 +121,7 @@ robots/
   grippers/           # Gripper models and their configurations
   dexhands/           # Dexterous hand models and their configurations
   manipulators/       # Manipulator models, environment samples, and configurations
-  humannoid/          # Humanoid robot models and configurations
+  humanoid/          # Humanoid robot models and configurations
   mobile_base/        # Mobile base models and configurations
   mobile_manipulator/ # Mobile manipulator models and configurations
   sensors/            # Sensor models

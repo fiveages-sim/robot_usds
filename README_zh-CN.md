@@ -97,12 +97,12 @@ git submodule update --init --recursive
         - Piper
     - 天机智能 Marvin
     - 睿尔曼 RM75（`Realman_RM75`）
-- **Humanoid（人形机器人）** — 对应 `humannoid/` 下目录名
+- **Humanoid（人形机器人）** — 对应 `humanoid/` 下目录名
     - 智元 G1
     - 智元 G2
     - 智平方 Bot2
-    - 方舟无限 Lift（`humannoid/ARX_Lift`）
-    - 方舟无限 X7S（`humannoid/ARX_X7S`）
+    - 方舟无限 Lift（`humanoid/ARX_Lift`）
+    - 方舟无限 X7S（`humanoid/ARX_X7S`）
     - 星尘智能 S1
     - 越疆 Atom（`Dobot_Atom`）
     - 中科第五纪 W1
@@ -147,7 +147,7 @@ robots/
   grippers/           # 夹爪模型及按功能拆分的配置
   dexhands/           # 灵巧手模型及配置
   manipulators/       # 机械臂模型、环境示例与配置
-  humannoid/          # 人形机器人模型及配置
+  humanoid/          # 人形机器人模型及配置
   mobile_base/        # 移动底盘模型及配置
   mobile_manipulator/ # 移动机械臂模型及配置
   sensors/            # 传感器模型
