@@ -22,10 +22,14 @@ https://github.com/user-attachments/assets/5aea688f-bd91-41c7-8ce3-bc57e192f31e
 | **Galaxea R1 Pro** | **Galbot One** | **Realman Aidal** |
 | <img src=".images/ai2_bot2.png" alt="Ai2 Bot2" width="300"> | <img src=".images/arx_lift2s.png" alt="ARX Lift2S" width="300"> | <img src=".images/galbot%20zero.png" alt="Galbot Zero" width="300"> |
 | **Ai2 Bot2** | **ARX Lift2S** | **Galbot Zero** |
+| <img src=".images/galbot%20s1.png" alt="Galbot S1" width="300"> | <img src=".images/galbot%20g1.png" alt="Galbot G1" width="300"> | |
+| **Galbot S1** | **Galbot G1** | |
 
 </div>
 
 ## 2. Clone and Setup
+
+**Note:** Some robot assets are distributed as **Git submodules**. You must run the submodule init/update below so that each repository is checked out at the **path expected by this project** (see [§2.1](#21-git-submodules)). Otherwise those assets are missing or empty, and dependent scenes or USD references will not load correctly.
 
 ```bash
 # Clone the repository
@@ -35,6 +39,21 @@ cd robot_usds
 # Initialize and update submodules
 git submodule update --init --recursive
 ```
+
+### 2.1 Git submodules
+
+The following models are **Git submodules** (vendored repositories, checked in as gitlinks at fixed paths in this superproject). Paths are **relative to the `robot_usds` repository root**; init/update must populate **these exact locations** (not arbitrary folders) so that relative paths between USDs resolve. After a plain `git clone`, the submodule directories are empty or absent until you run the commands in §2.
+
+| Path | Upstream repository | `branch` in `.gitmodules`* |
+|------|---------------------|----------------------------|
+| `humanoid/FiveAges_W1` | [fiveages-sim/fa-w1-usds](https://github.com/fiveages-sim/fa-w1-usds) | `main` |
+| `humanoid/FiveAges_W2` | [fiveages-sim/fa-w2-usds](https://github.com/fiveages-sim/fa-w2-usds) | `main` |
+| `humanoid/Agibot_G2` | [fiveages-sim/agibot-g2-usds](https://github.com/fiveages-sim/agibot-g2-usds) | — |
+| `manipulators/Marvin` | [fiveages-sim/marvin-usds](https://github.com/fiveages-sim/marvin-usds) | `main` |
+| `humanoid/Ubtech` | [fiveages-sim/ubtech-usds](https://github.com/fiveages-sim/ubtech-usds) | `main` |
+| `humanoid/Galbot` | [fiveages-sim/galbot-usds](https://github.com/fiveages-sim/galbot-usds) | `main` |
+
+\*A `branch` value is the remote branch recorded for that submodule. If empty, the superproject still pins a specific commit; use `git submodule update` to check out the recorded revision.
 
 ## 3. Models
 
@@ -75,14 +94,17 @@ git submodule update --init --recursive
     - Agibot G1
     - Agibot G2
     - Ai2 Bot2
-    - ARX Lift (`humannoid/ARX_Lift`)
-    - ARX X7S (`humannoid/ARX_X7S`)
+    - ARX Lift (`humanoid/ARX_Lift`)
+    - ARX X7S (`humanoid/ARX_X7S`)
     - Astribot S1
     - Dobot Atom
     - FiveAges W1
     - FiveAges W2
-    - Galbot One
-    - Galbot Zero
+    - Galbot (`humanoid/Galbot` submodule)
+        - Galbot One (`Galbot_One`)
+        - Galbot Zero (`Galbot_Zero`)
+        - Galbot S1 (`Galbot_S1`)
+        - Galbot G1 (`Galbot_G1`)
     - Galaxea R1
         - Galaxea R1 Pro
     - Realman Aidal
@@ -121,7 +143,7 @@ robots/
   grippers/           # Gripper models and their configurations
   dexhands/           # Dexterous hand models and their configurations
   manipulators/       # Manipulator models, environment samples, and configurations
-  humannoid/          # Humanoid robot models and configurations
+  humanoid/          # Humanoid robot models and configurations
   mobile_base/        # Mobile base models and configurations
   mobile_manipulator/ # Mobile manipulator models and configurations
   sensors/            # Sensor models
