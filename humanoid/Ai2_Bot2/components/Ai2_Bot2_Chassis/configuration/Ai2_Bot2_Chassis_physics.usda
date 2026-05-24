@@ -1,0 +1,715 @@
+#usda 1.0
+(
+    customLayerData = {
+        dictionary cameraSettings = {
+            dictionary Front = {
+                double3 position = (5, 0, 0)
+                double radius = 5
+            }
+            dictionary Perspective = {
+                double3 position = (1.3799709503669417, 1.3799709503669424, 1.3799710367706282)
+                double3 target = (-3.978038343177559e-8, -3.9780382321552565e-8, 7.956076841786341e-8)
+            }
+            dictionary Right = {
+                double3 position = (0, -5, 0)
+                double radius = 5
+            }
+            dictionary Top = {
+                double3 position = (0, 0, 5)
+                double radius = 5
+            }
+            string boundCamera = "/OmniverseKit_Persp"
+        }
+        dictionary omni_layer = {
+            string authoring_layer = "./Ai2_Bot2_Chassis_physics.usd"
+            dictionary locked = {
+            }
+            dictionary muteness = {
+            }
+        }
+        dictionary renderSettings = {
+        }
+    }
+    defaultPrim = "Ai2_Bot2_Chassis"
+    metersPerUnit = 1
+    subLayers = [
+        @./Ai2_Bot2_Chassis_base.usd@
+    ]
+    upAxis = "Z"
+)
+
+def PhysicsScene "physicsScene" (
+    prepend apiSchemas = ["PhysxSceneAPI", "NewtonSceneAPI"]
+)
+{
+    vector3f physics:gravityDirection = (0, 0, -1)
+    float physics:gravityMagnitude = 9.81
+    uniform token physxScene:broadphaseType = "MBP"
+    bool physxScene:enableCCD = 1
+    bool physxScene:enableGPUDynamics = 0
+    bool physxScene:enableStabilization = 1
+    uniform token physxScene:solverType = "TGS"
+}
+
+over "Ai2_Bot2_Chassis"
+{
+    over "base_footprint" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "PhysicsArticulationRootAPI", "PhysxArticulationAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0, 0, 0.14154)
+        float3 physics:diagonalInertia = (0.34456742, 0.6532717, 0.7059208)
+        float physics:mass = 64.788
+        quatf physics:principalAxes = (0.99950314, 0.0011245072, -0.0314763, -0.0012471527)
+        bool physxArticulation:enabledSelfCollisions = 0
+        int physxArticulation:solverPositionIterationCount = 32
+        int physxArticulation:solverVelocityIterationCount = 1
+
+        def Xform "collisions" (
+            instanceable = true
+            prepend references = </colliders/base_footprint>
+        )
+        {
+        }
+    }
+
+    over "driven_fl_link_v" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        float3 physics:diagonalInertia = (0.0001, 0.0001, 0.0001)
+
+        def Xform "collisions"
+        {
+        }
+    }
+
+    over "joints"
+    {
+        def PhysicsRevoluteJoint "driven_fl_joint_v" (
+            delete apiSchemas = ["PhysicsDriveAPI:angular"]
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float drive:angular:physics:damping = 0
+            float drive:angular:physics:maxForce = 2000
+            float drive:angular:physics:stiffness = 625
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "acceleration"
+            uniform token physics:axis = "Z"
+            rel physics:body0 = </Ai2_Bot2_Chassis/base_footprint>
+            rel physics:body1 = </Ai2_Bot2_Chassis/driven_fl_link_v>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0
+            point3f physics:localPos0 = (0.215, 0.15, 0.0854)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -inf
+            float physics:upperLimit = inf
+            float physxJoint:maxJointVelocity = 572.95776
+        }
+
+        def PhysicsRevoluteJoint "driven_fl_joint_h" (
+            prepend apiSchemas = ["PhysxJointAPI", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = 1
+            float drive:angular:physics:maxForce = 2000
+            float drive:angular:physics:stiffness = 0
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "acceleration"
+            uniform token physics:axis = "Z"
+            rel physics:body0 = </Ai2_Bot2_Chassis/driven_fl_link_v>
+            rel physics:body1 = </Ai2_Bot2_Chassis/driven_fl_link_h>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0
+            point3f physics:localPos0 = (-0.016001, 0, -0.0484)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0.7071055, -0.7071081, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -inf
+            float physics:upperLimit = inf
+            float physxJoint:maxJointVelocity = 572.95776
+        }
+
+        def PhysicsRevoluteJoint "driven_fr_joint_v" (
+            delete apiSchemas = ["PhysicsDriveAPI:angular"]
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float drive:angular:physics:damping = 0
+            float drive:angular:physics:maxForce = 2000
+            float drive:angular:physics:stiffness = 625
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "acceleration"
+            uniform token physics:axis = "Z"
+            rel physics:body0 = </Ai2_Bot2_Chassis/base_footprint>
+            rel physics:body1 = </Ai2_Bot2_Chassis/driven_fr_link_v>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0
+            point3f physics:localPos0 = (0.215, -0.15, 0.0854)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -inf
+            float physics:upperLimit = inf
+            float physxJoint:maxJointVelocity = 572.95776
+        }
+
+        def PhysicsRevoluteJoint "driven_fr_joint_h" (
+            prepend apiSchemas = ["PhysxJointAPI", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = 1
+            float drive:angular:physics:maxForce = 2000
+            float drive:angular:physics:stiffness = 0
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "acceleration"
+            uniform token physics:axis = "Z"
+            rel physics:body0 = </Ai2_Bot2_Chassis/driven_fr_link_v>
+            rel physics:body1 = </Ai2_Bot2_Chassis/driven_fr_link_h>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0
+            point3f physics:localPos0 = (-0.016001, 0, -0.0484)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0.7071055, -0.7071081, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -inf
+            float physics:upperLimit = inf
+            float physxJoint:maxJointVelocity = 572.95776
+        }
+
+        def PhysicsRevoluteJoint "driven_rl_joint_v" (
+            delete apiSchemas = ["PhysicsDriveAPI:angular"]
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float drive:angular:physics:damping = 0
+            float drive:angular:physics:maxForce = 2000
+            float drive:angular:physics:stiffness = 625
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "acceleration"
+            uniform token physics:axis = "Z"
+            rel physics:body0 = </Ai2_Bot2_Chassis/base_footprint>
+            rel physics:body1 = </Ai2_Bot2_Chassis/driven_rl_link_v>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0
+            point3f physics:localPos0 = (-0.215, 0.15, 0.0854)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -inf
+            float physics:upperLimit = inf
+            float physxJoint:maxJointVelocity = 572.95776
+        }
+
+        def PhysicsRevoluteJoint "driven_rl_joint_h" (
+            prepend apiSchemas = ["PhysxJointAPI", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = 1
+            float drive:angular:physics:maxForce = 2000
+            float drive:angular:physics:stiffness = 0
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "acceleration"
+            uniform token physics:axis = "Z"
+            rel physics:body0 = </Ai2_Bot2_Chassis/driven_rl_link_v>
+            rel physics:body1 = </Ai2_Bot2_Chassis/driven_rl_link_h>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0
+            point3f physics:localPos0 = (-0.016001, 0, -0.0484)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0.7071055, -0.7071081, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -inf
+            float physics:upperLimit = inf
+            float physxJoint:maxJointVelocity = 572.95776
+        }
+
+        def PhysicsRevoluteJoint "driven_rr_joint_v" (
+            delete apiSchemas = ["PhysicsDriveAPI:angular"]
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float drive:angular:physics:damping = 0
+            float drive:angular:physics:maxForce = 2000
+            float drive:angular:physics:stiffness = 625
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "acceleration"
+            uniform token physics:axis = "Z"
+            rel physics:body0 = </Ai2_Bot2_Chassis/base_footprint>
+            rel physics:body1 = </Ai2_Bot2_Chassis/driven_rr_link_v>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0
+            point3f physics:localPos0 = (-0.215, -0.15, 0.0854)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -inf
+            float physics:upperLimit = inf
+            float physxJoint:maxJointVelocity = 572.95776
+        }
+
+        def PhysicsRevoluteJoint "driven_rr_joint_h" (
+            prepend apiSchemas = ["PhysxJointAPI", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = 1
+            float drive:angular:physics:maxForce = 2000
+            float drive:angular:physics:stiffness = 0
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "acceleration"
+            uniform token physics:axis = "Z"
+            rel physics:body0 = </Ai2_Bot2_Chassis/driven_rr_link_v>
+            rel physics:body1 = </Ai2_Bot2_Chassis/driven_rr_link_h>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0
+            point3f physics:localPos0 = (-0.016001, 0, -0.0484)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0.7071055, -0.7071081, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -inf
+            float physics:upperLimit = inf
+            float physxJoint:maxJointVelocity = 572.95776
+        }
+
+        def PhysicsRevoluteJoint "driving_left_joint" (
+            prepend apiSchemas = ["PhysxJointAPI", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = 1000000
+            float drive:angular:physics:maxForce = 3.4028233e30
+            float drive:angular:physics:stiffness = 0
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "acceleration"
+            uniform token physics:axis = "X"
+            rel physics:body0 = </Ai2_Bot2_Chassis/base_footprint>
+            rel physics:body1 = </Ai2_Bot2_Chassis/driving_left_link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0
+            point3f physics:localPos0 = (0, 0.208, 0.0845)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0.7071081, 0, 0, 0.7071055)
+            quatf physics:localRot1 = (0, 0, 0, 1)
+            float physics:lowerLimit = -inf
+            float physics:upperLimit = inf
+            float physxJoint:maxJointVelocity = 572.95776
+        }
+
+        def PhysicsRevoluteJoint "driving_right_joint" (
+            prepend apiSchemas = ["PhysxJointAPI", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = 1000000
+            float drive:angular:physics:maxForce = 3.4028233e30
+            float drive:angular:physics:stiffness = 0
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "acceleration"
+            uniform token physics:axis = "X"
+            rel physics:body0 = </Ai2_Bot2_Chassis/base_footprint>
+            rel physics:body1 = </Ai2_Bot2_Chassis/driving_right_link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0
+            point3f physics:localPos0 = (0, -0.208, 0.0845)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0.7071081, 0, 0, 0.7071055)
+            quatf physics:localRot1 = (0, 0, 0, 1)
+            float physics:lowerLimit = -inf
+            float physics:upperLimit = inf
+            float physxJoint:maxJointVelocity = 572.95776
+        }
+    }
+
+    over "driven_fl_link_h" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        def Xform "collisions" (
+            instanceable = true
+            prepend references = </colliders/driven_fl_link_h>
+        )
+        {
+        }
+    }
+
+    over "driven_fr_link_v" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        float3 physics:diagonalInertia = (0.0001, 0.0001, 0.0001)
+
+        def Xform "collisions"
+        {
+        }
+    }
+
+    over "driven_fr_link_h" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        def Xform "collisions" (
+            instanceable = true
+            prepend references = </colliders/driven_fr_link_h>
+        )
+        {
+        }
+    }
+
+    over "driven_rl_link_v" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        float3 physics:diagonalInertia = (0.0001, 0.0001, 0.0001)
+
+        def Xform "collisions"
+        {
+        }
+    }
+
+    over "driven_rl_link_h" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        def Xform "collisions" (
+            instanceable = true
+            prepend references = </colliders/driven_rl_link_h>
+        )
+        {
+        }
+    }
+
+    over "driven_rr_link_v" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        float3 physics:diagonalInertia = (0.0001, 0.0001, 0.0001)
+
+        def Xform "collisions"
+        {
+        }
+    }
+
+    over "driven_rr_link_h" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        def Xform "collisions" (
+            instanceable = true
+            prepend references = </colliders/driven_rr_link_h>
+        )
+        {
+        }
+    }
+
+    over "driving_left_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        def Xform "collisions" (
+            instanceable = true
+            prepend references = </colliders/driving_left_link>
+        )
+        {
+        }
+    }
+
+    over "driving_right_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        def Xform "collisions" (
+            instanceable = true
+            prepend references = </colliders/driving_right_link>
+        )
+        {
+        }
+    }
+}
+
+over "colliders"
+{
+    over "base_footprint"
+    {
+        over "mesh_0"
+        {
+            over "box" (
+                prepend apiSchemas = ["PhysicsCollisionAPI"]
+            )
+            {
+            }
+        }
+    }
+
+    over "driven_fl_link_h"
+    {
+        over "mesh_0"
+        {
+            over "sphere" (
+                prepend apiSchemas = ["PhysicsCollisionAPI"]
+            )
+            {
+            }
+        }
+    }
+
+    over "driven_fr_link_h"
+    {
+        over "mesh_0"
+        {
+            over "sphere" (
+                prepend apiSchemas = ["PhysicsCollisionAPI"]
+            )
+            {
+            }
+        }
+    }
+
+    over "driven_rl_link_h"
+    {
+        over "mesh_0"
+        {
+            over "sphere" (
+                prepend apiSchemas = ["PhysicsCollisionAPI"]
+            )
+            {
+            }
+        }
+    }
+
+    over "driven_rr_link_h"
+    {
+        over "mesh_0"
+        {
+            over "sphere" (
+                prepend apiSchemas = ["PhysicsCollisionAPI"]
+            )
+            {
+            }
+        }
+    }
+
+    over "driving_left_link"
+    {
+        over "mesh_0"
+        {
+            over "cylinder" (
+                prepend apiSchemas = ["PhysicsCollisionAPI"]
+            )
+            {
+            }
+        }
+    }
+
+    over "driving_right_link"
+    {
+        over "mesh_0"
+        {
+            over "cylinder" (
+                prepend apiSchemas = ["PhysicsCollisionAPI"]
+            )
+            {
+            }
+        }
+    }
+
+    def PhysicsCollisionGroup "robotCollisionGroup"
+    {
+        prepend rel collection:colliders:includes = </Ai2_Bot2_Chassis>
+    }
+
+    def PhysicsCollisionGroup "collidersCollisionGroup"
+    {
+        prepend rel collection:colliders:includes = </colliders>
+        prepend rel physics:filteredGroups = </colliders/robotCollisionGroup>
+    }
+}
+
+def "Render" (
+    hide_in_stage_window = true
+    no_delete = true
+)
+{
+    def "OmniverseKit"
+    {
+        def "HydraTextures" (
+            hide_in_stage_window = true
+            no_delete = true
+        )
+        {
+            def RenderProduct "omni_kit_widget_viewport_ViewportTexture_0" (
+                prepend apiSchemas = ["OmniRtxSettingsCommonAdvancedAPI_1", "OmniRtxSettingsRtAdvancedAPI_1", "OmniRtxSettingsPtAdvancedAPI_1", "OmniRtxPostColorGradingAPI_1", "OmniRtxPostChromaticAberrationAPI_1", "OmniRtxPostBloomPhysicalAPI_1", "OmniRtxPostMatteObjectAPI_1", "OmniRtxPostCompositingAPI_1", "OmniRtxPostDofAPI_1", "OmniRtxPostMotionBlurAPI_1", "OmniRtxPostTvNoiseAPI_1", "OmniRtxPostTonemapIrayReinhardAPI_1", "OmniRtxPostDebugSettingsAPI_1", "OmniRtxDebugSettingsAPI_1"]
+                hide_in_stage_window = true
+                no_delete = true
+            )
+            {
+                rel camera = </OmniverseKit_Persp>
+                token omni:rtx:ambientOcclusion:denoiserMode = "none"
+                token omni:rtx:background:source:texture:textureMode = "repeatMirrored"
+                token omni:rtx:background:source:type = "domeLight"
+                bool omni:rtx:debug:view:pixelDebug:enableFixedTextPos = 1
+                token omni:rtx:directLighting:sampledLighting:denoisingTechnique = "None"
+                bool omni:rtx:dlss:frameGeneration = 0
+                bool omni:rtx:indirectDiffuse:denoiser:enabled = 0
+                bool omni:rtx:material:db:nonVisualMaterialCSV:enabled = 0
+                string omni:rtx:material:db:rtSensorNameToIdMap = "DefaultMaterial:0;AsphaltStandardMaterial:1;AsphaltWeatheredMaterial:2;VegetationGrassMaterial:3;WaterStandardMaterial:4;GlassStandardMaterial:5;FiberGlassMaterial:6;MetalAlloyMaterial:7;MetalAluminumMaterial:8;MetalAluminumOxidizedMaterial:9;PlasticStandardMaterial:10;RetroMarkingsMaterial:11;RetroSignMaterial:12;RubberStandardMaterial:13;SoilClayMaterial:14;ConcreteRoughMaterial:15;ConcreteSmoothMaterial:16;OakTreeBarkMaterial:17;FabricStandardMaterial:18;PlexiGlassStandardMaterial:19;MetalSilverMaterial:20"
+                bool omni:rtx:material:db:syncLoads = 1
+                token omni:rtx:post:dlss:execMode = "performance"
+                bool omni:rtx:post:registeredCompositing:invertColorCorrection = 1
+                bool omni:rtx:post:registeredCompositing:invertToneMap = 1
+                bool omni:rtx:pt:adaptiveSampling:filterError = 0
+                uint omni:rtx:pt:adaptiveSampling:fixedSppIterations = 2
+                bool omni:rtx:pt:lightcache:cached:dontResolveConflicts = 1
+                int omni:rtx:pt:maxSamplesPerLaunch = 2073600
+                int omni:rtx:pt:mgpu:maxPixelsPerRegionExponent = 12
+                bool omni:rtx:reflections:denoiser:enabled = 0
+                token omni:rtx:rendermode = "RealTimePathTracing"
+                color3f omni:rtx:rt:ambientLight:color = (0.1, 0.1, 0.1)
+                bool omni:rtx:rt:demoire = 0
+                bool omni:rtx:rt:lightcache:spatialCache:dontResolveConflicts = 1
+                int omni:rtx:rt:sss:samples = 1
+                int omni:rtx:rtpt:maxVolumeBounces = 15
+                float omni:rtx:rtpt:modulatingRoughnessThreshold = 0.08
+                bool omni:rtx:scene:hydra:materialSyncLoads = 1
+                bool omni:rtx:scene:hydra:mdlMaterialWarmup = 1
+                uint omni:rtx:viewTile:limit = 4294967295
+                rel orderedVars = </Render/Vars/LdrColor>
+                custom bool overrideClipRange = 0
+                uniform int2 resolution = (1280, 720)
+            }
+        }
+    }
+
+    def RenderSettings "OmniverseGlobalRenderSettings" (
+        prepend apiSchemas = ["OmniRtxSettingsGlobalRtAdvancedAPI_1", "OmniRtxSettingsGlobalPtAdvancedAPI_1"]
+        no_delete = true
+    )
+    {
+        rel products = </Render/OmniverseKit/HydraTextures/omni_kit_widget_viewport_ViewportTexture_0>
+    }
+
+    def "Vars"
+    {
+        def RenderVar "LdrColor" (
+            hide_in_stage_window = true
+            no_delete = true
+        )
+        {
+            uniform string sourceName = "LdrColor"
+        }
+    }
+}
+
+over "OmniverseKit_Persp" (
+    prepend apiSchemas = ["OmniRtxCameraAutoExposureAPI_1", "OmniRtxCameraExposureAPI_1"]
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (0.01, 10000000)
+    float exposure:fStop = 5
+    float exposure:responsivity = 1.1026709
+    float exposure:time = 0.02
+    float focalLength = 18.147562
+    float focusDistance = 400
+    custom uniform vector3d omni:kit:centerOfInterest = (-2.1029010918017122e-17, 1.073232458566564e-17, -2.390179848889843)
+    float3 xformOp:rotateXYZ = (54.73561, -6.3611094e-15, 135)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (1.3799709503669417, 1.3799709503669424, 1.3799710367706282)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+
+over "OmniverseKit_Front" (
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (1, 10000000)
+    float horizontalAperture = 50
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -5)
+    token projection = "orthographic"
+    float verticalAperture = 50
+    float3 xformOp:rotateXYZ = (90, -1.2722219e-14, 90)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (5, 0, 0)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+
+over "OmniverseKit_Right" (
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (1, 10000000)
+    float horizontalAperture = 50
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -5)
+    token projection = "orthographic"
+    float verticalAperture = 50
+    float3 xformOp:rotateXYZ = (90, -1.41245e-30, 1.2722219e-14)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (0, -5, 0)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+
+over "OmniverseKit_Top" (
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (1, 10000000)
+    float horizontalAperture = 50
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -5)
+    token projection = "orthographic"
+    float verticalAperture = 50
+    float3 xformOp:rotateXYZ = (-1.2722219e-14, -7.016709e-15, -90)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (0, 0, 5)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+

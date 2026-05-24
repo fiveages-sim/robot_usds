@@ -1,0 +1,756 @@
+#usda 1.0
+(
+    customLayerData = {
+        dictionary cameraSettings = {
+            dictionary Front = {
+                double3 position = (5, 0, 0)
+                double radius = 5
+            }
+            dictionary Perspective = {
+                double3 position = (1.072684668817898, 0.9351984494841544, 0.6521724987727192)
+                double3 target = (-0.1392665257180954, 0.008123951077083968, 0.10541091284377935)
+            }
+            dictionary Right = {
+                double3 position = (0, -5, 0)
+                double radius = 5
+            }
+            dictionary Top = {
+                double3 position = (0, 0, 5)
+                double radius = 5
+            }
+            string boundCamera = "/OmniverseKit_Persp"
+        }
+        dictionary omni_layer = {
+            string authoring_layer = "./Woosh_AGV_physics.usd"
+            dictionary locked = {
+            }
+            dictionary muteness = {
+            }
+        }
+        dictionary renderSettings = {
+        }
+    }
+    defaultPrim = "Woosh_AGV"
+    metersPerUnit = 1
+    subLayers = [
+        @./Woosh_AGV_base.usd@
+    ]
+    upAxis = "Z"
+)
+
+def PhysicsScene "physicsScene" (
+    prepend apiSchemas = ["PhysxSceneAPI", "NewtonSceneAPI"]
+)
+{
+    vector3f physics:gravityDirection = (0, 0, -1)
+    float physics:gravityMagnitude = 9.81
+    uniform token physxScene:broadphaseType = "MBP"
+    bool physxScene:enableCCD = 1
+    bool physxScene:enableGPUDynamics = 0
+    bool physxScene:enableStabilization = 1
+    uniform token physxScene:solverType = "TGS"
+}
+
+over "Woosh_AGV"
+{
+    over "base_footprint" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "PhysicsArticulationRootAPI", "PhysxArticulationAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.031666, -0.012627996, 0.17735401)
+        float3 physics:diagonalInertia = (0.034897197, 0.06619619, 0.09794458)
+        float physics:mass = 2.5521
+        quatf physics:principalAxes = (0.9999843, -0.0027601966, 0.004726556, 0.0011626408)
+        bool physxArticulation:enabledSelfCollisions = 0
+        int physxArticulation:solverPositionIterationCount = 32
+        int physxArticulation:solverVelocityIterationCount = 1
+
+        def Xform "collisions" (
+            instanceable = true
+            prepend references = </colliders/base_footprint>
+        )
+        {
+        }
+    }
+
+    over "caster_1_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.00067987, -0.0050012, -0.013414)
+        float3 physics:diagonalInertia = (0.00003167885, 0.000038102142, 0.00004747901)
+        float physics:mass = 0.088835
+        quatf physics:principalAxes = (0.9813303, 0.19231638, 0.000972849, -0.0020969734)
+
+        def Xform "collisions"
+        {
+        }
+    }
+
+    over "joints"
+    {
+        def PhysicsRevoluteJoint "caster_1_joint" (
+            delete apiSchemas = ["PhysicsDriveAPI:angular"]
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float drive:angular:physics:damping = 0
+            float drive:angular:physics:maxForce = 3.4028235e38
+            float drive:angular:physics:stiffness = 625
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "acceleration"
+            uniform token physics:axis = "Z"
+            rel physics:body0 = </Woosh_AGV/base_footprint>
+            rel physics:body1 = </Woosh_AGV/caster_1_link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.023422772
+            point3f physics:localPos0 = (0.194004, 0.124000005, 0.0827)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (-0.7071068, 0, 0, 0.7071067)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -inf
+            float physics:upperLimit = inf
+            float physxJoint:maxJointVelocity = inf
+        }
+
+        def PhysicsRevoluteJoint "caster_wheel_1_joint" (
+            prepend apiSchemas = ["PhysxJointAPI", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = 1
+            float drive:angular:physics:maxForce = 3.4028235e38
+            float drive:angular:physics:stiffness = 0
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "acceleration"
+            uniform token physics:axis = "X"
+            rel physics:body0 = </Woosh_AGV/caster_1_link>
+            rel physics:body1 = </Woosh_AGV/caster_wheel_1_link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.0005781275
+            point3f physics:localPos0 = (0, -0.022, -0.04516)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -inf
+            float physics:upperLimit = inf
+            float physxJoint:maxJointVelocity = inf
+        }
+
+        def PhysicsRevoluteJoint "caster_2_joint" (
+            delete apiSchemas = ["PhysicsDriveAPI:angular"]
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float drive:angular:physics:damping = 0
+            float drive:angular:physics:maxForce = 3.4028235e38
+            float drive:angular:physics:stiffness = 625
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "acceleration"
+            uniform token physics:axis = "Z"
+            rel physics:body0 = </Woosh_AGV/base_footprint>
+            rel physics:body1 = </Woosh_AGV/caster_2_link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.02849547
+            point3f physics:localPos0 = (-0.17842999, -0.12400001, 0.0827)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (-0.7071068, 0, 0, 0.7071067)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -inf
+            float physics:upperLimit = inf
+            float physxJoint:maxJointVelocity = inf
+        }
+
+        def PhysicsRevoluteJoint "caster_wheel_2_joint" (
+            prepend apiSchemas = ["PhysxJointAPI", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = 1
+            float drive:angular:physics:maxForce = 3.4028235e38
+            float drive:angular:physics:stiffness = 0
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "acceleration"
+            uniform token physics:axis = "X"
+            rel physics:body0 = </Woosh_AGV/caster_2_link>
+            rel physics:body1 = </Woosh_AGV/caster_wheel_2_link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.0005781048
+            point3f physics:localPos0 = (0, -0.022, -0.04516)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -inf
+            float physics:upperLimit = inf
+            float physxJoint:maxJointVelocity = inf
+        }
+
+        def PhysicsRevoluteJoint "caster_3_joint" (
+            delete apiSchemas = ["PhysicsDriveAPI:angular"]
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float drive:angular:physics:damping = 0
+            float drive:angular:physics:maxForce = 3.4028235e38
+            float drive:angular:physics:stiffness = 625
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "acceleration"
+            uniform token physics:axis = "Z"
+            rel physics:body0 = </Woosh_AGV/base_footprint>
+            rel physics:body1 = </Woosh_AGV/caster_3_link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.028393364
+            point3f physics:localPos0 = (-0.17842999, 0.12399998, 0.0827)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (-0.7071068, 0, 0, 0.7071067)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -inf
+            float physics:upperLimit = inf
+            float physxJoint:maxJointVelocity = inf
+        }
+
+        def PhysicsRevoluteJoint "caster_wheel_3_joint" (
+            prepend apiSchemas = ["PhysxJointAPI", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = 1
+            float drive:angular:physics:maxForce = 3.4028235e38
+            float drive:angular:physics:stiffness = 0
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "acceleration"
+            uniform token physics:axis = "X"
+            rel physics:body0 = </Woosh_AGV/caster_3_link>
+            rel physics:body1 = </Woosh_AGV/caster_wheel_3_link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.0005781133
+            point3f physics:localPos0 = (0, -0.022, -0.04516)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -inf
+            float physics:upperLimit = inf
+            float physxJoint:maxJointVelocity = inf
+        }
+
+        def PhysicsRevoluteJoint "caster_4_joint" (
+            delete apiSchemas = ["PhysicsDriveAPI:angular"]
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float drive:angular:physics:damping = 0
+            float drive:angular:physics:maxForce = 3.4028235e38
+            float drive:angular:physics:stiffness = 625
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "acceleration"
+            uniform token physics:axis = "Z"
+            rel physics:body0 = </Woosh_AGV/base_footprint>
+            rel physics:body1 = </Woosh_AGV/caster_4_link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.02336756
+            point3f physics:localPos0 = (0.194004, -0.12399999, 0.0827)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (-0.7071068, 0, 0, 0.7071067)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -inf
+            float physics:upperLimit = inf
+            float physxJoint:maxJointVelocity = inf
+        }
+
+        def PhysicsRevoluteJoint "caster_wheel_4_joint" (
+            prepend apiSchemas = ["PhysxJointAPI", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = 1
+            float drive:angular:physics:maxForce = 3.4028235e38
+            float drive:angular:physics:stiffness = 0
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "acceleration"
+            uniform token physics:axis = "X"
+            rel physics:body0 = </Woosh_AGV/caster_4_link>
+            rel physics:body1 = </Woosh_AGV/caster_wheel_4_link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.00057812204
+            point3f physics:localPos0 = (0, -0.022, -0.04516)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -inf
+            float physics:upperLimit = inf
+            float physxJoint:maxJointVelocity = inf
+        }
+
+        def PhysicsRevoluteJoint "left_wheel_joint" (
+            prepend apiSchemas = ["PhysxJointAPI", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = 1000000
+            float drive:angular:physics:maxForce = 3.4028233e30
+            float drive:angular:physics:stiffness = 0
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "acceleration"
+            uniform token physics:axis = "X"
+            rel physics:body0 = </Woosh_AGV/base_footprint>
+            rel physics:body1 = </Woosh_AGV/left_wheel_link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.08937075
+            point3f physics:localPos0 = (-1.0244548e-8, 0.18299998, 0.08500002)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0.70710677, 0, 0, 0.70710677)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -inf
+            float physics:upperLimit = inf
+            float physxJoint:maxJointVelocity = 572.95776
+        }
+
+        def PhysicsRevoluteJoint "right_wheel_joint" (
+            prepend apiSchemas = ["PhysxJointAPI", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = 1000000
+            float drive:angular:physics:maxForce = 3.4028233e30
+            float drive:angular:physics:stiffness = 0
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "acceleration"
+            uniform token physics:axis = "X"
+            rel physics:body0 = </Woosh_AGV/base_footprint>
+            rel physics:body1 = </Woosh_AGV/right_wheel_link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.08629853
+            point3f physics:localPos0 = (1.21071935e-8, -0.18299998, 0.08500002)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0.70710677, 0, 0, 0.70710677)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -inf
+            float physics:upperLimit = inf
+            float physxJoint:maxJointVelocity = 572.95776
+        }
+    }
+
+    over "caster_wheel_1_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.0010651, 2.2204e-16, 9.4369e-16)
+        float3 physics:diagonalInertia = (0.00011169, 0.000060837025, 0.00006084098)
+        float physics:mass = 0.12664
+        quatf physics:principalAxes = (0.9663781, -0.25712544, 0, 0)
+
+        def Xform "collisions" (
+            instanceable = true
+            prepend references = </colliders/caster_wheel_1_link>
+        )
+        {
+        }
+    }
+
+    over "caster_2_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.00067987, -0.0050012, -0.013414)
+        float3 physics:diagonalInertia = (0.00003167885, 0.000038102142, 0.00004747901)
+        float physics:mass = 0.088835
+        quatf physics:principalAxes = (0.9813303, 0.19231638, 0.000972849, -0.0020969734)
+
+        def Xform "collisions"
+        {
+        }
+    }
+
+    over "caster_wheel_2_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.0010651, 6.1062e-16, 7.7716e-16)
+        float3 physics:diagonalInertia = (0.00011169, 0.000060841245, 0.000060836755)
+        float physics:mass = 0.12664
+        quatf physics:principalAxes = (0.96180207, 0.27374583, 0, 0)
+
+        def Xform "collisions" (
+            instanceable = true
+            prepend references = </colliders/caster_wheel_2_link>
+        )
+        {
+        }
+    }
+
+    over "caster_3_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.00067987, -0.0050012, -0.013414)
+        float3 physics:diagonalInertia = (0.00003167885, 0.000038102142, 0.00004747901)
+        float physics:mass = 0.088835
+        quatf physics:principalAxes = (0.9813303, 0.19231638, 0.000972849, -0.0020969734)
+
+        def Xform "collisions"
+        {
+        }
+    }
+
+    over "caster_wheel_3_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.0010651, -3.3307e-16, 8.8818e-16)
+        float3 physics:diagonalInertia = (0.00011169, 0.000060836974, 0.000060841026)
+        float physics:mass = 0.12664
+        quatf physics:principalAxes = (0.9992544, 0.03861076, 0, 0)
+
+        def Xform "collisions" (
+            instanceable = true
+            prepend references = </colliders/caster_wheel_3_link>
+        )
+        {
+        }
+    }
+
+    over "caster_4_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.00067987, -0.0050012, -0.0094542)
+        float3 physics:diagonalInertia = (0.00003167885, 0.000038102142, 0.00004747901)
+        float physics:mass = 0.088835
+        quatf physics:principalAxes = (0.9813303, 0.19231638, 0.000972849, -0.0020969734)
+
+        def Xform "collisions"
+        {
+        }
+    }
+
+    over "caster_wheel_4_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.0010651, -4.996e-16, 7.494e-16)
+        float3 physics:diagonalInertia = (0.00011169, 0.000060836664, 0.00006084134)
+        float physics:mass = 0.12664
+        quatf physics:principalAxes = (0.99085826, 0.1349077, 0, 0)
+
+        def Xform "collisions" (
+            instanceable = true
+            prepend references = </colliders/caster_wheel_4_link>
+        )
+        {
+        }
+    }
+
+    over "left_wheel_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.025224, -8.8034e-15, 0)
+        float3 physics:diagonalInertia = (0.0033996, 0.0019593, 0.0019593)
+        float physics:mass = 1.0734
+        quatf physics:principalAxes = (1, 0, 0, 0)
+
+        def Xform "collisions" (
+            instanceable = true
+            prepend references = </colliders/left_wheel_link>
+        )
+        {
+        }
+    }
+
+    over "right_wheel_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (-0.024898, 2.5665e-18, 0)
+        float3 physics:diagonalInertia = (0.0033125, 0.0018066, 0.0018066)
+        float physics:mass = 1.0523
+        quatf physics:principalAxes = (0.92387956, 0.38268343, 0, 0)
+
+        def Xform "collisions" (
+            instanceable = true
+            prepend references = </colliders/right_wheel_link>
+        )
+        {
+        }
+    }
+}
+
+over "colliders"
+{
+    over "base_footprint"
+    {
+        over "mesh_0"
+        {
+            over "box" (
+                prepend apiSchemas = ["PhysicsCollisionAPI"]
+            )
+            {
+            }
+        }
+    }
+
+    over "caster_wheel_1_link"
+    {
+        over "mesh_0"
+        {
+            over "sphere" (
+                prepend apiSchemas = ["PhysicsCollisionAPI"]
+            )
+            {
+            }
+        }
+    }
+
+    over "caster_wheel_2_link"
+    {
+        over "mesh_0"
+        {
+            over "sphere" (
+                prepend apiSchemas = ["PhysicsCollisionAPI"]
+            )
+            {
+            }
+        }
+    }
+
+    over "caster_wheel_3_link"
+    {
+        over "mesh_0"
+        {
+            over "sphere" (
+                prepend apiSchemas = ["PhysicsCollisionAPI"]
+            )
+            {
+            }
+        }
+    }
+
+    over "caster_wheel_4_link"
+    {
+        over "mesh_0"
+        {
+            over "sphere" (
+                prepend apiSchemas = ["PhysicsCollisionAPI"]
+            )
+            {
+            }
+        }
+    }
+
+    over "left_wheel_link"
+    {
+        over "mesh_0"
+        {
+            over "cylinder" (
+                prepend apiSchemas = ["PhysicsCollisionAPI"]
+            )
+            {
+            }
+        }
+    }
+
+    over "right_wheel_link"
+    {
+        over "mesh_0"
+        {
+            over "cylinder" (
+                prepend apiSchemas = ["PhysicsCollisionAPI"]
+            )
+            {
+            }
+        }
+    }
+
+    def PhysicsCollisionGroup "robotCollisionGroup"
+    {
+        prepend rel collection:colliders:includes = </Woosh_AGV>
+    }
+
+    def PhysicsCollisionGroup "collidersCollisionGroup"
+    {
+        prepend rel collection:colliders:includes = </colliders>
+        prepend rel physics:filteredGroups = </colliders/robotCollisionGroup>
+    }
+}
+
+def "Render" (
+    hide_in_stage_window = true
+    no_delete = true
+)
+{
+    def "OmniverseKit"
+    {
+        def "HydraTextures" (
+            hide_in_stage_window = true
+            no_delete = true
+        )
+        {
+            def RenderProduct "omni_kit_widget_viewport_ViewportTexture_0" (
+                prepend apiSchemas = ["OmniRtxSettingsCommonAdvancedAPI_1", "OmniRtxSettingsRtAdvancedAPI_1", "OmniRtxSettingsPtAdvancedAPI_1", "OmniRtxPostColorGradingAPI_1", "OmniRtxPostChromaticAberrationAPI_1", "OmniRtxPostBloomPhysicalAPI_1", "OmniRtxPostMatteObjectAPI_1", "OmniRtxPostCompositingAPI_1", "OmniRtxPostDofAPI_1", "OmniRtxPostMotionBlurAPI_1", "OmniRtxPostTvNoiseAPI_1", "OmniRtxPostTonemapIrayReinhardAPI_1", "OmniRtxPostDebugSettingsAPI_1", "OmniRtxDebugSettingsAPI_1"]
+                hide_in_stage_window = true
+                no_delete = true
+            )
+            {
+                rel camera = </OmniverseKit_Persp>
+                token omni:rtx:ambientOcclusion:denoiserMode = "none"
+                token omni:rtx:background:source:texture:textureMode = "repeatMirrored"
+                token omni:rtx:background:source:type = "domeLight"
+                bool omni:rtx:debug:view:pixelDebug:enableFixedTextPos = 1
+                token omni:rtx:directLighting:sampledLighting:denoisingTechnique = "None"
+                bool omni:rtx:dlss:frameGeneration = 0
+                bool omni:rtx:indirectDiffuse:denoiser:enabled = 0
+                string omni:rtx:material:db:rtSensorNameToIdMap = "DefaultMaterial:0;AsphaltStandardMaterial:1;AsphaltWeatheredMaterial:2;VegetationGrassMaterial:3;WaterStandardMaterial:4;GlassStandardMaterial:5;FiberGlassMaterial:6;MetalAlloyMaterial:7;MetalAluminumMaterial:8;MetalAluminumOxidizedMaterial:9;PlasticStandardMaterial:10;RetroMarkingsMaterial:11;RetroSignMaterial:12;RubberStandardMaterial:13;SoilClayMaterial:14;ConcreteRoughMaterial:15;ConcreteSmoothMaterial:16;OakTreeBarkMaterial:17;FabricStandardMaterial:18;PlexiGlassStandardMaterial:19;MetalSilverMaterial:20"
+                bool omni:rtx:material:db:syncLoads = 1
+                token omni:rtx:post:dlss:execMode = "performance"
+                bool omni:rtx:post:registeredCompositing:invertColorCorrection = 1
+                bool omni:rtx:post:registeredCompositing:invertToneMap = 1
+                bool omni:rtx:pt:adaptiveSampling:filterError = 0
+                uint omni:rtx:pt:adaptiveSampling:fixedSppIterations = 2
+                bool omni:rtx:pt:lightcache:cached:dontResolveConflicts = 1
+                int omni:rtx:pt:maxSamplesPerLaunch = 2073600
+                int omni:rtx:pt:mgpu:maxPixelsPerRegionExponent = 12
+                bool omni:rtx:reflections:denoiser:enabled = 0
+                token omni:rtx:rendermode = "RealTimePathTracing"
+                color3f omni:rtx:rt:ambientLight:color = (0.1, 0.1, 0.1)
+                bool omni:rtx:rt:demoire = 0
+                bool omni:rtx:rt:lightcache:spatialCache:dontResolveConflicts = 1
+                int omni:rtx:rt:sss:samples = 1
+                uint omni:rtx:rtpt:maxVolumeBounces = 15
+                float omni:rtx:rtpt:modulatingRoughnessThreshold = 0.08
+                bool omni:rtx:scene:hydra:materialSyncLoads = 1
+                bool omni:rtx:scene:hydra:mdlMaterialWarmup = 1
+                uint omni:rtx:viewTile:limit = 4294967295
+                rel orderedVars = </Render/Vars/LdrColor>
+                custom bool overrideClipRange = 0
+                uniform int2 resolution = (1280, 720)
+            }
+        }
+    }
+
+    def RenderSettings "OmniverseGlobalRenderSettings" (
+        prepend apiSchemas = ["OmniRtxSettingsGlobalRtAdvancedAPI_1", "OmniRtxSettingsGlobalPtAdvancedAPI_1"]
+        no_delete = true
+    )
+    {
+        rel products = </Render/OmniverseKit/HydraTextures/omni_kit_widget_viewport_ViewportTexture_0>
+    }
+
+    def "Vars"
+    {
+        def RenderVar "LdrColor" (
+            hide_in_stage_window = true
+            no_delete = true
+        )
+        {
+            uniform string sourceName = "LdrColor"
+        }
+    }
+}
+
+over "OmniverseKit_Persp" (
+    prepend apiSchemas = ["OmniRtxCameraAutoExposureAPI_1", "OmniRtxCameraExposureAPI_1"]
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (0.01, 10000000)
+    float exposure:fStop = 5
+    float exposure:responsivity = 1.1026709
+    float exposure:time = 0.02
+    float focalLength = 18.147562
+    float focusDistance = 400
+    custom uniform vector3d omni:kit:centerOfInterest = (6.267941429319389e-17, 4.178627619546259e-17, -1.620876631758713)
+    float3 xformOp:rotateXYZ = (70.28604, 9.541664e-15, 127.413956)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (1.072684668817898, 0.9351984494841544, 0.6521724987727192)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+
+over "OmniverseKit_Front" (
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (1, 10000000)
+    float horizontalAperture = 50
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -5)
+    token projection = "orthographic"
+    float verticalAperture = 50
+    float3 xformOp:rotateXYZ = (90, -1.2722219e-14, 90)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (5, 0, 0)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+
+over "OmniverseKit_Right" (
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (1, 10000000)
+    float horizontalAperture = 50
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -5)
+    token projection = "orthographic"
+    float verticalAperture = 50
+    float3 xformOp:rotateXYZ = (90, -1.41245e-30, 1.2722219e-14)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (0, -5, 0)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+
+over "OmniverseKit_Top" (
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (1, 10000000)
+    float horizontalAperture = 50
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -5)
+    token projection = "orthographic"
+    float verticalAperture = 50
+    float3 xformOp:rotateXYZ = (-1.2722219e-14, -7.016709e-15, -90)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (0, 0, 5)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+
