@@ -7,8 +7,8 @@
                 double radius = 5
             }
             dictionary Perspective = {
-                double3 position = (2.2539118282843753, 1.5233926647236344, 1.132378518078716)
-                double3 target = (-1.5640770081519029, -1.271724645533294, -0.09989402861144336)
+                double3 position = (5.905001195294157, 11.15369278414698, 3.7746351381757712)
+                double3 target = (-1.6762637533029965, -1.4104001969347202, 0.5622507486033426)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -99,6 +99,24 @@ def Xform "World"
                                 }
                             }
                         )
+                    }
+                }
+
+                over "ROS_Camera"
+                {
+                    over "RGBPublish"
+                    {
+                        custom token inputs:viewport
+                    }
+
+                    over "DepthPclPublish"
+                    {
+                        custom token inputs:viewport
+                    }
+
+                    over "DepthPublish"
+                    {
+                        custom token inputs:viewport
                     }
                 }
             }
@@ -504,6 +522,9 @@ def Xform "World"
                         float exposure:fStop = 5
                         float exposure:responsivity = 1.1026709
                         float exposure:time = 0.02
+                        float focalLength = 15
+                        float focusDistance = 5
+                        quatd xformOp:orient = (0.5735764363510462, 0.8191520442889917, 0, 0)
                     }
                 }
             }
@@ -628,7 +649,7 @@ def "Render" (
                 uint omni:rtx:viewTile:limit = 4294967295
                 rel orderedVars = </Render/Vars/LdrColor>
                 custom bool overrideClipRange = 0
-                uniform int2 resolution = (2048, 1080)
+                uniform int2 resolution = (1280, 720)
             }
 
             def RenderProduct "Replicator" (
@@ -725,7 +746,7 @@ over "OmniverseKit_Persp" (
     float exposure:time = 0.02
     float focalLength = 18.147562
     float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -4.889602761224701)
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -15.02169844340056)
     float3 xformOp:rotateXYZ = (75.402985, -4.770832e-14, 126.20754)
     float3 xformOp:scale = (1, 1, 1)
     double3 xformOp:translate = (2.2539118282843753, 1.5233926647236344, 1.132378518078716)

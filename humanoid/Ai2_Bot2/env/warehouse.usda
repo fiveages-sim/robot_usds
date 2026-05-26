@@ -7,8 +7,8 @@
                 double radius = 5
             }
             dictionary Perspective = {
-                double3 position = (4.056051333531227, 2.589171760077136, 1.2629547589973418)
-                double3 target = (0.29690263556807484, -0.8382650685690543, 0.934148651195533)
+                double3 position = (2.8173612100318666, 9.634249076120259, 2.7812269651449997)
+                double3 target = (2.1646468002839017, -1.346869052323381, 0.9757476527435907)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -18,10 +18,10 @@
                 double3 position = (0, 0, 5)
                 double radius = 5
             }
-            string boundCamera = "/OmniverseKit_Persp"
+            string boundCamera = "/World/Ai2_Bot2/head_link2/head_camera/d435/head_camera"
         }
         dictionary omni_layer = {
-            string authoring_layer = "./warehouse.usd"
+            string authoring_layer = "./warehouse.usda"
             dictionary locked = {
             }
             dictionary muteness = {
@@ -103,6 +103,32 @@ def Xform "World"
                 }
             }
         }
+
+        over "head_link2"
+        {
+            over "head_camera"
+            {
+                over "d435"
+                {
+                    over "head_camera"
+                    {
+                        float focalLength = 15
+                        float focusDistance = 5
+                        bool omni:kit:cameraLock = 0
+                        custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -56.43719608688278)
+                        quatd xformOp:orient = (0.5735764363510462, 0.8191520442889917, 0, 0)
+                        double3 xformOp:scale = (1, 1, 1)
+                        double3 xformOp:translate = (1.0684364949145914e-13, 0, 0)
+                        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                    }
+
+                    over "d435"
+                    {
+                        quatf xformOp:orient = (0.70710677, 0, 0, 0.70710677)
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -152,7 +178,7 @@ def "Render" (
                 no_delete = true
             )
             {
-                rel camera = </OmniverseKit_Persp>
+                rel camera = </World/Ai2_Bot2/head_link2/head_camera/d435/head_camera>
                 token omni:rtx:ambientOcclusion:denoiserMode = "none"
                 token omni:rtx:background:source:texture:textureMode = "repeatMirrored"
                 token omni:rtx:background:source:type = "domeLight"
@@ -160,12 +186,14 @@ def "Render" (
                 token omni:rtx:directLighting:sampledLighting:denoisingTechnique = "None"
                 bool omni:rtx:dlss:frameGeneration = 0
                 bool omni:rtx:indirectDiffuse:denoiser:enabled = 0
+                bool omni:rtx:material:db:nonVisualMaterialCSV:enabled = 0
                 bool omni:rtx:material:db:syncLoads = 1
                 token omni:rtx:post:dlss:execMode = "performance"
                 bool omni:rtx:post:registeredCompositing:invertColorCorrection = 1
                 bool omni:rtx:post:registeredCompositing:invertToneMap = 1
                 bool omni:rtx:pt:adaptiveSampling:filterError = 0
                 uint omni:rtx:pt:adaptiveSampling:fixedSppIterations = 2
+                bool omni:rtx:pt:lightcache:cached:dontResolveConflicts = 1
                 int omni:rtx:pt:maxSamplesPerLaunch = 2073600
                 int omni:rtx:pt:mgpu:maxPixelsPerRegionExponent = 12
                 bool omni:rtx:reflections:denoiser:enabled = 0
@@ -182,7 +210,7 @@ def "Render" (
                 uint omni:rtx:viewTile:limit = 4294967295
                 rel orderedVars = </Render/Vars/LdrColor>
                 custom bool overrideClipRange = 0
-                uniform int2 resolution = (2048, 1080)
+                uniform int2 resolution = (1280, 720)
             }
 
             def RenderProduct "Replicator" (
@@ -246,7 +274,7 @@ over "OmniverseKit_Persp" (
     float exposure:time = 0.02
     float focalLength = 18.147562
     float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -5.0977088583290096)
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -11.147678996052747)
     float3 xformOp:rotateXYZ = (86.30181, -0, 132.35727)
     float3 xformOp:scale = (1, 1, 1)
     double3 xformOp:translate = (4.056051333531227, 2.589171760077136, 1.2629547589973418)

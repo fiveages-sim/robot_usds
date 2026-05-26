@@ -7,8 +7,8 @@
                 double radius = 5
             }
             dictionary Perspective = {
-                double3 position = (-0.6664554180900737, -2.239312544784854, 0.8165545931907441)
-                double3 target = (4.183251615669112, 7.072798995388565, -1.4232639980191268)
+                double3 position = (-2.756783154001732, -6.253032321428602, 1.7819644400175974)
+                double3 target = (4.183251615669115, 7.072798995388569, -1.4232639980191286)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -184,6 +184,7 @@ def Xform "Ai2_Bot2" (
     {
         string isaac:nameOverride (
             displayName = "Name Override"
+            doc = "Name override for prim lookup in base name search"
         )
 
         over "visuals" (
@@ -205,9 +206,9 @@ def Xform "Ai2_Bot2" (
                 def Camera "head_camera"
                 {
                     float2 clippingRange = (0.01, 10000000)
-                    float focalLength = 18.147562
-                    float focusDistance = 400
-                    quatd xformOp:orient = (0.7071067811865476, 0.7071067811865475, 0, 0)
+                    float focalLength = 15
+                    float focusDistance = 5
+                    quatd xformOp:orient = (0.5735764363510462, 0.8191520442889917, 0, 0)
                     double3 xformOp:scale = (1, 1, 1)
                     double3 xformOp:translate = (0, 0, 0)
                     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
@@ -355,6 +356,24 @@ def Xform "Ai2_Bot2" (
                 {
                     custom rel inputs:chassisPrim = </Ai2_Bot2/Ai2_Bot2_Chassis/base_footprint>
                     uniform float2 ui:nodegraph:node:pos = (-580.28516, 291.875)
+                }
+            }
+
+            over "ROS_Camera"
+            {
+                over "DepthPclPublish"
+                {
+                    custom token inputs:viewport
+                }
+
+                over "DepthPublish"
+                {
+                    custom token inputs:viewport
+                }
+
+                over "RGBPublish"
+                {
+                    custom token inputs:viewport
                 }
             }
         }
@@ -834,7 +853,7 @@ def "Render" (
                 uint omni:rtx:viewTile:limit = 4294967295
                 rel orderedVars = </Render/Vars/LdrColor>
                 custom bool overrideClipRange = 0
-                uniform int2 resolution = (2048, 1080)
+                uniform int2 resolution = (1280, 720)
             }
         }
     }
@@ -880,7 +899,7 @@ over "OmniverseKit_Persp" (
     float exposure:time = 0.02
     float focalLength = 18.147562
     float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (7.329852000660153e-16, 1.1727763201056253e-15, -10.735542229969273)
+    custom uniform vector3d omni:kit:centerOfInterest = (1.0489175405239298e-15, 1.6782680648382887e-15, -15.362791160088873)
     float3 xformOp:rotateXYZ = (77.95758, -5.2479153e-14, -27.510303)
     float3 xformOp:scale = (1, 1, 1)
     double3 xformOp:translate = (-0.6664554180900737, -2.239312544784854, 0.8165545931907441)
