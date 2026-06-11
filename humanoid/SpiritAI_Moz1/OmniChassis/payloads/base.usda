@@ -1,0 +1,188 @@
+#usda 1.0
+(
+    customLayerData = {
+        dictionary cameraSettings = {
+            dictionary Front = {
+                double3 position = (5, 0, 0)
+                double radius = 5
+            }
+            dictionary Perspective = {
+                double3 position = (5, 5, 5)
+                double3 target = (-3.978038431995401e-8, -3.978038254359717e-8, 7.956076863990802e-8)
+            }
+            dictionary Right = {
+                double3 position = (0, -5, 0)
+                double radius = 5
+            }
+            dictionary Top = {
+                double3 position = (0, 0, 5)
+                double radius = 5
+            }
+            string boundCamera = "/OmniverseKit_Persp"
+        }
+        dictionary omni_layer = {
+            string authoring_layer = "./OmniChassis.usd"
+        }
+        dictionary renderSettings = {
+        }
+    }
+    defaultPrim = "OmniChassis"
+    doc = """Generated from Composed Stage of root layer /home/fiveages/Documents/FaSim-Isaac/robots/humanoid/SpiritAI_Moz1/OmniChassis/OmniChassis.usd
+
+
+Generated from Composed Stage of root layer /home/fiveages/Documents/FaSim-Isaac/robots/humanoid/SpiritAI_Moz1/OmniChassis/payloads/base.usd
+"""
+    metersPerUnit = 1
+    subLayers = [
+        @./robot.usda@
+    ]
+    upAxis = "Z"
+)
+
+def Xform "OmniChassis"
+{
+    quatd xformOp:orient = (1, 0, 0, 0)
+    double3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (0, 0, 0)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+    def Xform "base_link"
+    {
+        quatd xformOp:orient = (1, 0, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def Xform "lidar_link"
+        {
+            quatd xformOp:orient = (1, 0, 0, 0)
+            double3 xformOp:scale = (1, 1, 1)
+            double3 xformOp:translate = (0.25220000743865967, 0, 0.19189999997615814)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+        }
+
+        def Xform "visuals" (
+            instanceable = false
+        )
+        {
+            def Xform "chassis" (
+                instanceable = true
+                prepend references = @./instances.usda@</Instances/mesh>
+            )
+            {
+                token visibility = "inherited"
+                quatd xformOp:orient = (0.7071067691, 0, 0, -0.7071067933)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+        }
+
+        def Xform "collisions" (
+            instanceable = false
+        )
+        {
+            def Xform "mesh_0"
+            {
+                uniform token purpose = "guide"
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (0.6000000238418579, 0.6000000238418579, 0.25999999046325684)
+                double3 xformOp:translate = (0, 0, 0.05999999865889549)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+                def Cube "box" (
+                    prepend apiSchemas = ["PhysicsCollisionAPI"]
+                )
+                {
+                    float3[] extent = [(-0.3, -0.3, -0.13), (0.3, 0.3, 0.13)]
+                    double size = 1
+                }
+            }
+        }
+    }
+
+    def Xform "wheel_1"
+    {
+        quatd xformOp:orient = (0.3826834261417389, 0, 0, -0.9238795042037964)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0.24230000376701355, 0.24230000376701355, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def Xform "visuals" (
+            instanceable = false
+        )
+        {
+        }
+
+        def Xform "collisions"
+        {
+        }
+    }
+
+    def Scope "joints"
+    {
+    }
+
+    def Xform "wheel_2"
+    {
+        quatd xformOp:orient = (0.9238795042037964, 0, 0, -0.3826834559440613)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (-0.24230000376701355, 0.24230000376701355, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def Xform "visuals" (
+            instanceable = false
+        )
+        {
+        }
+
+        def Xform "collisions"
+        {
+        }
+    }
+
+    def Xform "wheel_3"
+    {
+        quatd xformOp:orient = (0.9238795042037964, 0, 0, 0.3826834559440613)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (-0.24230000376701355, -0.24230000376701355, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def Xform "visuals" (
+            instanceable = false
+        )
+        {
+        }
+
+        def Xform "collisions"
+        {
+        }
+    }
+
+    def Xform "wheel_4"
+    {
+        quatd xformOp:orient = (0.3826834261417389, 0, 0, 0.9238795042037964)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0.24230000376701355, -0.24230000376701355, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def Xform "visuals" (
+            instanceable = false
+        )
+        {
+        }
+
+        def Xform "collisions"
+        {
+        }
+    }
+
+    def Scope "Looks"
+    {
+    }
+
+    def Scope "VisualMaterials"
+    {
+    }
+}
+
