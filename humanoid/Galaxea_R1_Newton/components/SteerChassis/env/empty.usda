@@ -7,8 +7,8 @@
                 double radius = 5
             }
             dictionary Perspective = {
-                double3 position = (0.8943807751866535, 1.1685268305967231, 1.2795892724836717)
-                double3 target = (-0.41787499717335597, -0.3506665734618608, -0.39331531271442266)
+                double3 position = (10.097343118243606, 5.600353597848795, 8.33799910031517)
+                double3 target = (1.3521210354317095, -0.9133142599756852, -1.6837979936828962)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -199,7 +199,7 @@ def "Render" (
                 bool omni:rtx:scene:hydra:mdlMaterialWarmup = 1
                 rel orderedVars = </Render/Vars/LdrColor>
                 custom bool overrideClipRange = 0
-                uniform int2 resolution = (1280, 720)
+                uniform int2 resolution = (2240, 842)
             }
         }
     }
@@ -246,10 +246,10 @@ over "OmniverseKit_Persp" (
     float exposure:time = 0.02
     float focalLength = 18.147562
     float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -2.613153949197039)
-    float3 xformOp:rotateXYZ = (50.19431, -2.862499e-14, 139.18005)
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -14.810239540028533)
+    float3 xformOp:rotateXYZ = (47.41523, -2.5444438e-14, 126.679695)
     float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (0.8943807751866535, 1.1685268305967231, 1.2795892724836717)
+    double3 xformOp:translate = (10.097343118243606, 5.600353597848795, 8.33799910031517)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 
@@ -332,5 +332,75 @@ def PhysicsScene "PhysicsScene" (
     prepend apiSchemas = ["NewtonSceneAPI", "PhysxSceneAPI", "MjcSceneAPI"]
 )
 {
+}
+
+def "Graph"
+{
+    def OmniGraph "ROS_GenericPub"
+    {
+        token evaluationMode = "Automatic"
+        token evaluator:type = "execution"
+        token fabricCacheBacking = "StageWithoutHistory"
+        int2 fileFormatVersion = (1, 9)
+        token pipelineStage = "pipelineStageSimulation"
+
+        def OmniGraphNode "OnPlaybackTick"
+        {
+            token node:type = "omni.graph.action.OnPlaybackTick"
+            int node:typeVersion = 2
+            custom double outputs:deltaSeconds
+            custom double outputs:frame
+            custom uint outputs:tick (
+                customData = {
+                    bool isExecution = 1
+                }
+            )
+            custom double outputs:time
+        }
+
+        def OmniGraphNode "GenericPublisher"
+        {
+            custom uint64 inputs:context
+            prepend uint64 inputs:context.connect = </Graph/ROS_GenericPub/Context.outputs:context>
+            custom float inputs:data
+            prepend float inputs:data.connect = </Graph/ROS_GenericPub/RTF.outputs:rtf>
+            custom uint inputs:execIn (
+                customData = {
+                    bool isExecution = 1
+                }
+            )
+            prepend uint inputs:execIn.connect = </Graph/ROS_GenericPub/OnPlaybackTick.outputs:tick>
+            custom string inputs:messageName = "Float32"
+            custom string inputs:messagePackage = "std_msgs"
+            custom string inputs:messageSubfolder = "msg"
+            custom string inputs:nodeNamespace = "isaac"
+            custom string inputs:qosProfile
+            custom uint64 inputs:queueSize
+            custom string inputs:topicName = "rtf"
+            token node:type = "isaacsim.ros2.bridge.ROS2Publisher"
+            int node:typeVersion = 1
+            custom uint outputs:execOut (
+                customData = {
+                    bool isExecution = 1
+                }
+            )
+        }
+
+        def OmniGraphNode "RTF"
+        {
+            token node:type = "isaacsim.core.nodes.IsaacRealTimeFactor"
+            int node:typeVersion = 1
+            custom float outputs:rtf
+        }
+
+        def OmniGraphNode "Context"
+        {
+            custom uchar inputs:domain_id
+            custom bool inputs:useDomainIDEnvVar
+            token node:type = "isaacsim.ros2.bridge.ROS2Context"
+            int node:typeVersion = 2
+            custom uint64 outputs:context
+        }
+    }
 }
 

@@ -41,7 +41,7 @@ def Xform "SteerChassis" (
     variants = {
         string Physics = "physx"
         string Robot = "robot"
-        string Sensor = "none"
+        string Sensor = "sensors"
     }
     prepend variantSets = "ROS"
     append variantSets = ["Physics", "Robot", "Sensor"]
@@ -163,7 +163,8 @@ def Xform "SteerChassis" (
             customData = {
                 string[] variantPrimPaths = ["."]
             }
-            prepend payload = @/home/fiveages/Documents/FaSim-Isaac/robots/humanoid/Galaxea_R1_Newton/components/SteerChassis/payloads/ROS/ros2.usda@
+            delete payload = @/home/fiveages/Documents/FaSim-Isaac/robots/humanoid/Galaxea_R1_Newton/components/SteerChassis/payloads/ROS/ros2.usda@
+            prepend payload = @./payloads/ROS/ros2.usda@
         ) {
 
         }
@@ -218,7 +219,7 @@ def "Render" (
                 bool omni:rtx:scene:hydra:mdlMaterialWarmup = 1
                 rel orderedVars = </Render/Vars/LdrColor>
                 custom bool overrideClipRange = 0
-                uniform int2 resolution = (1239, 591)
+                uniform int2 resolution = (1280, 720)
             }
         }
     }
@@ -348,7 +349,7 @@ over "OmniverseKit_Top" (
 }
 
 def PhysicsScene "PhysicsScene" (
-    prepend apiSchemas = ["NewtonSceneAPI", "PhysxSceneAPI"]
+    prepend apiSchemas = ["NewtonSceneAPI", "PhysxSceneAPI", "MjcSceneAPI"]
 )
 {
 }
