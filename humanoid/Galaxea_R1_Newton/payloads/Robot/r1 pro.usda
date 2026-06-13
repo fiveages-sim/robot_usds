@@ -7,8 +7,8 @@
                 double radius = 5
             }
             dictionary Perspective = {
-                double3 position = (0.13279455191964298, 0.10917041289715496, 0.31699358103515385)
-                double3 target = (-0.03457060757373165, -0.007913817416699165, -0.037284507850202264)
+                double3 position = (1.3509832577519139, 1.2867990653058576, 2.23572539152764)
+                double3 target = (-0.27351932183828964, -0.3377035142843452, 0.6112228507114383)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -21,196 +21,147 @@
             string boundCamera = "/OmniverseKit_Persp"
         }
         dictionary omni_layer = {
-            string authoring_layer = "./Galaxea_G1.usda"
+            string authoring_layer = "./robot.usda"
         }
         dictionary renderSettings = {
         }
     }
-    defaultPrim = "Galaxea_G1"
-    doc = """Generated from Composed Stage of root layer /home/fiveages/Documents/FaSim-Isaac/robots/manipulators/Galaxea/Galaxea_G1/Galaxea_G1.usd
-
-
-Generated from Composed Stage of root layer /home/fiveages/Documents/FaSim-Isaac/robots/manipulators/Galaxea/Galaxea_G1/payloads/base.usd
-"""
+    defaultPrim = "Galaxea_R1"
+    endTimeCode = 0
     metersPerUnit = 1
+    startTimeCode = -1
     upAxis = "Z"
 )
 
-def Xform "Galaxea_G1" (
-    prepend references = @./payloads/base.usda@
-    variants = {
-        string Physics = "physx"
-        string Robot = "robot"
-        string Sensor = "none"
-        string Side = "default"
-    }
-    prepend variantSets = "Side"
-    append variantSets = ["Physics", "Robot", "Sensor"]
+def Xform "Galaxea_R1" (
+    prepend apiSchemas = ["IsaacRobotAPI"]
 )
 {
-    string isaac:description = "Galaxea G1 Gripper"
-    string isaac:namespace = ""
-    token isaac:robotType = "End Effector"
+    string isaac:description = "Galaxea R1 Wheel Humanoid Robot"
+    string isaac:namespace
+    prepend rel isaac:physics:robotJoints = [
+        </Galaxea_R1/joints/torso_joint1>,
+        </Galaxea_R1/joints/torso_joint2>,
+        </Galaxea_R1/joints/torso_joint3>,
+        </Galaxea_R1/joints/torso_joint4>,
+    ]
+    prepend rel isaac:physics:robotLinks = [
+        </Galaxea_R1/base_link>,
+        </Galaxea_R1/torso_link1>,
+        </Galaxea_R1/torso_link2>,
+        </Galaxea_R1/torso_link3>,
+        </Galaxea_R1/torso_link4>,
+    ]
+    token isaac:robotType = "Mobile Manipulators"
 
-    over "gripper_base"
+    over "base_link" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
     {
+        string isaac:nameOverride
     }
 
-    over "finger1"
+    over "torso_link1" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
     {
-    }
-
-    over "finger2"
-    {
-        string isaac:nameOverride (
-            displayName = "Name Override"
-        )
+        string isaac:nameOverride
     }
 
     over "joints"
     {
-        over "gripper_joint"
+        over "torso_joint1" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
         {
-            float drive:linear:physics:damping = 10
-            float drive:linear:physics:stiffness = 100
-            float drive:linear:physics:targetPosition = 0
-            bool[] isaac:actuator (
-                displayName = "Actuator"
-            )
-            string isaac:NameOverride (
-                displayName = "Joint Name Override"
-            )
-            token[] isaac:physics:DofOffsetOpOrder (
-                displayName = "Dof Offset Op Order"
-            )
-            float physics:lowerLimit = 0
-            float physics:upperLimit = 0.05
-            float state:linear:physics:position = 2.6868055e-18
-            float state:linear:physics:velocity = 0
+            string isaac:nameOverride
+            float[] isaac:physics:AccelerationLimit
+            int isaac:physics:index
+            float[] isaac:physics:JerkLimit
+            int isaac:physics:Rot_X:DofOffset
+            int isaac:physics:Rot_Y:DofOffset
+            int isaac:physics:Rot_Z:DofOffset
+            int isaac:physics:Tr_X:DofOffset
+            int isaac:physics:Tr_Y:DofOffset
+            int isaac:physics:Tr_Z:DofOffset
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
         }
 
-        over "gripper_joint2"
+        over "torso_joint2" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
         {
-            float state:linear:physics:position = 4.5714497e-17
-            float state:linear:physics:velocity = 0
+            string isaac:nameOverride
+            float[] isaac:physics:AccelerationLimit
+            int isaac:physics:index
+            float[] isaac:physics:JerkLimit
+            int isaac:physics:Rot_X:DofOffset
+            int isaac:physics:Rot_Y:DofOffset
+            int isaac:physics:Rot_Z:DofOffset
+            int isaac:physics:Tr_X:DofOffset
+            int isaac:physics:Tr_Y:DofOffset
+            int isaac:physics:Tr_Z:DofOffset
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
         }
 
-        over "left_gripper_joint"
+        over "torso_joint3" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
         {
-            float drive:linear:physics:damping = 10
-            float drive:linear:physics:stiffness = 100
-            float drive:linear:physics:targetPosition = 0
-            float physics:lowerLimit = 0
-            float physics:upperLimit = 0.05
-            float state:linear:physics:position = 2.6704035e-18
-            float state:linear:physics:velocity = 0
+            string isaac:nameOverride
+            float[] isaac:physics:AccelerationLimit
+            int isaac:physics:index
+            float[] isaac:physics:JerkLimit
+            int isaac:physics:Rot_X:DofOffset
+            int isaac:physics:Rot_Y:DofOffset
+            int isaac:physics:Rot_Z:DofOffset
+            int isaac:physics:Tr_X:DofOffset
+            int isaac:physics:Tr_Y:DofOffset
+            int isaac:physics:Tr_Z:DofOffset
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
         }
 
-        over "left_gripper_joint2"
+        over "torso_joint4" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
         {
-            float state:linear:physics:position = 4.56879e-17
-            float state:linear:physics:velocity = 0
-        }
-
-        over "right_gripper_joint2"
-        {
-            float state:linear:physics:position = 0.00011358471
-            float state:linear:physics:velocity = 0
-        }
-
-        over "right_gripper_joint"
-        {
-            float drive:linear:physics:damping = 10
-            float drive:linear:physics:stiffness = 100
-            float drive:linear:physics:targetPosition = 0
-            float physics:lowerLimit = 0
-            float physics:upperLimit = 0.05
-            float state:linear:physics:position = 0.00011358952
-            float state:linear:physics:velocity = 0
+            string isaac:nameOverride
+            float[] isaac:physics:AccelerationLimit
+            int isaac:physics:index
+            float[] isaac:physics:JerkLimit
+            int isaac:physics:Rot_X:DofOffset
+            int isaac:physics:Rot_Y:DofOffset
+            int isaac:physics:Rot_Z:DofOffset
+            int isaac:physics:Tr_X:DofOffset
+            int isaac:physics:Tr_Y:DofOffset
+            int isaac:physics:Tr_Z:DofOffset
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
         }
     }
 
-    over "root_joint"
+    over "torso_link2" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
     {
-        bool[] isaac:actuator (
-            displayName = "Actuator"
-        )
-        string isaac:NameOverride (
-            displayName = "Joint Name Override"
-        )
-        token[] isaac:physics:DofOffsetOpOrder (
-            displayName = "Dof Offset Op Order"
-        )
+        string isaac:nameOverride
     }
-    variantSet "Physics" = {
-        "none" (
-            prepend payload = @./payloads/Physics/none.usda@
-        ) {
 
-        }
-        "physics" (
-            prepend payload = @./payloads/Physics/physics.usda@
-        ) {
-
-        }
-        "physx" (
-            prepend payload = @./payloads/Physics/physx.usda@
-        ) {
-
-        }
+    over "torso_link3" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+        string isaac:nameOverride
     }
-    variantSet "Robot" = {
-        "none" (
-            prepend payload = @./payloads/Robot/none.usda@
-        ) {
 
-        }
-        "robot" (
-            prepend payload = @./payloads/Robot/robot.usda@
-        ) {
-
-        }
-    }
-    variantSet "Sensor" = {
-        "d435" (
-            delete payload = @./payloads/Sensor/sensors.usda@
-            prepend payload = @./payloads/Sensor/d435.usda@
-        ) {
-
-        }
-        "none" (
-            prepend payload = @./payloads/Sensor/none.usda@
-        ) {
-
-        }
-        "sensors" (
-            prepend payload = @./payloads/Sensor/sensors.usda@
-        ) {
-
-        }
-    }
-    variantSet "Side" = {
-        "default" {
-
-        }
-        "left" (
-            customData = {
-                string[] variantPrimPaths = ["."]
-            }
-            delete payload = @/home/fiveages/Documents/FaSim-Isaac/robots/manipulators/Galaxea/Galaxea_G1/payloads/Side/left.usda@
-            prepend payload = @./payloads/Side/left.usda@
-        ) {
-
-        }
-        "right" (
-            customData = {
-                string[] variantPrimPaths = ["."]
-            }
-            delete payload = @/home/fiveages/Documents/FaSim-Isaac/robots/manipulators/Galaxea/Galaxea_G1/payloads/Side/left.usda@
-            prepend payload = @./payloads/Side/right.usda@
-        ) {
-
-        }
+    over "torso_link4" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+        string isaac:nameOverride
     }
 }
 
@@ -262,7 +213,7 @@ def "Render" (
                 bool omni:rtx:scene:hydra:mdlMaterialWarmup = 1
                 rel orderedVars = </Render/Vars/LdrColor>
                 custom bool overrideClipRange = 0
-                uniform int2 resolution = (2242, 690)
+                uniform int2 resolution = (1280, 720)
             }
         }
     }
@@ -289,7 +240,7 @@ def "Render" (
 }
 
 over "OmniverseKit_Persp" (
-    apiSchemas = ["OmniRtxCameraAutoExposureAPI_1", "OmniRtxCameraExposureAPI_1"]
+    prepend apiSchemas = ["OmniRtxCameraAutoExposureAPI_1", "OmniRtxCameraExposureAPI_1"]
     customData = {
         dictionary omni = {
             dictionary kit = {
@@ -309,11 +260,17 @@ over "OmniverseKit_Persp" (
     float exposure:time = 0.02
     float focalLength = 18.147562
     float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -0.4089410444852542)
-    float3 xformOp:rotateXYZ = (29.965023, -1.1131942e-14, 124.97562)
+    custom uniform vector3d omni:kit:centerOfInterest = (1.3877787807814457e-16, 0, -2.813720982490756)
+    float3 xformOp:rotateXYZ = (54.73561, -6.3611094e-15, 135)
     float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (0.13279455191964298, 0.10917041289715496, 0.31699358103515385)
+    double3 xformOp:translate = (1.3509832577519139, 1.2867990653058576, 2.23572539152764)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+
+def PhysicsScene "PhysicsScene" (
+    prepend apiSchemas = ["NewtonSceneAPI", "PhysxSceneAPI"]
+)
+{
 }
 
 over "OmniverseKit_Front" (
@@ -389,11 +346,5 @@ over "OmniverseKit_Top" (
     float3 xformOp:scale = (1, 1, 1)
     double3 xformOp:translate = (0, 0, 5)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
-}
-
-def PhysicsScene "PhysicsScene" (
-    prepend apiSchemas = ["NewtonSceneAPI", "PhysxSceneAPI", "MjcSceneAPI"]
-)
-{
 }
 

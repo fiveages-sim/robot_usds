@@ -7,8 +7,8 @@
                 double radius = 5
             }
             dictionary Perspective = {
-                double3 position = (0.13279455191964298, 0.10917041289715496, 0.31699358103515385)
-                double3 target = (-0.03457060757373165, -0.007913817416699165, -0.037284507850202264)
+                double3 position = (2.661507584389261, 1.4275923158087944, 2.010857884539427)
+                double3 target = (-0.34864079671303116, -0.5051012054418973, 0.7177005069792095)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -21,196 +21,106 @@
             string boundCamera = "/OmniverseKit_Persp"
         }
         dictionary omni_layer = {
-            string authoring_layer = "./Galaxea_G1.usda"
+            string authoring_layer = "./empty.usda"
+            dictionary locked = {
+            }
+            dictionary muteness = {
+            }
         }
         dictionary renderSettings = {
         }
     }
-    defaultPrim = "Galaxea_G1"
-    doc = """Generated from Composed Stage of root layer /home/fiveages/Documents/FaSim-Isaac/robots/manipulators/Galaxea/Galaxea_G1/Galaxea_G1.usd
-
-
-Generated from Composed Stage of root layer /home/fiveages/Documents/FaSim-Isaac/robots/manipulators/Galaxea/Galaxea_G1/payloads/base.usd
-"""
+    defaultPrim = "World"
+    endTimeCode = 1000000
     metersPerUnit = 1
+    startTimeCode = 0
+    timeCodesPerSecond = 60
     upAxis = "Z"
 )
 
-def Xform "Galaxea_G1" (
-    prepend references = @./payloads/base.usda@
-    variants = {
-        string Physics = "physx"
-        string Robot = "robot"
-        string Sensor = "none"
-        string Side = "default"
-    }
-    prepend variantSets = "Side"
-    append variantSets = ["Physics", "Robot", "Sensor"]
-)
+def Xform "World"
 {
-    string isaac:description = "Galaxea G1 Gripper"
-    string isaac:namespace = ""
-    token isaac:robotType = "End Effector"
-
-    over "gripper_base"
+    def "Galaxea_R1" (
+        prepend payload = @../Galaxea_R1.usda@
+        variants = {
+            string Robot = "R1"
+        }
+    )
     {
-    }
+        quatd xformOp:orient = (1, 0, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0, 0, 0.08199290069520171)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
-    over "finger1"
-    {
-    }
-
-    over "finger2"
-    {
-        string isaac:nameOverride (
-            displayName = "Name Override"
-        )
-    }
-
-    over "joints"
-    {
-        over "gripper_joint"
+        over "joints"
         {
-            float drive:linear:physics:damping = 10
-            float drive:linear:physics:stiffness = 100
-            float drive:linear:physics:targetPosition = 0
-            bool[] isaac:actuator (
-                displayName = "Actuator"
-            )
-            string isaac:NameOverride (
-                displayName = "Joint Name Override"
-            )
-            token[] isaac:physics:DofOffsetOpOrder (
-                displayName = "Dof Offset Op Order"
-            )
-            float physics:lowerLimit = 0
-            float physics:upperLimit = 0.05
-            float state:linear:physics:position = 2.6868055e-18
-            float state:linear:physics:velocity = 0
-        }
-
-        over "gripper_joint2"
-        {
-            float state:linear:physics:position = 4.5714497e-17
-            float state:linear:physics:velocity = 0
-        }
-
-        over "left_gripper_joint"
-        {
-            float drive:linear:physics:damping = 10
-            float drive:linear:physics:stiffness = 100
-            float drive:linear:physics:targetPosition = 0
-            float physics:lowerLimit = 0
-            float physics:upperLimit = 0.05
-            float state:linear:physics:position = 2.6704035e-18
-            float state:linear:physics:velocity = 0
-        }
-
-        over "left_gripper_joint2"
-        {
-            float state:linear:physics:position = 4.56879e-17
-            float state:linear:physics:velocity = 0
-        }
-
-        over "right_gripper_joint2"
-        {
-            float state:linear:physics:position = 0.00011358471
-            float state:linear:physics:velocity = 0
-        }
-
-        over "right_gripper_joint"
-        {
-            float drive:linear:physics:damping = 10
-            float drive:linear:physics:stiffness = 100
-            float drive:linear:physics:targetPosition = 0
-            float physics:lowerLimit = 0
-            float physics:upperLimit = 0.05
-            float state:linear:physics:position = 0.00011358952
-            float state:linear:physics:velocity = 0
-        }
-    }
-
-    over "root_joint"
-    {
-        bool[] isaac:actuator (
-            displayName = "Actuator"
-        )
-        string isaac:NameOverride (
-            displayName = "Joint Name Override"
-        )
-        token[] isaac:physics:DofOffsetOpOrder (
-            displayName = "Dof Offset Op Order"
-        )
-    }
-    variantSet "Physics" = {
-        "none" (
-            prepend payload = @./payloads/Physics/none.usda@
-        ) {
-
-        }
-        "physics" (
-            prepend payload = @./payloads/Physics/physics.usda@
-        ) {
-
-        }
-        "physx" (
-            prepend payload = @./payloads/Physics/physx.usda@
-        ) {
-
-        }
-    }
-    variantSet "Robot" = {
-        "none" (
-            prepend payload = @./payloads/Robot/none.usda@
-        ) {
-
-        }
-        "robot" (
-            prepend payload = @./payloads/Robot/robot.usda@
-        ) {
-
-        }
-    }
-    variantSet "Sensor" = {
-        "d435" (
-            delete payload = @./payloads/Sensor/sensors.usda@
-            prepend payload = @./payloads/Sensor/d435.usda@
-        ) {
-
-        }
-        "none" (
-            prepend payload = @./payloads/Sensor/none.usda@
-        ) {
-
-        }
-        "sensors" (
-            prepend payload = @./payloads/Sensor/sensors.usda@
-        ) {
-
-        }
-    }
-    variantSet "Side" = {
-        "default" {
-
-        }
-        "left" (
-            customData = {
-                string[] variantPrimPaths = ["."]
+            over "torso_joint1"
+            {
+                float drive:angular:physics:damping = 200
+                float drive:angular:physics:stiffness = 2000
+                bool[] isaac:actuator (
+                    displayName = "Actuator"
+                )
+                string isaac:NameOverride (
+                    displayName = "Joint Name Override"
+                )
+                token[] isaac:physics:DofOffsetOpOrder (
+                    displayName = "Dof Offset Op Order"
+                )
             }
-            delete payload = @/home/fiveages/Documents/FaSim-Isaac/robots/manipulators/Galaxea/Galaxea_G1/payloads/Side/left.usda@
-            prepend payload = @./payloads/Side/left.usda@
-        ) {
 
-        }
-        "right" (
-            customData = {
-                string[] variantPrimPaths = ["."]
+            over "torso_joint2"
+            {
+                float drive:angular:physics:damping = 200
+                float drive:angular:physics:stiffness = 2000
             }
-            delete payload = @/home/fiveages/Documents/FaSim-Isaac/robots/manipulators/Galaxea/Galaxea_G1/payloads/Side/left.usda@
-            prepend payload = @./payloads/Side/right.usda@
-        ) {
 
+            over "torso_joint3"
+            {
+                float drive:angular:physics:damping = 200
+                float drive:angular:physics:stiffness = 2000
+            }
+
+            over "torso_joint4"
+            {
+                float drive:angular:physics:damping = 200
+                float drive:angular:physics:stiffness = 2000
+            }
         }
+    }
+
+    def "default_environment" (
+        prepend payload = @../../../../environment/fiveages_env/background/Grid/default_environment.usd@
+    )
+    {
+    }
+}
+
+def Xform "Environment"
+{
+    quatd xformOp:orient = (1, 0, 0, 0)
+    double3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (0, 0, 0)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+    def DistantLight "defaultLight" (
+        prepend apiSchemas = ["ShapingAPI"]
+    )
+    {
+        float inputs:angle = 1
+        float inputs:exposure = 1.5
+        float inputs:intensity = 3000
+        bool inputs:normalize = 1
+        float inputs:shaping:cone:angle = 180
+        float inputs:shaping:cone:softness
+        float inputs:shaping:focus
+        color3f inputs:shaping:focusTint
+        asset inputs:shaping:ies:file
+        custom int omni:rtx:usdluxVersion = 2505
+        quatd xformOp:orient = (0.6532814824381883, 0.2705980500730985, 0.27059805007309845, 0.6532814824381882)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
     }
 }
 
@@ -262,7 +172,7 @@ def "Render" (
                 bool omni:rtx:scene:hydra:mdlMaterialWarmup = 1
                 rel orderedVars = </Render/Vars/LdrColor>
                 custom bool overrideClipRange = 0
-                uniform int2 resolution = (2242, 690)
+                uniform int2 resolution = (2298, 714)
             }
         }
     }
@@ -289,7 +199,7 @@ def "Render" (
 }
 
 over "OmniverseKit_Persp" (
-    apiSchemas = ["OmniRtxCameraAutoExposureAPI_1", "OmniRtxCameraExposureAPI_1"]
+    prepend apiSchemas = ["OmniRtxCameraAutoExposureAPI_1", "OmniRtxCameraExposureAPI_1"]
     customData = {
         dictionary omni = {
             dictionary kit = {
@@ -309,10 +219,10 @@ over "OmniverseKit_Persp" (
     float exposure:time = 0.02
     float focalLength = 18.147562
     float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -0.4089410444852542)
-    float3 xformOp:rotateXYZ = (29.965023, -1.1131942e-14, 124.97562)
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -3.8037551875055717)
+    float3 xformOp:rotateXYZ = (70.12504, 1.2722219e-14, 122.702866)
     float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (0.13279455191964298, 0.10917041289715496, 0.31699358103515385)
+    double3 xformOp:translate = (2.661507584389261, 1.4275923158087944, 2.010857884539427)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 
@@ -392,8 +302,81 @@ over "OmniverseKit_Top" (
 }
 
 def PhysicsScene "PhysicsScene" (
-    prepend apiSchemas = ["NewtonSceneAPI", "PhysxSceneAPI", "MjcSceneAPI"]
+    prepend apiSchemas = ["NewtonSceneAPI", "MjcSceneAPI"]
 )
 {
+}
+
+def "Graph"
+{
+    def OmniGraph "ROS_GenericPub"
+    {
+        token evaluationMode = "Automatic"
+        token evaluator:type = "execution"
+        token fabricCacheBacking = "StageWithoutHistory"
+        int2 fileFormatVersion = (1, 9)
+        token pipelineStage = "pipelineStageSimulation"
+
+        def OmniGraphNode "OnPlaybackTick"
+        {
+            token node:type = "omni.graph.action.OnPlaybackTick"
+            int node:typeVersion = 2
+            custom double outputs:deltaSeconds
+            custom double outputs:frame
+            custom uint outputs:tick (
+                customData = {
+                    bool isExecution = 1
+                }
+            )
+            custom double outputs:time
+        }
+
+        def OmniGraphNode "GenericPublisher" (
+            prepend apiSchemas = ["NodeGraphNodeAPI"]
+        )
+        {
+            custom uint64 inputs:context
+            prepend uint64 inputs:context.connect = </Graph/ROS_GenericPub/Context.outputs:context>
+            custom float inputs:data
+            prepend float inputs:data.connect = </Graph/ROS_GenericPub/RTF.outputs:rtf>
+            custom uint inputs:execIn (
+                customData = {
+                    bool isExecution = 1
+                }
+            )
+            prepend uint inputs:execIn.connect = </Graph/ROS_GenericPub/OnPlaybackTick.outputs:tick>
+            custom string inputs:messageName = "Float32"
+            custom string inputs:messagePackage = "std_msgs"
+            custom string inputs:messageSubfolder = "msg"
+            custom string inputs:nodeNamespace = "isaac"
+            custom string inputs:qosProfile
+            custom uint64 inputs:queueSize
+            custom string inputs:topicName = "rtf"
+            token node:type = "isaacsim.ros2.bridge.ROS2Publisher"
+            int node:typeVersion = 1
+            custom uint outputs:execOut (
+                customData = {
+                    bool isExecution = 1
+                }
+            )
+            uniform float2 ui:nodegraph:node:pos = (-115.5891, 0)
+        }
+
+        def OmniGraphNode "RTF"
+        {
+            token node:type = "isaacsim.core.nodes.IsaacRealTimeFactor"
+            int node:typeVersion = 1
+            custom float outputs:rtf
+        }
+
+        def OmniGraphNode "Context"
+        {
+            custom uchar inputs:domain_id
+            custom bool inputs:useDomainIDEnvVar
+            token node:type = "isaacsim.ros2.bridge.ROS2Context"
+            int node:typeVersion = 2
+            custom uint64 outputs:context
+        }
+    }
 }
 

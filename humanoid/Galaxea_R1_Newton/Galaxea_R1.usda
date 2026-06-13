@@ -7,8 +7,8 @@
                 double radius = 5
             }
             dictionary Perspective = {
-                double3 position = (0.649065618722533, 0.499835247020928, 0.8235016576128232)
-                double3 target = (-0.23286884983028944, -0.14505396249830965, 0.046144757216957766)
+                double3 position = (2.1911733150582737, 1.0457325185626154, 1.8994093861914365)
+                double3 target = (-1.8761177787667025, -1.2271420692755994, 0.028855295295892036)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -21,296 +21,188 @@
             string boundCamera = "/OmniverseKit_Persp"
         }
         dictionary omni_layer = {
-            string authoring_layer = "./Galaxea_A1.usda"
+            string authoring_layer = "./Galaxea_R1.usda"
         }
         dictionary renderSettings = {
         }
     }
-    defaultPrim = "Galaxea_A1"
-    doc = """Generated from Composed Stage of root layer /home/fiveages/Documents/FaSim-Isaac/robots/manipulators/Galaxea/Galaxea_A1/Galaxea_A1.usd
+    defaultPrim = "Galaxea_R1"
+    doc = """Generated from Composed Stage of root layer /home/biao/distrobox/ubuntu24/FaSim-Isaac/robots/humanoid/Galaxea_R1_Newton/Galaxea_R1/Galaxea_R1.usd
 
 
-Generated from Composed Stage of root layer /home/fiveages/Documents/FaSim-Isaac/robots/manipulators/Galaxea/Galaxea_A1/payloads/base.usd
+Generated from Composed Stage of root layer /home/biao/distrobox/ubuntu24/FaSim-Isaac/robots/humanoid/Galaxea_R1_Newton/payloads/base.usd
 """
     metersPerUnit = 1
     upAxis = "Z"
 )
 
-def Xform "Galaxea_A1" (
+def Xform "Galaxea_R1" (
     prepend references = @./payloads/base.usda@
     variants = {
-        string Gripper = "galaxea_g1"
+        string Chassis = "SteerChassis"
         string Physics = "physx"
-        string ROS2 = "enable"
+        string ROS = "enable"
         string Robot = "none"
-        string Sensor = "none"
-        string Side = "left"
     }
-    prepend variantSets = ["Side", "ROS2"]
-    append variantSets = ["Physics", "Robot", "Sensor"]
+    prepend variantSets = ["Chassis", "ROS"]
+    append variantSets = ["Physics", "Sensor", "Robot"]
 )
 {
-    string isaac:description = "Galaxea A1 Manipulator"
-    token isaac:robotType = "Manipulator"
-
     over "base_link"
     {
     }
 
-    over "link1"
+    over "torso_link1"
     {
     }
 
-    over "link2"
+    over "torso_link2"
     {
     }
 
-    over "link3"
+    over "torso_link3"
     {
     }
 
-    over "link4"
+    over "torso_link4"
     {
-    }
-
-    over "link5"
-    {
-    }
-
-    over "link6"
-    {
-    }
-
-    over "Galaxea_G1_Left"
-    {
-        over "gripper_base"
-        {
-        }
-
-        over "finger1"
-        {
-        }
-
-        over "finger2"
-        {
-        }
-
-        over "joints"
-        {
-            over "left_gripper_joint"
-            {
-                float state:linear:physics:position = 0.000009595537
-                float state:linear:physics:velocity = 0
-            }
-
-            over "left_gripper_joint2"
-            {
-                float state:linear:physics:position = 0.000009507295
-                float state:linear:physics:velocity = 0
-            }
-        }
     }
 
     over "joints"
     {
-        over "left_joint1"
-        {
-            float drive:angular:physics:damping = 10
-            float drive:angular:physics:stiffness = 200
-            float state:angular:physics:position = 1.2846345e-7
-            float state:angular:physics:velocity = 0
-        }
-
-        over "left_joint2"
-        {
-            float drive:angular:physics:damping = 10
-            float drive:angular:physics:stiffness = 200
-            float state:angular:physics:position = 1.9996286e-8
-            float state:angular:physics:velocity = 0
-        }
-
-        over "left_joint3"
-        {
-            float drive:angular:physics:damping = 10
-            float drive:angular:physics:stiffness = 200
-            float state:angular:physics:position = -0.000036831796
-            float state:angular:physics:velocity = 0
-        }
-
-        over "left_joint4"
-        {
-            float drive:angular:physics:damping = 10
-            float drive:angular:physics:stiffness = 200
-            float state:angular:physics:position = -0.00005187805
-            float state:angular:physics:velocity = 0
-        }
-
-        over "left_joint5"
-        {
-            float drive:angular:physics:damping = 10
-            float drive:angular:physics:stiffness = 200
-            float state:angular:physics:position = -2.0217226e-7
-            float state:angular:physics:velocity = 0
-        }
-
-        over "left_joint6"
-        {
-            float drive:angular:physics:damping = 10
-            float drive:angular:physics:stiffness = 200
-            float state:angular:physics:position = -0.0012473491
-            float state:angular:physics:velocity = 0
-        }
-
-        over "right_joint1"
-        {
-            float drive:angular:physics:damping = 10
-            float drive:angular:physics:stiffness = 200
-            float state:angular:physics:position = 0
-            float state:angular:physics:velocity = 0
-        }
-
-        over "right_joint2"
-        {
-            float drive:angular:physics:damping = 10
-            float drive:angular:physics:stiffness = 200
-            float state:angular:physics:position = 0
-            float state:angular:physics:velocity = 0
-        }
-
-        over "right_joint3"
-        {
-            float drive:angular:physics:damping = 10
-            float drive:angular:physics:stiffness = 200
-            float state:angular:physics:position = 0
-            float state:angular:physics:velocity = 0
-        }
-
-        over "right_joint4"
-        {
-            float drive:angular:physics:damping = 10
-            float drive:angular:physics:stiffness = 200
-            float state:angular:physics:position = 0
-            float state:angular:physics:velocity = 0
-        }
-
-        over "right_joint5"
-        {
-            float drive:angular:physics:damping = 10
-            float drive:angular:physics:stiffness = 200
-            float state:angular:physics:position = 0
-            float state:angular:physics:velocity = 0
-        }
-
-        over "right_joint6"
-        {
-            float drive:angular:physics:damping = 10
-            float drive:angular:physics:stiffness = 200
-            float state:angular:physics:position = 0
-            float state:angular:physics:velocity = 0
-        }
-
-        over "joint1"
-        {
-            bool[] isaac:actuator (
-                displayName = "Actuator"
-            )
-            string isaac:NameOverride (
-                displayName = "Joint Name Override"
-            )
-            token[] isaac:physics:DofOffsetOpOrder (
-                displayName = "Dof Offset Op Order"
-            )
-            float state:angular:physics:position = 0
-            float state:angular:physics:velocity = 0
-        }
-
-        over "joint2"
+        over "torso_joint1"
         {
             float state:angular:physics:position = 0
             float state:angular:physics:velocity = 0
         }
 
-        over "joint3"
+        over "torso_joint2"
         {
             float state:angular:physics:position = 0
             float state:angular:physics:velocity = 0
         }
 
-        over "joint4"
+        over "torso_joint3"
         {
             float state:angular:physics:position = 0
             float state:angular:physics:velocity = 0
         }
 
-        over "joint5"
-        {
-            float state:angular:physics:position = 0
-            float state:angular:physics:velocity = 0
-        }
-
-        over "joint6"
+        over "torso_joint4"
         {
             float state:angular:physics:position = 0
             float state:angular:physics:velocity = 0
         }
     }
 
-    over "Galaxea_G1_Right"
+    over "SteerChassis" (
+        variants = {
+            string ROS = "enable"
+        }
+    )
     {
-        over "gripper_base"
+        over "base_link"
         {
         }
 
-        over "finger2"
+        over "steer_motor_link1"
         {
         }
 
-        over "finger1"
+        over "wheel_motor_link1"
+        {
+        }
+
+        over "steer_motor_link2"
+        {
+        }
+
+        over "wheel_motor_link2"
+        {
+        }
+
+        over "steer_motor_link3"
+        {
+        }
+
+        over "wheel_motor_link3"
         {
         }
 
         over "joints"
         {
-            over "right_gripper_joint2"
+            over "steer_joint1"
             {
-                float state:linear:physics:position = 0.00011358471
-                float state:linear:physics:velocity = 0
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
             }
 
-            over "right_gripper_joint"
+            over "steer_joint2"
             {
-                float state:linear:physics:position = 0.00011358952
-                float state:linear:physics:velocity = 0
-            }
-        }
-    }
-
-    over "Galaxea_G1"
-    {
-        over "gripper_base"
-        {
-        }
-
-        over "finger1"
-        {
-        }
-
-        over "finger2"
-        {
-        }
-
-        over "joints"
-        {
-            over "gripper_joint"
-            {
-                float state:linear:physics:position = 2.6868055e-18
-                float state:linear:physics:velocity = 0
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
             }
 
-            over "gripper_joint2"
+            over "steer_joint3"
             {
-                float state:linear:physics:position = 4.5714497e-17
-                float state:linear:physics:velocity = 0
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "wheel_joint1"
+            {
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "wheel_joint2"
+            {
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "wheel_joint3"
+            {
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+        }
+
+        over "Graph"
+        {
+            over "ROS_Steering_Controller"
+            {
+                over "articulation_controller_01"
+                {
+                    custom rel inputs:targetPrim = </Galaxea_R1>
+                }
+
+                over "articulation_controller"
+                {
+                    custom rel inputs:targetPrim = </Galaxea_R1>
+                }
+            }
+
+            over "ROS_Odometry"
+            {
+                over "ComputeTFRobot"
+                {
+                    uniform float2 ui:nodegraph:node:pos = (-615.3267, -771.27155)
+                }
+
+                over "ComputeOdometry" (
+                    prepend apiSchemas = ["NodeGraphNodeAPI"]
+                )
+                {
+                    uniform float2 ui:nodegraph:node:pos = (-626.68146, -483.94876)
+                }
+
+                over "TFWorld2Odom" (
+                    prepend apiSchemas = ["NodeGraphNodeAPI"]
+                )
+                {
+                    uniform float2 ui:nodegraph:node:pos = (-148.17596, 221.30063)
+                }
             }
         }
     }
@@ -331,18 +223,6 @@ def Xform "Galaxea_A1" (
 
         }
     }
-    variantSet "Robot" = {
-        "none" (
-            prepend payload = @./payloads/Robot/none.usda@
-        ) {
-
-        }
-        "robot" (
-            prepend payload = @./payloads/Robot/robot.usda@
-        ) {
-
-        }
-    }
     variantSet "Sensor" = {
         "none" (
             prepend payload = @./payloads/Sensor/none.usda@
@@ -355,45 +235,39 @@ def Xform "Galaxea_A1" (
 
         }
     }
-    variantSet "Side" = {
-        "default" (
-            customData = {
-                string[] variantPrimPaths = ["."]
-            }
-            prepend payload = @/home/fiveages/Documents/FaSim-Isaac/robots/manipulators/Galaxea/Galaxea_A1/payloads/Side/default.usda@
+    variantSet "Robot" = {
+        "R1" (
+            delete payload = @./payloads/Robot/robot.usda@
+            prepend payload = @./payloads/Robot/r1.usda@
         ) {
 
         }
-        "left" (
-            customData = {
-                string[] variantPrimPaths = ["."]
-            }
-            delete payload = @/home/fiveages/Documents/FaSim-Isaac/robots/manipulators/Galaxea/Galaxea_A1/payloads/Side/left.usda@
-            prepend payload = @./payloads/Side/left.usda@
-        ) {
-
-        }
-        "right" (
-            customData = {
-                string[] variantPrimPaths = ["."]
-            }
-            delete payload = @/home/fiveages/Documents/FaSim-Isaac/robots/manipulators/Galaxea/Galaxea_A1/payloads/Side/left.usda@
-            prepend payload = @./payloads/Side/right.usda@
+        "none" (
+            prepend payload = @./payloads/Robot/none.usda@
         ) {
 
         }
     }
-    variantSet "ROS2" = {
+    variantSet "Chassis" = {
+        "None" {
+
+        }
+        "SteerChassis" (
+            prepend payload = @payloads/Chassis/base.usd@
+        ) {
+            prepend rel isaac:physics:robotJoints = </Galaxea_R1/SteerChassis>
+            prepend rel isaac:physics:robotLinks = </Galaxea_R1/SteerChassis>
+
+        }
+    }
+    variantSet "ROS" = {
         "enable" (
             customData = {
                 string[] variantPrimPaths = ["."]
             }
-            delete payload = @/home/fiveages/Documents/FaSim-Isaac/robots/manipulators/Galaxea/Galaxea_A1/payloads/ROS/ros2.usda@
+            delete payload = @/home/biao/distrobox/ubuntu24/FaSim-Isaac/robots/humanoid/Galaxea_R1_Newton/payloads/ROS/ros2.usda@
             prepend payload = @./payloads/ROS/ros2.usda@
         ) {
-
-        }
-        "none" {
 
         }
     }
@@ -447,7 +321,7 @@ def "Render" (
                 bool omni:rtx:scene:hydra:mdlMaterialWarmup = 1
                 rel orderedVars = </Render/Vars/LdrColor>
                 custom bool overrideClipRange = 0
-                uniform int2 resolution = (2296, 1026)
+                uniform int2 resolution = (1920, 1156)
             }
         }
     }
@@ -494,10 +368,10 @@ over "OmniverseKit_Persp" (
     float exposure:time = 0.02
     float focalLength = 18.147562
     float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -1.3408856215087712)
-    float3 xformOp:rotateXYZ = (54.56817, -1.2722219e-14, 126.175064)
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -5.020735836599527)
+    float3 xformOp:rotateXYZ = (68.12606, 8.587498e-14, 119.197235)
     float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (0.649065618722533, 0.499835247020928, 0.8235016576128232)
+    double3 xformOp:translate = (2.1911733150582737, 1.0457325185626154, 1.8994093861914365)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 
