@@ -388,8 +388,11 @@ def "Galaxea_A1X" (
 
         }
         "galaxea_g1" (
-            delete payload = @payloads/Gripper/base.usd@
-            prepend payload = @payloads/Gripper/left.usd@
+            delete payload = [
+                @payloads/Gripper/base.usd@,
+                @payloads/Gripper/left.usd@
+            ]
+            prepend payload = @payloads/Gripper/g1_left.usd@
         ) {
             prepend rel isaac:physics:robotJoints = </Galaxea_A1X/G1_Left>
             prepend rel isaac:physics:robotLinks = </Galaxea_A1X/G1_Left>
@@ -446,7 +449,7 @@ def "Render" (
                 bool omni:rtx:scene:hydra:mdlMaterialWarmup = 1
                 rel orderedVars = </Render/Vars/LdrColor>
                 custom bool overrideClipRange = 0
-                uniform int2 resolution = (1239, 586)
+                uniform int2 resolution = (825, 630)
             }
         }
     }

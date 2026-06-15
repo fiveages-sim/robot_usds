@@ -7,8 +7,8 @@
                 double radius = 5
             }
             dictionary Perspective = {
-                double3 position = (0.7184182215687435, 0.7768124271133207, 0.87698275499229)
-                double3 target = (-0.07231958526104043, -0.013925379716462905, 0.08624496703601814)
+                double3 position = (0.6938119551839641, 0.8402123080021704, 0.6183225031375515)
+                double3 target = (-0.024915144545768375, -0.14349971606239165, 0.14372351429316854)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -185,6 +185,7 @@ def "Render" (
                 token omni:rtx:rendermode = "RealTimePathTracing"
                 color3f omni:rtx:rt:ambientLight:color = (0.1, 0.1, 0.1)
                 bool omni:rtx:rt:demoire = 0
+                bool omni:rtx:rt:ecoMode:enabled
                 bool omni:rtx:rt:lightcache:spatialCache:dontResolveConflicts = 1
                 int omni:rtx:rt:sss:samples = 1
                 uint omni:rtx:rtpt:maxVolumeBounces = 15
@@ -193,7 +194,7 @@ def "Render" (
                 bool omni:rtx:scene:hydra:mdlMaterialWarmup = 1
                 rel orderedVars = </Render/Vars/LdrColor>
                 custom bool overrideClipRange = 0
-                uniform int2 resolution = (1239, 586)
+                uniform int2 resolution = (1920, 1080)
             }
         }
     }
@@ -240,10 +241,10 @@ over "OmniverseKit_Persp" (
     float exposure:time = 0.02
     float focalLength = 18.147562
     float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -1.3695980459981427)
-    float3 xformOp:rotateXYZ = (54.73561, -6.3611094e-15, 135)
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -1.3074793269444915)
+    float3 xformOp:rotateXYZ = (68.7162, -1.2722219e-14, 143.8471)
     float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (0.7184182215687435, 0.7768124271133207, 0.87698275499229)
+    double3 xformOp:translate = (0.6938119551839641, 0.8402123080021704, 0.6183225031375515)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 
@@ -320,5 +321,11 @@ over "OmniverseKit_Top" (
     float3 xformOp:scale = (1, 1, 1)
     double3 xformOp:translate = (0, 0, 5)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+
+def PhysicsScene "PhysicsScene" (
+    prepend apiSchemas = ["NewtonSceneAPI", "MjcSceneAPI"]
+)
+{
 }
 
