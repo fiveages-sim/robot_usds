@@ -7,8 +7,8 @@
                 double radius = 5
             }
             dictionary Perspective = {
-                double3 position = (0.2366030315762894, -0.041815643366394574, 0.24152996332356164)
-                double3 target = (-0.09839323563687477, -0.03055574153848814, -0.04974593244779624)
+                double3 position = (0.7184182215687435, 0.7768124271133207, 0.87698275499229)
+                double3 target = (-0.07231958526104043, -0.013925379716462905, 0.08624496703601814)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -21,177 +21,127 @@
             string boundCamera = "/OmniverseKit_Persp"
         }
         dictionary omni_layer = {
-            string authoring_layer = "./instances.usda"
+            string authoring_layer = "./Galaxea_A1X.usda"
         }
         dictionary renderSettings = {
         }
     }
-    doc = """Generated from Composed Stage of root layer /home/fiveages/Documents/FaSim-Isaac/robots/manipulators/Galaxea/Galaxea_G1/Galaxea_G1.usd
+    defaultPrim = "Galaxea_A1X"
+    doc = """Generated from Composed Stage of root layer /home/fiveages/Documents/FaSim-Isaac/robots/manipulators/Galaxea/Galaxea_A1X/Galaxea_A1X.usd
 
 
-Generated from Composed Stage of root layer /home/fiveages/Documents/FaSim-Isaac/robots/manipulators/Galaxea/Galaxea_G1/payloads/base.usd
+Generated from Composed Stage of root layer /home/fiveages/Documents/FaSim-Isaac/robots/manipulators/Galaxea/Galaxea_A1X/payloads/base.usd
 """
     metersPerUnit = 1
     upAxis = "Z"
 )
 
-def Scope "Instances"
+def Xform "Galaxea_A1X" (
+    prepend references = @./payloads/base.usda@
+    variants = {
+        string Physics = "physx"
+        string ROS = "enable"
+        string Robot = "none"
+        string Sensor = "none"
+        string Side = "default"
+    }
+    prepend variantSets = ["Side", "ROS"]
+    append variantSets = ["Physics", "Robot", "Sensor"]
+)
 {
-    def Xform "mesh" (
-        prepend references = @./geometries.usd@</Geometries/mesh>
-    )
-    {
-        over "mesh" (
-            apiSchemas = ["MaterialBindingAPI"]
-        )
-        {
-            custom rel material:binding
-            prepend rel material:binding = </Instances/mesh/VisualMaterials/motor>
-        }
+    variantSet "Physics" = {
+        "none" (
+            prepend payload = @./payloads/Physics/none.usda@
+        ) {
 
-        def Scope "VisualMaterials"
-        {
-            def Material "motor" (
-                instanceable = true
-                prepend references = @./materials.usda@</Materials/motor>
-            )
-            {
-            }
+        }
+        "physics" (
+            prepend payload = @./payloads/Physics/physics.usda@
+        ) {
+
+        }
+        "physx" (
+            prepend payload = @./payloads/Physics/physx.usda@
+        ) {
+
         }
     }
+    variantSet "Robot" = {
+        "none" (
+            prepend payload = @./payloads/Robot/none.usda@
+        ) {
 
-    def Xform "mesh_1" (
-        prepend references = @./geometries.usd@</Geometries/mesh>
-    )
-    {
-        token visibility = "inherited"
-
-        over "mesh" (
-            apiSchemas = ["PhysicsCollisionAPI", "PhysicsMeshCollisionAPI", "MaterialBindingAPI"]
-        )
-        {
-            custom rel material:binding
-            prepend rel material:binding = </Instances/mesh_1/VisualMaterials/motor>
-            token physics:approximation = "convexHull"
-            uniform token purpose = "guide"
         }
+        "robot" (
+            prepend payload = @./payloads/Robot/robot.usda@
+        ) {
 
-        def Scope "VisualMaterials"
-        {
-            def Material "motor" (
-                instanceable = true
-                prepend references = @./materials.usda@</Materials/motor>
-            )
-            {
-            }
         }
     }
+    variantSet "Sensor" = {
+        "none" (
+            prepend payload = @./payloads/Sensor/none.usda@
+        ) {
 
-    def Xform "mesh_1_1" (
-        prepend references = @./geometries.usd@</Geometries/mesh_1>
-    )
-    {
-        over "mesh_1"
-        {
-            over "gripper_metal" (
-                apiSchemas = ["MaterialBindingAPI"]
-            )
-            {
-                custom rel material:binding
-                prepend rel material:binding = </Instances/mesh_1_1/VisualMaterials/gripper_metal>
-            }
-
-            over "grey" (
-                apiSchemas = ["MaterialBindingAPI"]
-            )
-            {
-                custom rel material:binding
-                prepend rel material:binding = </Instances/mesh_1_1/VisualMaterials/grey>
-            }
-
-            over "gripper_metal0" (
-                apiSchemas = ["MaterialBindingAPI"]
-            )
-            {
-                custom rel material:binding
-                prepend rel material:binding = </Instances/mesh_1_1/VisualMaterials/gripper_metal>
-            }
         }
+        "sensors" (
+            prepend payload = @./payloads/Sensor/sensors.usda@
+        ) {
 
-        def Scope "VisualMaterials"
-        {
-            def Material "gripper_metal" (
-                instanceable = true
-                prepend references = @./materials.usda@</Materials/gripper_metal>
-            )
-            {
-            }
-
-            def Material "grey" (
-                instanceable = true
-                prepend references = @./materials.usda@</Materials/grey>
-            )
-            {
-            }
         }
     }
-
-    def Xform "mesh_1_2" (
-        prepend references = @./geometries.usd@</Geometries/mesh_1>
-    )
-    {
-        token visibility = "inherited"
-
-        over "mesh_1" (
-            apiSchemas = ["PhysicsCollisionAPI", "PhysicsMeshCollisionAPI", "PhysxConvexDecompositionCollisionAPI"]
-        )
-        {
-            token physics:approximation = "convexDecomposition"
-            uniform token purpose = "guide"
-            token visibility = "inherited"
-
-            over "gripper_metal" (
-                apiSchemas = ["MaterialBindingAPI"]
-            )
-            {
-                custom rel material:binding
-                prepend rel material:binding = </Instances/mesh_1_2/VisualMaterials/gripper_metal>
+    variantSet "Side" = {
+        "default" (
+            customData = {
+                string[] variantPrimPaths = ["."]
             }
+            delete payload = @/home/fiveages/Documents/FaSim-Isaac/robots/manipulators/Galaxea/Galaxea_A1X/payloads/Side/default.usda@
+            prepend payload = @./payloads/Side/default.usda@
+        ) {
 
-            over "grey" (
-                apiSchemas = ["MaterialBindingAPI"]
-            )
-            {
-                custom rel material:binding
-                prepend rel material:binding = </Instances/mesh_1_2/VisualMaterials/grey>
-            }
-
-            over "gripper_metal0" (
-                apiSchemas = ["MaterialBindingAPI"]
-            )
-            {
-                custom rel material:binding
-                prepend rel material:binding = </Instances/mesh_1_2/VisualMaterials/gripper_metal>
-            }
         }
-
-        def Scope "VisualMaterials"
-        {
-            token visibility = "inherited"
-
-            def Material "gripper_metal" (
-                instanceable = true
-                prepend references = @./materials.usda@</Materials/gripper_metal>
-            )
-            {
+        "left" (
+            customData = {
+                string[] variantPrimPaths = ["."]
             }
+            delete payload = [
+                @/home/fiveages/Documents/FaSim-Isaac/robots/manipulators/Galaxea/Galaxea_A1X/payloads/Side/default.usda@,
+                @./payloads/Side/default.usda@
+            ]
+            prepend payload = @./payloads/Side/left.usda@
+        ) {
 
-            def Material "grey" (
-                instanceable = true
-                prepend references = @./materials.usda@</Materials/grey>
-            )
-            {
+        }
+        "right" (
+            customData = {
+                string[] variantPrimPaths = ["."]
             }
+            delete payload = [
+                @/home/fiveages/Documents/FaSim-Isaac/robots/manipulators/Galaxea/Galaxea_A1X/payloads/Side/default.usda@,
+                @./payloads/Side/default.usda@,
+                @./payloads/Side/left.usda@
+            ]
+            prepend payload = @./payloads/Side/right.usda@
+        ) {
+
+        }
+    }
+    variantSet "ROS" = {
+        "enable" (
+            customData = {
+                string[] variantPrimPaths = ["."]
+            }
+            prepend payload = @/home/fiveages/Documents/FaSim-Isaac/robots/manipulators/Galaxea/Galaxea_A1X/payloads/ROS/ros2.usda@
+        ) {
+
+        }
+        "none" (
+            customData = {
+                string[] variantPrimPaths = ["."]
+            }
+            prepend payload = @/home/fiveages/Documents/FaSim-Isaac/robots/manipulators/Galaxea/Galaxea_A1X/payloads/ROS/none.usda@
+        ) {
+
         }
     }
 }
@@ -270,7 +220,7 @@ def "Render" (
 }
 
 over "OmniverseKit_Persp" (
-    prepend apiSchemas = ["OmniRtxCameraAutoExposureAPI_1", "OmniRtxCameraExposureAPI_1"]
+    apiSchemas = ["OmniRtxCameraAutoExposureAPI_1", "OmniRtxCameraExposureAPI_1"]
     customData = {
         dictionary omni = {
             dictionary kit = {
@@ -290,10 +240,10 @@ over "OmniverseKit_Persp" (
     float exposure:time = 0.02
     float focalLength = 18.147562
     float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (-2.0644553264810245e-17, 2.0644553264810245e-17, -0.4440618559315072)
-    float3 xformOp:rotateXYZ = (49.009384, -2.5444438e-14, 88.0749)
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -1.3695980459981427)
+    float3 xformOp:rotateXYZ = (54.73561, -6.3611094e-15, 135)
     float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (0.2366030315762894, -0.041815643366394574, 0.24152996332356164)
+    double3 xformOp:translate = (0.7184182215687435, 0.7768124271133207, 0.87698275499229)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 

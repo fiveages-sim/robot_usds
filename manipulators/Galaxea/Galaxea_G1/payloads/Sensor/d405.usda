@@ -7,8 +7,8 @@
                 double radius = 5
             }
             dictionary Perspective = {
-                double3 position = (0.2366030315762894, -0.041815643366394574, 0.24152996332356164)
-                double3 target = (-0.09839323563687477, -0.03055574153848814, -0.04974593244779624)
+                double3 position = (0.0978425823839112, 0.20745643887684387, 0.11223865090032464)
+                double3 target = (-0.42131985623295076, -0.42279504687434255, -0.14269115112476488)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -20,178 +20,72 @@
             }
             string boundCamera = "/OmniverseKit_Persp"
         }
+        dictionary metricsAssembler = {
+            dictionary "/Galaxea_G1/gripper_base/camera_stand_405" = {
+            }
+            dictionary "/Galaxea_G1/gripper_base/camera_stand_435" = {
+            }
+            dictionary "/Galaxea_G1/gripper_base/camera_stand_435/d435" = {
+            }
+            int version = 1
+        }
         dictionary omni_layer = {
-            string authoring_layer = "./instances.usda"
+            string authoring_layer = "./d405.usda"
+            dictionary locked = {
+            }
+            dictionary muteness = {
+            }
         }
         dictionary renderSettings = {
         }
     }
-    doc = """Generated from Composed Stage of root layer /home/fiveages/Documents/FaSim-Isaac/robots/manipulators/Galaxea/Galaxea_G1/Galaxea_G1.usd
-
-
-Generated from Composed Stage of root layer /home/fiveages/Documents/FaSim-Isaac/robots/manipulators/Galaxea/Galaxea_G1/payloads/base.usd
-"""
+    defaultPrim = "Galaxea_G1"
+    endTimeCode = 0
     metersPerUnit = 1
+    startTimeCode = -1
     upAxis = "Z"
 )
 
-def Scope "Instances"
+def Xform "Galaxea_G1"
 {
-    def Xform "mesh" (
-        prepend references = @./geometries.usd@</Geometries/mesh>
-    )
+    over "gripper_base"
     {
-        over "mesh" (
-            apiSchemas = ["MaterialBindingAPI"]
+        string isaac:nameOverride (
+            displayName = "Name Override"
+        )
+
+        def "camera_stand_405" (
+            prepend payload = @./camera_stand_405.usd@
         )
         {
-            custom rel material:binding
-            prepend rel material:binding = </Instances/mesh/VisualMaterials/motor>
-        }
-
-        def Scope "VisualMaterials"
-        {
-            def Material "motor" (
-                instanceable = true
-                prepend references = @./materials.usda@</Materials/motor>
-            )
-            {
-            }
+            quatf xformOp:orient = (0.29883623, -0.6408564, 0.6408564, -0.29883623)
+            double xformOp:rotateX:unitsResolve = 90
+            float3 xformOp:scale = (1, 1, 1)
+            double3 xformOp:translate = (-0.019206, 0.009, 0.074757)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale", "xformOp:rotateX:unitsResolve"]
         }
     }
 
-    def Xform "mesh_1" (
-        prepend references = @./geometries.usd@</Geometries/mesh>
-    )
+    over "finger2"
     {
-        token visibility = "inherited"
-
-        over "mesh" (
-            apiSchemas = ["PhysicsCollisionAPI", "PhysicsMeshCollisionAPI", "MaterialBindingAPI"]
+        string isaac:nameOverride (
+            displayName = "Name Override"
         )
-        {
-            custom rel material:binding
-            prepend rel material:binding = </Instances/mesh_1/VisualMaterials/motor>
-            token physics:approximation = "convexHull"
-            uniform token purpose = "guide"
-        }
-
-        def Scope "VisualMaterials"
-        {
-            def Material "motor" (
-                instanceable = true
-                prepend references = @./materials.usda@</Materials/motor>
-            )
-            {
-            }
-        }
     }
 
-    def Xform "mesh_1_1" (
-        prepend references = @./geometries.usd@</Geometries/mesh_1>
-    )
+    over "joints"
     {
-        over "mesh_1"
+        over "gripper_joint2"
         {
-            over "gripper_metal" (
-                apiSchemas = ["MaterialBindingAPI"]
+            bool[] isaac:actuator (
+                displayName = "Actuator"
             )
-            {
-                custom rel material:binding
-                prepend rel material:binding = </Instances/mesh_1_1/VisualMaterials/gripper_metal>
-            }
-
-            over "grey" (
-                apiSchemas = ["MaterialBindingAPI"]
+            string isaac:NameOverride (
+                displayName = "Joint Name Override"
             )
-            {
-                custom rel material:binding
-                prepend rel material:binding = </Instances/mesh_1_1/VisualMaterials/grey>
-            }
-
-            over "gripper_metal0" (
-                apiSchemas = ["MaterialBindingAPI"]
+            token[] isaac:physics:DofOffsetOpOrder (
+                displayName = "Dof Offset Op Order"
             )
-            {
-                custom rel material:binding
-                prepend rel material:binding = </Instances/mesh_1_1/VisualMaterials/gripper_metal>
-            }
-        }
-
-        def Scope "VisualMaterials"
-        {
-            def Material "gripper_metal" (
-                instanceable = true
-                prepend references = @./materials.usda@</Materials/gripper_metal>
-            )
-            {
-            }
-
-            def Material "grey" (
-                instanceable = true
-                prepend references = @./materials.usda@</Materials/grey>
-            )
-            {
-            }
-        }
-    }
-
-    def Xform "mesh_1_2" (
-        prepend references = @./geometries.usd@</Geometries/mesh_1>
-    )
-    {
-        token visibility = "inherited"
-
-        over "mesh_1" (
-            apiSchemas = ["PhysicsCollisionAPI", "PhysicsMeshCollisionAPI", "PhysxConvexDecompositionCollisionAPI"]
-        )
-        {
-            token physics:approximation = "convexDecomposition"
-            uniform token purpose = "guide"
-            token visibility = "inherited"
-
-            over "gripper_metal" (
-                apiSchemas = ["MaterialBindingAPI"]
-            )
-            {
-                custom rel material:binding
-                prepend rel material:binding = </Instances/mesh_1_2/VisualMaterials/gripper_metal>
-            }
-
-            over "grey" (
-                apiSchemas = ["MaterialBindingAPI"]
-            )
-            {
-                custom rel material:binding
-                prepend rel material:binding = </Instances/mesh_1_2/VisualMaterials/grey>
-            }
-
-            over "gripper_metal0" (
-                apiSchemas = ["MaterialBindingAPI"]
-            )
-            {
-                custom rel material:binding
-                prepend rel material:binding = </Instances/mesh_1_2/VisualMaterials/gripper_metal>
-            }
-        }
-
-        def Scope "VisualMaterials"
-        {
-            token visibility = "inherited"
-
-            def Material "gripper_metal" (
-                instanceable = true
-                prepend references = @./materials.usda@</Materials/gripper_metal>
-            )
-            {
-            }
-
-            def Material "grey" (
-                instanceable = true
-                prepend references = @./materials.usda@</Materials/grey>
-            )
-            {
-            }
         }
     }
 }
@@ -290,10 +184,10 @@ over "OmniverseKit_Persp" (
     float exposure:time = 0.02
     float focalLength = 18.147562
     float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (-2.0644553264810245e-17, 2.0644553264810245e-17, -0.4440618559315072)
-    float3 xformOp:rotateXYZ = (49.009384, -2.5444438e-14, 88.0749)
+    custom uniform vector3d omni:kit:centerOfInterest = (-3.976849579725509e-17, 3.976849579725509e-17, -0.8554155580317301)
+    float3 xformOp:rotateXYZ = (72.66136, -1.7174996e-13, 140.5204)
     float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (0.2366030315762894, -0.041815643366394574, 0.24152996332356164)
+    double3 xformOp:translate = (0.0978425823839112, 0.20745643887684387, 0.11223865090032464)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 

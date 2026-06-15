@@ -7,8 +7,8 @@
                 double radius = 5
             }
             dictionary Perspective = {
-                double3 position = (0.13279455191964298, 0.10917041289715496, 0.31699358103515385)
-                double3 target = (-0.03457060757373165, -0.007913817416699165, -0.037284507850202264)
+                double3 position = (0.15564229139488964, 0.27382325072917596, 0.18166753785858186)
+                double3 target = (-0.06346008542839954, -0.10290855952061873, -0.006280027531355731)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -58,6 +58,9 @@ def Xform "Galaxea_G1" (
 
     over "finger1"
     {
+        string isaac:nameOverride (
+            displayName = "Name Override"
+        )
     }
 
     over "finger2"
@@ -172,6 +175,12 @@ def Xform "Galaxea_G1" (
         }
     }
     variantSet "Sensor" = {
+        "d405" (
+            delete payload = @./payloads/Sensor/sensors.usda@
+            prepend payload = @./payloads/Sensor/d405.usda@
+        ) {
+
+        }
         "d435" (
             delete payload = @./payloads/Sensor/sensors.usda@
             prepend payload = @./payloads/Sensor/d435.usda@
@@ -262,7 +271,7 @@ def "Render" (
                 bool omni:rtx:scene:hydra:mdlMaterialWarmup = 1
                 rel orderedVars = </Render/Vars/LdrColor>
                 custom bool overrideClipRange = 0
-                uniform int2 resolution = (2242, 690)
+                uniform int2 resolution = (1239, 586)
             }
         }
     }
@@ -309,10 +318,10 @@ over "OmniverseKit_Persp" (
     float exposure:time = 0.02
     float focalLength = 18.147562
     float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -0.4089410444852542)
-    float3 xformOp:rotateXYZ = (29.965023, -1.1131942e-14, 124.97562)
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -0.4746124689888654)
+    float3 xformOp:rotateXYZ = (66.67151, -7.315276e-14, 149.81827)
     float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (0.13279455191964298, 0.10917041289715496, 0.31699358103515385)
+    double3 xformOp:translate = (0.15564229139488964, 0.27382325072917596, 0.18166753785858186)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 
