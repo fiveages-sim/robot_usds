@@ -1,0 +1,100 @@
+#usda 1.0
+(
+    defaultPrim = "RG75"
+    doc = """Generated from Composed Stage of root layer /home/fiveages/Documents/FaSim-Isaac/robots/grippers/Jodell/RG75/RG75.usd
+
+
+Generated from Composed Stage of root layer /home/fiveages/Documents/FaSim-Isaac/robots/grippers/Jodell/RG75/payloads/base.usd
+"""
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+over "RG75"
+{
+    over "gripper_base" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (2.5446623e-8, -0.00007069806, 0.06869433)
+        float3 physics:diagonalInertia = (0.005113887, 0.0044492097, 0.003081717)
+        float physics:mass = 4.079849
+        quatf physics:principalAxes = (0.99999887, -0.0015124561, 9.775041e-7, 0.0000034228665)
+    }
+
+    over "left_finger" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (-0.006223149, -0.013860097, -0.00091846206)
+        float3 physics:diagonalInertia = (0.00003069441, 0.000015156396, 0.000022619794)
+        float physics:mass = 0.12353223
+        quatf physics:principalAxes = (0.986318, 0.091690615, -0.13227308, 0.035685524)
+    }
+
+    over "joints"
+    {
+        def PhysicsPrismaticJoint "gripper_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:linear", "PhysicsDriveAPI:linear"]
+        )
+        {
+            float drive:linear:physics:damping = 0
+            float drive:linear:physics:maxForce = 100
+            float drive:linear:physics:stiffness = 625
+            float drive:linear:physics:targetPosition = 0
+            uniform token drive:linear:physics:type = "acceleration"
+            uniform token physics:axis = "Y"
+            custom rel physics:body0
+            prepend rel physics:body0 = </RG75/gripper_base>
+            custom rel physics:body1
+            prepend rel physics:body1 = </RG75/left_finger>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.0029318354
+            point3f physics:localPos0 = (0.01475, 0.005263, 0.13525)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = 0
+            float physics:upperLimit = 0.038372
+        }
+
+        def PhysicsPrismaticJoint "right_finger_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:linear"]
+        )
+        {
+            uniform token physics:axis = "Y"
+            custom rel physics:body0
+            prepend rel physics:body0 = </RG75/gripper_base>
+            custom rel physics:body1
+            prepend rel physics:body1 = </RG75/right_finger>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.0029438608
+            point3f physics:localPos0 = (-0.01475, -0.005263, 0.13525)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0, 1, 0, 0)
+            quatf physics:localRot1 = (0, 1, 0, 0)
+            float physics:lowerLimit = -0.0076743998
+            float physics:upperLimit = 0.0460464
+        }
+    }
+
+    over "right_finger" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.00622319, -0.0041399635, -0.00066836964)
+        float3 physics:diagonalInertia = (0.000030694508, 0.000015156513, 0.000022619843)
+        float physics:mass = 0.12353278
+        quatf physics:principalAxes = (0.98631805, -0.091691874, 0.13227184, 0.03568603)
+    }
+
+    def PhysicsFixedJoint "root_joint" (
+        prepend apiSchemas = ["PhysicsArticulationRootAPI"]
+    )
+    {
+        rel physics:body1 = </RG75/gripper_base>
+    }
+}
+

@@ -1,0 +1,516 @@
+#usda 1.0
+(
+    customLayerData = {
+        dictionary cameraSettings = {
+            dictionary Front = {
+                double3 position = (5, 0, 0)
+                double radius = 5
+            }
+            dictionary Perspective = {
+                double3 position = (0.6592922924373349, 0.6592922924373363, 0.7621312185163605)
+                double3 target = (-0.034279646998990665, -0.034279646998989, 0.06855929563436969)
+            }
+            dictionary Right = {
+                double3 position = (0, -5, 0)
+                double radius = 5
+            }
+            dictionary Top = {
+                double3 position = (0, 0, 5)
+                double radius = 5
+            }
+            string boundCamera = "/OmniverseKit_Persp"
+        }
+        dictionary omni_layer = {
+            string authoring_layer = "./physics.usda"
+        }
+        dictionary renderSettings = {
+        }
+    }
+    defaultPrim = "AG2F90"
+    doc = """Generated from Composed Stage of root layer /home/fiveages/Documents/FaSim-Isaac/robots/grippers/ChangingTek/AG2F90/AG2F90.usd
+
+
+Generated from Composed Stage of root layer /home/fiveages/Documents/FaSim-Isaac/robots/grippers/ChangingTek/AG2F90/payloads/base.usd
+"""
+    endTimeCode = 0
+    metersPerUnit = 1
+    startTimeCode = -1
+    upAxis = "Z"
+)
+
+over "AG2F90"
+{
+    over "gripper_base" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.000034520737, -0.00014144371, 0.041552696)
+        float3 physics:diagonalInertia = (0.0004043881, 0.00029649498, 0.00021244756)
+        float physics:mass = 0.310448
+        quatf physics:principalAxes = (0.99999946, -0.0010667434, -0.00015233037, -0.0003182748)
+    }
+
+    over "left_1_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (-1.2808813e-18, 0.025273465, -0.002140406)
+        float3 physics:diagonalInertia = (0.0000033597648, 1.428721e-7, 0.0000032762548)
+        float physics:mass = 0.012901436
+        quatf physics:principalAxes = (0.99910784, -0.042231567, 0, 0)
+    }
+
+    over "joints"
+    {
+        def PhysicsRevoluteJoint "gripper_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = 0.00016370906
+            float drive:angular:physics:maxForce = 50
+            float drive:angular:physics:stiffness = 0.40927264
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            bool[] isaac:actuator (
+                displayName = "Actuator"
+            )
+            string isaac:NameOverride (
+                displayName = "Joint Name Override"
+            )
+            token[] isaac:physics:DofOffsetOpOrder (
+                displayName = "Dof Offset Op Order"
+            )
+            uniform token physics:axis = "X"
+            custom rel physics:body0
+            prepend rel physics:body0 = </AG2F90/gripper_base>
+            custom rel physics:body1
+            prepend rel physics:body1 = </AG2F90/left_1_link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.00065483624
+            point3f physics:localPos0 = (0, -0.030141, 0.090147)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0.70710677, 0.70710677, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = 0
+            float physics:upperLimit = 57.295776
+        }
+
+        def PhysicsRevoluteJoint "left_in_Joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            bool[] isaac:actuator (
+                displayName = "Actuator"
+            )
+            string isaac:NameOverride (
+                displayName = "Joint Name Override"
+            )
+            token[] isaac:physics:DofOffsetOpOrder (
+                displayName = "Dof Offset Op Order"
+            )
+            uniform token physics:axis = "X"
+            custom rel physics:body0
+            prepend rel physics:body0 = </AG2F90/left_1_link>
+            custom rel physics:body1
+            prepend rel physics:body1 = </AG2F90/left_in_link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.0000056853196
+            point3f physics:localPos0 = (0, 0.023914, -0.0020253)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0, 0, 0, 1)
+            quatf physics:localRot1 = (0, 0, 0, 1)
+            float physics:lowerLimit = -1.1459155
+            float physics:upperLimit = 6.875493
+            float physxMimicJoint:rotX:dampingRatio = 0
+            float physxMimicJoint:rotX:naturalFrequency = 0
+        }
+
+        def PhysicsRevoluteJoint "left_up_Joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform token physics:axis = "X"
+            custom rel physics:body0
+            prepend rel physics:body0 = </AG2F90/left_1_link>
+            custom rel physics:body1
+            prepend rel physics:body1 = </AG2F90/left_up_link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.00009516696
+            point3f physics:localPos0 = (0, 0.054804, -0.0046413)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0, 0, 0, 1)
+            quatf physics:localRot1 = (0, 0, 0, 1)
+            float physics:lowerLimit = -11.459155
+            float physics:upperLimit = 68.75493
+            float physxMimicJoint:rotX:dampingRatio = 0
+            float physxMimicJoint:rotX:naturalFrequency = 0
+        }
+
+        def PhysicsRevoluteJoint "left_2_Joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform token physics:axis = "X"
+            custom rel physics:body0
+            prepend rel physics:body0 = </AG2F90/gripper_base>
+            custom rel physics:body1
+            prepend rel physics:body1 = </AG2F90/left_2_link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.00043467747
+            point3f physics:localPos0 = (0, -0.016, 0.107)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0.70710677, 0.70710677, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -11.459155
+            float physics:upperLimit = 68.75493
+            float physxMimicJoint:rotX:dampingRatio = 0
+            float physxMimicJoint:rotX:naturalFrequency = 0
+        }
+
+        def PhysicsRevoluteJoint "right_1_Joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform token physics:axis = "X"
+            custom rel physics:body0
+            prepend rel physics:body0 = </AG2F90/gripper_base>
+            custom rel physics:body1
+            prepend rel physics:body1 = </AG2F90/right_1_link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.0006556117
+            point3f physics:localPos0 = (0, 0.030141, 0.090147)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (-3.090862e-8, -3.090862e-8, 0.70710677, 0.70710677)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -11.459155
+            float physics:upperLimit = 68.75493
+            float physxMimicJoint:rotX:dampingRatio = 0
+            float physxMimicJoint:rotX:naturalFrequency = 0
+        }
+
+        def PhysicsRevoluteJoint "right_in_Joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform token physics:axis = "X"
+            custom rel physics:body0
+            prepend rel physics:body0 = </AG2F90/right_1_link>
+            custom rel physics:body1
+            prepend rel physics:body1 = </AG2F90/right_in_link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.000005692336
+            point3f physics:localPos0 = (0, 0.023914, -0.0020253)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0, 0, 0, 1)
+            quatf physics:localRot1 = (0, 0, 0, 1)
+            float physics:lowerLimit = -1.1459155
+            float physics:upperLimit = 6.875493
+            float physxMimicJoint:rotX:dampingRatio = 0
+            float physxMimicJoint:rotX:naturalFrequency = 0
+        }
+
+        def PhysicsRevoluteJoint "right_up_Joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform token physics:axis = "X"
+            custom rel physics:body0
+            prepend rel physics:body0 = </AG2F90/right_1_link>
+            custom rel physics:body1
+            prepend rel physics:body1 = </AG2F90/right_up_link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.000097999
+            point3f physics:localPos0 = (0, 0.054804, -0.0046413)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0, 0, 0, 1)
+            quatf physics:localRot1 = (0, 0, 0, 1)
+            float physics:lowerLimit = -11.459155
+            float physics:upperLimit = 68.75493
+            float physxMimicJoint:rotX:dampingRatio = 0
+            float physxMimicJoint:rotX:naturalFrequency = 0
+        }
+
+        def PhysicsRevoluteJoint "right_2_Joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform token physics:axis = "X"
+            custom rel physics:body0
+            prepend rel physics:body0 = </AG2F90/gripper_base>
+            custom rel physics:body1
+            prepend rel physics:body1 = </AG2F90/right_2_link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.0004350146
+            point3f physics:localPos0 = (0, 0.016, 0.107)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (-3.090862e-8, -3.090862e-8, 0.70710677, 0.70710677)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -11.459155
+            float physics:upperLimit = 68.75493
+            float physxMimicJoint:rotX:dampingRatio = 0
+            float physxMimicJoint:rotX:naturalFrequency = 0
+        }
+    }
+
+    over "left_in_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (-1.7568228e-11, -0.010882014, -0.004053623)
+        float3 physics:diagonalInertia = (0.0000014330739, 2.3084083e-7, 0.0000014954735)
+        float physics:mass = 0.01345573
+        quatf physics:principalAxes = (0.9837298, 0.1796544, 0, 0)
+    }
+
+    over "left_up_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (8.698022e-11, 0.012407899, -0.007252562)
+        float3 physics:diagonalInertia = (0.0000023528303, 3.071601e-7, 0.0000023545497)
+        float physics:mass = 0.014692562
+        quatf physics:principalAxes = (0.98196507, -0.1890626, 0, 0)
+    }
+
+    over "left_2_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.000005082245, 0.032705072, -0.002769634)
+        float3 physics:diagonalInertia = (0.000003414509, 2.6440964e-7, 0.0000034135423)
+        float physics:mass = 0.018875265
+        quatf physics:principalAxes = (0.9991078, -0.04223299, 0, 0)
+    }
+
+    over "right_1_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (-5.2523327e-19, 0.025273465, -0.002140406)
+        float3 physics:diagonalInertia = (0.0000033597648, 1.428721e-7, 0.0000032762548)
+        float physics:mass = 0.012901436
+        quatf physics:principalAxes = (0.99910784, -0.042231567, 0, 0)
+    }
+
+    over "right_in_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (-1.7568263e-11, -0.010882014, -0.004053623)
+        float3 physics:diagonalInertia = (0.0000014330739, 2.3084083e-7, 0.0000014954735)
+        float physics:mass = 0.01345573
+        quatf physics:principalAxes = (0.9837298, 0.1796544, 0, 0)
+    }
+
+    over "right_up_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (8.698146e-11, 0.012407899, -0.007252562)
+        float3 physics:diagonalInertia = (0.0000023528303, 3.071601e-7, 0.0000023545497)
+        float physics:mass = 0.014692562
+        quatf physics:principalAxes = (0.98196507, -0.1890626, 0, 0)
+    }
+
+    over "right_2_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (1.946518e-17, 0.03271748, -0.002770531)
+        float3 physics:diagonalInertia = (0.0000034145878, 2.6445426e-7, 0.000003413577)
+        float physics:mass = 0.018885637
+        quatf physics:principalAxes = (0.9991077, -0.042234413, 0, 0)
+    }
+
+    def PhysicsFixedJoint "root_joint" (
+        prepend apiSchemas = ["PhysicsArticulationRootAPI"]
+    )
+    {
+        rel physics:body1 = </AG2F90/gripper_base>
+    }
+}
+
+def "Render" (
+    hide_in_stage_window = true
+    no_delete = true
+)
+{
+    def "OmniverseKit"
+    {
+        def "HydraTextures" (
+            hide_in_stage_window = true
+            no_delete = true
+        )
+        {
+            def RenderProduct "omni_kit_widget_viewport_ViewportTexture_0" (
+                prepend apiSchemas = ["OmniRtxSettingsCommonAdvancedAPI_1", "OmniRtxSettingsRtAdvancedAPI_1", "OmniRtxSettingsPtAdvancedAPI_1", "OmniRtxPostColorGradingAPI_1", "OmniRtxPostChromaticAberrationAPI_1", "OmniRtxPostBloomPhysicalAPI_1", "OmniRtxPostMatteObjectAPI_1", "OmniRtxPostCompositingAPI_1", "OmniRtxPostDofAPI_1", "OmniRtxPostMotionBlurAPI_1", "OmniRtxPostTvNoiseAPI_1", "OmniRtxPostTonemapIrayReinhardAPI_1", "OmniRtxPostDebugSettingsAPI_1", "OmniRtxDebugSettingsAPI_1"]
+                hide_in_stage_window = true
+                no_delete = true
+            )
+            {
+                rel camera = </OmniverseKit_Persp>
+                token omni:rtx:ambientOcclusion:denoiserMode = "none"
+                token omni:rtx:background:source:texture:textureMode = "repeatMirrored"
+                token omni:rtx:background:source:type = "domeLight"
+                bool omni:rtx:debug:view:pixelDebug:enableFixedTextPos = 1
+                token omni:rtx:directLighting:sampledLighting:denoisingTechnique = "None"
+                bool omni:rtx:dlss:frameGeneration = 0
+                float3 omni:rtx:domeLight:rotationAxis = (0, 0, 1)
+                bool omni:rtx:indirectDiffuse:denoiser:enabled = 0
+                bool omni:rtx:material:db:syncLoads = 1
+                token omni:rtx:post:dlss:execMode = "performance"
+                bool omni:rtx:post:registeredCompositing:invertColorCorrection = 1
+                bool omni:rtx:post:registeredCompositing:invertToneMap = 1
+                bool omni:rtx:pt:adaptiveSampling:filterError = 0
+                uint omni:rtx:pt:adaptiveSampling:fixedSppIterations = 2
+                uint omni:rtx:pt:maxSamplesPerLaunch = 2073600
+                uint omni:rtx:pt:mgpu:maxPixelsPerRegionExponent = 12
+                bool omni:rtx:reflections:denoiser:enabled = 0
+                token omni:rtx:rendermode = "RealTimePathTracing"
+                color3f omni:rtx:rt:ambientLight:color = (0.1, 0.1, 0.1)
+                bool omni:rtx:rt:demoire = 0
+                bool omni:rtx:rt:lightcache:spatialCache:dontResolveConflicts = 1
+                int omni:rtx:rt:sss:samples = 1
+                uint omni:rtx:rtpt:maxVolumeBounces = 15
+                float omni:rtx:rtpt:modulatingRoughnessThreshold = 0.08
+                bool omni:rtx:scene:hydra:materialSyncLoads = 1
+                bool omni:rtx:scene:hydra:mdlMaterialWarmup = 1
+                rel orderedVars = </Render/Vars/LdrColor>
+                custom bool overrideClipRange = 0
+                uniform int2 resolution = (1239, 654)
+            }
+        }
+    }
+
+    def RenderSettings "OmniverseGlobalRenderSettings" (
+        prepend apiSchemas = ["OmniRtxSettingsGlobalRtAdvancedAPI_1", "OmniRtxSettingsGlobalPtAdvancedAPI_1"]
+        no_delete = true
+    )
+    {
+        rel products = </Render/OmniverseKit/HydraTextures/omni_kit_widget_viewport_ViewportTexture_0>
+    }
+
+    def "Vars"
+    {
+        def RenderVar "LdrColor" (
+            hide_in_stage_window = true
+            no_delete = true
+        )
+        {
+            uniform string sourceName = "LdrColor"
+            uniform token sourceType = "raw"
+        }
+    }
+}
+
+over "OmniverseKit_Persp" (
+    prepend apiSchemas = ["OmniRtxCameraAutoExposureAPI_1", "OmniRtxCameraExposureAPI_1"]
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (0.01, 10000000)
+    float exposure:fStop = 5
+    float exposure:responsivity = 1.1026709
+    float exposure:time = 0.02
+    float focalLength = 18.147562
+    float focusDistance = 400
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -1.2013018282501504)
+    float3 xformOp:rotateXYZ = (54.73561, -3.1805547e-15, 135)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (0.6592922924373349, 0.6592922924373363, 0.7621312185163605)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+
+over "OmniverseKit_Front" (
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (1, 10000000)
+    float horizontalAperture = 50
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -5)
+    token projection = "orthographic"
+    float verticalAperture = 50
+    float3 xformOp:rotateXYZ = (90, -1.2722219e-14, 90)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (5, 0, 0)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+
+over "OmniverseKit_Right" (
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (1, 10000000)
+    float horizontalAperture = 50
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -5)
+    token projection = "orthographic"
+    float verticalAperture = 50
+    float3 xformOp:rotateXYZ = (90, -1.41245e-30, 1.2722219e-14)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (0, -5, 0)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+
+over "OmniverseKit_Top" (
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (1, 10000000)
+    float horizontalAperture = 50
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -5)
+    token projection = "orthographic"
+    float verticalAperture = 50
+    float3 xformOp:rotateXYZ = (-1.2722219e-14, -7.016709e-15, -90)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (0, 0, 5)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+

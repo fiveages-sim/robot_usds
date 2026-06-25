@@ -1,0 +1,266 @@
+#usda 1.0
+(
+    customLayerData = {
+        dictionary cameraSettings = {
+            dictionary Front = {
+                double3 position = (5, 0, 0)
+                double radius = 5
+            }
+            dictionary Perspective = {
+                double3 position = (0.25517031415222113, 0.25483760494888535, 0.3558521011701085)
+                double3 target = (-0.03344969436623002, -0.03378240356956569, 0.06723209954050618)
+            }
+            dictionary Right = {
+                double3 position = (0, -5, 0)
+                double radius = 5
+            }
+            dictionary Top = {
+                double3 position = (0, 0, 5)
+                double radius = 5
+            }
+            string boundCamera = "/OmniverseKit_Persp"
+        }
+        dictionary omni_layer = {
+            string authoring_layer = "./physx.usda"
+        }
+        dictionary renderSettings = {
+        }
+    }
+    defaultPrim = "AG2F90"
+    endTimeCode = 0
+    metersPerUnit = 1
+    startTimeCode = -1
+    subLayers = [
+        @./physics.usda@
+    ]
+    upAxis = "Z"
+)
+
+def "AG2F90"
+{
+    over "joints"
+    {
+        over "gripper_joint" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = 180
+        }
+
+        over "left_in_Joint" (
+            prepend apiSchemas = ["PhysxJointAPI", "PhysxMimicJointAPI:rotX"]
+        )
+        {
+            bool[] isaac:actuator (
+                displayName = "Actuator"
+            )
+            string isaac:NameOverride (
+                displayName = "Joint Name Override"
+            )
+            token[] isaac:physics:DofOffsetOpOrder (
+                displayName = "Dof Offset Op Order"
+            )
+            float physxMimicJoint:rotX:dampingRatio = 0
+            float physxMimicJoint:rotX:gearing = -0.1
+            float physxMimicJoint:rotX:naturalFrequency = 0
+            float physxMimicJoint:rotX:offset = 0
+            rel physxMimicJoint:rotX:referenceJoint = </AG2F90/joints/gripper_joint>
+        }
+
+        over "left_up_Joint" (
+            prepend apiSchemas = ["PhysxJointAPI", "PhysxMimicJointAPI:rotX"]
+        )
+        {
+            float physxMimicJoint:rotX:dampingRatio = 0
+            float physxMimicJoint:rotX:gearing = -1
+            float physxMimicJoint:rotX:naturalFrequency = 0
+            float physxMimicJoint:rotX:offset = 0
+            rel physxMimicJoint:rotX:referenceJoint = </AG2F90/joints/gripper_joint>
+        }
+
+        over "left_2_Joint" (
+            prepend apiSchemas = ["PhysxJointAPI", "PhysxMimicJointAPI:rotX"]
+        )
+        {
+            float physxMimicJoint:rotX:dampingRatio = 0
+            float physxMimicJoint:rotX:gearing = -1
+            float physxMimicJoint:rotX:naturalFrequency = 0
+            float physxMimicJoint:rotX:offset = 0
+            rel physxMimicJoint:rotX:referenceJoint = </AG2F90/joints/gripper_joint>
+        }
+
+        over "right_1_Joint" (
+            prepend apiSchemas = ["PhysxJointAPI", "PhysxMimicJointAPI:rotX"]
+        )
+        {
+            float physxMimicJoint:rotX:dampingRatio = 0
+            float physxMimicJoint:rotX:gearing = -1
+            float physxMimicJoint:rotX:naturalFrequency = 0
+            float physxMimicJoint:rotX:offset = 0
+            rel physxMimicJoint:rotX:referenceJoint = </AG2F90/joints/gripper_joint>
+        }
+
+        over "right_in_Joint" (
+            prepend apiSchemas = ["PhysxJointAPI", "PhysxMimicJointAPI:rotX"]
+        )
+        {
+            float physxMimicJoint:rotX:dampingRatio = 0
+            float physxMimicJoint:rotX:gearing = -0.1
+            float physxMimicJoint:rotX:naturalFrequency = 0
+            float physxMimicJoint:rotX:offset = 0
+            rel physxMimicJoint:rotX:referenceJoint = </AG2F90/joints/gripper_joint>
+        }
+
+        over "right_up_Joint" (
+            prepend apiSchemas = ["PhysxJointAPI", "PhysxMimicJointAPI:rotX"]
+        )
+        {
+            float physxMimicJoint:rotX:dampingRatio = 0
+            float physxMimicJoint:rotX:gearing = -1
+            float physxMimicJoint:rotX:naturalFrequency = 0
+            float physxMimicJoint:rotX:offset = 0
+            rel physxMimicJoint:rotX:referenceJoint = </AG2F90/joints/gripper_joint>
+        }
+
+        over "right_2_Joint" (
+            prepend apiSchemas = ["PhysxJointAPI", "PhysxMimicJointAPI:rotX"]
+        )
+        {
+            float physxMimicJoint:rotX:dampingRatio = 0
+            float physxMimicJoint:rotX:gearing = -1
+            float physxMimicJoint:rotX:naturalFrequency = 0
+            float physxMimicJoint:rotX:offset = 0
+            rel physxMimicJoint:rotX:referenceJoint = </AG2F90/joints/gripper_joint>
+        }
+    }
+
+    over "root_joint" (
+        prepend apiSchemas = ["PhysxArticulationAPI"]
+    )
+    {
+        bool physxArticulation:enabledSelfCollisions = 0
+        int physxArticulation:solverPositionIterationCount = 32
+        int physxArticulation:solverVelocityIterationCount = 1
+    }
+}
+
+over "Render"
+{
+    over "OmniverseKit"
+    {
+        over "HydraTextures"
+        {
+            over "omni_kit_widget_viewport_ViewportTexture_0"
+            {
+                rel camera = </OmniverseKit_Persp>
+                rel orderedVars = </Render/Vars/LdrColor>
+                custom bool overrideClipRange = 0
+                uniform int2 resolution = (1239, 654)
+            }
+        }
+    }
+}
+
+over "OmniverseKit_Persp" (
+    prepend apiSchemas = ["OmniRtxCameraAutoExposureAPI_1", "OmniRtxCameraExposureAPI_1"]
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (0.01, 10000000)
+    float exposure:fStop = 5
+    float exposure:responsivity = 1.1026709
+    float exposure:time = 0.02
+    float focalLength = 18.147562
+    float focusDistance = 400
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -0.4999045148576408)
+    float3 xformOp:rotateXYZ = (54.73561, -6.3611094e-15, 135)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (0.25517031415222113, 0.25483760494888535, 0.3558521011701085)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+
+over "OmniverseKit_Front" (
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (1, 10000000)
+    float horizontalAperture = 50
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -5)
+    token projection = "orthographic"
+    float verticalAperture = 50
+    float3 xformOp:rotateXYZ = (90, -1.2722219e-14, 90)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (5, 0, 0)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+
+over "OmniverseKit_Right" (
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (1, 10000000)
+    float horizontalAperture = 50
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -5)
+    token projection = "orthographic"
+    float verticalAperture = 50
+    float3 xformOp:rotateXYZ = (90, -1.41245e-30, 1.2722219e-14)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (0, -5, 0)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+
+over "OmniverseKit_Top" (
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (1, 10000000)
+    float horizontalAperture = 50
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -5)
+    token projection = "orthographic"
+    float verticalAperture = 50
+    float3 xformOp:rotateXYZ = (-1.2722219e-14, -7.016709e-15, -90)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (0, 0, 5)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+

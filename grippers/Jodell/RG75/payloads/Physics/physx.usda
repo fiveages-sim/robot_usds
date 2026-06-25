@@ -1,0 +1,43 @@
+#usda 1.0
+(
+    defaultPrim = "RG75"
+    metersPerUnit = 1
+    subLayers = [
+        @./physics.usda@
+    ]
+    upAxis = "Z"
+)
+
+def "RG75"
+{
+    over "joints"
+    {
+        over "gripper_joint" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = 1
+        }
+
+        over "right_finger_joint" (
+            prepend apiSchemas = ["PhysxJointAPI", "PhysxMimicJointAPI:rotY"]
+        )
+        {
+            float physxMimicJoint:rotY:dampingRatio = 0.005
+            float physxMimicJoint:rotY:gearing = -1
+            float physxMimicJoint:rotY:naturalFrequency = 25
+            float physxMimicJoint:rotY:offset = 0
+            rel physxMimicJoint:rotY:referenceJoint = </RG75/joints/gripper_joint>
+        }
+    }
+
+    over "root_joint" (
+        prepend apiSchemas = ["PhysxArticulationAPI"]
+    )
+    {
+        bool physxArticulation:enabledSelfCollisions = 0
+        int physxArticulation:solverPositionIterationCount = 32
+        int physxArticulation:solverVelocityIterationCount = 1
+    }
+}
+
