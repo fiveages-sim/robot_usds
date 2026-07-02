@@ -214,6 +214,23 @@ def Xform "CR5" (
             }
         }
     }
+
+    over "root_joint"
+    {
+        bool[] isaac:actuator (
+            displayName = "Actuator"
+        )
+        string isaac:NameOverride (
+            displayName = "Joint Name Override"
+        )
+        token[] isaac:physics:DofOffsetOpOrder (
+            displayName = "Dof Offset Op Order"
+        )
+        float physxArticulation:sleepThreshold = 0.00005
+        int physxArticulation:solverPositionIterationCount = 64
+        int physxArticulation:solverVelocityIterationCount = 4
+        float physxArticulation:stabilizationThreshold = 0.00001
+    }
     variantSet "Physics" = {
         "none" (
             prepend payload = @./payloads/Physics/none.usda@
@@ -332,7 +349,7 @@ def "Render" (
                 bool omni:rtx:scene:hydra:mdlMaterialWarmup = 1
                 rel orderedVars = </Render/Vars/LdrColor>
                 custom bool overrideClipRange = 0
-                uniform int2 resolution = (1239, 557)
+                uniform int2 resolution = (1920, 1080)
             }
         }
     }

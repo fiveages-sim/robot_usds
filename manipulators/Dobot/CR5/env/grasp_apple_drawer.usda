@@ -7,8 +7,8 @@
                 double radius = 5
             }
             dictionary Perspective = {
-                double3 position = (2.1294122766734933, 1.0140275941868386, 2.4962647110820546)
-                double3 target = (-13.532991537245792, -6.695275114069558, -7.217108496067897)
+                double3 position = (0.3487354615421165, 0.34445471643311015, 0.9259814128522911)
+                double3 target = (-18.06396188874092, -8.10572291817618, -4.233822310047666)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -52,7 +52,8 @@
 def Xform "World"
 {
     def "grasp_apple_drawer" (
-        prepend payload = @../../../../../environment/fiveages_env/tasks/table_optical/grasp_apple_drawer.usd@
+        delete payload = @../../../../../environment/fiveages_env/tasks/table_optical/grasp_apple_drawer.usd@
+        prepend payload = @../../../../../environment/fiveages_env/tasks/table_optical/drawer_apples.usda@
     )
     {
         over "StorageFurniture135"
@@ -86,7 +87,9 @@ def Xform "World"
             }
         }
 
-        over "apple"
+        over "apple" (
+            active = false
+        )
         {
             over "apple"
             {
@@ -134,30 +137,52 @@ def Xform "World"
             }
         }
 
-        def "apple_01" (
-            prepend payload = @../../../../../environment/fiveages_env/moveable/fruits/apple.usd@
+        over "apple_01"
+        {
+            over "Geometry"
+            {
+                over "model_normalized_0_vis_obj"
+                {
+                    over "model_normalized_0_vis_mesh" (
+                        instanceable = false
+                    )
+                    {
+                        over "model_normalized_0_vis_mesh" (
+                            prepend apiSchemas = ["PhysxTriangleMeshSimplificationCollisionAPI", "PhysxSphereFillCollisionAPI", "PhysxSDFMeshCollisionAPI", "MaterialBindingAPI", "PhysxConvexHullCollisionAPI"]
+                        )
+                        {
+                            custom rel material:binding:physics = </World/CR5/AG2F90/left_up_link/left_Pad_link/pad_link/Looks/PhysicsMaterial> (
+                                bindMaterialAs = "weakerThanDescendants"
+                            )
+                            uniform token physics:approximation = "meshSimplification"
+                            uniform int physxSDFMeshCollision:sdfResolution = 256
+                            float physxTriangleMeshSimplificationCollision:metric = 0.099999994
+                        }
+                    }
+                }
+            }
+        }
+
+        over "apple_02" (
+            active = false
         )
         {
-            quatf xformOp:orient = (1, 0, 0, 0)
-            float3 xformOp:scale = (1, 1, 1)
-            double3 xformOp:translate = (0.23270539490221548, 0.07783474867267369, 0.84)
-            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
-
-            over "apple"
+            over "Geometry"
             {
-                float3 xformOp:rotateXYZ = (0, 0, 0)
-                float3 xformOp:scale = (0.08, 0.08, 0.08)
-                double3 xformOp:translate = (-0.0829112145092965, 0.08527625367045256, 0)
-                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
-
-                over "apple"
+                over "model_normalized_0_vis_obj"
                 {
-                    vector3f physics:angularVelocity = (0.05169562, 0.039851848, -0.117435075)
-                    vector3f physics:velocity = (0.00008234293, -0.00007691083, -0.000023058095)
-                    quatf xformOp:orient = (0.9672414, -0.11594067, -0.2250022, -0.01938587)
-                    float3 xformOp:scale = (1, 1, 1)
-                    float3 xformOp:translate = (-0.10659032, -0.18231884, -0.08248645)
-                    token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                }
+            }
+        }
+
+        over "apple_03" (
+            active = false
+        )
+        {
+            over "Geometry"
+            {
+                over "model_normalized_0_vis_obj"
+                {
                 }
             }
         }
@@ -172,160 +197,19 @@ def Xform "World"
         double3 xformOp:translate = (-0.4, 0, 0.8)
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
-        over "base_link"
+        over "Graph"
         {
-        }
-
-        over "Link1"
-        {
-        }
-
-        over "Link2"
-        {
-        }
-
-        over "Link3"
-        {
-        }
-
-        over "Link4"
-        {
-        }
-
-        over "Link5"
-        {
-        }
-
-        over "Link6"
-        {
-        }
-
-        over "AG2F90"
-        {
-            over "gripper_base"
+            over "ROS_JointStates"
             {
-            }
-
-            over "left_1_link"
-            {
-            }
-
-            over "left_in_link"
-            {
-            }
-
-            over "left_up_link"
-            {
-            }
-
-            over "left_2_link"
-            {
-            }
-
-            over "right_1_link"
-            {
-            }
-
-            over "right_in_link"
-            {
-            }
-
-            over "right_up_link"
-            {
-            }
-
-            over "right_2_link"
-            {
-            }
-
-            over "joints"
-            {
-                over "gripper_joint"
+                over "PublisherJointState"
                 {
-                    float state:angular:physics:position = 0
-                    float state:angular:physics:velocity = 0
+                    custom rel inputs:targetPrim = </World/CR5/root_joint>
                 }
 
-                over "left_2_Joint"
+                over "ArticulationController"
                 {
-                    float state:angular:physics:position = 0
-                    float state:angular:physics:velocity = 0
+                    custom rel inputs:targetPrim = </World/CR5/root_joint>
                 }
-
-                over "right_1_Joint"
-                {
-                    float state:angular:physics:position = 0
-                    float state:angular:physics:velocity = 0
-                }
-
-                over "right_2_Joint"
-                {
-                    float state:angular:physics:position = 0
-                    float state:angular:physics:velocity = 0
-                }
-
-                over "left_in_Joint"
-                {
-                    float state:angular:physics:position = 0
-                    float state:angular:physics:velocity = 0
-                }
-
-                over "left_up_Joint"
-                {
-                    float state:angular:physics:position = 0
-                    float state:angular:physics:velocity = 0
-                }
-
-                over "right_in_Joint"
-                {
-                    float state:angular:physics:position = 0
-                    float state:angular:physics:velocity = 0
-                }
-
-                over "right_up_Joint"
-                {
-                    float state:angular:physics:position = 0
-                    float state:angular:physics:velocity = 0
-                }
-            }
-        }
-
-        over "joints"
-        {
-            over "joint1"
-            {
-                float state:angular:physics:position = 0
-                float state:angular:physics:velocity = 0
-            }
-
-            over "joint2"
-            {
-                float state:angular:physics:position = 0
-                float state:angular:physics:velocity = 0
-            }
-
-            over "joint3"
-            {
-                float state:angular:physics:position = 0
-                float state:angular:physics:velocity = 0
-            }
-
-            over "joint4"
-            {
-                float state:angular:physics:position = 0
-                float state:angular:physics:velocity = 0
-            }
-
-            over "joint5"
-            {
-                float state:angular:physics:position = 0
-                float state:angular:physics:velocity = 0
-            }
-
-            over "joint6"
-            {
-                float state:angular:physics:position = 0
-                float state:angular:physics:velocity = 0
             }
         }
     }
@@ -1187,6 +1071,7 @@ def "Render" (
                 rel camera = </World/grasp_apple_drawer/empty/global_camera>
                 custom string ogPostProcessPath = "/Render/OmniverseKit/HydraTextures/Replicator_35/PostRender"
                 bool omni:rtx:material:db:syncLoads = 1
+                token omni:rtx:rendermode = "RealTimePathTracing"
                 bool omni:rtx:rt:ecoMode:enabled
                 bool omni:rtx:scene:hydra:materialSyncLoads = 1
                 rel orderedVars = </Render/Vars/LdrColor>
@@ -1287,10 +1172,10 @@ over "OmniverseKit_Persp" (
     float exposure:time = 0.02
     float focalLength = 18.147562
     float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (-4.757437076344747e-17, 1.522379864430319e-15, -19.97733366941597)
-    float3 xformOp:rotateXYZ = (60.907585, -3.1805547e-15, 116.2072)
+    custom uniform vector3d omni:kit:centerOfInterest = (-4.978566601107165e-17, 1.5931413123542927e-15, -20.905896302919498)
+    float3 xformOp:rotateXYZ = (75.71112, 2.2263883e-13, 114.65191)
     float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (2.1294122766734933, 1.0140275941868386, 2.4962647110820546)
+    double3 xformOp:translate = (0.3487354615421165, 0.34445471643311015, 0.9259814128522911)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 
@@ -1373,12 +1258,25 @@ over "OmniverseKit_Top" (
 }
 
 def PhysicsScene "PhysicsScene" (
-    prepend apiSchemas = ["PhysxSceneAPI", "NewtonSceneAPI", "MjcSceneAPI"]
+    delete apiSchemas = ["PhysxSceneAPI", "MjcSceneAPI", "NewtonXpbdSceneAPI"]
+    prepend apiSchemas = ["NewtonSceneAPI", "MaterialBindingAPI", "MjcSceneAPI"]
 )
 {
-    uniform token physxScene:broadphaseType = "SAP"
+    rel material:binding:physics = </World/CR5/AG2F90/left_up_link/left_Pad_link/pad_link/Looks/PhysicsMaterial> (
+        bindMaterialAs = "weakerThanDescendants"
+    )
+    uniform bool mjc:compiler:alignFree = 1
+    uniform bool mjc:flag:equality = 1
+    uniform bool mjc:flag:spring = 1
+    uniform token mjc:option:cone = "elliptic"
+    uniform token mjc:option:integrator = "euler"
+    uniform double mjc:option:tolerance = 1e-8
+    uniform double mjc:option:viscosity = 0
+    uniform int newton:maxSolverIterations = 100
+    uniform int newton:timeStepsPerSecond = 500
+    uniform token physxScene:broadphaseType = "GPU"
     bool physxScene:enableCCD = 0
-    bool physxScene:enableGPUDynamics = 0
+    bool physxScene:enableGPUDynamics = 1
     uniform uint physxScene:maxPositionIterationCount = 255
     uniform uint physxScene:minPositionIterationCount = 1
     uniform uint physxScene:minVelocityIterationCount = 0

@@ -7,8 +7,8 @@
                 double radius = 5
             }
             dictionary Perspective = {
-                double3 position = (0.6592922924373349, 0.6592922924373363, 0.7621312185163605)
-                double3 target = (-0.034279646998990665, -0.034279646998989, 0.06855929563436969)
+                double3 position = (0.2607678792923044, 0.260767879292306, 0.36360681488340224)
+                double3 target = (-0.03427964699899061, -0.03427964699898889, 0.06855929563436958)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -44,6 +44,9 @@ over "AG2F90"
         prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
     )
     {
+        string isaac:nameOverride (
+            displayName = "Name Override"
+        )
         point3f physics:centerOfMass = (0.000034520737, -0.00014144371, 0.041552696)
         float3 physics:diagonalInertia = (0.0004043881, 0.00029649498, 0.00021244756)
         float physics:mass = 0.310448
@@ -66,9 +69,9 @@ over "AG2F90"
             prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
         )
         {
-            float drive:angular:physics:damping = 0.00016370906
-            float drive:angular:physics:maxForce = 50
-            float drive:angular:physics:stiffness = 0.40927264
+            float drive:angular:physics:damping = 0.2
+            float drive:angular:physics:maxForce = 5
+            float drive:angular:physics:stiffness = 1
             float drive:angular:physics:targetPosition = 0
             uniform token drive:angular:physics:type = "force"
             bool[] isaac:actuator (
@@ -264,6 +267,9 @@ over "AG2F90"
         prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
     )
     {
+        string isaac:nameOverride (
+            displayName = "Name Override"
+        )
         point3f physics:centerOfMass = (-1.7568228e-11, -0.010882014, -0.004053623)
         float3 physics:diagonalInertia = (0.0000014330739, 2.3084083e-7, 0.0000014954735)
         float physics:mass = 0.01345573
@@ -324,6 +330,9 @@ over "AG2F90"
         prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
     )
     {
+        string isaac:nameOverride (
+            displayName = "Name Override"
+        )
         point3f physics:centerOfMass = (1.946518e-17, 0.03271748, -0.002770531)
         float3 physics:diagonalInertia = (0.0000034145878, 2.6445426e-7, 0.000003413577)
         float physics:mass = 0.018885637
@@ -334,6 +343,15 @@ over "AG2F90"
         prepend apiSchemas = ["PhysicsArticulationRootAPI"]
     )
     {
+        bool[] isaac:actuator (
+            displayName = "Actuator"
+        )
+        string isaac:NameOverride (
+            displayName = "Joint Name Override"
+        )
+        token[] isaac:physics:DofOffsetOpOrder (
+            displayName = "Dof Offset Op Order"
+        )
         rel physics:body1 = </AG2F90/gripper_base>
     }
 }
@@ -385,7 +403,7 @@ def "Render" (
                 bool omni:rtx:scene:hydra:mdlMaterialWarmup = 1
                 rel orderedVars = </Render/Vars/LdrColor>
                 custom bool overrideClipRange = 0
-                uniform int2 resolution = (1239, 654)
+                uniform int2 resolution = (1920, 1080)
             }
         }
     }
@@ -432,10 +450,10 @@ over "OmniverseKit_Persp" (
     float exposure:time = 0.02
     float focalLength = 18.147562
     float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -1.2013018282501504)
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -0.511037302118185)
     float3 xformOp:rotateXYZ = (54.73561, -3.1805547e-15, 135)
     float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (0.6592922924373349, 0.6592922924373363, 0.7621312185163605)
+    double3 xformOp:translate = (0.2607678792923044, 0.260767879292306, 0.36360681488340224)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 

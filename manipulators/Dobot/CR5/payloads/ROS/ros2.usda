@@ -68,7 +68,9 @@ def "CR5"
                 custom uint64 outputs:context
             }
 
-            def OmniGraphNode "ReadSimTime"
+            def OmniGraphNode "ReadSimTime" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
             {
                 custom uint64 inputs:referenceTimeDenominator
                 custom int64 inputs:referenceTimeNumerator
@@ -78,43 +80,9 @@ def "CR5"
                 custom double outputs:simulationTime
             }
 
-            def OmniGraphNode "PublisherJointState"
-            {
-                custom uint64 inputs:context
-                prepend uint64 inputs:context.connect = </CR5/Graph/ROS_JointStates/Context.outputs:context>
-                custom uint inputs:execIn (
-                    customData = {
-                        bool isExecution = 1
-                    }
-                )
-                prepend uint inputs:execIn.connect = </CR5/Graph/ROS_JointStates/OnPlaybackTick.outputs:tick>
-                custom uchar[] inputs:jointDofTypes
-                custom double[] inputs:jointEfforts
-                custom token[] inputs:jointNames
-                custom double[] inputs:jointPositions
-                custom double[] inputs:jointVelocities
-                custom string inputs:nodeNamespace = "isaac"
-                custom string inputs:qosProfile
-                custom uint64 inputs:queueSize
-                custom float inputs:sensorTime
-                custom float inputs:stageMetersPerUnit
-                custom rel inputs:targetPrim = </CR5> (
-                    customData = {
-                        dictionary omni = {
-                            dictionary graph = {
-                                string relType = "target"
-                            }
-                        }
-                    }
-                )
-                custom double inputs:timeStamp
-                prepend double inputs:timeStamp.connect = </CR5/Graph/ROS_JointStates/ReadSimTime.outputs:simulationTime>
-                custom string inputs:topicName = "/joint_states"
-                token node:type = "isaacsim.ros2.bridge.ROS2PublishJointState"
-                int node:typeVersion = 1
-            }
-
-            def OmniGraphNode "SubscriberJointState"
+            def OmniGraphNode "SubscriberJointState" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
             {
                 custom uint64 inputs:context
                 prepend uint64 inputs:context.connect = </CR5/Graph/ROS_JointStates/Context.outputs:context>
@@ -142,7 +110,9 @@ def "CR5"
                 custom double[] outputs:velocityCommand
             }
 
-            def OmniGraphNode "ArticulationController"
+            def OmniGraphNode "ArticulationController" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
             {
                 custom double[] inputs:effortCommand
                 prepend double[] inputs:effortCommand.connect = </CR5/Graph/ROS_JointStates/SubscriberJointState.outputs:effortCommand>
@@ -194,7 +164,114 @@ def "CR5"
                 token node:type = "isaacsim.ros2.bridge.ROS2PublishClock"
                 int node:typeVersion = 1
                 uniform token ui:nodegraph:node:expansionState = "open"
-                uniform float2 ui:nodegraph:node:pos = (-514.91473, 526.2829)
+            }
+
+            def OmniGraphNode "isaac_read_joint_state_node" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </CR5/Graph/ROS_JointStates/OnPlaybackTick.outputs:tick>
+                custom rel inputs:prim = </CR5/root_joint> (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
+                token node:type = "isaacsim.sensors.physics.IsaacReadJointState"
+                int node:typeVersion = 1
+                custom uint outputs:execOut (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom uchar[] outputs:jointDofTypes
+                custom double[] outputs:jointEfforts
+                custom token[] outputs:jointNames
+                custom double[] outputs:jointPositions
+                custom double[] outputs:jointVelocities
+                custom float outputs:sensorTime
+                custom float outputs:stageMetersPerUnit
+                uniform token ui:nodegraph:node:expansionState = "open"
+            }
+
+            def OmniGraphNode "ros2_publish_joint_state" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom uint64 inputs:context
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </CR5/Graph/ROS_JointStates/isaac_read_joint_state_node.outputs:execOut>
+                custom uchar[] inputs:jointDofTypes
+                prepend uchar[] inputs:jointDofTypes.connect = </CR5/Graph/ROS_JointStates/isaac_read_joint_state_node.outputs:jointDofTypes>
+                custom double[] inputs:jointEfforts
+                prepend double[] inputs:jointEfforts.connect = </CR5/Graph/ROS_JointStates/isaac_read_joint_state_node.outputs:jointEfforts>
+                custom token[] inputs:jointNames
+                prepend token[] inputs:jointNames.connect = </CR5/Graph/ROS_JointStates/isaac_read_joint_state_node.outputs:jointNames>
+                custom double[] inputs:jointPositions
+                prepend double[] inputs:jointPositions.connect = </CR5/Graph/ROS_JointStates/isaac_read_joint_state_node.outputs:jointPositions>
+                custom double[] inputs:jointVelocities
+                prepend double[] inputs:jointVelocities.connect = </CR5/Graph/ROS_JointStates/isaac_read_joint_state_node.outputs:jointVelocities>
+                custom string inputs:nodeNamespace = "isaac"
+                custom string inputs:qosProfile
+                custom uint64 inputs:queueSize
+                custom float inputs:sensorTime
+                prepend float inputs:sensorTime.connect = </CR5/Graph/ROS_JointStates/isaac_read_joint_state_node.outputs:sensorTime>
+                custom float inputs:stageMetersPerUnit
+                prepend float inputs:stageMetersPerUnit.connect = </CR5/Graph/ROS_JointStates/isaac_read_joint_state_node.outputs:stageMetersPerUnit>
+                custom rel inputs:targetPrim (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
+                custom double inputs:timeStamp
+                custom string inputs:topicName
+                token node:type = "isaacsim.ros2.bridge.ROS2PublishJointState"
+                int node:typeVersion = 1
+                uniform token ui:nodegraph:node:expansionState = "open"
+            }
+
+            def OmniGraphNode "ros2_service_prim" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </CR5/Graph/ROS_JointStates/Context.outputs:context>
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </CR5/Graph/ROS_JointStates/OnPlaybackTick.outputs:tick>
+                custom string inputs:getAttributeServiceName
+                custom string inputs:getAttributesServiceName
+                custom string inputs:nodeNamespace
+                custom string inputs:primsServiceName
+                custom string inputs:qosProfile
+                custom string inputs:setAttributeServiceName
+                token node:type = "isaacsim.ros2.bridge.ROS2ServicePrim"
+                int node:typeVersion = 1
+                custom uint outputs:execOut (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                uniform token ui:nodegraph:node:expansionState = "open"
             }
         }
     }
@@ -239,6 +316,7 @@ def "Render" (
                 token omni:rtx:rendermode = "RealTimePathTracing"
                 color3f omni:rtx:rt:ambientLight:color = (0.1, 0.1, 0.1)
                 bool omni:rtx:rt:demoire = 0
+                bool omni:rtx:rt:ecoMode:enabled
                 bool omni:rtx:rt:lightcache:spatialCache:dontResolveConflicts = 1
                 int omni:rtx:rt:sss:samples = 1
                 uint omni:rtx:rtpt:maxVolumeBounces = 15
@@ -247,7 +325,7 @@ def "Render" (
                 bool omni:rtx:scene:hydra:mdlMaterialWarmup = 1
                 rel orderedVars = </Render/Vars/LdrColor>
                 custom bool overrideClipRange = 0
-                uniform int2 resolution = (1239, 273)
+                uniform int2 resolution = (1920, 1080)
             }
         }
     }
@@ -374,5 +452,11 @@ over "OmniverseKit_Top" (
     float3 xformOp:scale = (1, 1, 1)
     double3 xformOp:translate = (0, 0, 5)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+
+over "PhysicsScene" (
+    prepend apiSchemas = ["MjcSceneAPI"]
+)
+{
 }
 
