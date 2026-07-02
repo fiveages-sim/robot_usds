@@ -7,8 +7,8 @@
                 double radius = 5
             }
             dictionary Perspective = {
-                double3 position = (1.3205869889121868, -0.274227022778764, 1.360626804529623)
-                double3 target = (-4.06989620644436, 0.7512735567031348, 0.1967263254187419)
+                double3 position = (0.817076525743286, 0.720266300626281, 1.3405859547236727)
+                double3 target = (-2.0370348588106877, -1.2870246117594017, -0.2474420866262863)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -60,15 +60,6 @@ def Xform "World"
                     prepend apiSchemas = ["PhysxRigidBodyAPI"]
                 )
                 {
-                    over "model_normalized_0_vis_mesh"
-                    {
-                        over "model_normalized_0_vis_mesh" (
-                            prepend apiSchemas = ["PhysxSDFMeshCollisionAPI", "PhysxConvexHullCollisionAPI"]
-                        )
-                        {
-                            uniform token physics:approximation = "convexHull"
-                        }
-                    }
                 }
             }
         }
@@ -83,56 +74,22 @@ def Xform "World"
 
         over "shelf"
         {
-            quatf xformOp:orient = (0.70710677, 0.70710677, 0, 0)
-            float3 xformOp:scale = (1, 1, 1)
-            double3 xformOp:translate = (0.25, -0.3514014829647969, 0.9316625759687558)
-            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale", "xformOp:rotateX:unitsResolve"]
-
             over "shelf8" (
                 delete apiSchemas = ["PhysicsRigidBodyAPI", "PhysxRigidBodyAPI"]
             )
             {
-                over "mesh"
-                {
-                    quatf xformOp:orient = (1, 0, 0, 0)
-                    float3 xformOp:scale = (1, 1, 1)
-                    double3 xformOp:translate = (0, 0, -4.1300296516055823e-14)
-                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
-                }
             }
         }
     }
 
-    def "CR5" (
-        prepend payload = @../CR5.usda@
+    def "Galaxea_A1X" (
+        prepend payload = @../Galaxea_A1X.usda@
     )
     {
-        quatd xformOp:orient = (6.123233995736766e-17, 0, 0, 1)
+        quatd xformOp:orient = (1, 0, 0, 0)
         double3 xformOp:scale = (1, 1, 1)
-        double3 xformOp:translate = (-0.5, 0, 0.8)
+        double3 xformOp:translate = (-0.2179134634712684, 0, 0.8)
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
-
-        over "base_link" (
-            prepend apiSchemas = ["PhysxRigidBodyAPI"]
-        )
-        {
-        }
-
-        over "joints"
-        {
-            over "joint1"
-            {
-                bool[] isaac:actuator (
-                    displayName = "Actuator"
-                )
-                string isaac:NameOverride (
-                    displayName = "Joint Name Override"
-                )
-                token[] isaac:physics:DofOffsetOpOrder (
-                    displayName = "Dof Offset Op Order"
-                )
-            }
-        }
     }
 }
 
@@ -277,10 +234,10 @@ over "OmniverseKit_Persp" (
     float exposure:time = 0.02
     float focalLength = 18.147562
     float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -5.609244587572694)
-    float3 xformOp:rotateXYZ = (78.0243, 2.862499e-14, 79.22861)
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -3.8336668690042095)
+    float3 xformOp:rotateXYZ = (65.52903, -5.0888875e-14, 125.118645)
     float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (1.3205869889121868, -0.274227022778764, 1.360626804529623)
+    double3 xformOp:translate = (0.817076525743286, 0.720266300626281, 1.3405859547236727)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 
@@ -361,12 +318,9 @@ over "OmniverseKit_Top" (
 
 def PhysicsScene "PhysicsScene" (
     delete apiSchemas = ["MjcSceneAPI", "NewtonXpbdSceneAPI", "PhysxSceneAPI"]
-    prepend apiSchemas = ["NewtonSceneAPI", "PhysxSceneAPI", "MjcSceneAPI", "MaterialBindingAPI"]
+    prepend apiSchemas = ["NewtonSceneAPI", "MjcSceneAPI"]
 )
 {
-    rel material:binding:physics = </World/CR5/AG2F90/right_up_link/right_Pad_link/pad_link/Looks/PhysicsMaterial> (
-        bindMaterialAs = "weakerThanDescendants"
-    )
     uniform token mjc:option:cone = "elliptic"
     uniform token mjc:option:integrator = "implicit"
     uniform int newton:maxSolverIterations = 100
