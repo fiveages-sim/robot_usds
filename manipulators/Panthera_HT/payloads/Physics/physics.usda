@@ -1,0 +1,372 @@
+#usda 1.0
+(
+    customLayerData = {
+        dictionary cameraSettings = {
+            dictionary Front = {
+                double3 position = (5, 0, 0)
+                double radius = 5
+            }
+            dictionary Perspective = {
+                double3 position = (0.3274176994328161, 0.1736013205702011, 0.7700787443648259)
+                double3 target = (0.1200839679779189, 0.0010686569465702123, -0.04503041415236897)
+            }
+            dictionary Right = {
+                double3 position = (0, -5, 0)
+                double radius = 5
+            }
+            dictionary Top = {
+                double3 position = (0, 0, 5)
+                double radius = 5
+            }
+            string boundCamera = "/OmniverseKit_Persp"
+        }
+        dictionary omni_layer = {
+            string authoring_layer = "./Panthera_HT.usd"
+        }
+        dictionary renderSettings = {
+        }
+    }
+    defaultPrim = "Panthera_HT"
+    doc = """Generated from Composed Stage of root layer /home/fiveages/zgc/Panthera_HT/Panthera_HT.usd
+
+
+Generated from Composed Stage of root layer /home/fiveages/zgc/Panthera_HT/payloads/base.usd
+"""
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+over "Panthera_HT"
+{
+    over "base_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.00005789, -0.00015938, 0.02298649)
+        float3 physics:diagonalInertia = (0.0006129629, 0.0006388268, 0.0007565203)
+        float physics:mass = 0.62922454
+        quatf physics:principalAxes = (0.99965686, 0.0011078272, 0.005871869, 0.025503932)
+        rel physics:simulationOwner
+    }
+
+    over "link1" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.00278873, -0.00094387, 0.02491842)
+        float3 physics:diagonalInertia = (0.0004213581, 0.00021310103, 0.00034366085)
+        float physics:mass = 0.28101552
+        quatf physics:principalAxes = (0.94948137, -0.03008941, 0.31230465, 0.0067616967)
+        rel physics:simulationOwner
+    }
+
+    over "joints"
+    {
+        def PhysicsRevoluteJoint "joint1" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = 600
+            float drive:angular:physics:maxForce = 21
+            float drive:angular:physics:stiffness = 6000
+            float drive:angular:physics:targetPosition = 10.2
+            uniform token drive:angular:physics:type = "acceleration"
+            uniform token physics:axis = "Z"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Panthera_HT/base_link>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Panthera_HT/link1>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.0021153463
+            point3f physics:localPos0 = (0, 0, 0.0584)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -137.50987
+            float physics:upperLimit = 137.50987
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        def PhysicsRevoluteJoint "joint2" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = 600
+            float drive:angular:physics:maxForce = 36
+            float drive:angular:physics:stiffness = 6000
+            float drive:angular:physics:targetPosition = 48.4
+            uniform token drive:angular:physics:type = "acceleration"
+            uniform token physics:axis = "Y"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Panthera_HT/link1>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Panthera_HT/link2>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.008452431
+            point3f physics:localPos0 = (0.018199, 0, 0.053)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = 0
+            float physics:upperLimit = 183.34648
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        def PhysicsRevoluteJoint "joint3" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = 600
+            float drive:angular:physics:maxForce = 36
+            float drive:angular:physics:stiffness = 6000
+            float drive:angular:physics:targetPosition = 45.7
+            uniform token drive:angular:physics:type = "acceleration"
+            uniform token physics:axis = "Y"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Panthera_HT/link2>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Panthera_HT/link3>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.036101658
+            point3f physics:localPos0 = (-0.26, 0, 0)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0, 1, 0, 0)
+            quatf physics:localRot1 = (0, 1, 0, 0)
+            float physics:lowerLimit = 0
+            float physics:upperLimit = 229.1831
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        def PhysicsRevoluteJoint "joint4" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = 600
+            float drive:angular:physics:maxForce = 21
+            float drive:angular:physics:stiffness = 6000
+            float drive:angular:physics:targetPosition = 13.6
+            uniform token drive:angular:physics:type = "acceleration"
+            uniform token physics:axis = "Y"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Panthera_HT/link3>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Panthera_HT/link4>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.06380758
+            point3f physics:localPos0 = (0.23, 0, 0.06)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0, 1, 0, 0)
+            quatf physics:localRot1 = (0, 1, 0, 0)
+            float physics:lowerLimit = -91.67324
+            float physics:upperLimit = 91.67324
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        def PhysicsRevoluteJoint "joint5" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = 600
+            float drive:angular:physics:maxForce = 10
+            float drive:angular:physics:stiffness = 6000
+            float drive:angular:physics:targetPosition = -21.6
+            uniform token drive:angular:physics:type = "acceleration"
+            uniform token physics:axis = "Z"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Panthera_HT/link4>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Panthera_HT/link5>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.027778702
+            point3f physics:localPos0 = (0.07, 0, 0.036319)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0, 0, 1, 0)
+            quatf physics:localRot1 = (0, 0, 1, 0)
+            float physics:lowerLimit = -97.402824
+            float physics:upperLimit = 97.402824
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        def PhysicsRevoluteJoint "joint6" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = 600
+            float drive:angular:physics:maxForce = 10
+            float drive:angular:physics:stiffness = 6000
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "acceleration"
+            uniform token physics:axis = "X"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Panthera_HT/link5>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Panthera_HT/link6>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.012782457
+            point3f physics:localPos0 = (0.02345, 0, -0.039)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -143.23944
+            float physics:upperLimit = 143.23944
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        def PhysicsPrismaticJoint "gripper_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:linear", "PhysicsDriveAPI:linear"]
+        )
+        {
+            float drive:linear:physics:damping = 0
+            float drive:linear:physics:maxForce = 10
+            float drive:linear:physics:stiffness = 100
+            float drive:linear:physics:targetPosition = 0
+            uniform token drive:linear:physics:type = "force"
+            uniform token physics:axis = "Y"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Panthera_HT/link6>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Panthera_HT/finger1>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.00179218
+            point3f physics:localPos0 = (0.16555, 0, 0)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = 0
+            float physics:upperLimit = 0.08
+            float state:linear:physics:position = 0
+            float state:linear:physics:velocity = 0
+        }
+
+        def PhysicsPrismaticJoint "gripper_joint2" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:linear"]
+        )
+        {
+            uniform token physics:axis = "Y"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Panthera_HT/link6>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Panthera_HT/finger2>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.0017921801
+            point3f physics:localPos0 = (0.16555, 0, 0)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0, 1, 0, 0)
+            quatf physics:localRot1 = (0, 1, 0, 0)
+            float physics:lowerLimit = 0
+            float physics:upperLimit = 0.08
+            float state:linear:physics:position = 0
+            float state:linear:physics:velocity = 0
+        }
+    }
+
+    over "link2" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (-0.12936212, -0.00213339, 0.00007183)
+        float3 physics:diagonalInertia = (0.0004469498, 0.022610454, 0.022721246)
+        float physics:mass = 1.5165092
+        quatf physics:principalAxes = (0.9999111, -0.013270662, -0.0011398857, -0.0007081481)
+        rel physics:simulationOwner
+    }
+
+    over "link3" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.16343103, -0.00164646, 0.05337427)
+        float3 physics:diagonalInertia = (0.0005107199, 0.0053833565, 0.0054352237)
+        float physics:mass = 0.66917783
+        quatf physics:principalAxes = (0.99042314, 0.11755321, -0.07168969, 0.010193189)
+        rel physics:simulationOwner
+    }
+
+    over "link4" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.05240131, -0.00055249, 0.04094177)
+        float3 physics:diagonalInertia = (0.00012427819, 0.00039515927, 0.00048391253)
+        float physics:mass = 0.30780515
+        quatf physics:principalAxes = (0.94669867, -0.0062695653, -0.32122713, 0.023142312)
+        rel physics:simulationOwner
+    }
+
+    over "link5" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.00303007, 0.00008509, -0.03624079)
+        float3 physics:diagonalInertia = (0.00004815145, 0.000057730096, 0.000033588447)
+        float physics:mass = 0.23711139
+        quatf physics:principalAxes = (0.9999856, -0.00020546044, 0.005151113, 0.0015616112)
+        rel physics:simulationOwner
+    }
+
+    over "link6" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.06704625, 0.00051731, 0.00001674)
+        float3 physics:diagonalInertia = (0.0010740864, 0.0006889313, 0.0016761522)
+        float physics:mass = 0.45
+        quatf physics:principalAxes = (0.9997867, -0.012756607, -0.00022302625, -0.016241075)
+        rel physics:simulationOwner
+    }
+
+    over "finger1" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (-0.069101304, 0.016863784, -0.0005102352)
+        float3 physics:diagonalInertia = (0.000022272989, 0.00005216806, 0.00004650292)
+        float physics:mass = 0.12745799
+        quatf physics:principalAxes = (0.9974288, -0.004833065, 0.0066750967, 0.07119078)
+        rel physics:simulationOwner
+    }
+
+    over "finger2" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (-0.069101304, -0.016863784, 0.00051046454)
+        float3 physics:diagonalInertia = (0.000022272989, 0.00005216806, 0.00004650292)
+        float physics:mass = 0.12745799
+        quatf physics:principalAxes = (0.9974288, -0.004833065, -0.0066750967, -0.07119078)
+        rel physics:simulationOwner
+    }
+
+    over "Looks"
+    {
+        over "PhysicsMaterial" (
+            prepend apiSchemas = ["PhysicsMaterialAPI"]
+        )
+        {
+            float physics:dynamicFriction = 1
+            float physics:staticFriction = 1
+        }
+    }
+
+    def PhysicsFixedJoint "root_joint" (
+        prepend apiSchemas = ["PhysicsArticulationRootAPI"]
+    )
+    {
+        rel physics:body1 = </Panthera_HT/base_link>
+    }
+}
+
