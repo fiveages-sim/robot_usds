@@ -1,0 +1,601 @@
+#usda 1.0
+(
+    customLayerData = {
+        dictionary cameraSettings = {
+            dictionary Front = {
+                double3 position = (5, 0, 0)
+                double radius = 5
+            }
+            dictionary Perspective = {
+                double3 position = (0.1449359305937778, 0.1914965977315136, 0.382161546418294)
+                double3 target = (-0.054048283209664705, -0.16963965108970988, 0.030171569003887122)
+            }
+            dictionary Right = {
+                double3 position = (0, -5, 0)
+                double radius = 5
+            }
+            dictionary Top = {
+                double3 position = (0, 0, 5)
+                double radius = 5
+            }
+            string boundCamera = "/OmniverseKit_Persp"
+        }
+        dictionary omni_layer = {
+            string authoring_layer = "./right.usda"
+        }
+        dictionary renderSettings = {
+        }
+    }
+    defaultPrim = "Galaxea_A1Y"
+    endTimeCode = 0
+    metersPerUnit = 1
+    startTimeCode = -1
+    upAxis = "Z"
+)
+
+def "Galaxea_A1Y" (
+    delete payload = [
+        @payloads/Gripper/g1.usd@,
+        @payloads/Gripper/g1_left.usd@,
+        @payloads/Gripper/g1_right.usd@,
+        @payloads/Gripper/base.usd@
+    ]
+    variants = {
+        string Gripper = "None"
+        string Side = "right"
+    }
+    prepend variantSets = "Gripper"
+)
+{
+    over "joints"
+    {
+        over "joint1" (
+            active = false
+        )
+        {
+            bool[] isaac:actuator (
+                displayName = "Actuator"
+            )
+            string isaac:NameOverride (
+                displayName = "Joint Name Override"
+            )
+            token[] isaac:physics:DofOffsetOpOrder (
+                displayName = "Dof Offset Op Order"
+            )
+        }
+
+        def PhysicsRevoluteJoint "right_joint1" (
+            prepend apiSchemas = ["PhysxJointAPI", "PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = 10
+            float drive:angular:physics:maxForce = 27
+            float drive:angular:physics:stiffness = 200
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            bool[] isaac:actuator (
+                displayName = "Actuator"
+            )
+            string isaac:NameOverride (
+                displayName = "Joint Name Override"
+            )
+            token[] isaac:physics:DofOffsetOpOrder (
+                displayName = "Dof Offset Op Order"
+            )
+            uniform token physics:axis = "Z"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Galaxea_A1Y/base_link>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Galaxea_A1Y/link1>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.0037589937
+            point3f physics:localPos0 = (0, 0, 0.08605)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -165.00009
+            float physics:upperLimit = 165.00009
+            float physxJoint:maxJointVelocity = 600.0014
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "joint2" (
+            active = false
+        )
+        {
+            bool[] isaac:actuator (
+                displayName = "Actuator"
+            )
+            string isaac:NameOverride (
+                displayName = "Joint Name Override"
+            )
+            token[] isaac:physics:DofOffsetOpOrder (
+                displayName = "Dof Offset Op Order"
+            )
+        }
+
+        def PhysicsRevoluteJoint "right_joint2" (
+            prepend apiSchemas = ["PhysxJointAPI", "PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = 10
+            float drive:angular:physics:maxForce = 50
+            float drive:angular:physics:stiffness = 200
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            bool[] isaac:actuator (
+                displayName = "Actuator"
+            )
+            string isaac:NameOverride (
+                displayName = "Joint Name Override"
+            )
+            token[] isaac:physics:DofOffsetOpOrder (
+                displayName = "Dof Offset Op Order"
+            )
+            uniform token physics:axis = "Y"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Galaxea_A1Y/link1>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Galaxea_A1Y/link2>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.013296804
+            point3f physics:localPos0 = (0, 0.03075, 0.04925)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = 0
+            float physics:upperLimit = 180
+            float physxJoint:maxJointVelocity = 720.00165
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "joint3" (
+            active = false
+        )
+        {
+            bool[] isaac:actuator (
+                displayName = "Actuator"
+            )
+            string isaac:NameOverride (
+                displayName = "Joint Name Override"
+            )
+            token[] isaac:physics:DofOffsetOpOrder (
+                displayName = "Dof Offset Op Order"
+            )
+        }
+
+        def PhysicsRevoluteJoint "right_joint3" (
+            prepend apiSchemas = ["PhysxJointAPI", "PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = 10
+            float drive:angular:physics:maxForce = 27
+            float drive:angular:physics:stiffness = 200
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            bool[] isaac:actuator (
+                displayName = "Actuator"
+            )
+            string isaac:NameOverride (
+                displayName = "Joint Name Override"
+            )
+            token[] isaac:physics:DofOffsetOpOrder (
+                displayName = "Dof Offset Op Order"
+            )
+            uniform token physics:axis = "Y"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Galaxea_A1Y/link2>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Galaxea_A1Y/link3>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.05996469
+            point3f physics:localPos0 = (-0.3, 0.00024449, 0)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -189.99852
+            float physics:upperLimit = 0
+            float physxJoint:maxJointVelocity = 600.0014
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "joint5" (
+            active = false
+        )
+        {
+            bool[] isaac:actuator (
+                displayName = "Actuator"
+            )
+            string isaac:NameOverride (
+                displayName = "Joint Name Override"
+            )
+            token[] isaac:physics:DofOffsetOpOrder (
+                displayName = "Dof Offset Op Order"
+            )
+        }
+
+        over "joint4" (
+            active = false
+        )
+        {
+            bool[] isaac:actuator (
+                displayName = "Actuator"
+            )
+            string isaac:NameOverride (
+                displayName = "Joint Name Override"
+            )
+            token[] isaac:physics:DofOffsetOpOrder (
+                displayName = "Dof Offset Op Order"
+            )
+        }
+
+        def PhysicsRevoluteJoint "right_joint4" (
+            prepend apiSchemas = ["PhysxJointAPI", "PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = 10
+            float drive:angular:physics:maxForce = 14
+            float drive:angular:physics:stiffness = 200
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            bool[] isaac:actuator (
+                displayName = "Actuator"
+            )
+            string isaac:NameOverride (
+                displayName = "Joint Name Override"
+            )
+            token[] isaac:physics:DofOffsetOpOrder (
+                displayName = "Dof Offset Op Order"
+            )
+            uniform token physics:axis = "Y"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Galaxea_A1Y/link3>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Galaxea_A1Y/link4>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.036158707
+            point3f physics:localPos0 = (0.1544, -0.030998, 0.075485)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -180
+            float physics:upperLimit = 180
+            float physxJoint:maxJointVelocity = 1889.9985
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        def PhysicsRevoluteJoint "right_joint5" (
+            prepend apiSchemas = ["PhysxJointAPI", "PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = 10
+            float drive:angular:physics:maxForce = 14
+            float drive:angular:physics:stiffness = 200
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            bool[] isaac:actuator (
+                displayName = "Actuator"
+            )
+            string isaac:NameOverride (
+                displayName = "Joint Name Override"
+            )
+            token[] isaac:physics:DofOffsetOpOrder (
+                displayName = "Dof Offset Op Order"
+            )
+            uniform token physics:axis = "Z"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Galaxea_A1Y/link4>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Galaxea_A1Y/link5>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.0011982378
+            point3f physics:localPos0 = (0.0418, 0.023501, 0)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -180
+            float physics:upperLimit = 180
+            float physxJoint:maxJointVelocity = 1889.9985
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "joint6" (
+            active = false
+        )
+        {
+            bool[] isaac:actuator (
+                displayName = "Actuator"
+            )
+            string isaac:NameOverride (
+                displayName = "Joint Name Override"
+            )
+            token[] isaac:physics:DofOffsetOpOrder (
+                displayName = "Dof Offset Op Order"
+            )
+        }
+
+        def PhysicsRevoluteJoint "right_joint6" (
+            prepend apiSchemas = ["PhysxJointAPI", "PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = 10
+            float drive:angular:physics:maxForce = 14
+            float drive:angular:physics:stiffness = 200
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            bool[] isaac:actuator (
+                displayName = "Actuator"
+            )
+            string isaac:NameOverride (
+                displayName = "Joint Name Override"
+            )
+            token[] isaac:physics:DofOffsetOpOrder (
+                displayName = "Dof Offset Op Order"
+            )
+            uniform token physics:axis = "X"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Galaxea_A1Y/link5>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Galaxea_A1Y/link6>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.0001137059
+            point3f physics:localPos0 = (0.081, -0.023499, 0)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -165.00038
+            float physics:upperLimit = 165.00038
+            float physxJoint:maxJointVelocity = 1889.9985
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+    }
+
+    over "base_link"
+    {
+    }
+
+    over "link1"
+    {
+    }
+
+    over "link2"
+    {
+    }
+
+    over "link3"
+    {
+    }
+
+    over "link4"
+    {
+    }
+
+    over "link5"
+    {
+    }
+
+    over "link6"
+    {
+    }
+    variantSet "Gripper" = {
+        "None" (
+            delete payload = [
+                @payloads/Gripper/g1.usd@,
+                @payloads/Gripper/g1_left.usd@,
+                @payloads/Gripper/g1_right.usd@,
+                @payloads/Gripper/base.usd@
+            ]
+        ) {
+
+        }
+        "galaxea_g1" (
+            delete payload = [
+                @payloads/Gripper/base.usd@,
+                @payloads/Gripper/right.usd@,
+                @payloads/Gripper/g1.usd@,
+                @payloads/Gripper/g1_left.usd@
+            ]
+            prepend payload = @payloads/Gripper/g1_right.usd@
+        ) {
+            prepend rel isaac:physics:robotJoints = </Galaxea_A1Y/Galaxea_G1>
+            prepend rel isaac:physics:robotLinks = </Galaxea_A1Y/Galaxea_G1>
+
+        }
+    }
+}
+
+def "Render" (
+    hide_in_stage_window = true
+    no_delete = true
+)
+{
+    def "OmniverseKit"
+    {
+        def "HydraTextures" (
+            hide_in_stage_window = true
+            no_delete = true
+        )
+        {
+            def RenderProduct "omni_kit_widget_viewport_ViewportTexture_0" (
+                prepend apiSchemas = ["OmniRtxSettingsCommonAdvancedAPI_1", "OmniRtxSettingsRtAdvancedAPI_1", "OmniRtxSettingsPtAdvancedAPI_1", "OmniRtxPostColorGradingAPI_1", "OmniRtxPostChromaticAberrationAPI_1", "OmniRtxPostBloomPhysicalAPI_1", "OmniRtxPostMatteObjectAPI_1", "OmniRtxPostCompositingAPI_1", "OmniRtxPostDofAPI_1", "OmniRtxPostMotionBlurAPI_1", "OmniRtxPostTvNoiseAPI_1", "OmniRtxPostTonemapIrayReinhardAPI_1", "OmniRtxPostDebugSettingsAPI_1", "OmniRtxDebugSettingsAPI_1"]
+                hide_in_stage_window = true
+                no_delete = true
+            )
+            {
+                rel camera = </OmniverseKit_Persp>
+                token omni:rtx:ambientOcclusion:denoiserMode = "none"
+                token omni:rtx:background:source:texture:textureMode = "repeatMirrored"
+                token omni:rtx:background:source:type = "domeLight"
+                bool omni:rtx:debug:view:pixelDebug:enableFixedTextPos = 1
+                token omni:rtx:directLighting:sampledLighting:denoisingTechnique = "None"
+                bool omni:rtx:dlss:frameGeneration = 0
+                float3 omni:rtx:domeLight:rotationAxis = (0, 0, 1)
+                bool omni:rtx:indirectDiffuse:denoiser:enabled = 0
+                bool omni:rtx:material:db:syncLoads = 1
+                token omni:rtx:post:dlss:execMode = "performance"
+                bool omni:rtx:post:registeredCompositing:invertColorCorrection = 1
+                bool omni:rtx:post:registeredCompositing:invertToneMap = 1
+                bool omni:rtx:pt:adaptiveSampling:filterError = 0
+                uint omni:rtx:pt:adaptiveSampling:fixedSppIterations = 2
+                uint omni:rtx:pt:maxSamplesPerLaunch = 2073600
+                uint omni:rtx:pt:mgpu:maxPixelsPerRegionExponent = 12
+                bool omni:rtx:reflections:denoiser:enabled = 0
+                token omni:rtx:rendermode = "RealTimePathTracing"
+                color3f omni:rtx:rt:ambientLight:color = (0.1, 0.1, 0.1)
+                bool omni:rtx:rt:demoire = 0
+                bool omni:rtx:rt:ecoMode:enabled
+                bool omni:rtx:rt:lightcache:spatialCache:dontResolveConflicts = 1
+                int omni:rtx:rt:sss:samples = 1
+                uint omni:rtx:rtpt:maxVolumeBounces = 15
+                float omni:rtx:rtpt:modulatingRoughnessThreshold = 0.08
+                bool omni:rtx:scene:hydra:materialSyncLoads = 1
+                bool omni:rtx:scene:hydra:mdlMaterialWarmup = 1
+                rel orderedVars = </Render/Vars/LdrColor>
+                custom bool overrideClipRange = 0
+                uniform int2 resolution = (825, 630)
+            }
+        }
+    }
+
+    def RenderSettings "OmniverseGlobalRenderSettings" (
+        prepend apiSchemas = ["OmniRtxSettingsGlobalRtAdvancedAPI_1", "OmniRtxSettingsGlobalPtAdvancedAPI_1"]
+        no_delete = true
+    )
+    {
+        rel products = </Render/OmniverseKit/HydraTextures/omni_kit_widget_viewport_ViewportTexture_0>
+    }
+
+    def "Vars"
+    {
+        def RenderVar "LdrColor" (
+            hide_in_stage_window = true
+            no_delete = true
+        )
+        {
+            uniform string sourceName = "LdrColor"
+            uniform token sourceType = "raw"
+        }
+    }
+}
+
+over "OmniverseKit_Persp" (
+    prepend apiSchemas = ["OmniRtxCameraAutoExposureAPI_1", "OmniRtxCameraExposureAPI_1"]
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (0.01, 10000000)
+    float exposure:fStop = 5
+    float exposure:responsivity = 1.1026709
+    float exposure:time = 0.02
+    float focalLength = 18.147562
+    float focusDistance = 400
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 2.1905906160171295e-17, -0.5421356396288971)
+    float3 xformOp:rotateXYZ = (49.513752, -7.4743034e-14, 151.14546)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (0.1449359305937778, 0.1914965977315136, 0.382161546418294)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+
+over "OmniverseKit_Front" (
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (1, 10000000)
+    float horizontalAperture = 50
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -5)
+    token projection = "orthographic"
+    float verticalAperture = 50
+    float3 xformOp:rotateXYZ = (90, -1.2722219e-14, 90)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (5, 0, 0)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+
+over "OmniverseKit_Right" (
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (1, 10000000)
+    float horizontalAperture = 50
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -5)
+    token projection = "orthographic"
+    float verticalAperture = 50
+    float3 xformOp:rotateXYZ = (90, -1.41245e-30, 1.2722219e-14)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (0, -5, 0)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+
+over "OmniverseKit_Top" (
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (1, 10000000)
+    float horizontalAperture = 50
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -5)
+    token projection = "orthographic"
+    float verticalAperture = 50
+    float3 xformOp:rotateXYZ = (-1.2722219e-14, -7.016709e-15, -90)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (0, 0, 5)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+
+def PhysicsScene "PhysicsScene" (
+    prepend apiSchemas = ["NewtonSceneAPI", "PhysxSceneAPI"]
+)
+{
+}
+
