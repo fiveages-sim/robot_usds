@@ -7,8 +7,8 @@
                 double radius = 5
             }
             dictionary Perspective = {
-                double3 position = (0.24943345033941156, 0.34403193874080895, 0.22249164173487826)
-                double3 target = (-0.1469674531870122, -0.1962448140889722, 0.02264797143347852)
+                double3 position = (-0.08703559057226856, -0.2674450641831376, -0.009531139638216335)
+                double3 target = (0.18194295049988812, 0.32404474896236324, 0.17762230616737923)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -21,118 +21,33 @@
             string boundCamera = "/OmniverseKit_Persp"
         }
         dictionary omni_layer = {
-            string authoring_layer = "./RG75.usda"
+            string authoring_layer = "./335_side.usda"
         }
         dictionary renderSettings = {
         }
     }
     defaultPrim = "RG75"
-    doc = """Generated from Composed Stage of root layer /home/fiveages/Documents/FaSim-Isaac/robots/grippers/Jodell/RG75/RG75.usd
-
-
-Generated from Composed Stage of root layer /home/fiveages/Documents/FaSim-Isaac/robots/grippers/Jodell/RG75/payloads/base.usd
-"""
+    endTimeCode = 0
     metersPerUnit = 1
+    startTimeCode = -1
+    subLayers = [
+        @../../../RG75.usda@
+    ]
     upAxis = "Z"
 )
 
-def Xform "RG75" (
-    prepend references = @./payloads/base.usda@
-    variants = {
-        string Pad = "none"
-        string Physics = "physx"
-        string Robot = "none"
-        string Sensors = "none"
-        string flange = "none"
-        string side = "default"
-    }
-    prepend variantSets = ["flange", "Pad", "side", "Sensors"]
-    append variantSets = ["Physics", "Robot"]
-)
+def "RG75"
 {
-    variantSet "Physics" = {
-        "none" (
-            prepend payload = @./payloads/Physics/none.usda@
-        ) {
-
-        }
-        "physics" (
-            prepend payload = @./payloads/Physics/physics.usda@
-        ) {
-
-        }
-        "physx" (
-            prepend payload = @./payloads/Physics/physx.usda@
-        ) {
-
-        }
-    }
-    variantSet "Robot" = {
-        "none" (
-            prepend payload = @./payloads/Robot/none.usda@
-        ) {
-
-        }
-        "robot" (
-            prepend payload = @./payloads/Robot/robot.usda@
-        ) {
-
-        }
-    }
-    variantSet "flange" = {
-        "default" (
-            customData = {
-                string[] variantPrimPaths = ["."]
-            }
-            delete payload = @/home/fiveages/distrobox/ubuntu24/FaSim-Isaac/robots/grippers/Jodell/RG75/payloads/Flange/default.usda@
-            prepend payload = @./payloads/Flange/default.usda@
-        ) {
-
-        }
-        "none" {
-
-        }
-    }
-    variantSet "Pad" = {
-        "none" {
-
-        }
-        "type1" (
-            customData = {
-                string[] variantPrimPaths = ["."]
-            }
-            delete payload = @/home/fiveages/distrobox/ubuntu24/FaSim-Isaac/robots/grippers/Jodell/RG75/payloads/Pad/type1/type1.usda@
-            prepend payload = @./payloads/Pad/type1/type1.usda@
-        ) {
-
-        }
-    }
-    variantSet "side" = {
-        "default" {
-
-        }
-        "left" (
-            customData = {
-                string[] variantPrimPaths = ["."]
-            }
-            delete payload = @/home/fiveages/distrobox/ubuntu24/FaSim-Isaac/robots/grippers/Jodell/RG75/payloads/Side/left.usda@
-            prepend payload = @./payloads/Side/left.usda@
-        ) {
-
-        }
-        "right" (
-            customData = {
-                string[] variantPrimPaths = ["."]
-            }
-            delete payload = @/home/fiveages/distrobox/ubuntu24/FaSim-Isaac/robots/grippers/Jodell/RG75/payloads/Side/right.usda@
-            prepend payload = @./payloads/Side/right.usda@
-        ) {
-
-        }
-    }
-    variantSet "Sensors" = {
-        "none" {
-
+    over "gripper_base"
+    {
+        def "left_camera_support" (
+            prepend payload = @./left_camera_support.usdc@
+        )
+        {
+            double3 xformOp:rotateZYX = (-90, 180, 0)
+            double3 xformOp:scale
+            double3 xformOp:translate
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateZYX", "xformOp:scale"]
         }
     }
 }
@@ -231,10 +146,10 @@ over "OmniverseKit_Persp" (
     float exposure:time = 0.02
     float focalLength = 18.147562
     float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -0.6992639977321814)
-    float3 xformOp:rotateXYZ = (73.39384, -2.5444438e-14, 143.73251)
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -0.6761923298064784)
+    float3 xformOp:rotateXYZ = (106.06785, -7.315276e-14, -24.45355)
     float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (0.24943345033941156, 0.34403193874080895, 0.22249164173487826)
+    double3 xformOp:translate = (-0.08703559057226856, -0.2674450641831376, -0.009531139638216335)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 
