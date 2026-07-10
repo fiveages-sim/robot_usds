@@ -7,8 +7,8 @@
                 double radius = 5
             }
             dictionary Perspective = {
-                double3 position = (0.3297064035073206, 0.33763928224815215, 0.38863354993502913)
-                double3 target = (-0.022286677565148905, -0.014353798824317254, 0.03664047726401154)
+                double3 position = (0.4021616822857359, -0.0005292177249699766, 0.11606039674636293)
+                double3 target = (-0.9593004693622906, 0.22866192099432114, 0.10482308254246729)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -30,10 +30,17 @@
     endTimeCode = 0
     metersPerUnit = 1
     startTimeCode = -1
+    subLayers = [
+        @../../RG75.usda@
+    ]
     upAxis = "Z"
 )
 
-def "RG75"
+def "RG75" (
+    variants = {
+        string Sensors = "orbbec_335_side"
+    }
+)
 {
     over "joints"
     {
@@ -137,6 +144,33 @@ def "RG75"
             rel physxMimicJoint:rotY:referenceJoint = </RG75/joints/right_gripper_joint>
         }
     }
+
+    over "gripper_base"
+    {
+        over "left_camera_support"
+        {
+            double3 xformOp:rotateZYX = (90, 0, 0)
+
+            over "camera_support"
+            {
+                over "Mesh_2_003"
+                {
+                    double3 xformOp:rotateZYX
+                    double3 xformOp:scale = (1, -1, 1)
+                    double3 xformOp:translate
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateZYX", "xformOp:scale"]
+                }
+
+                over "orbbec_336"
+                {
+                    quatf xformOp:orient = (0.17364818, 4.9669198e-17, 0.9848077, 5.0599455e-17)
+                    float3 xformOp:scale = (1, 1, 1)
+                    double3 xformOp:translate = (0.010122, 0.04872, -0.064083)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale", "xformOp:rotateX:unitsResolve"]
+                }
+            }
+        }
+    }
 }
 
 def "Render" (
@@ -233,10 +267,10 @@ over "OmniverseKit_Persp" (
     float exposure:time = 0.02
     float focalLength = 18.147562
     float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -0.6096698954796476)
-    float3 xformOp:rotateXYZ = (54.73561, -6.3611094e-15, 135)
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -1.3806643493869306)
+    float3 xformOp:rotateXYZ = (89.53366, -9.223609e-14, 80.44431)
     float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (0.3297064035073206, 0.33763928224815215, 0.38863354993502913)
+    double3 xformOp:translate = (0.4021616822857359, -0.0005292177249699766, 0.11606039674636293)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 

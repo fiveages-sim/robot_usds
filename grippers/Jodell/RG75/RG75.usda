@@ -7,8 +7,8 @@
                 double radius = 5
             }
             dictionary Perspective = {
-                double3 position = (0.24943345033941156, 0.34403193874080895, 0.22249164173487826)
-                double3 target = (-0.1469674531870122, -0.1962448140889722, 0.02264797143347852)
+                double3 position = (0.20224526152120914, 0.279716541879163, 0.1987019359990627)
+                double3 target = (-0.1469674531870122, -0.19624481408897215, 0.02264797143347852)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -44,7 +44,7 @@ def Xform "RG75" (
         string Robot = "none"
         string Sensors = "none"
         string flange = "none"
-        string side = "default"
+        string side = "right"
     }
     prepend variantSets = ["flange", "Pad", "side", "Sensors"]
     append variantSets = ["Physics", "Robot"]
@@ -132,6 +132,15 @@ def Xform "RG75" (
     }
     variantSet "Sensors" = {
         "none" {
+
+        }
+        "orbbec_335_side" (
+            customData = {
+                string[] variantPrimPaths = ["."]
+            }
+            delete payload = @/home/fiveages/distrobox/ubuntu24/FaSim-Isaac/robots/grippers/Jodell/RG75/payloads/Sensor/335_side/335_side.usda@
+            prepend payload = @./payloads/Sensor/335_side/335_side.usda@
+        ) {
 
         }
     }
@@ -231,10 +240,10 @@ over "OmniverseKit_Persp" (
     float exposure:time = 0.02
     float focalLength = 18.147562
     float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -0.6992639977321814)
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -0.6160225084590428)
     float3 xformOp:rotateXYZ = (73.39384, -2.5444438e-14, 143.73251)
     float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (0.24943345033941156, 0.34403193874080895, 0.22249164173487826)
+    double3 xformOp:translate = (0.20224526152120914, 0.279716541879163, 0.1987019359990627)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 
