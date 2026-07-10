@@ -7,8 +7,8 @@
                 double radius = 5
             }
             dictionary Perspective = {
-                double3 position = (0.5200194323919689, 0.45501567971723167, 0.9946393808924918)
-                double3 target = (-0.6757045541029023, -0.679500046233822, 0.757061855125662)
+                double3 position = (0.3297064035073206, 0.33763928224815215, 0.38863354993502913)
+                double3 target = (-0.022286677565148905, -0.014353798824317254, 0.03664047726401154)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -21,236 +21,120 @@
             string boundCamera = "/OmniverseKit_Persp"
         }
         dictionary omni_layer = {
-            string authoring_layer = "./Marvin_M6_CCS.usda"
+            string authoring_layer = "./right.usda"
         }
         dictionary renderSettings = {
         }
     }
-    defaultPrim = "Marvin_M6_CCS"
-    doc = """Generated from Composed Stage of root layer /home/fiveages/Documents/FaSim-Isaac/robots/manipulators/Tianji/Marvin_M6_CCS/Marvin_M6_CCS.usd
-
-
-Generated from Composed Stage of root layer /home/fiveages/Documents/FaSim-Isaac/robots/manipulators/Tianji/Marvin_M6_CCS/payloads/base.usd
-"""
+    defaultPrim = "RG75"
+    endTimeCode = 0
     metersPerUnit = 1
+    startTimeCode = -1
     upAxis = "Z"
 )
 
-def Xform "Marvin_M6_CCS" (
-    prepend references = @./payloads/base.usda@
-    variants = {
-        string EE = "None"
-        string Physics = "physx"
-        string Robot = "none"
-        string Sensor = "none"
-        string Side = "default"
-        string visual = "fiveages_w2_sinopec"
-    }
-    prepend variantSets = ["Side", "visual", "EE"]
-    append variantSets = ["Physics", "Robot", "Sensor"]
-)
+def "RG75"
 {
-    over "root_joint"
-    {
-        bool[] isaac:actuator (
-            displayName = "Actuator"
-        )
-        string isaac:NameOverride (
-            displayName = "Joint Name Override"
-        )
-        token[] isaac:physics:DofOffsetOpOrder (
-            displayName = "Dof Offset Op Order"
-        )
-    }
-
-    over "base_link"
-    {
-    }
-
-    over "link1"
-    {
-    }
-
-    over "link2"
-    {
-    }
-
-    over "link3"
-    {
-    }
-
-    over "link4"
-    {
-    }
-
-    over "link5"
-    {
-    }
-
-    over "link6"
-    {
-    }
-
-    over "link7"
-    {
-    }
-
     over "joints"
     {
-        over "joint1"
+        over "gripper_joint" (
+            active = false
+        )
         {
-            float state:angular:physics:position = 0
-            float state:angular:physics:velocity = 0
+            bool[] isaac:actuator (
+                displayName = "Actuator"
+            )
+            string isaac:NameOverride (
+                displayName = "Joint Name Override"
+            )
+            token[] isaac:physics:DofOffsetOpOrder (
+                displayName = "Dof Offset Op Order"
+            )
         }
 
-        over "joint2"
+        def PhysicsPrismaticJoint "right_gripper_joint" (
+            prepend apiSchemas = ["PhysxJointAPI", "PhysxDrivePerformanceEnvelopeAPI:linear", "PhysicsJointStateAPI:linear", "PhysicsDriveAPI:linear"]
+        )
         {
-            float state:angular:physics:position = 0
-            float state:angular:physics:velocity = 0
+            float drive:linear:physics:damping = 10
+            float drive:linear:physics:maxForce = 100
+            float drive:linear:physics:stiffness = 100
+            float drive:linear:physics:targetPosition = 0
+            uniform token drive:linear:physics:type = "force"
+            bool[] isaac:actuator (
+                displayName = "Actuator"
+            )
+            string isaac:NameOverride (
+                displayName = "Joint Name Override"
+            )
+            token[] isaac:physics:DofOffsetOpOrder (
+                displayName = "Dof Offset Op Order"
+            )
+            uniform token physics:axis = "Y"
+            custom rel physics:body0
+            prepend rel physics:body0 = </RG75/gripper_base>
+            custom rel physics:body1
+            prepend rel physics:body1 = </RG75/left_finger>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.0029318354
+            point3f physics:localPos0 = (0.01475, 0.005263, 0.13525)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = 0
+            float physics:upperLimit = 0.038372
+            float physxDrivePerformanceEnvelope:linear:maxActuatorVelocity = 1
+            float physxJoint:maxJointVelocity = 1
         }
 
-        over "joint3"
+        over "right_finger_joint" (
+            active = false
+        )
         {
-            float state:angular:physics:position = 0
-            float state:angular:physics:velocity = 0
+            bool[] isaac:actuator (
+                displayName = "Actuator"
+            )
+            string isaac:NameOverride (
+                displayName = "Joint Name Override"
+            )
+            token[] isaac:physics:DofOffsetOpOrder (
+                displayName = "Dof Offset Op Order"
+            )
         }
 
-        over "joint4"
+        def PhysicsPrismaticJoint "right_right_finger_joint" (
+            prepend apiSchemas = ["PhysxJointAPI", "PhysxMimicJointAPI:rotY", "PhysicsJointStateAPI:linear"]
+        )
         {
-            float state:angular:physics:position = 0
-            float state:angular:physics:velocity = 0
-        }
-
-        over "joint5"
-        {
-            float state:angular:physics:position = 0
-            float state:angular:physics:velocity = 0
-        }
-
-        over "joint6"
-        {
-            float state:angular:physics:position = 0
-            float state:angular:physics:velocity = 0
-        }
-
-        over "joint7"
-        {
-            float state:angular:physics:position = 0
-            float state:angular:physics:velocity = 0
-        }
-    }
-    variantSet "Physics" = {
-        "none" (
-            prepend payload = @./payloads/Physics/none.usda@
-        ) {
-
-        }
-        "physics" (
-            prepend payload = @./payloads/Physics/physics.usda@
-        ) {
-
-        }
-        "physx" (
-            prepend payload = @./payloads/Physics/physx.usda@
-        ) {
-
-        }
-    }
-    variantSet "Robot" = {
-        "none" (
-            prepend payload = @./payloads/Robot/none.usda@
-        ) {
-
-        }
-        "robot" (
-            prepend payload = @./payloads/Robot/robot.usda@
-        ) {
-
-        }
-    }
-    variantSet "Sensor" = {
-        "none" (
-            prepend payload = @./payloads/Sensor/none.usda@
-        ) {
-
-        }
-        "sensors" (
-            prepend payload = @./payloads/Sensor/sensors.usda@
-        ) {
-
-        }
-    }
-    variantSet "Side" = {
-        "default" {
-
-        }
-        "left" (
-            customData = {
-                string[] variantPrimPaths = ["."]
-            }
-            delete payload = @/home/fiveages/Documents/FaSim-Isaac/robots/manipulators/Tianji/Marvin_M6_CCS/payloads/Side/left.usda@
-            prepend payload = @./payloads/Side/left.usda@
-        ) {
-
-        }
-        "right" (
-            customData = {
-                string[] variantPrimPaths = ["."]
-            }
-            delete payload = @/home/fiveages/Documents/FaSim-Isaac/robots/manipulators/Tianji/Marvin_M6_CCS/payloads/Side/left.usda@
-            prepend payload = @./payloads/Side/right.usda@
-        ) {
-
-        }
-    }
-    variantSet "visual" = {
-        "default" (
-            customData = {
-                string[] variantPrimPaths = ["."]
-            }
-            delete payload = @/home/fiveages/Documents/FaSim-Isaac/robots/manipulators/Tianji/Marvin_M6_CCS/payloads/Visual/default.usda@
-            prepend payload = @./payloads/Visual/default.usda@
-        ) {
-
-        }
-        "fiveages_w2" (
-            customData = {
-                string[] variantPrimPaths = ["."]
-            }
-            delete payload = @/home/fiveages/Documents/FaSim-Isaac/robots/manipulators/Tianji/Marvin_M6_CCS/payloads/Visual/default.usda@
-            prepend payload = @./payloads/Visual/fa_w2.usda@
-        ) {
-
-        }
-        "fiveages_w2_sinopec" (
-            customData = {
-                string[] variantPrimPaths = ["."]
-            }
-            delete payload = @/home/fiveages/Documents/FaSim-Isaac/robots/manipulators/Tianji/Marvin_M6_CCS/payloads/Visual/default.usda@
-            prepend payload = @./payloads/Visual/fa_w2_sinopec.usda@
-        ) {
-
-        }
-    }
-    variantSet "EE" = {
-        "AG2F120S" (
-            delete payload = @payloads/EE/base.usd@
-            prepend payload = @./payloads/EE/AG2F120S.usda@
-        ) {
-            prepend rel isaac:physics:robotJoints = </Marvin_M6_CCS/AG2F120S>
-            prepend rel isaac:physics:robotLinks = </Marvin_M6_CCS/AG2F120S>
-
-        }
-        "None" {
-
-        }
-        "RG75" (
-            delete payload = @payloads/EE/base.usd@
-            prepend payload = @./payloads/EE/RG75.usda@
-        ) {
-            prepend rel isaac:physics:robotJoints = </Marvin_M6_CCS/RG75>
-            prepend rel isaac:physics:robotLinks = </Marvin_M6_CCS/RG75>
-
+            bool[] isaac:actuator (
+                displayName = "Actuator"
+            )
+            string isaac:NameOverride (
+                displayName = "Joint Name Override"
+            )
+            token[] isaac:physics:DofOffsetOpOrder (
+                displayName = "Dof Offset Op Order"
+            )
+            uniform token physics:axis = "Y"
+            custom rel physics:body0
+            prepend rel physics:body0 = </RG75/gripper_base>
+            custom rel physics:body1
+            prepend rel physics:body1 = </RG75/right_finger>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.0029438608
+            point3f physics:localPos0 = (-0.01475, -0.005263, 0.13525)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0, 1, 0, 0)
+            quatf physics:localRot1 = (0, 1, 0, 0)
+            float physics:lowerLimit = -0.0076743998
+            float physics:upperLimit = 0.0460464
+            float physxMimicJoint:rotY:dampingRatio = 0
+            float physxMimicJoint:rotY:gearing = -1
+            float physxMimicJoint:rotY:naturalFrequency = 0
+            float physxMimicJoint:rotY:offset = 0
+            rel physxMimicJoint:rotY:referenceJoint = </RG75/joints/right_gripper_joint>
         }
     }
 }
@@ -294,7 +178,6 @@ def "Render" (
                 token omni:rtx:rendermode = "RealTimePathTracing"
                 color3f omni:rtx:rt:ambientLight:color = (0.1, 0.1, 0.1)
                 bool omni:rtx:rt:demoire = 0
-                bool omni:rtx:rt:ecoMode:enabled
                 bool omni:rtx:rt:lightcache:spatialCache:dontResolveConflicts = 1
                 int omni:rtx:rt:sss:samples = 1
                 uint omni:rtx:rtpt:maxVolumeBounces = 15
@@ -350,10 +233,10 @@ over "OmniverseKit_Persp" (
     float exposure:time = 0.02
     float focalLength = 18.147562
     float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -1.6653302570538133)
-    float3 xformOp:rotateXYZ = (81.79815, -4.770832e-14, 133.49536)
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -0.6096698954796476)
+    float3 xformOp:rotateXYZ = (54.73561, -6.3611094e-15, 135)
     float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (0.5200194323919689, 0.45501567971723167, 0.9946393808924918)
+    double3 xformOp:translate = (0.3297064035073206, 0.33763928224815215, 0.38863354993502913)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 
@@ -430,11 +313,5 @@ over "OmniverseKit_Top" (
     float3 xformOp:scale = (1, 1, 1)
     double3 xformOp:translate = (0, 0, 5)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
-}
-
-def PhysicsScene "PhysicsScene" (
-    prepend apiSchemas = ["NewtonSceneAPI", "PhysxSceneAPI"]
-)
-{
 }
 

@@ -33,7 +33,11 @@
     upAxis = "Z"
 )
 
-def "Marvin_M6_CCS"
+def "Marvin_M6_CCS" (
+    variants = {
+        string EE = "None"
+    }
+)
 {
     over "joints"
     {
@@ -387,6 +391,14 @@ def "Marvin_M6_CCS"
             float physxJoint:maxJointVelocity = 180
         }
     }
+
+    over "RG75" (
+        variants = {
+            string side = "right"
+        }
+    )
+    {
+    }
 }
 
 def "Render" (
@@ -436,7 +448,7 @@ def "Render" (
                 bool omni:rtx:scene:hydra:mdlMaterialWarmup = 1
                 rel orderedVars = </Render/Vars/LdrColor>
                 custom bool overrideClipRange = 0
-                uniform int2 resolution = (1239, 654)
+                uniform int2 resolution = (1280, 720)
             }
         }
     }
