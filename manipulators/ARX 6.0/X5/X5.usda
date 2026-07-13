@@ -165,7 +165,6 @@ def Xform "X5" (
             customData = {
                 string[] variantPrimPaths = ["."]
             }
-            delete payload = @/home/fiveages/distrobox/ubuntu24/FaSim-Isaac/robots/manipulators/ARX 6.0/X5/payloads/Side/left.usda@
             prepend payload = @./payloads/Side/left.usda@
         ) {
 
@@ -174,10 +173,6 @@ def Xform "X5" (
             customData = {
                 string[] variantPrimPaths = ["."]
             }
-            delete payload = [
-                @/home/fiveages/distrobox/ubuntu24/FaSim-Isaac/robots/manipulators/ARX 6.0/X5/payloads/Side/left.usda@,
-                @./payloads/Side/left.usda@
-            ]
             prepend payload = @./payloads/Side/right.usda@
         ) {
 
@@ -188,13 +183,13 @@ def Xform "X5" (
             customData = {
                 string[] variantPrimPaths = ["."]
             }
-            delete payload = @/home/fiveages/distrobox/ubuntu24/FaSim-Isaac/robots/manipulators/ARX 6.0/X5/payloads/EE/2023.usda@
             prepend payload = @./payloads/EE/2023.usda@
         ) {
+            prepend rel isaac:physics:robotJoints = </X5/Gripper_2023>
+            prepend rel isaac:physics:robotLinks = </X5/Gripper_2023>
 
         }
         "Gripper_2025" (
-            delete payload = @payloads/EE/base.usd@
             prepend payload = @./payloads/EE/2025.usda@
         ) {
             prepend rel isaac:physics:robotJoints = </X5/Gripper_2025>
@@ -213,7 +208,6 @@ def Xform "X5" (
             customData = {
                 string[] variantPrimPaths = ["."]
             }
-            delete payload = @/home/fiveages/distrobox/ubuntu24/FaSim-Isaac/robots/manipulators/ARX 6.0/X5/payloads/ROS/ros2.usda@
             prepend payload = @./payloads/ROS/ros2.usda@
         ) {
 

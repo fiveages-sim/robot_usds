@@ -7,8 +7,8 @@
                 double radius = 5
             }
             dictionary Perspective = {
-                double3 position = (0.6938119551839641, 0.8402123080021704, 0.6183225031375515)
-                double3 target = (-0.024915144545768375, -0.14349971606239165, 0.14372351429316854)
+                double3 position = (0.5919185676669876, 0.7007522117976288, 0.551038969924917)
+                double3 target = (-0.024915144545768486, -0.14349971606239176, 0.14372351429316832)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -39,17 +39,38 @@ Generated from Composed Stage of root layer /home/fiveages/Documents/FaSim-Isaac
 def Xform "Galaxea_A1X" (
     prepend references = @./payloads/base.usda@
     variants = {
+        string Gripper = "galaxea_g1"
         string Physics = "physx"
         string ROS = "enable"
         string Robot = "none"
         string Sensor = "none"
         string Side = "default"
     }
-    prepend variantSets = ["Side", "ROS"]
-    append variantSets = ["Physics", "Robot", "Sensor"]
+    prepend variantSets = ["Physics", "Side", "ROS"]
+    append variantSets = ["Robot", "Sensor", "Gripper"]
 )
 {
+    variantSet "Gripper" = {
+        "None" {
+
+        }
+        "galaxea_g1" (
+            customData = {
+                string[] variantPrimPaths = ["."]
+            }
+            prepend payload = @./payloads/Side/payloads/Gripper/g1.usda@
+        ) {
+            prepend rel isaac:physics:robotJoints = </Galaxea_A1X/Galaxea_G1>
+            prepend rel isaac:physics:robotLinks = </Galaxea_A1X/Galaxea_G1>
+
+        }
+    }
     variantSet "Physics" = {
+        "mujoco" (
+            prepend payload = @./payloads/Physics/mujoco.usda@
+        ) {
+
+        }
         "none" (
             prepend payload = @./payloads/Physics/none.usda@
         ) {
@@ -95,7 +116,6 @@ def Xform "Galaxea_A1X" (
             customData = {
                 string[] variantPrimPaths = ["."]
             }
-            delete payload = @/home/fiveages/Documents/FaSim-Isaac/robots/manipulators/Galaxea/Galaxea_A1X/payloads/Side/default.usda@
             prepend payload = @./payloads/Side/default.usda@
         ) {
 
@@ -104,10 +124,6 @@ def Xform "Galaxea_A1X" (
             customData = {
                 string[] variantPrimPaths = ["."]
             }
-            delete payload = [
-                @/home/fiveages/Documents/FaSim-Isaac/robots/manipulators/Galaxea/Galaxea_A1X/payloads/Side/default.usda@,
-                @./payloads/Side/default.usda@
-            ]
             prepend payload = @./payloads/Side/left.usda@
         ) {
 
@@ -116,11 +132,6 @@ def Xform "Galaxea_A1X" (
             customData = {
                 string[] variantPrimPaths = ["."]
             }
-            delete payload = [
-                @/home/fiveages/Documents/FaSim-Isaac/robots/manipulators/Galaxea/Galaxea_A1X/payloads/Side/default.usda@,
-                @./payloads/Side/default.usda@,
-                @./payloads/Side/left.usda@
-            ]
             prepend payload = @./payloads/Side/right.usda@
         ) {
 
@@ -138,9 +149,9 @@ def Xform "Galaxea_A1X" (
         }
         "none" (
             customData = {
-                string[] variantPrimPaths = ["."]
+                string[] variantPrimPaths = []
             }
-            prepend payload = @/home/fiveages/Documents/FaSim-Isaac/robots/manipulators/Galaxea/Galaxea_A1X/payloads/ROS/none.usda@
+            delete payload = @/home/fiveages/Documents/FaSim-Isaac/robots/manipulators/Galaxea/Galaxea_A1X/payloads/ROS/none.usda@
         ) {
 
         }
@@ -195,7 +206,7 @@ def "Render" (
                 bool omni:rtx:scene:hydra:mdlMaterialWarmup = 1
                 rel orderedVars = </Render/Vars/LdrColor>
                 custom bool overrideClipRange = 0
-                uniform int2 resolution = (2295, 906)
+                uniform int2 resolution = (1280, 720)
             }
         }
     }
@@ -242,10 +253,10 @@ over "OmniverseKit_Persp" (
     float exposure:time = 0.02
     float focalLength = 18.147562
     float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -1.3074793269444915)
-    float3 xformOp:rotateXYZ = (68.7162, -1.2722219e-14, 143.8471)
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -1.1221189895078103)
+    float3 xformOp:rotateXYZ = (68.7162, -9.541664e-15, 143.8471)
     float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (0.6938119551839641, 0.8402123080021704, 0.6183225031375515)
+    double3 xformOp:translate = (0.5919185676669876, 0.7007522117976288, 0.551038969924917)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 
@@ -325,6 +336,7 @@ over "OmniverseKit_Top" (
 }
 
 def PhysicsScene "PhysicsScene" (
+    delete apiSchemas = ["MjcSceneAPI", "NewtonXpbdSceneAPI", "PhysxSceneAPI"]
     prepend apiSchemas = ["NewtonSceneAPI", "MjcSceneAPI"]
 )
 {

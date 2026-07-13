@@ -87,18 +87,25 @@ def "Galaxea_A1X"
                         bool isExecution = 1
                     }
                 )
-                prepend uint inputs:execIn.connect = </Galaxea_A1X/Graph/ROS_JointStates/OnPlaybackTick.outputs:tick>
+                prepend uint inputs:execIn.connect = </Galaxea_A1X/Graph/ROS_JointStates/isaac_read_joint_state_node.outputs:execOut>
                 custom uchar[] inputs:jointDofTypes
+                prepend uchar[] inputs:jointDofTypes.connect = </Galaxea_A1X/Graph/ROS_JointStates/isaac_read_joint_state_node.outputs:jointDofTypes>
                 custom double[] inputs:jointEfforts
+                prepend double[] inputs:jointEfforts.connect = </Galaxea_A1X/Graph/ROS_JointStates/isaac_read_joint_state_node.outputs:jointEfforts>
                 custom token[] inputs:jointNames
+                prepend token[] inputs:jointNames.connect = </Galaxea_A1X/Graph/ROS_JointStates/isaac_read_joint_state_node.outputs:jointNames>
                 custom double[] inputs:jointPositions
+                prepend double[] inputs:jointPositions.connect = </Galaxea_A1X/Graph/ROS_JointStates/isaac_read_joint_state_node.outputs:jointPositions>
                 custom double[] inputs:jointVelocities
+                prepend double[] inputs:jointVelocities.connect = </Galaxea_A1X/Graph/ROS_JointStates/isaac_read_joint_state_node.outputs:jointVelocities>
                 custom string inputs:nodeNamespace = "isaac"
                 custom string inputs:qosProfile
                 custom uint64 inputs:queueSize
                 custom float inputs:sensorTime
+                prepend float inputs:sensorTime.connect = </Galaxea_A1X/Graph/ROS_JointStates/isaac_read_joint_state_node.outputs:sensorTime>
                 custom float inputs:stageMetersPerUnit
-                custom rel inputs:targetPrim = </Galaxea_A1X/root_joint> (
+                prepend float inputs:stageMetersPerUnit.connect = </Galaxea_A1X/Graph/ROS_JointStates/isaac_read_joint_state_node.outputs:stageMetersPerUnit>
+                custom rel inputs:targetPrim = None (
                     customData = {
                         dictionary omni = {
                             dictionary graph = {
@@ -194,7 +201,43 @@ def "Galaxea_A1X"
                 token node:type = "isaacsim.ros2.bridge.ROS2PublishClock"
                 int node:typeVersion = 1
                 uniform token ui:nodegraph:node:expansionState = "open"
-                uniform float2 ui:nodegraph:node:pos = (-446.78558, 487.22107)
+            }
+
+            def OmniGraphNode "isaac_read_joint_state_node" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </Galaxea_A1X/Graph/ROS_JointStates/OnPlaybackTick.outputs:tick>
+                custom rel inputs:prim = </Galaxea_A1X/root_joint> (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
+                token node:type = "isaacsim.sensors.physics.IsaacReadJointState"
+                int node:typeVersion = 1
+                custom uint outputs:execOut (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom uchar[] outputs:jointDofTypes
+                custom double[] outputs:jointEfforts
+                custom token[] outputs:jointNames
+                custom double[] outputs:jointPositions
+                custom double[] outputs:jointVelocities
+                custom float outputs:sensorTime
+                custom float outputs:stageMetersPerUnit
+                uniform token ui:nodegraph:node:expansionState = "open"
+                uniform float2 ui:nodegraph:node:pos = (-563.7158, -422.88623)
             }
         }
     }
@@ -247,7 +290,7 @@ def "Render" (
                 bool omni:rtx:scene:hydra:mdlMaterialWarmup = 1
                 rel orderedVars = </Render/Vars/LdrColor>
                 custom bool overrideClipRange = 0
-                uniform int2 resolution = (1920, 1080)
+                uniform int2 resolution = (1280, 720)
             }
         }
     }

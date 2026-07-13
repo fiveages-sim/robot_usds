@@ -21,126 +21,76 @@
             string boundCamera = "/OmniverseKit_Persp"
         }
         dictionary omni_layer = {
-            string authoring_layer = "./Galaxea_G1.usd"
+            string authoring_layer = "./mujoco.usda"
         }
         dictionary renderSettings = {
         }
     }
-    doc = """Generated from Composed Stage of root layer /home/fiveages/Documents/FaSim-Isaac/robots/manipulators/Galaxea/Galaxea_G1/Galaxea_G1.usd
-
-
-Generated from Composed Stage of root layer /home/fiveages/Documents/FaSim-Isaac/robots/manipulators/Galaxea/Galaxea_G1/payloads/base.usd
-"""
+    defaultPrim = "Galaxea_G1"
     metersPerUnit = 1
+    subLayers = [
+        @./physics.usda@
+    ]
     upAxis = "Z"
 )
 
 over "Galaxea_G1"
 {
-    over "gripper_base"
-    {
-        over "gripper_center"
-        {
-        }
-
-        over "visuals"
-        {
-            over "gripper_base"
-            {
-            }
-        }
-
-        over "collisions"
-        {
-            over "gripper_base"
-            {
-            }
-        }
-    }
-
-    over "finger1"
-    {
-        over "visuals"
-        {
-            over "finger"
-            {
-            }
-        }
-
-        over "collisions"
-        {
-            over "finger"
-            {
-            }
-        }
-    }
-
     over "joints"
     {
+        # Drive joints: PhysX DriveAPI -> MjcActuator position PD
+        # Galaxea_G1.usda interface uses kp=100, kd=10; physics maxForce=10
         over "gripper_joint" (
+            prepend apiSchemas = ["MjcJointAPI"]
             delete apiSchemas = ["PhysicsJointStateAPI:linear", "PhysicsDriveAPI:linear"]
         )
         {
+            uniform double mjc:armature = 0.001
+            uniform double mjc:damping = 0.01
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -10
+            uniform double mjc:actuatorfrcrange:max = 10
         }
 
         over "gripper_joint2" (
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI"]
             delete apiSchemas = ["PhysicsJointStateAPI:linear"]
         )
         {
-        }
-    }
-
-    over "finger2"
-    {
-        over "visuals"
-        {
-            over "finger"
-            {
-            }
+            uniform double mjc:armature = 0.001
+            uniform double mjc:damping = 0.01
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 1
+            rel newton:mimicJoint = </Galaxea_G1/joints/gripper_joint>
         }
 
-        over "collisions"
+        # Side-specific gripper joints/actuators live in payloads/Side/mujoco_{left,right}.usda
+    }
+
+    over "root_joint" (
+        prepend apiSchemas = ["NewtonArticulationRootAPI"]
+    )
+    {
+        bool newton:selfCollisionEnabled = 0
+    }
+
+    # Position actuator for default-side driven finger only.
+    def Scope "actuators"
+    {
+        def MjcActuator "gripper_joint"
         {
-            over "finger"
-            {
-            }
-        }
-    }
-
-    over "root_joint"
-    {
-    }
-
-    over "Looks"
-    {
-    }
-
-    over "VisualMaterials"
-    {
-    }
-}
-
-over "Render"
-{
-    over "OmniverseKit"
-    {
-        over "HydraTextures"
-        {
-            over "omni_kit_widget_viewport_ViewportTexture_0"
-            {
-            }
-        }
-    }
-
-    over "OmniverseGlobalRenderSettings"
-    {
-    }
-
-    over "Vars"
-    {
-        over "LdrColor"
-        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [100, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -100, -10, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -10
+            uniform double mjc:forceRange:max = 10
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = 0
+            uniform double mjc:ctrlRange:max = 0.05
+            rel mjc:target = </Galaxea_G1/joints/gripper_joint>
         }
     }
 }
-
