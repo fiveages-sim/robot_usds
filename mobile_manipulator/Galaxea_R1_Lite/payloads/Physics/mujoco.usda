@@ -1,0 +1,315 @@
+#usda 1.0
+(
+    customLayerData = {
+        dictionary cameraSettings = {
+            dictionary Front = {
+                double3 position = (5, 0, 0)
+                double radius = 5
+            }
+            dictionary Perspective = {
+                double3 position = (3.0088570543363424, 1.3522417499420336, 3.2279020238092744)
+                double3 target = (-0.7821311234763892, 0.04805726349375239, -0.020228491206085053)
+            }
+            dictionary Right = {
+                double3 position = (0, -5, 0)
+                double radius = 5
+            }
+            dictionary Top = {
+                double3 position = (0, 0, 5)
+                double radius = 5
+            }
+            string boundCamera = "/OmniverseKit_Persp"
+        }
+        dictionary omni_layer = {
+            string authoring_layer = "./mujoco.usda"
+        }
+        dictionary renderSettings = {
+        }
+    }
+    defaultPrim = "Galaxea_R1_Lite"
+    endTimeCode = 0
+    metersPerUnit = 1
+    startTimeCode = -1
+    subLayers = [
+        @./physics.usda@
+    ]
+    upAxis = "Z"
+)
+
+def "Galaxea_R1_Lite" (
+    variants = {
+        string Physics = "mujoco"
+    }
+)
+{
+    over "base_link" (
+        prepend apiSchemas = ["NewtonArticulationRootAPI"]
+    )
+    {
+        bool newton:selfCollisionEnabled = 0
+    }
+
+    over "joints"
+    {
+        over "steer_joint1" (
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+            prepend apiSchemas = ["MjcJointAPI"]
+        )
+        {
+            bool[] isaac:actuator (
+                displayName = "Actuator"
+            )
+            string isaac:NameOverride (
+                displayName = "Joint Name Override"
+            )
+            token[] isaac:physics:DofOffsetOpOrder (
+                displayName = "Dof Offset Op Order"
+            )
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:max = 200
+            uniform double mjc:actuatorfrcrange:min = -200
+            uniform double mjc:armature = 0.01
+            uniform double mjc:damping = 0.1
+        }
+
+        over "wheel_joint1" (
+            delete apiSchemas = ["PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular"]
+            prepend apiSchemas = ["MjcJointAPI"]
+        )
+        {
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:max = 200
+            uniform double mjc:actuatorfrcrange:min = -200
+            uniform double mjc:armature = 0.01
+            uniform double mjc:damping = 0.1
+        }
+
+        over "steer_joint2" (
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+            prepend apiSchemas = ["MjcJointAPI"]
+        )
+        {
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:max = 200
+            uniform double mjc:actuatorfrcrange:min = -200
+            uniform double mjc:armature = 0.01
+            uniform double mjc:damping = 0.1
+        }
+
+        over "wheel_joint2" (
+            delete apiSchemas = ["PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular"]
+            prepend apiSchemas = ["MjcJointAPI"]
+        )
+        {
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:max = 200
+            uniform double mjc:actuatorfrcrange:min = -200
+            uniform double mjc:armature = 0.01
+            uniform double mjc:damping = 0.1
+        }
+
+        over "steer_joint3" (
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+            prepend apiSchemas = ["MjcJointAPI"]
+        )
+        {
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:max = 200
+            uniform double mjc:actuatorfrcrange:min = -200
+            uniform double mjc:armature = 0.01
+            uniform double mjc:damping = 0.1
+        }
+
+        over "wheel_joint3" (
+            delete apiSchemas = ["PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular"]
+            prepend apiSchemas = ["MjcJointAPI"]
+        )
+        {
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:max = 200
+            uniform double mjc:actuatorfrcrange:min = -200
+            uniform double mjc:armature = 0.01
+            uniform double mjc:damping = 0.1
+        }
+
+        over "torso_joint1" (
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+            prepend apiSchemas = ["MjcJointAPI"]
+        )
+        {
+            bool[] isaac:actuator (
+                displayName = "Actuator"
+            )
+            string isaac:NameOverride (
+                displayName = "Joint Name Override"
+            )
+            token[] isaac:physics:DofOffsetOpOrder (
+                displayName = "Dof Offset Op Order"
+            )
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:max = 500
+            uniform double mjc:actuatorfrcrange:min = -500
+            uniform double mjc:armature = 0.01
+            uniform double mjc:damping = 0.1
+        }
+
+        over "torso_joint2" (
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+            prepend apiSchemas = ["MjcJointAPI"]
+        )
+        {
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:max = 500
+            uniform double mjc:actuatorfrcrange:min = -500
+            uniform double mjc:armature = 0.01
+            uniform double mjc:damping = 0.1
+        }
+
+        over "torso_joint3" (
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+            prepend apiSchemas = ["MjcJointAPI"]
+        )
+        {
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:max = 500
+            uniform double mjc:actuatorfrcrange:min = -500
+            uniform double mjc:armature = 0.01
+            uniform double mjc:damping = 0.1
+        }
+    }
+
+    def Scope "actuators"
+    {
+        def MjcActuator "steer_joint1"
+        {
+            uniform double[] mjc:biasPrm = [0, -625, -50, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:biasType = "affine"
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:max = 90
+            uniform double mjc:ctrlRange:min = -90
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:max = 200
+            uniform double mjc:forceRange:min = -200
+            uniform double[] mjc:gainPrm = [625, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:gainType = "fixed"
+            rel mjc:target = </Galaxea_R1_Lite/joints/steer_joint1>
+        }
+
+        # Velocity: F = kd*(ctrl - qvel) => gain=[kd], bias=[0, 0, -kd]
+        # (gain=0 would ignore ArticulationController velocity cmds)
+        def MjcActuator "wheel_joint1"
+        {
+            uniform double[] mjc:biasPrm = [0, 0, -30, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:biasType = "affine"
+            uniform token mjc:ctrlLimited = "false"
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:max =  200
+            uniform double mjc:forceRange:min = -200
+            uniform double[] mjc:gainPrm = [30, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:gainType = "fixed"
+            rel mjc:target = </Galaxea_R1_Lite/joints/wheel_joint1>
+        }
+
+        def MjcActuator "steer_joint2"
+        {
+            uniform double[] mjc:biasPrm = [0, -625, -50, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:biasType = "affine"
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:max = 90
+            uniform double mjc:ctrlRange:min = -90
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:max = 200
+            uniform double mjc:forceRange:min = -200
+            uniform double[] mjc:gainPrm = [625, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:gainType = "fixed"
+            rel mjc:target = </Galaxea_R1_Lite/joints/steer_joint2>
+        }
+
+        def MjcActuator "wheel_joint2"
+        {
+            uniform double[] mjc:biasPrm = [0, 0, -30, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:biasType = "affine"
+            uniform token mjc:ctrlLimited = "false"
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:max =  200
+            uniform double mjc:forceRange:min = -200
+            uniform double[] mjc:gainPrm = [30, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:gainType = "fixed"
+            rel mjc:target = </Galaxea_R1_Lite/joints/wheel_joint2>
+        }
+
+        def MjcActuator "steer_joint3"
+        {
+            uniform double[] mjc:biasPrm = [0, -625, -50, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:biasType = "affine"
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:max = 90
+            uniform double mjc:ctrlRange:min = -90
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:max = 200
+            uniform double mjc:forceRange:min = -200
+            uniform double[] mjc:gainPrm = [625, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:gainType = "fixed"
+            rel mjc:target = </Galaxea_R1_Lite/joints/steer_joint3>
+        }
+
+        def MjcActuator "wheel_joint3"
+        {
+            uniform double[] mjc:biasPrm = [0, 0, -30, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:biasType = "affine"
+            uniform token mjc:ctrlLimited = "false"
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:max =  200
+            uniform double mjc:forceRange:min = -200
+            uniform double[] mjc:gainPrm = [30, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:gainType = "fixed"
+            rel mjc:target = </Galaxea_R1_Lite/joints/wheel_joint3>
+        }
+
+        # Match physx.usda torso drives: stiffness=2000, damping=200, maxForce=500
+        def MjcActuator "torso_joint1"
+        {
+            uniform double[] mjc:biasPrm = [0, -2000, -200, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:biasType = "affine"
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:max = 25.000038
+            uniform double mjc:ctrlRange:min = -90
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:max = 500
+            uniform double mjc:forceRange:min = -500
+            uniform double[] mjc:gainPrm = [2000, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:gainType = "fixed"
+            rel mjc:target = </Galaxea_R1_Lite/joints/torso_joint1>
+        }
+
+        def MjcActuator "torso_joint2"
+        {
+            uniform double[] mjc:biasPrm = [0, -2000, -200, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:biasType = "affine"
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:max = 155.00008
+            uniform double mjc:ctrlRange:min = -155.00008
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:max = 500
+            uniform double mjc:forceRange:min = -500
+            uniform double[] mjc:gainPrm = [2000, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:gainType = "fixed"
+            rel mjc:target = </Galaxea_R1_Lite/joints/torso_joint2>
+        }
+
+        def MjcActuator "torso_joint3"
+        {
+            uniform double[] mjc:biasPrm = [0, -2000, -200, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:biasType = "affine"
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:max = 90
+            uniform double mjc:ctrlRange:min = -90
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:max = 500
+            uniform double mjc:forceRange:min = -500
+            uniform double[] mjc:gainPrm = [2000, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:gainType = "fixed"
+            rel mjc:target = </Galaxea_R1_Lite/joints/torso_joint3>
+        }
+    }
+}

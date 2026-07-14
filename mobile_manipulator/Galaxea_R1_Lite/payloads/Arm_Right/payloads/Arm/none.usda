@@ -1,0 +1,35 @@
+#usda 1.0
+(
+    defaultPrim = "Galaxea_R1_Lite"
+)
+
+# Empty right-arm socket. Same prim path as A1X/A1Y mounts so VariantSwitcher
+# tracks Physics here from stage open (before an arm is selected).
+def Xform "Galaxea_R1_Lite"
+{
+    over "torso_link3"
+    {
+        over "right_base_link"
+        {
+            def Xform "Galaxea_Arm_Right" (
+                prepend variantSets = "Physics"
+            )
+            {
+                variantSet "Physics" = {
+                    "mujoco" {
+
+                    }
+                    "none" {
+
+                    }
+                    "physics" {
+
+                    }
+                    "physx" {
+
+                    }
+                }
+            }
+        }
+    }
+}
