@@ -1,258 +1,183 @@
 #usda 1.0
 (
-    customLayerData = {
-        dictionary cameraSettings = {
-            dictionary Front = {
-                double3 position = (5, 0, 0)
-                double radius = 5
-            }
-            dictionary Perspective = {
-                double3 position = (0.9820450141990662, 0.9820450141990676, 0.9820451101005419)
-                double3 target = (-3.978038465302092e-8, -3.978038287666408e-8, 7.956076852888572e-8)
-            }
-            dictionary Right = {
-                double3 position = (0, -5, 0)
-                double radius = 5
-            }
-            dictionary Top = {
-                double3 position = (0, 0, 5)
-                double radius = 5
-            }
-            string boundCamera = "/OmniverseKit_Persp"
-        }
-        dictionary omni_layer = {
-            string authoring_layer = "./SteerChassis.usd"
-        }
-        dictionary renderSettings = {
-        }
-    }
-    doc = """Generated from Composed Stage of root layer /home/fiveages/Documents/FaSim-Isaac/robots/humanoid/Galaxea_R1_Newton/components/SteerChassis/SteerChassis.usd
-
-
-Generated from Composed Stage of root layer /home/fiveages/Documents/FaSim-Isaac/robots/humanoid/Galaxea_R1_Newton/components/SteerChassis/payloads/base.usd
-"""
+    defaultPrim = "SteerChassis"
     metersPerUnit = 1
+    subLayers = [
+        @./physics.usda@
+    ]
     upAxis = "Z"
 )
 
-over "SteerChassis"
+def "SteerChassis"
 {
-    over "base_link"
-    {
-        over "chassis_back_camera"
-        {
-        }
-
-        over "chassis_fl_camera"
-        {
-        }
-
-        over "chassis_fr_camera"
-        {
-        }
-
-        over "chassis_left_camera"
-        {
-        }
-
-        over "chassis_right_camera"
-        {
-        }
-
-        over "left_lidar"
-        {
-        }
-
-        over "right_lidar"
-        {
-        }
-
-        over "visuals"
-        {
-            over "chassis"
-            {
-            }
-        }
-
-        over "collisions"
-        {
-            over "chassis"
-            {
-            }
-        }
-    }
-
-    over "steer_motor_link1"
-    {
-        over "collisions"
-        {
-        }
-
-        over "visuals"
-        {
-            over "steer"
-            {
-            }
-        }
-    }
-
     over "joints"
     {
+        # Steer: PhysX kp=625, kd=50 -> position PD
+        # Wheel: PhysX stiffness=0 (velocity/accel) -> damping-dominated affine bias
         over "steer_joint1" (
+            prepend apiSchemas = ["MjcJointAPI"]
             delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
         )
         {
+            uniform double mjc:armature = 0.01
+            uniform double mjc:damping = 0.1
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -200
+            uniform double mjc:actuatorfrcrange:max = 200
         }
 
         over "wheel_joint1" (
+            prepend apiSchemas = ["MjcJointAPI"]
             delete apiSchemas = ["PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular"]
         )
         {
+            uniform double mjc:armature = 0.01
+            uniform double mjc:damping = 0.1
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -100
+            uniform double mjc:actuatorfrcrange:max = 100
         }
 
         over "steer_joint2" (
+            prepend apiSchemas = ["MjcJointAPI"]
             delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
         )
         {
+            uniform double mjc:armature = 0.01
+            uniform double mjc:damping = 0.1
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -200
+            uniform double mjc:actuatorfrcrange:max = 200
         }
 
         over "wheel_joint2" (
+            prepend apiSchemas = ["MjcJointAPI"]
             delete apiSchemas = ["PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular"]
         )
         {
+            uniform double mjc:armature = 0.01
+            uniform double mjc:damping = 0.1
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -100
+            uniform double mjc:actuatorfrcrange:max = 100
         }
 
         over "steer_joint3" (
+            prepend apiSchemas = ["MjcJointAPI"]
             delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
         )
         {
+            uniform double mjc:armature = 0.01
+            uniform double mjc:damping = 0.1
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -200
+            uniform double mjc:actuatorfrcrange:max = 200
         }
 
         over "wheel_joint3" (
+            prepend apiSchemas = ["MjcJointAPI"]
             delete apiSchemas = ["PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular"]
         )
         {
+            uniform double mjc:armature = 0.01
+            uniform double mjc:damping = 0.1
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -100
+            uniform double mjc:actuatorfrcrange:max = 100
         }
     }
 
-    over "wheel_motor_link1"
+    over "base_link" (
+        prepend apiSchemas = ["NewtonArticulationRootAPI"]
+    )
     {
-        over "visuals"
-        {
-            over "wheel"
-            {
-            }
-        }
-
-        over "collisions"
-        {
-            over "mesh_0"
-            {
-                over "cylinder"
-                {
-                }
-            }
-        }
+        bool newton:selfCollisionEnabled = 0
     }
 
-    over "steer_motor_link2"
+    def Scope "actuators"
     {
-        over "collisions"
+        def MjcActuator "steer_joint1"
         {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [625, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -625, -50, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -200
+            uniform double mjc:forceRange:max = 200
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = -90
+            uniform double mjc:ctrlRange:max = 90
+            rel mjc:target = </SteerChassis/joints/steer_joint1>
         }
 
-        over "visuals"
+        def MjcActuator "wheel_joint1"
         {
-            over "steer"
-            {
-            }
-        }
-    }
-
-    over "wheel_motor_link2"
-    {
-        over "visuals"
-        {
-            over "wheel"
-            {
-            }
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, 0, -10, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -100
+            uniform double mjc:forceRange:max = 100
+            uniform token mjc:ctrlLimited = "false"
+            rel mjc:target = </SteerChassis/joints/wheel_joint1>
         }
 
-        over "collisions"
+        def MjcActuator "steer_joint2"
         {
-            over "mesh_0"
-            {
-                over "cylinder"
-                {
-                }
-            }
-        }
-    }
-
-    over "steer_motor_link3"
-    {
-        over "collisions"
-        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [625, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -625, -50, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -200
+            uniform double mjc:forceRange:max = 200
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = -90
+            uniform double mjc:ctrlRange:max = 90
+            rel mjc:target = </SteerChassis/joints/steer_joint2>
         }
 
-        over "visuals"
+        def MjcActuator "wheel_joint2"
         {
-            over "steer"
-            {
-            }
-        }
-    }
-
-    over "wheel_motor_link3"
-    {
-        over "visuals"
-        {
-            over "wheel"
-            {
-            }
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, 0, -10, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -100
+            uniform double mjc:forceRange:max = 100
+            uniform token mjc:ctrlLimited = "false"
+            rel mjc:target = </SteerChassis/joints/wheel_joint2>
         }
 
-        over "collisions"
+        def MjcActuator "steer_joint3"
         {
-            over "mesh_0"
-            {
-                over "cylinder"
-                {
-                }
-            }
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [625, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -625, -50, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -200
+            uniform double mjc:forceRange:max = 200
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = -90
+            uniform double mjc:ctrlRange:max = 90
+            rel mjc:target = </SteerChassis/joints/steer_joint3>
         }
-    }
 
-    over "Looks"
-    {
-    }
-
-    over "VisualMaterials"
-    {
-    }
-}
-
-over "Render"
-{
-    over "OmniverseKit"
-    {
-        over "HydraTextures"
+        def MjcActuator "wheel_joint3"
         {
-            over "omni_kit_widget_viewport_ViewportTexture_0"
-            {
-            }
-        }
-    }
-
-    over "OmniverseGlobalRenderSettings"
-    {
-    }
-
-    over "Vars"
-    {
-        over "LdrColor"
-        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, 0, -10, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -100
+            uniform double mjc:forceRange:max = 100
+            uniform token mjc:ctrlLimited = "false"
+            rel mjc:target = </SteerChassis/joints/wheel_joint3>
         }
     }
 }
-

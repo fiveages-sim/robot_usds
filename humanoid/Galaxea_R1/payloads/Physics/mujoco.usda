@@ -1,190 +1,135 @@
 #usda 1.0
 (
-    customLayerData = {
-        dictionary cameraSettings = {
-            dictionary Front = {
-                double3 position = (5, 0, 0)
-                double radius = 5
-            }
-            dictionary Perspective = {
-                double3 position = (1.3509832577519139, 1.2867990653058576, 2.23572539152764)
-                double3 target = (-0.2735193218382894, -0.337703514284345, 0.6112228507114386)
-            }
-            dictionary Right = {
-                double3 position = (0, -5, 0)
-                double radius = 5
-            }
-            dictionary Top = {
-                double3 position = (0, 0, 5)
-                double radius = 5
-            }
-            string boundCamera = "/OmniverseKit_Persp"
-        }
-        dictionary omni_layer = {
-            string authoring_layer = "./Galaxea_R1.usd"
-        }
-        dictionary renderSettings = {
-        }
-    }
-    doc = """Generated from Composed Stage of root layer /home/biao/distrobox/ubuntu24/FaSim-Isaac/robots/humanoid/Galaxea_R1_Newton/Galaxea_R1/Galaxea_R1.usd
-
-
-Generated from Composed Stage of root layer /home/biao/distrobox/ubuntu24/FaSim-Isaac/robots/humanoid/Galaxea_R1_Newton/payloads/base.usd
-"""
+    defaultPrim = "Galaxea_R1"
     metersPerUnit = 1
+    subLayers = [
+        @./physics.usda@
+    ]
     upAxis = "Z"
 )
 
-over "Galaxea_R1"
+def "Galaxea_R1"
 {
-    over "base_link"
-    {
-        over "visuals"
-        {
-        }
-
-        over "collisions"
-        {
-        }
-    }
-
-    over "torso_link1"
-    {
-        over "visuals"
-        {
-            over "torso_link1"
-            {
-            }
-        }
-
-        over "collisions"
-        {
-            over "torso_link1"
-            {
-            }
-        }
-    }
-
     over "joints"
     {
+        # PhysX DriveAPI (kp=2000, kd=200) -> MjcActuator position PD
+        # F = kp*(ctrl - q) - kd*qdot
         over "torso_joint1" (
+            prepend apiSchemas = ["MjcJointAPI"]
             delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
         )
         {
+            uniform double mjc:armature = 0.01
+            uniform double mjc:damping = 0.1
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -500
+            uniform double mjc:actuatorfrcrange:max = 500
         }
 
         over "torso_joint2" (
+            prepend apiSchemas = ["MjcJointAPI"]
             delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
         )
         {
+            uniform double mjc:armature = 0.01
+            uniform double mjc:damping = 0.1
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -500
+            uniform double mjc:actuatorfrcrange:max = 500
         }
 
         over "torso_joint3" (
+            prepend apiSchemas = ["MjcJointAPI"]
             delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
         )
         {
+            uniform double mjc:armature = 0.01
+            uniform double mjc:damping = 0.1
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -500
+            uniform double mjc:actuatorfrcrange:max = 500
         }
 
         over "torso_joint4" (
+            prepend apiSchemas = ["MjcJointAPI"]
             delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
         )
         {
+            uniform double mjc:armature = 0.01
+            uniform double mjc:damping = 0.1
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -500
+            uniform double mjc:actuatorfrcrange:max = 500
         }
     }
 
-    over "torso_link2"
+    over "base_link" (
+        prepend apiSchemas = ["NewtonArticulationRootAPI"]
+    )
     {
-        over "visuals"
-        {
-            over "torso_link2"
-            {
-            }
-        }
-
-        over "collisions"
-        {
-            over "torso_link2"
-            {
-            }
-        }
+        bool newton:selfCollisionEnabled = 0
     }
 
-    over "torso_link3"
+    def Scope "actuators"
     {
-        over "visuals"
+        def MjcActuator "torso_joint1"
         {
-            over "torso_link3"
-            {
-            }
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [2000, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -2000, -200, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -500
+            uniform double mjc:forceRange:max = 500
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = -65.00206
+            uniform double mjc:ctrlRange:max = 105.00024
+            rel mjc:target = </Galaxea_R1/joints/torso_joint1>
         }
 
-        over "collisions"
+        def MjcActuator "torso_joint2"
         {
-            over "torso_link3"
-            {
-            }
-        }
-    }
-
-    over "torso_link4"
-    {
-        over "zed_link"
-        {
-        }
-
-        over "visuals"
-        {
-            over "torso_link4"
-            {
-            }
-
-            over "head"
-            {
-            }
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [2000, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -2000, -200, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -500
+            uniform double mjc:forceRange:max = 500
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = -159.99846
+            uniform double mjc:ctrlRange:max = 144.99841
+            rel mjc:target = </Galaxea_R1/joints/torso_joint2>
         }
 
-        over "collisions"
+        def MjcActuator "torso_joint3"
         {
-            over "torso_link4"
-            {
-            }
-
-            over "head"
-            {
-            }
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [2000, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -2000, -200, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -500
+            uniform double mjc:forceRange:max = 500
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = -105.00024
+            uniform double mjc:ctrlRange:max = 90
+            rel mjc:target = </Galaxea_R1/joints/torso_joint3>
         }
-    }
 
-    over "Looks"
-    {
-    }
-
-    over "VisualMaterials"
-    {
-    }
-}
-
-over "Render"
-{
-    over "OmniverseKit"
-    {
-        over "HydraTextures"
+        def MjcActuator "torso_joint4"
         {
-            over "omni_kit_widget_viewport_ViewportTexture_0"
-            {
-            }
-        }
-    }
-
-    over "OmniverseGlobalRenderSettings"
-    {
-    }
-
-    over "Vars"
-    {
-        over "LdrColor"
-        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [2000, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -2000, -200, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -500
+            uniform double mjc:forceRange:max = 500
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = -174.99849
+            uniform double mjc:ctrlRange:max = 174.99849
+            rel mjc:target = </Galaxea_R1/joints/torso_joint4>
         }
     }
 }
-

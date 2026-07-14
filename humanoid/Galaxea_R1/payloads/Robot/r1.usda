@@ -36,8 +36,8 @@
 def Xform "Galaxea_R1" (
     prepend apiSchemas = ["IsaacRobotAPI"]
     variants = {
-        string Arm_Left = "base"
-        string Arm_Right = "base"
+        string Arm_Left = "galaxea_a1"
+        string Arm_Right = "galaxea_a1"
         string "Left Arm" = "None"
     }
     prepend variantSets = ["Arm_Left", "Arm_Right"]
@@ -242,59 +242,19 @@ def Xform "Galaxea_R1" (
 
     over "Galaxea_A1_Left"
     {
-        over "base_link"
+        over "Galaxea_G1"
         {
-        }
-
-        over "link1"
-        {
-        }
-
-        over "link2"
-        {
-        }
-
-        over "link3"
-        {
-        }
-
-        over "link4"
-        {
-        }
-
-        over "link5"
-        {
-        }
-
-        over "link6"
-        {
-        }
-
-        over "Galaxea_G1_Left"
-        {
-            over "gripper_base"
-            {
-            }
-
-            over "finger1"
-            {
-            }
-
-            over "finger2"
-            {
-            }
-
             over "joints"
             {
-                over "gripper_joint"
+                over "left_gripper_joint"
                 {
-                    float state:linear:physics:position = 2.6868055e-18
+                    float state:linear:physics:position = 0
                     float state:linear:physics:velocity = 0
                 }
 
-                over "gripper_joint2"
+                over "left_gripper_joint2"
                 {
-                    float state:linear:physics:position = 4.5714497e-17
+                    float state:linear:physics:position = 0
                     float state:linear:physics:velocity = 0
                 }
             }
@@ -343,8 +303,8 @@ def Xform "Galaxea_R1" (
         "None" {
 
         }
-        "base" (
-            prepend payload = @payloads/Arm_Left/base.usd@
+        "galaxea_a1" (
+            prepend payload = @payloads/Arm_Left/galaxea_a1.usda@
         ) {
             prepend rel isaac:physics:robotJoints = </Galaxea_R1/Galaxea_A1_Left>
             prepend rel isaac:physics:robotLinks = </Galaxea_R1/Galaxea_A1_Left>
@@ -355,8 +315,8 @@ def Xform "Galaxea_R1" (
         "None" {
 
         }
-        "base" (
-            prepend payload = @payloads/Arm_Right/base.usd@
+        "galaxea_a1" (
+            prepend payload = @payloads/Arm_Right/galaxea_a1.usda@
         ) {
             prepend rel isaac:physics:robotJoints = </Galaxea_R1/Galaxea_A1_Right>
             prepend rel isaac:physics:robotLinks = </Galaxea_R1/Galaxea_A1_Right>

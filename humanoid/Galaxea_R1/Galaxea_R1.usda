@@ -42,9 +42,10 @@ def Xform "Galaxea_R1" (
         string Chassis = "SteerChassis"
         string Physics = "physx"
         string ROS = "enable"
+        string Robot = "R1"
     }
-    prepend variantSets = ["Chassis", "ROS"]
-    append variantSets = ["Physics", "Sensor", "Robot"]
+    prepend variantSets = ["Physics", "Chassis", "ROS"]
+    append variantSets = ["Sensor", "Robot"]
 )
 {
     over "base_link"
@@ -206,6 +207,11 @@ def Xform "Galaxea_R1" (
         }
     }
     variantSet "Physics" = {
+        "mujoco" (
+            prepend payload = @./payloads/Physics/mujoco.usda@
+        ) {
+
+        }
         "none" (
             prepend payload = @./payloads/Physics/none.usda@
         ) {
@@ -253,7 +259,7 @@ def Xform "Galaxea_R1" (
 
         }
         "SteerChassis" (
-            prepend payload = @payloads/Chassis/base.usd@
+            prepend payload = @payloads/Chassis/steer_chassis.usda@
         ) {
             prepend rel isaac:physics:robotJoints = </Galaxea_R1/SteerChassis>
             prepend rel isaac:physics:robotLinks = </Galaxea_R1/SteerChassis>

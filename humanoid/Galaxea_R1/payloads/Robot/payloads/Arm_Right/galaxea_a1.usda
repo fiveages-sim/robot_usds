@@ -1,0 +1,106 @@
+#usda 1.0
+(
+    defaultPrim = "Galaxea_R1"
+)
+
+# Mount Galaxea_A1 as right arm (Side=right). Prim rename: Galaxea_A1 -> Galaxea_A1_Right.
+# Gripper lives at /Galaxea_R1/Galaxea_A1_Right/Galaxea_G1 (A1 seamless EE path).
+def Xform "Galaxea_R1"
+{
+    def "Galaxea_A1_Right" (
+        prepend payload = @../../../../../../manipulators/Galaxea/Galaxea_A1/Galaxea_A1.usda@
+        variants = {
+            string Gripper = "galaxea_g1"
+            string ROS2 = "none"
+            string Robot = "robot"
+            string Sensor = "none"
+            string Side = "right"
+        }
+    )
+    {
+        quatd xformOp:orient = (0.7071067811865476, 0.7071067811865475, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (-0.03284500166773796, -0.097234, 1.4035)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "root_joint" (
+            active = false
+        )
+        {
+        }
+
+        over "base_link"
+        {
+            def PhysicsFixedJoint "AssemblerFixedJoint"
+            {
+                rel physics:body0 = </Galaxea_R1/torso_link4>
+                rel physics:body1 = </Galaxea_R1/Galaxea_A1_Right/base_link>
+                point3f physics:localPos0 = (0, -0.097234, 0.30288008)
+                point3f physics:localPos1 = (0, 0, 0)
+                quatf physics:localRot0 = (0.70710677, 0.70710677, 0, 0)
+                quatf physics:localRot1 = (1, 0, 0, 0)
+            }
+        }
+
+        over "joints"
+        {
+            over "right_joint1"
+            {
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "right_joint2"
+            {
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "right_joint3"
+            {
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "right_joint4"
+            {
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "right_joint5"
+            {
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "right_joint6"
+            {
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+        }
+
+        over "Galaxea_G1" (
+            variants = {
+                string Sensor = "d435"
+            }
+        )
+        {
+            over "joints"
+            {
+                over "right_gripper_joint"
+                {
+                    float state:linear:physics:position = 0
+                    float state:linear:physics:velocity = 0
+                }
+
+                over "right_gripper_joint2"
+                {
+                    float state:linear:physics:position = 0
+                    float state:linear:physics:velocity = 0
+                }
+            }
+        }
+    }
+}
