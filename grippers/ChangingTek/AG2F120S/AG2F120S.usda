@@ -45,8 +45,8 @@ def Xform "AG2F120S" (
         string Sensor = "none"
         string Side = "default"
     }
-    prepend variantSets = ["Flange", "Side"]
-    append variantSets = ["Physics", "Robot", "Sensor"]
+    prepend variantSets = ["Physics", "Flange", "Side"]
+    append variantSets = ["Robot", "Sensor"]
 )
 {
     over "gripper_base"
@@ -180,6 +180,11 @@ def Xform "AG2F120S" (
         ) {
 
         }
+        "mujoco" (
+            prepend payload = @./payloads/Physics/mujoco.usda@
+        ) {
+
+        }
     }
     variantSet "Robot" = {
         "none" (
@@ -207,10 +212,7 @@ def Xform "AG2F120S" (
     }
     variantSet "Flange" = {
         "default" (
-            customData = {
-                string[] variantPrimPaths = ["."]
-            }
-            prepend payload = @/home/fiveages/Documents/FaSim-Isaac/robots/grippers/ChangingTek/AG2F120S/payloads/Flange/default.usda@
+            prepend payload = @./payloads/Flange/default.usda@
         ) {
 
         }
@@ -223,19 +225,11 @@ def Xform "AG2F120S" (
 
         }
         "left" (
-            customData = {
-                string[] variantPrimPaths = ["."]
-            }
-            delete payload = @/home/fiveages/Documents/FaSim-Isaac/robots/grippers/ChangingTek/AG2F120S/payloads/Side/left.usda@
             prepend payload = @./payloads/Side/left.usda@
         ) {
 
         }
         "right" (
-            customData = {
-                string[] variantPrimPaths = ["."]
-            }
-            delete payload = @/home/fiveages/Documents/FaSim-Isaac/robots/grippers/ChangingTek/AG2F120S/payloads/Side/left.usda@
             prepend payload = @./payloads/Side/right.usda@
         ) {
 

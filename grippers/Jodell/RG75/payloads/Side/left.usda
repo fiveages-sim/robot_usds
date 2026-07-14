@@ -1,35 +1,7 @@
 #usda 1.0
 (
-    customLayerData = {
-        dictionary cameraSettings = {
-            dictionary Front = {
-                double3 position = (5, 0, 0)
-                double radius = 5
-            }
-            dictionary Perspective = {
-                double3 position = (0.23653181823614056, 0.23653181823614308, 0.30114460106043683)
-                double3 target = (-0.02153759598527688, -0.0215375959852743, 0.04307519299867962)
-            }
-            dictionary Right = {
-                double3 position = (0, -5, 0)
-                double radius = 5
-            }
-            dictionary Top = {
-                double3 position = (0, 0, 5)
-                double radius = 5
-            }
-            string boundCamera = "/OmniverseKit_Persp"
-        }
-        dictionary omni_layer = {
-            string authoring_layer = "./left.usda"
-        }
-        dictionary renderSettings = {
-        }
-    }
     defaultPrim = "RG75"
-    endTimeCode = 0
     metersPerUnit = 1
-    startTimeCode = -1
     upAxis = "Z"
 )
 
@@ -41,19 +13,10 @@ def "RG75"
             active = false
         )
         {
-            bool[] isaac:actuator (
-                displayName = "Actuator"
-            )
-            string isaac:NameOverride (
-                displayName = "Joint Name Override"
-            )
-            token[] isaac:physics:DofOffsetOpOrder (
-                displayName = "Dof Offset Op Order"
-            )
         }
 
         def PhysicsPrismaticJoint "left_gripper_joint" (
-            prepend apiSchemas = ["PhysicsJointStateAPI:linear", "PhysicsDriveAPI:linear", "PhysxJointAPI", "PhysxDrivePerformanceEnvelopeAPI:linear"]
+            prepend apiSchemas = ["MjcJointAPI", "PhysicsJointStateAPI:linear", "PhysicsDriveAPI:linear", "PhysxJointAPI", "PhysxDrivePerformanceEnvelopeAPI:linear"]
         )
         {
             float drive:linear:physics:damping = 10
@@ -61,19 +24,13 @@ def "RG75"
             float drive:linear:physics:stiffness = 100
             float drive:linear:physics:targetPosition = 0
             uniform token drive:linear:physics:type = "force"
-            bool[] isaac:actuator (
-                displayName = "Actuator"
-            )
-            string isaac:NameOverride (
-                displayName = "Joint Name Override"
-            )
-            token[] isaac:physics:DofOffsetOpOrder (
-                displayName = "Dof Offset Op Order"
-            )
+            uniform double mjc:armature = 0.001
+            uniform double mjc:damping = 0.01
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -100
+            uniform double mjc:actuatorfrcrange:max = 100
             uniform token physics:axis = "Y"
-            custom rel physics:body0
             prepend rel physics:body0 = </RG75/gripper_base>
-            custom rel physics:body1
             prepend rel physics:body1 = </RG75/left_finger>
             float physics:breakForce = 3.4028235e38
             float physics:breakTorque = 3.4028235e38
@@ -92,34 +49,20 @@ def "RG75"
             active = false
         )
         {
-            bool[] isaac:actuator (
-                displayName = "Actuator"
-            )
-            string isaac:NameOverride (
-                displayName = "Joint Name Override"
-            )
-            token[] isaac:physics:DofOffsetOpOrder (
-                displayName = "Dof Offset Op Order"
-            )
         }
 
         def PhysicsPrismaticJoint "left_right_finger_joint" (
-            prepend apiSchemas = ["PhysicsJointStateAPI:linear", "PhysxJointAPI", "PhysxMimicJointAPI:rotY"]
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI", "PhysicsJointStateAPI:linear", "PhysxJointAPI", "PhysxMimicJointAPI:rotY"]
         )
         {
-            bool[] isaac:actuator (
-                displayName = "Actuator"
-            )
-            string isaac:NameOverride (
-                displayName = "Joint Name Override"
-            )
-            token[] isaac:physics:DofOffsetOpOrder (
-                displayName = "Dof Offset Op Order"
-            )
+            uniform double mjc:armature = 0.001
+            uniform double mjc:damping = 0.01
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 1
+            rel newton:mimicJoint = </RG75/joints/left_gripper_joint>
             uniform token physics:axis = "Y"
-            custom rel physics:body0
             prepend rel physics:body0 = </RG75/gripper_base>
-            custom rel physics:body1
             prepend rel physics:body1 = </RG75/right_finger>
             float physics:breakForce = 3.4028235e38
             float physics:breakTorque = 3.4028235e38
@@ -137,181 +80,46 @@ def "RG75"
             rel physxMimicJoint:rotY:referenceJoint = </RG75/joints/left_gripper_joint>
         }
     }
-}
 
-def "Render" (
-    hide_in_stage_window = true
-    no_delete = true
-)
-{
-    def "OmniverseKit"
+    over "gripper_base"
     {
-        def "HydraTextures" (
-            hide_in_stage_window = true
-            no_delete = true
+        # Sticky left Orbbec flange when Sensors=orbbec_335_side.
+        over "side_camera_support" (
+            variants = {
+                string mount = "left"
+            }
         )
         {
-            def RenderProduct "omni_kit_widget_viewport_ViewportTexture_0" (
-                prepend apiSchemas = ["OmniRtxSettingsCommonAdvancedAPI_1", "OmniRtxSettingsRtAdvancedAPI_1", "OmniRtxSettingsPtAdvancedAPI_1", "OmniRtxPostColorGradingAPI_1", "OmniRtxPostChromaticAberrationAPI_1", "OmniRtxPostBloomPhysicalAPI_1", "OmniRtxPostMatteObjectAPI_1", "OmniRtxPostCompositingAPI_1", "OmniRtxPostDofAPI_1", "OmniRtxPostMotionBlurAPI_1", "OmniRtxPostTvNoiseAPI_1", "OmniRtxPostTonemapIrayReinhardAPI_1", "OmniRtxPostDebugSettingsAPI_1", "OmniRtxDebugSettingsAPI_1"]
-                hide_in_stage_window = true
-                no_delete = true
-            )
-            {
-                rel camera = </OmniverseKit_Persp>
-                token omni:rtx:ambientOcclusion:denoiserMode = "none"
-                token omni:rtx:background:source:texture:textureMode = "repeatMirrored"
-                token omni:rtx:background:source:type = "domeLight"
-                bool omni:rtx:debug:view:pixelDebug:enableFixedTextPos = 1
-                token omni:rtx:directLighting:sampledLighting:denoisingTechnique = "None"
-                bool omni:rtx:dlss:frameGeneration = 0
-                float3 omni:rtx:domeLight:rotationAxis = (0, 0, 1)
-                bool omni:rtx:indirectDiffuse:denoiser:enabled = 0
-                bool omni:rtx:material:db:syncLoads = 1
-                token omni:rtx:post:dlss:execMode = "performance"
-                bool omni:rtx:post:registeredCompositing:invertColorCorrection = 1
-                bool omni:rtx:post:registeredCompositing:invertToneMap = 1
-                bool omni:rtx:pt:adaptiveSampling:filterError = 0
-                uint omni:rtx:pt:adaptiveSampling:fixedSppIterations = 2
-                uint omni:rtx:pt:maxSamplesPerLaunch = 2073600
-                uint omni:rtx:pt:mgpu:maxPixelsPerRegionExponent = 12
-                bool omni:rtx:reflections:denoiser:enabled = 0
-                token omni:rtx:rendermode = "RealTimePathTracing"
-                color3f omni:rtx:rt:ambientLight:color = (0.1, 0.1, 0.1)
-                bool omni:rtx:rt:demoire = 0
-                bool omni:rtx:rt:lightcache:spatialCache:dontResolveConflicts = 1
-                int omni:rtx:rt:sss:samples = 1
-                uint omni:rtx:rtpt:maxVolumeBounces = 15
-                float omni:rtx:rtpt:modulatingRoughnessThreshold = 0.08
-                bool omni:rtx:scene:hydra:materialSyncLoads = 1
-                bool omni:rtx:scene:hydra:mdlMaterialWarmup = 1
-                rel orderedVars = </Render/Vars/LdrColor>
-                custom bool overrideClipRange = 0
-                uniform int2 resolution = (1280, 720)
-            }
         }
     }
 
-    def RenderSettings "OmniverseGlobalRenderSettings" (
-        prepend apiSchemas = ["OmniRtxSettingsGlobalRtAdvancedAPI_1", "OmniRtxSettingsGlobalPtAdvancedAPI_1"]
-        no_delete = true
-    )
+    over "actuators"
     {
-        rel products = </Render/OmniverseKit/HydraTextures/omni_kit_widget_viewport_ViewportTexture_0>
-    }
-
-    def "Vars"
-    {
-        def RenderVar "LdrColor" (
-            hide_in_stage_window = true
-            no_delete = true
+        over "gripper_joint" (
+            active = false
         )
         {
-            uniform string sourceName = "LdrColor"
-            uniform token sourceType = "raw"
+        }
+
+        over "right_gripper_joint" (
+            active = false
+        )
+        {
+        }
+
+        def MjcActuator "left_gripper_joint"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [100, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -100, -10, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -100
+            uniform double mjc:forceRange:max = 100
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = 0
+            uniform double mjc:ctrlRange:max = 0.038372
+            rel mjc:target = </RG75/joints/left_gripper_joint>
         }
     }
 }
-
-over "OmniverseKit_Persp" (
-    prepend apiSchemas = ["OmniRtxCameraAutoExposureAPI_1", "OmniRtxCameraExposureAPI_1"]
-    customData = {
-        dictionary omni = {
-            dictionary kit = {
-                bool hide_in_stage_window = 1
-                bool no_delete = 1
-            }
-        }
-    }
-    hide_in_stage_window = true
-    kind = "component"
-    no_delete = true
-)
-{
-    float2 clippingRange = (0.01, 10000000)
-    float exposure:fStop = 5
-    float exposure:responsivity = 1.1026709
-    float exposure:time = 0.02
-    float focalLength = 18.147562
-    float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -0.4469893337547517)
-    float3 xformOp:rotateXYZ = (54.73561, -6.3611094e-15, 135)
-    float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (0.23653181823614056, 0.23653181823614308, 0.30114460106043683)
-    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
-}
-
-over "OmniverseKit_Front" (
-    customData = {
-        dictionary omni = {
-            dictionary kit = {
-                bool hide_in_stage_window = 1
-                bool no_delete = 1
-            }
-        }
-    }
-    hide_in_stage_window = true
-    kind = "component"
-    no_delete = true
-)
-{
-    float2 clippingRange = (1, 10000000)
-    float horizontalAperture = 50
-    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -5)
-    token projection = "orthographic"
-    float verticalAperture = 50
-    float3 xformOp:rotateXYZ = (90, -1.2722219e-14, 90)
-    float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (5, 0, 0)
-    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
-}
-
-over "OmniverseKit_Right" (
-    customData = {
-        dictionary omni = {
-            dictionary kit = {
-                bool hide_in_stage_window = 1
-                bool no_delete = 1
-            }
-        }
-    }
-    hide_in_stage_window = true
-    kind = "component"
-    no_delete = true
-)
-{
-    float2 clippingRange = (1, 10000000)
-    float horizontalAperture = 50
-    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -5)
-    token projection = "orthographic"
-    float verticalAperture = 50
-    float3 xformOp:rotateXYZ = (90, -1.41245e-30, 1.2722219e-14)
-    float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (0, -5, 0)
-    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
-}
-
-over "OmniverseKit_Top" (
-    customData = {
-        dictionary omni = {
-            dictionary kit = {
-                bool hide_in_stage_window = 1
-                bool no_delete = 1
-            }
-        }
-    }
-    hide_in_stage_window = true
-    kind = "component"
-    no_delete = true
-)
-{
-    float2 clippingRange = (1, 10000000)
-    float horizontalAperture = 50
-    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -5)
-    token projection = "orthographic"
-    float verticalAperture = 50
-    float3 xformOp:rotateXYZ = (-1.2722219e-14, -7.016709e-15, -90)
-    float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (0, 0, 5)
-    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
-}
-

@@ -44,10 +44,11 @@ def Xform "RG75" (
         string Robot = "none"
         string Sensors = "none"
         string flange = "none"
-        string side = "right"
+        string side = "default"
     }
-    prepend variantSets = ["flange", "Pad", "side", "Sensors"]
-    append variantSets = ["Physics", "Robot"]
+    # Physics first; side before Sensors so left/right Orbbec mount stickies win.
+    prepend variantSets = ["Physics", "flange", "Pad", "side", "Sensors"]
+    append variantSets = ["Robot"]
 )
 {
     variantSet "Physics" = {
@@ -66,6 +67,11 @@ def Xform "RG75" (
         ) {
 
         }
+        "mujoco" (
+            prepend payload = @./payloads/Physics/mujoco.usda@
+        ) {
+
+        }
     }
     variantSet "Robot" = {
         "none" (
@@ -81,10 +87,6 @@ def Xform "RG75" (
     }
     variantSet "flange" = {
         "default" (
-            customData = {
-                string[] variantPrimPaths = ["."]
-            }
-            delete payload = @/home/fiveages/distrobox/ubuntu24/FaSim-Isaac/robots/grippers/Jodell/RG75/payloads/Flange/default.usda@
             prepend payload = @./payloads/Flange/default.usda@
         ) {
 
@@ -98,10 +100,6 @@ def Xform "RG75" (
 
         }
         "type1" (
-            customData = {
-                string[] variantPrimPaths = ["."]
-            }
-            delete payload = @/home/fiveages/distrobox/ubuntu24/FaSim-Isaac/robots/grippers/Jodell/RG75/payloads/Pad/type1/type1.usda@
             prepend payload = @./payloads/Pad/type1/type1.usda@
         ) {
 
@@ -112,19 +110,11 @@ def Xform "RG75" (
 
         }
         "left" (
-            customData = {
-                string[] variantPrimPaths = ["."]
-            }
-            delete payload = @/home/fiveages/distrobox/ubuntu24/FaSim-Isaac/robots/grippers/Jodell/RG75/payloads/Side/left.usda@
             prepend payload = @./payloads/Side/left.usda@
         ) {
 
         }
         "right" (
-            customData = {
-                string[] variantPrimPaths = ["."]
-            }
-            delete payload = @/home/fiveages/distrobox/ubuntu24/FaSim-Isaac/robots/grippers/Jodell/RG75/payloads/Side/right.usda@
             prepend payload = @./payloads/Side/right.usda@
         ) {
 
@@ -135,10 +125,6 @@ def Xform "RG75" (
 
         }
         "orbbec_335_side" (
-            customData = {
-                string[] variantPrimPaths = ["."]
-            }
-            delete payload = @/home/fiveages/distrobox/ubuntu24/FaSim-Isaac/robots/grippers/Jodell/RG75/payloads/Sensor/335_side/335_side.usda@
             prepend payload = @./payloads/Sensor/335_side/335_side.usda@
         ) {
 

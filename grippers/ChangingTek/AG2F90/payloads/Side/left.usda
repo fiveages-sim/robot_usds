@@ -1,0 +1,331 @@
+#usda 1.0
+(
+    defaultPrim = "AG2F90"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def "AG2F90"
+{
+    over "joints"
+    {
+over "gripper_joint" (
+    active = false
+)
+{
+}
+
+        def PhysicsRevoluteJoint "left_gripper_joint" (
+            prepend apiSchemas = ["MjcJointAPI", "PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular", "PhysxJointAPI"]
+        )
+        {
+            float drive:angular:physics:damping = 0.2
+            float drive:angular:physics:maxForce = 5
+            float drive:angular:physics:stiffness = 1
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            uniform double mjc:armature = 0.001
+            uniform double mjc:damping = 0.01
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -5
+            uniform double mjc:actuatorfrcrange:max = 5
+            uniform token physics:axis = "X"
+            prepend rel physics:body0 = </AG2F90/gripper_base>
+            prepend rel physics:body1 = </AG2F90/left_1_link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.00065483624
+            point3f physics:localPos0 = (0, -0.030141, 0.090147)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0.70710677, 0.70710677, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = 0
+            float physics:upperLimit = 57.295776
+            float physxJoint:maxJointVelocity = 180
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+over "left_in_Joint" (
+    active = false
+)
+{
+}
+
+        def PhysicsRevoluteJoint "left_left_in_Joint" (
+            prepend apiSchemas = ["MjcJointAPI", "PhysicsJointStateAPI:angular", "PhysxJointAPI", "PhysxMimicJointAPI:rotX", "NewtonMimicAPI"]
+        )
+        {
+            uniform double mjc:armature = 0.001
+            uniform double mjc:damping = 0.01
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 0.1
+            rel newton:mimicJoint = </AG2F90/joints/left_gripper_joint>
+            uniform token physics:axis = "X"
+            prepend rel physics:body0 = </AG2F90/left_1_link>
+            prepend rel physics:body1 = </AG2F90/left_in_link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 5.6853196e-06
+            point3f physics:localPos0 = (0, 0.023914, -0.0020253)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0, 0, 0, 1)
+            quatf physics:localRot1 = (0, 0, 0, 1)
+            float physics:lowerLimit = -1.1459155
+            float physics:upperLimit = 6.875493
+            float physxMimicJoint:rotX:dampingRatio = 0
+            float physxMimicJoint:rotX:gearing = -0.1
+            float physxMimicJoint:rotX:naturalFrequency = 0
+            float physxMimicJoint:rotX:offset = 0
+            rel physxMimicJoint:rotX:referenceJoint = </AG2F90/joints/left_gripper_joint>
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+over "left_up_Joint" (
+    active = false
+)
+{
+}
+
+        def PhysicsRevoluteJoint "left_left_up_Joint" (
+            prepend apiSchemas = ["MjcJointAPI", "PhysicsJointStateAPI:angular", "PhysxJointAPI", "PhysxMimicJointAPI:rotX", "NewtonMimicAPI"]
+        )
+        {
+            uniform double mjc:armature = 0.001
+            uniform double mjc:damping = 0.01
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 1
+            rel newton:mimicJoint = </AG2F90/joints/left_gripper_joint>
+            uniform token physics:axis = "X"
+            prepend rel physics:body0 = </AG2F90/left_1_link>
+            prepend rel physics:body1 = </AG2F90/left_up_link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 9.516696e-05
+            point3f physics:localPos0 = (0, 0.054804, -0.0046413)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0, 0, 0, 1)
+            quatf physics:localRot1 = (0, 0, 0, 1)
+            float physics:lowerLimit = -11.459155
+            float physics:upperLimit = 68.75493
+            float physxMimicJoint:rotX:dampingRatio = 0
+            float physxMimicJoint:rotX:gearing = -1
+            float physxMimicJoint:rotX:naturalFrequency = 0
+            float physxMimicJoint:rotX:offset = 0
+            rel physxMimicJoint:rotX:referenceJoint = </AG2F90/joints/left_gripper_joint>
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+over "left_2_Joint" (
+    active = false
+)
+{
+}
+
+        def PhysicsRevoluteJoint "left_left_2_Joint" (
+            prepend apiSchemas = ["MjcJointAPI", "PhysicsJointStateAPI:angular", "PhysxJointAPI", "PhysxMimicJointAPI:rotX", "NewtonMimicAPI"]
+        )
+        {
+            uniform double mjc:armature = 0.001
+            uniform double mjc:damping = 0.01
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 1
+            rel newton:mimicJoint = </AG2F90/joints/left_gripper_joint>
+            uniform token physics:axis = "X"
+            prepend rel physics:body0 = </AG2F90/gripper_base>
+            prepend rel physics:body1 = </AG2F90/left_2_link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.00043467747
+            point3f physics:localPos0 = (0, -0.016, 0.107)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0.70710677, 0.70710677, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -11.459155
+            float physics:upperLimit = 68.75493
+            float physxMimicJoint:rotX:dampingRatio = 0
+            float physxMimicJoint:rotX:gearing = -1
+            float physxMimicJoint:rotX:naturalFrequency = 0
+            float physxMimicJoint:rotX:offset = 0
+            rel physxMimicJoint:rotX:referenceJoint = </AG2F90/joints/left_gripper_joint>
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+over "right_1_Joint" (
+    active = false
+)
+{
+}
+
+        def PhysicsRevoluteJoint "left_right_1_Joint" (
+            prepend apiSchemas = ["MjcJointAPI", "PhysicsJointStateAPI:angular", "PhysxJointAPI", "PhysxMimicJointAPI:rotX", "NewtonMimicAPI"]
+        )
+        {
+            uniform double mjc:armature = 0.001
+            uniform double mjc:damping = 0.01
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 1
+            rel newton:mimicJoint = </AG2F90/joints/left_gripper_joint>
+            uniform token physics:axis = "X"
+            prepend rel physics:body0 = </AG2F90/gripper_base>
+            prepend rel physics:body1 = </AG2F90/right_1_link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.0006556117
+            point3f physics:localPos0 = (0, 0.030141, 0.090147)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (-3.090862e-08, -3.090862e-08, 0.70710677, 0.70710677)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -11.459155
+            float physics:upperLimit = 68.75493
+            float physxMimicJoint:rotX:dampingRatio = 0
+            float physxMimicJoint:rotX:gearing = -1
+            float physxMimicJoint:rotX:naturalFrequency = 0
+            float physxMimicJoint:rotX:offset = 0
+            rel physxMimicJoint:rotX:referenceJoint = </AG2F90/joints/left_gripper_joint>
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+over "right_in_Joint" (
+    active = false
+)
+{
+}
+
+        def PhysicsRevoluteJoint "left_right_in_Joint" (
+            prepend apiSchemas = ["MjcJointAPI", "PhysicsJointStateAPI:angular", "PhysxJointAPI", "PhysxMimicJointAPI:rotX", "NewtonMimicAPI"]
+        )
+        {
+            uniform double mjc:armature = 0.001
+            uniform double mjc:damping = 0.01
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 0.1
+            rel newton:mimicJoint = </AG2F90/joints/left_gripper_joint>
+            uniform token physics:axis = "X"
+            prepend rel physics:body0 = </AG2F90/right_1_link>
+            prepend rel physics:body1 = </AG2F90/right_in_link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 5.692336e-06
+            point3f physics:localPos0 = (0, 0.023914, -0.0020253)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0, 0, 0, 1)
+            quatf physics:localRot1 = (0, 0, 0, 1)
+            float physics:lowerLimit = -1.1459155
+            float physics:upperLimit = 6.875493
+            float physxMimicJoint:rotX:dampingRatio = 0
+            float physxMimicJoint:rotX:gearing = -0.1
+            float physxMimicJoint:rotX:naturalFrequency = 0
+            float physxMimicJoint:rotX:offset = 0
+            rel physxMimicJoint:rotX:referenceJoint = </AG2F90/joints/left_gripper_joint>
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+over "right_up_Joint" (
+    active = false
+)
+{
+}
+
+        def PhysicsRevoluteJoint "left_right_up_Joint" (
+            prepend apiSchemas = ["MjcJointAPI", "PhysicsJointStateAPI:angular", "PhysxJointAPI", "PhysxMimicJointAPI:rotX", "NewtonMimicAPI"]
+        )
+        {
+            uniform double mjc:armature = 0.001
+            uniform double mjc:damping = 0.01
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 1
+            rel newton:mimicJoint = </AG2F90/joints/left_gripper_joint>
+            uniform token physics:axis = "X"
+            prepend rel physics:body0 = </AG2F90/right_1_link>
+            prepend rel physics:body1 = </AG2F90/right_up_link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 9.7999e-05
+            point3f physics:localPos0 = (0, 0.054804, -0.0046413)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0, 0, 0, 1)
+            quatf physics:localRot1 = (0, 0, 0, 1)
+            float physics:lowerLimit = -11.459155
+            float physics:upperLimit = 68.75493
+            float physxMimicJoint:rotX:dampingRatio = 0
+            float physxMimicJoint:rotX:gearing = -1
+            float physxMimicJoint:rotX:naturalFrequency = 0
+            float physxMimicJoint:rotX:offset = 0
+            rel physxMimicJoint:rotX:referenceJoint = </AG2F90/joints/left_gripper_joint>
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+over "right_2_Joint" (
+    active = false
+)
+{
+}
+
+        def PhysicsRevoluteJoint "left_right_2_Joint" (
+            prepend apiSchemas = ["MjcJointAPI", "PhysicsJointStateAPI:angular", "PhysxJointAPI", "PhysxMimicJointAPI:rotX", "NewtonMimicAPI"]
+        )
+        {
+            uniform double mjc:armature = 0.001
+            uniform double mjc:damping = 0.01
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 1
+            rel newton:mimicJoint = </AG2F90/joints/left_gripper_joint>
+            uniform token physics:axis = "X"
+            prepend rel physics:body0 = </AG2F90/gripper_base>
+            prepend rel physics:body1 = </AG2F90/right_2_link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.0004350146
+            point3f physics:localPos0 = (0, 0.016, 0.107)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (-3.090862e-08, -3.090862e-08, 0.70710677, 0.70710677)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -11.459155
+            float physics:upperLimit = 68.75493
+            float physxMimicJoint:rotX:dampingRatio = 0
+            float physxMimicJoint:rotX:gearing = -1
+            float physxMimicJoint:rotX:naturalFrequency = 0
+            float physxMimicJoint:rotX:offset = 0
+            rel physxMimicJoint:rotX:referenceJoint = </AG2F90/joints/left_gripper_joint>
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+}
+
+over "actuators"
+{
+    over "gripper_joint" (
+        active = false
+    )
+    {
+    }
+
+    over "right_gripper_joint" (
+        active = false
+    )
+    {
+    }
+
+def MjcActuator "left_gripper_joint"
+{
+    uniform token mjc:gainType = "fixed"
+    uniform token mjc:biasType = "affine"
+    uniform double[] mjc:gainPrm = [1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    uniform double[] mjc:biasPrm = [0, -1, -0.2, 0, 0, 0, 0, 0, 0, 0]
+    uniform token mjc:forceLimited = "true"
+    uniform double mjc:forceRange:min = -5
+    uniform double mjc:forceRange:max = 5
+    uniform token mjc:ctrlLimited = "true"
+    uniform double mjc:ctrlRange:min = 0
+    uniform double mjc:ctrlRange:max = 57.295776
+    rel mjc:target = </AG2F90/joints/left_gripper_joint>
+}
+        }
+    }
