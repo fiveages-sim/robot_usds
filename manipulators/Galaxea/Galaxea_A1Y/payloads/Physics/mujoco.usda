@@ -20,302 +20,199 @@
             }
             string boundCamera = "/OmniverseKit_Persp"
         }
-        dictionary metricsAssembler = {
-            dictionary "/Galaxea_A1Y/d405" = {
-            }
-            int version = 1
-        }
         dictionary omni_layer = {
-            string authoring_layer = "./Galaxea_A1Y.usd"
+            string authoring_layer = "./mujoco.usda"
         }
         dictionary renderSettings = {
         }
     }
-    doc = """Generated from Composed Stage of root layer /home/fiveages/FaSim-Isaac/robots/manipulators/Galaxea/Galaxea_A1Y/Galaxea_A1Y.usd
-
-
-Generated from Composed Stage of root layer /home/fiveages/FaSim-Isaac/robots/manipulators/Galaxea/Galaxea_A1Y/payloads/base.usd
-"""
+    defaultPrim = "Galaxea_A1Y"
     metersPerUnit = 1
+    subLayers = [
+        @./physics.usda@
+    ]
     upAxis = "Z"
 )
 
-over "Galaxea_A1Y"
+def "Galaxea_A1Y"
 {
-    over "base_link"
-    {
-        over "visuals"
-        {
-            over "base_link"
-            {
-            }
-        }
-
-        over "collisions"
-        {
-            over "base_link"
-            {
-            }
-        }
-    }
-
-    over "link1"
-    {
-        over "visuals"
-        {
-            over "link1"
-            {
-            }
-        }
-
-        over "collisions"
-        {
-            over "link1"
-            {
-            }
-        }
-    }
-
     over "joints"
     {
+        # PhysX DriveAPI -> MjcActuator position PD
+        # F = kp*(ctrl - q) - kd*qdot  (kp=200, kd=10)
+        # ctrlRange / forceRange match A1Y physics.usda limits / maxForce
         over "joint1" (
+            prepend apiSchemas = ["MjcJointAPI"]
             delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
         )
         {
+            uniform double mjc:armature = 0.01
+            uniform double mjc:damping = 0.1
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -27
+            uniform double mjc:actuatorfrcrange:max = 27
         }
 
         over "joint2" (
+            prepend apiSchemas = ["MjcJointAPI"]
             delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
         )
         {
+            uniform double mjc:armature = 0.01
+            uniform double mjc:damping = 0.1
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -50
+            uniform double mjc:actuatorfrcrange:max = 50
         }
 
         over "joint3" (
+            prepend apiSchemas = ["MjcJointAPI"]
             delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
         )
         {
+            uniform double mjc:armature = 0.01
+            uniform double mjc:damping = 0.1
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -27
+            uniform double mjc:actuatorfrcrange:max = 27
         }
 
         over "joint4" (
+            prepend apiSchemas = ["MjcJointAPI"]
             delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
         )
         {
+            uniform double mjc:armature = 0.01
+            uniform double mjc:damping = 0.1
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -14
+            uniform double mjc:actuatorfrcrange:max = 14
         }
 
         over "joint5" (
+            prepend apiSchemas = ["MjcJointAPI"]
             delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
         )
         {
+            uniform double mjc:armature = 0.01
+            uniform double mjc:damping = 0.1
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -14
+            uniform double mjc:actuatorfrcrange:max = 14
         }
 
         over "joint6" (
+            prepend apiSchemas = ["MjcJointAPI"]
             delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
         )
         {
+            uniform double mjc:armature = 0.01
+            uniform double mjc:damping = 0.1
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -14
+            uniform double mjc:actuatorfrcrange:max = 14
         }
 
-        over "gripper_joint" (
-            delete apiSchemas = ["PhysicsJointStateAPI:linear", "PhysicsDriveAPI:linear"]
-        )
-        {
-        }
-
-        over "gripper_joint2" (
-            delete apiSchemas = ["PhysicsJointStateAPI:linear"]
-        )
-        {
-        }
+        # Side-specific joints/actuators live in payloads/Side/{left,right}.usda
     }
 
-    over "link2"
+    over "root_joint" (
+        prepend apiSchemas = ["NewtonArticulationRootAPI"]
+    )
     {
-        over "visuals"
-        {
-            over "link2"
-            {
-            }
-        }
-
-        over "collisions"
-        {
-            over "link2"
-            {
-            }
-        }
+        bool newton:selfCollisionEnabled = 0
     }
 
-    over "link3"
+    def Scope "actuators"
     {
-        over "visuals"
+        def MjcActuator "joint1"
         {
-            over "link3"
-            {
-            }
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [200, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -200, -10, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -27
+            uniform double mjc:forceRange:max = 27
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = -165.00009
+            uniform double mjc:ctrlRange:max = 165.00009
+            rel mjc:target = </Galaxea_A1Y/joints/joint1>
         }
 
-        over "collisions"
+        def MjcActuator "joint2"
         {
-            over "link3"
-            {
-            }
-        }
-    }
-
-    over "link4"
-    {
-        over "visuals"
-        {
-            over "link4"
-            {
-            }
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [200, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -200, -10, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -50
+            uniform double mjc:forceRange:max = 50
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = 0
+            uniform double mjc:ctrlRange:max = 180
+            rel mjc:target = </Galaxea_A1Y/joints/joint2>
         }
 
-        over "collisions"
+        def MjcActuator "joint3"
         {
-            over "link4"
-            {
-            }
-        }
-    }
-
-    over "link5"
-    {
-        over "visuals"
-        {
-            over "link5"
-            {
-            }
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [200, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -200, -10, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -27
+            uniform double mjc:forceRange:max = 27
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = -190.00008
+            uniform double mjc:ctrlRange:max = 0
+            rel mjc:target = </Galaxea_A1Y/joints/joint3>
         }
 
-        over "collisions"
+        def MjcActuator "joint4"
         {
-            over "link5"
-            {
-            }
-        }
-    }
-
-    over "link6"
-    {
-        over "gripper_base"
-        {
-            over "camera_stand"
-            {
-                over "camera"
-                {
-                    over "d405"
-                    {
-                        over "Looks"
-                        {
-                        }
-
-                        over "d405"
-                        {
-                        }
-                    }
-                }
-            }
-
-            over "gripper_center"
-            {
-            }
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [200, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -200, -10, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -14
+            uniform double mjc:forceRange:max = 14
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = -165.00009
+            uniform double mjc:ctrlRange:max = 165.00009
+            rel mjc:target = </Galaxea_A1Y/joints/joint4>
         }
 
-        over "visuals"
+        def MjcActuator "joint5"
         {
-            over "link6"
-            {
-            }
-
-            over "gripper_link"
-            {
-            }
-
-            over "camera_stand"
-            {
-            }
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [200, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -200, -10, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -14
+            uniform double mjc:forceRange:max = 14
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = -105.00007
+            uniform double mjc:ctrlRange:max = 105.00007
+            rel mjc:target = </Galaxea_A1Y/joints/joint5>
         }
 
-        over "collisions"
+        def MjcActuator "joint6"
         {
-            over "link6"
-            {
-            }
-
-            over "gripper_link"
-            {
-            }
-
-            over "camera"
-            {
-            }
-        }
-    }
-
-    over "finger1"
-    {
-        over "visuals"
-        {
-            over "finger"
-            {
-            }
-        }
-
-        over "collisions"
-        {
-            over "finger"
-            {
-            }
-        }
-    }
-
-    over "finger2"
-    {
-        over "visuals"
-        {
-            over "finger"
-            {
-            }
-        }
-
-        over "collisions"
-        {
-            over "finger"
-            {
-            }
-        }
-    }
-
-    over "Looks"
-    {
-    }
-
-    over "VisualMaterials"
-    {
-    }
-}
-
-over "Render"
-{
-    over "OmniverseKit"
-    {
-        over "HydraTextures"
-        {
-            over "omni_kit_widget_viewport_ViewportTexture_0"
-            {
-            }
-        }
-    }
-
-    over "OmniverseGlobalRenderSettings"
-    {
-    }
-
-    over "Vars"
-    {
-        over "LdrColor"
-        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [200, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -200, -10, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -14
+            uniform double mjc:forceRange:max = 14
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = -165.00009
+            uniform double mjc:ctrlRange:max = 165.00009
+            rel mjc:target = </Galaxea_A1Y/joints/joint6>
         }
     }
 }
-

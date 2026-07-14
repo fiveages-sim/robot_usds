@@ -34,14 +34,8 @@
 )
 
 def "Galaxea_A1Y" (
-    delete payload = [
-        @payloads/Gripper/g1.usd@,
-        @payloads/Gripper/g1_left.usd@,
-        @payloads/Gripper/g1_right.usd@,
-        @payloads/Gripper/base.usd@
-    ]
     variants = {
-        string Gripper = "None"
+        string Gripper = "galaxea_g1"
         string Side = "left"
     }
     prepend variantSets = "Gripper"
@@ -65,14 +59,10 @@ def "Galaxea_A1Y" (
         }
 
         def PhysicsRevoluteJoint "left_joint1" (
-            prepend apiSchemas = ["PhysxJointAPI", "PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular", "PhysxJointAPI"]
         )
         {
-            float drive:angular:physics:damping = 10
-            float drive:angular:physics:maxForce = 27
-            float drive:angular:physics:stiffness = 200
-            float drive:angular:physics:targetPosition = 0
-            uniform token drive:angular:physics:type = "force"
             bool[] isaac:actuator (
                 displayName = "Actuator"
             )
@@ -82,6 +72,11 @@ def "Galaxea_A1Y" (
             token[] isaac:physics:DofOffsetOpOrder (
                 displayName = "Dof Offset Op Order"
             )
+            uniform double mjc:armature = 0.01
+            uniform double mjc:damping = 0.1
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -27
+            uniform double mjc:actuatorfrcrange:max = 27
             uniform token physics:axis = "Z"
             custom rel physics:body0
             prepend rel physics:body0 = </Galaxea_A1Y/base_link>
@@ -96,9 +91,6 @@ def "Galaxea_A1Y" (
             quatf physics:localRot1 = (1, 0, 0, 0)
             float physics:lowerLimit = -165.00009
             float physics:upperLimit = 165.00009
-            float physxJoint:maxJointVelocity = 600.0014
-            float state:angular:physics:position = 0
-            float state:angular:physics:velocity = 0
         }
 
         over "joint3" (
@@ -132,14 +124,10 @@ def "Galaxea_A1Y" (
         }
 
         def PhysicsRevoluteJoint "left_joint2" (
-            prepend apiSchemas = ["PhysxJointAPI", "PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular", "PhysxJointAPI"]
         )
         {
-            float drive:angular:physics:damping = 10
-            float drive:angular:physics:maxForce = 50
-            float drive:angular:physics:stiffness = 200
-            float drive:angular:physics:targetPosition = 0
-            uniform token drive:angular:physics:type = "force"
             bool[] isaac:actuator (
                 displayName = "Actuator"
             )
@@ -149,6 +137,11 @@ def "Galaxea_A1Y" (
             token[] isaac:physics:DofOffsetOpOrder (
                 displayName = "Dof Offset Op Order"
             )
+            uniform double mjc:armature = 0.01
+            uniform double mjc:damping = 0.1
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -50
+            uniform double mjc:actuatorfrcrange:max = 50
             uniform token physics:axis = "Y"
             custom rel physics:body0
             prepend rel physics:body0 = </Galaxea_A1Y/link1>
@@ -163,20 +156,13 @@ def "Galaxea_A1Y" (
             quatf physics:localRot1 = (1, 0, 0, 0)
             float physics:lowerLimit = 0
             float physics:upperLimit = 180
-            float physxJoint:maxJointVelocity = 720.00165
-            float state:angular:physics:position = 0
-            float state:angular:physics:velocity = 0
         }
 
         def PhysicsRevoluteJoint "left_joint3" (
-            prepend apiSchemas = ["PhysxJointAPI", "PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular", "PhysxJointAPI"]
         )
         {
-            float drive:angular:physics:damping = 10
-            float drive:angular:physics:maxForce = 27
-            float drive:angular:physics:stiffness = 200
-            float drive:angular:physics:targetPosition = 0
-            uniform token drive:angular:physics:type = "force"
             bool[] isaac:actuator (
                 displayName = "Actuator"
             )
@@ -186,6 +172,11 @@ def "Galaxea_A1Y" (
             token[] isaac:physics:DofOffsetOpOrder (
                 displayName = "Dof Offset Op Order"
             )
+            uniform double mjc:armature = 0.01
+            uniform double mjc:damping = 0.1
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -27
+            uniform double mjc:actuatorfrcrange:max = 27
             uniform token physics:axis = "Y"
             custom rel physics:body0
             prepend rel physics:body0 = </Galaxea_A1Y/link2>
@@ -200,9 +191,6 @@ def "Galaxea_A1Y" (
             quatf physics:localRot1 = (1, 0, 0, 0)
             float physics:lowerLimit = -189.99852
             float physics:upperLimit = 0
-            float physxJoint:maxJointVelocity = 600.0014
-            float state:angular:physics:position = 0
-            float state:angular:physics:velocity = 0
         }
 
         over "joint4" (
@@ -221,14 +209,10 @@ def "Galaxea_A1Y" (
         }
 
         def PhysicsRevoluteJoint "left_joint4" (
-            prepend apiSchemas = ["PhysxJointAPI", "PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular", "PhysxJointAPI"]
         )
         {
-            float drive:angular:physics:damping = 10
-            float drive:angular:physics:maxForce = 14
-            float drive:angular:physics:stiffness = 200
-            float drive:angular:physics:targetPosition = 0
-            uniform token drive:angular:physics:type = "force"
             bool[] isaac:actuator (
                 displayName = "Actuator"
             )
@@ -238,6 +222,11 @@ def "Galaxea_A1Y" (
             token[] isaac:physics:DofOffsetOpOrder (
                 displayName = "Dof Offset Op Order"
             )
+            uniform double mjc:armature = 0.01
+            uniform double mjc:damping = 0.1
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -14
+            uniform double mjc:actuatorfrcrange:max = 14
             uniform token physics:axis = "Y"
             custom rel physics:body0
             prepend rel physics:body0 = </Galaxea_A1Y/link3>
@@ -252,9 +241,6 @@ def "Galaxea_A1Y" (
             quatf physics:localRot1 = (1, 0, 0, 0)
             float physics:lowerLimit = -180
             float physics:upperLimit = 180
-            float physxJoint:maxJointVelocity = 1889.9985
-            float state:angular:physics:position = 0
-            float state:angular:physics:velocity = 0
         }
 
         over "joint5" (
@@ -273,14 +259,10 @@ def "Galaxea_A1Y" (
         }
 
         def PhysicsRevoluteJoint "left_joint5" (
-            prepend apiSchemas = ["PhysxJointAPI", "PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular", "PhysxJointAPI"]
         )
         {
-            float drive:angular:physics:damping = 10
-            float drive:angular:physics:maxForce = 14
-            float drive:angular:physics:stiffness = 200
-            float drive:angular:physics:targetPosition = 0
-            uniform token drive:angular:physics:type = "force"
             bool[] isaac:actuator (
                 displayName = "Actuator"
             )
@@ -290,6 +272,11 @@ def "Galaxea_A1Y" (
             token[] isaac:physics:DofOffsetOpOrder (
                 displayName = "Dof Offset Op Order"
             )
+            uniform double mjc:armature = 0.01
+            uniform double mjc:damping = 0.1
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -14
+            uniform double mjc:actuatorfrcrange:max = 14
             uniform token physics:axis = "Z"
             custom rel physics:body0
             prepend rel physics:body0 = </Galaxea_A1Y/link4>
@@ -304,9 +291,6 @@ def "Galaxea_A1Y" (
             quatf physics:localRot1 = (1, 0, 0, 0)
             float physics:lowerLimit = -180
             float physics:upperLimit = 180
-            float physxJoint:maxJointVelocity = 1889.9985
-            float state:angular:physics:position = 0
-            float state:angular:physics:velocity = 0
         }
 
         over "joint6" (
@@ -325,14 +309,10 @@ def "Galaxea_A1Y" (
         }
 
         def PhysicsRevoluteJoint "left_joint6" (
-            prepend apiSchemas = ["PhysxJointAPI", "PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular", "PhysxJointAPI"]
         )
         {
-            float drive:angular:physics:damping = 10
-            float drive:angular:physics:maxForce = 14
-            float drive:angular:physics:stiffness = 200
-            float drive:angular:physics:targetPosition = 0
-            uniform token drive:angular:physics:type = "force"
             bool[] isaac:actuator (
                 displayName = "Actuator"
             )
@@ -342,6 +322,11 @@ def "Galaxea_A1Y" (
             token[] isaac:physics:DofOffsetOpOrder (
                 displayName = "Dof Offset Op Order"
             )
+            uniform double mjc:armature = 0.01
+            uniform double mjc:damping = 0.1
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -14
+            uniform double mjc:actuatorfrcrange:max = 14
             uniform token physics:axis = "X"
             custom rel physics:body0
             prepend rel physics:body0 = </Galaxea_A1Y/link5>
@@ -356,9 +341,6 @@ def "Galaxea_A1Y" (
             quatf physics:localRot1 = (1, 0, 0, 0)
             float physics:lowerLimit = -165.00038
             float physics:upperLimit = 165.00038
-            float physxJoint:maxJointVelocity = 1889.9985
-            float state:angular:physics:position = 0
-            float state:angular:physics:velocity = 0
         }
     }
 
@@ -389,28 +371,145 @@ def "Galaxea_A1Y" (
     over "link6"
     {
     }
+    over "actuators"
+    {
+        over "joint1" (
+            active = false
+        )
+        {
+        }
+
+        over "joint2" (
+            active = false
+        )
+        {
+        }
+
+        over "joint3" (
+            active = false
+        )
+        {
+        }
+
+        over "joint4" (
+            active = false
+        )
+        {
+        }
+
+        over "joint5" (
+            active = false
+        )
+        {
+        }
+
+        over "joint6" (
+            active = false
+        )
+        {
+        }
+
+        def MjcActuator "left_joint1"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [200, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -200, -10, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -27
+            uniform double mjc:forceRange:max = 27
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = -165.00009
+            uniform double mjc:ctrlRange:max = 165.00009
+            rel mjc:target = </Galaxea_A1Y/joints/left_joint1>
+        }
+
+        def MjcActuator "left_joint2"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [200, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -200, -10, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -50
+            uniform double mjc:forceRange:max = 50
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = 0
+            uniform double mjc:ctrlRange:max = 180
+            rel mjc:target = </Galaxea_A1Y/joints/left_joint2>
+        }
+
+        def MjcActuator "left_joint3"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [200, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -200, -10, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -27
+            uniform double mjc:forceRange:max = 27
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = -189.999
+            uniform double mjc:ctrlRange:max = 0
+            rel mjc:target = </Galaxea_A1Y/joints/left_joint3>
+        }
+
+        def MjcActuator "left_joint4"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [200, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -200, -10, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -14
+            uniform double mjc:forceRange:max = 14
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = -180
+            uniform double mjc:ctrlRange:max = 180
+            rel mjc:target = </Galaxea_A1Y/joints/left_joint4>
+        }
+
+        def MjcActuator "left_joint5"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [200, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -200, -10, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -14
+            uniform double mjc:forceRange:max = 14
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = -180
+            uniform double mjc:ctrlRange:max = 180
+            rel mjc:target = </Galaxea_A1Y/joints/left_joint5>
+        }
+
+        def MjcActuator "left_joint6"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [200, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -200, -10, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -14
+            uniform double mjc:forceRange:max = 14
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = -165.00038
+            uniform double mjc:ctrlRange:max = 165.00038
+            rel mjc:target = </Galaxea_A1Y/joints/left_joint6>
+        }
+
+    }
+
     variantSet "Gripper" = {
-        "None" (
-            delete payload = [
-                @payloads/Gripper/g1.usd@,
-                @payloads/Gripper/g1_left.usd@,
-                @payloads/Gripper/g1_right.usd@,
-                @payloads/Gripper/base.usd@
-            ]
-        ) {
+        "None" {
 
         }
         "galaxea_g1" (
-            delete payload = [
-                @payloads/Gripper/base.usd@,
-                @payloads/Gripper/left.usd@,
-                @payloads/Gripper/g1.usd@,
-                @payloads/Gripper/g1_right.usd@
-            ]
-            prepend payload = @payloads/Gripper/g1_left.usd@
+            prepend payload = @payloads/Gripper/g1_left.usda@
         ) {
-            prepend rel isaac:physics:robotJoints = </Galaxea_A1Y/G1_Left>
-            prepend rel isaac:physics:robotLinks = </Galaxea_A1Y/G1_Left>
+            prepend rel isaac:physics:robotJoints = </Galaxea_A1Y/Galaxea_G1>
+            prepend rel isaac:physics:robotLinks = </Galaxea_A1Y/Galaxea_G1>
 
         }
     }
