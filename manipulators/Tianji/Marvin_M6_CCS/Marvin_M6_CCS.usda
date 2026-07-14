@@ -44,10 +44,10 @@ def Xform "Marvin_M6_CCS" (
         string Robot = "none"
         string Sensor = "none"
         string Side = "default"
-        string visual = "fiveages_w2_sinopec"
+        string visual = "fiveages_w2_red"
     }
-    prepend variantSets = ["Side", "visual", "EE"]
-    append variantSets = ["Physics", "Robot", "Sensor"]
+    prepend variantSets = ["Physics", "Side", "visual", "EE"]
+    append variantSets = ["Robot", "Sensor"]
 )
 {
     over "root_joint"
@@ -155,6 +155,11 @@ def Xform "Marvin_M6_CCS" (
         ) {
 
         }
+        "mujoco" (
+            prepend payload = @./payloads/Physics/mujoco.usda@
+        ) {
+
+        }
     }
     variantSet "Robot" = {
         "none" (
@@ -185,19 +190,11 @@ def Xform "Marvin_M6_CCS" (
 
         }
         "left" (
-            customData = {
-                string[] variantPrimPaths = ["."]
-            }
-            delete payload = @/home/fiveages/Documents/FaSim-Isaac/robots/manipulators/Tianji/Marvin_M6_CCS/payloads/Side/left.usda@
             prepend payload = @./payloads/Side/left.usda@
         ) {
 
         }
         "right" (
-            customData = {
-                string[] variantPrimPaths = ["."]
-            }
-            delete payload = @/home/fiveages/Documents/FaSim-Isaac/robots/manipulators/Tianji/Marvin_M6_CCS/payloads/Side/left.usda@
             prepend payload = @./payloads/Side/right.usda@
         ) {
 
@@ -205,52 +202,36 @@ def Xform "Marvin_M6_CCS" (
     }
     variantSet "visual" = {
         "default" (
-            customData = {
-                string[] variantPrimPaths = ["."]
-            }
-            delete payload = @/home/fiveages/Documents/FaSim-Isaac/robots/manipulators/Tianji/Marvin_M6_CCS/payloads/Visual/default.usda@
             prepend payload = @./payloads/Visual/default.usda@
         ) {
 
         }
         "fiveages_w2" (
-            customData = {
-                string[] variantPrimPaths = ["."]
-            }
-            delete payload = @/home/fiveages/Documents/FaSim-Isaac/robots/manipulators/Tianji/Marvin_M6_CCS/payloads/Visual/default.usda@
             prepend payload = @./payloads/Visual/fa_w2.usda@
         ) {
 
         }
-        "fiveages_w2_sinopec" (
-            customData = {
-                string[] variantPrimPaths = ["."]
-            }
-            delete payload = @/home/fiveages/Documents/FaSim-Isaac/robots/manipulators/Tianji/Marvin_M6_CCS/payloads/Visual/default.usda@
-            prepend payload = @./payloads/Visual/fa_w2_sinopec.usda@
+        "fiveages_w2_red" (
+            prepend payload = @./payloads/Visual/fa_w2_red.usda@
         ) {
 
         }
     }
     variantSet "EE" = {
-        "AG2F120S" (
-            delete payload = @payloads/EE/base.usd@
-            prepend payload = @./payloads/EE/AG2F120S.usda@
-        ) {
-            prepend rel isaac:physics:robotJoints = </Marvin_M6_CCS/AG2F120S>
-            prepend rel isaac:physics:robotLinks = </Marvin_M6_CCS/AG2F120S>
-
-        }
         "None" {
 
         }
         "RG75" (
-            delete payload = @payloads/EE/base.usd@
             prepend payload = @./payloads/EE/RG75.usda@
         ) {
-            prepend rel isaac:physics:robotJoints = </Marvin_M6_CCS/RG75>
-            prepend rel isaac:physics:robotLinks = </Marvin_M6_CCS/RG75>
-
+            prepend rel isaac:physics:robotJoints = </Marvin_M6_CCS/link7/tcp/RG75>
+            prepend rel isaac:physics:robotLinks = </Marvin_M6_CCS/link7/tcp/RG75>
+        }
+        "AG2F120S" (
+            prepend payload = @./payloads/EE/AG2F120S.usda@
+        ) {
+            prepend rel isaac:physics:robotJoints = </Marvin_M6_CCS/link7/tcp/AG2F120S>
+            prepend rel isaac:physics:robotLinks = </Marvin_M6_CCS/link7/tcp/AG2F120S>
         }
     }
 }

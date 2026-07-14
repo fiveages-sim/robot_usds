@@ -44,9 +44,10 @@ def Xform "AG2F90" (
         string Physics = "physx"
         string Robot = "none"
         string Sensor = "none"
+        string Side = "default"
     }
-    prepend variantSets = ["Flange", "Pad"]
-    append variantSets = ["Physics", "Robot", "Sensor"]
+    prepend variantSets = ["Physics", "Flange", "Pad", "Side"]
+    append variantSets = ["Robot", "Sensor"]
 )
 {
     string isaac:description = "ChangingTek AG2F90 Series Gripper"
@@ -165,6 +166,11 @@ def Xform "AG2F90" (
         ) {
 
         }
+        "mujoco" (
+            prepend payload = @./payloads/Physics/mujoco.usda@
+        ) {
+
+        }
     }
     variantSet "Robot" = {
         "none" (
@@ -192,10 +198,6 @@ def Xform "AG2F90" (
     }
     variantSet "Flange" = {
         "default" (
-            customData = {
-                string[] variantPrimPaths = ["."]
-            }
-            delete payload = @/home/fiveages/Documents/FaSim-Isaac/robots/grippers/ChangingTek/AG2F90/payloads/Flange/default.usda@
             prepend payload = @./payloads/Flange/default.usda@
         ) {
 
@@ -206,10 +208,6 @@ def Xform "AG2F90" (
     }
     variantSet "Pad" = {
         "default" (
-            customData = {
-                string[] variantPrimPaths = ["."]
-            }
-            delete payload = @/home/fiveages/Documents/FaSim-Isaac/robots/grippers/ChangingTek/AG2F90/payloads/Pad/default.usda@
             prepend payload = @./payloads/Pad/default.usda@
         ) {
 
@@ -218,11 +216,22 @@ def Xform "AG2F90" (
 
         }
         "soft" (
-            customData = {
-                string[] variantPrimPaths = ["."]
-            }
-            delete payload = @/home/fiveages/Documents/FaSim-Isaac/robots/grippers/ChangingTek/AG2F90/payloads/Pad/soft.usda@
             prepend payload = @./payloads/Pad/soft.usda@
+        ) {
+
+        }
+    }
+    variantSet "Side" = {
+        "default" {
+
+        }
+        "left" (
+            prepend payload = @./payloads/Side/left.usda@
+        ) {
+
+        }
+        "right" (
+            prepend payload = @./payloads/Side/right.usda@
         ) {
 
         }
