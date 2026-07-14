@@ -9,17 +9,17 @@ def Xform "Marvin_M6_CCS"
     {
         over "tcp"
         {
-            def "AG2F120S" (
-                prepend payload = @../../../../../grippers/ChangingTek/AG2F120S/AG2F120S.usda@
+            def "RG75" (
+                prepend payload = @../../../../../../../grippers/Jodell/RG75/RG75.usda@
                 variants = {
-                    string Flange = "default"
-                    string Side = "default"
+                    string flange = "default"
+                    string side = "default"
                 }
             )
             {
-                quatd xformOp:orient = (0.7071067811865476, 0, 0, 0.7071067811865475)
+                quatd xformOp:orient = (1, 0, 0, 0)
                 double3 xformOp:scale = (1, 1, 1)
-                double3 xformOp:translate = (0, 0, 0.030300061273575873)
+                double3 xformOp:translate = (0, 0, 0)
                 uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
                 over "root_joint" (
@@ -33,11 +33,11 @@ def Xform "Marvin_M6_CCS"
                     def PhysicsFixedJoint "AssemblerFixedJoint"
                     {
                         rel physics:body0 = </Marvin_M6_CCS/link7/tcp>
-                        rel physics:body1 = </Marvin_M6_CCS/link7/tcp/AG2F120S/gripper_base>
-                        point3f physics:localPos0 = (5.6179556e-16, -6.9169137e-09, 0.030300062)
-                        point3f physics:localPos1 = (-3.304865e-09, -1.8152579e-16, 8.761871e-10)
-                        quatf physics:localRot0 = (0.70710677, 1.2971286e-09, -1.2971284e-09, 0.70710677)
-                        quatf physics:localRot1 = (1, 1.2391298e-16, -1.5881049e-09, 1.4816293e-08)
+                        rel physics:body1 = </Marvin_M6_CCS/link7/tcp/RG75/gripper_base>
+                        point3f physics:localPos0 = (1.7808336e-16, -3.193699e-09, -1.110223e-16)
+                        point3f physics:localPos1 = (1.7808336e-16, -3.193699e-09, -2.220446e-16)
+                        quatf physics:localRot0 = (1, 0, 0, 0)
+                        quatf physics:localRot1 = (1, 0, 0, 0)
                     }
                 }
 
@@ -45,38 +45,14 @@ def Xform "Marvin_M6_CCS"
             {
                 over "gripper_joint"
                 {
-                    float state:angular:physics:position = 0
-                    float state:angular:physics:velocity = 0
+                    float state:linear:physics:position = 0
+                    float state:linear:physics:velocity = 0
                 }
 
-                over "left_support_joint"
+                over "right_finger_joint"
                 {
-                    float state:angular:physics:position = 0
-                    float state:angular:physics:velocity = 0
-                }
-
-                over "left_2_joint"
-                {
-                    float state:angular:physics:position = 0
-                    float state:angular:physics:velocity = 0
-                }
-
-                over "right_1_joint"
-                {
-                    float state:angular:physics:position = 0
-                    float state:angular:physics:velocity = 0
-                }
-
-                over "right_support_joint"
-                {
-                    float state:angular:physics:position = 0
-                    float state:angular:physics:velocity = 0
-                }
-
-                over "right_2_joint"
-                {
-                    float state:angular:physics:position = 0
-                    float state:angular:physics:velocity = 0
+                    float state:linear:physics:position = 0
+                    float state:linear:physics:velocity = 0
                 }
 
             }

@@ -1,308 +1,235 @@
 #usda 1.0
 (
-    doc = """Generated from Composed Stage of root layer /home/fiveages/Documents/FaSim-Isaac/robots/mobile_base/Linkhou_S2_V1/Linkhou_S2_V1.usd
-
-
-Generated from Composed Stage of root layer /home/fiveages/Documents/FaSim-Isaac/robots/mobile_base/Linkhou_S2_V1/payloads/base.usd
-"""
+    defaultPrim = "Linkhou_S2_V1"
     metersPerUnit = 1
+    subLayers = [
+        @./physics.usda@
+    ]
     upAxis = "Z"
 )
 
-over "Linkhou_S2_V1"
+def "Linkhou_S2_V1"
 {
-    over "base_footprint"
-    {
-        over "base_link"
-        {
-            over "chassis_base"
-            {
-                over "chassis_camera"
-                {
-                }
-
-                over "chassis_left_battery"
-                {
-                }
-
-                over "chassis_right_battery"
-                {
-                }
-
-                over "fl_lidar"
-                {
-                }
-
-                over "rr_lidar"
-                {
-                }
-            }
-
-            over "ultrasonic_c1"
-            {
-            }
-
-            over "ultrasonic_c2"
-            {
-            }
-
-            over "ultrasonic_c3"
-            {
-            }
-
-            over "ultrasonic_c4"
-            {
-            }
-
-            over "ultrasonic_c5"
-            {
-            }
-
-            over "ultrasonic_c6"
-            {
-            }
-
-            over "ultrasonic_c7"
-            {
-            }
-
-            over "ultrasonic_c8"
-            {
-            }
-        }
-
-        over "visuals"
-        {
-            over "base_link"
-            {
-            }
-        }
-
-        over "collisions"
-        {
-            over "base_link"
-            {
-            }
-        }
-    }
-
-    over "fl_steer"
-    {
-        over "collisions"
-        {
-        }
-
-        over "visuals"
-        {
-            over "steer_link"
-            {
-            }
-        }
-    }
-
     over "joints"
     {
+        # Steer: PhysX kp=625, kd=50 -> position PD
+        # Wheel: PhysX stiffness=0 (acceleration) -> damping-dominated affine bias
         over "fl_steer_joint" (
+            prepend apiSchemas = ["MjcJointAPI"]
             delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
         )
         {
+            uniform double mjc:armature = 0.01
+            uniform double mjc:damping = 0.1
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -200
+            uniform double mjc:actuatorfrcrange:max = 200
         }
 
         over "fl_wheel_joint" (
+            prepend apiSchemas = ["MjcJointAPI"]
             delete apiSchemas = ["PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular"]
         )
         {
+            uniform double mjc:armature = 0.01
+            uniform double mjc:damping = 0.1
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -100
+            uniform double mjc:actuatorfrcrange:max = 100
         }
 
         over "fr_steer_joint" (
+            prepend apiSchemas = ["MjcJointAPI"]
             delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
         )
         {
+            uniform double mjc:armature = 0.01
+            uniform double mjc:damping = 0.1
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -200
+            uniform double mjc:actuatorfrcrange:max = 200
         }
 
         over "fr_wheel_joint" (
+            prepend apiSchemas = ["MjcJointAPI"]
             delete apiSchemas = ["PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular"]
         )
         {
+            uniform double mjc:armature = 0.01
+            uniform double mjc:damping = 0.1
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -100
+            uniform double mjc:actuatorfrcrange:max = 100
         }
 
         over "rl_steer_joint" (
+            prepend apiSchemas = ["MjcJointAPI"]
             delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
         )
         {
+            uniform double mjc:armature = 0.01
+            uniform double mjc:damping = 0.1
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -200
+            uniform double mjc:actuatorfrcrange:max = 200
         }
 
         over "rl_wheel_joint" (
+            prepend apiSchemas = ["MjcJointAPI"]
             delete apiSchemas = ["PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular"]
         )
         {
+            uniform double mjc:armature = 0.01
+            uniform double mjc:damping = 0.1
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -100
+            uniform double mjc:actuatorfrcrange:max = 100
         }
 
         over "rr_steer_joint" (
+            prepend apiSchemas = ["MjcJointAPI"]
             delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
         )
         {
+            uniform double mjc:armature = 0.01
+            uniform double mjc:damping = 0.1
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -200
+            uniform double mjc:actuatorfrcrange:max = 200
         }
 
         over "rr_wheel_joint" (
+            prepend apiSchemas = ["MjcJointAPI"]
             delete apiSchemas = ["PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular"]
         )
         {
+            uniform double mjc:armature = 0.01
+            uniform double mjc:damping = 0.1
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -100
+            uniform double mjc:actuatorfrcrange:max = 100
         }
     }
 
-    over "fl_wheel"
+    over "base_footprint" (
+        prepend apiSchemas = ["NewtonArticulationRootAPI"]
+    )
     {
-        over "visuals"
-        {
-            over "wheel"
-            {
-            }
-        }
-
-        over "collisions"
-        {
-            over "mesh_0"
-            {
-                over "cylinder"
-                {
-                }
-            }
-        }
+        bool newton:selfCollisionEnabled = 0
     }
 
-    over "fr_steer"
+    def Scope "actuators"
     {
-        over "collisions"
+        def MjcActuator "fl_steer_joint"
         {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [625, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -625, -50, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -200
+            uniform double mjc:forceRange:max = 200
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = -180
+            uniform double mjc:ctrlRange:max = 180
+            rel mjc:target = </Linkhou_S2_V1/joints/fl_steer_joint>
         }
 
-        over "visuals"
+        def MjcActuator "fl_wheel_joint"
         {
-            over "steer_link"
-            {
-            }
-        }
-    }
-
-    over "fr_wheel"
-    {
-        over "visuals"
-        {
-            over "wheel"
-            {
-            }
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, 0, -10, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -100
+            uniform double mjc:forceRange:max = 100
+            uniform token mjc:ctrlLimited = "false"
+            rel mjc:target = </Linkhou_S2_V1/joints/fl_wheel_joint>
         }
 
-        over "collisions"
+        def MjcActuator "fr_steer_joint"
         {
-            over "mesh_0"
-            {
-                over "cylinder"
-                {
-                }
-            }
-        }
-    }
-
-    over "rl_steer"
-    {
-        over "collisions"
-        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [625, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -625, -50, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -200
+            uniform double mjc:forceRange:max = 200
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = -180
+            uniform double mjc:ctrlRange:max = 180
+            rel mjc:target = </Linkhou_S2_V1/joints/fr_steer_joint>
         }
 
-        over "visuals"
+        def MjcActuator "fr_wheel_joint"
         {
-            over "steer_link"
-            {
-            }
-        }
-    }
-
-    over "rl_wheel"
-    {
-        over "visuals"
-        {
-            over "wheel"
-            {
-            }
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, 0, -10, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -100
+            uniform double mjc:forceRange:max = 100
+            uniform token mjc:ctrlLimited = "false"
+            rel mjc:target = </Linkhou_S2_V1/joints/fr_wheel_joint>
         }
 
-        over "collisions"
+        def MjcActuator "rl_steer_joint"
         {
-            over "mesh_0"
-            {
-                over "cylinder"
-                {
-                }
-            }
-        }
-    }
-
-    over "rr_steer"
-    {
-        over "collisions"
-        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [625, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -625, -50, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -200
+            uniform double mjc:forceRange:max = 200
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = -180
+            uniform double mjc:ctrlRange:max = 180
+            rel mjc:target = </Linkhou_S2_V1/joints/rl_steer_joint>
         }
 
-        over "visuals"
+        def MjcActuator "rl_wheel_joint"
         {
-            over "steer_link"
-            {
-            }
-        }
-    }
-
-    over "rr_wheel"
-    {
-        over "visuals"
-        {
-            over "wheel"
-            {
-            }
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, 0, -10, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -100
+            uniform double mjc:forceRange:max = 100
+            uniform token mjc:ctrlLimited = "false"
+            rel mjc:target = </Linkhou_S2_V1/joints/rl_wheel_joint>
         }
 
-        over "collisions"
+        def MjcActuator "rr_steer_joint"
         {
-            over "mesh_0"
-            {
-                over "cylinder"
-                {
-                }
-            }
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [625, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -625, -50, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -200
+            uniform double mjc:forceRange:max = 200
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = -180
+            uniform double mjc:ctrlRange:max = 180
+            rel mjc:target = </Linkhou_S2_V1/joints/rr_steer_joint>
         }
-    }
 
-    over "Looks"
-    {
-    }
-
-    over "VisualMaterials"
-    {
-    }
-}
-
-over "Render"
-{
-    over "OmniverseKit"
-    {
-        over "HydraTextures"
+        def MjcActuator "rr_wheel_joint"
         {
-            over "omni_kit_widget_viewport_ViewportTexture_0"
-            {
-            }
-        }
-    }
-
-    over "OmniverseGlobalRenderSettings"
-    {
-    }
-
-    over "Vars"
-    {
-        over "LdrColor"
-        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, 0, -10, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -100
+            uniform double mjc:forceRange:max = 100
+            uniform token mjc:ctrlLimited = "false"
+            rel mjc:target = </Linkhou_S2_V1/joints/rr_wheel_joint>
         }
     }
 }
-

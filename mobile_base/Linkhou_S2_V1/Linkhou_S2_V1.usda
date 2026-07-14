@@ -45,8 +45,8 @@ def Xform "Linkhou_S2_V1" (
         string Sensor = "sensors"
         string Visual = "default"
     }
-    prepend variantSets = ["Visual", "ROS"]
-    append variantSets = ["Physics", "Robot", "Sensor"]
+    prepend variantSets = ["Physics", "Visual", "ROS"]
+    append variantSets = ["Robot", "Sensor"]
 )
 {
     over "base_footprint"
@@ -148,6 +148,11 @@ def Xform "Linkhou_S2_V1" (
         }
         "physx" (
             prepend payload = @./payloads/Physics/physx.usda@
+        ) {
+
+        }
+        "mujoco" (
+            prepend payload = @./payloads/Physics/mujoco.usda@
         ) {
 
         }
