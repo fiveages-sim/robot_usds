@@ -111,11 +111,12 @@ def "SteerChassis"
             rel mjc:target = </SteerChassis/joints/steer_joint1>
         }
 
+        # Velocity: F = kd*(ctrl - qvel) => gain=[kd], bias=[0, 0, -kd]
         def MjcActuator "wheel_joint1"
         {
             uniform token mjc:gainType = "fixed"
             uniform token mjc:biasType = "affine"
-            uniform double[] mjc:gainPrm = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:gainPrm = [10, 0, 0, 0, 0, 0, 0, 0, 0, 0]
             uniform double[] mjc:biasPrm = [0, 0, -10, 0, 0, 0, 0, 0, 0, 0]
             uniform token mjc:forceLimited = "true"
             uniform double mjc:forceRange:min = -100
@@ -143,7 +144,7 @@ def "SteerChassis"
         {
             uniform token mjc:gainType = "fixed"
             uniform token mjc:biasType = "affine"
-            uniform double[] mjc:gainPrm = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:gainPrm = [10, 0, 0, 0, 0, 0, 0, 0, 0, 0]
             uniform double[] mjc:biasPrm = [0, 0, -10, 0, 0, 0, 0, 0, 0, 0]
             uniform token mjc:forceLimited = "true"
             uniform double mjc:forceRange:min = -100
@@ -171,7 +172,7 @@ def "SteerChassis"
         {
             uniform token mjc:gainType = "fixed"
             uniform token mjc:biasType = "affine"
-            uniform double[] mjc:gainPrm = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:gainPrm = [10, 0, 0, 0, 0, 0, 0, 0, 0, 0]
             uniform double[] mjc:biasPrm = [0, 0, -10, 0, 0, 0, 0, 0, 0, 0]
             uniform token mjc:forceLimited = "true"
             uniform double mjc:forceRange:min = -100
