@@ -1,0 +1,32 @@
+#usda 1.0
+(
+    defaultPrim = "AC_One_Base"
+    doc = """Generated from Composed Stage of root layer /home/fiveages/distrobox/ubuntu24/FaSim-Isaac/robots/mobile_base/ARX_Lift_2S/AC_One_Base/AC_One_Base.usd
+
+
+Generated from Composed Stage of root layer /home/fiveages/distrobox/ubuntu24/FaSim-Isaac/robots/mobile_base/ARX_Lift_2S/AC_One_Base/payloads/base.usd
+"""
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+over "AC_One_Base"
+{
+    over "base_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.0040185, 0.000038157, -0.024465)
+        float3 physics:diagonalInertia = (0.21966167, 0.02598322, 0.20805329)
+        float physics:mass = 5.6137
+        quatf physics:principalAxes = (0.99618644, 0.0000049833106, 0.08725031, 0.000013146623)
+    }
+
+    def PhysicsFixedJoint "root_joint" (
+        prepend apiSchemas = ["PhysicsArticulationRootAPI"]
+    )
+    {
+        rel physics:body1 = </AC_One_Base/base_link>
+    }
+}
+
