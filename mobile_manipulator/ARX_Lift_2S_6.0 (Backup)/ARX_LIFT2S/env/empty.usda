@@ -7,8 +7,8 @@
                 double radius = 5
             }
             dictionary Perspective = {
-                double3 position = (2.661507584389261, 1.4275923158087944, 2.010857884539427)
-                double3 target = (-0.34864079671303116, -0.5051012054418973, 0.7177005069792095)
+                double3 position = (3.863452192146158, 2.9492124658803003, 2.2509549605416193)
+                double3 target = (-0.5273357488680794, -0.23608184957670364, -0.3554468852980053)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -54,6 +54,769 @@ def Xform "World"
         double3 xformOp:scale = (1, 1, 1)
         double3 xformOp:translate = (0, 0, 0.31020039200027105)
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "joints"
+        {
+            over "lift_joint"
+            {
+                float drive:linear:physics:targetPosition = 0.34500003
+                float physics:lowerLimit = 0
+                float physics:upperLimit = 0.46
+            }
+
+            over "wheel1_joint"
+            {
+                float drive:angular:physics:targetPosition = 0
+                bool[] isaac:actuator (
+                    displayName = "Actuator"
+                )
+                string isaac:NameOverride (
+                    displayName = "Joint Name Override"
+                )
+                token[] isaac:physics:DofOffsetOpOrder (
+                    displayName = "Dof Offset Op Order"
+                )
+                float physics:lowerLimit = -460
+                float physics:upperLimit = 460
+            }
+
+            over "wheel2_joint"
+            {
+                float drive:angular:physics:targetPosition = -35.5
+                bool[] isaac:actuator (
+                    displayName = "Actuator"
+                )
+                string isaac:NameOverride (
+                    displayName = "Joint Name Override"
+                )
+                token[] isaac:physics:DofOffsetOpOrder (
+                    displayName = "Dof Offset Op Order"
+                )
+                float physics:lowerLimit = -inf
+                float physics:upperLimit = inf
+            }
+
+            over "wheel3_joint"
+            {
+                float drive:angular:physics:targetPosition = 0
+                float physics:lowerLimit = -inf
+                float physics:upperLimit = inf
+            }
+        }
+
+        over "wheel_1"
+        {
+            rel physics:simulationOwner
+
+            over "omnia_150"
+            {
+                over "joints"
+                {
+                    over "wheel_passive_0_joint"
+                    {
+                        bool[] isaac:actuator (
+                            displayName = "Actuator"
+                        )
+                        string isaac:NameOverride (
+                            displayName = "Joint Name Override"
+                        )
+                        token[] isaac:physics:DofOffsetOpOrder (
+                            displayName = "Dof Offset Op Order"
+                        )
+                        float physics:lowerLimit = -inf
+                        float physics:upperLimit = inf
+                    }
+
+                    over "wheel_passive_4_joint"
+                    {
+                        bool[] isaac:actuator (
+                            displayName = "Actuator"
+                        )
+                        string isaac:NameOverride (
+                            displayName = "Joint Name Override"
+                        )
+                        token[] isaac:physics:DofOffsetOpOrder (
+                            displayName = "Dof Offset Op Order"
+                        )
+                        float physics:lowerLimit = -inf
+                        float physics:upperLimit = inf
+                    }
+
+                    over "wheel_passive_1_joint"
+                    {
+                        bool[] isaac:actuator (
+                            displayName = "Actuator"
+                        )
+                        string isaac:NameOverride (
+                            displayName = "Joint Name Override"
+                        )
+                        token[] isaac:physics:DofOffsetOpOrder (
+                            displayName = "Dof Offset Op Order"
+                        )
+                        float physics:lowerLimit = -inf
+                        float physics:upperLimit = inf
+                    }
+
+                    over "wheel_passive_2_joint"
+                    {
+                        bool[] isaac:actuator (
+                            displayName = "Actuator"
+                        )
+                        string isaac:NameOverride (
+                            displayName = "Joint Name Override"
+                        )
+                        token[] isaac:physics:DofOffsetOpOrder (
+                            displayName = "Dof Offset Op Order"
+                        )
+                        float physics:lowerLimit = -inf
+                        float physics:upperLimit = inf
+                    }
+
+                    over "wheel_passive_3_joint"
+                    {
+                        float physics:lowerLimit = -inf
+                        float physics:upperLimit = inf
+                    }
+
+                    over "wheel_passive_5_joint"
+                    {
+                        float physics:lowerLimit = -inf
+                        float physics:upperLimit = inf
+                    }
+
+                    over "wheel_passive_6_joint"
+                    {
+                        float physics:lowerLimit = -inf
+                        float physics:upperLimit = inf
+                    }
+
+                    over "wheel_passive_7_joint"
+                    {
+                        float physics:lowerLimit = -inf
+                        float physics:upperLimit = inf
+                    }
+
+                    over "wheel_passive_8_joint"
+                    {
+                        float physics:lowerLimit = -inf
+                        float physics:upperLimit = inf
+                    }
+                }
+
+                over "wheel_passive_4"
+                {
+                    string isaac:nameOverride (
+                        displayName = "Name Override"
+                    )
+                    rel physics:simulationOwner
+
+                    over "collisions"
+                    {
+                        over "mesh_0"
+                        {
+                            over "sphere"
+                            {
+                                rel physics:simulationOwner
+                            }
+                        }
+                    }
+                }
+
+                over "wheel_passive_2"
+                {
+                    string isaac:nameOverride (
+                        displayName = "Name Override"
+                    )
+                    rel physics:simulationOwner
+
+                    over "collisions"
+                    {
+                        over "mesh_0"
+                        {
+                            over "sphere"
+                            {
+                                rel physics:simulationOwner
+                            }
+                        }
+                    }
+                }
+
+                over "wheel_passive_1"
+                {
+                    string isaac:nameOverride (
+                        displayName = "Name Override"
+                    )
+                    rel physics:simulationOwner
+
+                    over "collisions"
+                    {
+                        over "mesh_0"
+                        {
+                            over "sphere"
+                            {
+                                rel physics:simulationOwner
+                            }
+                        }
+                    }
+                }
+
+                over "wheel_passive_0"
+                {
+                    string isaac:nameOverride (
+                        displayName = "Name Override"
+                    )
+                    rel physics:simulationOwner
+
+                    over "collisions"
+                    {
+                        over "mesh_0"
+                        {
+                            over "sphere"
+                            {
+                                rel physics:simulationOwner
+                            }
+                        }
+                    }
+                }
+
+                over "base_link"
+                {
+                    string isaac:nameOverride (
+                        displayName = "Name Override"
+                    )
+                    rel physics:simulationOwner
+                }
+
+                over "wheel_passive_3"
+                {
+                    string isaac:nameOverride (
+                        displayName = "Name Override"
+                    )
+                    rel physics:simulationOwner
+
+                    over "collisions"
+                    {
+                        over "mesh_0"
+                        {
+                            over "sphere"
+                            {
+                                rel physics:simulationOwner
+                            }
+                        }
+                    }
+                }
+
+                over "wheel_passive_5"
+                {
+                    string isaac:nameOverride (
+                        displayName = "Name Override"
+                    )
+                    rel physics:simulationOwner
+
+                    over "collisions"
+                    {
+                        over "mesh_0"
+                        {
+                            over "sphere"
+                            {
+                                rel physics:simulationOwner
+                            }
+                        }
+                    }
+                }
+
+                over "wheel_passive_6"
+                {
+                    string isaac:nameOverride (
+                        displayName = "Name Override"
+                    )
+                    rel physics:simulationOwner
+
+                    over "collisions"
+                    {
+                        over "mesh_0"
+                        {
+                            over "sphere"
+                            {
+                                rel physics:simulationOwner
+                            }
+                        }
+                    }
+                }
+
+                over "wheel_passive_7"
+                {
+                    string isaac:nameOverride (
+                        displayName = "Name Override"
+                    )
+                    rel physics:simulationOwner
+
+                    over "collisions"
+                    {
+                        over "mesh_0"
+                        {
+                            over "sphere"
+                            {
+                                rel physics:simulationOwner
+                            }
+                        }
+                    }
+                }
+
+                over "wheel_passive_8"
+                {
+                    string isaac:nameOverride (
+                        displayName = "Name Override"
+                    )
+                    rel physics:simulationOwner
+
+                    over "collisions"
+                    {
+                        over "mesh_0"
+                        {
+                            over "sphere"
+                            {
+                                rel physics:simulationOwner
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        over "wheel_2"
+        {
+            rel physics:simulationOwner
+
+            over "omnia_150"
+            {
+                over "joints"
+                {
+                    over "wheel_passive_0_joint"
+                    {
+                        float physics:lowerLimit = -inf
+                        float physics:upperLimit = inf
+                    }
+
+                    over "wheel_passive_1_joint"
+                    {
+                        float physics:lowerLimit = -inf
+                        float physics:upperLimit = inf
+                    }
+
+                    over "wheel_passive_2_joint"
+                    {
+                        float physics:lowerLimit = -inf
+                        float physics:upperLimit = inf
+                    }
+
+                    over "wheel_passive_3_joint"
+                    {
+                        float physics:lowerLimit = -inf
+                        float physics:upperLimit = inf
+                    }
+
+                    over "wheel_passive_4_joint"
+                    {
+                        float physics:lowerLimit = -inf
+                        float physics:upperLimit = inf
+                    }
+
+                    over "wheel_passive_5_joint"
+                    {
+                        float physics:lowerLimit = -inf
+                        float physics:upperLimit = inf
+                    }
+
+                    over "wheel_passive_6_joint"
+                    {
+                        float physics:lowerLimit = -inf
+                        float physics:upperLimit = inf
+                    }
+
+                    over "wheel_passive_7_joint"
+                    {
+                        float physics:lowerLimit = -inf
+                        float physics:upperLimit = inf
+                    }
+
+                    over "wheel_passive_8_joint"
+                    {
+                        float physics:lowerLimit = -inf
+                        float physics:upperLimit = inf
+                    }
+                }
+
+                over "wheel_passive_0"
+                {
+                    rel physics:simulationOwner
+
+                    over "collisions"
+                    {
+                        over "mesh_0"
+                        {
+                            over "sphere"
+                            {
+                                rel physics:simulationOwner
+                            }
+                        }
+                    }
+                }
+
+                over "wheel_passive_1"
+                {
+                    rel physics:simulationOwner
+
+                    over "collisions"
+                    {
+                        over "mesh_0"
+                        {
+                            over "sphere"
+                            {
+                                rel physics:simulationOwner
+                            }
+                        }
+                    }
+                }
+
+                over "wheel_passive_2"
+                {
+                    rel physics:simulationOwner
+
+                    over "collisions"
+                    {
+                        over "mesh_0"
+                        {
+                            over "sphere"
+                            {
+                                rel physics:simulationOwner
+                            }
+                        }
+                    }
+                }
+
+                over "wheel_passive_3"
+                {
+                    rel physics:simulationOwner
+
+                    over "collisions"
+                    {
+                        over "mesh_0"
+                        {
+                            over "sphere"
+                            {
+                                rel physics:simulationOwner
+                            }
+                        }
+                    }
+                }
+
+                over "wheel_passive_4"
+                {
+                    rel physics:simulationOwner
+
+                    over "collisions"
+                    {
+                        over "mesh_0"
+                        {
+                            over "sphere"
+                            {
+                                rel physics:simulationOwner
+                            }
+                        }
+                    }
+                }
+
+                over "wheel_passive_5"
+                {
+                    rel physics:simulationOwner
+
+                    over "collisions"
+                    {
+                        over "mesh_0"
+                        {
+                            over "sphere"
+                            {
+                                rel physics:simulationOwner
+                            }
+                        }
+                    }
+                }
+
+                over "wheel_passive_6"
+                {
+                    rel physics:simulationOwner
+
+                    over "collisions"
+                    {
+                        over "mesh_0"
+                        {
+                            over "sphere"
+                            {
+                                rel physics:simulationOwner
+                            }
+                        }
+                    }
+                }
+
+                over "wheel_passive_7"
+                {
+                    rel physics:simulationOwner
+
+                    over "collisions"
+                    {
+                        over "mesh_0"
+                        {
+                            over "sphere"
+                            {
+                                rel physics:simulationOwner
+                            }
+                        }
+                    }
+                }
+
+                over "wheel_passive_8"
+                {
+                    rel physics:simulationOwner
+
+                    over "collisions"
+                    {
+                        over "mesh_0"
+                        {
+                            over "sphere"
+                            {
+                                rel physics:simulationOwner
+                            }
+                        }
+                    }
+                }
+
+                over "base_link"
+                {
+                    rel physics:simulationOwner
+                }
+            }
+        }
+
+        over "wheel_3"
+        {
+            rel physics:simulationOwner
+
+            over "omnia_150"
+            {
+                over "joints"
+                {
+                    over "wheel_passive_0_joint"
+                    {
+                        float physics:lowerLimit = -inf
+                        float physics:upperLimit = inf
+                    }
+
+                    over "wheel_passive_1_joint"
+                    {
+                        float physics:lowerLimit = -inf
+                        float physics:upperLimit = inf
+                    }
+
+                    over "wheel_passive_2_joint"
+                    {
+                        float physics:lowerLimit = -inf
+                        float physics:upperLimit = inf
+                    }
+
+                    over "wheel_passive_3_joint"
+                    {
+                        float physics:lowerLimit = -inf
+                        float physics:upperLimit = inf
+                    }
+
+                    over "wheel_passive_4_joint"
+                    {
+                        float physics:lowerLimit = -inf
+                        float physics:upperLimit = inf
+                    }
+
+                    over "wheel_passive_5_joint"
+                    {
+                        float physics:lowerLimit = -inf
+                        float physics:upperLimit = inf
+                    }
+
+                    over "wheel_passive_6_joint"
+                    {
+                        float physics:lowerLimit = -inf
+                        float physics:upperLimit = inf
+                    }
+                }
+
+                over "wheel_passive_0"
+                {
+                    rel physics:simulationOwner
+
+                    over "collisions"
+                    {
+                        over "mesh_0"
+                        {
+                            over "sphere"
+                            {
+                                rel physics:simulationOwner
+                            }
+                        }
+                    }
+                }
+
+                over "wheel_passive_1"
+                {
+                    rel physics:simulationOwner
+
+                    over "collisions"
+                    {
+                        over "mesh_0"
+                        {
+                            over "sphere"
+                            {
+                                rel physics:simulationOwner
+                            }
+                        }
+                    }
+                }
+
+                over "wheel_passive_2"
+                {
+                    rel physics:simulationOwner
+
+                    over "collisions"
+                    {
+                        over "mesh_0"
+                        {
+                            over "sphere"
+                            {
+                                rel physics:simulationOwner
+                            }
+                        }
+                    }
+                }
+
+                over "wheel_passive_3"
+                {
+                    rel physics:simulationOwner
+
+                    over "collisions"
+                    {
+                        over "mesh_0"
+                        {
+                            over "sphere"
+                            {
+                                rel physics:simulationOwner
+                            }
+                        }
+                    }
+                }
+
+                over "wheel_passive_4"
+                {
+                    rel physics:simulationOwner
+
+                    over "collisions"
+                    {
+                        over "mesh_0"
+                        {
+                            over "sphere"
+                            {
+                                rel physics:simulationOwner
+                            }
+                        }
+                    }
+                }
+
+                over "wheel_passive_5"
+                {
+                    rel physics:simulationOwner
+
+                    over "collisions"
+                    {
+                        over "mesh_0"
+                        {
+                            over "sphere"
+                            {
+                                rel physics:simulationOwner
+                            }
+                        }
+                    }
+                }
+
+                over "wheel_passive_6"
+                {
+                    rel physics:simulationOwner
+
+                    over "collisions"
+                    {
+                        over "mesh_0"
+                        {
+                            over "sphere"
+                            {
+                                rel physics:simulationOwner
+                            }
+                        }
+                    }
+                }
+
+                over "wheel_passive_7"
+                {
+                    rel physics:simulationOwner
+
+                    over "collisions"
+                    {
+                        over "mesh_0"
+                        {
+                            over "sphere"
+                            {
+                                rel physics:simulationOwner
+                            }
+                        }
+                    }
+                }
+
+                over "wheel_passive_8"
+                {
+                    rel physics:simulationOwner
+
+                    over "collisions"
+                    {
+                        over "mesh_0"
+                        {
+                            over "sphere"
+                            {
+                                rel physics:simulationOwner
+                            }
+                        }
+                    }
+                }
+
+                over "base_link"
+                {
+                    rel physics:simulationOwner
+                }
+            }
+        }
+
+        over "base_link"
+        {
+            rel physics:simulationOwner
+        }
+
+        over "lift_link"
+        {
+            rel physics:simulationOwner
+
+            over "AC_One_Base"
+            {
+                over "base_link"
+                {
+                    rel physics:simulationOwner
+                }
+            }
+        }
     }
 }
 
@@ -180,10 +943,10 @@ over "OmniverseKit_Persp" (
     float exposure:time = 0.02
     float focalLength = 18.147562
     float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -3.8037551875055717)
-    float3 xformOp:rotateXYZ = (70.12504, 1.2722219e-14, 122.702866)
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -6.018176567784876)
+    float3 xformOp:rotateXYZ = (64.33629, 3.1805547e-15, 125.958984)
     float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (2.661507584389261, 1.4275923158087944, 2.010857884539427)
+    double3 xformOp:translate = (3.863452192146158, 2.9492124658803003, 2.2509549605416193)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 
