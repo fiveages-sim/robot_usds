@@ -29,8 +29,10 @@ def Xform "Galaxea_R1_Lite"
                 double3 xformOp:translate = (0, 0, 0)
                 uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
+                # Merge into chassis articulation; avoid PhysX looking at arm root_joint as artic root
                 over "root_joint" (
                     active = false
+                    delete apiSchemas = ["PhysicsArticulationRootAPI"]
                 )
                 {
                 }
