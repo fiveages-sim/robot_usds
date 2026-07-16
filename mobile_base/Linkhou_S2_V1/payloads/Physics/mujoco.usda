@@ -22,8 +22,8 @@ def "Linkhou_S2_V1"
             uniform double mjc:armature = 0.01
             uniform double mjc:damping = 0.1
             uniform token mjc:actuatorfrclimited = "auto"
-            uniform double mjc:actuatorfrcrange:min = -200
-            uniform double mjc:actuatorfrcrange:max = 200
+            uniform double mjc:actuatorfrcrange:min = -100
+            uniform double mjc:actuatorfrcrange:max = 100
         }
 
         over "fl_wheel_joint" (
@@ -34,8 +34,8 @@ def "Linkhou_S2_V1"
             uniform double mjc:armature = 0.01
             uniform double mjc:damping = 0.1
             uniform token mjc:actuatorfrclimited = "auto"
-            uniform double mjc:actuatorfrcrange:min = -100
-            uniform double mjc:actuatorfrcrange:max = 100
+            uniform double mjc:actuatorfrcrange:min = -1e+38
+            uniform double mjc:actuatorfrcrange:max = 1e+38
         }
 
         over "fr_steer_joint" (
@@ -46,8 +46,8 @@ def "Linkhou_S2_V1"
             uniform double mjc:armature = 0.01
             uniform double mjc:damping = 0.1
             uniform token mjc:actuatorfrclimited = "auto"
-            uniform double mjc:actuatorfrcrange:min = -200
-            uniform double mjc:actuatorfrcrange:max = 200
+            uniform double mjc:actuatorfrcrange:min = -100
+            uniform double mjc:actuatorfrcrange:max = 100
         }
 
         over "fr_wheel_joint" (
@@ -58,8 +58,8 @@ def "Linkhou_S2_V1"
             uniform double mjc:armature = 0.01
             uniform double mjc:damping = 0.1
             uniform token mjc:actuatorfrclimited = "auto"
-            uniform double mjc:actuatorfrcrange:min = -100
-            uniform double mjc:actuatorfrcrange:max = 100
+            uniform double mjc:actuatorfrcrange:min = -1e+38
+            uniform double mjc:actuatorfrcrange:max = 1e+38
         }
 
         over "rl_steer_joint" (
@@ -70,8 +70,8 @@ def "Linkhou_S2_V1"
             uniform double mjc:armature = 0.01
             uniform double mjc:damping = 0.1
             uniform token mjc:actuatorfrclimited = "auto"
-            uniform double mjc:actuatorfrcrange:min = -200
-            uniform double mjc:actuatorfrcrange:max = 200
+            uniform double mjc:actuatorfrcrange:min = -100
+            uniform double mjc:actuatorfrcrange:max = 100
         }
 
         over "rl_wheel_joint" (
@@ -82,8 +82,8 @@ def "Linkhou_S2_V1"
             uniform double mjc:armature = 0.01
             uniform double mjc:damping = 0.1
             uniform token mjc:actuatorfrclimited = "auto"
-            uniform double mjc:actuatorfrcrange:min = -100
-            uniform double mjc:actuatorfrcrange:max = 100
+            uniform double mjc:actuatorfrcrange:min = -1e+38
+            uniform double mjc:actuatorfrcrange:max = 1e+38
         }
 
         over "rr_steer_joint" (
@@ -94,8 +94,8 @@ def "Linkhou_S2_V1"
             uniform double mjc:armature = 0.01
             uniform double mjc:damping = 0.1
             uniform token mjc:actuatorfrclimited = "auto"
-            uniform double mjc:actuatorfrcrange:min = -200
-            uniform double mjc:actuatorfrcrange:max = 200
+            uniform double mjc:actuatorfrcrange:min = -100
+            uniform double mjc:actuatorfrcrange:max = 100
         }
 
         over "rr_wheel_joint" (
@@ -106,8 +106,8 @@ def "Linkhou_S2_V1"
             uniform double mjc:armature = 0.01
             uniform double mjc:damping = 0.1
             uniform token mjc:actuatorfrclimited = "auto"
-            uniform double mjc:actuatorfrcrange:min = -100
-            uniform double mjc:actuatorfrcrange:max = 100
+            uniform double mjc:actuatorfrcrange:min = -1e+38
+            uniform double mjc:actuatorfrcrange:max = 1e+38
         }
     }
 
@@ -124,11 +124,11 @@ def "Linkhou_S2_V1"
         {
             uniform token mjc:gainType = "fixed"
             uniform token mjc:biasType = "affine"
-            uniform double[] mjc:gainPrm = [625, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-            uniform double[] mjc:biasPrm = [0, -625, -50, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:gainPrm = [60000, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -60000, -6000, 0, 0, 0, 0, 0, 0, 0]
             uniform token mjc:forceLimited = "true"
-            uniform double mjc:forceRange:min = -200
-            uniform double mjc:forceRange:max = 200
+            uniform double mjc:forceRange:min = -100
+            uniform double mjc:forceRange:max = 100
             uniform token mjc:ctrlLimited = "true"
             uniform double mjc:ctrlRange:min = -180
             uniform double mjc:ctrlRange:max = 180
@@ -140,10 +140,10 @@ def "Linkhou_S2_V1"
             uniform token mjc:gainType = "fixed"
             uniform token mjc:biasType = "affine"
             uniform double[] mjc:gainPrm = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-            uniform double[] mjc:biasPrm = [0, 0, -10, 0, 0, 0, 0, 0, 0, 0]
-            uniform token mjc:forceLimited = "true"
-            uniform double mjc:forceRange:min = -100
-            uniform double mjc:forceRange:max = 100
+            uniform double[] mjc:biasPrm = [0, 0, -100000, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "false"
+            uniform double mjc:forceRange:min = -1e+38
+            uniform double mjc:forceRange:max = 1e+38
             uniform token mjc:ctrlLimited = "false"
             rel mjc:target = </Linkhou_S2_V1/joints/fl_wheel_joint>
         }
@@ -152,11 +152,11 @@ def "Linkhou_S2_V1"
         {
             uniform token mjc:gainType = "fixed"
             uniform token mjc:biasType = "affine"
-            uniform double[] mjc:gainPrm = [625, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-            uniform double[] mjc:biasPrm = [0, -625, -50, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:gainPrm = [60000, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -60000, -6000, 0, 0, 0, 0, 0, 0, 0]
             uniform token mjc:forceLimited = "true"
-            uniform double mjc:forceRange:min = -200
-            uniform double mjc:forceRange:max = 200
+            uniform double mjc:forceRange:min = -100
+            uniform double mjc:forceRange:max = 100
             uniform token mjc:ctrlLimited = "true"
             uniform double mjc:ctrlRange:min = -180
             uniform double mjc:ctrlRange:max = 180
@@ -168,10 +168,10 @@ def "Linkhou_S2_V1"
             uniform token mjc:gainType = "fixed"
             uniform token mjc:biasType = "affine"
             uniform double[] mjc:gainPrm = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-            uniform double[] mjc:biasPrm = [0, 0, -10, 0, 0, 0, 0, 0, 0, 0]
-            uniform token mjc:forceLimited = "true"
-            uniform double mjc:forceRange:min = -100
-            uniform double mjc:forceRange:max = 100
+            uniform double[] mjc:biasPrm = [0, 0, -100000, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "false"
+            uniform double mjc:forceRange:min = -1e+38
+            uniform double mjc:forceRange:max = 1e+38
             uniform token mjc:ctrlLimited = "false"
             rel mjc:target = </Linkhou_S2_V1/joints/fr_wheel_joint>
         }
@@ -180,11 +180,11 @@ def "Linkhou_S2_V1"
         {
             uniform token mjc:gainType = "fixed"
             uniform token mjc:biasType = "affine"
-            uniform double[] mjc:gainPrm = [625, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-            uniform double[] mjc:biasPrm = [0, -625, -50, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:gainPrm = [60000, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -60000, -6000, 0, 0, 0, 0, 0, 0, 0]
             uniform token mjc:forceLimited = "true"
-            uniform double mjc:forceRange:min = -200
-            uniform double mjc:forceRange:max = 200
+            uniform double mjc:forceRange:min = -100
+            uniform double mjc:forceRange:max = 100
             uniform token mjc:ctrlLimited = "true"
             uniform double mjc:ctrlRange:min = -180
             uniform double mjc:ctrlRange:max = 180
@@ -196,10 +196,10 @@ def "Linkhou_S2_V1"
             uniform token mjc:gainType = "fixed"
             uniform token mjc:biasType = "affine"
             uniform double[] mjc:gainPrm = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-            uniform double[] mjc:biasPrm = [0, 0, -10, 0, 0, 0, 0, 0, 0, 0]
-            uniform token mjc:forceLimited = "true"
-            uniform double mjc:forceRange:min = -100
-            uniform double mjc:forceRange:max = 100
+            uniform double[] mjc:biasPrm = [0, 0, -100000, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "false"
+            uniform double mjc:forceRange:min = -1e+38
+            uniform double mjc:forceRange:max = 1e+38
             uniform token mjc:ctrlLimited = "false"
             rel mjc:target = </Linkhou_S2_V1/joints/rl_wheel_joint>
         }
@@ -208,11 +208,11 @@ def "Linkhou_S2_V1"
         {
             uniform token mjc:gainType = "fixed"
             uniform token mjc:biasType = "affine"
-            uniform double[] mjc:gainPrm = [625, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-            uniform double[] mjc:biasPrm = [0, -625, -50, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:gainPrm = [60000, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -60000, -6000, 0, 0, 0, 0, 0, 0, 0]
             uniform token mjc:forceLimited = "true"
-            uniform double mjc:forceRange:min = -200
-            uniform double mjc:forceRange:max = 200
+            uniform double mjc:forceRange:min = -100
+            uniform double mjc:forceRange:max = 100
             uniform token mjc:ctrlLimited = "true"
             uniform double mjc:ctrlRange:min = -180
             uniform double mjc:ctrlRange:max = 180
@@ -224,10 +224,10 @@ def "Linkhou_S2_V1"
             uniform token mjc:gainType = "fixed"
             uniform token mjc:biasType = "affine"
             uniform double[] mjc:gainPrm = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-            uniform double[] mjc:biasPrm = [0, 0, -10, 0, 0, 0, 0, 0, 0, 0]
-            uniform token mjc:forceLimited = "true"
-            uniform double mjc:forceRange:min = -100
-            uniform double mjc:forceRange:max = 100
+            uniform double[] mjc:biasPrm = [0, 0, -100000, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "false"
+            uniform double mjc:forceRange:min = -1e+38
+            uniform double mjc:forceRange:max = 1e+38
             uniform token mjc:ctrlLimited = "false"
             rel mjc:target = </Linkhou_S2_V1/joints/rr_wheel_joint>
         }

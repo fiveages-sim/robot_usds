@@ -7,8 +7,8 @@
                 double radius = 5
             }
             dictionary Perspective = {
-                double3 position = (0.2366030315762894, -0.041815643366394574, 0.24152996332356164)
-                double3 target = (-0.09839323563687477, -0.03055574153848814, -0.04974593244779624)
+                double3 position = (0.014350781274836338, -0.15288345422380975, 0.17192603581037244)
+                double3 target = (-0.048914828649609415, 0.07932610624151809, -0.10907683235112939)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -41,6 +41,8 @@ def Scope "Instances"
         prepend references = @./geometries.usd@</Geometries/mesh>
     )
     {
+        token visibility = "inherited"
+
         over "mesh" (
             apiSchemas = ["MaterialBindingAPI"]
         )
@@ -91,6 +93,8 @@ def Scope "Instances"
         prepend references = @./geometries.usd@</Geometries/mesh_1>
     )
     {
+        token visibility = "inherited"
+
         over "mesh_1"
         {
             over "gripper_metal" (
@@ -147,6 +151,7 @@ def Scope "Instances"
         )
         {
             token physics:approximation = "convexDecomposition"
+            int physxConvexDecompositionCollision:maxConvexHulls = 2
             uniform token purpose = "guide"
             token visibility = "inherited"
 
@@ -177,7 +182,7 @@ def Scope "Instances"
 
         def Scope "VisualMaterials"
         {
-            token visibility = "inherited"
+            token visibility = "invisible"
 
             def Material "gripper_metal" (
                 instanceable = true
@@ -243,7 +248,7 @@ def "Render" (
                 bool omni:rtx:scene:hydra:mdlMaterialWarmup = 1
                 rel orderedVars = </Render/Vars/LdrColor>
                 custom bool overrideClipRange = 0
-                uniform int2 resolution = (1239, 586)
+                uniform int2 resolution = (1280, 720)
             }
         }
     }
@@ -290,10 +295,10 @@ over "OmniverseKit_Persp" (
     float exposure:time = 0.02
     float focalLength = 18.147562
     float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (-2.0644553264810245e-17, 2.0644553264810245e-17, -0.4440618559315072)
-    float3 xformOp:rotateXYZ = (49.009384, -2.5444438e-14, 88.0749)
+    custom uniform vector3d omni:kit:centerOfInterest = (-1.7200545374864898e-17, 1.7200545374864898e-17, -0.36998166074226335)
+    float3 xformOp:rotateXYZ = (40.579433, -4.1347212e-14, 15.240357)
     float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (0.2366030315762894, -0.041815643366394574, 0.24152996332356164)
+    double3 xformOp:translate = (0.014350781274836338, -0.15288345422380975, 0.17192603581037244)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 
