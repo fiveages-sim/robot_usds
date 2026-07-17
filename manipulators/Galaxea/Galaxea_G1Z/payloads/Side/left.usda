@@ -1,0 +1,122 @@
+#usda 1.0
+(
+    defaultPrim = "Galaxea_G1Z"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def "Galaxea_G1Z"
+{
+    over "joints"
+    {
+        over "gripper_joint" (
+            active = false
+        )
+        {
+        }
+
+        def PhysicsPrismaticJoint "left_gripper_joint" (
+            prepend apiSchemas = ["MjcJointAPI", "PhysicsJointStateAPI:linear", "PhysicsDriveAPI:linear"]
+        )
+        {
+            float drive:linear:physics:damping = 1
+            float drive:linear:physics:maxForce = 10
+            float drive:linear:physics:stiffness = 10
+            float drive:linear:physics:targetPosition = 0
+            uniform token drive:linear:physics:type = "force"
+            uniform double mjc:armature = 0.001
+            uniform double mjc:damping = 0.01
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -10
+            uniform double mjc:actuatorfrcrange:max = 10
+            uniform token physics:axis = "Y"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Galaxea_G1Z/gripper_base>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Galaxea_G1Z/finger1>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.0010289248
+            point3f physics:localPos0 = (0.0727, 0.025, -0.018)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0, 1, 0, 0)
+            quatf physics:localRot1 = (0, 1, 0, 0)
+            float physics:lowerLimit = 0
+            float physics:upperLimit = 0.05
+            float state:linear:physics:position = 0
+            float state:linear:physics:velocity = 0
+        }
+
+        over "gripper_joint2" (
+            active = false
+        )
+        {
+        }
+
+        def PhysicsPrismaticJoint "left_gripper_joint2" (
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI", "PhysicsJointStateAPI:linear", "PhysxMimicJointAPI:rotY"]
+        )
+        {
+            uniform double mjc:armature = 0.001
+            uniform double mjc:damping = 0.01
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 1
+            rel newton:mimicJoint = </Galaxea_G1Z/joints/left_gripper_joint>
+            uniform token physics:axis = "Y"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Galaxea_G1Z/gripper_base>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Galaxea_G1Z/finger2>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.0010939087
+            point3f physics:localPos0 = (0.0727, -0.025, 0.018)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -0.010000001
+            float physics:upperLimit = 0.060000002
+            float physxMimicJoint:rotY:gearing = -1
+            rel physxMimicJoint:rotY:referenceJoint = </Galaxea_G1Z/joints/left_gripper_joint>
+            float state:linear:physics:position = 0
+            float state:linear:physics:velocity = 0
+        }
+
+        over "right_gripper_joint2" (
+            active = false
+        )
+        {
+        }
+    }
+
+    over "actuators"
+    {
+        over "gripper_joint" (
+            active = false
+        )
+        {
+        }
+
+        over "right_gripper_joint" (
+            active = false
+        )
+        {
+        }
+
+        def MjcActuator "left_gripper_joint"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [100, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -100, -10, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -10
+            uniform double mjc:forceRange:max = 10
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = 0
+            uniform double mjc:ctrlRange:max = 0.05
+            rel mjc:target = </Galaxea_G1Z/joints/left_gripper_joint>
+        }
+    }
+}

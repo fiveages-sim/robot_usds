@@ -1,0 +1,199 @@
+#usda 1.0
+(
+    doc = """Generated from Composed Stage of root layer /home/fiveages/FaSim-Isaac/robots/manipulators/Galaxea/Galaxea_G1Z/Galaxea_G1Z.usd
+
+
+Generated from Composed Stage of root layer /home/fiveages/FaSim-Isaac/robots/manipulators/Galaxea/Galaxea_G1Z/payloads/base.usd
+"""
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Scope "Instances"
+{
+    def Xform "mesh" (
+        prepend references = @./geometries.usd@</Geometries/mesh>
+    )
+    {
+        over "mesh" (
+            apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            custom rel material:binding
+            prepend rel material:binding = </Instances/mesh/VisualMaterials/Flange>
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "Flange" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/Flange>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "mesh_1" (
+        prepend references = @./geometries.usd@</Geometries/mesh>
+    )
+    {
+        over "mesh" (
+            apiSchemas = ["PhysicsCollisionAPI", "PhysicsMeshCollisionAPI", "MaterialBindingAPI"]
+        )
+        {
+            custom rel material:binding
+            prepend rel material:binding = </Instances/mesh_1/VisualMaterials/Flange>
+            token physics:approximation = "convexHull"
+            uniform token purpose = "guide"
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "Flange" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/Flange>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "mesh_1_1" (
+        prepend references = @./geometries.usd@</Geometries/mesh_1>
+    )
+    {
+        over "mesh_1" (
+            apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            custom rel material:binding
+            prepend rel material:binding = </Instances/mesh_1_1/VisualMaterials/Black_Metal_002>
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "Black_Metal_002" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/Black_Metal_002>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "mesh_1_2" (
+        prepend references = @./geometries.usd@</Geometries/mesh_1>
+    )
+    {
+        over "mesh_1" (
+            apiSchemas = ["PhysicsCollisionAPI", "PhysicsMeshCollisionAPI", "PhysxConvexDecompositionCollisionAPI", "MaterialBindingAPI"]
+        )
+        {
+            custom rel material:binding
+            prepend rel material:binding = </Instances/mesh_1_2/VisualMaterials/Black_Metal_002>
+            token physics:approximation = "convexDecomposition"
+            int physxConvexDecompositionCollision:maxConvexHulls = 2
+            uniform token purpose = "guide"
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "Black_Metal_002" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/Black_Metal_002>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "mesh_2" (
+        prepend references = @./geometries.usd@</Geometries/mesh_2>
+    )
+    {
+        over "mesh_2"
+        {
+            over "Black_Metal_001" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_2/VisualMaterials/Black_Metal_002>
+            }
+
+            over "Detail_White_001" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_2/VisualMaterials/Detail_White_001>
+            }
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "Black_Metal_002" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/Black_Metal_002>
+            )
+            {
+            }
+
+            def Material "Detail_White_001" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/Detail_White_001>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "mesh_2_1" (
+        prepend references = @./geometries.usd@</Geometries/mesh_2>
+    )
+    {
+        over "mesh_2" (
+            apiSchemas = ["PhysicsCollisionAPI", "PhysicsMeshCollisionAPI", "PhysxConvexDecompositionCollisionAPI"]
+        )
+        {
+            token physics:approximation = "convexDecomposition"
+            int physxConvexDecompositionCollision:maxConvexHulls = 2
+            uniform token purpose = "guide"
+
+            over "Black_Metal_001" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_2_1/VisualMaterials/Black_Metal_002>
+            }
+
+            over "Detail_White_001" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_2_1/VisualMaterials/Detail_White_001>
+            }
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "Black_Metal_002" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/Black_Metal_002>
+            )
+            {
+            }
+
+            def Material "Detail_White_001" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/Detail_White_001>
+            )
+            {
+            }
+        }
+    }
+}
+

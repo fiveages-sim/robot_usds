@@ -7,8 +7,8 @@
                 double radius = 5
             }
             dictionary Perspective = {
-                double3 position = (0.26273080371196544, 0.8523297316987055, 0.4341789736656875)
-                double3 target = (-0.010795575894452458, -0.17986881291239687, 0.08583577265325432)
+                double3 position = (5, 5, 5)
+                double3 target = (-3.978038431995401e-8, -3.978038254359717e-8, 7.956076863990802e-8)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -40,11 +40,9 @@ def Xform "Galaxea_A1Z" (
     prepend references = @./payloads/base.usda@
     variants = {
         string Physics = "physx"
-        string ROS = "none"
         string Robot = "none"
         string Sensor = "none"
     }
-    prepend variantSets = "ROS"
     append variantSets = ["Sensor", "Robot", "Physics"]
 )
 {
@@ -86,20 +84,6 @@ def Xform "Galaxea_A1Z" (
         "physx" (
             prepend payload = @./payloads/Physics/physx.usda@
         ) {
-
-        }
-    }
-    variantSet "ROS" = {
-        "enable" (
-            customData = {
-                string[] variantPrimPaths = ["."]
-            }
-            delete payload = @/home/fiveages/FaSim-Isaac/robots/manipulators/Galaxea/Galaxea_A1Z/payloads/ROS/ros2.usda@
-            prepend payload = @./payloads/ROS/ros2.usda@
-        ) {
-
-        }
-        "none" {
 
         }
     }
@@ -199,10 +183,10 @@ over "OmniverseKit_Persp" (
     float exposure:time = 0.02
     float focalLength = 18.147562
     float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -1.1232067937514716)
-    float3 xformOp:rotateXYZ = (71.93277, -8.0309e-14, 165.1581)
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -8.660254037844386)
+    float3 xformOp:rotateXYZ = (54.73561, -6.3611094e-15, 135)
     float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (0.26273080371196544, 0.8523297316987055, 0.4341789736656875)
+    double3 xformOp:translate = (5, 5, 5)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 
