@@ -1,0 +1,65 @@
+#usda 1.0
+(
+    defaultPrim = "Galaxea_A1Z"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def "Galaxea_A1Z" (
+    variants = {
+        string Gripper = "galaxea_g1z"
+    }
+    prepend variantSets = "Gripper"
+)
+{
+    over "joints"
+    {
+        over "joint1"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "joint2"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "joint3"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "joint4"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "joint5"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "joint6"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+    }
+    variantSet "Gripper" = {
+        "None" {
+
+        }
+        "galaxea_g1z" (
+            prepend payload = @payloads/Gripper/g1z.usda@
+        ) {
+            prepend rel isaac:physics:robotJoints = </Galaxea_A1Z/link6/Galaxea_G1Z>
+            prepend rel isaac:physics:robotLinks = </Galaxea_A1Z/link6/Galaxea_G1Z>
+
+        }
+    }
+}

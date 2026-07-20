@@ -1,0 +1,101 @@
+#usda 1.0
+(
+    defaultPrim = "Galaxea_A1Z"
+)
+
+# Gripper under link6 (same prim path for Side switches): /Galaxea_A1Z/link6/Galaxea_G1Z
+def Xform "Galaxea_A1Z"
+{
+    over "link6"
+    {
+        def "Galaxea_G1Z" (
+            prepend payload = @../../../../../Galaxea_G1Z/Galaxea_G1Z.usda@
+            variants = {
+                string Sensor = "none"
+                string Side = "default"
+            }
+        )
+        {
+            quatd xformOp:orient = (1, 0, 0, 0)
+            double3 xformOp:scale = (1, 1, 1)
+            double3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            over "root_joint" (
+                active = false
+            )
+            {
+            }
+
+            over "gripper_base"
+            {
+                def PhysicsFixedJoint "AssemblerFixedJoint"
+                {
+                    rel physics:body0 = </Galaxea_A1Z/link6>
+                    rel physics:body1 = </Galaxea_A1Z/link6/Galaxea_G1Z/gripper_base>
+                    point3f physics:localPos0 = (0, 0, 0)
+                    point3f physics:localPos1 = (0, 0, 0)
+                    quatf physics:localRot0 = (1, 0, 0, 0)
+                    quatf physics:localRot1 = (1, 0, 0, 0)
+                }
+            }
+
+            over "finger1"
+            {
+            }
+
+            over "finger2"
+            {
+            }
+
+            over "joints"
+            {
+            over "gripper_joint"
+            {
+                float state:linear:physics:position = 0
+                float state:linear:physics:velocity = 0
+            }
+
+            over "gripper_joint2"
+            {
+                float state:linear:physics:position = 0
+                float state:linear:physics:velocity = 0
+            }
+            }
+        }
+    }
+
+    over "joints"
+    {
+        over "joint1"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+        over "joint2"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+        over "joint3"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+        over "joint4"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+        over "joint5"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+        over "joint6"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+    }
+}
