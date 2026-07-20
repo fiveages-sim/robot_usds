@@ -1,0 +1,99 @@
+#usda 1.0
+(
+    defaultPrim = "RG75"
+    doc = """Pad=heavy_carry — asymmetric Heavy kinematics (NOT type1 dual-finger mimic pads).
+
+  - True left pad (bxz1010001) is FIXED under gripper_base
+  - Right pad (bxz1010002) rides on right_finger
+  - left_finger remains a jointed placeholder (hidden) without the Heavy pad
+
+Joint drive/mimic stay on shared Physics/Side layers. Visually only the right
+Heavy pad closes against the fixed left pad.
+"""
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def "RG75"
+{
+    over "Looks"
+    {
+        def Material "PadMaterials" (
+            prepend apiSchemas = ["PhysicsMaterialAPI"]
+        )
+        {
+            float physics:dynamicFriction = 1
+            float physics:staticFriction = 1
+        }
+    }
+
+    over "gripper_base"
+    {
+        # Fixed left Heavy pad — same TF as original flange/left_left
+        # translate (0.01475, 0.04124, 0.13525), rotation identity on the container.
+        def "pad_left" (
+            prepend payload = @./pad_left.usda@
+        )
+        {
+            token visibility = "inherited"
+            double3 xformOp:translate = (0.01475, 0.04124, 0.13525)
+            float3 xformOp:rotateZYX = (0, 0, 0)
+            float3 xformOp:scale = (1, 1, 1)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateZYX", "xformOp:scale"]
+
+            over "mesh"
+            {
+                prepend rel material:binding:physics = </RG75/Looks/PadMaterials>
+            }
+        }
+    }
+
+    over "left_finger"
+    {
+        # Placeholder body only (original left_finger has no Heavy pad).
+        token visibility = "invisible"
+
+        over "visuals"
+        {
+            token visibility = "invisible"
+
+            over "finger"
+            {
+                token visibility = "invisible"
+            }
+
+            over "finger_support"
+            {
+                token visibility = "invisible"
+            }
+        }
+    }
+
+    over "right_finger"
+    {
+        over "visuals"
+        {
+            over "finger_support"
+            {
+                token visibility = "invisible"
+            }
+        }
+
+        # Moving right Heavy pad — same as original right_finger/left_right
+        def "pad_right" (
+            prepend payload = @./pad_right.usda@
+        )
+        {
+            token visibility = "inherited"
+            double3 xformOp:translate = (0, 0, 0)
+            float3 xformOp:rotateZYX = (0, 0, 0)
+            float3 xformOp:scale = (1, 1, 1)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateZYX", "xformOp:scale"]
+
+            over "mesh"
+            {
+                prepend rel material:binding:physics = </RG75/Looks/PadMaterials>
+            }
+        }
+    }
+}
