@@ -7,8 +7,8 @@
                 double radius = 5
             }
             dictionary Perspective = {
-                double3 position = (-6.370478331484666, -16.477569214351266, 4.473549929799126)
-                double3 target = (8.459065420619886, 12.667140682387046, -1.6917089588235905)
+                double3 position = (1.1873191648214327, -2.3801770734355165, 1.9851719040544378)
+                double3 target = (-12.930782237726799, 28.93085525145807, -9.924280979186538)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -118,6 +118,7 @@ def Xform "Ai2_Bot2" (
                     float2 clippingRange = (0.01, 10000000)
                     float focalLength = 10
                     float focusDistance = 5
+                    token visibility = "inherited"
                     quatd xformOp:orient = (0.6427876096865395, 0.7660444431189781, 0, 0)
                     double3 xformOp:scale = (1, 1, 1)
                     double3 xformOp:translate = (0, 0, 0)
@@ -363,17 +364,49 @@ def Xform "Ai2_Bot2" (
             {
                 over "DepthPclPublish"
                 {
+                    custom string inputs:srtxCompressionType
                     custom token inputs:viewport
                 }
 
                 over "DepthPublish"
                 {
+                    custom string inputs:srtxCompressionType
                     custom token inputs:viewport
                 }
 
                 over "RGBPublish"
                 {
+                    custom string inputs:srtxCompressionType
                     custom token inputs:viewport
+                }
+
+                over "RenderProduct"
+                {
+                    custom rel inputs:renderProductPrim (
+                        customData = {
+                            dictionary omni = {
+                                dictionary graph = {
+                                    string relType = "target"
+                                }
+                            }
+                        }
+                    )
+                }
+            }
+
+            over "ROS_LidarRTX"
+            {
+                over "RenderProduct"
+                {
+                    custom rel inputs:renderProductPrim (
+                        customData = {
+                            dictionary omni = {
+                                dictionary graph = {
+                                    string relType = "target"
+                                }
+                            }
+                        }
+                    )
                 }
             }
         }
@@ -732,6 +765,218 @@ def Xform "Ai2_Bot2" (
                 custom uint64 outputs:context
             }
         }
+
+        def OmniGraph "Back_Camera"
+        {
+            token evaluationMode = "Automatic"
+            token evaluator:type = "execution"
+            token fabricCacheBacking = "StageWithoutHistory"
+            int2 fileFormatVersion = (1, 9)
+            token pipelineStage = "pipelineStageSimulation"
+
+            def OmniGraphNode "OnPlaybackTick"
+            {
+                token node:type = "omni.graph.action.OnPlaybackTick"
+                int node:typeVersion = 2
+                custom double outputs:deltaSeconds
+                custom double outputs:frame
+                custom uint outputs:tick (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom double outputs:time
+            }
+
+            def OmniGraphNode "CameraInfoPublish"
+            {
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </Ai2_Bot2/Graph/Back_Camera/Context.outputs:context>
+                custom bool inputs:enabled
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </Ai2_Bot2/Graph/Back_Camera/RenderProduct.outputs:execOut>
+                custom string inputs:frameId = "back_camera"
+                custom string inputs:frameIdRight
+                custom uint inputs:frameSkipCount
+                custom string inputs:nodeNamespace = "back_camera"
+                custom string inputs:qosProfile
+                custom uint64 inputs:queueSize
+                custom token inputs:renderProductPath
+                prepend token inputs:renderProductPath.connect = </Ai2_Bot2/Graph/Back_Camera/RenderProduct.outputs:renderProductPath>
+                custom token inputs:renderProductPathRight
+                custom bool inputs:resetSimulationTimeOnStop = 1
+                custom string inputs:topicName = "camera_info"
+                custom string inputs:topicNameRight
+                custom bool inputs:useSystemTime
+                token node:type = "isaacsim.ros2.bridge.ROS2CameraInfoHelper"
+                int node:typeVersion = 1
+            }
+
+            def OmniGraphNode "RenderProduct"
+            {
+                custom rel inputs:cameraPrim = </Ai2_Bot2/body_link4/back_camera/d435/back_camera> (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
+                custom bool inputs:enabled
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </Ai2_Bot2/Graph/Back_Camera/RunOnce.outputs:step>
+                custom uint inputs:height
+                custom rel inputs:renderProductPrim (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
+                custom uint inputs:width
+                token node:type = "isaacsim.core.nodes.IsaacCreateRenderProduct"
+                int node:typeVersion = 3
+                custom uint outputs:execOut (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom token outputs:renderProductPath
+            }
+
+            def OmniGraphNode "RunOnce"
+            {
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </Ai2_Bot2/Graph/Back_Camera/OnPlaybackTick.outputs:tick>
+                token node:type = "isaacsim.core.nodes.OgnIsaacRunOneSimulationFrame"
+                int node:typeVersion = 1
+                custom uint outputs:step (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+            }
+
+            def OmniGraphNode "Context"
+            {
+                custom uchar inputs:domain_id
+                custom bool inputs:useDomainIDEnvVar
+                token node:type = "isaacsim.ros2.bridge.ROS2Context"
+                int node:typeVersion = 2
+                custom uint64 outputs:context
+            }
+
+            def OmniGraphNode "RGBPublish"
+            {
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </Ai2_Bot2/Graph/Back_Camera/Context.outputs:context>
+                custom bool inputs:enabled
+                custom bool inputs:enableSemanticLabels
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </Ai2_Bot2/Graph/Back_Camera/RenderProduct.outputs:execOut>
+                custom string inputs:frameId = "back_camera"
+                custom uint inputs:frameSkipCount
+                custom string inputs:nodeNamespace = "back_camera"
+                custom string inputs:qosProfile
+                custom uint64 inputs:queueSize
+                custom token inputs:renderProductPath
+                prepend token inputs:renderProductPath.connect = </Ai2_Bot2/Graph/Back_Camera/RenderProduct.outputs:renderProductPath>
+                custom bool inputs:resetSimulationTimeOnStop = 1
+                custom string inputs:semanticLabelsTopicName
+                custom string inputs:srtxCompressionType
+                custom float2 inputs:stereoOffset
+                custom string inputs:topicName = "/rgb"
+                custom token inputs:type = "rgb" (
+                    allowedTokens = ["rgb", "rgb_h264", "depth", "depth_pcl", "instance_segmentation", "semantic_segmentation", "bbox_2d_tight", "bbox_2d_loose", "bbox_3d"]
+                )
+                custom bool inputs:useSystemTime
+                token node:type = "isaacsim.ros2.bridge.ROS2CameraHelper"
+                int node:typeVersion = 3
+            }
+
+            def OmniGraphNode "DepthPublish"
+            {
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </Ai2_Bot2/Graph/Back_Camera/Context.outputs:context>
+                custom bool inputs:enabled
+                custom bool inputs:enableSemanticLabels
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </Ai2_Bot2/Graph/Back_Camera/RenderProduct.outputs:execOut>
+                custom string inputs:frameId = "back_camera"
+                custom uint inputs:frameSkipCount
+                custom string inputs:nodeNamespace = "back_camera"
+                custom string inputs:qosProfile
+                custom uint64 inputs:queueSize
+                custom token inputs:renderProductPath
+                prepend token inputs:renderProductPath.connect = </Ai2_Bot2/Graph/Back_Camera/RenderProduct.outputs:renderProductPath>
+                custom bool inputs:resetSimulationTimeOnStop = 1
+                custom string inputs:semanticLabelsTopicName
+                custom string inputs:srtxCompressionType
+                custom float2 inputs:stereoOffset
+                custom string inputs:topicName = "/depth"
+                custom token inputs:type = "depth" (
+                    allowedTokens = ["rgb", "rgb_h264", "depth", "depth_pcl", "instance_segmentation", "semantic_segmentation", "bbox_2d_tight", "bbox_2d_loose", "bbox_3d"]
+                )
+                custom bool inputs:useSystemTime
+                token node:type = "isaacsim.ros2.bridge.ROS2CameraHelper"
+                int node:typeVersion = 3
+            }
+
+            def OmniGraphNode "DepthPclPublish"
+            {
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </Ai2_Bot2/Graph/Back_Camera/Context.outputs:context>
+                custom bool inputs:enabled
+                custom bool inputs:enableSemanticLabels
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </Ai2_Bot2/Graph/Back_Camera/RenderProduct.outputs:execOut>
+                custom string inputs:frameId = "back_camera"
+                custom uint inputs:frameSkipCount
+                custom string inputs:nodeNamespace = "back_camera"
+                custom string inputs:qosProfile
+                custom uint64 inputs:queueSize
+                custom token inputs:renderProductPath
+                prepend token inputs:renderProductPath.connect = </Ai2_Bot2/Graph/Back_Camera/RenderProduct.outputs:renderProductPath>
+                custom bool inputs:resetSimulationTimeOnStop = 1
+                custom string inputs:semanticLabelsTopicName
+                custom string inputs:srtxCompressionType
+                custom float2 inputs:stereoOffset
+                custom string inputs:topicName = "/depth_pcl"
+                custom token inputs:type = "depth_pcl" (
+                    allowedTokens = ["rgb", "rgb_h264", "depth", "depth_pcl", "instance_segmentation", "semantic_segmentation", "bbox_2d_tight", "bbox_2d_loose", "bbox_3d"]
+                )
+                custom bool inputs:useSystemTime
+                token node:type = "isaacsim.ros2.bridge.ROS2CameraHelper"
+                int node:typeVersion = 3
+            }
+        }
     }
 
     over "Looks"
@@ -833,6 +1078,7 @@ def "Render" (
                 bool omni:rtx:debug:view:pixelDebug:enableFixedTextPos = 1
                 token omni:rtx:directLighting:sampledLighting:denoisingTechnique = "None"
                 bool omni:rtx:dlss:frameGeneration = 0
+                float3 omni:rtx:domeLight:rotationAxis = (0, 0, 1)
                 bool omni:rtx:indirectDiffuse:denoiser:enabled = 0
                 bool omni:rtx:material:db:nonVisualMaterialCSV:enabled = 0
                 string omni:rtx:material:db:rtSensorNameToIdMap = "DefaultMaterial:0;AsphaltStandardMaterial:1;AsphaltWeatheredMaterial:2;VegetationGrassMaterial:3;WaterStandardMaterial:4;GlassStandardMaterial:5;FiberGlassMaterial:6;MetalAlloyMaterial:7;MetalAluminumMaterial:8;MetalAluminumOxidizedMaterial:9;PlasticStandardMaterial:10;RetroMarkingsMaterial:11;RetroSignMaterial:12;RubberStandardMaterial:13;SoilClayMaterial:14;ConcreteRoughMaterial:15;ConcreteSmoothMaterial:16;OakTreeBarkMaterial:17;FabricStandardMaterial:18;PlexiGlassStandardMaterial:19;MetalSilverMaterial:20"
@@ -905,10 +1151,10 @@ over "OmniverseKit_Persp" (
     float exposure:time = 0.02
     float focalLength = 18.147562
     float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (2.272017622245544e-15, 3.635228195592872e-15, -33.276717086040215)
-    float3 xformOp:rotateXYZ = (77.95758, -5.2479153e-14, -27.510303)
+    custom uniform vector3d omni:kit:centerOfInterest = (2.4820516742338495e-15, 3.9712826787741595e-15, -36.35294486614946)
+    float3 xformOp:rotateXYZ = (70.87645, -6.2020816e-14, 24.270548)
     float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (-0.6664554180900737, -2.239312544784854, 0.8165545931907441)
+    double3 xformOp:translate = (1.1873191648214327, -2.3801770734355165, 1.9851719040544378)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 
