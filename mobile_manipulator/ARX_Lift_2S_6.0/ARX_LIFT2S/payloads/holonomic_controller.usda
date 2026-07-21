@@ -1,0 +1,240 @@
+#usda 1.0
+(
+    defaultPrim = "Root"
+    upAxis = "Z"
+)
+
+def Xform "Root"
+{
+    def OmniGraph "holonomic_controller"
+    {
+        token evaluationMode = "Automatic"
+        token evaluator:type = "execution"
+        token fabricCacheBacking = "StageWithoutHistory"
+        int2 fileFormatVersion = (1, 9)
+        token pipelineStage = "pipelineStageSimulation"
+        token ui:displayGroup = "Material Graphs"
+        token ui:displayName = "holonomic_controller"
+        int ui:order = 1024
+        uniform token[] xformOpOrder = []
+
+        def OmniGraphNode "on_playback_tick" (
+            apiSchemas = ["NodeGraphNodeAPI"]
+        )
+        {
+            token node:type = "omni.graph.action.OnPlaybackTick"
+            int node:typeVersion = 2
+            custom double outputs:deltaSeconds
+            custom double outputs:frame
+            custom uint outputs:tick (
+                customData = {
+                    bool isExecution = 1
+                }
+            )
+            custom double outputs:time
+            uniform token ui:nodegraph:node:expansionState = "open"
+            uniform float2 ui:nodegraph:node:pos = (153.63228, 195.96117)
+        }
+
+        def OmniGraphNode "usd_setup_holonomic_robot" (
+            apiSchemas = ["NodeGraphNodeAPI"]
+        )
+        {
+            custom rel inputs:comPrim = </ARX_LIFT2S/base_link> (
+                customData = {
+                    dictionary omni = {
+                        dictionary graph = {
+                            string relType = "target"
+                        }
+                    }
+                }
+            )
+            custom token inputs:comPrimPath
+            custom rel inputs:robotPrim = </ARX_LIFT2S> (
+                customData = {
+                    dictionary omni = {
+                        dictionary graph = {
+                            string relType = "target"
+                        }
+                    }
+                }
+            )
+            custom token inputs:robotPrimPath
+            custom bool inputs:usePath
+            token node:type = "isaacsim.robot.wheeled_robots.HolonomicRobotUsdSetup"
+            int node:typeVersion = 1
+            custom double[] outputs:mecanumAngles
+            custom double3 outputs:upAxis
+            custom double3 outputs:wheelAxis
+            custom token[] outputs:wheelDofNames
+            custom double4[] outputs:wheelOrientations
+            custom double3[] outputs:wheelPositions
+            custom double[] outputs:wheelRadius
+            uniform token ui:nodegraph:node:expansionState = "open"
+            uniform float2 ui:nodegraph:node:pos = (414.05484, -152.89684)
+        }
+
+        def OmniGraphNode "ros2_subscribe_twist" (
+            apiSchemas = ["NodeGraphNodeAPI"]
+        )
+        {
+            custom uint64 inputs:context
+            custom uint inputs:execIn (
+                customData = {
+                    bool isExecution = 1
+                }
+            )
+            uint inputs:execIn.connect = </Root/holonomic_controller/on_playback_tick.outputs:tick>
+            custom string inputs:nodeNamespace
+            custom string inputs:qosProfile
+            custom uint64 inputs:queueSize
+            custom string inputs:topicName
+            token node:type = "isaacsim.ros2.bridge.ROS2SubscribeTwist"
+            int node:typeVersion = 1
+            custom vector3d outputs:angularVelocity
+            custom uint outputs:execOut (
+                customData = {
+                    bool isExecution = 1
+                }
+            )
+            custom vector3d outputs:linearVelocity
+            uniform token ui:nodegraph:node:expansionState = "open"
+            uniform float2 ui:nodegraph:node:pos = (425.30905, 267.76483)
+        }
+
+        def OmniGraphNode "break_3_vector" (
+            apiSchemas = ["NodeGraphNodeAPI"]
+        )
+        {
+            custom token inputs:tuple
+            token inputs:tuple.connect = </Root/holonomic_controller/ros2_subscribe_twist.outputs:angularVelocity>
+            token node:type = "omni.graph.nodes.BreakVector3"
+            int node:typeVersion = 1
+            custom token outputs:x
+            custom token outputs:y
+            custom token outputs:z
+            uniform token ui:nodegraph:node:expansionState = "open"
+            uniform float2 ui:nodegraph:node:pos = (720.48285, 270.0226)
+        }
+
+        def OmniGraphNode "break_3_vector_01" (
+            apiSchemas = ["NodeGraphNodeAPI"]
+        )
+        {
+            custom token inputs:tuple
+            token inputs:tuple.connect = </Root/holonomic_controller/ros2_subscribe_twist.outputs:linearVelocity>
+            token node:type = "omni.graph.nodes.BreakVector3"
+            int node:typeVersion = 1
+            custom token outputs:x
+            custom token outputs:y
+            custom token outputs:z
+            uniform token ui:nodegraph:node:expansionState = "open"
+            uniform float2 ui:nodegraph:node:pos = (720.4834, 446.79944)
+        }
+
+        def OmniGraphNode "make_3_vector" (
+            apiSchemas = ["NodeGraphNodeAPI"]
+        )
+        {
+            custom token inputs:x (
+                customData = {
+                    dictionary omni = {
+                        dictionary graph = {
+                            double attrValue = 0
+                            string resolvedType = "double"
+                        }
+                    }
+                }
+            )
+            token inputs:x.connect = </Root/holonomic_controller/break_3_vector_01.outputs:x>
+            custom token inputs:y (
+                customData = {
+                    dictionary omni = {
+                        dictionary graph = {
+                            double attrValue = 0
+                            string resolvedType = "double"
+                        }
+                    }
+                }
+            )
+            token inputs:y.connect = </Root/holonomic_controller/break_3_vector_01.outputs:y>
+            custom token inputs:z
+            token inputs:z.connect = </Root/holonomic_controller/break_3_vector.outputs:z>
+            token node:type = "omni.graph.nodes.MakeVector3"
+            int node:typeVersion = 1
+            custom token outputs:tuple
+            uniform token ui:nodegraph:node:expansionState = "open"
+            uniform float2 ui:nodegraph:node:pos = (947.47705, 356.89526)
+        }
+
+        def OmniGraphNode "holonomic_controller" (
+            apiSchemas = ["NodeGraphNodeAPI"]
+        )
+        {
+            custom double inputs:angularGain = 0.375
+            custom uint inputs:execIn (
+                customData = {
+                    bool isExecution = 1
+                }
+            )
+            uint inputs:execIn.connect = </Root/holonomic_controller/on_playback_tick.outputs:tick>
+            custom double3 inputs:inputVelocity
+            double3 inputs:inputVelocity.connect = </Root/holonomic_controller/make_3_vector.outputs:tuple>
+            custom double inputs:linearGain
+            custom double inputs:maxAngularSpeed
+            custom double inputs:maxLinearSpeed
+            custom double inputs:maxWheelSpeed
+            custom double[] inputs:mecanumAngles
+            double[] inputs:mecanumAngles.connect = </Root/holonomic_controller/usd_setup_holonomic_robot.outputs:mecanumAngles>
+            custom double3 inputs:upAxis
+            double3 inputs:upAxis.connect = </Root/holonomic_controller/usd_setup_holonomic_robot.outputs:upAxis>
+            custom double3 inputs:wheelAxis
+            double3 inputs:wheelAxis.connect = </Root/holonomic_controller/usd_setup_holonomic_robot.outputs:wheelAxis>
+            custom double4[] inputs:wheelOrientations
+            double4[] inputs:wheelOrientations.connect = </Root/holonomic_controller/usd_setup_holonomic_robot.outputs:wheelOrientations>
+            custom double3[] inputs:wheelPositions
+            double3[] inputs:wheelPositions.connect = </Root/holonomic_controller/usd_setup_holonomic_robot.outputs:wheelPositions>
+            custom double[] inputs:wheelRadius
+            double[] inputs:wheelRadius.connect = </Root/holonomic_controller/usd_setup_holonomic_robot.outputs:wheelRadius>
+            token node:type = "isaacsim.robot.wheeled_robots.HolonomicController"
+            int node:typeVersion = 2
+            custom double[] outputs:jointVelocityCommand
+            uniform token ui:nodegraph:node:expansionState = "open"
+            uniform float2 ui:nodegraph:node:pos = (1251.1466, 55.438896)
+        }
+
+        def OmniGraphNode "articulation_controller" (
+            apiSchemas = ["NodeGraphNodeAPI"]
+        )
+        {
+            custom double[] inputs:effortCommand
+            custom uint inputs:execIn (
+                customData = {
+                    bool isExecution = 1
+                }
+            )
+            uint inputs:execIn.connect = </Root/holonomic_controller/on_playback_tick.outputs:tick>
+            custom int[] inputs:jointIndices
+            custom token[] inputs:jointNames
+            token[] inputs:jointNames.connect = </Root/holonomic_controller/usd_setup_holonomic_robot.outputs:wheelDofNames>
+            custom double[] inputs:positionCommand
+            custom string inputs:robotPath
+            custom rel inputs:targetPrim = </ARX_LIFT2S> (
+                customData = {
+                    dictionary omni = {
+                        dictionary graph = {
+                            string relType = "target"
+                        }
+                    }
+                }
+            )
+            custom double[] inputs:velocityCommand
+            double[] inputs:velocityCommand.connect = </Root/holonomic_controller/holonomic_controller.outputs:jointVelocityCommand>
+            token node:type = "isaacsim.core.nodes.IsaacArticulationController"
+            int node:typeVersion = 1
+            uniform token ui:nodegraph:node:expansionState = "open"
+            uniform float2 ui:nodegraph:node:pos = (1575.8801, 114.48895)
+        }
+    }
+}
+

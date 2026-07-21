@@ -1,0 +1,1216 @@
+#usda 1.0
+(
+    customLayerData = {
+        dictionary cameraSettings = {
+            dictionary Front = {
+                double3 position = (0, 0, 0)
+                double radius = 5
+            }
+            dictionary Perspective = {
+                double3 position = (0, 0, 0)
+                double3 target = (-3.978038431995401e-8, -3.978038254359717e-8, 7.956076863990802e-8)
+            }
+            dictionary Right = {
+                double3 position = (0, 0, 0)
+                double radius = 5
+            }
+            dictionary Top = {
+                double3 position = (0, 0, 0)
+                double radius = 5
+            }
+            string boundCamera = "/OmniverseKit_Persp"
+        }
+        dictionary omni_layer = {
+            string authoring_layer = "./ros2.usda"
+        }
+        dictionary renderSettings = {
+        }
+    }
+    defaultPrim = "ARX_LIFT2S"
+    endTimeCode = 0
+    metersPerUnit = 1
+    startTimeCode = -1
+    upAxis = "Z"
+)
+
+def "ARX_LIFT2S"
+{
+    def "Graph"
+    {
+        def OmniGraph "ROS_JointStates"
+        {
+            token evaluationMode = "Automatic"
+            token evaluator:type = "execution"
+            token fabricCacheBacking = "StageWithoutHistory"
+            int2 fileFormatVersion = (1, 9)
+            token pipelineStage = "pipelineStageSimulation"
+
+            def OmniGraphNode "OnPlaybackTick" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                token node:type = "omni.graph.action.OnPlaybackTick"
+                int node:typeVersion = 2
+                custom double outputs:deltaSeconds
+                custom double outputs:frame
+                custom uint outputs:tick (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom double outputs:time
+                uniform float2 ui:nodegraph:node:pos = (-909.7614, -111.673035)
+            }
+
+            def OmniGraphNode "Context" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom uchar inputs:domain_id
+                custom bool inputs:useDomainIDEnvVar
+                token node:type = "isaacsim.ros2.bridge.ROS2Context"
+                int node:typeVersion = 2
+                custom uint64 outputs:context
+                uniform float2 ui:nodegraph:node:pos = (-924.6369, 57.570717)
+            }
+
+            def OmniGraphNode "ReadSimTime" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom uint64 inputs:referenceTimeDenominator
+                custom int64 inputs:referenceTimeNumerator
+                custom bool inputs:resetOnStop = 1
+                token node:type = "isaacsim.core.nodes.IsaacReadSimulationTime"
+                int node:typeVersion = 1
+                custom double outputs:simulationTime
+                uniform float2 ui:nodegraph:node:pos = (-535.01935, -17.19065)
+            }
+
+            def OmniGraphNode "PublisherJointState" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </ARX_LIFT2S/Graph/ROS_JointStates/Context.outputs:context>
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </ARX_LIFT2S/Graph/ROS_JointStates/isaac_read_joint_state_node.outputs:execOut>
+                custom uchar[] inputs:jointDofTypes
+                prepend uchar[] inputs:jointDofTypes.connect = </ARX_LIFT2S/Graph/ROS_JointStates/isaac_read_joint_state_node.outputs:jointDofTypes>
+                custom double[] inputs:jointEfforts
+                prepend double[] inputs:jointEfforts.connect = </ARX_LIFT2S/Graph/ROS_JointStates/isaac_read_joint_state_node.outputs:jointEfforts>
+                custom token[] inputs:jointNames
+                prepend token[] inputs:jointNames.connect = </ARX_LIFT2S/Graph/ROS_JointStates/isaac_read_joint_state_node.outputs:jointNames>
+                custom double[] inputs:jointPositions
+                prepend double[] inputs:jointPositions.connect = </ARX_LIFT2S/Graph/ROS_JointStates/isaac_read_joint_state_node.outputs:jointPositions>
+                custom double[] inputs:jointVelocities
+                prepend double[] inputs:jointVelocities.connect = </ARX_LIFT2S/Graph/ROS_JointStates/isaac_read_joint_state_node.outputs:jointVelocities>
+                custom string inputs:nodeNamespace = "isaac"
+                custom string inputs:qosProfile
+                custom uint64 inputs:queueSize
+                custom float inputs:sensorTime
+                prepend float inputs:sensorTime.connect = </ARX_LIFT2S/Graph/ROS_JointStates/isaac_read_joint_state_node.outputs:sensorTime>
+                custom float inputs:stageMetersPerUnit
+                prepend float inputs:stageMetersPerUnit.connect = </ARX_LIFT2S/Graph/ROS_JointStates/isaac_read_joint_state_node.outputs:stageMetersPerUnit>
+                custom rel inputs:targetPrim = </ARX_LIFT2S/base_link> (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
+                custom double inputs:timeStamp
+                prepend double inputs:timeStamp.connect = </ARX_LIFT2S/Graph/ROS_JointStates/ReadSimTime.outputs:simulationTime>
+                custom string inputs:topicName = "/joint_states"
+                token node:type = "isaacsim.ros2.bridge.ROS2PublishJointState"
+                int node:typeVersion = 1
+                uniform float2 ui:nodegraph:node:pos = (-109.938446, -404.17737)
+            }
+
+            def OmniGraphNode "SubscriberJointState" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </ARX_LIFT2S/Graph/ROS_JointStates/Context.outputs:context>
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </ARX_LIFT2S/Graph/ROS_JointStates/OnPlaybackTick.outputs:tick>
+                custom string inputs:nodeNamespace = "isaac"
+                custom string inputs:qosProfile
+                custom uint64 inputs:queueSize
+                custom string inputs:topicName = "/joint_command"
+                token node:type = "isaacsim.ros2.bridge.ROS2SubscribeJointState"
+                int node:typeVersion = 2
+                custom double[] outputs:effortCommand
+                custom uint outputs:execOut (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom token[] outputs:jointNames
+                custom double[] outputs:positionCommand
+                custom double outputs:timeStamp
+                custom double[] outputs:velocityCommand
+                uniform float2 ui:nodegraph:node:pos = (-534.89404, 198.44171)
+            }
+
+            def OmniGraphNode "ArticulationController"
+            {
+                custom double[] inputs:effortCommand
+                prepend double[] inputs:effortCommand.connect = </ARX_LIFT2S/Graph/ROS_JointStates/SubscriberJointState.outputs:effortCommand>
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </ARX_LIFT2S/Graph/ROS_JointStates/OnPlaybackTick.outputs:tick>
+                custom int[] inputs:jointIndices
+                custom token[] inputs:jointNames
+                prepend token[] inputs:jointNames.connect = </ARX_LIFT2S/Graph/ROS_JointStates/SubscriberJointState.outputs:jointNames>
+                custom double[] inputs:positionCommand
+                prepend double[] inputs:positionCommand.connect = </ARX_LIFT2S/Graph/ROS_JointStates/SubscriberJointState.outputs:positionCommand>
+                custom string inputs:robotPath
+                custom rel inputs:targetPrim = </ARX_LIFT2S/base_link> (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
+                custom double[] inputs:velocityCommand
+                prepend double[] inputs:velocityCommand.connect = </ARX_LIFT2S/Graph/ROS_JointStates/SubscriberJointState.outputs:velocityCommand>
+                token node:type = "isaacsim.core.nodes.IsaacArticulationController"
+                int node:typeVersion = 1
+            }
+
+            def OmniGraphNode "isaac_read_joint_state_node" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </ARX_LIFT2S/Graph/ROS_JointStates/OnPlaybackTick.outputs:tick>
+                custom rel inputs:prim = </ARX_LIFT2S/base_link> (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
+                token node:type = "isaacsim.sensors.physics.IsaacReadJointState"
+                int node:typeVersion = 1
+                custom uint outputs:execOut (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom uchar[] outputs:jointDofTypes
+                custom double[] outputs:jointEfforts
+                custom token[] outputs:jointNames
+                custom double[] outputs:jointPositions
+                custom double[] outputs:jointVelocities
+                custom float outputs:sensorTime
+                custom float outputs:stageMetersPerUnit
+                uniform token ui:nodegraph:node:expansionState = "open"
+                uniform float2 ui:nodegraph:node:pos = (-516.09503, -334.68823)
+            }
+
+            def OmniGraphNode "ros2_publish_clock" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </ARX_LIFT2S/Graph/ROS_JointStates/Context.outputs:context>
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </ARX_LIFT2S/Graph/ROS_JointStates/OnPlaybackTick.outputs:tick>
+                custom string inputs:nodeNamespace
+                custom string inputs:qosProfile
+                custom uint64 inputs:queueSize
+                custom double inputs:timeStamp
+                prepend double inputs:timeStamp.connect = </ARX_LIFT2S/Graph/ROS_JointStates/ReadSimTime.outputs:simulationTime>
+                custom string inputs:topicName = "/clock"
+                token node:type = "isaacsim.ros2.bridge.ROS2PublishClock"
+                int node:typeVersion = 1
+                uniform token ui:nodegraph:node:expansionState = "open"
+                uniform float2 ui:nodegraph:node:pos = (-111.22903, -8.796355)
+            }
+        }
+
+        def OmniGraph "ROS_Odometry"
+        {
+            token evaluationMode = "Automatic"
+            token evaluator:type = "execution"
+            token fabricCacheBacking = "StageWithoutHistory"
+            int2 fileFormatVersion = (1, 9)
+            token pipelineStage = "pipelineStageSimulation"
+
+            def OmniGraphNode "OnPlaybackTick" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                token node:type = "omni.graph.action.OnPlaybackTick"
+                int node:typeVersion = 2
+                custom double outputs:deltaSeconds
+                custom double outputs:frame
+                custom uint outputs:tick (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom double outputs:time
+                uniform float2 ui:nodegraph:node:pos = (-1285.7782, 180.07)
+            }
+
+            def OmniGraphNode "Context" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom uchar inputs:domain_id
+                custom bool inputs:useDomainIDEnvVar
+                token node:type = "isaacsim.ros2.bridge.ROS2Context"
+                int node:typeVersion = 2
+                custom uint64 outputs:context
+                uniform float2 ui:nodegraph:node:pos = (-664.99506, -329.65833)
+            }
+
+            def OmniGraphNode "ReadSimTime" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom uint64 inputs:referenceTimeDenominator
+                custom int64 inputs:referenceTimeNumerator
+                custom bool inputs:resetOnStop = 1
+                token node:type = "isaacsim.core.nodes.IsaacReadSimulationTime"
+                int node:typeVersion = 1
+                custom double outputs:simulationTime
+                uniform float2 ui:nodegraph:node:pos = (-662.7152, -46.02941)
+            }
+
+            def OmniGraphNode "TFWorld2Odom" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom string inputs:childFrameId = "odom"
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </ARX_LIFT2S/Graph/ROS_Odometry/Context.outputs:context>
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </ARX_LIFT2S/Graph/ROS_Odometry/OnPlaybackTick.outputs:tick>
+                custom string inputs:nodeNamespace = "isaac"
+                custom string inputs:parentFrameId = "world"
+                custom string inputs:qosProfile
+                custom uint64 inputs:queueSize
+                custom quatd inputs:rotation
+                custom bool inputs:staticPublisher
+                custom double inputs:timeStamp
+                prepend double inputs:timeStamp.connect = </ARX_LIFT2S/Graph/ROS_Odometry/ReadSimTime.outputs:simulationTime>
+                custom string inputs:topicName
+                custom vector3d inputs:translation
+                token node:type = "isaacsim.ros2.bridge.ROS2PublishRawTransformTree"
+                int node:typeVersion = 1
+                uniform float2 ui:nodegraph:node:pos = (-31.327507, -560.2093)
+            }
+
+            def OmniGraphNode "TFOdom2Robot" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom string inputs:childFrameId = "base_link"
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </ARX_LIFT2S/Graph/ROS_Odometry/Context.outputs:context>
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </ARX_LIFT2S/Graph/ROS_Odometry/OnPlaybackTick.outputs:tick>
+                custom string inputs:nodeNamespace = "isaac"
+                custom string inputs:parentFrameId = "odom"
+                custom string inputs:qosProfile
+                custom uint64 inputs:queueSize
+                custom quatd inputs:rotation
+                prepend quatd inputs:rotation.connect = </ARX_LIFT2S/Graph/ROS_Odometry/ComputeOdometry.outputs:orientation>
+                custom bool inputs:staticPublisher
+                custom double inputs:timeStamp
+                prepend double inputs:timeStamp.connect = </ARX_LIFT2S/Graph/ROS_Odometry/ReadSimTime.outputs:simulationTime>
+                custom string inputs:topicName
+                custom vector3d inputs:translation
+                prepend vector3d inputs:translation.connect = </ARX_LIFT2S/Graph/ROS_Odometry/ComputeOdometry.outputs:position>
+                token node:type = "isaacsim.ros2.bridge.ROS2PublishRawTransformTree"
+                int node:typeVersion = 1
+                uniform float2 ui:nodegraph:node:pos = (-48.66223, 185.5644)
+            }
+
+            def OmniGraphNode "ComputeOdometry" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom rel inputs:chassisPrim = </ARX_LIFT2S/base_link> (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </ARX_LIFT2S/Graph/ROS_Odometry/OnPlaybackTick.outputs:tick>
+                token node:type = "isaacsim.core.nodes.IsaacComputeOdometry"
+                int node:typeVersion = 1
+                custom vector3d outputs:angularAcceleration
+                custom vector3d outputs:angularVelocity
+                custom uint outputs:execOut (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom vector3d outputs:globalLinearAcceleration
+                custom vector3d outputs:globalLinearVelocity
+                custom vector3d outputs:linearAcceleration
+                custom vector3d outputs:linearVelocity
+                custom quatd outputs:orientation
+                custom vector3d outputs:position
+                uniform float2 ui:nodegraph:node:pos = (-687.9316, 199.83858)
+            }
+
+            def OmniGraphNode "PublisherOdometry" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom vector3d inputs:angularVelocity
+                prepend vector3d inputs:angularVelocity.connect = </ARX_LIFT2S/Graph/ROS_Odometry/ComputeOdometry.outputs:angularVelocity>
+                custom string inputs:chassisFrameId = "base_link"
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </ARX_LIFT2S/Graph/ROS_Odometry/Context.outputs:context>
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </ARX_LIFT2S/Graph/ROS_Odometry/ComputeOdometry.outputs:execOut>
+                custom vector3d inputs:linearVelocity
+                prepend vector3d inputs:linearVelocity.connect = </ARX_LIFT2S/Graph/ROS_Odometry/ComputeOdometry.outputs:linearVelocity>
+                custom string inputs:nodeNamespace = "isaac"
+                custom string inputs:odomFrameId = "odom"
+                custom quatd inputs:orientation
+                prepend quatd inputs:orientation.connect = </ARX_LIFT2S/Graph/ROS_Odometry/ComputeOdometry.outputs:orientation>
+                custom vector3d inputs:position
+                prepend vector3d inputs:position.connect = </ARX_LIFT2S/Graph/ROS_Odometry/ComputeOdometry.outputs:position>
+                custom bool inputs:publishRawVelocities
+                custom string inputs:qosProfile
+                custom uint64 inputs:queueSize
+                custom vector3d inputs:robotFront
+                custom double inputs:timeStamp
+                prepend double inputs:timeStamp.connect = </ARX_LIFT2S/Graph/ROS_Odometry/ReadSimTime.outputs:simulationTime>
+                custom string inputs:topicName = "/odom"
+                token node:type = "isaacsim.ros2.bridge.ROS2PublishOdometry"
+                int node:typeVersion = 1
+                uniform float2 ui:nodegraph:node:pos = (-33.814163, -224.14938)
+            }
+
+            def OmniGraphNode "ComputeTFRobot" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </ARX_LIFT2S/Graph/ROS_Odometry/OnPlaybackTick.outputs:tick>
+                custom rel inputs:parentPrim = </ARX_LIFT2S/base_link> (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
+                custom rel inputs:targetPrims = </ARX_LIFT2S/base_link> (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
+                token node:type = "isaacsim.core.nodes.IsaacComputeTransformTree"
+                int node:typeVersion = 1
+                custom token[] outputs:childFrames
+                custom uint outputs:execOut (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom double4[] outputs:orientations
+                custom token[] outputs:parentFrames
+                custom double3[] outputs:translations
+                uniform float2 ui:nodegraph:node:pos = (-669.763, -576.14496)
+            }
+        }
+
+        def OmniGraph "holonomic_controller"
+        {
+            token evaluationMode = "Automatic"
+            token evaluator:type = "execution"
+            token fabricCacheBacking = "StageWithoutHistory"
+            int2 fileFormatVersion = (1, 9)
+            token pipelineStage = "pipelineStageSimulation"
+
+            def OmniGraphNode "on_playback_tick" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                token node:type = "omni.graph.action.OnPlaybackTick"
+                int node:typeVersion = 2
+                custom double outputs:deltaSeconds
+                custom double outputs:frame
+                custom uint outputs:tick (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom double outputs:time
+                uniform token ui:nodegraph:node:expansionState = "open"
+                uniform float2 ui:nodegraph:node:pos = (-947.6998, -13.368288)
+            }
+
+            def OmniGraphNode "ros2_context" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom uchar inputs:domain_id
+                custom bool inputs:useDomainIDEnvVar
+                token node:type = "isaacsim.ros2.bridge.ROS2Context"
+                int node:typeVersion = 2
+                custom uint64 outputs:context
+                uniform token ui:nodegraph:node:expansionState = "open"
+                uniform float2 ui:nodegraph:node:pos = (-947.6998, -170.36829)
+            }
+
+            def OmniGraphNode "usd_setup_holonomic_robot" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom rel inputs:comPrim = </ARX_LIFT2S/base_link> (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
+                custom token inputs:comPrimPath
+                custom rel inputs:robotPrim = </ARX_LIFT2S> (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
+                custom token inputs:robotPrimPath
+                custom bool inputs:usePath
+                token node:type = "isaacsim.robot.wheeled_robots.HolonomicRobotUsdSetup"
+                int node:typeVersion = 1
+                custom double[] outputs:mecanumAngles
+                custom double3 outputs:upAxis
+                custom double3 outputs:wheelAxis
+                custom token[] outputs:wheelDofNames
+                custom double4[] outputs:wheelOrientations
+                custom double3[] outputs:wheelPositions
+                custom double[] outputs:wheelRadius
+                uniform token ui:nodegraph:node:expansionState = "open"
+                uniform float2 ui:nodegraph:node:pos = (-672.8904, -352.36807)
+            }
+
+            def OmniGraphNode "ros2_subscribe_twist" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </ARX_LIFT2S/Graph/holonomic_controller/ros2_context.outputs:context>
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </ARX_LIFT2S/Graph/holonomic_controller/on_playback_tick.outputs:tick>
+                custom string inputs:nodeNamespace
+                custom string inputs:qosProfile
+                custom uint64 inputs:queueSize
+                custom string inputs:topicName = "/cmd_vel"
+                token node:type = "isaacsim.ros2.bridge.ROS2SubscribeTwist"
+                int node:typeVersion = 1
+                custom vector3d outputs:angularVelocity
+                custom uint outputs:execOut (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom vector3d outputs:linearVelocity
+                uniform token ui:nodegraph:node:expansionState = "open"
+                uniform float2 ui:nodegraph:node:pos = (-662.16534, 96.95215)
+            }
+
+            def OmniGraphNode "break_3_vector" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom token inputs:tuple
+                prepend token inputs:tuple.connect = </ARX_LIFT2S/Graph/holonomic_controller/ros2_subscribe_twist.outputs:angularVelocity>
+                token node:type = "omni.graph.nodes.BreakVector3"
+                int node:typeVersion = 1
+                custom token outputs:x
+                custom token outputs:y
+                custom token outputs:z
+                uniform token ui:nodegraph:node:expansionState = "open"
+                uniform float2 ui:nodegraph:node:pos = (-289.16208, 13.678039)
+            }
+
+            def OmniGraphNode "break_3_vector_01" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom token inputs:tuple
+                prepend token inputs:tuple.connect = </ARX_LIFT2S/Graph/holonomic_controller/ros2_subscribe_twist.outputs:linearVelocity>
+                token node:type = "omni.graph.nodes.BreakVector3"
+                int node:typeVersion = 1
+                custom token outputs:x
+                custom token outputs:y
+                custom token outputs:z
+                uniform token ui:nodegraph:node:expansionState = "open"
+                uniform float2 ui:nodegraph:node:pos = (-297.67383, 170.49924)
+            }
+
+            def OmniGraphNode "make_3_vector" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom token inputs:x (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                double attrValue = 0
+                                string resolvedType = "double"
+                            }
+                        }
+                    }
+                )
+                prepend token inputs:x.connect = </ARX_LIFT2S/Graph/holonomic_controller/break_3_vector_01.outputs:x>
+                custom token inputs:y (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                double attrValue = 0
+                                string resolvedType = "double"
+                            }
+                        }
+                    }
+                )
+                prepend token inputs:y.connect = </ARX_LIFT2S/Graph/holonomic_controller/break_3_vector_01.outputs:y>
+                custom token inputs:z
+                prepend token inputs:z.connect = </ARX_LIFT2S/Graph/holonomic_controller/break_3_vector.outputs:z>
+                token node:type = "omni.graph.nodes.MakeVector3"
+                int node:typeVersion = 1
+                custom token outputs:tuple
+                uniform token ui:nodegraph:node:expansionState = "open"
+                uniform float2 ui:nodegraph:node:pos = (-25.117462, 36.384033)
+            }
+
+            def OmniGraphNode "holonomic_controller" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom double inputs:angularGain = 0.375
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </ARX_LIFT2S/Graph/holonomic_controller/on_playback_tick.outputs:tick>
+                custom double3 inputs:inputVelocity
+                prepend double3 inputs:inputVelocity.connect = </ARX_LIFT2S/Graph/holonomic_controller/make_3_vector.outputs:tuple>
+                custom double inputs:linearGain
+                custom double inputs:maxAngularSpeed
+                custom double inputs:maxLinearSpeed
+                custom double inputs:maxWheelSpeed
+                custom double[] inputs:mecanumAngles
+                prepend double[] inputs:mecanumAngles.connect = </ARX_LIFT2S/Graph/holonomic_controller/usd_setup_holonomic_robot.outputs:mecanumAngles>
+                custom double3 inputs:upAxis
+                prepend double3 inputs:upAxis.connect = </ARX_LIFT2S/Graph/holonomic_controller/usd_setup_holonomic_robot.outputs:upAxis>
+                custom double3 inputs:wheelAxis
+                prepend double3 inputs:wheelAxis.connect = </ARX_LIFT2S/Graph/holonomic_controller/usd_setup_holonomic_robot.outputs:wheelAxis>
+                custom double4[] inputs:wheelOrientations
+                prepend double4[] inputs:wheelOrientations.connect = </ARX_LIFT2S/Graph/holonomic_controller/usd_setup_holonomic_robot.outputs:wheelOrientations>
+                custom double3[] inputs:wheelPositions
+                prepend double3[] inputs:wheelPositions.connect = </ARX_LIFT2S/Graph/holonomic_controller/usd_setup_holonomic_robot.outputs:wheelPositions>
+                custom double[] inputs:wheelRadius
+                prepend double[] inputs:wheelRadius.connect = </ARX_LIFT2S/Graph/holonomic_controller/usd_setup_holonomic_robot.outputs:wheelRadius>
+                token node:type = "isaacsim.robot.wheeled_robots.HolonomicController"
+                int node:typeVersion = 2
+                custom double[] outputs:jointVelocityCommand
+                uniform token ui:nodegraph:node:expansionState = "open"
+                uniform float2 ui:nodegraph:node:pos = (250.44073, -411.8496)
+            }
+
+            def OmniGraphNode "articulation_controller" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom double[] inputs:effortCommand
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </ARX_LIFT2S/Graph/holonomic_controller/on_playback_tick.outputs:tick>
+                custom int[] inputs:jointIndices
+                custom token[] inputs:jointNames
+                prepend token[] inputs:jointNames.connect = </ARX_LIFT2S/Graph/holonomic_controller/usd_setup_holonomic_robot.outputs:wheelDofNames>
+                custom double[] inputs:positionCommand
+                custom string inputs:robotPath
+                custom rel inputs:targetPrim = </ARX_LIFT2S> (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
+                custom double[] inputs:velocityCommand
+                prepend double[] inputs:velocityCommand.connect = </ARX_LIFT2S/Graph/holonomic_controller/holonomic_controller.outputs:jointVelocityCommand>
+                token node:type = "isaacsim.core.nodes.IsaacArticulationController"
+                int node:typeVersion = 1
+                uniform token ui:nodegraph:node:expansionState = "open"
+                uniform float2 ui:nodegraph:node:pos = (564.519, -72.604866)
+            }
+        }
+    }
+
+    over "base_link"
+    {
+    }
+
+    over "lift_link"
+    {
+        over "AC_One_Base"
+        {
+            over "base_link"
+            {
+            }
+        }
+    }
+
+    over "wheel_1"
+    {
+        over "omnia_150"
+        {
+            over "base_link"
+            {
+            }
+
+            over "wheel_passive_0"
+            {
+            }
+
+            over "wheel_passive_4"
+            {
+            }
+
+            over "wheel_passive_1"
+            {
+            }
+
+            over "wheel_passive_2"
+            {
+            }
+
+            over "wheel_passive_3"
+            {
+            }
+
+            over "wheel_passive_5"
+            {
+            }
+
+            over "wheel_passive_6"
+            {
+            }
+
+            over "wheel_passive_7"
+            {
+            }
+
+            over "wheel_passive_8"
+            {
+            }
+
+            over "joints"
+            {
+                over "wheel_passive_0_joint"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "wheel_passive_4_joint"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "wheel_passive_1_joint"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "wheel_passive_2_joint"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "wheel_passive_3_joint"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "wheel_passive_5_joint"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "wheel_passive_6_joint"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "wheel_passive_7_joint"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "wheel_passive_8_joint"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+            }
+        }
+    }
+
+    over "wheel_2"
+    {
+        over "omnia_150"
+        {
+            over "base_link"
+            {
+            }
+
+            over "wheel_passive_0"
+            {
+            }
+
+            over "wheel_passive_1"
+            {
+            }
+
+            over "wheel_passive_2"
+            {
+            }
+
+            over "wheel_passive_3"
+            {
+            }
+
+            over "wheel_passive_4"
+            {
+            }
+
+            over "wheel_passive_5"
+            {
+            }
+
+            over "wheel_passive_6"
+            {
+            }
+
+            over "wheel_passive_7"
+            {
+            }
+
+            over "wheel_passive_8"
+            {
+            }
+
+            over "joints"
+            {
+                over "wheel_passive_0_joint"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "wheel_passive_1_joint"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "wheel_passive_2_joint"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "wheel_passive_3_joint"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "wheel_passive_4_joint"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "wheel_passive_5_joint"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "wheel_passive_6_joint"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "wheel_passive_7_joint"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "wheel_passive_8_joint"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+            }
+        }
+    }
+
+    over "wheel_3"
+    {
+        over "omnia_150"
+        {
+            over "base_link"
+            {
+            }
+
+            over "wheel_passive_0"
+            {
+            }
+
+            over "wheel_passive_1"
+            {
+            }
+
+            over "wheel_passive_2"
+            {
+            }
+
+            over "wheel_passive_3"
+            {
+            }
+
+            over "wheel_passive_4"
+            {
+            }
+
+            over "wheel_passive_5"
+            {
+            }
+
+            over "wheel_passive_6"
+            {
+            }
+
+            over "wheel_passive_7"
+            {
+            }
+
+            over "wheel_passive_8"
+            {
+            }
+
+            over "joints"
+            {
+                over "wheel_passive_0_joint"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "wheel_passive_1_joint"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "wheel_passive_2_joint"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "wheel_passive_3_joint"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "wheel_passive_4_joint"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "wheel_passive_5_joint"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "wheel_passive_6_joint"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "wheel_passive_7_joint"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "wheel_passive_8_joint"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+            }
+        }
+    }
+
+    over "joints"
+    {
+        over "lift_joint"
+        {
+            float state:linear:physics:position = 0
+            float state:linear:physics:velocity = 0
+        }
+
+        over "wheel1_joint"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "wheel2_joint"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "wheel3_joint"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+    }
+}
+
+def "Render" (
+    no_delete = true
+)
+{
+    def "OmniverseKit"
+    {
+        def "HydraTextures" (
+            hide_in_stage_window = true
+            no_delete = true
+        )
+        {
+            def RenderProduct "omni_kit_widget_viewport_ViewportTexture_0" (
+                prepend apiSchemas = ["OmniRtxSettingsCommonAdvancedAPI_1", "OmniRtxSettingsRtAdvancedAPI_1", "OmniRtxSettingsPtAdvancedAPI_1", "OmniRtxPostColorGradingAPI_1", "OmniRtxPostChromaticAberrationAPI_1", "OmniRtxPostBloomPhysicalAPI_1", "OmniRtxPostMatteObjectAPI_1", "OmniRtxPostCompositingAPI_1", "OmniRtxPostDofAPI_1", "OmniRtxPostMotionBlurAPI_1", "OmniRtxPostTvNoiseAPI_1", "OmniRtxPostTonemapIrayReinhardAPI_1", "OmniRtxPostDebugSettingsAPI_1", "OmniRtxDebugSettingsAPI_1"]
+                hide_in_stage_window = true
+                no_delete = true
+            )
+            {
+                rel camera = </OmniverseKit_Persp>
+                token omni:rtx:ambientOcclusion:denoiserMode = "none"
+                token omni:rtx:background:source:texture:textureMode = "repeatMirrored"
+                token omni:rtx:background:source:type = "domeLight"
+                bool omni:rtx:debug:view:pixelDebug:enableFixedTextPos = 1
+                token omni:rtx:directLighting:sampledLighting:denoisingTechnique = "None"
+                bool omni:rtx:dlss:frameGeneration = 0
+                float3 omni:rtx:domeLight:rotationAxis = (0, 0, 1)
+                bool omni:rtx:indirectDiffuse:denoiser:enabled = 0
+                bool omni:rtx:material:db:syncLoads = 1
+                token omni:rtx:post:dlss:execMode = "performance"
+                bool omni:rtx:post:registeredCompositing:invertColorCorrection = 1
+                bool omni:rtx:post:registeredCompositing:invertToneMap = 1
+                bool omni:rtx:pt:adaptiveSampling:filterError = 0
+                uint omni:rtx:pt:adaptiveSampling:fixedSppIterations = 2
+                uint omni:rtx:pt:maxSamplesPerLaunch = 2073600
+                uint omni:rtx:pt:mgpu:maxPixelsPerRegionExponent = 12
+                bool omni:rtx:reflections:denoiser:enabled = 0
+                token omni:rtx:rendermode = "RealTimePathTracing"
+                color3f omni:rtx:rt:ambientLight:color = (0.1, 0.1, 0.1)
+                bool omni:rtx:rt:demoire = 0
+                bool omni:rtx:rt:ecoMode:enabled
+                bool omni:rtx:rt:lightcache:spatialCache:dontResolveConflicts = 1
+                int omni:rtx:rt:sss:samples = 1
+                uint omni:rtx:rtpt:maxVolumeBounces = 15
+                float omni:rtx:rtpt:modulatingRoughnessThreshold = 0.08
+                bool omni:rtx:scene:hydra:materialSyncLoads = 1
+                bool omni:rtx:scene:hydra:mdlMaterialWarmup = 1
+                rel orderedVars = </Render/Vars/LdrColor>
+                custom bool overrideClipRange = 0
+                uniform int2 resolution = (1280, 720)
+            }
+        }
+    }
+
+    def RenderSettings "OmniverseGlobalRenderSettings" (
+        prepend apiSchemas = ["OmniRtxSettingsGlobalRtAdvancedAPI_1", "OmniRtxSettingsGlobalPtAdvancedAPI_1"]
+        no_delete = true
+    )
+    {
+        rel products = </Render/OmniverseKit/HydraTextures/omni_kit_widget_viewport_ViewportTexture_0>
+    }
+
+    def "Vars"
+    {
+        def RenderVar "LdrColor" (
+            hide_in_stage_window = true
+            no_delete = true
+        )
+        {
+            uniform string sourceName = "LdrColor"
+            uniform token sourceType = "raw"
+        }
+    }
+}
+
+over "OmniverseKit_Persp" (
+    prepend apiSchemas = ["OmniRtxCameraAutoExposureAPI_1", "OmniRtxCameraExposureAPI_1"]
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float exposure:fStop = 5
+    float exposure:responsivity = 1.1026709
+    float exposure:time = 0.02
+}
+
+over "OmniverseKit_Front" (
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+}
+
+over "OmniverseKit_Right" (
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+}
+
+over "OmniverseKit_Top" (
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+}
+
