@@ -45,6 +45,38 @@ over "RG75"
         bool newton:selfCollisionEnabled = 0
     }
 
+    # Heavy pad collisions (Pad=heavy_carry): keep USD Physics mesh collision,
+    # strip any residual PhysX-only schemas if present. No-op when Pad=none|type1.
+    over "gripper_base"
+    {
+        over "pad_left"
+        {
+            over "mesh" (
+                prepend apiSchemas = ["PhysicsCollisionAPI", "PhysicsMeshCollisionAPI"]
+                delete apiSchemas = ["PhysxCollisionAPI", "PhysxConvexHullCollisionAPI", "PhysxConvexDecompositionCollisionAPI"]
+            )
+            {
+                token physics:approximation = "convexDecomposition"
+                bool physics:collisionEnabled = 1
+            }
+        }
+    }
+
+    over "right_finger"
+    {
+        over "pad_right"
+        {
+            over "mesh" (
+                prepend apiSchemas = ["PhysicsCollisionAPI", "PhysicsMeshCollisionAPI"]
+                delete apiSchemas = ["PhysxCollisionAPI", "PhysxConvexHullCollisionAPI", "PhysxConvexDecompositionCollisionAPI"]
+            )
+            {
+                token physics:approximation = "convexDecomposition"
+                bool physics:collisionEnabled = 1
+            }
+        }
+    }
+
     def Scope "actuators"
     {
         def MjcActuator "gripper_joint"

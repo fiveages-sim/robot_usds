@@ -46,8 +46,9 @@ def Xform "RG75" (
         string flange = "none"
         string side = "default"
     }
-    # Physics first; side before Sensors so left/right Orbbec mount stickies win.
-    prepend variantSets = ["Physics", "flange", "Pad", "side", "Sensors"]
+    # Physics first. side before Pad/Sensors so left|right stickies win
+    # (Orbbec mount + heavy_carry nested arm pads).
+    prepend variantSets = ["Physics", "flange", "side", "Pad", "Sensors"]
     append variantSets = ["Robot"]
 )
 {
@@ -104,13 +105,8 @@ def Xform "RG75" (
         ) {
 
         }
-        "heavy_carry_left" (
-            prepend payload = @./payloads/Pad/heavy_carry_left/heavy.usda@
-        ) {
-
-        }
-        "heavy_carry_right" (
-            prepend payload = @./payloads/Pad/heavy_carry_right/heavy.usda@
+        "heavy_carry" (
+            prepend payload = @./payloads/Pad/heavy_carry/heavy.usda@
         ) {
 
         }

@@ -1,0 +1,57 @@
+#usda 1.0
+(
+    defaultPrim = "Instances"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Scope "Instances"
+{
+    def Xform "bxz1010001_001" (
+        prepend references = @./geometries.usd@</Geometries/bxz1010001_001>
+    )
+    {
+        over "bxz1010001_001" (
+            prepend apiSchemas = ["PhysicsCollisionAPI", "PhysicsMeshCollisionAPI", "MaterialBindingAPI"]
+        )
+        {
+            prepend rel material:binding = </Instances/bxz1010001_001/VisualMaterials/gripper_005>
+            token physics:approximation = "convexDecomposition"
+            bool physics:collisionEnabled = 1
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "gripper_005" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/gripper_005>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "bxz1010002" (
+        prepend references = @./geometries.usd@</Geometries/bxz1010002>
+    )
+    {
+        over "bxz1010002" (
+            prepend apiSchemas = ["PhysicsCollisionAPI", "PhysicsMeshCollisionAPI", "MaterialBindingAPI"]
+        )
+        {
+            prepend rel material:binding = </Instances/bxz1010002/VisualMaterials/gripper_001>
+            token physics:approximation = "convexDecomposition"
+            bool physics:collisionEnabled = 1
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "gripper_001" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/gripper_001>
+            )
+            {
+            }
+        }
+    }
+}
