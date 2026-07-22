@@ -1,0 +1,125 @@
+#usda 1.0
+(
+    defaultPrim = "Instances"
+    doc = """PTC pad instances. Soft tip uses convexHull (type1 soft pattern) for Newton."""
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Scope "Instances"
+{
+    def Xform "Mesh_0" (
+        prepend references = @./geometries.usd@</Geometries/Mesh_0>
+    )
+    {
+        over "Mesh_0" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            prepend rel material:binding = </Instances/Mesh_0/VisualMaterials/white_metal>
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "white_metal" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/white_metal>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "Mesh_0_003" (
+        prepend references = @./geometries.usd@</Geometries/Mesh_0_003>
+    )
+    {
+        over "Mesh_0_003" (
+            prepend apiSchemas = ["PhysicsCollisionAPI", "PhysicsMeshCollisionAPI", "MaterialBindingAPI"]
+        )
+        {
+            prepend rel material:binding = </Instances/Mesh_0_003/VisualMaterials/metal>
+            token physics:approximation = "convexHull"
+            bool physics:collisionEnabled = 1
+            token subsetFamily:materialBind:familyType = "nonOverlapping"
+
+            over "metal" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                prepend rel material:binding = </Instances/Mesh_0_003/VisualMaterials/metal>
+            }
+
+            over "rubber" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                prepend rel material:binding = </Instances/Mesh_0_003/VisualMaterials/rubber>
+            }
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "metal" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/metal>
+            )
+            {
+            }
+
+            def Material "rubber" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/rubber>
+            )
+            {
+            }
+        }
+    }
+
+    # Right soft tip: X-reflected mesh bake (no scale=-1). Same materials/subsets.
+    def Xform "Mesh_0_003_R" (
+        prepend references = @./geometries.usd@</Geometries/Mesh_0_003_R>
+    )
+    {
+        over "Mesh_0_003" (
+            prepend apiSchemas = ["PhysicsCollisionAPI", "PhysicsMeshCollisionAPI", "MaterialBindingAPI"]
+        )
+        {
+            prepend rel material:binding = </Instances/Mesh_0_003_R/VisualMaterials/metal>
+            token physics:approximation = "convexHull"
+            bool physics:collisionEnabled = 1
+            token subsetFamily:materialBind:familyType = "nonOverlapping"
+
+            over "metal" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                prepend rel material:binding = </Instances/Mesh_0_003_R/VisualMaterials/metal>
+            }
+
+            over "rubber" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                prepend rel material:binding = </Instances/Mesh_0_003_R/VisualMaterials/rubber>
+            }
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "metal" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/metal>
+            )
+            {
+            }
+
+            def Material "rubber" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/rubber>
+            )
+            {
+            }
+        }
+    }
+}
