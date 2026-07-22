@@ -7,8 +7,8 @@
                 double radius = 5
             }
             dictionary Perspective = {
-                double3 position = (0.43068037926865715, 0.16620692840814305, 0.31591043302889815)
-                double3 target = (-0.3123135323817758, -0.08907484994222953, -0.06349028467275375)
+                double3 position = (0.19090513230456274, 0.062396720105366066, 0.03388317660456878)
+                double3 target = (-0.5486394902118811, -0.11771014797280069, 0.14038381987977355)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -20,130 +20,68 @@
             }
             string boundCamera = "/OmniverseKit_Persp"
         }
+        dictionary metricsAssembler = {
+            dictionary "/RG75/gripper_base/camera_stand/camera_stand" = {
+            }
+            dictionary "/RG75/gripper_base/camera_stand/orbbec_336" = {
+            }
+            dictionary "/RG75/gripper_base/flange/camera_support" = {
+            }
+            int version = 1
+        }
         dictionary omni_layer = {
-            string authoring_layer = "./RG75.usda"
+            string authoring_layer = "./payload.usda"
+            dictionary locked = {
+            }
+            dictionary muteness = {
+            }
         }
         dictionary renderSettings = {
         }
     }
     defaultPrim = "RG75"
-    doc = """Generated from Composed Stage of root layer /home/fiveages/Documents/FaSim-Isaac/robots/grippers/Jodell/RG75/RG75.usd
-
-
-Generated from Composed Stage of root layer /home/fiveages/Documents/FaSim-Isaac/robots/grippers/Jodell/RG75/payloads/base.usd
-"""
+    endTimeCode = 0
     metersPerUnit = 1
+    startTimeCode = -1
     upAxis = "Z"
 )
 
-def Xform "RG75" (
-    prepend references = @./payloads/base.usda@
+def "RG75" (
     variants = {
-        string Pad = "none"
-        string Physics = "physx"
-        string Robot = "none"
-        string Sensors = "none"
         string flange = "none"
-        string side = "default"
     }
-    prepend variantSets = ["Physics", "flange", "side", "Pad", "Sensors"]
-    append variantSets = "Robot"
 )
 {
-    variantSet "Physics" = {
-        "mujoco" (
-            prepend payload = @./payloads/Physics/mujoco.usda@
-        ) {
+    over "gripper_base"
+    {
+        string isaac:nameOverride (
+            displayName = "Name Override"
+        )
 
+        over "flange"
+        {
         }
-        "none" (
-            prepend payload = @./payloads/Physics/none.usda@
-        ) {
 
-        }
-        "physics" (
-            prepend payload = @./payloads/Physics/physics.usda@
-        ) {
+        def "camera_stand" (
+            prepend payload = @./camera_stand.usdc@
+        )
+        {
+            quatf xformOp:orient = (6.123234e-17, 0.70710677, -0.70710677, 4.3297803e-17)
+            double xformOp:rotateX:unitsResolve = 0
+            float3 xformOp:scale = (1, 1, 1)
+            double3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale", "xformOp:rotateX:unitsResolve"]
 
-        }
-        "physx" (
-            prepend payload = @./payloads/Physics/physx.usda@
-        ) {
-
-        }
-    }
-    variantSet "Robot" = {
-        "none" (
-            prepend payload = @./payloads/Robot/none.usda@
-        ) {
-
-        }
-        "robot" (
-            prepend payload = @./payloads/Robot/robot.usda@
-        ) {
-
-        }
-    }
-    variantSet "flange" = {
-        "default" (
-            prepend payload = @./payloads/Flange/default.usda@
-        ) {
-
-        }
-        "none" {
-
-        }
-    }
-    variantSet "Pad" = {
-        "detector_type1" (
-            delete payload = @./payloads/Pad/type1/type1.usda@
-            prepend payload = @./payloads/Pad/detector_type1/payload.usda@
-        ) {
-
-        }
-        "heavy_carry" (
-            prepend payload = @./payloads/Pad/heavy_carry/heavy.usda@
-        ) {
-
-        }
-        "none" {
-
-        }
-        "type1" (
-            prepend payload = @./payloads/Pad/type1/type1.usda@
-        ) {
-
-        }
-    }
-    variantSet "side" = {
-        "default" {
-
-        }
-        "left" (
-            prepend payload = @./payloads/Side/left.usda@
-        ) {
-
-        }
-        "right" (
-            prepend payload = @./payloads/Side/right.usda@
-        ) {
-
-        }
-    }
-    variantSet "Sensors" = {
-        "none" {
-
-        }
-        "orbbec_335_side" (
-            prepend payload = @./payloads/Sensor/335_side/335_side.usda@
-        ) {
-
-        }
-        "orbbec_336_high" (
-            delete payload = @./payloads/Sensor/335_side/335_side.usda@
-            prepend payload = @./payloads/Sensor/336_high/payload.usda@
-        ) {
-
+            def "orbbec_336" (
+                prepend payload = @../../../../../../sensors/orbbec_336.usd@
+            )
+            {
+                quatf xformOp:orient = (-1.6081226e-16, 7.376474e-17, -0.98162717, -0.190809)
+                double xformOp:rotateX:unitsResolve = 90
+                float3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0.02493, -0.1039099999999998, -0.02989000000000003)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale", "xformOp:rotateX:unitsResolve"]
+            }
         }
     }
 }
@@ -242,10 +180,10 @@ over "OmniverseKit_Persp" (
     float exposure:time = 0.02
     float focalLength = 18.147562
     float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -0.8724411978465189)
-    float3 xformOp:rotateXYZ = (64.22282, 3.4986103e-14, 108.96197)
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -0.7685747326317381)
+    float3 xformOp:rotateXYZ = (97.96505, -2.6080548e-13, 103.687225)
     float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (0.43068037926865715, 0.16620692840814305, 0.31591043302889815)
+    double3 xformOp:translate = (0.19090513230456274, 0.062396720105366066, 0.03388317660456878)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 
