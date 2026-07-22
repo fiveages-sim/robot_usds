@@ -7,8 +7,8 @@
                 double radius = 5
             }
             dictionary Perspective = {
-                double3 position = (0.5200194323919689, 0.45501567971723167, 0.9946393808924918)
-                double3 target = (-0.6757045541029023, -0.679500046233822, 0.757061855125662)
+                double3 position = (0.9594557287339078, 1.567881251123429, 0.9708761875413958)
+                double3 target = (-1.4601438679172951, -1.7319035313874762, -1.0290289470426697)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -20,223 +20,123 @@
             }
             string boundCamera = "/OmniverseKit_Persp"
         }
+        dictionary metricsAssembler = {
+            dictionary "/Linkhou_S2_V1/base_footprint/base_link/chassis_base/chassis_left_battery/battery" = {
+            }
+            dictionary "/Linkhou_S2_V1/base_footprint/base_link/chassis_base/chassis_right_battery/battery" = {
+            }
+            dictionary "/Linkhou_S2_V1/base_footprint/base_link/shell" = {
+            }
+            dictionary "/Linkhou_S2_V1/base_footprint/shell" = {
+            }
+            int version = 1
+        }
         dictionary omni_layer = {
-            string authoring_layer = "./Marvin_M6_CCS.usda"
+            string authoring_layer = "./anigon.usda"
+            dictionary locked = {
+            }
+            dictionary muteness = {
+            }
         }
         dictionary renderSettings = {
         }
     }
-    defaultPrim = "Marvin_M6_CCS"
-    doc = """Generated from Composed Stage of root layer /home/fiveages/Documents/FaSim-Isaac/robots/manipulators/Tianji/Marvin_M6_CCS/Marvin_M6_CCS.usd
-
-
-Generated from Composed Stage of root layer /home/fiveages/Documents/FaSim-Isaac/robots/manipulators/Tianji/Marvin_M6_CCS/payloads/base.usd
-"""
+    defaultPrim = "Linkhou_S2_V1"
+    endTimeCode = 0
     metersPerUnit = 1
+    startTimeCode = -1
     upAxis = "Z"
 )
 
-def Xform "Marvin_M6_CCS" (
-    prepend references = @./payloads/base.usda@
-    variants = {
-        string EE = "None"
-        string Physics = "physx"
-        string Robot = "none"
-        string Sensor = "none"
-        string Side = "default"
-        string visual = "fiveages_w2_red"
-    }
-    prepend variantSets = ["Physics", "Side", "visual", "EE"]
-    append variantSets = ["Robot", "Sensor"]
-)
+def "Linkhou_S2_V1"
 {
-    over "root_joint"
+    over "base_footprint"
     {
-        bool[] isaac:actuator (
-            displayName = "Actuator"
-        )
-        string isaac:NameOverride (
-            displayName = "Joint Name Override"
-        )
-        token[] isaac:physics:DofOffsetOpOrder (
-            displayName = "Dof Offset Op Order"
-        )
-    }
-
-    over "base_link"
-    {
-    }
-
-    over "link1"
-    {
-    }
-
-    over "link2"
-    {
-    }
-
-    over "link3"
-    {
-    }
-
-    over "link4"
-    {
-    }
-
-    over "link5"
-    {
-    }
-
-    over "link6"
-    {
-    }
-
-    over "link7"
-    {
-    }
-
-    over "joints"
-    {
-        over "joint1"
+        over "base_link"
         {
-            float state:angular:physics:position = 0
-            float state:angular:physics:velocity = 0
-        }
+            def "shell" (
+                prepend payload = @./shell.usd@
+            )
+            {
+                quatf xformOp:orient = (1, 0, 0, 0)
+                double xformOp:rotateX:unitsResolve = 90
+                float3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:scale:unitsResolve = (0.01, 0.01, 0.01)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale", "xformOp:rotateX:unitsResolve", "xformOp:scale:unitsResolve"]
 
-        over "joint2"
-        {
-            float state:angular:physics:position = 0
-            float state:angular:physics:velocity = 0
-        }
+                over "Looks"
+                {
+                    over "color"
+                    {
+                        over "color"
+                        {
+                            color3f inputs:base_color_factor = (0.007843138, 0.105882354, 0.6509804)
+                        }
+                    }
 
-        over "joint3"
-        {
-            float state:angular:physics:position = 0
-            float state:angular:physics:velocity = 0
-        }
+                    over "color_inner"
+                    {
+                        over "color_inner"
+                        {
+                            color3f inputs:base_color_factor = (0.007843138, 0.105882354, 0.6509804)
+                        }
+                    }
+                }
+            }
 
-        over "joint4"
-        {
-            float state:angular:physics:position = 0
-            float state:angular:physics:velocity = 0
-        }
+            over "chassis_base"
+            {
+                over "chassis_left_battery"
+                {
+                    def "battery" (
+                        prepend payload = @../Battery/battery.usd@
+                    )
+                    {
+                        quatf xformOp:orient = (1, 0, 0, 0)
+                        double xformOp:rotateX:unitsResolve = 90
+                        float3 xformOp:scale = (1, 1, 1)
+                        double3 xformOp:translate = (0, 0, 0)
+                        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale", "xformOp:rotateX:unitsResolve"]
 
-        over "joint5"
-        {
-            float state:angular:physics:position = 0
-            float state:angular:physics:velocity = 0
-        }
+                        over "Looks"
+                        {
+                            over "color_battery"
+                            {
+                                over "color_battery"
+                                {
+                                    color3f inputs:base_color_factor = (1, 0.9999926, 0.99999)
+                                }
+                            }
+                        }
+                    }
+                }
 
-        over "joint6"
-        {
-            float state:angular:physics:position = 0
-            float state:angular:physics:velocity = 0
-        }
+                over "chassis_right_battery"
+                {
+                    def "battery" (
+                        prepend payload = @../Battery/battery.usd@
+                    )
+                    {
+                        quatf xformOp:orient = (1, 0, 0, 0)
+                        double xformOp:rotateX:unitsResolve = 90
+                        float3 xformOp:scale = (1, 1, 1)
+                        double3 xformOp:translate = (0, 0, 0)
+                        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale", "xformOp:rotateX:unitsResolve"]
 
-        over "joint7"
-        {
-            float state:angular:physics:position = 0
-            float state:angular:physics:velocity = 0
-        }
-    }
-    variantSet "Physics" = {
-        "none" (
-            prepend payload = @./payloads/Physics/none.usda@
-        ) {
-
-        }
-        "physics" (
-            prepend payload = @./payloads/Physics/physics.usda@
-        ) {
-
-        }
-        "physx" (
-            prepend payload = @./payloads/Physics/physx.usda@
-        ) {
-
-        }
-        "mujoco" (
-            prepend payload = @./payloads/Physics/mujoco.usda@
-        ) {
-
-        }
-    }
-    variantSet "Robot" = {
-        "none" (
-            prepend payload = @./payloads/Robot/none.usda@
-        ) {
-
-        }
-        "robot" (
-            prepend payload = @./payloads/Robot/robot.usda@
-        ) {
-
-        }
-    }
-    variantSet "Sensor" = {
-        "none" (
-            prepend payload = @./payloads/Sensor/none.usda@
-        ) {
-
-        }
-        "sensors" (
-            prepend payload = @./payloads/Sensor/sensors.usda@
-        ) {
-
-        }
-    }
-    variantSet "Side" = {
-        "default" {
-
-        }
-        "left" (
-            prepend payload = @./payloads/Side/left.usda@
-        ) {
-
-        }
-        "right" (
-            prepend payload = @./payloads/Side/right.usda@
-        ) {
-
-        }
-    }
-    variantSet "visual" = {
-        "default" (
-            prepend payload = @./payloads/Visual/default.usda@
-        ) {
-
-        }
-        "fiveages_w2" (
-            prepend payload = @./payloads/Visual/fa_w2.usda@
-        ) {
-
-        }
-        "fiveages_w2_red" (
-            prepend payload = @./payloads/Visual/fa_w2_red.usda@
-        ) {
-
-        }
-        "anigon" (
-            prepend payload = @./payloads/Visual/anigon.usda@
-        ) {
-
-        }
-    }
-    variantSet "EE" = {
-        "None" {
-
-        }
-        "RG75" (
-            prepend payload = @./payloads/EE/RG75.usda@
-        ) {
-            prepend rel isaac:physics:robotJoints = </Marvin_M6_CCS/link7/tcp/RG75>
-            prepend rel isaac:physics:robotLinks = </Marvin_M6_CCS/link7/tcp/RG75>
-        }
-        "AG2F120S" (
-            prepend payload = @./payloads/EE/AG2F120S.usda@
-        ) {
-            prepend rel isaac:physics:robotJoints = </Marvin_M6_CCS/link7/tcp/AG2F120S>
-            prepend rel isaac:physics:robotLinks = </Marvin_M6_CCS/link7/tcp/AG2F120S>
+                        over "Looks"
+                        {
+                            over "color_battery"
+                            {
+                                over "color_battery"
+                                {
+                                    color3f inputs:base_color_factor = (1, 0.99999255, 0.99999)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }
@@ -280,7 +180,6 @@ def "Render" (
                 token omni:rtx:rendermode = "RealTimePathTracing"
                 color3f omni:rtx:rt:ambientLight:color = (0.1, 0.1, 0.1)
                 bool omni:rtx:rt:demoire = 0
-                bool omni:rtx:rt:ecoMode:enabled
                 bool omni:rtx:rt:lightcache:spatialCache:dontResolveConflicts = 1
                 int omni:rtx:rt:sss:samples = 1
                 uint omni:rtx:rtpt:maxVolumeBounces = 15
@@ -289,7 +188,7 @@ def "Render" (
                 bool omni:rtx:scene:hydra:mdlMaterialWarmup = 1
                 rel orderedVars = </Render/Vars/LdrColor>
                 custom bool overrideClipRange = 0
-                uniform int2 resolution = (1280, 720)
+                uniform int2 resolution = (1144, 610)
             }
         }
     }
@@ -336,10 +235,10 @@ over "OmniverseKit_Persp" (
     float exposure:time = 0.02
     float focalLength = 18.147562
     float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -1.6653302570538133)
-    float3 xformOp:rotateXYZ = (81.79815, -4.770832e-14, 133.49536)
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -4.554411308428446)
+    float3 xformOp:rotateXYZ = (63.952644, -9.541664e-15, 143.7489)
     float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (0.5200194323919689, 0.45501567971723167, 0.9946393808924918)
+    double3 xformOp:translate = (0.9594557287339078, 1.567881251123429, 0.9708761875413958)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 
@@ -418,8 +317,8 @@ over "OmniverseKit_Top" (
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 
-def PhysicsScene "PhysicsScene" (
-    prepend apiSchemas = ["NewtonSceneAPI", "PhysxSceneAPI"]
+over "PhysicsScene" (
+    prepend apiSchemas = ["MjcSceneAPI"]
 )
 {
 }
