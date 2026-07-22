@@ -7,8 +7,8 @@
                 double radius = 5
             }
             dictionary Perspective = {
-                double3 position = (0.42201298092999157, 0.565974965185376, 0.4187862081466912)
-                double3 target = (-0.16496534466728202, -0.14794799500749167, -0.013786508763640182)
+                double3 position = (0.5511596448200543, 0.5511596448200561, 0.5511597510059997)
+                double3 target = (-3.9780384097909405e-8, -3.978038209950796e-8, 7.9560767529685e-8)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -21,22 +21,22 @@
             string boundCamera = "/OmniverseKit_Persp"
         }
         dictionary omni_layer = {
-            string authoring_layer = "./X5.usda"
+            string authoring_layer = "./R5.usda"
         }
         dictionary renderSettings = {
         }
     }
-    defaultPrim = "X5"
-    doc = """Generated from Composed Stage of root layer /home/fiveages/distrobox/ubuntu24/FaSim-Isaac/robots/manipulators/ARX 6.0/X5/X5.usd
+    defaultPrim = "R5"
+    doc = """Generated from Composed Stage of root layer /home/fiveages/FaSim-Isaac/robots/mobile_manipulator/ARX_Lift2S_6.0/R5/R5.usd
 
 
-Generated from Composed Stage of root layer /home/fiveages/distrobox/ubuntu24/FaSim-Isaac/robots/manipulators/ARX 6.0/X5/payloads/base.usd
+Generated from Composed Stage of root layer /home/fiveages/FaSim-Isaac/robots/mobile_manipulator/ARX_Lift2S_6.0/R5/payloads/base.usd
 """
     metersPerUnit = 1
     upAxis = "Z"
 )
 
-def Xform "X5" (
+def Xform "R5" (
     prepend references = @./payloads/base.usda@
     variants = {
         string EE = "None"
@@ -44,14 +44,17 @@ def Xform "X5" (
         string ROS = "None"
         string Robot = "none"
         string Sensor = "none"
-        string Side = "right"
+        string Side = "default"
     }
-    prepend variantSets = ["Side", "ROS", "EE"]
+    prepend variantSets = ["Side", "EE", "ROS"]
     append variantSets = ["Physics", "Sensor", "Robot"]
 )
 {
     over "base_link"
     {
+        string isaac:nameOverride (
+            displayName = "Name Override"
+        )
     }
 
     over "link1"
@@ -80,8 +83,58 @@ def Xform "X5" (
 
     over "joints"
     {
+        over "right_joint1"
+        {
+            float drive:angular:physics:damping = 10
+            float drive:angular:physics:stiffness = 100
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "right_joint2"
+        {
+            float drive:angular:physics:damping = 10
+            float drive:angular:physics:stiffness = 100
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "right_joint3"
+        {
+            float drive:angular:physics:damping = 10
+            float drive:angular:physics:stiffness = 100
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "right_joint4"
+        {
+            float drive:angular:physics:damping = 10
+            float drive:angular:physics:stiffness = 100
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "right_joint5"
+        {
+            float drive:angular:physics:damping = 10
+            float drive:angular:physics:stiffness = 100
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "right_joint6"
+        {
+            float drive:angular:physics:damping = 10
+            float drive:angular:physics:stiffness = 100
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
         over "joint1"
         {
+            float drive:angular:physics:damping = 10
+            float drive:angular:physics:stiffness = 100
             bool[] isaac:actuator (
                 displayName = "Actuator"
             )
@@ -97,30 +150,40 @@ def Xform "X5" (
 
         over "joint2"
         {
+            float drive:angular:physics:damping = 10
+            float drive:angular:physics:stiffness = 100
             float state:angular:physics:position = 0
             float state:angular:physics:velocity = 0
         }
 
         over "joint3"
         {
+            float drive:angular:physics:damping = 10
+            float drive:angular:physics:stiffness = 100
             float state:angular:physics:position = 0
             float state:angular:physics:velocity = 0
         }
 
         over "joint4"
         {
+            float drive:angular:physics:damping = 10
+            float drive:angular:physics:stiffness = 100
             float state:angular:physics:position = 0
             float state:angular:physics:velocity = 0
         }
 
         over "joint5"
         {
+            float drive:angular:physics:damping = 10
+            float drive:angular:physics:stiffness = 100
             float state:angular:physics:position = 0
             float state:angular:physics:velocity = 0
         }
 
         over "joint6"
         {
+            float drive:angular:physics:damping = 10
+            float drive:angular:physics:stiffness = 100
             float state:angular:physics:position = 0
             float state:angular:physics:velocity = 0
         }
@@ -156,42 +219,6 @@ def Xform "X5" (
         }
 
         over "left_joint6"
-        {
-            float drive:angular:physics:damping = 10
-            float drive:angular:physics:stiffness = 100
-        }
-
-        over "right_joint1"
-        {
-            float drive:angular:physics:damping = 10
-            float drive:angular:physics:stiffness = 100
-        }
-
-        over "right_joint2"
-        {
-            float drive:angular:physics:damping = 10
-            float drive:angular:physics:stiffness = 100
-        }
-
-        over "right_joint3"
-        {
-            float drive:angular:physics:damping = 10
-            float drive:angular:physics:stiffness = 100
-        }
-
-        over "right_joint4"
-        {
-            float drive:angular:physics:damping = 10
-            float drive:angular:physics:stiffness = 100
-        }
-
-        over "right_joint5"
-        {
-            float drive:angular:physics:damping = 10
-            float drive:angular:physics:stiffness = 100
-        }
-
-        over "right_joint6"
         {
             float drive:angular:physics:damping = 10
             float drive:angular:physics:stiffness = 100
@@ -246,7 +273,7 @@ def Xform "X5" (
             customData = {
                 string[] variantPrimPaths = ["."]
             }
-            delete payload = @/home/fiveages/distrobox/ubuntu24/FaSim-Isaac/robots/manipulators/ARX 6.0/X5/payloads/Side/left.usda@
+            delete payload = @/home/fiveages/FaSim-Isaac/robots/mobile_manipulator/ARX_Lift2S_6.0/R5/payloads/Side/left.usda@
             prepend payload = @./payloads/Side/left.usda@
         ) {
 
@@ -255,10 +282,7 @@ def Xform "X5" (
             customData = {
                 string[] variantPrimPaths = ["."]
             }
-            delete payload = [
-                @/home/fiveages/distrobox/ubuntu24/FaSim-Isaac/robots/manipulators/ARX 6.0/X5/payloads/Side/left.usda@,
-                @./payloads/Side/left.usda@
-            ]
+            delete payload = @/home/fiveages/FaSim-Isaac/robots/mobile_manipulator/ARX_Lift2S_6.0/R5/payloads/Side/left.usda@
             prepend payload = @./payloads/Side/right.usda@
         ) {
 
@@ -266,20 +290,19 @@ def Xform "X5" (
     }
     variantSet "EE" = {
         "Gripper_2023" (
-            customData = {
-                string[] variantPrimPaths = ["."]
-            }
-            delete payload = @/home/fiveages/distrobox/ubuntu24/FaSim-Isaac/robots/manipulators/ARX 6.0/X5/payloads/EE/2023.usda@
-            prepend payload = @./payloads/EE/2023.usda@
+            delete payload = @payloads/EE/base.usd@
+            prepend payload = @./payloads/EE/Gripper_2023.usda@
         ) {
+            prepend rel isaac:physics:robotJoints = </R5/Gripper_2023>
+            prepend rel isaac:physics:robotLinks = </R5/Gripper_2023>
 
         }
         "Gripper_2025" (
             delete payload = @payloads/EE/base.usd@
-            prepend payload = @./payloads/EE/2025.usda@
+            prepend payload = @./payloads/EE/Gripper_2025.usda@
         ) {
-            prepend rel isaac:physics:robotJoints = </X5/Gripper_2025>
-            prepend rel isaac:physics:robotLinks = </X5/Gripper_2025>
+            prepend rel isaac:physics:robotJoints = </R5/Gripper_2025>
+            prepend rel isaac:physics:robotLinks = </R5/Gripper_2025>
 
         }
         "None" {
@@ -287,16 +310,16 @@ def Xform "X5" (
         }
     }
     variantSet "ROS" = {
-        "None" {
-
-        }
-        "enable" (
+        "Enable" (
             customData = {
                 string[] variantPrimPaths = ["."]
             }
-            delete payload = @/home/fiveages/distrobox/ubuntu24/FaSim-Isaac/robots/manipulators/ARX 6.0/X5/payloads/ROS/ros2.usda@
+            delete payload = @/home/fiveages/distrobox/ubuntu24/FaSim-Isaac/robots/manipulators/ARX 6.0/R5/payloads/ROS/ros2.usda@
             prepend payload = @./payloads/ROS/ros2.usda@
         ) {
+
+        }
+        "None" {
 
         }
     }
@@ -397,10 +420,10 @@ over "OmniverseKit_Persp" (
     float exposure:time = 0.02
     float focalLength = 18.147562
     float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -1.0204649446339211)
-    float3 xformOp:rotateXYZ = (64.91909, -3.1805547e-15, 140.5734)
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -0.9546365692164351)
+    float3 xformOp:rotateXYZ = (54.73561, -3.1805547e-15, 135)
     float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (0.42201298092999157, 0.565974965185376, 0.4187862081466912)
+    double3 xformOp:translate = (0.5511596448200543, 0.5511596448200561, 0.5511597510059997)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 

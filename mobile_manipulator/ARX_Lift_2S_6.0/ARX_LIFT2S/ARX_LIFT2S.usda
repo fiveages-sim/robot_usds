@@ -7,8 +7,8 @@
                 double radius = 5
             }
             dictionary Perspective = {
-                double3 position = (1.4234627927921093, 0.7427881229879332, 0.28137788281013215)
-                double3 target = (-0.7841242500734487, -0.5306460547276486, -0.07871050221382886)
+                double3 position = (2.1277723086678413, 1.170154084140195, 0.7814893138835209)
+                double3 target = (-0.7305335721641528, -0.5116455388470644, -0.20275464634564833)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -43,13 +43,14 @@ def Xform "ARX_LIFT2S" (
         string Arm_Left = "default"
         string Arm_Right = "default"
         string Physics = "physx"
+        string ROS = "none"
         string Robot = "none"
         string Sensor = "none"
         string Wheel = "base"
         string Wheel2 = "base"
         string Wheel3 = "base"
     }
-    prepend variantSets = ["Wheel", "Wheel2", "Wheel3", "AC_One_Base", "Arm_Left", "Arm_Right"]
+    prepend variantSets = ["Wheel", "Wheel2", "Wheel3", "AC_One_Base", "Arm_Left", "Arm_Right", "ROS"]
     append variantSets = ["Physics", "Sensor", "Robot"]
 )
 {
@@ -736,7 +737,6 @@ def Xform "ARX_LIFT2S" (
             customData = {
                 string[] variantPrimPaths = ["."]
             }
-            delete payload = @/home/fiveages/distrobox/ubuntu24/FaSim-Isaac/robots/mobile_manipulator/ARX_Lift_2S_6.0 (Backup)/ARX_LIFT2S/payloads/Arm_Left/R5_Arm.usda@
             prepend payload = @./payloads/Arm_Left/R5_Arm.usda@
         ) {
 
@@ -745,7 +745,6 @@ def Xform "ARX_LIFT2S" (
             customData = {
                 string[] variantPrimPaths = ["."]
             }
-            delete payload = @/home/fiveages/distrobox/ubuntu24/FaSim-Isaac/robots/mobile_manipulator/ARX_Lift_2S_6.0 (Backup)/ARX_LIFT2S/payloads/Arm_Left/X5_Arm.usda@
             prepend payload = @./payloads/Arm_Left/X5_Arm.usda@
         ) {
 
@@ -759,7 +758,6 @@ def Xform "ARX_LIFT2S" (
             customData = {
                 string[] variantPrimPaths = ["."]
             }
-            delete payload = @/home/fiveages/distrobox/ubuntu24/FaSim-Isaac/robots/mobile_manipulator/ARX_Lift_2S_6.0 (Backup)/ARX_LIFT2S/payloads/Arm_Right/R5_Arm.usda@
             prepend payload = @./payloads/Arm_Right/R5_Arm.usda@
         ) {
 
@@ -768,12 +766,24 @@ def Xform "ARX_LIFT2S" (
             customData = {
                 string[] variantPrimPaths = ["."]
             }
-            delete payload = @/home/fiveages/distrobox/ubuntu24/FaSim-Isaac/robots/mobile_manipulator/ARX_Lift_2S_6.0 (Backup)/ARX_LIFT2S/payloads/Arm_Right/X5_Arm.usda@
             prepend payload = @./payloads/Arm_Right/X5_Arm.usda@
         ) {
 
         }
         "default" {
+
+        }
+    }
+    variantSet "ROS" = {
+        "Enable" (
+            customData = {
+                string[] variantPrimPaths = ["."]
+            }
+            prepend payload = @./payloads/ROS/ros2.usda@
+        ) {
+
+        }
+        "none" {
 
         }
     }
@@ -874,10 +884,10 @@ over "OmniverseKit_Persp" (
     float exposure:time = 0.02
     float focalLength = 18.147562
     float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -2.573856795128902)
-    float3 xformOp:rotateXYZ = (81.95781, 2.862499e-14, 119.97826)
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -3.45934945524826)
+    float3 xformOp:rotateXYZ = (73.47002, 3.8166657e-14, 120.472145)
     float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (1.4234627927921093, 0.7427881229879332, 0.28137788281013215)
+    double3 xformOp:translate = (2.1277723086678413, 1.170154084140195, 0.7814893138835209)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 

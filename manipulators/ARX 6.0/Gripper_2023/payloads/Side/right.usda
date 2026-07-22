@@ -91,17 +91,11 @@ def "Gripper_2023"
 
         over "joint8" (
             active = false
+            delete apiSchemas = ["PhysxJointAPI", "PhysxMimicJointAPI:rotY"]
         )
         {
-            bool[] isaac:actuator (
-                displayName = "Actuator"
-            )
-            string isaac:NameOverride (
-                displayName = "Joint Name Override"
-            )
-            token[] isaac:physics:DofOffsetOpOrder (
-                displayName = "Dof Offset Op Order"
-            )
+            delete rel physics:body0
+            delete rel physics:body1
         }
 
         def PhysicsPrismaticJoint "right_joint8" (

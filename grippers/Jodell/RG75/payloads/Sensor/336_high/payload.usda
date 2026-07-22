@@ -3,25 +3,34 @@
     customLayerData = {
         dictionary cameraSettings = {
             dictionary Front = {
-                double3 position = (0, 0, 500)
+                double3 position = (5, 0, 0)
                 double radius = 5
             }
             dictionary Perspective = {
-                double3 position = (0.7335131886167909, 0.7335132904502792, 0.7335131886167912)
-                double3 target = (-3.9780382321552565e-8, 7.956076830684111e-8, -3.978038209950796e-8)
+                double3 position = (0.19090513230456274, 0.062396720105366066, 0.03388317660456878)
+                double3 target = (-0.5486394902118811, -0.11771014797280069, 0.14038381987977355)
             }
             dictionary Right = {
-                double3 position = (-500, 0, 0)
+                double3 position = (0, -5, 0)
                 double radius = 5
             }
             dictionary Top = {
-                double3 position = (0, 500, 0)
+                double3 position = (0, 0, 5)
                 double radius = 5
             }
             string boundCamera = "/OmniverseKit_Persp"
         }
+        dictionary metricsAssembler = {
+            dictionary "/RG75/gripper_base/camera_stand/camera_stand" = {
+            }
+            dictionary "/RG75/gripper_base/camera_stand/orbbec_336" = {
+            }
+            dictionary "/RG75/gripper_base/flange/camera_support" = {
+            }
+            int version = 1
+        }
         dictionary omni_layer = {
-            string authoring_layer = "./base.usd"
+            string authoring_layer = "./payload.usda"
             dictionary locked = {
             }
             dictionary muteness = {
@@ -30,103 +39,49 @@
         dictionary renderSettings = {
         }
     }
-    defaultPrim = "X5"
+    defaultPrim = "RG75"
+    endTimeCode = 0
+    metersPerUnit = 1
+    startTimeCode = -1
+    upAxis = "Z"
 )
 
-def Xform "X5"
+def "RG75" (
+    variants = {
+        string flange = "none"
+    }
+)
 {
-    def "Gripper_2023" (
-        prepend payload = @../../../../../Gripper_2023/Gripper_2023.usda@
-        variants = {
-            string Side = "left"
-        }
-    )
+    over "gripper_base"
     {
-        quatd xformOp:orient = (1, 0, 0, 0)
-        double3 xformOp:scale = (1, 1, 1)
-        double3 xformOp:translate = (0.09769999980926514, -0.000500405440106988, 0.15650001168251038)
-        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+        string isaac:nameOverride (
+            displayName = "Name Override"
+        )
 
-        over "root_joint" (
-            active = false
-            delete apiSchemas = ["PhysicsArticulationRootAPI", "PhysxArticulationAPI"]
+        over "flange"
+        {
+        }
+
+        def "camera_stand" (
+            prepend payload = @./camera_stand.usdc@
         )
         {
-        }
+            quatf xformOp:orient = (6.123234e-17, 0.70710677, -0.70710677, 4.3297803e-17)
+            double xformOp:rotateX:unitsResolve = 0
+            float3 xformOp:scale = (1, 1, 1)
+            double3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale", "xformOp:rotateX:unitsResolve"]
 
-        over "gripper_base"
-        {
-            def PhysicsFixedJoint "AssemblerFixedJoint"
+            def "orbbec_336" (
+                prepend payload = @../../../../../../sensors/orbbec_336.usd@
+            )
             {
-                rel physics:body0 = </X5/ee>
-                rel physics:body1 = </X5/Gripper_2023/gripper_base>
-                point3f physics:localPos0 = (0, 0, 0)
-                point3f physics:localPos1 = (0, 0, 0)
-                quatf physics:localRot0 = (1, 0, 0, 0)
-                quatf physics:localRot1 = (1, 0, 0, 0)
+                quatf xformOp:orient = (-1.6081226e-16, 7.376474e-17, -0.98162717, -0.190809)
+                double xformOp:rotateX:unitsResolve = 90
+                float3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0.02493, -0.1039099999999998, -0.02989000000000003)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale", "xformOp:rotateX:unitsResolve"]
             }
-        }
-
-        over "link7"
-        {
-        }
-
-        over "link8"
-        {
-        }
-
-        over "joints"
-        {
-            over "left_gripper_joint"
-            {
-                float state:linear:physics:position = 0
-                float state:linear:physics:velocity = 0
-            }
-
-            over "left_joint8"
-            {
-                float state:linear:physics:position = 0
-                float state:linear:physics:velocity = 0
-            }
-        }
-    }
-
-    over "joints"
-    {
-        over "left_joint1"
-        {
-            float state:angular:physics:position = 0
-            float state:angular:physics:velocity = 0
-        }
-
-        over "left_joint2"
-        {
-            float state:angular:physics:position = 0
-            float state:angular:physics:velocity = 0
-        }
-
-        over "left_joint3"
-        {
-            float state:angular:physics:position = 0
-            float state:angular:physics:velocity = 0
-        }
-
-        over "left_joint4"
-        {
-            float state:angular:physics:position = 0
-            float state:angular:physics:velocity = 0
-        }
-
-        over "left_joint5"
-        {
-            float state:angular:physics:position = 0
-            float state:angular:physics:velocity = 0
-        }
-
-        over "left_joint6"
-        {
-            float state:angular:physics:position = 0
-            float state:angular:physics:velocity = 0
         }
     }
 }
@@ -156,7 +111,7 @@ def "Render" (
                 bool omni:rtx:debug:view:pixelDebug:enableFixedTextPos = 1
                 token omni:rtx:directLighting:sampledLighting:denoisingTechnique = "None"
                 bool omni:rtx:dlss:frameGeneration = 0
-                float3 omni:rtx:domeLight:rotationAxis = (0, 1, 0)
+                float3 omni:rtx:domeLight:rotationAxis = (0, 0, 1)
                 bool omni:rtx:indirectDiffuse:denoiser:enabled = 0
                 bool omni:rtx:material:db:syncLoads = 1
                 token omni:rtx:post:dlss:execMode = "performance"
@@ -178,7 +133,7 @@ def "Render" (
                 bool omni:rtx:scene:hydra:mdlMaterialWarmup = 1
                 rel orderedVars = </Render/Vars/LdrColor>
                 custom bool overrideClipRange = 0
-                uniform int2 resolution = (1280, 720)
+                uniform int2 resolution = (937, 610)
             }
         }
     }
@@ -225,10 +180,10 @@ over "OmniverseKit_Persp" (
     float exposure:time = 0.02
     float focalLength = 18.147562
     float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -1.2704821694997248)
-    float3 xformOp:rotateXYZ = (-35.26439, 45, 1.3493951e-14)
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -0.7685747326317381)
+    float3 xformOp:rotateXYZ = (97.96505, -2.6080548e-13, 103.687225)
     float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (0.7335131886167909, 0.7335132904502792, 0.7335131886167912)
+    double3 xformOp:translate = (0.19090513230456274, 0.062396720105366066, 0.03388317660456878)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 
@@ -248,12 +203,12 @@ over "OmniverseKit_Front" (
 {
     float2 clippingRange = (1, 10000000)
     float horizontalAperture = 50
-    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -500)
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -5)
     token projection = "orthographic"
     float verticalAperture = 50
-    float3 xformOp:rotateXYZ = (-0, 0, -0)
+    float3 xformOp:rotateXYZ = (90, -1.2722219e-14, 90)
     float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (0, 0, 500)
+    double3 xformOp:translate = (5, 0, 0)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 
@@ -273,12 +228,12 @@ over "OmniverseKit_Right" (
 {
     float2 clippingRange = (1, 10000000)
     float horizontalAperture = 50
-    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -500)
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -5)
     token projection = "orthographic"
     float verticalAperture = 50
-    float3 xformOp:rotateXYZ = (0, -90, -0)
+    float3 xformOp:rotateXYZ = (90, -1.41245e-30, 1.2722219e-14)
     float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (-500, 0, 0)
+    double3 xformOp:translate = (0, -5, 0)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 
@@ -298,12 +253,12 @@ over "OmniverseKit_Top" (
 {
     float2 clippingRange = (1, 10000000)
     float horizontalAperture = 50
-    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -500)
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -5)
     token projection = "orthographic"
     float verticalAperture = 50
-    float3 xformOp:rotateXYZ = (90, -4.961563e-15, 180)
+    float3 xformOp:rotateXYZ = (-1.2722219e-14, -7.016709e-15, -90)
     float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (0, 500, 0)
+    double3 xformOp:translate = (0, 0, 5)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 
