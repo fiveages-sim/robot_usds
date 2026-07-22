@@ -1,0 +1,112 @@
+#usda 1.0
+(
+    defaultPrim = "RG75"
+    doc = """Pad=load_type2 — dispensing-glue tip (legacy Kunhua Dispensing Glue V1).
+
+USDC track (type1-style): single pad.usdc on both fingers. Left tip keeps the
+source scale=(-1,1,1) for PhysX; bake a mirrored usdc later for Newton if needed.
+Mount TFs copied from dispensing glue.usda / RG75_FiveAges_Left.
+"""
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def "RG75"
+{
+    over "Looks"
+    {
+        def Material "PadMaterials" (
+            prepend apiSchemas = ["PhysicsMaterialAPI"]
+        )
+        {
+            float physics:dynamicFriction = 1
+            float physics:staticFriction = 1
+        }
+    }
+
+    over "left_finger"
+    {
+        rel physics:simulationOwner
+
+        over "visuals"
+        {
+            over "finger_support"
+            {
+                token visibility = "invisible"
+            }
+        }
+
+        over "left_finger_pad"
+        {
+            def "pad" (
+                prepend payload = @./pad.usdc@
+            )
+            {
+                token visibility = "inherited"
+                double3 xformOp:translate = (0, 0, 0)
+                double3 xformOp:rotateZYX = (-90, 0, 0)
+                # Source left-tip mirror; PhysX OK. For Newton: replace with pad_mirror.usdc + scale=1.
+                double3 xformOp:scale = (-1, 1, 1)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateZYX", "xformOp:scale"]
+
+                over "pad"
+                {
+                    over "pad" (
+                        prepend apiSchemas = ["PhysicsCollisionAPI", "PhysicsMeshCollisionAPI"]
+                    )
+                    {
+                        rel physics:simulationOwner
+                        prepend rel material:binding:physics = </RG75/Looks/PadMaterials>
+                        token physics:approximation = "convexDecomposition"
+                        bool physics:collisionEnabled = 1
+                    }
+                }
+            }
+        }
+    }
+
+    over "right_finger"
+    {
+        rel physics:simulationOwner
+
+        over "visuals"
+        {
+            over "finger_support"
+            {
+                token visibility = "invisible"
+            }
+        }
+
+        over "right_finger_pad"
+        {
+            def "pad" (
+                prepend payload = @./pad.usdc@
+            )
+            {
+                token visibility = "inherited"
+                double3 xformOp:translate = (0, 0, 0)
+                double3 xformOp:rotateZYX = (-90, 180, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateZYX", "xformOp:scale"]
+
+                over "pad"
+                {
+                    over "pad" (
+                        prepend apiSchemas = ["PhysicsCollisionAPI", "PhysicsMeshCollisionAPI"]
+                    )
+                    {
+                        rel physics:simulationOwner
+                        prepend rel material:binding:physics = </RG75/Looks/PadMaterials>
+                        token physics:approximation = "convexDecomposition"
+                        bool physics:collisionEnabled = 1
+                    }
+                }
+            }
+        }
+    }
+
+    over "gripper_base"
+    {
+        rel physics:simulationOwner
+    }
+}
