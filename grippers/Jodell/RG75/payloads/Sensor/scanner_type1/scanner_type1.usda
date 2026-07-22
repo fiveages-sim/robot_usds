@@ -1,0 +1,42 @@
+#usda 1.0
+(
+    defaultPrim = "RG75"
+    doc = """Sensors=scanner_type1 — Kunhua dispensing hand scanner (legacy hand camera.usdc).
+
+Mount TF from dispensing glue.usda / RG75_FiveAges_Left gripper_base/hand_camera.
+Not an Orbbec; no Side mount sticky for now (L/R used the same flange TF).
+"""
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def "RG75"
+{
+    over "gripper_base"
+    {
+        def "scanner" (
+            prepend payload = @./hand_camera.usdc@
+        )
+        {
+            double3 xformOp:translate = (0.0306, 0, 0.1015907583950123)
+            double3 xformOp:rotateZYX = (180, 0, 90)
+            double3 xformOp:scale = (1, 1, 1)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateZYX", "xformOp:scale"]
+
+            # Optional optical frame for debug / ROS camera graphs (tweak in Isaac if needed).
+            over "camera"
+            {
+                def Camera "scanner_optical"
+                {
+                    float2 clippingRange = (0.01, 10000000)
+                    float focalLength = 18.147562
+                    float focusDistance = 400
+                    quatd xformOp:orient = (6.123233995736766e-17, 1, 0, 0)
+                    double3 xformOp:scale = (1, 1, 1)
+                    double3 xformOp:translate = (0, 0, 0.85)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                }
+            }
+        }
+    }
+}
