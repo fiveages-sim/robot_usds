@@ -35,6 +35,15 @@
 
 def "Gripper_2025"
 {
+    # PhysX ArticulationController / assembler must see the active Side joints
+    # (default gripper_joint / joint8 are deactivated below).
+    delete rel isaac:physics:robotJoints
+    prepend rel isaac:physics:robotJoints = [
+        </Gripper_2025/root_joint>,
+        </Gripper_2025/joints/left_gripper_joint>,
+        </Gripper_2025/joints/left_joint8>,
+    ]
+
     over "joints"
     {
         over "gripper_joint" (

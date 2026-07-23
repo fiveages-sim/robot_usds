@@ -39,17 +39,16 @@ Generated from Composed Stage of root layer /home/fiveages/distrobox/ubuntu24/Fa
 def Xform "ARX_LIFT2S" (
     prepend references = @./payloads/base.usda@
     variants = {
-        string AC_One_Base = "base"
+        string AC_One_Base = "AC_One_Base"
         string Arm_Left = "default"
         string Arm_Right = "default"
         string ROS = "none"
         string Robot = "none"
         string Sensor = "none"
-        string Wheel = "base"
-        string Wheel2 = "base"
-        string Wheel3 = "base"
+        string Wheel = "omnia_150"
+        string Wheel2 = "omnia_150"
+        string Wheel3 = "omnia_150"
     }
-    # Physics first so mujoco nested-root disables win over mount/Side payloads (Galaxea R1_Lite pattern).
     prepend variantSets = ["Physics", "Wheel", "Wheel2", "Wheel3", "AC_One_Base", "Arm_Left", "Arm_Right", "ROS"]
     append variantSets = ["Sensor", "Robot"]
 )
@@ -244,7 +243,6 @@ def Xform "ARX_LIFT2S" (
                         double3 xformOp:translate = (-0.01602, 0.25, -0.035)
                         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
-                        # Same mount prim for X5/R5 (Galaxea_R1_Lite pattern). EE authored in env / UI.
                         over "Arm_Left"
                         {
                             over "joints"
@@ -548,9 +546,6 @@ def Xform "ARX_LIFT2S" (
         }
     }
     variantSet "Physics" = {
-        # Nested Arm_*/Gripper_*/omnia keep their own Physics variantSets. VariantSwitcher
-        # only reliably flips the stage-root robot, so parent must push the selection down
-        # or Newton keeps Side PhysicsDriveAPI and OCS2 cannot move arms/grippers.
         "mujoco" (
             prepend payload = @./payloads/Physics/mujoco.usda@
         ) {
@@ -638,6 +633,7 @@ def Xform "ARX_LIFT2S" (
                 {
                 }
             }
+
         }
         "none" (
             prepend payload = @./payloads/Physics/none.usda@
@@ -726,6 +722,7 @@ def Xform "ARX_LIFT2S" (
                 {
                 }
             }
+
         }
         "physics" (
             prepend payload = @./payloads/Physics/physics.usda@
@@ -814,6 +811,7 @@ def Xform "ARX_LIFT2S" (
                 {
                 }
             }
+
         }
         "physx" (
             prepend payload = @./payloads/Physics/physx.usda@
@@ -902,6 +900,7 @@ def Xform "ARX_LIFT2S" (
                 {
                 }
             }
+
         }
     }
     variantSet "Sensor" = {
@@ -932,7 +931,7 @@ def Xform "ARX_LIFT2S" (
         "None" {
 
         }
-        "base" (
+        "omnia_150" (
             prepend payload = @payloads/Wheel/base.usd@
         ) {
             prepend rel isaac:physics:robotJoints = </ARX_LIFT2S/wheel_1/omnia_150>
@@ -944,7 +943,7 @@ def Xform "ARX_LIFT2S" (
         "None" {
 
         }
-        "base" (
+        "omnia_150" (
             prepend payload = @payloads/Wheel2/base.usd@
         ) {
             prepend rel isaac:physics:robotJoints = </ARX_LIFT2S/wheel_2/omnia_150>
@@ -956,7 +955,7 @@ def Xform "ARX_LIFT2S" (
         "None" {
 
         }
-        "base" (
+        "omnia_150" (
             prepend payload = @payloads/Wheel3/base.usd@
         ) {
             prepend rel isaac:physics:robotJoints = </ARX_LIFT2S/wheel_3/omnia_150>
@@ -965,14 +964,14 @@ def Xform "ARX_LIFT2S" (
         }
     }
     variantSet "AC_One_Base" = {
-        "None" {
-
-        }
-        "base" (
+        "AC_One_Base" (
             prepend payload = @payloads/AC_One_Base/base.usd@
         ) {
             prepend rel isaac:physics:robotJoints = </ARX_LIFT2S/lift_link/AC_One_Base>
             prepend rel isaac:physics:robotLinks = </ARX_LIFT2S/lift_link/AC_One_Base>
+
+        }
+        "None" {
 
         }
     }
@@ -981,7 +980,7 @@ def Xform "ARX_LIFT2S" (
             customData = {
                 string[] variantPrimPaths = ["."]
             }
-            delete payload = [@./payloads/Arm_Left/X5_Arm.usda@]
+            delete payload = @./payloads/Arm_Left/X5_Arm.usda@
             prepend payload = @./payloads/Arm_Left/R5_Arm.usda@
         ) {
 
@@ -990,7 +989,7 @@ def Xform "ARX_LIFT2S" (
             customData = {
                 string[] variantPrimPaths = ["."]
             }
-            delete payload = [@./payloads/Arm_Left/R5_Arm.usda@]
+            delete payload = @./payloads/Arm_Left/R5_Arm.usda@
             prepend payload = @./payloads/Arm_Left/X5_Arm.usda@
         ) {
 
@@ -1009,7 +1008,7 @@ def Xform "ARX_LIFT2S" (
             customData = {
                 string[] variantPrimPaths = ["."]
             }
-            delete payload = [@./payloads/Arm_Right/X5_Arm.usda@]
+            delete payload = @./payloads/Arm_Right/X5_Arm.usda@
             prepend payload = @./payloads/Arm_Right/R5_Arm.usda@
         ) {
 
@@ -1018,7 +1017,7 @@ def Xform "ARX_LIFT2S" (
             customData = {
                 string[] variantPrimPaths = ["."]
             }
-            delete payload = [@./payloads/Arm_Right/R5_Arm.usda@]
+            delete payload = @./payloads/Arm_Right/R5_Arm.usda@
             prepend payload = @./payloads/Arm_Right/X5_Arm.usda@
         ) {
 
