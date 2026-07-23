@@ -416,28 +416,162 @@ def "R5" (
         quatd xformOp:orient = (0.99999709300414, -0.0023882936799881943, -0.000326737562946249, 0.0000572637103587465)
         double3 xformOp:translate = (0.09649637341499329, 0.000013308422239788342, 0.1635805368423462)
     }
+    over "actuators"
+    {
+        over "joint1" (
+            active = false
+        )
+        {
+        }
+
+        over "joint2" (
+            active = false
+        )
+        {
+        }
+
+        over "joint3" (
+            active = false
+        )
+        {
+        }
+
+        over "joint4" (
+            active = false
+        )
+        {
+        }
+
+        over "joint5" (
+            active = false
+        )
+        {
+        }
+
+        over "joint6" (
+            active = false
+        )
+        {
+        }
+
+        def MjcActuator "left_joint1"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [100, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -100, -10, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -100
+            uniform double mjc:forceRange:max = 100
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = -150.00035
+            uniform double mjc:ctrlRange:max = 124.21724
+            rel mjc:target = </R5/joints/left_joint1>
+        }
+
+        def MjcActuator "left_joint2"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [100, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -100, -10, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -100
+            uniform double mjc:forceRange:max = 100
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = 0
+            uniform double mjc:ctrlRange:max = 209.70255
+            rel mjc:target = </R5/joints/left_joint2>
+        }
+
+        def MjcActuator "left_joint3"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [100, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -100, -10, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -100
+            uniform double mjc:forceRange:max = 100
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = 0
+            uniform double mjc:ctrlRange:max = 179.90874
+            rel mjc:target = </R5/joints/left_joint3>
+        }
+
+        def MjcActuator "left_joint4"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [100, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -100, -10, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -100
+            uniform double mjc:forceRange:max = 100
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = -89.95437
+            uniform double mjc:ctrlRange:max = 89.95437
+            rel mjc:target = </R5/joints/left_joint4>
+        }
+
+        def MjcActuator "left_joint5"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [100, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -100, -10, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -100
+            uniform double mjc:forceRange:max = 100
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = -89.95437
+            uniform double mjc:ctrlRange:max = 89.95437
+            rel mjc:target = </R5/joints/left_joint5>
+        }
+
+        def MjcActuator "left_joint6"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [100, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -100, -10, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -100
+            uniform double mjc:forceRange:max = 100
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = -89.95437
+            uniform double mjc:ctrlRange:max = 89.95437
+            rel mjc:target = </R5/joints/left_joint6>
+        }
+
+    }
+
     variantSet "EE" = {
         "Gripper_2023" (
-            delete payload = @payloads/EE/base.usd@
-            delete payload = @../EE/Gripper_2023.usda@
+            delete payload = [
+                @./payloads/EE/Gripper_2025.usda@,
+                @payloads/EE/base.usd@
+            ]
             prepend payload = @./payloads/EE/Gripper_2023.usda@
         ) {
-            prepend rel isaac:physics:robotJoints = </R5/Gripper_2023>
-            prepend rel isaac:physics:robotLinks = </R5/Gripper_2023>
 
         }
         "Gripper_2025" (
-            delete payload = @payloads/EE/base.usd@
-            delete payload = @../EE/Gripper_2025.usda@
+            delete payload = [
+                @./payloads/EE/Gripper_2023.usda@,
+                @payloads/EE/base.usd@
+            ]
             prepend payload = @./payloads/EE/Gripper_2025.usda@
         ) {
-            custom rel isaac:physics:robotJoints
-            prepend rel isaac:physics:robotJoints = </R5/Gripper_2025>
-            custom rel isaac:physics:robotLinks
-            prepend rel isaac:physics:robotLinks = </R5/Gripper_2025>
 
         }
-        "None" {
+        "None" (
+            delete payload = [
+                @./payloads/EE/Gripper_2023.usda@,
+                @./payloads/EE/Gripper_2025.usda@,
+                @payloads/EE/base.usd@
+            ]
+        ) {
 
         }
     }

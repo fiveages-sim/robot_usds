@@ -1,135 +1,117 @@
 #usda 1.0
 (
-    doc = """Generated from Composed Stage of root layer /home/fiveages/distrobox/ubuntu24/FaSim-Isaac/robots/manipulators/ARX 6.0/Gripper_2023/Gripper_2023.usd
-
-
-Generated from Composed Stage of root layer /home/fiveages/distrobox/ubuntu24/FaSim-Isaac/robots/manipulators/ARX 6.0/Gripper_2023/payloads/base.usd
-"""
+    defaultPrim = "Gripper_2023"
     metersPerUnit = 1
+    subLayers = [
+        @./physics.usda@
+    ]
     upAxis = "Z"
 )
 
-over "Gripper_2023"
+def "Gripper_2023"
 {
-    over "gripper_base"
-    {
-        over "link6"
-        {
-            over "camera_support"
-            {
-            }
-
-            over "gripper_center"
-            {
-            }
-        }
-
-        over "visuals"
-        {
-            over "link6"
-            {
-            }
-        }
-
-        over "collisions"
-        {
-            over "link6"
-            {
-            }
-        }
-    }
-
-    over "link7"
-    {
-        over "left_pad"
-        {
-        }
-
-        over "visuals"
-        {
-            over "link7"
-            {
-            }
-        }
-
-        over "collisions"
-        {
-            over "link7"
-            {
-            }
-        }
-    }
-
     over "joints"
     {
+        # PhysX DriveAPI (kp=100, kd=10, maxForce=10) -> MjcActuator position PD
         over "gripper_joint" (
+            prepend apiSchemas = ["MjcJointAPI"]
             delete apiSchemas = ["PhysicsJointStateAPI:linear", "PhysicsDriveAPI:linear"]
         )
         {
+            uniform double mjc:armature = 0.005
+            uniform double mjc:damping = 0.5
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -10
+            uniform double mjc:actuatorfrcrange:max = 10
         }
 
+        # PhysX mimic gearing=-1; Newton often needs coef1=+1 (same as Galaxea_G1).
         over "joint8" (
-            delete apiSchemas = ["PhysicsJointStateAPI:linear"]
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:linear", "PhysxMimicJointAPI:rotY"]
         )
         {
+            uniform double mjc:armature = 0.005
+            uniform double mjc:damping = 0.5
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 1
+            rel newton:mimicJoint = </Gripper_2023/joints/gripper_joint>
         }
-    }
 
-    over "link8"
-    {
-        over "right_pad"
+        over "left_gripper_joint" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:linear", "PhysicsDriveAPI:linear", "PhysxJointAPI"]
+        )
         {
+            uniform double mjc:armature = 0.005
+            uniform double mjc:damping = 0.5
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -10
+            uniform double mjc:actuatorfrcrange:max = 10
         }
 
-        over "visuals"
+        over "left_joint8" (
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:linear", "PhysxMimicJointAPI:rotY", "PhysxJointAPI"]
+        )
         {
-            over "link8"
-            {
-            }
+            uniform double mjc:armature = 0.005
+            uniform double mjc:damping = 0.5
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 1
+            rel newton:mimicJoint = </Gripper_2023/joints/left_gripper_joint>
         }
 
-        over "collisions"
+        over "right_gripper_joint" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:linear", "PhysicsDriveAPI:linear", "PhysxJointAPI"]
+        )
         {
-            over "link8"
-            {
-            }
+            uniform double mjc:armature = 0.005
+            uniform double mjc:damping = 0.5
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -10
+            uniform double mjc:actuatorfrcrange:max = 10
+        }
+
+        over "right_joint8" (
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:linear", "PhysxMimicJointAPI:rotY", "PhysxJointAPI"]
+        )
+        {
+            uniform double mjc:armature = 0.005
+            uniform double mjc:damping = 0.5
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 1
+            rel newton:mimicJoint = </Gripper_2023/joints/right_gripper_joint>
         }
     }
 
-    over "root_joint"
+    over "root_joint" (
+        prepend apiSchemas = ["NewtonArticulationRootAPI"]
+    )
     {
+        bool newton:selfCollisionEnabled = 0
     }
 
-    over "Looks"
+    def Scope "actuators"
     {
-    }
-
-    over "VisualMaterials"
-    {
+        def MjcActuator "gripper_joint"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [100, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -100, -10, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -10
+            uniform double mjc:forceRange:max = 10
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = 0
+            uniform double mjc:ctrlRange:max = 0.044
+            rel mjc:target = </Gripper_2023/joints/gripper_joint>
+        }
     }
 }
-
-over "Render"
-{
-    over "OmniverseKit"
-    {
-        over "HydraTextures"
-        {
-            over "omni_kit_widget_viewport_ViewportTexture_0"
-            {
-            }
-        }
-    }
-
-    over "OmniverseGlobalRenderSettings"
-    {
-    }
-
-    over "Vars"
-    {
-        over "LdrColor"
-        {
-        }
-    }
-}
-

@@ -130,6 +130,30 @@ def "Gripper_2025"
             rel physxMimicJoint:rotY:referenceJoint = </Gripper_2025/joints/right_gripper_joint>
         }
     }
+
+    over "actuators"
+    {
+        over "gripper_joint" (
+            active = false
+        )
+        {
+        }
+
+        def MjcActuator "right_gripper_joint"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [100, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -100, -10, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -100
+            uniform double mjc:forceRange:max = 100
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = 0
+            uniform double mjc:ctrlRange:max = 0.044
+            rel mjc:target = </Gripper_2025/joints/right_gripper_joint>
+        }
+    }
 }
 
 def "Render" (

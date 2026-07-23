@@ -40,14 +40,15 @@ def Xform "R5" (
     prepend references = @./payloads/base.usda@
     variants = {
         string EE = "None"
-        string Physics = "physx"
+        # No authored Physics: VariantSwitcher sets mujoco (Newton) / physx (PhysX).
+        # Physics must outrank Side so mujoco can delete Side DriveAPI (else Newton arms freeze).
         string ROS = "None"
         string Robot = "none"
         string Sensor = "none"
         string Side = "default"
     }
-    prepend variantSets = ["Side", "EE", "ROS"]
-    append variantSets = ["Physics", "Sensor", "Robot"]
+    prepend variantSets = ["Physics", "Side", "EE", "ROS"]
+    append variantSets = ["Sensor", "Robot"]
 )
 {
     over "base_link"
@@ -225,6 +226,12 @@ def Xform "R5" (
         }
     }
     variantSet "Physics" = {
+        "mujoco" (
+            delete payload = @./payloads/Physics/physx.usda@
+            prepend payload = @./payloads/Physics/mujoco.usda@
+        ) {
+
+        }
         "none" (
             prepend payload = @./payloads/Physics/none.usda@
         ) {
@@ -288,24 +295,32 @@ def Xform "R5" (
 
         }
     }
+    # EE mounts live only in Side left/right (Galaxea-style). Do not also payload
+    # payloads/EE/Gripper_*.usda here — Side's delete of those paths never matched
+    # the root strings, so both mounts composed and caused Newton joint-graph cycles.
     variantSet "EE" = {
         "Gripper_2023" (
-            delete payload = @payloads/EE/base.usd@
-            prepend payload = @./payloads/EE/Gripper_2023.usda@
+            delete payload = [
+                @./payloads/EE/Gripper_2023.usda@,
+                @./payloads/EE/Gripper_2025.usda@
+            ]
         ) {
-            prepend rel isaac:physics:robotJoints = </R5/Gripper_2023>
-            prepend rel isaac:physics:robotLinks = </R5/Gripper_2023>
 
         }
         "Gripper_2025" (
-            delete payload = @payloads/EE/base.usd@
-            prepend payload = @./payloads/EE/Gripper_2025.usda@
+            delete payload = [
+                @./payloads/EE/Gripper_2023.usda@,
+                @./payloads/EE/Gripper_2025.usda@
+            ]
         ) {
-            prepend rel isaac:physics:robotJoints = </R5/Gripper_2025>
-            prepend rel isaac:physics:robotLinks = </R5/Gripper_2025>
 
         }
-        "None" {
+        "None" (
+            delete payload = [
+                @./payloads/EE/Gripper_2023.usda@,
+                @./payloads/EE/Gripper_2025.usda@
+            ]
+        ) {
 
         }
     }

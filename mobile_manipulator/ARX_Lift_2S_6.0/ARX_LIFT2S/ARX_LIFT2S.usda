@@ -42,7 +42,6 @@ def Xform "ARX_LIFT2S" (
         string AC_One_Base = "base"
         string Arm_Left = "default"
         string Arm_Right = "default"
-        string Physics = "physx"
         string ROS = "none"
         string Robot = "none"
         string Sensor = "none"
@@ -50,15 +49,15 @@ def Xform "ARX_LIFT2S" (
         string Wheel2 = "base"
         string Wheel3 = "base"
     }
-    prepend variantSets = ["Wheel", "Wheel2", "Wheel3", "AC_One_Base", "Arm_Left", "Arm_Right", "ROS"]
-    append variantSets = ["Physics", "Sensor", "Robot"]
+    # Physics first so mujoco nested-root disables win over mount/Side payloads (Galaxea R1_Lite pattern).
+    prepend variantSets = ["Physics", "Wheel", "Wheel2", "Wheel3", "AC_One_Base", "Arm_Left", "Arm_Right", "ROS"]
+    append variantSets = ["Sensor", "Robot"]
 )
 {
     over "joints"
     {
         over "wheel1_joint"
         {
-            float drive:angular:physics:damping = 100000
             bool[] isaac:actuator (
                 displayName = "Actuator"
             )
@@ -76,7 +75,6 @@ def Xform "ARX_LIFT2S" (
 
         over "wheel2_joint"
         {
-            float drive:angular:physics:damping = 100000
             bool[] isaac:actuator (
                 displayName = "Actuator"
             )
@@ -94,7 +92,6 @@ def Xform "ARX_LIFT2S" (
 
         over "wheel3_joint"
         {
-            float drive:angular:physics:damping = 100000
             bool[] isaac:actuator (
                 displayName = "Actuator"
             )
@@ -112,7 +109,8 @@ def Xform "ARX_LIFT2S" (
 
         over "lift_joint"
         {
-            float state:linear:physics:position = 0
+            float drive:linear:physics:targetPosition = 0.02
+            float state:linear:physics:position = 0.02
             float state:linear:physics:velocity = 0
         }
     }
@@ -246,91 +244,45 @@ def Xform "ARX_LIFT2S" (
                         double3 xformOp:translate = (-0.01602, 0.25, -0.035)
                         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
-                        over "R5" (
-                            variants = {
-                                string EE = "None"
-                            }
-                        )
+                        # Same mount prim for X5/R5 (Galaxea_R1_Lite pattern). EE authored in env / UI.
+                        over "Arm_Left"
                         {
-                            over "base_link"
-                            {
-                            }
-
-                            over "link1"
-                            {
-                            }
-
-                            over "link2"
-                            {
-                            }
-
-                            over "link3"
-                            {
-                            }
-
-                            over "link4"
-                            {
-                            }
-
-                            over "link5"
-                            {
-                            }
-
-                            over "ee"
-                            {
-                            }
-
                             over "joints"
                             {
                                 over "left_joint1"
                                 {
-                                    float state:angular:physics:position = -0.026590176
-                                    float state:angular:physics:velocity = -0.03940173
+                                    float state:angular:physics:position = 0
+                                    float state:angular:physics:velocity = 0
                                 }
 
                                 over "left_joint2"
                                 {
-                                    float state:angular:physics:position = 0.0017067132
-                                    float state:angular:physics:velocity = -3.3219342
+                                    float state:angular:physics:position = 0
+                                    float state:angular:physics:velocity = 0
                                 }
 
                                 over "left_joint3"
                                 {
-                                    float state:angular:physics:position = 0.016402282
-                                    float state:angular:physics:velocity = -0.08393065
+                                    float state:angular:physics:position = 0
+                                    float state:angular:physics:velocity = 0
                                 }
 
                                 over "left_joint4"
                                 {
-                                    float state:angular:physics:position = 0.063256286
-                                    float state:angular:physics:velocity = 13.320262
+                                    float state:angular:physics:position = 0
+                                    float state:angular:physics:velocity = 0
                                 }
 
                                 over "left_joint5"
                                 {
-                                    float state:angular:physics:position = -0.00005009968
-                                    float state:angular:physics:velocity = 0.85585296
+                                    float state:angular:physics:position = 0
+                                    float state:angular:physics:velocity = 0
                                 }
 
                                 over "left_joint6"
                                 {
-                                    float state:angular:physics:position = 7.2470527
-                                    float state:angular:physics:velocity = -1.0922121
-                                }
-                            }
-
-                            over "Gripper_2025"
-                            {
-                                over "gripper_base"
-                                {
-                                }
-
-                                over "link7"
-                                {
-                                }
-
-                                over "link8"
-                                {
+                                    float state:angular:physics:position = 0
+                                    float state:angular:physics:velocity = 0
                                 }
                             }
                         }
@@ -343,92 +295,44 @@ def Xform "ARX_LIFT2S" (
                         double3 xformOp:translate = (-0.01602, -0.25, -0.035)
                         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
-                        over "R5" (
-                            variants = {
-                                string EE = "None"
-                                string Side = "right"
-                            }
-                        )
+                        over "Arm_Right"
                         {
-                            over "base_link"
-                            {
-                            }
-
-                            over "link1"
-                            {
-                            }
-
-                            over "link2"
-                            {
-                            }
-
-                            over "link3"
-                            {
-                            }
-
-                            over "link4"
-                            {
-                            }
-
-                            over "link5"
-                            {
-                            }
-
-                            over "ee"
-                            {
-                            }
-
-                            over "Gripper_2025"
-                            {
-                                over "gripper_base"
-                                {
-                                }
-
-                                over "link7"
-                                {
-                                }
-
-                                over "link8"
-                                {
-                                }
-                            }
-
                             over "joints"
                             {
                                 over "right_joint1"
                                 {
-                                    float state:angular:physics:position = 0.053472556
-                                    float state:angular:physics:velocity = 0.15556403
+                                    float state:angular:physics:position = 0
+                                    float state:angular:physics:velocity = 0
                                 }
 
                                 over "right_joint2"
                                 {
-                                    float state:angular:physics:position = 0.016164655
-                                    float state:angular:physics:velocity = -2.128235
+                                    float state:angular:physics:position = 0
+                                    float state:angular:physics:velocity = 0
                                 }
 
                                 over "right_joint3"
                                 {
-                                    float state:angular:physics:position = 0.0032339292
-                                    float state:angular:physics:velocity = 0.0022080722
+                                    float state:angular:physics:position = 0
+                                    float state:angular:physics:velocity = 0
                                 }
 
                                 over "right_joint4"
                                 {
-                                    float state:angular:physics:position = 0.0460067
-                                    float state:angular:physics:velocity = 25.732212
+                                    float state:angular:physics:position = 0
+                                    float state:angular:physics:velocity = 0
                                 }
 
                                 over "right_joint5"
                                 {
-                                    float state:angular:physics:position = 0.00035254512
-                                    float state:angular:physics:velocity = -0.19177102
+                                    float state:angular:physics:position = 0
+                                    float state:angular:physics:velocity = 0
                                 }
 
                                 over "right_joint6"
                                 {
-                                    float state:angular:physics:position = 25.559822
-                                    float state:angular:physics:velocity = 198.75465
+                                    float state:angular:physics:position = 0
+                                    float state:angular:physics:velocity = 0
                                 }
                             }
                         }
@@ -644,20 +548,360 @@ def Xform "ARX_LIFT2S" (
         }
     }
     variantSet "Physics" = {
+        # Nested Arm_*/Gripper_*/omnia keep their own Physics variantSets. VariantSwitcher
+        # only reliably flips the stage-root robot, so parent must push the selection down
+        # or Newton keeps Side PhysicsDriveAPI and OCS2 cannot move arms/grippers.
+        "mujoco" (
+            prepend payload = @./payloads/Physics/mujoco.usda@
+        ) {
+            over "lift_link"
+            {
+                over "AC_One_Base" (
+                    variants = {
+                        string Physics = "mujoco"
+                    }
+                )
+                {
+                    over "base_link"
+                    {
+                        over "body_link"
+                        {
+                            over "left_base_link"
+                            {
+                                over "Arm_Left" (
+                                    variants = {
+                                        string Physics = "mujoco"
+                                    }
+                                )
+                                {
+                                    over "Gripper_2025" (
+                                        variants = {
+                                            string Physics = "mujoco"
+                                        }
+                                    )
+                                    {
+                                    }
+                                }
+                            }
+
+                            over "right_base_link"
+                            {
+                                over "Arm_Right" (
+                                    variants = {
+                                        string Physics = "mujoco"
+                                    }
+                                )
+                                {
+                                    over "Gripper_2025" (
+                                        variants = {
+                                            string Physics = "mujoco"
+                                        }
+                                    )
+                                    {
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            over "wheel_1"
+            {
+                over "omnia_150" (
+                    variants = {
+                        string Physics = "mujoco"
+                    }
+                )
+                {
+                }
+            }
+
+            over "wheel_2"
+            {
+                over "omnia_150" (
+                    variants = {
+                        string Physics = "mujoco"
+                    }
+                )
+                {
+                }
+            }
+
+            over "wheel_3"
+            {
+                over "omnia_150" (
+                    variants = {
+                        string Physics = "mujoco"
+                    }
+                )
+                {
+                }
+            }
+        }
         "none" (
             prepend payload = @./payloads/Physics/none.usda@
         ) {
+            over "lift_link"
+            {
+                over "AC_One_Base" (
+                    variants = {
+                        string Physics = "none"
+                    }
+                )
+                {
+                    over "base_link"
+                    {
+                        over "body_link"
+                        {
+                            over "left_base_link"
+                            {
+                                over "Arm_Left" (
+                                    variants = {
+                                        string Physics = "none"
+                                    }
+                                )
+                                {
+                                    over "Gripper_2025" (
+                                        variants = {
+                                            string Physics = "none"
+                                        }
+                                    )
+                                    {
+                                    }
+                                }
+                            }
 
+                            over "right_base_link"
+                            {
+                                over "Arm_Right" (
+                                    variants = {
+                                        string Physics = "none"
+                                    }
+                                )
+                                {
+                                    over "Gripper_2025" (
+                                        variants = {
+                                            string Physics = "none"
+                                        }
+                                    )
+                                    {
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            over "wheel_1"
+            {
+                over "omnia_150" (
+                    variants = {
+                        string Physics = "none"
+                    }
+                )
+                {
+                }
+            }
+
+            over "wheel_2"
+            {
+                over "omnia_150" (
+                    variants = {
+                        string Physics = "none"
+                    }
+                )
+                {
+                }
+            }
+
+            over "wheel_3"
+            {
+                over "omnia_150" (
+                    variants = {
+                        string Physics = "none"
+                    }
+                )
+                {
+                }
+            }
         }
         "physics" (
             prepend payload = @./payloads/Physics/physics.usda@
         ) {
+            over "lift_link"
+            {
+                over "AC_One_Base" (
+                    variants = {
+                        string Physics = "physics"
+                    }
+                )
+                {
+                    over "base_link"
+                    {
+                        over "body_link"
+                        {
+                            over "left_base_link"
+                            {
+                                over "Arm_Left" (
+                                    variants = {
+                                        string Physics = "physics"
+                                    }
+                                )
+                                {
+                                    over "Gripper_2025" (
+                                        variants = {
+                                            string Physics = "physics"
+                                        }
+                                    )
+                                    {
+                                    }
+                                }
+                            }
 
+                            over "right_base_link"
+                            {
+                                over "Arm_Right" (
+                                    variants = {
+                                        string Physics = "physics"
+                                    }
+                                )
+                                {
+                                    over "Gripper_2025" (
+                                        variants = {
+                                            string Physics = "physics"
+                                        }
+                                    )
+                                    {
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            over "wheel_1"
+            {
+                over "omnia_150" (
+                    variants = {
+                        string Physics = "physics"
+                    }
+                )
+                {
+                }
+            }
+
+            over "wheel_2"
+            {
+                over "omnia_150" (
+                    variants = {
+                        string Physics = "physics"
+                    }
+                )
+                {
+                }
+            }
+
+            over "wheel_3"
+            {
+                over "omnia_150" (
+                    variants = {
+                        string Physics = "physics"
+                    }
+                )
+                {
+                }
+            }
         }
         "physx" (
             prepend payload = @./payloads/Physics/physx.usda@
         ) {
+            over "lift_link"
+            {
+                over "AC_One_Base" (
+                    variants = {
+                        string Physics = "physx"
+                    }
+                )
+                {
+                    over "base_link"
+                    {
+                        over "body_link"
+                        {
+                            over "left_base_link"
+                            {
+                                over "Arm_Left" (
+                                    variants = {
+                                        string Physics = "physx"
+                                    }
+                                )
+                                {
+                                    over "Gripper_2025" (
+                                        variants = {
+                                            string Physics = "physx"
+                                        }
+                                    )
+                                    {
+                                    }
+                                }
+                            }
 
+                            over "right_base_link"
+                            {
+                                over "Arm_Right" (
+                                    variants = {
+                                        string Physics = "physx"
+                                    }
+                                )
+                                {
+                                    over "Gripper_2025" (
+                                        variants = {
+                                            string Physics = "physx"
+                                        }
+                                    )
+                                    {
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            over "wheel_1"
+            {
+                over "omnia_150" (
+                    variants = {
+                        string Physics = "physx"
+                    }
+                )
+                {
+                }
+            }
+
+            over "wheel_2"
+            {
+                over "omnia_150" (
+                    variants = {
+                        string Physics = "physx"
+                    }
+                )
+                {
+                }
+            }
+
+            over "wheel_3"
+            {
+                over "omnia_150" (
+                    variants = {
+                        string Physics = "physx"
+                    }
+                )
+                {
+                }
+            }
         }
     }
     variantSet "Sensor" = {
@@ -737,6 +981,7 @@ def Xform "ARX_LIFT2S" (
             customData = {
                 string[] variantPrimPaths = ["."]
             }
+            delete payload = [@./payloads/Arm_Left/X5_Arm.usda@]
             prepend payload = @./payloads/Arm_Left/R5_Arm.usda@
         ) {
 
@@ -745,11 +990,17 @@ def Xform "ARX_LIFT2S" (
             customData = {
                 string[] variantPrimPaths = ["."]
             }
+            delete payload = [@./payloads/Arm_Left/R5_Arm.usda@]
             prepend payload = @./payloads/Arm_Left/X5_Arm.usda@
         ) {
 
         }
-        "default" {
+        "default" (
+            delete payload = [
+                @./payloads/Arm_Left/X5_Arm.usda@,
+                @./payloads/Arm_Left/R5_Arm.usda@
+            ]
+        ) {
 
         }
     }
@@ -758,6 +1009,7 @@ def Xform "ARX_LIFT2S" (
             customData = {
                 string[] variantPrimPaths = ["."]
             }
+            delete payload = [@./payloads/Arm_Right/X5_Arm.usda@]
             prepend payload = @./payloads/Arm_Right/R5_Arm.usda@
         ) {
 
@@ -766,11 +1018,17 @@ def Xform "ARX_LIFT2S" (
             customData = {
                 string[] variantPrimPaths = ["."]
             }
+            delete payload = [@./payloads/Arm_Right/R5_Arm.usda@]
             prepend payload = @./payloads/Arm_Right/X5_Arm.usda@
         ) {
 
         }
-        "default" {
+        "default" (
+            delete payload = [
+                @./payloads/Arm_Right/X5_Arm.usda@,
+                @./payloads/Arm_Right/R5_Arm.usda@
+            ]
+        ) {
 
         }
     }

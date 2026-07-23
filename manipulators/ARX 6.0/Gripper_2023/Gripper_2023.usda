@@ -39,13 +39,14 @@ Generated from Composed Stage of root layer /home/fiveages/distrobox/ubuntu24/Fa
 def Xform "Gripper_2023" (
     prepend references = @./payloads/base.usda@
     variants = {
-        string Physics = "physx"
+        # No authored Physics: VariantSwitcher sets mujoco (Newton) / physx (PhysX).
         string Robot = "none"
         string Sensor = "none"
         string Side = "default"
     }
-    prepend variantSets = "Side"
-    append variantSets = ["Physics", "Sensor", "Robot"]
+    # Physics before Side so mujoco can delete Side's PhysicsDriveAPI (Galaxea A1X).
+    prepend variantSets = ["Physics", "Side"]
+    append variantSets = ["Sensor", "Robot"]
 )
 {
     over "gripper_base"
@@ -105,6 +106,12 @@ def Xform "Gripper_2023" (
         }
     }
     variantSet "Physics" = {
+        "mujoco" (
+            delete payload = @./payloads/Physics/physx.usda@
+            prepend payload = @./payloads/Physics/mujoco.usda@
+        ) {
+
+        }
         "none" (
             prepend payload = @./payloads/Physics/none.usda@
         ) {

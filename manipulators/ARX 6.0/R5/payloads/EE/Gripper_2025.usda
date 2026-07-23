@@ -47,12 +47,14 @@ def Xform "R5"
 
         over "root_joint" (
             active = false
-            delete apiSchemas = ["PhysicsArticulationRootAPI", "PhysxArticulationAPI"]
+            delete apiSchemas = ["PhysicsArticulationRootAPI", "PhysxArticulationAPI", "NewtonArticulationRootAPI"]
         )
         {
         }
 
-        over "gripper_base"
+        over "gripper_base" (
+            delete apiSchemas = ["PhysicsArticulationRootAPI", "NewtonArticulationRootAPI"]
+        )
         {
             def PhysicsFixedJoint "AssemblerFixedJoint"
             {

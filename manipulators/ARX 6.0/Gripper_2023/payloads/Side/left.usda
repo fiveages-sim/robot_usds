@@ -149,6 +149,30 @@ def "Gripper_2023"
     {
         rel physics:simulationOwner
     }
+
+    over "actuators"
+    {
+        over "gripper_joint" (
+            active = false
+        )
+        {
+        }
+
+        def MjcActuator "left_gripper_joint"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [100, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -100, -10, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -10
+            uniform double mjc:forceRange:max = 10
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = 0
+            uniform double mjc:ctrlRange:max = 0.044
+            rel mjc:target = </Gripper_2023/joints/left_gripper_joint>
+        }
+    }
 }
 
 def "Render" (

@@ -127,7 +127,7 @@ def "ARX_LIFT2S"
                 )
                 custom double inputs:timeStamp
                 prepend double inputs:timeStamp.connect = </ARX_LIFT2S/Graph/ROS_JointStates/ReadSimTime.outputs:simulationTime>
-                custom string inputs:topicName = "/joint_states"
+                custom string inputs:topicName = "joint_states"
                 token node:type = "isaacsim.ros2.bridge.ROS2PublishJointState"
                 int node:typeVersion = 1
                 uniform float2 ui:nodegraph:node:pos = (-109.938446, -404.17737)
@@ -148,7 +148,7 @@ def "ARX_LIFT2S"
                 custom string inputs:nodeNamespace = "isaac"
                 custom string inputs:qosProfile
                 custom uint64 inputs:queueSize
-                custom string inputs:topicName = "/joint_command"
+                custom string inputs:topicName = "joint_command"
                 token node:type = "isaacsim.ros2.bridge.ROS2SubscribeJointState"
                 int node:typeVersion = 2
                 custom double[] outputs:effortCommand
@@ -664,7 +664,8 @@ def "ARX_LIFT2S"
                 prepend uint inputs:execIn.connect = </ARX_LIFT2S/Graph/holonomic_controller/on_playback_tick.outputs:tick>
                 custom double3 inputs:inputVelocity
                 prepend double3 inputs:inputVelocity.connect = </ARX_LIFT2S/Graph/holonomic_controller/make_3_vector.outputs:tuple>
-                custom double inputs:linearGain
+                # Invert X so +linear.x drives forward (matches old ARX_Lift2S / ROS base_link +X).
+                custom double inputs:linearGain = -1
                 custom double inputs:maxAngularSpeed
                 custom double inputs:maxLinearSpeed
                 custom double inputs:maxWheelSpeed
@@ -703,7 +704,7 @@ def "ARX_LIFT2S"
                 prepend token[] inputs:jointNames.connect = </ARX_LIFT2S/Graph/holonomic_controller/usd_setup_holonomic_robot.outputs:wheelDofNames>
                 custom double[] inputs:positionCommand
                 custom string inputs:robotPath
-                custom rel inputs:targetPrim = </ARX_LIFT2S> (
+                custom rel inputs:targetPrim = </ARX_LIFT2S/base_link> (
                     customData = {
                         dictionary omni = {
                             dictionary graph = {

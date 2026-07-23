@@ -7,8 +7,8 @@
                 double radius = 5
             }
             dictionary Perspective = {
-                double3 position = (1.9329662546720723, 1.537025408174863, 0.7497965002197144)
-                double3 target = (-1.5291218314427515, -1.681486846460488, -0.7993339509112896)
+                double3 position = (1.0960161233706733, 1.1019556710440803, 0.4336545260981284)
+                double3 target = (-1.8747078422310617, -2.0802929225890363, -0.5657515842342836)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -49,18 +49,21 @@ def Xform "World"
     def "ARX_LIFT2S" (
         prepend payload = @../ARX_LIFT2S.usda@
         variants = {
-            string ROS = "none"
+            string AC_One_Base = "base"
+            string Arm_Left = "X5_Left"
+            string Arm_Right = "X5_Right"
+            string ROS = "Enable"
+            string Robot = "robot"
+            string Wheel = "base"
+            string Wheel2 = "base"
+            string Wheel3 = "base"
         }
     )
     {
         quatd xformOp:orient = (1, 0, 0, 0)
         double3 xformOp:scale = (1, 1, 1)
-        double3 xformOp:translate = (0, 0, 0.18096700884518546)
+        double3 xformOp:translate = (0, 0, 0.20433337849127367)
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
-
-        over "base_link"
-        {
-        }
 
         over "lift_link"
         {
@@ -68,314 +71,29 @@ def Xform "World"
             {
                 over "base_link"
                 {
-                }
-            }
-        }
-
-        over "wheel_1"
-        {
-            over "omnia_150"
-            {
-                over "base_link"
-                {
-                }
-
-                over "wheel_passive_0"
-                {
-                }
-
-                over "wheel_passive_4"
-                {
-                }
-
-                over "wheel_passive_1"
-                {
-                }
-
-                over "wheel_passive_2"
-                {
-                }
-
-                over "wheel_passive_3"
-                {
-                }
-
-                over "wheel_passive_5"
-                {
-                }
-
-                over "wheel_passive_6"
-                {
-                }
-
-                over "wheel_passive_7"
-                {
-                }
-
-                over "wheel_passive_8"
-                {
-                }
-
-                over "joints"
-                {
-                    over "wheel_passive_0_joint"
+                    over "body_link"
                     {
-                        float state:angular:physics:position = 2.136745
-                        float state:angular:physics:velocity = -0.54040444
-                    }
+                        over "left_base_link"
+                        {
+                            over "Arm_Left" (
+                                variants = {
+                                    string EE = "Gripper_2025"
+                                }
+                            )
+                            {
+                            }
+                        }
 
-                    over "wheel_passive_4_joint"
-                    {
-                        float state:angular:physics:position = -2.2931604
-                        float state:angular:physics:velocity = 0.51088583
-                    }
-
-                    over "wheel_passive_1_joint"
-                    {
-                        float state:angular:physics:position = 1.1005325
-                        float state:angular:physics:velocity = -0.40819633
-                    }
-
-                    over "wheel_passive_2_joint"
-                    {
-                        float state:angular:physics:position = -0.45002
-                        float state:angular:physics:velocity = -0.08490604
-                    }
-
-                    over "wheel_passive_3_joint"
-                    {
-                        float state:angular:physics:position = -1.7902511
-                        float state:angular:physics:velocity = 0.2780211
-                    }
-
-                    over "wheel_passive_5_joint"
-                    {
-                        float state:angular:physics:position = -1.7227486
-                        float state:angular:physics:velocity = 0.5047383
-                    }
-
-                    over "wheel_passive_6_joint"
-                    {
-                        float state:angular:physics:position = -0.29691905
-                        float state:angular:physics:velocity = -3.3972793
-                    }
-
-                    over "wheel_passive_7_joint"
-                    {
-                        float state:angular:physics:position = 0.2523765
-                        float state:angular:physics:velocity = -3.125234
-                    }
-
-                    over "wheel_passive_8_joint"
-                    {
-                        float state:angular:physics:position = 2.1730897
-                        float state:angular:physics:velocity = -0.41975564
-                    }
-                }
-            }
-        }
-
-        over "wheel_2"
-        {
-            over "omnia_150"
-            {
-                over "base_link"
-                {
-                }
-
-                over "wheel_passive_0"
-                {
-                }
-
-                over "wheel_passive_1"
-                {
-                }
-
-                over "wheel_passive_2"
-                {
-                }
-
-                over "wheel_passive_3"
-                {
-                }
-
-                over "wheel_passive_4"
-                {
-                }
-
-                over "wheel_passive_5"
-                {
-                }
-
-                over "wheel_passive_6"
-                {
-                }
-
-                over "wheel_passive_7"
-                {
-                }
-
-                over "wheel_passive_8"
-                {
-                }
-
-                over "joints"
-                {
-                    over "wheel_passive_0_joint"
-                    {
-                        float state:angular:physics:position = 2.0209854
-                        float state:angular:physics:velocity = -0.5532201
-                    }
-
-                    over "wheel_passive_1_joint"
-                    {
-                        float state:angular:physics:position = 0.8022763
-                        float state:angular:physics:velocity = -0.47273266
-                    }
-
-                    over "wheel_passive_2_joint"
-                    {
-                        float state:angular:physics:position = -0.79137623
-                        float state:angular:physics:velocity = -0.1710121
-                    }
-
-                    over "wheel_passive_3_joint"
-                    {
-                        float state:angular:physics:position = -2.0151763
-                        float state:angular:physics:velocity = 0.21072009
-                    }
-
-                    over "wheel_passive_4_joint"
-                    {
-                        float state:angular:physics:position = -2.2958624
-                        float state:angular:physics:velocity = 0.49383545
-                    }
-
-                    over "wheel_passive_5_joint"
-                    {
-                        float state:angular:physics:position = -1.5021628
-                        float state:angular:physics:velocity = 0.5459146
-                    }
-
-                    over "wheel_passive_6_joint"
-                    {
-                        float state:angular:physics:position = -0.24479236
-                        float state:angular:physics:velocity = -0.05413298
-                    }
-
-                    over "wheel_passive_7_joint"
-                    {
-                        float state:angular:physics:position = 0.20531407
-                        float state:angular:physics:velocity = -0.2606303
-                    }
-
-                    over "wheel_passive_8_joint"
-                    {
-                        float state:angular:physics:position = 2.2938302
-                        float state:angular:physics:velocity = -0.37488213
-                    }
-                }
-            }
-        }
-
-        over "wheel_3"
-        {
-            over "omnia_150"
-            {
-                over "base_link"
-                {
-                }
-
-                over "wheel_passive_0"
-                {
-                }
-
-                over "wheel_passive_1"
-                {
-                }
-
-                over "wheel_passive_2"
-                {
-                }
-
-                over "wheel_passive_3"
-                {
-                }
-
-                over "wheel_passive_4"
-                {
-                }
-
-                over "wheel_passive_5"
-                {
-                }
-
-                over "wheel_passive_6"
-                {
-                }
-
-                over "wheel_passive_7"
-                {
-                }
-
-                over "wheel_passive_8"
-                {
-                }
-
-                over "joints"
-                {
-                    over "wheel_passive_0_joint"
-                    {
-                        float state:angular:physics:position = 1.1160674
-                        float state:angular:physics:velocity = -0.6688247
-                    }
-
-                    over "wheel_passive_1_joint"
-                    {
-                        float state:angular:physics:position = -1.4522799
-                        float state:angular:physics:velocity = -0.7769348
-                    }
-
-                    over "wheel_passive_2_joint"
-                    {
-                        float state:angular:physics:position = -3.3412073
-                        float state:angular:physics:velocity = -0.5215174
-                    }
-
-                    over "wheel_passive_3_joint"
-                    {
-                        float state:angular:physics:position = -3.666683
-                        float state:angular:physics:velocity = -0.022067301
-                    }
-
-                    over "wheel_passive_4_joint"
-                    {
-                        float state:angular:physics:position = -2.276505
-                        float state:angular:physics:velocity = 0.4876991
-                    }
-
-                    over "wheel_passive_5_joint"
-                    {
-                        float state:angular:physics:position = 0.17890482
-                        float state:angular:physics:velocity = 0.7692715
-                    }
-
-                    over "wheel_passive_6_joint"
-                    {
-                        float state:angular:physics:position = -0.44158438
-                        float state:angular:physics:velocity = 2.0100102
-                    }
-
-                    over "wheel_passive_7_joint"
-                    {
-                        float state:angular:physics:position = 0.105181426
-                        float state:angular:physics:velocity = 2.1946588
-                    }
-
-                    over "wheel_passive_8_joint"
-                    {
-                        float state:angular:physics:position = 3.162313
-                        float state:angular:physics:velocity = -0.24775912
+                        over "right_base_link"
+                        {
+                            over "Arm_Right" (
+                                variants = {
+                                    string EE = "Gripper_2025"
+                                }
+                            )
+                            {
+                            }
+                        }
                     }
                 }
             }
@@ -385,56 +103,38 @@ def Xform "World"
         {
             over "lift_joint"
             {
-                float state:linear:physics:position = 1.0996759e-9
-                float state:linear:physics:velocity = 0.000003584302
+                float drive:linear:physics:targetPosition = 0.02
+                bool[] isaac:actuator (
+                    displayName = "Actuator"
+                )
+                string isaac:NameOverride (
+                    displayName = "Joint Name Override"
+                )
+                token[] isaac:physics:DofOffsetOpOrder (
+                    displayName = "Dof Offset Op Order"
+                )
+                float state:linear:physics:position = 0.02
+                float state:linear:physics:velocity = 0
             }
 
             over "wheel1_joint"
             {
-                float state:angular:physics:position = 10.0066185
-                float state:angular:physics:velocity = -0.54631525
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
             }
 
             over "wheel2_joint"
             {
-                float state:angular:physics:position = 10.002645
-                float state:angular:physics:velocity = -0.1277081
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
             }
 
             over "wheel3_joint"
             {
-                float state:angular:physics:position = 10.003083
-                float state:angular:physics:velocity = -2.790213
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
             }
         }
-    }
-}
-
-def Xform "Environment"
-{
-    quatd xformOp:orient = (1, 0, 0, 0)
-    double3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (0, 0, 0)
-    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
-
-    def DistantLight "defaultLight" (
-        prepend apiSchemas = ["ShapingAPI"]
-    )
-    {
-        float inputs:angle = 1
-        float inputs:exposure = 1.5
-        float inputs:intensity = 3000
-        bool inputs:normalize = 1
-        float inputs:shaping:cone:angle = 180
-        float inputs:shaping:cone:softness
-        float inputs:shaping:focus
-        color3f inputs:shaping:focusTint
-        asset inputs:shaping:ies:file
-        custom int omni:rtx:usdluxVersion = 2505
-        quatd xformOp:orient = (0.6532814824381883, 0.2705980500730985, 0.27059805007309845, 0.6532814824381882)
-        double3 xformOp:scale = (1, 1, 1)
-        double3 xformOp:translate = (0, 0, 0)
-        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
     }
 }
 
@@ -533,10 +233,10 @@ over "OmniverseKit_Persp" (
     float exposure:time = 0.02
     float focalLength = 18.147562
     float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -4.974402497172646)
-    float3 xformOp:rotateXYZ = (71.85515, -3.4986103e-14, 132.91191)
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -4.466622836646294)
+    float3 xformOp:rotateXYZ = (77.070625, -8.905553e-14, 136.96892)
     float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (1.9329662546720723, 1.537025408174863, 0.7497965002197144)
+    double3 xformOp:translate = (1.0960161233706733, 1.1019556710440803, 0.4336545260981284)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 
@@ -616,8 +316,7 @@ over "OmniverseKit_Top" (
 }
 
 def PhysicsScene "PhysicsScene" (
-    delete apiSchemas = ["MjcSceneAPI", "NewtonXpbdSceneAPI"]
-    prepend apiSchemas = ["NewtonSceneAPI", "PhysxSceneAPI"]
+    prepend apiSchemas = ["NewtonSceneAPI", "MjcSceneAPI", "PhysxSceneAPI"]
 )
 {
 }

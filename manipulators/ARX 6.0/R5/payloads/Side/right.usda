@@ -345,26 +345,162 @@ def "R5" (
     {
     }
 
+    over "actuators"
+    {
+        over "joint1" (
+            active = false
+        )
+        {
+        }
+
+        over "joint2" (
+            active = false
+        )
+        {
+        }
+
+        over "joint3" (
+            active = false
+        )
+        {
+        }
+
+        over "joint4" (
+            active = false
+        )
+        {
+        }
+
+        over "joint5" (
+            active = false
+        )
+        {
+        }
+
+        over "joint6" (
+            active = false
+        )
+        {
+        }
+
+        def MjcActuator "right_joint1"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [100, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -100, -10, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -100
+            uniform double mjc:forceRange:max = 100
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = -150.00035
+            uniform double mjc:ctrlRange:max = 124.21724
+            rel mjc:target = </R5/joints/right_joint1>
+        }
+
+        def MjcActuator "right_joint2"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [100, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -100, -10, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -100
+            uniform double mjc:forceRange:max = 100
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = 0
+            uniform double mjc:ctrlRange:max = 209.70255
+            rel mjc:target = </R5/joints/right_joint2>
+        }
+
+        def MjcActuator "right_joint3"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [100, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -100, -10, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -100
+            uniform double mjc:forceRange:max = 100
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = 0
+            uniform double mjc:ctrlRange:max = 179.90874
+            rel mjc:target = </R5/joints/right_joint3>
+        }
+
+        def MjcActuator "right_joint4"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [100, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -100, -10, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -100
+            uniform double mjc:forceRange:max = 100
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = -89.95437
+            uniform double mjc:ctrlRange:max = 89.95437
+            rel mjc:target = </R5/joints/right_joint4>
+        }
+
+        def MjcActuator "right_joint5"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [100, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -100, -10, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -100
+            uniform double mjc:forceRange:max = 100
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = -89.95437
+            uniform double mjc:ctrlRange:max = 89.95437
+            rel mjc:target = </R5/joints/right_joint5>
+        }
+
+        def MjcActuator "right_joint6"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [100, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -100, -10, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -100
+            uniform double mjc:forceRange:max = 100
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = -89.95437
+            uniform double mjc:ctrlRange:max = 89.95437
+            rel mjc:target = </R5/joints/right_joint6>
+        }
+
+    }
+
     variantSet "EE" = {
         "Gripper_2023" (
-            delete payload = @payloads/EE/base.usd@
-            delete payload = @../EE/Gripper_2023.usda@
+            delete payload = [
+                @./payloads/EE/Gripper_2025_right.usda@,
+                @payloads/EE/base.usd@
+            ]
             prepend payload = @./payloads/EE/Gripper_2023_right.usda@
         ) {
-            prepend rel isaac:physics:robotJoints = </R5/Gripper_2023>
-            prepend rel isaac:physics:robotLinks = </R5/Gripper_2023>
 
         }
         "Gripper_2025" (
-            delete payload = @payloads/EE/base.usd@
-            delete payload = @../EE/Gripper_2025.usda@
+            delete payload = [
+                @./payloads/EE/Gripper_2023_right.usda@,
+                @payloads/EE/base.usd@
+            ]
             prepend payload = @./payloads/EE/Gripper_2025_right.usda@
         ) {
-            prepend rel isaac:physics:robotJoints = </R5/Gripper_2025>
-            prepend rel isaac:physics:robotLinks = </R5/Gripper_2025>
 
         }
-        "None" {
+        "None" (
+            delete payload = [
+                @./payloads/EE/Gripper_2023_right.usda@,
+                @./payloads/EE/Gripper_2025_right.usda@,
+                @payloads/EE/base.usd@
+            ]
+        ) {
 
         }
     }

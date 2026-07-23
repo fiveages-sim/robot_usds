@@ -8,7 +8,7 @@
             }
             dictionary Perspective = {
                 double3 position = (3.2917976709938777, 3.291797670993879, 3.2917977117656445)
-                double3 target = (-3.978038476404322e-8, -3.978038209950796e-8, 7.956076819581881e-8)
+                double3 target = (-3.978038431995401e-8, -3.978038254359717e-8, 7.956076730764039e-8)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -21,7 +21,7 @@
             string boundCamera = "/OmniverseKit_Persp"
         }
         dictionary omni_layer = {
-            string authoring_layer = "./omnia_150.usd"
+            string authoring_layer = "./omnia_150.usda"
         }
         dictionary renderSettings = {
         }
@@ -39,14 +39,20 @@ Generated from Composed Stage of root layer /home/fiveages/distrobox/ubuntu24/Fa
 def Xform "omnia_150" (
     prepend references = @./payloads/base.usda@
     variants = {
-        string Physics = "physx"
         string Robot = "none"
         string Sensor = "none"
+        # No authored Physics: parent ARX_LIFT2S / VariantSwitcher selects mujoco|physx.
     }
     append variantSets = ["Physics", "Sensor", "Robot"]
 )
 {
     variantSet "Physics" = {
+        "mujoco" (
+            delete payload = @./payloads/Physics/physx.usda@
+            prepend payload = @./payloads/Physics/mujoco.usda@
+        ) {
+
+        }
         "none" (
             prepend payload = @./payloads/Physics/none.usda@
         ) {
@@ -166,10 +172,104 @@ def "Render" (
 
 over "OmniverseKit_Persp" (
     apiSchemas = ["OmniRtxCameraAutoExposureAPI_1", "OmniRtxCameraExposureAPI_1"]
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
 )
 {
+    float2 clippingRange = (0.01, 10000000)
     float exposure:fStop = 5
     float exposure:responsivity = 1.1026709
     float exposure:time = 0.02
+    float focalLength = 18.147562
+    float focusDistance = 400
+    custom uniform vector3d omni:kit:centerOfInterest = (1.0775410193615129e-16, -7.087396249615444e-16, -5.701560837937887)
+    float3 xformOp:rotateXYZ = (54.73561, 9.541664e-15, 135)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (3.2917976709938777, 3.291797670993879, 3.2917977117656445)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+
+over "OmniverseKit_Front" (
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (1, 10000000)
+    float horizontalAperture = 50
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -5)
+    token projection = "orthographic"
+    float verticalAperture = 50
+    float3 xformOp:rotateXYZ = (90, -1.2722219e-14, 90)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (5, 0, 0)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+
+over "OmniverseKit_Right" (
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (1, 10000000)
+    float horizontalAperture = 50
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -5)
+    token projection = "orthographic"
+    float verticalAperture = 50
+    float3 xformOp:rotateXYZ = (90, -1.41245e-30, 1.2722219e-14)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (0, -5, 0)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+
+over "OmniverseKit_Top" (
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (1, 10000000)
+    float horizontalAperture = 50
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -5)
+    token projection = "orthographic"
+    float verticalAperture = 50
+    float3 xformOp:rotateXYZ = (-1.2722219e-14, -7.016709e-15, -90)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (0, 0, 5)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 

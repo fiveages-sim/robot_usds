@@ -39,8 +39,6 @@ def "ARX_LIFT2S"
     {
         over "AC_One_Base"
         {
-            prepend rel isaac:physics:robotJoints = </ARX_LIFT2S/lift_link/AC_One_Base/base_link/body_link/right_base_link/R5>
-            prepend rel isaac:physics:robotLinks = </ARX_LIFT2S/lift_link/AC_One_Base/base_link/body_link/right_base_link/R5>
 
             over "base_link"
             {
@@ -48,24 +46,32 @@ def "ARX_LIFT2S"
                 {
                     over "right_base_link"
                     {
-                        def "R5" (
+                        def "Arm_Right" (
                             prepend payload = @../../../../../manipulators/ARX 6.0/R5/R5.usda@
                             variants = {
+                                string ROS = "None"
                                 string Side = "right"
                             }
                         )
                         {
+                            # Galaxea_R1_Lite pattern: merge arm DOFs into chassis articulation
+                            # so /cmd_vel + /isaac/joint_command ArticulationControllers work.
+                            prepend rel isaac:physics:robotJoints = </ARX_LIFT2S/lift_link/AC_One_Base/base_link/body_link/right_base_link/Arm_Right>
+                            prepend rel isaac:physics:robotLinks = </ARX_LIFT2S/lift_link/AC_One_Base/base_link/body_link/right_base_link/Arm_Right>
+
                             quatd xformOp:orient = (1, 0, 0, 0)
                             double3 xformOp:scale = (1, 1, 1)
                             double3 xformOp:translate = (0, 0, 0)
                             uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
-                            over "base_link"
+                            over "base_link" (
+                                delete apiSchemas = ["PhysicsArticulationRootAPI", "PhysxArticulationAPI", "NewtonArticulationRootAPI"]
+                            )
                             {
                                 def PhysicsFixedJoint "AssemblerFixedJoint"
                                 {
                                     rel physics:body0 = </ARX_LIFT2S/lift_link/AC_One_Base/base_link>
-                                    rel physics:body1 = </ARX_LIFT2S/lift_link/AC_One_Base/base_link/body_link/right_base_link/R5/base_link>
+                                    rel physics:body1 = </ARX_LIFT2S/lift_link/AC_One_Base/base_link/body_link/right_base_link/Arm_Right/base_link>
                                     point3f physics:localPos0 = (-0.01602, -0.25, -0.035)
                                     point3f physics:localPos1 = (1.9073493e-11, 0, -1.4901161e-10)
                                     quatf physics:localRot0 = (1, 0, 0, 0)
@@ -138,8 +144,18 @@ def "ARX_LIFT2S"
 
                             over "root_joint" (
                                 active = false
+                                delete apiSchemas = ["PhysicsArticulationRootAPI", "PhysxArticulationAPI", "NewtonArticulationRootAPI"]
                             )
                             {
+                            }
+
+                            over "Graph"
+                            {
+                                over "ROS_JointStates" (
+                                    active = false
+                                )
+                                {
+                                }
                             }
                         }
                     }
@@ -465,7 +481,8 @@ def "ARX_LIFT2S"
     {
         over "lift_joint"
         {
-            float state:linear:physics:position = 0
+            float drive:linear:physics:targetPosition = 0.02
+            float state:linear:physics:position = 0.02
             float state:linear:physics:velocity = 0
         }
 

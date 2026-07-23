@@ -47,15 +47,36 @@ def "ARX_LIFT2S"
         int physxArticulation:solverVelocityIterationCount = 1
     }
 
+    over "lift_link"
+    {
+        over "AC_One_Base"
+        {
+            over "root_joint" (
+                active = false
+                delete apiSchemas = ["PhysicsArticulationRootAPI", "PhysxArticulationAPI", "NewtonArticulationRootAPI"]
+            )
+            {
+            }
+
+            over "base_link" (
+                delete apiSchemas = ["PhysicsArticulationRootAPI", "NewtonArticulationRootAPI"]
+            )
+            {
+            }
+        }
+    }
+
     over "joints"
     {
         over "lift_joint" (
             prepend apiSchemas = ["PhysxJointAPI"]
         )
         {
+            # Match PhysX-backup hold so AC_One_Base does not sag under gravity.
             float drive:linear:physics:damping = 20000
-            float drive:linear:physics:maxForce = 1000
+            float drive:linear:physics:maxForce = 3000
             float drive:linear:physics:stiffness = 60000
+            float drive:linear:physics:targetPosition = 0.02
             uniform token drive:linear:physics:type = "force"
             bool[] isaac:actuator (
                 displayName = "Actuator"
@@ -74,7 +95,12 @@ def "ARX_LIFT2S"
         )
         {
             float drive:angular:physics:damping = 1000000
-            float drive:angular:physics:maxForce = 3.4028233e30
+            float drive:angular:physics:maxForce = 3.4028235e38
+            float drive:angular:physics:stiffness = 0
+            float drive:angular:physics:targetVelocity = 0
+            uniform token drive:angular:physics:type = "force"
+            custom double isaacmecanumwheel:angle = 90
+            custom double isaacmecanumwheel:radius = 0.075
             bool[] isaac:actuator (
                 displayName = "Actuator"
             )
@@ -93,7 +119,12 @@ def "ARX_LIFT2S"
         )
         {
             float drive:angular:physics:damping = 1000000
-            float drive:angular:physics:maxForce = 3.4028233e30
+            float drive:angular:physics:maxForce = 3.4028235e38
+            float drive:angular:physics:stiffness = 0
+            float drive:angular:physics:targetVelocity = 0
+            uniform token drive:angular:physics:type = "force"
+            custom double isaacmecanumwheel:angle = 90
+            custom double isaacmecanumwheel:radius = 0.075
             bool[] isaac:actuator (
                 displayName = "Actuator"
             )
@@ -111,7 +142,12 @@ def "ARX_LIFT2S"
         )
         {
             float drive:angular:physics:damping = 1000000
-            float drive:angular:physics:maxForce = 3.4028233e30
+            float drive:angular:physics:maxForce = 3.4028235e38
+            float drive:angular:physics:stiffness = 0
+            float drive:angular:physics:targetVelocity = 0
+            uniform token drive:angular:physics:type = "force"
+            custom double isaacmecanumwheel:angle = 90
+            custom double isaacmecanumwheel:radius = 0.075
             bool[] isaac:actuator (
                 displayName = "Actuator"
             )
