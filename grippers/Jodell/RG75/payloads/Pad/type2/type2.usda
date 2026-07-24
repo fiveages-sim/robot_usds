@@ -1,0 +1,114 @@
+#usda 1.0
+(
+    defaultPrim = "RG75"
+    doc = """Pad=type2 — Track B from Jodell_RG75 RG75_FiveAges / pad_fiveages.
+
+  pad.usdc       = canonical FiveAges tip (left finger)
+  pad_right.usdc = Y-mirrored tip (right finger; replaces old mount Sy=-1)
+
+Mount under left_finger_pad / right_finger_pad (TF already in base),
+container scale (1,1,1). Mesh collision: convexHull.
+finger_support: inherited. type1-like (both tips on fingers).
+"""
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def "RG75"
+{
+    over "Looks"
+    {
+        def Material "PadMaterials" (
+            prepend apiSchemas = ["PhysicsMaterialAPI"]
+        )
+        {
+            float physics:dynamicFriction = 1
+            float physics:staticFriction = 1
+        }
+    }
+
+    over "left_finger"
+    {
+        rel physics:simulationOwner
+
+        over "visuals"
+        {
+            over "finger_support"
+            {
+                token visibility = "inherited"
+            }
+        }
+
+        over "left_finger_pad"
+        {
+            def "pad" (
+                prepend payload = @./pad.usdc@
+            )
+            {
+                token visibility = "inherited"
+                double3 xformOp:translate = (0, 0, 0)
+                double3 xformOp:rotateZYX = (0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateZYX", "xformOp:scale"]
+
+                over "Link03"
+                {
+                    over "Link03" (
+                        prepend apiSchemas = ["PhysicsCollisionAPI", "PhysicsMeshCollisionAPI"]
+                    )
+                    {
+                        rel physics:simulationOwner
+                        prepend rel material:binding:physics = </RG75/Looks/PadMaterials>
+                        bool physics:collisionEnabled = 1
+                        uniform token physics:approximation = "convexHull"
+                    }
+                }
+            }
+        }
+    }
+
+    over "right_finger"
+    {
+        rel physics:simulationOwner
+
+        over "visuals"
+        {
+            over "finger_support"
+            {
+                token visibility = "inherited"
+            }
+        }
+
+        over "right_finger_pad"
+        {
+            def "pad" (
+                prepend payload = @./pad_right.usdc@
+            )
+            {
+                token visibility = "inherited"
+                double3 xformOp:translate = (0, 0, 0)
+                double3 xformOp:rotateZYX = (0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateZYX", "xformOp:scale"]
+
+                over "Link03"
+                {
+                    over "Link03" (
+                        prepend apiSchemas = ["PhysicsCollisionAPI", "PhysicsMeshCollisionAPI"]
+                    )
+                    {
+                        rel physics:simulationOwner
+                        prepend rel material:binding:physics = </RG75/Looks/PadMaterials>
+                        bool physics:collisionEnabled = 1
+                        uniform token physics:approximation = "convexHull"
+                    }
+                }
+            }
+        }
+    }
+
+    over "gripper_base"
+    {
+        rel physics:simulationOwner
+    }
+}
