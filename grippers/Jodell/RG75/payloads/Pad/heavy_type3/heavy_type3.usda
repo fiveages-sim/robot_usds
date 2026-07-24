@@ -274,6 +274,11 @@ def "RG75"
                         over "collision"
                         {
                             token visibility = "invisible"
+                            double3 xformOp:translate = (0, 0, 0)
+                            # rotateZYX (0, 0, 0) — identity; clears Rx=-90 orient from scene/source
+                            quatd xformOp:orient = (1, 0, 0, 0)
+                            double3 xformOp:scale = (1, 1, 1)
+                            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
                             over "Cube"
                             {

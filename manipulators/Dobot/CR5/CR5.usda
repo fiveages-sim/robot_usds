@@ -45,8 +45,8 @@ def Xform "CR5" (
         string Robot = "none"
         string Sensor = "none"
     }
-    prepend variantSets = ["EE", "ROS"]
-    append variantSets = ["Physics", "Robot", "Sensor"]
+    prepend variantSets = ["Physics", "EE", "ROS"]
+    append variantSets = ["Robot", "Sensor"]
 )
 {
     over "joints"
@@ -232,6 +232,11 @@ def Xform "CR5" (
         float physxArticulation:stabilizationThreshold = 0.00001
     }
     variantSet "Physics" = {
+        "mujoco" (
+            prepend payload = @./payloads/Physics/mujoco.usda@
+        ) {
+
+        }
         "none" (
             prepend payload = @./payloads/Physics/none.usda@
         ) {

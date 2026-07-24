@@ -7,8 +7,8 @@
                 double radius = 5
             }
             dictionary Perspective = {
-                double3 position = (0.3487354615421165, 0.34445471643311015, 0.9259814128522911)
-                double3 target = (-18.06396188874092, -8.10572291817618, -4.233822310047666)
+                double3 position = (1.5876128495629869, 0.6964506974637203, 1.9075047529601818)
+                double3 target = (-17.337320290162044, -7.557181893195787, -6.707139402748077)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -32,7 +32,7 @@
             int version = 1
         }
         dictionary omni_layer = {
-            string authoring_layer = "./grasp_apple_drawer.usda"
+            string authoring_layer = "./drawer_apples.usda"
             dictionary locked = {
             }
             dictionary muteness = {
@@ -51,143 +51,6 @@
 
 def Xform "World"
 {
-    def "grasp_apple_drawer" (
-        delete payload = @../../../../../environment/fiveages_env/tasks/table_optical/grasp_apple_drawer.usd@
-        prepend payload = @../../../../../environment/fiveages_env/tasks/table_optical/drawer_apples.usda@
-    )
-    {
-        over "StorageFurniture135"
-        {
-            over "StorageFurniture135"
-            {
-            }
-
-            over "StorageFurniture135_Drawer001"
-            {
-            }
-
-            over "StorageFurniture135_Handle001"
-            {
-            }
-
-            over "StorageFurniture135_Drawer002"
-            {
-            }
-
-            over "StorageFurniture135_Handle002"
-            {
-            }
-
-            over "StorageFurniture135_Drawer003"
-            {
-            }
-
-            over "StorageFurniture135_Handle003"
-            {
-            }
-        }
-
-        over "apple" (
-            active = false
-        )
-        {
-            over "apple"
-            {
-                over "apple"
-                {
-                }
-            }
-        }
-
-        over "empty"
-        {
-            over "global_camera" (
-                prepend apiSchemas = ["OmniRtxCameraAutoExposureAPI_1", "OmniRtxCameraExposureAPI_1"]
-            )
-            {
-            }
-
-            over "Graph"
-            {
-                over "ROS_Camera"
-                {
-                    over "RenderProduct"
-                    {
-                        custom rel inputs:renderProductPrim (
-                            customData = {
-                                dictionary omni = {
-                                    dictionary graph = {
-                                        string relType = "target"
-                                    }
-                                }
-                            }
-                        )
-                    }
-
-                    over "RGBPublish"
-                    {
-                        custom string inputs:srtxCompressionType
-                    }
-
-                    over "DepthPublish"
-                    {
-                        custom string inputs:srtxCompressionType
-                    }
-                }
-            }
-        }
-
-        over "apple_01"
-        {
-            over "Geometry"
-            {
-                over "model_normalized_0_vis_obj"
-                {
-                    over "model_normalized_0_vis_mesh" (
-                        instanceable = false
-                    )
-                    {
-                        over "model_normalized_0_vis_mesh" (
-                            prepend apiSchemas = ["PhysxTriangleMeshSimplificationCollisionAPI", "PhysxSphereFillCollisionAPI", "PhysxSDFMeshCollisionAPI", "MaterialBindingAPI", "PhysxConvexHullCollisionAPI"]
-                        )
-                        {
-                            custom rel material:binding:physics = </World/CR5/AG2F90/left_up_link/left_Pad_link/pad_link/Looks/PhysicsMaterial> (
-                                bindMaterialAs = "weakerThanDescendants"
-                            )
-                            uniform token physics:approximation = "meshSimplification"
-                            uniform int physxSDFMeshCollision:sdfResolution = 256
-                            float physxTriangleMeshSimplificationCollision:metric = 0.099999994
-                        }
-                    }
-                }
-            }
-        }
-
-        over "apple_02" (
-            active = false
-        )
-        {
-            over "Geometry"
-            {
-                over "model_normalized_0_vis_obj"
-                {
-                }
-            }
-        }
-
-        over "apple_03" (
-            active = false
-        )
-        {
-            over "Geometry"
-            {
-                over "model_normalized_0_vis_obj"
-                {
-                }
-            }
-        }
-    }
-
     def "CR5" (
         prepend payload = @../CR5.usda@
     )
@@ -213,30 +76,11 @@ def Xform "World"
             }
         }
     }
-}
 
-def Xform "Environment"
-{
-    quatd xformOp:orient = (1, 0, 0, 0)
-    double3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (0, 0, 0)
-    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
-
-    def DistantLight "defaultLight" (
-        prepend apiSchemas = ["ShapingAPI"]
+    def "scene" (
+        prepend payload = @../../../../../environment/fiveages_env/tasks/table_optical/drawer_apples.usda@
     )
     {
-        float inputs:angle = 1
-        float inputs:intensity = 3000
-        float inputs:shaping:cone:angle = 180
-        float inputs:shaping:cone:softness
-        float inputs:shaping:focus
-        color3f inputs:shaping:focusTint
-        asset inputs:shaping:ies:file
-        quatd xformOp:orient = (0.6532814824381883, 0.2705980500730985, 0.27059805007309845, 0.6532814824381882)
-        double3 xformOp:scale = (1, 1, 1)
-        double3 xformOp:translate = (0, 0, 0)
-        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
     }
 }
 
@@ -292,7 +136,7 @@ def "Render" (
                 uint omni:rtx:viewTile:limit = 4294967295
                 rel orderedVars = </Render/Vars/LdrColor>
                 custom bool overrideClipRange = 0
-                uniform int2 resolution = (1920, 1080)
+                uniform int2 resolution = (992, 569)
             }
 
             def RenderProduct "Replicator" (
@@ -1172,10 +1016,10 @@ over "OmniverseKit_Persp" (
     float exposure:time = 0.02
     float focalLength = 18.147562
     float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (-4.978566601107165e-17, 1.5931413123542927e-15, -20.905896302919498)
-    float3 xformOp:rotateXYZ = (75.71112, 2.2263883e-13, 114.65191)
+    custom uniform vector3d omni:kit:centerOfInterest = (-5.327607325486283e-17, 1.7048343441556105e-15, -22.371581062011195)
+    float3 xformOp:rotateXYZ = (67.35186, 2.3536105e-13, 113.56321)
     float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (0.3487354615421165, 0.34445471643311015, 0.9259814128522911)
+    double3 xformOp:translate = (1.5876128495629869, 0.6964506974637203, 1.9075047529601818)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 
@@ -1259,7 +1103,7 @@ over "OmniverseKit_Top" (
 
 def PhysicsScene "PhysicsScene" (
     delete apiSchemas = ["PhysxSceneAPI", "MjcSceneAPI", "NewtonXpbdSceneAPI"]
-    prepend apiSchemas = ["NewtonSceneAPI", "MaterialBindingAPI", "MjcSceneAPI"]
+    prepend apiSchemas = ["NewtonSceneAPI", "MaterialBindingAPI", "MjcSceneAPI", "PhysxSceneAPI"]
 )
 {
     rel material:binding:physics = </World/CR5/AG2F90/left_up_link/left_Pad_link/pad_link/Looks/PhysicsMaterial> (
@@ -1274,9 +1118,9 @@ def PhysicsScene "PhysicsScene" (
     uniform double mjc:option:viscosity = 0
     uniform int newton:maxSolverIterations = 100
     uniform int newton:timeStepsPerSecond = 500
-    uniform token physxScene:broadphaseType = "GPU"
+    uniform token physxScene:broadphaseType = "SAP"
     bool physxScene:enableCCD = 0
-    bool physxScene:enableGPUDynamics = 1
+    bool physxScene:enableGPUDynamics = 0
     uniform uint physxScene:maxPositionIterationCount = 255
     uniform uint physxScene:minPositionIterationCount = 1
     uniform uint physxScene:minVelocityIterationCount = 0

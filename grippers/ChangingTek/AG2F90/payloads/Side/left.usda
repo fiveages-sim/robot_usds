@@ -19,9 +19,9 @@ over "gripper_joint" (
             prepend apiSchemas = ["MjcJointAPI", "PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular", "PhysxJointAPI"]
         )
         {
-            float drive:angular:physics:damping = 0.2
-            float drive:angular:physics:maxForce = 5
-            float drive:angular:physics:stiffness = 1
+            float drive:angular:physics:damping = 1
+            float drive:angular:physics:maxForce = 10
+            float drive:angular:physics:stiffness = 10
             float drive:angular:physics:targetPosition = 0
             uniform token drive:angular:physics:type = "force"
             uniform double mjc:armature = 0.001
@@ -41,7 +41,8 @@ over "gripper_joint" (
             quatf physics:localRot1 = (1, 0, 0, 0)
             float physics:lowerLimit = 0
             float physics:upperLimit = 57.295776
-            float physxJoint:maxJointVelocity = 180
+            # 100 mm/s rated over 90 mm stroke -> 63.662 deg/s
+            float physxJoint:maxJointVelocity = 63.662
             float state:angular:physics:position = 0
             float state:angular:physics:velocity = 0
         }

@@ -40,11 +40,13 @@ def "AG2F90"
 {
     over "joints"
     {
+        # Official max gripping speed 100|250 mm/s**; joint 0..57.295776 deg ~= 0..90 mm stroke
+        # -> maxJointVelocity = 100/90 * 57.295776 ≈ 63.662 deg/s (rated / lower mode)
         over "gripper_joint" (
             prepend apiSchemas = ["PhysxJointAPI"]
         )
         {
-            float physxJoint:maxJointVelocity = 180
+            float physxJoint:maxJointVelocity = 63.662
         }
 
         over "left_in_Joint" (
