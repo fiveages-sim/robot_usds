@@ -1,0 +1,338 @@
+#usda 1.0
+(
+    defaultPrim = "RG75"
+    doc = """Pad=load_type3 — Track C + nested arm (LinkReal Loading & Unloading).
+
+Sources (tip files author-edited; do not strip tip-root scales):
+  pad_left.usdc  — left finger tip + /root/collision/Cube*
+  pad_right.usdc — right finger tip + /root/collision/Cube* (author root Sx=-1 kept)
+
+Mount (gripper frame; Side sticky via pad_left/pad_right arm=):
+  left_finger/pad_left:
+    rotateZYX=(180,0,90) translate≈(0,-0.0095,0) scale=(1,1,1)
+  right_finger/pad_right:
+    rotateZYX=(0,180,90) translate≈(0,+0.0095,0) scale=(1,-1,1)
+    (mount Sy=-1 author-validated; tip-root Sx=-1 untouched)
+
+arm=left and arm=right share the same finger mounts (gripper-local tips).
+Side=left/right selects arm sticky + renames joints (left_*/right_*).
+
+Visual mesh: no collision. Cubes only (boundingCube). No Sensor.
+"""
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def "RG75"
+{
+    over "Looks"
+    {
+        def Material "PadMaterials" (
+            prepend apiSchemas = ["PhysicsMaterialAPI"]
+        )
+        {
+            float physics:dynamicFriction = 1
+            float physics:staticFriction = 1
+        }
+    }
+
+    over "left_finger"
+    {
+        over "visuals"
+        {
+            over "finger_support"
+            {
+                token visibility = "inherited"
+            }
+        }
+
+        over "left_finger_pad"
+        {
+            def "pad_left" (
+                prepend variantSets = ["arm"]
+                variants = {
+                    string arm = "left"
+                }
+            )
+            {
+                variantSet "arm" = {
+                    "left" (
+                        prepend payload = @./pad_left.usdc@
+                    )
+                    {
+                        token visibility = "inherited"
+                        double3 xformOp:translate = (0, -0.009497005767228853, 0)
+                        double3 xformOp:rotateZYX = (180, 0, 90)
+                        double3 xformOp:scale = (1, 1, 1)
+                        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateZYX", "xformOp:scale"]
+
+                        over "Copy_of_领世夹爪改_wrab0000000"
+                        {
+                            over "Copy_of_领世夹爪改_wrab0000000_1_领世夹爪组件V2_1_2"
+                            {
+                                over "Mesh_961_001" (
+                                    delete apiSchemas = [
+                                        "PhysicsCollisionAPI",
+                                        "PhysxCollisionAPI",
+                                        "PhysicsMeshCollisionAPI",
+                                        "PhysxConvexDecompositionCollisionAPI",
+                                        "PhysxConvexHullCollisionAPI"
+                                    ]
+                                )
+                                {
+                                    bool physics:collisionEnabled = 0
+                                }
+                            }
+
+                            over "Copy_of_领世夹爪改_wrab0000000_1_镜向领世夹爪V2_1_3"
+                            {
+                                over "Mesh_965_001" (
+                                    delete apiSchemas = [
+                                        "PhysicsCollisionAPI",
+                                        "PhysxCollisionAPI",
+                                        "PhysicsMeshCollisionAPI",
+                                        "PhysxConvexDecompositionCollisionAPI",
+                                        "PhysxConvexHullCollisionAPI"
+                                    ]
+                                )
+                                {
+                                    bool physics:collisionEnabled = 0
+                                }
+                            }
+                        }
+
+                        over "collision"
+                        {
+                            token visibility = "invisible"
+
+                            over "Cube"
+                            {
+                                prepend rel material:binding:physics = </RG75/Looks/PadMaterials>
+                                bool physics:collisionEnabled = 1
+                            }
+
+                            over "Cube_01"
+                            {
+                                prepend rel material:binding:physics = </RG75/Looks/PadMaterials>
+                                bool physics:collisionEnabled = 1
+                            }
+                        }
+                    }
+
+                    "right" (
+                        prepend payload = @./pad_left.usdc@
+                    )
+                    {
+                        token visibility = "inherited"
+                        double3 xformOp:translate = (0, -0.009497005767228853, 0)
+                        double3 xformOp:rotateZYX = (180, 0, 90)
+                        double3 xformOp:scale = (1, 1, 1)
+                        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateZYX", "xformOp:scale"]
+
+                        over "Copy_of_领世夹爪改_wrab0000000"
+                        {
+                            over "Copy_of_领世夹爪改_wrab0000000_1_领世夹爪组件V2_1_2"
+                            {
+                                over "Mesh_961_001" (
+                                    delete apiSchemas = [
+                                        "PhysicsCollisionAPI",
+                                        "PhysxCollisionAPI",
+                                        "PhysicsMeshCollisionAPI",
+                                        "PhysxConvexDecompositionCollisionAPI",
+                                        "PhysxConvexHullCollisionAPI"
+                                    ]
+                                )
+                                {
+                                    bool physics:collisionEnabled = 0
+                                }
+                            }
+
+                            over "Copy_of_领世夹爪改_wrab0000000_1_镜向领世夹爪V2_1_3"
+                            {
+                                over "Mesh_965_001" (
+                                    delete apiSchemas = [
+                                        "PhysicsCollisionAPI",
+                                        "PhysxCollisionAPI",
+                                        "PhysicsMeshCollisionAPI",
+                                        "PhysxConvexDecompositionCollisionAPI",
+                                        "PhysxConvexHullCollisionAPI"
+                                    ]
+                                )
+                                {
+                                    bool physics:collisionEnabled = 0
+                                }
+                            }
+                        }
+
+                        over "collision"
+                        {
+                            token visibility = "invisible"
+
+                            over "Cube"
+                            {
+                                prepend rel material:binding:physics = </RG75/Looks/PadMaterials>
+                                bool physics:collisionEnabled = 1
+                            }
+
+                            over "Cube_01"
+                            {
+                                prepend rel material:binding:physics = </RG75/Looks/PadMaterials>
+                                bool physics:collisionEnabled = 1
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    over "right_finger"
+    {
+        over "visuals"
+        {
+            over "finger_support"
+            {
+                token visibility = "inherited"
+            }
+        }
+
+        over "right_finger_pad"
+        {
+            def "pad_right" (
+                prepend variantSets = ["arm"]
+                variants = {
+                    string arm = "left"
+                }
+            )
+            {
+                variantSet "arm" = {
+                    "left" (
+                        prepend payload = @./pad_right.usdc@
+                    )
+                    {
+                        token visibility = "inherited"
+                        double3 xformOp:translate = (0, 0.0095, 0)
+                        double3 xformOp:rotateZYX = (0, 180, 90)
+                        double3 xformOp:scale = (1, -1, 1)
+                        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateZYX", "xformOp:scale"]
+
+                        over "Copy_of_领世夹爪改_wrab0000000"
+                        {
+                            over "Copy_of_领世夹爪改_wrab0000000_1_领世夹爪组件V2_1_2"
+                            {
+                                over "Mesh_961_001" (
+                                    delete apiSchemas = [
+                                        "PhysicsCollisionAPI",
+                                        "PhysxCollisionAPI",
+                                        "PhysicsMeshCollisionAPI",
+                                        "PhysxConvexDecompositionCollisionAPI",
+                                        "PhysxConvexHullCollisionAPI"
+                                    ]
+                                )
+                                {
+                                    bool physics:collisionEnabled = 0
+                                }
+                            }
+
+                            over "Copy_of_领世夹爪改_wrab0000000_1_镜向领世夹爪V2_1_3"
+                            {
+                                over "Mesh_965_001" (
+                                    delete apiSchemas = [
+                                        "PhysicsCollisionAPI",
+                                        "PhysxCollisionAPI",
+                                        "PhysicsMeshCollisionAPI",
+                                        "PhysxConvexDecompositionCollisionAPI",
+                                        "PhysxConvexHullCollisionAPI"
+                                    ]
+                                )
+                                {
+                                    bool physics:collisionEnabled = 0
+                                }
+                            }
+                        }
+
+                        over "collision"
+                        {
+                            token visibility = "invisible"
+
+                            over "Cube"
+                            {
+                                prepend rel material:binding:physics = </RG75/Looks/PadMaterials>
+                                bool physics:collisionEnabled = 1
+                            }
+
+                            over "Cube_01"
+                            {
+                                prepend rel material:binding:physics = </RG75/Looks/PadMaterials>
+                                bool physics:collisionEnabled = 1
+                            }
+                        }
+                    }
+
+                    "right" (
+                        prepend payload = @./pad_right.usdc@
+                    )
+                    {
+                        token visibility = "inherited"
+                        double3 xformOp:translate = (0, 0.0095, 0)
+                        double3 xformOp:rotateZYX = (0, 180, 90)
+                        double3 xformOp:scale = (1, -1, 1)
+                        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateZYX", "xformOp:scale"]
+
+                        over "Copy_of_领世夹爪改_wrab0000000"
+                        {
+                            over "Copy_of_领世夹爪改_wrab0000000_1_领世夹爪组件V2_1_2"
+                            {
+                                over "Mesh_961_001" (
+                                    delete apiSchemas = [
+                                        "PhysicsCollisionAPI",
+                                        "PhysxCollisionAPI",
+                                        "PhysicsMeshCollisionAPI",
+                                        "PhysxConvexDecompositionCollisionAPI",
+                                        "PhysxConvexHullCollisionAPI"
+                                    ]
+                                )
+                                {
+                                    bool physics:collisionEnabled = 0
+                                }
+                            }
+
+                            over "Copy_of_领世夹爪改_wrab0000000_1_镜向领世夹爪V2_1_3"
+                            {
+                                over "Mesh_965_001" (
+                                    delete apiSchemas = [
+                                        "PhysicsCollisionAPI",
+                                        "PhysxCollisionAPI",
+                                        "PhysicsMeshCollisionAPI",
+                                        "PhysxConvexDecompositionCollisionAPI",
+                                        "PhysxConvexHullCollisionAPI"
+                                    ]
+                                )
+                                {
+                                    bool physics:collisionEnabled = 0
+                                }
+                            }
+                        }
+
+                        over "collision"
+                        {
+                            token visibility = "invisible"
+
+                            over "Cube"
+                            {
+                                prepend rel material:binding:physics = </RG75/Looks/PadMaterials>
+                                bool physics:collisionEnabled = 1
+                            }
+
+                            over "Cube_01"
+                            {
+                                prepend rel material:binding:physics = </RG75/Looks/PadMaterials>
+                                bool physics:collisionEnabled = 1
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

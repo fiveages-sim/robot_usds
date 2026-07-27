@@ -1,0 +1,70 @@
+#usda 1.0
+(
+    defaultPrim = "Gripper2"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def "Gripper2"
+{
+    over "joints"
+    {
+        over "gripper_joint" (
+            active = false
+        )
+        {
+        }
+
+        def PhysicsPrismaticJoint "right_gripper_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:linear", "PhysicsDriveAPI:linear", "PhysxJointAPI", "PhysxDrivePerformanceEnvelopeAPI:linear"]
+        )
+        {
+            float drive:linear:physics:damping = 6000
+            float drive:linear:physics:maxForce = 100
+            float drive:linear:physics:stiffness = 60000
+            float drive:linear:physics:targetPosition = 0
+            uniform token drive:linear:physics:type = "force"
+            uniform token physics:axis = "Y"
+            prepend rel physics:body0 = </Gripper2/gripper_base>
+            prepend rel physics:body1 = </Gripper2/dummy_finger>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            point3f physics:localPos0 = (0.01, 0, 0)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = 0
+            float physics:upperLimit = 0.038372
+            float physxDrivePerformanceEnvelope:linear:maxActuatorVelocity = 1
+            float physxJoint:maxJointVelocity = 1
+        }
+
+        over "right_finger_joint" (
+            active = false
+        )
+        {
+        }
+
+        def PhysicsPrismaticJoint "right_right_finger_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:linear", "PhysxJointAPI", "PhysxMimicJointAPI:rotY"]
+        )
+        {
+            uniform token physics:axis = "Y"
+            prepend rel physics:body0 = </Gripper2/gripper_base>
+            prepend rel physics:body1 = </Gripper2/dummy_finger2>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            point3f physics:localPos0 = (-0.01, 0, 0)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0, 1, 0, 0)
+            quatf physics:localRot1 = (0, 1, 0, 0)
+            float physics:lowerLimit = -0.0076743998
+            float physics:upperLimit = 0.0460464
+            float physxMimicJoint:rotY:dampingRatio = 0
+            float physxMimicJoint:rotY:gearing = -1
+            float physxMimicJoint:rotY:naturalFrequency = 0
+            float physxMimicJoint:rotY:offset = 0
+            rel physxMimicJoint:rotY:referenceJoint = </Gripper2/joints/right_gripper_joint>
+        }
+    }
+}
