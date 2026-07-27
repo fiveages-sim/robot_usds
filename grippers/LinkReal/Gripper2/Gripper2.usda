@@ -1,0 +1,71 @@
+#usda 1.0
+(
+    defaultPrim = "Gripper2"
+    doc = """LinkReal Gripper2 — jointless hook EE (领世夹爪二).
+
+Geometry: payloads/hook.usdc (from fa-project-usd LinkReal object/gripper2.usdc).
+No finger joints. Visual mesh collision OFF; Cube/Cylinder colliders only.
+Mount on Marvin_M6_CCS EE=Gripper2 under link7/tcp (see payloads/EE/).
+"""
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "Gripper2" (
+    variants = {
+        string Physics = "physx"
+    }
+    prepend variantSets = ["Physics"]
+)
+{
+    quatd xformOp:orient = (1, 0, 0, 0)
+    double3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (0, 0, 0)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+    variantSet "Physics" = {
+        "none" (
+            prepend payload = @./payloads/Physics/none.usda@
+        ) {
+        }
+        "physics" (
+            prepend payload = @./payloads/Physics/physics.usda@
+        ) {
+        }
+        "physx" (
+            prepend payload = @./payloads/Physics/physx.usda@
+        ) {
+        }
+    }
+
+    def Xform "gripper_base" (
+        prepend payload = @./payloads/hook.usdc@
+    )
+    {
+        quatd xformOp:orient = (1, 0, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "领世夹爪二_2"
+        {
+            over "Mesh_953_002" (
+                delete apiSchemas = [
+                    "PhysicsCollisionAPI",
+                    "PhysxCollisionAPI",
+                    "PhysicsMeshCollisionAPI",
+                    "PhysxConvexDecompositionCollisionAPI",
+                    "PhysxConvexHullCollisionAPI"
+                ]
+            )
+            {
+                bool physics:collisionEnabled = 0
+            }
+        }
+
+        over "collision"
+        {
+            token visibility = "invisible"
+        }
+    }
+}

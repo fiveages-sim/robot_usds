@@ -1,0 +1,29 @@
+#usda 1.0
+(
+    defaultPrim = "Gripper2"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+over "Gripper2"
+{
+    over "gripper_base" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        float physics:mass = 0.5
+        point3f physics:centerOfMass = (0, 0, -0.06)
+        float3 physics:diagonalInertia = (0.001, 0.001, 0.0005)
+    }
+
+    def PhysicsFixedJoint "root_joint" (
+        prepend apiSchemas = ["PhysicsArticulationRootAPI"]
+    )
+    {
+        prepend rel physics:body1 = </Gripper2/gripper_base>
+        point3f physics:localPos0 = (0, 0, 0)
+        point3f physics:localPos1 = (0, 0, 0)
+        quatf physics:localRot0 = (1, 0, 0, 0)
+        quatf physics:localRot1 = (1, 0, 0, 0)
+    }
+}
