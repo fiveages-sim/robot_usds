@@ -1,11 +1,14 @@
 #usda 1.0
 (
     defaultPrim = "Gripper2"
-    doc = """LinkReal Gripper2 — jointless hook EE (领世夹爪二).
+    doc = """LinkReal Gripper2 — hook EE (领世夹爪二) with virtual ROS DOFs.
 
-Geometry: payloads/hook.usdc (from fa-project-usd LinkReal object/gripper2.usdc).
-No finger joints. Visual mesh collision OFF; Cube/Cylinder colliders only.
-Mount on Marvin_M6_CCS EE=Gripper2 under link7/tcp (see payloads/EE/).
+Geometry: payloads/hook.usdc. No real finger mechanism.
+Virtual dummy_finger(+2) + prismatic joints exist only so W2 ROS
+ArticulationController accepts left_/right_gripper_joint names
+(same convention as RG75 Side). Hook mesh stays on gripper_base.
+
+Mount: Marvin_M6_CCS EE=Gripper2 under link7/tcp.
 """
     metersPerUnit = 1
     upAxis = "Z"
@@ -14,8 +17,9 @@ Mount on Marvin_M6_CCS EE=Gripper2 under link7/tcp (see payloads/EE/).
 def Xform "Gripper2" (
     variants = {
         string Physics = "physx"
+        string side = "default"
     }
-    prepend variantSets = ["Physics"]
+    prepend variantSets = ["Physics", "side"]
 )
 {
     quatd xformOp:orient = (1, 0, 0, 0)
@@ -34,6 +38,19 @@ def Xform "Gripper2" (
         }
         "physx" (
             prepend payload = @./payloads/Physics/physx.usda@
+        ) {
+        }
+    }
+
+    variantSet "side" = {
+        "default" {
+        }
+        "left" (
+            prepend payload = @./payloads/Side/left.usda@
+        ) {
+        }
+        "right" (
+            prepend payload = @./payloads/Side/right.usda@
         ) {
         }
     }
@@ -67,5 +84,28 @@ def Xform "Gripper2" (
         {
             token visibility = "invisible"
         }
+    }
+
+    # Invisible ROS placeholder links (no collision). Driven by virtual joints.
+    def Xform "dummy_finger"
+    {
+        token visibility = "invisible"
+        quatd xformOp:orient = (1, 0, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0.01, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+    }
+
+    def Xform "dummy_finger2"
+    {
+        token visibility = "invisible"
+        quatd xformOp:orient = (1, 0, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (-0.01, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+    }
+
+    def Scope "joints"
+    {
     }
 }

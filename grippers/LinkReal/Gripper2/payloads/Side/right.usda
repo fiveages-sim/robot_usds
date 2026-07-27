@@ -5,39 +5,18 @@
     upAxis = "Z"
 )
 
-over "Gripper2"
+def "Gripper2"
 {
-    over "gripper_base" (
-        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
-    )
-    {
-        float physics:mass = 0.5
-        point3f physics:centerOfMass = (0, 0, 0.06)
-        float3 physics:diagonalInertia = (0.001, 0.001, 0.0005)
-    }
-
-    over "dummy_finger" (
-        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
-    )
-    {
-        float physics:mass = 0.01
-        point3f physics:centerOfMass = (0, 0, 0)
-        float3 physics:diagonalInertia = (1e-6, 1e-6, 1e-6)
-    }
-
-    over "dummy_finger2" (
-        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
-    )
-    {
-        float physics:mass = 0.01
-        point3f physics:centerOfMass = (0, 0, 0)
-        float3 physics:diagonalInertia = (1e-6, 1e-6, 1e-6)
-    }
-
     over "joints"
     {
-        def PhysicsPrismaticJoint "gripper_joint" (
-            prepend apiSchemas = ["PhysicsJointStateAPI:linear", "PhysicsDriveAPI:linear"]
+        over "gripper_joint" (
+            active = false
+        )
+        {
+        }
+
+        def PhysicsPrismaticJoint "right_gripper_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:linear", "PhysicsDriveAPI:linear", "PhysxJointAPI", "PhysxDrivePerformanceEnvelopeAPI:linear"]
         )
         {
             float drive:linear:physics:damping = 6000
@@ -56,10 +35,18 @@ over "Gripper2"
             quatf physics:localRot1 = (1, 0, 0, 0)
             float physics:lowerLimit = 0
             float physics:upperLimit = 0.038372
+            float physxDrivePerformanceEnvelope:linear:maxActuatorVelocity = 1
+            float physxJoint:maxJointVelocity = 1
         }
 
-        def PhysicsPrismaticJoint "right_finger_joint" (
-            prepend apiSchemas = ["PhysicsJointStateAPI:linear"]
+        over "right_finger_joint" (
+            active = false
+        )
+        {
+        }
+
+        def PhysicsPrismaticJoint "right_right_finger_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:linear", "PhysxJointAPI", "PhysxMimicJointAPI:rotY"]
         )
         {
             uniform token physics:axis = "Y"
@@ -73,13 +60,11 @@ over "Gripper2"
             quatf physics:localRot1 = (0, 1, 0, 0)
             float physics:lowerLimit = -0.0076743998
             float physics:upperLimit = 0.0460464
+            float physxMimicJoint:rotY:dampingRatio = 0
+            float physxMimicJoint:rotY:gearing = -1
+            float physxMimicJoint:rotY:naturalFrequency = 0
+            float physxMimicJoint:rotY:offset = 0
+            rel physxMimicJoint:rotY:referenceJoint = </Gripper2/joints/right_gripper_joint>
         }
-    }
-
-    def PhysicsFixedJoint "root_joint" (
-        prepend apiSchemas = ["PhysicsArticulationRootAPI"]
-    )
-    {
-        rel physics:body1 = </Gripper2/gripper_base>
     }
 }

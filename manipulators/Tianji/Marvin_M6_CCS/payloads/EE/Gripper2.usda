@@ -1,7 +1,10 @@
 #usda 1.0
 (
     defaultPrim = "Marvin_M6_CCS"
-    doc = """EE=Gripper2 default mount. TF from LinkReal robot.usda right-arm flange/gripper2."""
+    doc = """EE=Gripper2 default mount.
+TF from LinkReal: rotateZYX=(0,0,-180); Sz baked into hook.usdc.
+side=default → joints gripper_joint / right_finger_joint (virtual ROS DOFs).
+"""
 )
 
 def Xform "Marvin_M6_CCS"
@@ -12,12 +15,14 @@ def Xform "Marvin_M6_CCS"
         {
             def "Gripper2" (
                 prepend payload = @../../../../../grippers/LinkReal/Gripper2/Gripper2.usda@
+                variants = {
+                    string side = "default"
+                }
             )
             {
-                # LinkReal Loading & Unloading / RG75_Heavy_Right/flange/gripper2
                 double3 xformOp:translate = (0, 0, 0)
                 double3 xformOp:rotateZYX = (0, 0, -180)
-                double3 xformOp:scale = (1, 1, -1)
+                double3 xformOp:scale = (1, 1, 1)
                 uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateZYX", "xformOp:scale"]
 
                 over "root_joint" (
@@ -36,6 +41,21 @@ def Xform "Marvin_M6_CCS"
                         point3f physics:localPos1 = (0, 0, 0)
                         quatf physics:localRot0 = (1, 0, 0, 0)
                         quatf physics:localRot1 = (1, 0, 0, 0)
+                    }
+                }
+
+                over "joints"
+                {
+                    over "gripper_joint"
+                    {
+                        float state:linear:physics:position = 0
+                        float state:linear:physics:velocity = 0
+                    }
+
+                    over "right_finger_joint"
+                    {
+                        float state:linear:physics:position = 0
+                        float state:linear:physics:velocity = 0
                     }
                 }
             }
