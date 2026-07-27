@@ -7,8 +7,8 @@
                 double radius = 5
             }
             dictionary Perspective = {
-                double3 position = (0.43068037926865715, 0.16620692840814305, 0.31591043302889815)
-                double3 target = (-0.3123135323817758, -0.08907484994222953, -0.06349028467275375)
+                double3 position = (0.10994766345243967, 0.16478719121530544, 0.16999532090720235)
+                double3 target = (-1.0532450879588529, -1.535762491186811, -0.40213181967419587)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -20,186 +20,77 @@
             }
             string boundCamera = "/OmniverseKit_Persp"
         }
+        dictionary metricsAssembler = {
+            dictionary "/RG75/gripper_base/camera_stand/camera_stand" = {
+            }
+            dictionary "/RG75/gripper_base/camera_stand/orbbec_336" = {
+            }
+            dictionary "/RG75/gripper_base/flange/camera_support" = {
+            }
+            dictionary "/RG75/gripper_base/stand/Copy_of_领世夹爪改_wrab0000000_1_305相机组件_1_手支架_1_009/orbbec_305" = {
+            }
+            int version = 1
+        }
         dictionary omni_layer = {
-            string authoring_layer = "./RG75.usda"
+            string authoring_layer = "./payload.usda"
+            dictionary locked = {
+            }
+            dictionary muteness = {
+            }
         }
         dictionary renderSettings = {
         }
     }
     defaultPrim = "RG75"
-    doc = """Generated from Composed Stage of root layer /home/fiveages/Documents/FaSim-Isaac/robots/grippers/Jodell/RG75/RG75.usd
-
-
-Generated from Composed Stage of root layer /home/fiveages/Documents/FaSim-Isaac/robots/grippers/Jodell/RG75/payloads/base.usd
-"""
+    endTimeCode = 0
     metersPerUnit = 1
+    startTimeCode = -1
     upAxis = "Z"
 )
 
-def Xform "RG75" (
-    prepend references = @./payloads/base.usda@
+def "RG75" (
     variants = {
-        string Pad = "none"
-        string Physics = "physx"
-        string Robot = "none"
-        string Sensors = "none"
         string flange = "none"
-        string side = "default"
     }
-    prepend variantSets = ["Physics", "flange", "side", "Pad", "Sensors"]
-    append variantSets = "Robot"
 )
 {
-    variantSet "Physics" = {
-        "mujoco" (
-            prepend payload = @./payloads/Physics/mujoco.usda@
-        ) {
+    over "gripper_base"
+    {
+        string isaac:nameOverride (
+            displayName = "Name Override"
+        )
 
+        over "flange"
+        {
         }
-        "none" (
-            prepend payload = @./payloads/Physics/none.usda@
-        ) {
 
-        }
-        "physics" (
-            prepend payload = @./payloads/Physics/physics.usda@
-        ) {
+        def "stand" (
+            prepend payload = @./stand.usdc@
+        )
+        {
+            double3 xformOp:rotateZYX = (-90, 180, 0)
+            double3 xformOp:scale = (1, 1, 1)
+            double3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateZYX", "xformOp:scale"]
 
-        }
-        "physx" (
-            prepend payload = @./payloads/Physics/physx.usda@
-        ) {
+            over "Copy_of_领世夹爪改_wrab0000000_1_305相机组件_1_手支架_1_009"
+            {
+            }
 
-        }
-    }
-    variantSet "Robot" = {
-        "none" (
-            prepend payload = @./payloads/Robot/none.usda@
-        ) {
+            over "Copy_of_领世夹爪改_wrab0000000_1_305相机组件_1_手支架_1_001"
+            {
+            }
 
-        }
-        "robot" (
-            prepend payload = @./payloads/Robot/robot.usda@
-        ) {
-
-        }
-    }
-    variantSet "flange" = {
-        "default" (
-            prepend payload = @./payloads/Flange/default.usda@
-        ) {
-
-        }
-        "none" {
-
-        }
-    }
-    variantSet "Pad" = {
-        "detector_type1" (
-            delete payload = @./payloads/Pad/type1/type1.usda@
-            prepend payload = @./payloads/Pad/detector_type1/payload.usda@
-        ) {
-
-        }
-        "heavy_carry" (
-            prepend payload = @./payloads/Pad/heavy_carry/heavy.usda@
-        ) {
-
-        }
-        "heavy_type2" (
-            prepend payload = @./payloads/Pad/heavy_type2/heavy_type2.usda@
-        ) {
-
-        }
-        "heavy_type3" (
-            prepend payload = @./payloads/Pad/heavy_type3/heavy_type3.usda@
-        ) {
-
-        }
-        "heavy_type4" (
-            prepend payload = @./payloads/Pad/heavy_type4/heavy_type4.usda@
-        ) {
-
-        }
-        "heavy_type5" (
-            prepend payload = @./payloads/Pad/heavy_type5/heavy_type5.usda@
-        ) {
-
-        }
-        "heavy_type6" (
-            prepend payload = @./payloads/Pad/heavy_type6/heavy_type6.usda@
-        ) {
-
-        }
-        "load_type1" (
-            prepend payload = @./payloads/Pad/load_type1/load_type1.usda@
-        ) {
-
-        }
-        "load_type2" (
-            prepend payload = @./payloads/Pad/load_type2/load_type2.usda@
-        ) {
-
-        }
-        "load_type3" (
-            prepend payload = @./payloads/Pad/load_type3/load_type3.usda@
-        ) {
-
-        }
-        "none" {
-
-        }
-        "type1" (
-            prepend payload = @./payloads/Pad/type1/type1.usda@
-        ) {
-
-        }
-        "type2" (
-            prepend payload = @./payloads/Pad/type2/type2.usda@
-        ) {
-
-        }
-    }
-    variantSet "side" = {
-        "default" {
-
-        }
-        "left" (
-            prepend payload = @./payloads/Side/left.usda@
-        ) {
-
-        }
-        "right" (
-            prepend payload = @./payloads/Side/right.usda@
-        ) {
-
-        }
-    }
-    variantSet "Sensors" = {
-        "none" {
-
-        }
-        "orbbec_305_top" (
-            delete payload = @./payloads/Sensor/scanner_type1/scanner_type1.usda@
-            prepend payload = @./payloads/Sensor/305_top/payload.usda@
-        ) {
-
-        }
-        "orbbec_335_side" (
-            prepend payload = @./payloads/Sensor/335_side/335_side.usda@
-        ) {
-
-        }
-        "orbbec_336_high" (
-            delete payload = @./payloads/Sensor/335_side/335_side.usda@
-            prepend payload = @./payloads/Sensor/336_high/payload.usda@
-        ) {
-
-        }
-        "scanner_type1" (
-            prepend payload = @./payloads/Sensor/scanner_type1/scanner_type1.usda@
-        ) {
-
+            def "orbbec_305" (
+                prepend payload = @../../../../../../sensors/orbbec_305.usd@
+            )
+            {
+                quatf xformOp:orient = (0.5812031, 0.4027443, 0.5812031, -0.4027443)
+                double xformOp:rotateX:unitsResolve = 90
+                float3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (-0.07859900000000061, -0.16032000000000005, 0.009)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale", "xformOp:rotateX:unitsResolve"]
+            }
         }
     }
 }
@@ -298,10 +189,10 @@ over "OmniverseKit_Persp" (
     float exposure:time = 0.02
     float focalLength = 18.147562
     float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -0.8724411978465189)
-    float3 xformOp:rotateXYZ = (64.22282, 3.4986103e-14, 108.96197)
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -2.13827408538839)
+    float3 xformOp:rotateXYZ = (74.48058, -4.4845822e-13, 145.62749)
     float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (0.43068037926865715, 0.16620692840814305, 0.31591043302889815)
+    double3 xformOp:translate = (0.10994766345243967, 0.16478719121530544, 0.16999532090720235)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 
