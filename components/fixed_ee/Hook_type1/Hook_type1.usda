@@ -1,20 +1,18 @@
 #usda 1.0
 (
-    defaultPrim = "Hook"
-    doc = """Hook — hook EE (领世夹爪二) with virtual ROS DOFs.
+    defaultPrim = "Hook_type1"
+    doc = """Hook_type1 — fixed jointless hook EE.
 
-Geometry: payloads/hook.usdc. No real finger mechanism.
-Virtual dummy_finger(+2) + prismatic joints exist only so W2 ROS
-ArticulationController accepts left_/right_gripper_joint names
-(same convention as RG75 Side). Hook mesh stays on gripper_base.
+Geometry: payloads/hook.usdc. Single rigid body on gripper_base.
+No finger DOFs / virtual ROS joints.
 
-Mount: Marvin_M6_CCS EE=Hook under link7/tcp.
+Mount: Marvin_M6_CCS EE=hook_type1 under link7/tcp.
 """
     metersPerUnit = 1
     upAxis = "Z"
 )
 
-def Xform "Hook" (
+def Xform "Hook_type1" (
     variants = {
         string Physics = "physx"
         string side = "default"
@@ -84,28 +82,5 @@ def Xform "Hook" (
         {
             token visibility = "invisible"
         }
-    }
-
-    # Invisible ROS placeholder links (no collision). Driven by virtual joints.
-    def Xform "dummy_finger"
-    {
-        token visibility = "invisible"
-        quatd xformOp:orient = (1, 0, 0, 0)
-        double3 xformOp:scale = (1, 1, 1)
-        double3 xformOp:translate = (0.01, 0, 0)
-        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
-    }
-
-    def Xform "dummy_finger2"
-    {
-        token visibility = "invisible"
-        quatd xformOp:orient = (1, 0, 0, 0)
-        double3 xformOp:scale = (1, 1, 1)
-        double3 xformOp:translate = (-0.01, 0, 0)
-        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
-    }
-
-    def Scope "joints"
-    {
     }
 }
