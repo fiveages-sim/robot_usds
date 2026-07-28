@@ -1,5 +1,31 @@
 #usda 1.0
 (
+    customLayerData = {
+        dictionary cameraSettings = {
+            dictionary Front = {
+                double3 position = (5, 0, 0)
+                double radius = 5
+            }
+            dictionary Perspective = {
+                double3 position = (0.4776280900760953, 0.015251134094929123, 0.8343308647738704)
+                double3 target = (-0.31961057303466467, -0.10337478662692003, -0.03721014467261219)
+            }
+            dictionary Right = {
+                double3 position = (0, -5, 0)
+                double radius = 5
+            }
+            dictionary Top = {
+                double3 position = (0, 0, 5)
+                double radius = 5
+            }
+            string boundCamera = "/OmniverseKit_Persp"
+        }
+        dictionary omni_layer = {
+            string authoring_layer = "./load_type3.usda"
+        }
+        dictionary renderSettings = {
+        }
+    }
     defaultPrim = "RG75"
     doc = """Pad=load_type3 — Track C + nested arm (LinkReal Loading & Unloading).
 
@@ -19,11 +45,17 @@ Side=left/right selects arm sticky + renames joints (left_*/right_*).
 
 Visual mesh: no collision. Cubes only (boundingCube). No Sensor.
 """
+    endTimeCode = 0
     metersPerUnit = 1
+    startTimeCode = -1
     upAxis = "Z"
 )
 
-def "RG75"
+def "RG75" (
+    variants = {
+        string Sensors = "none"
+    }
+)
 {
     over "Looks"
     {
@@ -38,6 +70,10 @@ def "RG75"
 
     over "left_finger"
     {
+        string isaac:nameOverride (
+            displayName = "Name Override"
+        )
+
         over "visuals"
         {
             over "finger_support"
@@ -49,21 +85,21 @@ def "RG75"
         over "left_finger_pad"
         {
             def "pad_left" (
-                prepend variantSets = ["arm"]
                 variants = {
                     string arm = "left"
                 }
+                prepend variantSets = "arm"
             )
             {
+                double3 xformOp:scale = (1, -1, 1)
                 variantSet "arm" = {
                     "left" (
                         prepend payload = @./pad_left.usdc@
-                    )
-                    {
+                    ) {
                         token visibility = "inherited"
-                        double3 xformOp:translate = (0, -0.009497005767228853, 0)
                         double3 xformOp:rotateZYX = (180, 0, 90)
                         double3 xformOp:scale = (1, 1, 1)
+                        double3 xformOp:translate = (0, -0.009497005767228853, 0)
                         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateZYX", "xformOp:scale"]
 
                         over "Copy_of_领世夹爪改_wrab0000000"
@@ -71,13 +107,7 @@ def "RG75"
                             over "Copy_of_领世夹爪改_wrab0000000_1_领世夹爪组件V2_1_2"
                             {
                                 over "Mesh_961_001" (
-                                    delete apiSchemas = [
-                                        "PhysicsCollisionAPI",
-                                        "PhysxCollisionAPI",
-                                        "PhysicsMeshCollisionAPI",
-                                        "PhysxConvexDecompositionCollisionAPI",
-                                        "PhysxConvexHullCollisionAPI"
-                                    ]
+                                    delete apiSchemas = ["PhysicsCollisionAPI", "PhysxCollisionAPI", "PhysicsMeshCollisionAPI", "PhysxConvexDecompositionCollisionAPI", "PhysxConvexHullCollisionAPI"]
                                 )
                                 {
                                     bool physics:collisionEnabled = 0
@@ -87,13 +117,7 @@ def "RG75"
                             over "Copy_of_领世夹爪改_wrab0000000_1_镜向领世夹爪V2_1_3"
                             {
                                 over "Mesh_965_001" (
-                                    delete apiSchemas = [
-                                        "PhysicsCollisionAPI",
-                                        "PhysxCollisionAPI",
-                                        "PhysicsMeshCollisionAPI",
-                                        "PhysxConvexDecompositionCollisionAPI",
-                                        "PhysxConvexHullCollisionAPI"
-                                    ]
+                                    delete apiSchemas = ["PhysicsCollisionAPI", "PhysxCollisionAPI", "PhysicsMeshCollisionAPI", "PhysxConvexDecompositionCollisionAPI", "PhysxConvexHullCollisionAPI"]
                                 )
                                 {
                                     bool physics:collisionEnabled = 0
@@ -117,16 +141,15 @@ def "RG75"
                                 bool physics:collisionEnabled = 1
                             }
                         }
-                    }
 
+                    }
                     "right" (
                         prepend payload = @./pad_left.usdc@
-                    )
-                    {
+                    ) {
                         token visibility = "inherited"
-                        double3 xformOp:translate = (0, -0.009497005767228853, 0)
                         double3 xformOp:rotateZYX = (180, 0, 90)
                         double3 xformOp:scale = (1, 1, 1)
+                        double3 xformOp:translate = (0, -0.009497005767228853, 0)
                         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateZYX", "xformOp:scale"]
 
                         over "Copy_of_领世夹爪改_wrab0000000"
@@ -134,13 +157,7 @@ def "RG75"
                             over "Copy_of_领世夹爪改_wrab0000000_1_领世夹爪组件V2_1_2"
                             {
                                 over "Mesh_961_001" (
-                                    delete apiSchemas = [
-                                        "PhysicsCollisionAPI",
-                                        "PhysxCollisionAPI",
-                                        "PhysicsMeshCollisionAPI",
-                                        "PhysxConvexDecompositionCollisionAPI",
-                                        "PhysxConvexHullCollisionAPI"
-                                    ]
+                                    delete apiSchemas = ["PhysicsCollisionAPI", "PhysxCollisionAPI", "PhysicsMeshCollisionAPI", "PhysxConvexDecompositionCollisionAPI", "PhysxConvexHullCollisionAPI"]
                                 )
                                 {
                                     bool physics:collisionEnabled = 0
@@ -150,13 +167,7 @@ def "RG75"
                             over "Copy_of_领世夹爪改_wrab0000000_1_镜向领世夹爪V2_1_3"
                             {
                                 over "Mesh_965_001" (
-                                    delete apiSchemas = [
-                                        "PhysicsCollisionAPI",
-                                        "PhysxCollisionAPI",
-                                        "PhysicsMeshCollisionAPI",
-                                        "PhysxConvexDecompositionCollisionAPI",
-                                        "PhysxConvexHullCollisionAPI"
-                                    ]
+                                    delete apiSchemas = ["PhysicsCollisionAPI", "PhysxCollisionAPI", "PhysicsMeshCollisionAPI", "PhysxConvexDecompositionCollisionAPI", "PhysxConvexHullCollisionAPI"]
                                 )
                                 {
                                     bool physics:collisionEnabled = 0
@@ -180,6 +191,7 @@ def "RG75"
                                 bool physics:collisionEnabled = 1
                             }
                         }
+
                     }
                 }
             }
@@ -188,6 +200,10 @@ def "RG75"
 
     over "right_finger"
     {
+        string isaac:nameOverride (
+            displayName = "Name Override"
+        )
+
         over "visuals"
         {
             over "finger_support"
@@ -199,21 +215,21 @@ def "RG75"
         over "right_finger_pad"
         {
             def "pad_right" (
-                prepend variantSets = ["arm"]
                 variants = {
                     string arm = "left"
                 }
+                prepend variantSets = "arm"
             )
             {
+                double3 xformOp:scale = (1, 1, 1)
                 variantSet "arm" = {
                     "left" (
                         prepend payload = @./pad_right.usdc@
-                    )
-                    {
+                    ) {
                         token visibility = "inherited"
-                        double3 xformOp:translate = (0, 0.0095, 0)
                         double3 xformOp:rotateZYX = (0, 180, 90)
                         double3 xformOp:scale = (1, -1, 1)
+                        double3 xformOp:translate = (0, 0.0095, 0)
                         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateZYX", "xformOp:scale"]
 
                         over "Copy_of_领世夹爪改_wrab0000000"
@@ -221,13 +237,7 @@ def "RG75"
                             over "Copy_of_领世夹爪改_wrab0000000_1_领世夹爪组件V2_1_2"
                             {
                                 over "Mesh_961_001" (
-                                    delete apiSchemas = [
-                                        "PhysicsCollisionAPI",
-                                        "PhysxCollisionAPI",
-                                        "PhysicsMeshCollisionAPI",
-                                        "PhysxConvexDecompositionCollisionAPI",
-                                        "PhysxConvexHullCollisionAPI"
-                                    ]
+                                    delete apiSchemas = ["PhysicsCollisionAPI", "PhysxCollisionAPI", "PhysicsMeshCollisionAPI", "PhysxConvexDecompositionCollisionAPI", "PhysxConvexHullCollisionAPI"]
                                 )
                                 {
                                     bool physics:collisionEnabled = 0
@@ -237,13 +247,7 @@ def "RG75"
                             over "Copy_of_领世夹爪改_wrab0000000_1_镜向领世夹爪V2_1_3"
                             {
                                 over "Mesh_965_001" (
-                                    delete apiSchemas = [
-                                        "PhysicsCollisionAPI",
-                                        "PhysxCollisionAPI",
-                                        "PhysicsMeshCollisionAPI",
-                                        "PhysxConvexDecompositionCollisionAPI",
-                                        "PhysxConvexHullCollisionAPI"
-                                    ]
+                                    delete apiSchemas = ["PhysicsCollisionAPI", "PhysxCollisionAPI", "PhysicsMeshCollisionAPI", "PhysxConvexDecompositionCollisionAPI", "PhysxConvexHullCollisionAPI"]
                                 )
                                 {
                                     bool physics:collisionEnabled = 0
@@ -267,16 +271,15 @@ def "RG75"
                                 bool physics:collisionEnabled = 1
                             }
                         }
-                    }
 
+                    }
                     "right" (
                         prepend payload = @./pad_right.usdc@
-                    )
-                    {
+                    ) {
                         token visibility = "inherited"
-                        double3 xformOp:translate = (0, 0.0095, 0)
                         double3 xformOp:rotateZYX = (0, 180, 90)
                         double3 xformOp:scale = (1, -1, 1)
+                        double3 xformOp:translate = (0, 0.0095, 0)
                         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateZYX", "xformOp:scale"]
 
                         over "Copy_of_领世夹爪改_wrab0000000"
@@ -284,13 +287,7 @@ def "RG75"
                             over "Copy_of_领世夹爪改_wrab0000000_1_领世夹爪组件V2_1_2"
                             {
                                 over "Mesh_961_001" (
-                                    delete apiSchemas = [
-                                        "PhysicsCollisionAPI",
-                                        "PhysxCollisionAPI",
-                                        "PhysicsMeshCollisionAPI",
-                                        "PhysxConvexDecompositionCollisionAPI",
-                                        "PhysxConvexHullCollisionAPI"
-                                    ]
+                                    delete apiSchemas = ["PhysicsCollisionAPI", "PhysxCollisionAPI", "PhysicsMeshCollisionAPI", "PhysxConvexDecompositionCollisionAPI", "PhysxConvexHullCollisionAPI"]
                                 )
                                 {
                                     bool physics:collisionEnabled = 0
@@ -300,13 +297,7 @@ def "RG75"
                             over "Copy_of_领世夹爪改_wrab0000000_1_镜向领世夹爪V2_1_3"
                             {
                                 over "Mesh_965_001" (
-                                    delete apiSchemas = [
-                                        "PhysicsCollisionAPI",
-                                        "PhysxCollisionAPI",
-                                        "PhysicsMeshCollisionAPI",
-                                        "PhysxConvexDecompositionCollisionAPI",
-                                        "PhysxConvexHullCollisionAPI"
-                                    ]
+                                    delete apiSchemas = ["PhysicsCollisionAPI", "PhysxCollisionAPI", "PhysicsMeshCollisionAPI", "PhysxConvexDecompositionCollisionAPI", "PhysxConvexHullCollisionAPI"]
                                 )
                                 {
                                     bool physics:collisionEnabled = 0
@@ -330,9 +321,194 @@ def "RG75"
                                 bool physics:collisionEnabled = 1
                             }
                         }
+
                     }
                 }
             }
         }
     }
+
+    over "gripper_base"
+    {
+        string isaac:nameOverride (
+            displayName = "Name Override"
+        )
+    }
 }
+
+def "Render" (
+    hide_in_stage_window = true
+    no_delete = true
+)
+{
+    def "OmniverseKit"
+    {
+        def "HydraTextures" (
+            hide_in_stage_window = true
+            no_delete = true
+        )
+        {
+            def RenderProduct "omni_kit_widget_viewport_ViewportTexture_0" (
+                prepend apiSchemas = ["OmniRtxSettingsCommonAdvancedAPI_1", "OmniRtxSettingsRtAdvancedAPI_1", "OmniRtxSettingsPtAdvancedAPI_1", "OmniRtxPostColorGradingAPI_1", "OmniRtxPostChromaticAberrationAPI_1", "OmniRtxPostBloomPhysicalAPI_1", "OmniRtxPostMatteObjectAPI_1", "OmniRtxPostCompositingAPI_1", "OmniRtxPostDofAPI_1", "OmniRtxPostMotionBlurAPI_1", "OmniRtxPostTvNoiseAPI_1", "OmniRtxPostTonemapIrayReinhardAPI_1", "OmniRtxPostDebugSettingsAPI_1", "OmniRtxDebugSettingsAPI_1"]
+                hide_in_stage_window = true
+                no_delete = true
+            )
+            {
+                rel camera = </OmniverseKit_Persp>
+                token omni:rtx:ambientOcclusion:denoiserMode = "none"
+                token omni:rtx:background:source:texture:textureMode = "repeatMirrored"
+                token omni:rtx:background:source:type = "domeLight"
+                bool omni:rtx:debug:view:pixelDebug:enableFixedTextPos = 1
+                token omni:rtx:directLighting:sampledLighting:denoisingTechnique = "None"
+                bool omni:rtx:dlss:frameGeneration = 0
+                float3 omni:rtx:domeLight:rotationAxis = (0, 0, 1)
+                bool omni:rtx:indirectDiffuse:denoiser:enabled = 0
+                bool omni:rtx:material:db:syncLoads = 1
+                token omni:rtx:post:dlss:execMode = "performance"
+                bool omni:rtx:post:registeredCompositing:invertColorCorrection = 1
+                bool omni:rtx:post:registeredCompositing:invertToneMap = 1
+                bool omni:rtx:pt:adaptiveSampling:filterError = 0
+                uint omni:rtx:pt:adaptiveSampling:fixedSppIterations = 2
+                uint omni:rtx:pt:maxSamplesPerLaunch = 2073600
+                uint omni:rtx:pt:mgpu:maxPixelsPerRegionExponent = 12
+                bool omni:rtx:reflections:denoiser:enabled = 0
+                token omni:rtx:rendermode = "RealTimePathTracing"
+                color3f omni:rtx:rt:ambientLight:color = (0.1, 0.1, 0.1)
+                bool omni:rtx:rt:demoire = 0
+                bool omni:rtx:rt:lightcache:spatialCache:dontResolveConflicts = 1
+                int omni:rtx:rt:sss:samples = 1
+                uint omni:rtx:rtpt:maxVolumeBounces = 15
+                float omni:rtx:rtpt:modulatingRoughnessThreshold = 0.08
+                bool omni:rtx:scene:hydra:materialSyncLoads = 1
+                bool omni:rtx:scene:hydra:mdlMaterialWarmup = 1
+                rel orderedVars = </Render/Vars/LdrColor>
+                custom bool overrideClipRange = 0
+                uniform int2 resolution = (1280, 720)
+            }
+        }
+    }
+
+    def RenderSettings "OmniverseGlobalRenderSettings" (
+        prepend apiSchemas = ["OmniRtxSettingsGlobalRtAdvancedAPI_1", "OmniRtxSettingsGlobalPtAdvancedAPI_1"]
+        no_delete = true
+    )
+    {
+        rel products = </Render/OmniverseKit/HydraTextures/omni_kit_widget_viewport_ViewportTexture_0>
+    }
+
+    def "Vars"
+    {
+        def RenderVar "LdrColor" (
+            hide_in_stage_window = true
+            no_delete = true
+        )
+        {
+            uniform string sourceName = "LdrColor"
+            uniform token sourceType = "raw"
+        }
+    }
+}
+
+over "OmniverseKit_Persp" (
+    prepend apiSchemas = ["OmniRtxCameraAutoExposureAPI_1", "OmniRtxCameraExposureAPI_1"]
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (0.01, 10000000)
+    float exposure:fStop = 5
+    float exposure:responsivity = 1.1026709
+    float exposure:time = 0.02
+    float focalLength = 18.147562
+    float focusDistance = 400
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -1.18711639116505)
+    float3 xformOp:rotateXYZ = (42.763172, -4.4527766e-14, 98.46329)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (0.4776280900760953, 0.015251134094929123, 0.8343308647738704)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+
+over "OmniverseKit_Front" (
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (1, 10000000)
+    float horizontalAperture = 50
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -5)
+    token projection = "orthographic"
+    float verticalAperture = 50
+    float3 xformOp:rotateXYZ = (90, -1.2722219e-14, 90)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (5, 0, 0)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+
+over "OmniverseKit_Right" (
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (1, 10000000)
+    float horizontalAperture = 50
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -5)
+    token projection = "orthographic"
+    float verticalAperture = 50
+    float3 xformOp:rotateXYZ = (90, -1.41245e-30, 1.2722219e-14)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (0, -5, 0)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+
+over "OmniverseKit_Top" (
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (1, 10000000)
+    float horizontalAperture = 50
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -5)
+    token projection = "orthographic"
+    float verticalAperture = 50
+    float3 xformOp:rotateXYZ = (-1.2722219e-14, -7.016709e-15, -90)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (0, 0, 5)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+
