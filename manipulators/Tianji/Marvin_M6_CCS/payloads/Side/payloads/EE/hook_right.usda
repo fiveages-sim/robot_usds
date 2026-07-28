@@ -1,10 +1,7 @@
 #usda 1.0
 (
     defaultPrim = "Marvin_M6_CCS"
-    doc = """EE=Gripper2 default mount.
-TF from LinkReal: rotateZYX=(0,0,-180); Sz baked into hook.usdc.
-side=default → joints gripper_joint / right_finger_joint (virtual ROS DOFs).
-"""
+    doc = """EE=Hook right-arm mount. side=right → right_gripper_joint virtual DOFs for ROS."""
 )
 
 def Xform "Marvin_M6_CCS"
@@ -13,10 +10,10 @@ def Xform "Marvin_M6_CCS"
     {
         over "tcp"
         {
-            def "Gripper2" (
-                prepend payload = @../../../../../grippers/LinkReal/Gripper2/Gripper2.usda@
+            def "Hook" (
+                prepend payload = @../../../../../../../grippers/Others/Hook/Hook.usda@
                 variants = {
-                    string side = "default"
+                    string side = "right"
                 }
             )
             {
@@ -36,7 +33,7 @@ def Xform "Marvin_M6_CCS"
                     def PhysicsFixedJoint "AssemblerFixedJoint"
                     {
                         rel physics:body0 = </Marvin_M6_CCS/link7/tcp>
-                        rel physics:body1 = </Marvin_M6_CCS/link7/tcp/Gripper2/gripper_base>
+                        rel physics:body1 = </Marvin_M6_CCS/link7/tcp/Hook/gripper_base>
                         point3f physics:localPos0 = (0, 0, 0)
                         point3f physics:localPos1 = (0, 0, 0)
                         quatf physics:localRot0 = (1, 0, 0, 0)
@@ -46,13 +43,13 @@ def Xform "Marvin_M6_CCS"
 
                 over "joints"
                 {
-                    over "gripper_joint"
+                    over "right_gripper_joint"
                     {
                         float state:linear:physics:position = 0
                         float state:linear:physics:velocity = 0
                     }
 
-                    over "right_finger_joint"
+                    over "right_right_finger_joint"
                     {
                         float state:linear:physics:position = 0
                         float state:linear:physics:velocity = 0

@@ -1,11 +1,11 @@
 #usda 1.0
 (
-    defaultPrim = "Gripper2"
+    defaultPrim = "Hook"
     metersPerUnit = 1
     upAxis = "Z"
 )
 
-over "Gripper2"
+over "Hook"
 {
     over "gripper_base" (
         prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
@@ -46,8 +46,8 @@ over "Gripper2"
             float drive:linear:physics:targetPosition = 0
             uniform token drive:linear:physics:type = "force"
             uniform token physics:axis = "Y"
-            prepend rel physics:body0 = </Gripper2/gripper_base>
-            prepend rel physics:body1 = </Gripper2/dummy_finger>
+            prepend rel physics:body0 = </Hook/gripper_base>
+            prepend rel physics:body1 = </Hook/dummy_finger>
             float physics:breakForce = 3.4028235e38
             float physics:breakTorque = 3.4028235e38
             point3f physics:localPos0 = (0.01, 0, 0)
@@ -63,8 +63,8 @@ over "Gripper2"
         )
         {
             uniform token physics:axis = "Y"
-            prepend rel physics:body0 = </Gripper2/gripper_base>
-            prepend rel physics:body1 = </Gripper2/dummy_finger2>
+            prepend rel physics:body0 = </Hook/gripper_base>
+            prepend rel physics:body1 = </Hook/dummy_finger2>
             float physics:breakForce = 3.4028235e38
             float physics:breakTorque = 3.4028235e38
             point3f physics:localPos0 = (-0.01, 0, 0)
@@ -80,6 +80,6 @@ over "Gripper2"
         prepend apiSchemas = ["PhysicsArticulationRootAPI"]
     )
     {
-        rel physics:body1 = </Gripper2/gripper_base>
+        rel physics:body1 = </Hook/gripper_base>
     }
 }

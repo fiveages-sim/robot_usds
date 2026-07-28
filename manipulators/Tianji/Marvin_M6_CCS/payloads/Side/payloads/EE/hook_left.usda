@@ -1,7 +1,7 @@
 #usda 1.0
 (
     defaultPrim = "Marvin_M6_CCS"
-    doc = """EE=Gripper2 left-arm mount. side=left → left_gripper_joint virtual DOFs."""
+    doc = """EE=Hook left-arm mount. side=left → left_gripper_joint virtual DOFs."""
 )
 
 def Xform "Marvin_M6_CCS"
@@ -10,8 +10,8 @@ def Xform "Marvin_M6_CCS"
     {
         over "tcp"
         {
-            def "Gripper2" (
-                prepend payload = @../../../../../../../grippers/LinkReal/Gripper2/Gripper2.usda@
+            def "Hook" (
+                prepend payload = @../../../../../../../grippers/Others/Hook/Hook.usda@
                 variants = {
                     string side = "left"
                 }
@@ -33,7 +33,7 @@ def Xform "Marvin_M6_CCS"
                     def PhysicsFixedJoint "AssemblerFixedJoint"
                     {
                         rel physics:body0 = </Marvin_M6_CCS/link7/tcp>
-                        rel physics:body1 = </Marvin_M6_CCS/link7/tcp/Gripper2/gripper_base>
+                        rel physics:body1 = </Marvin_M6_CCS/link7/tcp/Hook/gripper_base>
                         point3f physics:localPos0 = (0, 0, 0)
                         point3f physics:localPos1 = (0, 0, 0)
                         quatf physics:localRot0 = (1, 0, 0, 0)
