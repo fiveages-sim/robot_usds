@@ -53,6 +53,9 @@ def Xform "World"
 {
     def "CR5" (
         prepend payload = @../CR5.usda@
+        variants = {
+            string EE = "AG2F90"
+        }
     )
     {
         quatd xformOp:orient = (6.123233995736766e-17, 0, 0, 1)
@@ -82,21 +85,27 @@ def Xform "World"
         {
         }
 
-        over "AG2F90"
+        over "Link6"
         {
-            over "joints"
+            over "tcp"
             {
-                over "gripper_joint"
+                over "EE"
                 {
-                    bool[] isaac:actuator (
-                        displayName = "Actuator"
-                    )
-                    string isaac:NameOverride (
-                        displayName = "Joint Name Override"
-                    )
-                    token[] isaac:physics:DofOffsetOpOrder (
-                        displayName = "Dof Offset Op Order"
-                    )
+                    over "joints"
+                    {
+                        over "gripper_joint"
+                        {
+                            bool[] isaac:actuator (
+                                displayName = "Actuator"
+                            )
+                            string isaac:NameOverride (
+                                displayName = "Joint Name Override"
+                            )
+                            token[] isaac:physics:DofOffsetOpOrder (
+                                displayName = "Dof Offset Op Order"
+                            )
+                        }
+                    }
                 }
             }
         }
@@ -191,7 +200,7 @@ def "Render" (
                 uint omni:rtx:viewTile:limit = 4294967295
                 rel orderedVars = </Render/Vars/LdrColor>
                 custom bool overrideClipRange = 0
-                uniform int2 resolution = (986, 595)
+                uniform int2 resolution = (949, 553)
             }
 
             def RenderProduct "Replicator" (
@@ -1177,7 +1186,7 @@ def PhysicsScene "PhysicsScene" (
     prepend apiSchemas = ["NewtonSceneAPI", "MaterialBindingAPI", "MjcSceneAPI", "PhysxSceneAPI"]
 )
 {
-    rel material:binding:physics = </World/CR5/AG2F90/left_up_link/left_Pad_link/pad_link/Looks/PhysicsMaterial> (
+    rel material:binding:physics = </World/CR5/Link6/tcp/EE/left_up_link/left_Pad_link/pad_link/Looks/PhysicsMaterial> (
         bindMaterialAs = "weakerThanDescendants"
     )
     uniform bool mjc:compiler:alignFree = 1

@@ -7,8 +7,8 @@
                 double radius = 5
             }
             dictionary Perspective = {
-                double3 position = (0.8781260084556699, -0.6033585459847826, 1.6941334776103545)
-                double3 target = (-0.6239674962691031, 0.06959032949977062, 0.39404737321054917)
+                double3 position = (0.3801338487766495, -0.470762571569077, 1.3225904848229573)
+                double3 target = (-0.6839611890622692, 0.020913617900338244, 0.5635461870101912)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -20,211 +20,52 @@
             }
             string boundCamera = "/OmniverseKit_Persp"
         }
+        dictionary metricsAssembler = {
+            dictionary "/CR5/Link6/tcp/KWR75B_Dobot" = {
+            }
+            int version = 1
+        }
         dictionary omni_layer = {
-            string authoring_layer = "./CR5.usda"
+            string authoring_layer = "./KWR75B.usda"
+            dictionary locked = {
+            }
+            dictionary muteness = {
+            }
         }
         dictionary renderSettings = {
         }
     }
     defaultPrim = "CR5"
-    doc = """Generated from Composed Stage of root layer /home/fiveages/Documents/FaSim-Isaac/robots/manipulators/Dobot/CR5/CR5.usd
-
-
-Generated from Composed Stage of root layer /home/fiveages/Documents/FaSim-Isaac/robots/manipulators/Dobot/CR5/payloads/base.usd
-"""
+    endTimeCode = 0
     metersPerUnit = 1
+    startTimeCode = -1
     upAxis = "Z"
 )
 
-def Xform "CR5" (
-    prepend references = @./payloads/base.usda@
-    variants = {
-        string EE = "None"
-        string Physics = "physx"
-        string ROS = "ros2"
-        string Robot = "none"
-        string Sensor = "none"
-    }
-    prepend variantSets = ["Physics", "ROS", "EE"]
-    append variantSets = ["Robot", "Sensor"]
-)
+def "CR5"
 {
-    over "joints"
-    {
-        over "joint1"
-        {
-            bool[] isaac:actuator (
-                displayName = "Actuator"
-            )
-            string isaac:NameOverride (
-                displayName = "Joint Name Override"
-            )
-            token[] isaac:physics:DofOffsetOpOrder (
-                displayName = "Dof Offset Op Order"
-            )
-            float state:angular:physics:position = 0
-            float state:angular:physics:velocity = 0
-        }
-
-        over "joint2"
-        {
-            float state:angular:physics:position = 0
-            float state:angular:physics:velocity = 0
-        }
-
-        over "joint3"
-        {
-            float state:angular:physics:position = 0
-            float state:angular:physics:velocity = 0
-        }
-
-        over "joint4"
-        {
-            float state:angular:physics:position = 0
-            float state:angular:physics:velocity = 0
-        }
-
-        over "joint5"
-        {
-            float state:angular:physics:position = 0
-            float state:angular:physics:velocity = 0
-        }
-
-        over "joint6"
-        {
-            float state:angular:physics:position = 0
-            float state:angular:physics:velocity = 0
-        }
-    }
-
-    over "base_link"
-    {
-    }
-
-    over "Link1"
-    {
-    }
-
-    over "Link2"
-    {
-    }
-
-    over "Link3"
-    {
-    }
-
-    over "Link4"
-    {
-    }
-
-    over "Link5"
-    {
-    }
-
     over "Link6"
     {
         over "tcp"
         {
+            string isaac:Description (
+                displayName = "Reference Description"
+            )
+            uniform token isaac:forwardAxis (
+                displayName = "Forward Axis"
+            )
+            double3 xformOp:translate = (0, 0, 0.037)
         }
-    }
 
-    over "root_joint"
-    {
-        bool[] isaac:actuator (
-            displayName = "Actuator"
+        def "KWR75B_Dobot" (
+            prepend payload = @../../../../../sensors/6Dof F&T Sensor/KWR75B_Dobot.usd@
         )
-        string isaac:NameOverride (
-            displayName = "Joint Name Override"
-        )
-        token[] isaac:physics:DofOffsetOpOrder (
-            displayName = "Dof Offset Op Order"
-        )
-        float physxArticulation:sleepThreshold = 0.00005
-        int physxArticulation:solverPositionIterationCount = 64
-        int physxArticulation:solverVelocityIterationCount = 4
-        float physxArticulation:stabilizationThreshold = 0.00001
-    }
-    variantSet "Physics" = {
-        "mujoco" (
-            prepend payload = @./payloads/Physics/mujoco.usda@
-        ) {
-
-        }
-        "none" (
-            prepend payload = @./payloads/Physics/none.usda@
-        ) {
-
-        }
-        "physics" (
-            prepend payload = @./payloads/Physics/physics.usda@
-        ) {
-
-        }
-        "physx" (
-            prepend payload = @./payloads/Physics/physx.usda@
-        ) {
-
-        }
-    }
-    variantSet "Robot" = {
-        "none" (
-            prepend payload = @./payloads/Robot/none.usda@
-        ) {
-
-        }
-        "robot" (
-            prepend payload = @./payloads/Robot/robot.usda@
-        ) {
-
-        }
-    }
-    variantSet "Sensor" = {
-        "KWR75B" (
-            delete payload = @./payloads/Sensor/sensors.usda@
-            prepend payload = @./payloads/Sensor/KWR75B.usda@
-        ) {
-
-        }
-        "none" (
-            prepend payload = @./payloads/Sensor/none.usda@
-        ) {
-
-        }
-        "sensors" (
-            prepend payload = @./payloads/Sensor/sensors.usda@
-        ) {
-
-        }
-    }
-    variantSet "EE" = {
-        "None" {
-
-        }
-        "AG2F90" (
-            prepend payload = @./payloads/EE/AG2F90.usda@
-        ) {
-            prepend rel isaac:physics:robotJoints = </CR5/Link6/tcp/EE>
-            prepend rel isaac:physics:robotLinks = </CR5/Link6/tcp/EE>
-        }
-        "AG2F120S" (
-            prepend payload = @./payloads/EE/AG2F120S.usda@
-        ) {
-            prepend rel isaac:physics:robotJoints = </CR5/Link6/tcp/EE>
-            prepend rel isaac:physics:robotLinks = </CR5/Link6/tcp/EE>
-        }
-    }
-    variantSet "ROS" = {
-        "none" {
-
-        }
-        "ros2" (
-            customData = {
-                string[] variantPrimPaths = ["."]
-            }
-            delete payload = @/home/fiveages/Documents/FaSim-Isaac/robots/manipulators/Dobot/CR5/payloads/ROS/ros2.usda@
-            prepend payload = @./payloads/ROS/ros2.usda@
-        ) {
-
+        {
+            quatf xformOp:orient = (6.123234e-17, 0, 0, 1)
+            double xformOp:rotateX:unitsResolve = 90
+            float3 xformOp:scale = (1, 1, 1)
+            double3 xformOp:translate = (0, 0, 2.7755575615628914e-17)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale", "xformOp:rotateX:unitsResolve"]
         }
     }
 }
@@ -268,7 +109,6 @@ def "Render" (
                 token omni:rtx:rendermode = "RealTimePathTracing"
                 color3f omni:rtx:rt:ambientLight:color = (0.1, 0.1, 0.1)
                 bool omni:rtx:rt:demoire = 0
-                bool omni:rtx:rt:ecoMode:enabled
                 bool omni:rtx:rt:lightcache:spatialCache:dontResolveConflicts = 1
                 int omni:rtx:rt:sss:samples = 1
                 uint omni:rtx:rtpt:maxVolumeBounces = 15
@@ -277,7 +117,7 @@ def "Render" (
                 bool omni:rtx:scene:hydra:mdlMaterialWarmup = 1
                 rel orderedVars = </Render/Vars/LdrColor>
                 custom bool overrideClipRange = 0
-                uniform int2 resolution = (949, 553)
+                uniform int2 resolution = (949, 577)
             }
         }
     }
@@ -304,7 +144,7 @@ def "Render" (
 }
 
 over "OmniverseKit_Persp" (
-    apiSchemas = ["OmniRtxCameraAutoExposureAPI_1", "OmniRtxCameraExposureAPI_1"]
+    prepend apiSchemas = ["OmniRtxCameraAutoExposureAPI_1", "OmniRtxCameraExposureAPI_1"]
     customData = {
         dictionary omni = {
             dictionary kit = {
@@ -324,10 +164,10 @@ over "OmniverseKit_Persp" (
     float exposure:time = 0.02
     float focalLength = 18.147562
     float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -2.0974672738342632)
-    float3 xformOp:rotateXYZ = (51.695827, -9.541664e-15, 65.86727)
+    custom uniform vector3d omni:kit:centerOfInterest = (9.213934101956668e-17, 5.265105201118096e-17, -1.396492739288912)
+    float3 xformOp:rotateXYZ = (57.075314, 9.541664e-15, 65.20021)
     float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (0.8781260084556699, -0.6033585459847826, 1.6941334776103545)
+    double3 xformOp:translate = (0.3801338487766495, -0.470762571569077, 1.3225904848229573)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 
@@ -404,12 +244,5 @@ over "OmniverseKit_Top" (
     float3 xformOp:scale = (1, 1, 1)
     double3 xformOp:translate = (0, 0, 5)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
-}
-
-def PhysicsScene "PhysicsScene" (
-    delete apiSchemas = ["MjcSceneAPI", "NewtonXpbdSceneAPI"]
-    prepend apiSchemas = ["NewtonSceneAPI", "PhysxSceneAPI"]
-)
-{
 }
 

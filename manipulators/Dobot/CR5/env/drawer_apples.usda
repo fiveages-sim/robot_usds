@@ -7,8 +7,8 @@
                 double radius = 5
             }
             dictionary Perspective = {
-                double3 position = (1.5876128495629869, 0.6964506974637203, 1.9075047529601818)
-                double3 target = (-17.337320290162044, -7.557181893195787, -6.707139402748077)
+                double3 position = (3.6976349094325176, 2.0175799345835674, 3.2666687939699077)
+                double3 target = (-17.592306136403103, -7.267491244890175, -6.424528783943753)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -53,6 +53,9 @@ def Xform "World"
 {
     def "CR5" (
         prepend payload = @../CR5.usda@
+        variants = {
+            string EE = "AG2F90"
+        }
     )
     {
         quatd xformOp:orient = (6.123233995736766e-17, 0, 0, 1)
@@ -136,7 +139,7 @@ def "Render" (
                 uint omni:rtx:viewTile:limit = 4294967295
                 rel orderedVars = </Render/Vars/LdrColor>
                 custom bool overrideClipRange = 0
-                uniform int2 resolution = (992, 569)
+                uniform int2 resolution = (949, 553)
             }
 
             def RenderProduct "Replicator" (
@@ -1016,10 +1019,10 @@ over "OmniverseKit_Persp" (
     float exposure:time = 0.02
     float focalLength = 18.147562
     float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (-5.327607325486283e-17, 1.7048343441556105e-15, -22.371581062011195)
+    custom uniform vector3d omni:kit:centerOfInterest = (-5.993386874211853e-17, 1.917883799747793e-15, -25.167309094084924)
     float3 xformOp:rotateXYZ = (67.35186, 2.3536105e-13, 113.56321)
     float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (1.5876128495629869, 0.6964506974637203, 1.9075047529601818)
+    double3 xformOp:translate = (3.6976349094325176, 2.0175799345835674, 3.2666687939699077)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 
@@ -1106,7 +1109,7 @@ def PhysicsScene "PhysicsScene" (
     prepend apiSchemas = ["NewtonSceneAPI", "MaterialBindingAPI", "MjcSceneAPI", "PhysxSceneAPI"]
 )
 {
-    rel material:binding:physics = </World/CR5/AG2F90/left_up_link/left_Pad_link/pad_link/Looks/PhysicsMaterial> (
+    rel material:binding:physics = </World/CR5/Link6/tcp/EE/left_up_link/left_Pad_link/pad_link/Looks/PhysicsMaterial> (
         bindMaterialAs = "weakerThanDescendants"
     )
     uniform bool mjc:compiler:alignFree = 1
