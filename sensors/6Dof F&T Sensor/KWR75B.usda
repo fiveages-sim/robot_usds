@@ -1,0 +1,143 @@
+#usda 1.0
+(
+    defaultPrim = "KWR75B"
+    doc = """KWR75B 6D F&T sensor asset (visual + ROS FT graph + Side).
+
+Reusable like Galaxea_G1: owns its own Side variantSet for topic/frame.
+Arm mounts only payload this file and set variants = { Side = left|right|default }.
+
+Graph ScriptNode auto-discovers sibling tcp (../tcp) and articulation root;
+robotPrim/jointPrim relationships are optional overrides.
+"""
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "KWR75B" (
+    prepend payload = @./KWR75B.usd@
+    prepend variantSets = ["Side"]
+    variants = {
+        string Side = "default"
+    }
+)
+{
+    def "Graph"
+    {
+        def OmniGraph "ROS_FT_Sensor"
+        {
+            token evaluationMode = "OnDemand"
+            token evaluator:type = "push"
+            token fabricCacheBacking = "StageWithoutHistory"
+            int2 fileFormatVersion = (1, 9)
+            token pipelineStage = "pipelineStageOnDemand"
+
+            def OmniGraphNode "OnPhysicsStep"
+            {
+                token node:type = "isaacsim.core.nodes.OnPhysicsStep"
+                int node:typeVersion = 1
+                custom double outputs:deltaSimulationTime
+                custom double outputs:deltaSystemTime
+                custom uint outputs:step (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+            }
+
+            def OmniGraphNode "ReadSimTime" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom uint64 inputs:referenceTimeDenominator
+                custom int64 inputs:referenceTimeNumerator
+                custom bool inputs:resetOnStop = 0
+                token node:type = "isaacsim.core.nodes.IsaacReadSimulationTime"
+                int node:typeVersion = 1
+                custom double outputs:simulationTime
+            }
+
+            def OmniGraphNode "ReadFT" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom bool inputs:enableGravityComp = 1
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </KWR75B/Graph/ROS_FT_Sensor/OnPhysicsStep.outputs:step>
+                custom double inputs:gravityCompSign = 1
+                # Optional; empty → script finds sibling ../tcp and arm artic root.
+                custom rel inputs:jointPrim (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
+                custom rel inputs:robotPrim (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
+                custom string inputs:script = ""
+                custom token inputs:scriptPath = "/home/fiveages/FaSim-Isaac/robots/sensors/6Dof F&T Sensor/ft_wrench_publisher.py"
+                custom double inputs:simulationTime
+                prepend double inputs:simulationTime.connect = </KWR75B/Graph/ROS_FT_Sensor/ReadSimTime.outputs:simulationTime>
+                # Declared here; values come only from Side payloads.
+                custom string inputs:frameId
+                custom string inputs:topicName
+                custom bool inputs:usePath = 1
+                token node:type = "omni.graph.scriptnode.ScriptNode"
+                int node:typeVersion = 2
+                custom uint outputs:execOut (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom double outputs:force_x
+                custom double outputs:force_y
+                custom double outputs:force_z
+                custom string outputs:frame_id
+                custom uint outputs:stamp_nanosec
+                custom int outputs:stamp_sec
+                custom double outputs:torque_x
+                custom double outputs:torque_y
+                custom double outputs:torque_z
+                custom bool outputs:valid
+                custom bool state:omni_initialized
+            }
+        }
+    }
+
+    variantSet "Side" = {
+        "default" (
+            customData = {
+                string[] variantPrimPaths = ["."]
+            }
+            prepend payload = @./payloads/Side/default.usda@
+        ) {
+        }
+        "left" (
+            customData = {
+                string[] variantPrimPaths = ["."]
+            }
+            prepend payload = @./payloads/Side/left.usda@
+        ) {
+        }
+        "right" (
+            customData = {
+                string[] variantPrimPaths = ["."]
+            }
+            prepend payload = @./payloads/Side/right.usda@
+        ) {
+        }
+    }
+}
