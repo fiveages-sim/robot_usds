@@ -7,8 +7,8 @@
                 double radius = 5
             }
             dictionary Perspective = {
-                double3 position = (0.3801338487766495, -0.470762571569077, 1.3225904848229573)
-                double3 target = (-0.6839611890622692, 0.020913617900338244, 0.5635461870101912)
+                double3 position = (0.24399939857986455, -0.5139697589286654, 1.2536474329100293)
+                double3 target = (-0.8988364024976052, 0.42687549999414875, 0.4622373812994307)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -20,32 +20,36 @@
             }
             string boundCamera = "/OmniverseKit_Persp"
         }
-        dictionary metricsAssembler = {
-            dictionary "/CR5/Link6/tcp/KWR75B_Dobot" = {
-            }
-            int version = 1
-        }
         dictionary omni_layer = {
             string authoring_layer = "./KWR75B.usda"
-            dictionary locked = {
-            }
-            dictionary muteness = {
-            }
         }
         dictionary renderSettings = {
         }
     }
     defaultPrim = "CR5"
+    doc = """CR5 Sensor=KWR75B: visual KWR75B mesh + ROS2 FT wrench Action Graph.
+KWR75B is visual-only. 6D wrench is read from EE AssemblerFixedJoint and
+published as geometry_msgs/WrenchStamped on /isaac/ft_wrench.
+
+Paths use OmniGraph relationship targets (rel inputs:robotPrim / jointPrim),
+authored as </CR5/...>, which USD remaps when the robot is referenced under
+/World/CR5. Driven by OnPhysicsStep (on-demand graph). ScriptNode publishes
+via rclpy (ROS2Publisher dynamic field connections are unreliable).
+"""
     endTimeCode = 0
     metersPerUnit = 1
     startTimeCode = -1
     upAxis = "Z"
 )
 
-def "CR5"
+def Xform "CR5"
 {
     over "Link6"
     {
+        string isaac:nameOverride (
+            displayName = "Name Override"
+        )
+
         over "tcp"
         {
             string isaac:Description (
@@ -61,11 +65,104 @@ def "CR5"
             prepend payload = @../../../../../sensors/6Dof F&T Sensor/KWR75B_Dobot.usd@
         )
         {
-            quatf xformOp:orient = (6.123234e-17, 0, 0, 1)
+            quatf xformOp:orient = (1, 0, 0, 0)
             double xformOp:rotateX:unitsResolve = 90
             float3 xformOp:scale = (1, 1, 1)
-            double3 xformOp:translate = (0, 0, 2.7755575615628914e-17)
+            double3 xformOp:translate = (0, 0, 0.0375)
             uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale", "xformOp:rotateX:unitsResolve"]
+        }
+    }
+
+    def "Graph"
+    {
+        def OmniGraph "ROS_FT_Sensor"
+        {
+            token evaluationMode = "OnDemand"
+            token evaluator:type = "push"
+            token fabricCacheBacking = "StageWithoutHistory"
+            int2 fileFormatVersion = (1, 9)
+            token pipelineStage = "pipelineStageOnDemand"
+
+            def OmniGraphNode "OnPhysicsStep"
+            {
+                token node:type = "isaacsim.core.nodes.OnPhysicsStep"
+                int node:typeVersion = 1
+                custom double outputs:deltaSimulationTime
+                custom double outputs:deltaSystemTime
+                custom uint outputs:step (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+            }
+
+            def OmniGraphNode "ReadSimTime" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom uint64 inputs:referenceTimeDenominator
+                custom int64 inputs:referenceTimeNumerator
+                custom bool inputs:resetOnStop = 0
+                token node:type = "isaacsim.core.nodes.IsaacReadSimulationTime"
+                int node:typeVersion = 1
+                custom double outputs:simulationTime
+            }
+
+            def OmniGraphNode "ReadFT" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom bool inputs:enableGravityComp = 1
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </CR5/Graph/ROS_FT_Sensor/OnPhysicsStep.outputs:step>
+                custom double inputs:gravityCompSign = 1
+                custom rel inputs:jointPrim = </CR5/Link6/tcp/EE/gripper_base/AssemblerFixedJoint> (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
+                custom rel inputs:robotPrim = </CR5> (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
+                custom string inputs:script = ""
+                custom token inputs:scriptPath = "/home/fiveages/libraries/FaSim-Isaac/robots/manipulators/Dobot/CR5/payloads/Sensor/ft_wrench_publisher.py"
+                custom double inputs:simulationTime
+                prepend double inputs:simulationTime.connect = </CR5/Graph/ROS_FT_Sensor/ReadSimTime.outputs:simulationTime>
+                custom string inputs:topicName = "/isaac/ft_wrench"
+                custom bool inputs:usePath = 1
+                token node:type = "omni.graph.scriptnode.ScriptNode"
+                int node:typeVersion = 2
+                custom uint outputs:execOut (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom double outputs:force_x
+                custom double outputs:force_y
+                custom double outputs:force_z
+                custom string outputs:frame_id
+                custom uint outputs:stamp_nanosec
+                custom int outputs:stamp_sec
+                custom double outputs:torque_x
+                custom double outputs:torque_y
+                custom double outputs:torque_z
+                custom bool outputs:valid
+                custom bool state:omni_initialized
+            }
         }
     }
 }
@@ -117,7 +214,7 @@ def "Render" (
                 bool omni:rtx:scene:hydra:mdlMaterialWarmup = 1
                 rel orderedVars = </Render/Vars/LdrColor>
                 custom bool overrideClipRange = 0
-                uniform int2 resolution = (949, 577)
+                uniform int2 resolution = (959, 492)
             }
         }
     }
@@ -164,10 +261,10 @@ over "OmniverseKit_Persp" (
     float exposure:time = 0.02
     float focalLength = 18.147562
     float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (9.213934101956668e-17, 5.265105201118096e-17, -1.396492739288912)
-    float3 xformOp:rotateXYZ = (57.075314, 9.541664e-15, 65.20021)
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -1.6785688366141585)
+    float3 xformOp:rotateXYZ = (61.86965, 2.2263883e-14, 50.53691)
     float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (0.3801338487766495, -0.470762571569077, 1.3225904848229573)
+    double3 xformOp:translate = (0.24399939857986455, -0.5139697589286654, 1.2536474329100293)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 
