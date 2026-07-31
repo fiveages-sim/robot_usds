@@ -9,15 +9,13 @@
 # Articulation: walk ancestors for PhysicsArticulationRootAPI (W2 body base_link).
 # Optional rel inputs:robotPrim / inputs:jointPrim override discovery.
 #
+# Force row: match fixed-joint body1 (gripper_base) against articulation
+# link_paths — required on dual-arm W2 where both EEs are named AssemblerFixedJoint.
+# Gravity compensation: off by default (enableGravityComp); tcp-frame mass sum
+# was misleading on Tianji flange orientation.
+#
 # Sensor Side=left/right (owned by KWR75B.usda) sets topicName/frameId.
 #
-# Gravity compensation (enableGravityComp): sum MassAPI masses under the EE
-# root (gripper tool), express gravity about tcp link origin, after
-# transporting the measured joint wrench into the tcp frame.
-#
-# Isaac note: get_measured_joint_forces(joint_names=...) is broken; use
-# joint_index + 1 with joint_indices (IsaacSim issue #100).
-
 from __future__ import annotations
 
 import numpy as np
@@ -49,6 +47,7 @@ def setup(db):
     db.state.arti_path = None
     db.state.force_row_index = None
     db.state.joint_prim_path_cached = None
+    db.state.force_row_logged = False
     db.state.error_logged = False
     db.state.ros_node = None
     db.state.ros_pub = None
@@ -310,6 +309,7 @@ def _ensure_articulation(db):
             db.state.arti_path = cand
             db.state.force_row_index = None
             db.state.joint_prim_path_cached = None
+            db.state.force_row_logged = False
             db.state.ee_mass = None
             db.state.ee_mass_root = None
             if cand != arm_prim_path:
@@ -407,7 +407,79 @@ def _ee_root_from_joint_path(joint_prim_path: str) -> str:
     return ""
 
 
+def _normalize_prim_path(path: str) -> str:
+    return (path or "").strip().rstrip("/")
+
+
+def _link_paths_list(arti):
+    """Return flat list of link USD paths for artic instance 0."""
+    view = getattr(arti, "_physics_view", None)
+    if view is None:
+        return []
+    try:
+        paths = view.link_paths
+    except Exception:
+        paths = None
+    if paths is None:
+        return []
+    # Backend may return [[env0_links...], ...] or a flat list.
+    try:
+        if len(paths) > 0 and isinstance(paths[0], (list, tuple)):
+            return [str(p) for p in paths[0]]
+        return [str(p) for p in paths]
+    except Exception:
+        return []
+
+
+def _match_path_index(paths, target_path: str):
+    """Exact or unique suffix/prefix match of target_path in paths."""
+    target = _normalize_prim_path(target_path)
+    if not target or not paths:
+        return None
+
+    norm = [_normalize_prim_path(p) for p in paths]
+    for i, p in enumerate(norm):
+        if p == target:
+            return i
+
+    # Unique suffix match (handles World/ vs without, remapped roots).
+    hits = []
+    for i, p in enumerate(norm):
+        if p.endswith(target) or target.endswith(p):
+            hits.append(i)
+    if len(hits) == 1:
+        return hits[0]
+
+    # Unique match on last N path segments (e.g. Left_Arm/.../gripper_base).
+    parts = [s for s in target.split("/") if s]
+    for n in range(min(6, len(parts)), 1, -1):
+        suffix = "/" + "/".join(parts[-n:])
+        hits = [i for i, p in enumerate(norm) if p.endswith(suffix)]
+        if len(hits) == 1:
+            return hits[0]
+    return None
+
+
+def _child_link_path_from_joint(joint_prim_path: str) -> str:
+    """AssemblerFixedJoint body1 (gripper_base) — unique on dual-arm W2."""
+    try:
+        import omni.usd
+
+        stage = omni.usd.get_context().get_stage()
+        joint_prim = stage.GetPrimAtPath(joint_prim_path)
+        if not joint_prim or not joint_prim.IsValid():
+            return ""
+        body1 = _rel_first_target(joint_prim, "physics:body1")
+        if body1:
+            return body1
+        parent = joint_prim.GetParent()
+        return str(parent.GetPath()) if parent else ""
+    except Exception:
+        return ""
+
+
 def _lookup_joint_index(arti, joint_name: str):
+    """Legacy short-name lookup (ambiguous when names collide)."""
     if hasattr(arti, "get_joint_index"):
         try:
             return int(arti.get_joint_index(joint_name))
@@ -431,28 +503,60 @@ def _lookup_joint_index(arti, joint_name: str):
 
 
 def _ensure_force_row_index(db, arti, joint_prim_path: str):
+    """Force buffer row for this EE mount.
+
+    Prefer matching the fixed-joint *child link* (body1 / gripper_base) against
+    articulation link_paths — unique on W2 dual-arm where both sides are named
+    AssemblerFixedJoint. Measured forces are "link incoming joint" rows, so the
+    link index is the force row (no +1).
+
+    Fallback: short joint name +1 (CR5 / Isaac issue #100), only if the name is
+    unique in metadata.
+    """
     cached_path = getattr(db.state, "joint_prim_path_cached", None)
     cached_idx = getattr(db.state, "force_row_index", None)
     if cached_idx is not None and cached_path == joint_prim_path:
         return cached_idx
 
+    link_path = _child_link_path_from_joint(joint_prim_path)
+    link_paths = _link_paths_list(arti)
+    link_idx = _match_path_index(link_paths, link_path) if link_path else None
+    if link_idx is not None:
+        db.state.force_row_index = int(link_idx)
+        db.state.joint_prim_path_cached = joint_prim_path
+        if not getattr(db.state, "force_row_logged", False):
+            print(
+                f"[ft_wrench_publisher] force row via link_paths: "
+                f"row={link_idx} link='{link_path}' joint='{joint_prim_path}'"
+            )
+            db.state.force_row_logged = True
+        return db.state.force_row_index
+
+    # Fallback: unique short joint name only.
     joint_name = _joint_name_from_prim_path(joint_prim_path)
-    if not joint_name:
-        return None
+    meta = getattr(arti, "_metadata", None)
+    names = list(getattr(meta, "joint_names", None) or [])
+    if joint_name and names.count(joint_name) == 1:
+        joint_index = _lookup_joint_index(arti, joint_name)
+        if joint_index is not None:
+            force_row_index = int(joint_index) + 1
+            db.state.force_row_index = force_row_index
+            db.state.joint_prim_path_cached = joint_prim_path
+            if not getattr(db.state, "force_row_logged", False):
+                print(
+                    f"[ft_wrench_publisher] force row via unique joint name: "
+                    f"row={force_row_index} name='{joint_name}' "
+                    f"(link_paths miss for '{link_path}')"
+                )
+                db.state.force_row_logged = True
+            return force_row_index
 
-    joint_index = _lookup_joint_index(arti, joint_name)
-    if joint_index is None:
-        _log_once(
-            db,
-            f"joint '{joint_name}' not found in articulation metadata "
-            f"(path={joint_prim_path})",
-        )
-        return None
-
-    force_row_index = int(joint_index) + 1
-    db.state.force_row_index = force_row_index
-    db.state.joint_prim_path_cached = joint_prim_path
-    return force_row_index
+    _log_once(
+        db,
+        f"cannot resolve force row for joint='{joint_prim_path}' "
+        f"link='{link_path}' (duplicate short names or link_paths miss)",
+    )
+    return None
 
 
 def _read_wrench(db, arti, joint_prim_path: str):
@@ -698,7 +802,7 @@ def _wrench_in_tcp_with_gravity_comp(db, joint_prim_path: str, wrench_joint):
 
     wrench_tcp = _wrench_joint_to_tcp(wrench_joint, world_from_tcp, world_from_joint)
 
-    if not _get_input_bool(db, "enableGravityComp", True):
+    if not _get_input_bool(db, "enableGravityComp", False):
         return wrench_tcp
 
     g_on_tool_tcp = _tool_gravity_in_tcp(db, joint_prim_path, world_from_tcp)
