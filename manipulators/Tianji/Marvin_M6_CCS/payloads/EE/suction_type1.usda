@@ -1,0 +1,49 @@
+#usda 1.0
+(
+    defaultPrim = "Marvin_M6_CCS"
+    doc = """EE=suction_type1 default mount.
+TF relative to tcp: translate=(0,0,0), rotateZYX=(-90,180,0).
+Jointless fixed suction cup — only AssemblerFixedJoint to gripper_base.
+"""
+)
+
+def Xform "Marvin_M6_CCS"
+{
+    over "link7"
+    {
+        over "tcp"
+        {
+            def "Suction_type1" (
+                prepend payload = @../../../../../components/suction_ee/Suction_type1/Suction_type1.usda@
+                variants = {
+                    string side = "default"
+                }
+            )
+            {
+                double3 xformOp:translate = (0, 0, 0)
+                double3 xformOp:rotateZYX = (-90, 180, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateZYX", "xformOp:scale"]
+
+                over "root_joint" (
+                    active = false
+                )
+                {
+                }
+
+                over "gripper_base"
+                {
+                    def PhysicsFixedJoint "AssemblerFixedJoint"
+                    {
+                        rel physics:body0 = </Marvin_M6_CCS/link7/tcp>
+                        rel physics:body1 = </Marvin_M6_CCS/link7/tcp/Suction_type1/gripper_base>
+                        point3f physics:localPos0 = (0, 0, 0)
+                        point3f physics:localPos1 = (0, 0, 0)
+                        quatf physics:localRot0 = (1, 0, 0, 0)
+                        quatf physics:localRot1 = (1, 0, 0, 0)
+                    }
+                }
+            }
+        }
+    }
+}

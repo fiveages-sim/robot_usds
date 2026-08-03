@@ -1,0 +1,78 @@
+#usda 1.0
+(
+    defaultPrim = "Suction_type1"
+    doc = """Suction_type1 — fixed jointless suction-cup EE.
+
+Geometry: payloads/suction.usdc (from Fuyao Glass feeding suction gripper alone).
+Single rigid body on gripper_base. No finger DOFs.
+
+Sensors: orbbec_305_top mounts camera+stand under gripper_base.
+
+Mount: Marvin_M6_CCS EE=suction_type1 under link7/tcp.
+Side left/right are empty placeholders for future L/R configs.
+"""
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "Suction_type1" (
+    variants = {
+        string Physics = "physx"
+        string side = "default"
+        string Sensors = "none"
+    }
+    prepend variantSets = ["Physics", "side", "Sensors"]
+)
+{
+    quatd xformOp:orient = (1, 0, 0, 0)
+    double3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (0, 0, 0)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+    variantSet "Physics" = {
+        "none" (
+            prepend payload = @./payloads/Physics/none.usda@
+        ) {
+        }
+        "physics" (
+            prepend payload = @./payloads/Physics/physics.usda@
+        ) {
+        }
+        "physx" (
+            prepend payload = @./payloads/Physics/physx.usda@
+        ) {
+        }
+    }
+
+    variantSet "side" = {
+        "default" {
+        }
+        "left" (
+            prepend payload = @./payloads/Side/left.usda@
+        ) {
+        }
+        "right" (
+            prepend payload = @./payloads/Side/right.usda@
+        ) {
+        }
+    }
+
+    variantSet "Sensors" = {
+        "none" {
+        }
+        "orbbec_305_top" (
+            prepend payload = @./payloads/Sensor/305_top/payload.usda@
+        ) {
+        }
+    }
+
+    def Xform "gripper_base" (
+        prepend payload = @./payloads/suction.usdc@
+    )
+    {
+        quatd xformOp:orient = (1, 0, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+    }
+}

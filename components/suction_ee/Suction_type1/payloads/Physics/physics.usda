@@ -1,0 +1,25 @@
+#usda 1.0
+(
+    defaultPrim = "Suction_type1"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+over "Suction_type1"
+{
+    over "gripper_base" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        float physics:mass = 0.3
+        point3f physics:centerOfMass = (0, 0, 0.03)
+        float3 physics:diagonalInertia = (0.0005, 0.0005, 0.0003)
+    }
+
+    def PhysicsFixedJoint "root_joint" (
+        prepend apiSchemas = ["PhysicsArticulationRootAPI"]
+    )
+    {
+        rel physics:body1 = </Suction_type1/gripper_base>
+    }
+}
