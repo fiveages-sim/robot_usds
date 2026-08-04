@@ -46,15 +46,11 @@ The following models are **Git submodules** (vendored repositories, checked in a
 |------|---------------------|----------------------------|
 | `humanoid/FiveAges` | [fiveages-sim/fiveages-robot-usds](https://github.com/fiveages-sim/fiveages-robot-usds) | `main` |
 | `humanoid/FiveAges_W1` | [fiveages-sim/fa-w1-usds](https://github.com/fiveages-sim/fa-w1-usds) | `main` |
-| `humanoid/FiveAges_W2` | [fiveages-sim/fa-w2-usds](https://github.com/fiveages-sim/fa-w2-usds) | `main` |
 | `humanoid/Agibot_G2` | [fiveages-sim/agibot-g2-usds](https://github.com/fiveages-sim/agibot-g2-usds) | — |
-| `manipulators/Marvin` | [fiveages-sim/marvin-usds](https://github.com/fiveages-sim/marvin-usds) | `main` |
 | `humanoid/Ubtech` | [fiveages-sim/ubtech-usds](https://github.com/fiveages-sim/ubtech-usds) | `main` |
 | `humanoid/Galbot` | [fiveages-sim/galbot-usds](https://github.com/fiveages-sim/galbot-usds) | `main` |
 
 \*A `branch` value is the remote branch recorded for that submodule. If empty, the superproject still pins a specific commit; use `git submodule update` to check out the recorded revision.
-
-`manipulators/Marvin` is retained as a submodule for legacy compatibility only. Tianji models (e.g. `Marvin_M6_CCS`) are **in-tree assets** under `manipulators/Tianji/`, like `ARX` or `Galaxea`—they ship with a normal clone and do not require a separate submodule init.
 
 ## 3. Models
 
