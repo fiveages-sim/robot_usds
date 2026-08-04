@@ -47,15 +47,11 @@ git submodule update --init --recursive
 |------|----------|------------------------------|
 | `humanoid/FiveAges` | [fiveages-sim/fiveages-robot-usds](https://github.com/fiveages-sim/fiveages-robot-usds) | `main` |
 | `humanoid/FiveAges_W1` | [fiveages-sim/fa-w1-usds](https://github.com/fiveages-sim/fa-w1-usds) | `main` |
-| `humanoid/FiveAges_W2` | [fiveages-sim/fa-w2-usds](https://github.com/fiveages-sim/fa-w2-usds) | `main` |
 | `humanoid/Agibot_G2` | [fiveages-sim/agibot-g2-usds](https://github.com/fiveages-sim/agibot-g2-usds) | — |
-| `manipulators/Marvin` | [fiveages-sim/marvin-usds](https://github.com/fiveages-sim/marvin-usds) | `main` |
 | `humanoid/Ubtech` | [fiveages-sim/ubtech-usds](https://github.com/fiveages-sim/ubtech-usds) | `main` |
 | `humanoid/Galbot` | [fiveages-sim/galbot-usds](https://github.com/fiveages-sim/galbot-usds) | `main` |
 
 \*`branch` 为子模块配置里记录的远程分支，便于 `git submodule update --remote` 等；未填写时，父仓库仍通过固定 commit 锁版本，使用 `git submodule update` 会检出所记录的该提交。
-
-`manipulators/Marvin` 子模块仅保留以兼容旧引用。天机智能（Tianji）模型（如 `Marvin_M6_CCS`）与 `ARX`、`Galaxea` 等一样，为仓库内资源，位于 `manipulators/Tianji/`，随主仓库克隆即可获得，无需单独初始化子模块。
 
 ## 3. 模型
 

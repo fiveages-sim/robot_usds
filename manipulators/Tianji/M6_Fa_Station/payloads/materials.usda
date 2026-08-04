@@ -1,0 +1,174 @@
+#usda 1.0
+(
+    customLayerData = {
+        dictionary cameraSettings = {
+            dictionary Front = {
+                double3 position = (5, 0, 0)
+                double radius = 5
+            }
+            dictionary Perspective = {
+                double3 position = (1.9036232340951362, 0.024990804290745378, 2.2302700537837223)
+                double3 target = (-2.3691915606364433, -1.8680028187293432, -0.9880556114376469)
+            }
+            dictionary Right = {
+                double3 position = (0, -5, 0)
+                double radius = 5
+            }
+            dictionary Top = {
+                double3 position = (0, 0, 5)
+                double radius = 5
+            }
+            string boundCamera = "/OmniverseKit_Persp"
+        }
+        dictionary omni_layer = {
+            string authoring_layer = "./Dual_Stand1.usd"
+        }
+        dictionary renderSettings = {
+        }
+    }
+    doc = """Generated from Composed Stage of root layer /home/fiveages/libraries/FaSim-Isaac/robots/stands/Dual_Stand1/Dual_Stand1.usd
+
+
+Generated from Composed Stage of root layer /home/fiveages/libraries/FaSim-Isaac/robots/manipulators/Tianji/M6_Fa_Station/payloads/base.usd
+"""
+    endTimeCode = 0
+    metersPerUnit = 1
+    startTimeCode = -1
+    upAxis = "Z"
+)
+
+def Scope "Materials"
+{
+    def Material "white"
+    {
+        token outputs:displacement (
+            displayGroup = "Outputs"
+        )
+        prepend token outputs:mdl:displacement.connect = </Materials/white/white.outputs:out>
+        prepend token outputs:mdl:surface.connect = </Materials/white/white.outputs:out>
+        prepend token outputs:mdl:volume.connect = </Materials/white/white.outputs:out>
+        token outputs:surface (
+            displayGroup = "Outputs"
+        )
+        token outputs:volume (
+            displayGroup = "Outputs"
+        )
+
+        def Shader "white" (
+            apiSchemas = ["NodeDefAPI"]
+        )
+        {
+            token info:implementationSource = "sourceAsset"
+            asset info:mdl:sourceAsset = @OmniPBR.mdl@
+            token info:mdl:sourceAsset:subIdentifier = "OmniPBR"
+            color3f inputs:diffuse_color_constant = (0.6216216, 0.6216154, 0.6216154) (
+                customData = {
+                    float3 default = (1, 1, 1)
+                    dictionary range = {
+                        float3 max = (1, 1, 1)
+                        float3 min = (0, 0, 0)
+                    }
+                }
+                displayGroup = "Albedo"
+            )
+            color3f inputs:emissive_color = (1, 1, 1) (
+                customData = {
+                    float3 default = (1, 1, 1)
+                    dictionary range = {
+                        float3 max = (1, 1, 1)
+                        float3 min = (0, 0, 0)
+                    }
+                }
+                displayGroup = "Emissive"
+            )
+            float inputs:emissive_intensity = 10000 (
+                customData = {
+                    double default = 10000
+                    dictionary range = {
+                        double max = 100000
+                        double min = 0
+                    }
+                }
+                displayGroup = "Emissive"
+            )
+            bool inputs:enable_emission = 0 (
+                customData = {
+                    bool default = 0
+                }
+                displayGroup = "Emissive"
+            )
+            bool inputs:enable_opacity = 0 (
+                customData = {
+                    bool default = 0
+                }
+                displayGroup = "Opacity"
+            )
+            bool inputs:enable_opacity_texture = 0 (
+                customData = {
+                    bool default = 0
+                }
+                displayGroup = "Opacity"
+            )
+            float inputs:metallic_constant = 0.5
+            float inputs:opacity_constant = 1 (
+                customData = {
+                    double default = 1
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Opacity"
+            )
+            int inputs:opacity_mode = 1 (
+                customData = {
+                    int default = 1
+                    dictionary range = {
+                        int max = 3
+                        int min = 0
+                    }
+                }
+                displayGroup = "Opacity"
+                renderType = "::base::mono_mode"
+                sdrMetadata = {
+                    string __SDR__enum_value = "mono_average"
+                    string options = "mono_alpha:0|mono_average:1|mono_luminance:2|mono_maximum:3"
+                }
+            )
+            float inputs:opacity_threshold = 0 (
+                customData = {
+                    double default = 0
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Opacity"
+            )
+            float inputs:texture_rotate = 0 (
+                customData = {
+                    double default = 0
+                    dictionary range = {
+                        double max = 360
+                        double min = 0
+                    }
+                }
+                displayGroup = "UV"
+            )
+            float2 inputs:texture_scale = (1, 1) (
+                customData = {
+                    float2 default = (1, 1)
+                }
+                displayGroup = "UV"
+            )
+            float2 inputs:texture_translate = (0, 0) (
+                customData = {
+                    float2 default = (0, 0)
+                }
+                displayGroup = "UV"
+            )
+            token outputs:out
+        }
+    }
+}
+

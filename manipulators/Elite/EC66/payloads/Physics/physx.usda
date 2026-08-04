@@ -1,0 +1,101 @@
+#usda 1.0
+(
+    customLayerData = {
+        dictionary cameraSettings = {
+            dictionary Front = {
+                double3 position = (5, 0, 0)
+                double radius = 5
+            }
+            dictionary Perspective = {
+                double3 position = (-0.39722329705977893, -0.3414313121664593, 1.3708757411489505)
+                double3 target = (0.879688503585156, 0.8249715458927805, 0.2614092831085937)
+            }
+            dictionary Right = {
+                double3 position = (0, -5, 0)
+                double radius = 5
+            }
+            dictionary Top = {
+                double3 position = (0, 0, 5)
+                double radius = 5
+            }
+            string boundCamera = "/OmniverseKit_Persp"
+        }
+        dictionary omni_layer = {
+            string authoring_layer = "./Elite_EC66.usd"
+        }
+        dictionary renderSettings = {
+        }
+    }
+    defaultPrim = "Elite_EC66"
+    endTimeCode = 0
+    metersPerUnit = 1
+    startTimeCode = -1
+    subLayers = [
+        @./physics.usda@
+    ]
+    upAxis = "Z"
+)
+
+def "Elite_EC66"
+{
+    over "joints"
+    {
+        over "joint1" (
+            prepend apiSchemas = ["PhysxJointAPI", "PhysxDrivePerformanceEnvelopeAPI:angular"]
+        )
+        {
+            float physxDrivePerformanceEnvelope:angular:maxActuatorVelocity = 180
+            float physxJoint:maxJointVelocity = 150.1092
+        }
+
+        over "joint2" (
+            prepend apiSchemas = ["PhysxJointAPI", "PhysxDrivePerformanceEnvelopeAPI:angular"]
+        )
+        {
+            float physxDrivePerformanceEnvelope:angular:maxActuatorVelocity = 180
+            float physxJoint:maxJointVelocity = 150.1092
+        }
+
+        over "joint3" (
+            prepend apiSchemas = ["PhysxJointAPI", "PhysxDrivePerformanceEnvelopeAPI:angular"]
+        )
+        {
+            float physxDrivePerformanceEnvelope:angular:maxActuatorVelocity = 180
+            float physxJoint:maxJointVelocity = 189.99852
+        }
+
+        over "joint4" (
+            prepend apiSchemas = ["PhysxJointAPI", "PhysxDrivePerformanceEnvelopeAPI:angular"]
+        )
+        {
+            float physxDrivePerformanceEnvelope:angular:maxActuatorVelocity = 180
+            float physxJoint:maxJointVelocity = 260.0025
+        }
+
+        over "joint5" (
+            prepend apiSchemas = ["PhysxJointAPI", "PhysxDrivePerformanceEnvelopeAPI:angular"]
+        )
+        {
+            float physxDrivePerformanceEnvelope:angular:maxActuatorVelocity = 180
+            float physxJoint:maxJointVelocity = 260.0025
+        }
+
+        over "joint6" (
+            prepend apiSchemas = ["PhysxJointAPI", "PhysxDrivePerformanceEnvelopeAPI:angular"]
+        )
+        {
+            float physxDrivePerformanceEnvelope:angular:maxActuatorVelocity = 180
+            float physxJoint:maxJointVelocity = 260.0025
+        }
+    }
+
+    over "root_joint" (
+        prepend apiSchemas = ["PhysxArticulationAPI"]
+    )
+    {
+        bool physxArticulation:enabledSelfCollisions = 0
+        int physxArticulation:solverPositionIterationCount = 32
+        int physxArticulation:solverVelocityIterationCount = 1
+    }
+}
+
