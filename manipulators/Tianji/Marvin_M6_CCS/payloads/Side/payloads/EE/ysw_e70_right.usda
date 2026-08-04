@@ -1,0 +1,43 @@
+#usda 1.0
+(
+    defaultPrim = "Marvin_M6_CCS"
+    doc = """EE=ysw_e70 right-arm mount (Hook pattern)."""
+)
+
+def Xform "Marvin_M6_CCS"
+{
+    over "link7"
+    {
+        over "tcp"
+        {
+            def "ysw_e70" (
+                prepend payload = @../../../../../../../suction_cup/YSW/E70/e70.usda@
+                variants = {
+                    string Physics = "physx"
+                    string type = "none"
+                    string side = "right"
+                }
+            )
+            {
+                over "root_joint" (
+                    active = false
+                )
+                {
+                }
+
+                over "gripper_base"
+                {
+                    def PhysicsFixedJoint "AssemblerFixedJoint"
+                    {
+                        rel physics:body0 = </Marvin_M6_CCS/link7/tcp>
+                        rel physics:body1 = </Marvin_M6_CCS/link7/tcp/ysw_e70/gripper_base>
+                        point3f physics:localPos0 = (0, 0, 0)
+                        point3f physics:localPos1 = (0, 0, 0)
+                        quatf physics:localRot0 = (1, 0, 0, 0)
+                        quatf physics:localRot1 = (1, 0, 0, 0)
+                    }
+                }
+            }
+        }
+    }
+}

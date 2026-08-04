@@ -1,0 +1,105 @@
+#usda 1.0
+(
+    customLayerData = {
+        dictionary omni_layer = {
+            string authoring_layer = "./e70.usda"
+        }
+    }
+    defaultPrim = "ysw_e70"
+    doc = """YSW E70 suction cup — Hook/RG75-style Physics.
+
+Hierarchy (critical for Play TF):
+  ysw_e70
+    gripper_base     <- PhysicsRigidBodyAPI (Physics=physx)
+      visual         <- flange EE-tcp xformOps live HERE (non-RB child)
+        suction_base / tips...
+
+Arm mount welds tcp -> gripper_base with identity FixedJoint (like Hook).
+Flange TF on visual is preserved because PhysX drives gripper_base only.
+"""
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "ysw_e70" (
+    prepend references = @./payloads/base.usda@
+    variants = {
+        string Physics = "physx"
+        string type = "none"
+        string flange = "none"
+        string side = "default"
+    }
+    prepend variantSets = ["Physics", "type", "flange", "side"]
+)
+{
+    variantSet "Physics" = {
+        "none" (
+            prepend payload = @./payloads/Physics/none.usda@
+        ) {
+
+        }
+        "physics" (
+            prepend payload = @./payloads/Physics/physics.usda@
+        ) {
+
+        }
+        "physx" (
+            prepend payload = @./payloads/Physics/physx.usda@
+        ) {
+
+        }
+    }
+    variantSet "type" = {
+        "none" {
+
+        }
+        "z4" (
+            prepend payload = @./payloads/Type/z4/z4.usda@
+        ) {
+
+        }
+    }
+    variantSet "flange" = {
+        "none" {
+            over "gripper_base"
+            {
+                over "visual"
+                {
+                    double3 xformOp:translate = (0, 0, 0)
+                    double3 xformOp:rotateZYX = (180, 0, 0)
+                    double3 xformOp:scale = (1, 1, 1)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateZYX", "xformOp:scale"]
+                }
+            }
+        }
+        "flange_type1" (
+            prepend payload = @./payloads/flange/flange_type1.usda@
+        ) {
+            over "gripper_base"
+            {
+                over "visual"
+                {
+                    double3 xformOp:translate = (0.07998, 0, 0.03734)
+                    double3 xformOp:rotateZYX = (-90, -90, 0)
+                    double3 xformOp:scale = (1, 1, 1)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateZYX", "xformOp:scale"]
+                }
+            }
+        }
+    }
+    variantSet "side" = {
+        "default" {
+
+        }
+        "left" (
+            prepend payload = @./payloads/Side/left.usda@
+        ) {
+
+        }
+        "right" (
+            prepend payload = @./payloads/Side/right.usda@
+        ) {
+
+        }
+    }
+}

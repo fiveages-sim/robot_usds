@@ -1,0 +1,33 @@
+#usda 1.0
+(
+    defaultPrim = "root"
+    doc = """flange=flange_type1 — geometry under gripper_base/visual/suction_base.
+
+EE-tcp pose is authored on visual xform in e70 flange variant (child of RB
+gripper_base), so PhysX does not wipe it.
+"""
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def "root"
+{
+    over "gripper_base"
+    {
+        over "visual"
+        {
+            over "suction_base"
+            {
+                def "flange" (
+                    prepend payload = @../flange.usda@
+                )
+                {
+                    double3 xformOp:translate = (0, 0.03891, 0.08)
+                    double3 xformOp:rotateZYX = (0, 0, 0)
+                    double3 xformOp:scale = (1, 1, 1)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateZYX", "xformOp:scale"]
+                }
+            }
+        }
+    }
+}
