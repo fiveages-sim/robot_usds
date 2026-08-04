@@ -7,8 +7,8 @@
                 double radius = 5
             }
             dictionary Perspective = {
-                double3 position = (0.5200194323919689, 0.45501567971723167, 0.9946393808924918)
-                double3 target = (-0.6757045541029023, -0.679500046233822, 0.757061855125662)
+                double3 position = (1.0789061454442672, 0.4089017594244898, 1.9972174353900187)
+                double3 target = (-2.3558464974098565, -1.6674786465491964, -1.136969614889126)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -21,125 +21,75 @@
             string boundCamera = "/OmniverseKit_Persp"
         }
         dictionary omni_layer = {
-            string authoring_layer = "./Marvin_M6_CCS.usda"
+            string authoring_layer = "./station.usda"
         }
         dictionary renderSettings = {
         }
     }
-    defaultPrim = "Marvin_M6_CCS"
-    doc = """Generated from Composed Stage of root layer /home/fiveages/Documents/FaSim-Isaac/robots/manipulators/Tianji/Marvin_M6_CCS/Marvin_M6_CCS.usd
+    defaultPrim = "Dual_Stand1"
+    doc = """Generated from Composed Stage of root layer /home/fiveages/libraries/FaSim-Isaac/robots/stands/Dual_Stand1/Dual_Stand1.usd
 
 
-Generated from Composed Stage of root layer /home/fiveages/Documents/FaSim-Isaac/robots/manipulators/Tianji/Marvin_M6_CCS/payloads/base.usd
+Generated from Composed Stage of root layer /home/fiveages/libraries/FaSim-Isaac/robots/manipulators/Tianji/M6_Fa_Station/payloads/base.usd
 """
+    endTimeCode = 0
     metersPerUnit = 1
+    startTimeCode = -1
     upAxis = "Z"
 )
 
-def Xform "Marvin_M6_CCS" (
+def Xform "Dual_Stand1" (
     prepend references = @./payloads/base.usda@
     variants = {
-        string EE = "None"
+        string Arm_Left = "M6_CCS"
+        string Arm_Right = "M6_CCS"
         string Physics = "physx"
         string Robot = "none"
         string Sensor = "none"
-        string Side = "default"
-        string visual = "fiveages_w2_red"
     }
-    prepend variantSets = ["Physics", "Side", "visual", "EE"]
+    prepend variantSets = ["Physics", "Arm_Left", "Arm_Right"]
     append variantSets = ["Robot", "Sensor"]
 )
 {
-    over "root_joint"
-    {
-        bool[] isaac:actuator (
-            displayName = "Actuator"
-        )
-        string isaac:NameOverride (
-            displayName = "Joint Name Override"
-        )
-        token[] isaac:physics:DofOffsetOpOrder (
-            displayName = "Dof Offset Op Order"
-        )
-    }
-
     over "base_link"
     {
-    }
+        string isaac:nameOverride (
+            displayName = "Name Override"
+        )
 
-    over "link1"
-    {
-    }
-
-    over "link2"
-    {
-    }
-
-    over "link3"
-    {
-    }
-
-    over "link4"
-    {
-    }
-
-    over "link5"
-    {
-    }
-
-    over "link6"
-    {
-    }
-
-    over "link7"
-    {
-    }
-
-    over "joints"
-    {
-        over "joint1"
+        over "arm_base"
         {
-            float state:angular:physics:position = 0
-            float state:angular:physics:velocity = 0
-        }
+            string isaac:Description (
+                displayName = "Reference Description"
+            )
+            uniform token isaac:forwardAxis (
+                displayName = "Forward Axis"
+            )
+            double3 xformOp:translate = (0, 0, 0.701)
 
-        over "joint2"
-        {
-            float state:angular:physics:position = 0
-            float state:angular:physics:velocity = 0
-        }
+            def Xform "left_mount"
+            {
+                quatd xformOp:orient = (0.7071067811865476, -0.7071067811865475, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0.12, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
 
-        over "joint3"
-        {
-            float state:angular:physics:position = 0
-            float state:angular:physics:velocity = 0
-        }
-
-        over "joint4"
-        {
-            float state:angular:physics:position = 0
-            float state:angular:physics:velocity = 0
-        }
-
-        over "joint5"
-        {
-            float state:angular:physics:position = 0
-            float state:angular:physics:velocity = 0
-        }
-
-        over "joint6"
-        {
-            float state:angular:physics:position = 0
-            float state:angular:physics:velocity = 0
-        }
-
-        over "joint7"
-        {
-            float state:angular:physics:position = 0
-            float state:angular:physics:velocity = 0
+            def Xform "right_mount"
+            {
+                quatd xformOp:orient = (0.7071067811865476, 0.7071067811865475, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, -0.12, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
         }
     }
     variantSet "Physics" = {
+        "mujoco" (
+            prepend payload = @./payloads/Physics/mujoco.usda@
+        ) {
+
+        }
         "none" (
             prepend payload = @./payloads/Physics/none.usda@
         ) {
@@ -155,9 +105,28 @@ def Xform "Marvin_M6_CCS" (
         ) {
 
         }
-        "mujoco" (
-            prepend payload = @./payloads/Physics/mujoco.usda@
+    }
+    variantSet "Arm_Left" = {
+        "None" {
+
+        }
+        "M6_CCS" (
+            prepend payload = @./payloads/Arm_Left/M6_CCS.usda@
         ) {
+            prepend rel isaac:physics:robotJoints = </Dual_Stand1/base_link/arm_base/left_mount/Marvin_M6_CCS>
+            prepend rel isaac:physics:robotLinks = </Dual_Stand1/base_link/arm_base/left_mount/Marvin_M6_CCS>
+
+        }
+    }
+    variantSet "Arm_Right" = {
+        "None" {
+
+        }
+        "M6_CCS" (
+            prepend payload = @./payloads/Arm_Right/M6_CCS.usda@
+        ) {
+            prepend rel isaac:physics:robotJoints = </Dual_Stand1/base_link/arm_base/right_mount/Marvin_M6_CCS>
+            prepend rel isaac:physics:robotLinks = </Dual_Stand1/base_link/arm_base/right_mount/Marvin_M6_CCS>
 
         }
     }
@@ -174,11 +143,6 @@ def Xform "Marvin_M6_CCS" (
         }
     }
     variantSet "Sensor" = {
-        "KWR75B" (
-            prepend payload = @./payloads/Sensor/KWR75B.usda@
-        ) {
-
-        }
         "none" (
             prepend payload = @./payloads/Sensor/none.usda@
         ) {
@@ -188,78 +152,6 @@ def Xform "Marvin_M6_CCS" (
             prepend payload = @./payloads/Sensor/sensors.usda@
         ) {
 
-        }
-    }
-    variantSet "Side" = {
-        "default" {
-
-        }
-        "left" (
-            prepend payload = @./payloads/Side/left.usda@
-        ) {
-
-        }
-        "right" (
-            prepend payload = @./payloads/Side/right.usda@
-        ) {
-
-        }
-    }
-    variantSet "visual" = {
-        "default" (
-            prepend payload = @./payloads/Visual/default.usda@
-        ) {
-
-        }
-        "fiveages_w2" (
-            prepend payload = @./payloads/Visual/fa_w2.usda@
-        ) {
-
-        }
-        "fiveages_w2_red" (
-            prepend payload = @./payloads/Visual/fa_w2_red.usda@
-        ) {
-
-        }
-        "anigon" (
-            prepend payload = @./payloads/Visual/anigon.usda@
-        ) {
-
-        }
-    }
-    variantSet "EE" = {
-        "None" {
-
-        }
-        "RG75" (
-            prepend payload = @./payloads/EE/RG75.usda@
-        ) {
-            prepend rel isaac:physics:robotJoints = </Marvin_M6_CCS/link7/tcp/RG75>
-            prepend rel isaac:physics:robotLinks = </Marvin_M6_CCS/link7/tcp/RG75>
-        }
-        "AG2F90" (
-            prepend payload = @./payloads/EE/AG2F90.usda@
-        ) {
-            prepend rel isaac:physics:robotJoints = </Marvin_M6_CCS/link7/tcp/AG2F90>
-            prepend rel isaac:physics:robotLinks = </Marvin_M6_CCS/link7/tcp/AG2F90>
-        }
-        "AG2F120S" (
-            prepend payload = @./payloads/EE/AG2F120S.usda@
-        ) {
-            prepend rel isaac:physics:robotJoints = </Marvin_M6_CCS/link7/tcp/AG2F120S>
-            prepend rel isaac:physics:robotLinks = </Marvin_M6_CCS/link7/tcp/AG2F120S>
-        }
-        "hook_type1" (
-            prepend payload = @./payloads/EE/hook_type1.usda@
-        ) {
-            prepend rel isaac:physics:robotJoints = </Marvin_M6_CCS/link7/tcp/Hook_type1>
-            prepend rel isaac:physics:robotLinks = </Marvin_M6_CCS/link7/tcp/Hook_type1>
-        }
-        "suction_type1" (
-            prepend payload = @./payloads/EE/suction_type1.usda@
-        ) {
-            prepend rel isaac:physics:robotJoints = </Marvin_M6_CCS/link7/tcp/Suction_type1>
-            prepend rel isaac:physics:robotLinks = </Marvin_M6_CCS/link7/tcp/Suction_type1>
         }
     }
 }
@@ -291,12 +183,15 @@ def "Render" (
                 bool omni:rtx:dlss:frameGeneration = 0
                 float3 omni:rtx:domeLight:rotationAxis = (0, 0, 1)
                 bool omni:rtx:indirectDiffuse:denoiser:enabled = 0
+                bool omni:rtx:material:db:nonVisualMaterialCSV:enabled = 0
+                string omni:rtx:material:db:rtSensorNameToIdMap = "DefaultMaterial:0;AsphaltStandardMaterial:1;AsphaltWeatheredMaterial:2;VegetationGrassMaterial:3;WaterStandardMaterial:4;GlassStandardMaterial:5;FiberGlassMaterial:6;MetalAlloyMaterial:7;MetalAluminumMaterial:8;MetalAluminumOxidizedMaterial:9;PlasticStandardMaterial:10;RetroMarkingsMaterial:11;RetroSignMaterial:12;RubberStandardMaterial:13;SoilClayMaterial:14;ConcreteRoughMaterial:15;ConcreteSmoothMaterial:16;OakTreeBarkMaterial:17;FabricStandardMaterial:18;PlexiGlassStandardMaterial:19;MetalSilverMaterial:20"
                 bool omni:rtx:material:db:syncLoads = 1
                 token omni:rtx:post:dlss:execMode = "performance"
                 bool omni:rtx:post:registeredCompositing:invertColorCorrection = 1
                 bool omni:rtx:post:registeredCompositing:invertToneMap = 1
                 bool omni:rtx:pt:adaptiveSampling:filterError = 0
                 uint omni:rtx:pt:adaptiveSampling:fixedSppIterations = 2
+                bool omni:rtx:pt:lightcache:cached:dontResolveConflicts = 1
                 uint omni:rtx:pt:maxSamplesPerLaunch = 2073600
                 uint omni:rtx:pt:mgpu:maxPixelsPerRegionExponent = 12
                 bool omni:rtx:reflections:denoiser:enabled = 0
@@ -310,9 +205,10 @@ def "Render" (
                 float omni:rtx:rtpt:modulatingRoughnessThreshold = 0.08
                 bool omni:rtx:scene:hydra:materialSyncLoads = 1
                 bool omni:rtx:scene:hydra:mdlMaterialWarmup = 1
+                uint omni:rtx:viewTile:limit = 4294967295
                 rel orderedVars = </Render/Vars/LdrColor>
                 custom bool overrideClipRange = 0
-                uniform int2 resolution = (1280, 720)
+                uniform int2 resolution = (997, 603)
             }
         }
     }
@@ -333,13 +229,12 @@ def "Render" (
         )
         {
             uniform string sourceName = "LdrColor"
-            uniform token sourceType = "raw"
         }
     }
 }
 
 over "OmniverseKit_Persp" (
-    prepend apiSchemas = ["OmniRtxCameraAutoExposureAPI_1", "OmniRtxCameraExposureAPI_1"]
+    apiSchemas = ["OmniRtxCameraAutoExposureAPI_1", "OmniRtxCameraExposureAPI_1"]
     customData = {
         dictionary omni = {
             dictionary kit = {
@@ -359,10 +254,10 @@ over "OmniverseKit_Persp" (
     float exposure:time = 0.02
     float focalLength = 18.147562
     float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -1.6653302570538133)
-    float3 xformOp:rotateXYZ = (81.79815, -4.770832e-14, 133.49536)
+    custom uniform vector3d omni:kit:centerOfInterest = (8.259274735581825e-17, 0, -5.092348159154312)
+    float3 xformOp:rotateXYZ = (52.013927, -9.541664e-14, 121.15385)
     float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (0.5200194323919689, 0.45501567971723167, 0.9946393808924918)
+    double3 xformOp:translate = (1.0789061454442672, 0.4089017594244898, 1.9972174353900187)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 
