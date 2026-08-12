@@ -813,7 +813,7 @@ def Xform "Ai2_Bot2_Chassis" (
                 )
                 prepend uint inputs:execIn.connect = </Ai2_Bot2_Chassis/Graphs/ROS_Camera/RenderProduct.outputs:execOut>
                 custom string inputs:frameId = "chassis_camera"
-                custom uint inputs:frameSkipCount
+                custom uint inputs:frameSkipCount = 2   # 20 Hz; see DepthPclPublish note
                 custom string inputs:nodeNamespace = "chassis_camera"
                 custom string inputs:qosProfile
                 custom uint64 inputs:queueSize
@@ -844,7 +844,7 @@ def Xform "Ai2_Bot2_Chassis" (
                 )
                 prepend uint inputs:execIn.connect = </Ai2_Bot2_Chassis/Graphs/ROS_Camera/RenderProduct.outputs:execOut>
                 custom string inputs:frameId = "chassis_camera"
-                custom uint inputs:frameSkipCount
+                custom uint inputs:frameSkipCount = 2   # 20 Hz; see DepthPclPublish note
                 custom string inputs:nodeNamespace = "chassis_camera"
                 custom string inputs:qosProfile
                 custom uint64 inputs:queueSize
@@ -875,7 +875,12 @@ def Xform "Ai2_Bot2_Chassis" (
                 )
                 prepend uint inputs:execIn.connect = </Ai2_Bot2_Chassis/Graphs/ROS_Camera/RenderProduct.outputs:execOut>
                 custom string inputs:frameId = "chassis_camera"
-                custom uint inputs:frameSkipCount
+                # frameSkipCount 2: publish every 3rd render frame -> 60/3 = 20 Hz.
+                # Was unset (= every frame, 60 Hz). The local costmap that consumes this cloud runs
+                # at update_frequency 10.0, so 20 Hz still leaves 2x headroom while cutting
+                # DistanceToImagePlane -> PointCloud2 conversion work to a third. Set on all three
+                # chassis writers (rgb/depth/depth_pcl) because they share one RenderProduct.
+                custom uint inputs:frameSkipCount = 2
                 custom string inputs:nodeNamespace = "chassis_camera"
                 custom string inputs:qosProfile
                 custom uint64 inputs:queueSize
