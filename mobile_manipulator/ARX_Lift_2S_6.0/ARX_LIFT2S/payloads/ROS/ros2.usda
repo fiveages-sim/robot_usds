@@ -8,7 +8,7 @@
             }
             dictionary Perspective = {
                 double3 position = (0, 0, 0)
-                double3 target = (-3.978038431995401e-8, -3.978038254359717e-8, 7.956076863990802e-8)
+                double3 target = (-3.9780383390902995e-8, -3.9780383390902975e-8, 7.956076868078072e-8)
             }
             dictionary Right = {
                 double3 position = (0, 0, 0)
@@ -80,7 +80,7 @@ def "ARX_LIFT2S"
             {
                 custom uint64 inputs:referenceTimeDenominator
                 custom int64 inputs:referenceTimeNumerator
-                custom bool inputs:resetOnStop = 1
+                custom bool inputs:resetOnStop = 0
                 token node:type = "isaacsim.core.nodes.IsaacReadSimulationTime"
                 int node:typeVersion = 1
                 custom double outputs:simulationTime
@@ -300,7 +300,7 @@ def "ARX_LIFT2S"
             {
                 custom uint64 inputs:referenceTimeDenominator
                 custom int64 inputs:referenceTimeNumerator
-                custom bool inputs:resetOnStop = 1
+                custom bool inputs:resetOnStop = 0
                 token node:type = "isaacsim.core.nodes.IsaacReadSimulationTime"
                 int node:typeVersion = 1
                 custom double outputs:simulationTime
@@ -320,7 +320,7 @@ def "ARX_LIFT2S"
                     }
                 )
                 prepend uint inputs:execIn.connect = </ARX_LIFT2S/Graph/ROS_Odometry/OnPlaybackTick.outputs:tick>
-                custom string inputs:nodeNamespace = "isaac"
+                custom string inputs:nodeNamespace = ""
                 custom string inputs:parentFrameId = "world"
                 custom string inputs:qosProfile
                 custom uint64 inputs:queueSize
@@ -348,7 +348,7 @@ def "ARX_LIFT2S"
                     }
                 )
                 prepend uint inputs:execIn.connect = </ARX_LIFT2S/Graph/ROS_Odometry/OnPlaybackTick.outputs:tick>
-                custom string inputs:nodeNamespace = "isaac"
+                custom string inputs:nodeNamespace = ""
                 custom string inputs:parentFrameId = "odom"
                 custom string inputs:qosProfile
                 custom uint64 inputs:queueSize
@@ -419,7 +419,7 @@ def "ARX_LIFT2S"
                 prepend uint inputs:execIn.connect = </ARX_LIFT2S/Graph/ROS_Odometry/ComputeOdometry.outputs:execOut>
                 custom vector3d inputs:linearVelocity
                 prepend vector3d inputs:linearVelocity.connect = </ARX_LIFT2S/Graph/ROS_Odometry/ComputeOdometry.outputs:linearVelocity>
-                custom string inputs:nodeNamespace = "isaac"
+                custom string inputs:nodeNamespace = ""
                 custom string inputs:odomFrameId = "odom"
                 custom quatd inputs:orientation
                 prepend quatd inputs:orientation.connect = </ARX_LIFT2S/Graph/ROS_Odometry/ComputeOdometry.outputs:orientation>
@@ -664,7 +664,6 @@ def "ARX_LIFT2S"
                 prepend uint inputs:execIn.connect = </ARX_LIFT2S/Graph/holonomic_controller/on_playback_tick.outputs:tick>
                 custom double3 inputs:inputVelocity
                 prepend double3 inputs:inputVelocity.connect = </ARX_LIFT2S/Graph/holonomic_controller/make_3_vector.outputs:tuple>
-                # Invert X so +linear.x drives forward (matches old ARX_Lift2S / ROS base_link +X).
                 custom double inputs:linearGain = -1
                 custom double inputs:maxAngularSpeed
                 custom double inputs:maxLinearSpeed
@@ -1121,7 +1120,7 @@ def "Render" (
                 bool omni:rtx:scene:hydra:mdlMaterialWarmup = 1
                 rel orderedVars = </Render/Vars/LdrColor>
                 custom bool overrideClipRange = 0
-                uniform int2 resolution = (1280, 720)
+                uniform int2 resolution = (949, 356)
             }
         }
     }
@@ -1162,9 +1161,17 @@ over "OmniverseKit_Persp" (
     no_delete = true
 )
 {
+    float2 clippingRange = (0.01, 10000000)
     float exposure:fStop = 5
     float exposure:responsivity = 1.1026709
     float exposure:time = 0.02
+    float focalLength = 18.147562
+    float focusDistance = 400
+    custom uniform vector3d omni:kit:centerOfInterest = (3.308722450212111e-24, -3.308722450212111e-24, -9.744164263050548e-8)
+    float3 xformOp:rotateXYZ = (144.73561, 1.5902774e-15, 135)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (0, 0, 0)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 
 over "OmniverseKit_Front" (
@@ -1181,6 +1188,15 @@ over "OmniverseKit_Front" (
     no_delete = true
 )
 {
+    float2 clippingRange = (1, 10000000)
+    float horizontalAperture = 50
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, 0)
+    token projection = "orthographic"
+    float verticalAperture = 50
+    float3 xformOp:rotateXYZ = (-90, 1.2722219e-14, -90)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (0, 0, 0)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 
 over "OmniverseKit_Right" (
@@ -1197,6 +1213,15 @@ over "OmniverseKit_Right" (
     no_delete = true
 )
 {
+    float2 clippingRange = (1, 10000000)
+    float horizontalAperture = 50
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, 0)
+    token projection = "orthographic"
+    float verticalAperture = 50
+    float3 xformOp:rotateXYZ = (-90, 1.2722219e-14, -90)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (0, 0, 0)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 
 over "OmniverseKit_Top" (
@@ -1213,5 +1238,14 @@ over "OmniverseKit_Top" (
     no_delete = true
 )
 {
+    float2 clippingRange = (1, 10000000)
+    float horizontalAperture = 50
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, 0)
+    token projection = "orthographic"
+    float verticalAperture = 50
+    float3 xformOp:rotateXYZ = (-90, 1.2722219e-14, -90)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (0, 0, 0)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 
