@@ -7,8 +7,8 @@
                 double radius = 5
             }
             dictionary Perspective = {
-                double3 position = (0.5511596448200543, 0.5511596448200561, 0.5511597510059997)
-                double3 target = (-3.9780384097909405e-8, -3.978038209950796e-8, 7.9560767529685e-8)
+                double3 position = (0.2906088417642692, 0.5295315966663281, 0.2572410832056434)
+                double3 target = (-0.048732339102632416, -0.1048787070700048, 0.1198199418129759)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -40,14 +40,13 @@ def Xform "R5" (
     prepend references = @./payloads/base.usda@
     variants = {
         string EE = "None"
-        # No authored Physics: VariantSwitcher sets mujoco (Newton) / physx (PhysX).
-        # Physics must outrank Side so mujoco can delete Side DriveAPI (else Newton arms freeze).
         string ROS = "None"
         string Robot = "none"
         string Sensor = "none"
         string Side = "default"
+        string Visual = "default"
     }
-    prepend variantSets = ["Physics", "Side", "EE", "ROS"]
+    prepend variantSets = ["Physics", "Side", "EE", "ROS", "Visual"]
     append variantSets = ["Sensor", "Robot"]
 )
 {
@@ -295,9 +294,6 @@ def Xform "R5" (
 
         }
     }
-    # EE mounts live only in Side left/right (Galaxea-style). Do not also payload
-    # payloads/EE/Gripper_*.usda here — Side's delete of those paths never matched
-    # the root strings, so both mounts composed and caused Newton joint-graph cycles.
     variantSet "EE" = {
         "Gripper_2023" (
             delete payload = [
@@ -335,6 +331,25 @@ def Xform "R5" (
 
         }
         "None" {
+
+        }
+    }
+    variantSet "Visual" = {
+        "agilex" (
+            customData = {
+                string[] variantPrimPaths = ["."]
+            }
+            delete payload = @/home/fiveages/libraries/FaSim-Isaac/robots/manipulators/ARX 6.0/R5/payloads/Visual/agilex/payload.usda@
+            prepend payload = @./payloads/Visual/agilex/payload.usda@
+        ) {
+
+        }
+        "blue" (
+            prepend payload = @./payloads/Visual/blue.usda@
+        ) {
+
+        }
+        "default" {
 
         }
     }
@@ -388,7 +403,7 @@ def "Render" (
                 bool omni:rtx:scene:hydra:mdlMaterialWarmup = 1
                 rel orderedVars = </Render/Vars/LdrColor>
                 custom bool overrideClipRange = 0
-                uniform int2 resolution = (1280, 720)
+                uniform int2 resolution = (993, 692)
             }
         }
     }
@@ -435,10 +450,10 @@ over "OmniverseKit_Persp" (
     float exposure:time = 0.02
     float focalLength = 18.147562
     float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -0.9546365692164351)
-    float3 xformOp:rotateXYZ = (54.73561, -3.1805547e-15, 135)
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -0.7324707779977521)
+    float3 xformOp:rotateXYZ = (79.18648, -4.770832e-15, 151.85802)
     float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (0.5511596448200543, 0.5511596448200561, 0.5511597510059997)
+    double3 xformOp:translate = (0.2906088417642692, 0.5295315966663281, 0.2572410832056434)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 
@@ -518,7 +533,7 @@ over "OmniverseKit_Top" (
 }
 
 def PhysicsScene "PhysicsScene" (
-    prepend apiSchemas = ["NewtonSceneAPI", "PhysxSceneAPI"]
+    prepend apiSchemas = ["NewtonSceneAPI", "PhysxSceneAPI", "MjcSceneAPI"]
 )
 {
 }

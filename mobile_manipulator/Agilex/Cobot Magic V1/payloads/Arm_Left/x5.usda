@@ -1,0 +1,110 @@
+#usda 1.0
+(
+    defaultPrim = "Cobot_Magic_V1"
+)
+
+def Xform "Cobot_Magic_V1"
+{
+    over "base_footprint"
+    {
+        over "left_base_link"
+        {
+            def "X5_Left" (
+                prepend payload = @../../../../../manipulators/ARX 6.0/X5/X5.usda@
+                variants = {
+                    string EE = "Gripper_2025"
+                    string ROS = "None"
+                    string Robot = "robot"
+                    string Sensor = "none"
+                    string Side = "left"
+                }
+            )
+            {
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+                over "root_joint" (
+                    active = false
+                )
+                {
+                }
+
+                over "base_link"
+                {
+                    def PhysicsFixedJoint "AssemblerFixedJoint"
+                    {
+                        rel physics:body0 = </Cobot_Magic_V1/base_footprint/left_base_link>
+                        rel physics:body1 = </Cobot_Magic_V1/base_footprint/left_base_link/X5_Left/base_link>
+                        point3f physics:localPos0 = (0, 0, 0)
+                        point3f physics:localPos1 = (0, 0, 0)
+                        quatf physics:localRot0 = (1, 0, 0, 0)
+                        quatf physics:localRot1 = (1, 0, 0, 0)
+                    }
+                }
+
+                over "joints"
+                {
+                    over "left_joint1"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+
+                    over "left_joint2"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+
+                    over "left_joint3"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+
+                    over "left_joint4"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+
+                    over "left_joint5"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+
+                    over "left_joint6"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+                }
+
+                over "Gripper_2025" (
+                    variants = {
+                        string Sensor = "d435"
+                    }
+                )
+                {
+                    over "joints"
+                    {
+                        over "left_gripper_joint"
+                        {
+                            float state:linear:physics:position = 0
+                            float state:linear:physics:velocity = 0
+                        }
+
+                        over "left_joint8"
+                        {
+                            float state:linear:physics:position = 0
+                            float state:linear:physics:velocity = 0
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
