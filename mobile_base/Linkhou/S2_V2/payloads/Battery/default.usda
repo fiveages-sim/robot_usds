@@ -7,8 +7,8 @@
                 double radius = 5
             }
             dictionary Perspective = {
-                double3 position = (0.8941528777317467, 0.8811871336089167, 1.353307928028407)
-                double3 target = (-0.07106512316094804, -0.19387015467758062, 0.05418666381240356)
+                double3 position = (0.639044469085197, -0.37563527636271327, 0.6190840515732366)
+                double3 target = (-0.28423477506034467, 0.20217437723261517, 0.0057607956392273785)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -21,7 +21,7 @@
             string boundCamera = "/OmniverseKit_Persp"
         }
         dictionary omni_layer = {
-            string authoring_layer = "./empty.usda"
+            string authoring_layer = "./none.usda"
             dictionary locked = {
             }
             dictionary muteness = {
@@ -30,29 +30,40 @@
         dictionary renderSettings = {
         }
     }
-    defaultPrim = "World"
-    endTimeCode = 1000000
+    defaultPrim = "S2_V2"
+    endTimeCode = 0
     metersPerUnit = 1
-    startTimeCode = 0
-    timeCodesPerSecond = 60
+    startTimeCode = -1
     upAxis = "Z"
 )
 
-def Xform "World"
+def "S2_V2"
 {
-    def "Linkhou_S2_V1" (
-        prepend payload = @../Linkhou_S2_V1.usda@
-        variants = {
-            string ROS = "enable"
-        }
-    )
+    over "base_footprint"
     {
-    }
+        over "base_link"
+        {
+            over "chassis_base"
+            {
+                over "chassis_left_battery"
+                {
+                    def "battery" (
+                        prepend payload = @./battery.usd@
+                    )
+                    {
+                    }
+                }
 
-    def "default_environment" (
-        prepend payload = @../../../../../environment/fiveages_env/background/Grid/default_environment.usd@
-    )
-    {
+                over "chassis_right_battery"
+                {
+                    def "battery" (
+                        prepend payload = @./battery.usd@
+                    )
+                    {
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -150,10 +161,10 @@ over "OmniverseKit_Persp" (
     float exposure:time = 0.02
     float focalLength = 18.147562
     float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -1.9429642357705388)
-    float3 xformOp:rotateXYZ = (48.0387, -3.1805547e-15, 138.08157)
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -1.2499895898476157)
+    float3 xformOp:rotateXYZ = (60.615852, 6.3611094e-15, 57.96071)
     float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (0.8941528777317467, 0.8811871336089167, 1.353307928028407)
+    double3 xformOp:translate = (0.639044469085197, -0.37563527636271327, 0.6190840515732366)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 

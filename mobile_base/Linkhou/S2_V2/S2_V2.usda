@@ -7,8 +7,8 @@
                 double radius = 5
             }
             dictionary Perspective = {
-                double3 position = (0.8941528777317467, 0.8811871336089167, 1.353307928028407)
-                double3 target = (-0.07106512316094804, -0.19387015467758062, 0.05418666381240356)
+                double3 position = (0.7676102751356226, 0.7676102751356239, 0.7676103761552763)
+                double3 target = (-0.06701234468533668, -0.06174776624020217, 0.14854084834982684)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -21,38 +21,172 @@
             string boundCamera = "/OmniverseKit_Persp"
         }
         dictionary omni_layer = {
-            string authoring_layer = "./empty.usda"
-            dictionary locked = {
-            }
-            dictionary muteness = {
-            }
+            string authoring_layer = "./S2_V2.usda"
         }
         dictionary renderSettings = {
         }
     }
-    defaultPrim = "World"
-    endTimeCode = 1000000
+    defaultPrim = "S2_V2"
+    doc = """Generated from Composed Stage of root layer /home/fiveages/libraries/FaSim-Isaac/robots/mobile_base/Linkhou/S2_V2/S2_V2.usd
+
+
+Generated from Composed Stage of root layer /home/fiveages/libraries/FaSim-Isaac/robots/mobile_base/Linkhou/S2_V2/payloads/base.usd
+"""
     metersPerUnit = 1
-    startTimeCode = 0
-    timeCodesPerSecond = 60
     upAxis = "Z"
 )
 
-def Xform "World"
-{
-    def "Linkhou_S2_V1" (
-        prepend payload = @../Linkhou_S2_V1.usda@
-        variants = {
-            string ROS = "enable"
-        }
-    )
-    {
+def Xform "S2_V2" (
+    prepend references = @./payloads/base.usda@
+    variants = {
+        string Battery = "default"
+        string Physics = "physx"
+        string ROS = "none"
+        string Robot = "none"
+        string Sensor = "sensors"
+        string Visual = "default"
     }
-
-    def "default_environment" (
-        prepend payload = @../../../../../environment/fiveages_env/background/Grid/default_environment.usd@
-    )
+    prepend variantSets = ["Physics", "Visual", "Battery", "ROS"]
+    append variantSets = ["Robot", "Sensor"]
+)
+{
+    over "joints"
     {
+        over "fl_steer_joint"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "fr_steer_joint"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "rl_steer_joint"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "rr_steer_joint"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "fl_wheel_joint"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "fr_wheel_joint"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "rl_wheel_joint"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "rr_wheel_joint"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+    }
+    variantSet "Physics" = {
+        "none" (
+            prepend payload = @./payloads/Physics/none.usda@
+        ) {
+
+        }
+        "physics" (
+            prepend payload = @./payloads/Physics/physics.usda@
+        ) {
+
+        }
+        "physx" (
+            prepend payload = @./payloads/Physics/physx.usda@
+        ) {
+
+        }
+        "mujoco" (
+            prepend payload = @./payloads/Physics/mujoco.usda@
+        ) {
+
+        }
+    }
+    variantSet "Visual" = {
+        "default" (
+            prepend payload = @./payloads/Visual/default.usda@
+        ) {
+
+        }
+        "sinopec" (
+            prepend payload = @./payloads/Visual/sinopec.usda@
+        ) {
+
+        }
+        "anigon" (
+            prepend payload = @./payloads/Visual/anigon.usda@
+        ) {
+
+        }
+        "none" {
+
+        }
+    }
+    variantSet "Battery" = {
+        "default" (
+            prepend payload = @./payloads/Battery/default.usda@
+        ) {
+
+        }
+        "none" {
+
+        }
+    }
+    variantSet "ROS" = {
+        "enable" (
+            prepend payload = @./payloads/ROS/ros2.usda@
+        ) {
+
+        }
+        "none" (
+            prepend payload = @./payloads/ROS/none.usda@
+        ) {
+
+        }
+    }
+    variantSet "Robot" = {
+        "none" (
+            prepend payload = @./payloads/Robot/none.usda@
+        ) {
+
+        }
+        "robot" (
+            prepend payload = @./payloads/Robot/robot.usda@
+        ) {
+
+        }
+    }
+    variantSet "Sensor" = {
+        "none" (
+            prepend payload = @./payloads/Sensor/none.usda@
+        ) {
+
+        }
+        "sensors" (
+            prepend payload = @./payloads/Sensor/sensors.usda@
+        ) {
+
+        }
     }
 }
 
@@ -150,10 +284,10 @@ over "OmniverseKit_Persp" (
     float exposure:time = 0.02
     float focalLength = 18.147562
     float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -1.9429642357705388)
-    float3 xformOp:rotateXYZ = (48.0387, -3.1805547e-15, 138.08157)
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -1.3295400552705472)
+    float3 xformOp:rotateXYZ = (62.249203, 3.1805547e-15, 134.81873)
     float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (0.8941528777317467, 0.8811871336089167, 1.353307928028407)
+    double3 xformOp:translate = (0.7676102751356226, 0.7676102751356239, 0.7676103761552763)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 
@@ -230,5 +364,11 @@ over "OmniverseKit_Top" (
     float3 xformOp:scale = (1, 1, 1)
     double3 xformOp:translate = (0, 0, 5)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+
+def PhysicsScene "PhysicsScene" (
+    prepend apiSchemas = ["NewtonSceneAPI", "PhysxSceneAPI"]
+)
+{
 }
 

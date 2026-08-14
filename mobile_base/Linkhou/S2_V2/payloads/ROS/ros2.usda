@@ -1,0 +1,482 @@
+#usda 1.0
+(
+    defaultPrim = "S2_V2"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def "S2_V2"
+{
+    def "Graph"
+    {
+        def OmniGraph "ROS_Odometry"
+        {
+            token evaluationMode = "Automatic"
+            token evaluator:type = "execution"
+            token fabricCacheBacking = "StageWithoutHistory"
+            int2 fileFormatVersion = (1, 9)
+            token pipelineStage = "pipelineStageSimulation"
+
+            def OmniGraphNode "OnPlaybackTick"
+            {
+                token node:type = "omni.graph.action.OnPlaybackTick"
+                int node:typeVersion = 2
+                custom double outputs:deltaSeconds
+                custom double outputs:frame
+                custom uint outputs:tick (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom double outputs:time
+            }
+
+            def OmniGraphNode "Context"
+            {
+                custom uchar inputs:domain_id
+                custom bool inputs:useDomainIDEnvVar
+                token node:type = "isaacsim.ros2.bridge.ROS2Context"
+                int node:typeVersion = 2
+                custom uint64 outputs:context
+            }
+
+            def OmniGraphNode "ReadSimTime"
+            {
+                custom uint64 inputs:referenceTimeDenominator
+                custom int64 inputs:referenceTimeNumerator
+                custom bool inputs:resetOnStop = 0
+                token node:type = "isaacsim.core.nodes.IsaacReadSimulationTime"
+                int node:typeVersion = 1
+                custom double outputs:simulationTime
+            }
+
+            def OmniGraphNode "TFWorld2Odom"
+            {
+                custom string inputs:childFrameId = "odom"
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </S2_V2/Graph/ROS_Odometry/Context.outputs:context>
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </S2_V2/Graph/ROS_Odometry/OnPlaybackTick.outputs:tick>
+                custom string inputs:nodeNamespace = ""
+                custom string inputs:parentFrameId = "world"
+                custom string inputs:qosProfile
+                custom uint64 inputs:queueSize
+                custom quatd inputs:rotation
+                custom bool inputs:staticPublisher
+                custom double inputs:timeStamp
+                prepend double inputs:timeStamp.connect = </S2_V2/Graph/ROS_Odometry/ReadSimTime.outputs:simulationTime>
+                custom string inputs:topicName
+                custom vector3d inputs:translation
+                token node:type = "isaacsim.ros2.bridge.ROS2PublishRawTransformTree"
+                int node:typeVersion = 1
+            }
+
+            def OmniGraphNode "TFOdom2Robot"
+            {
+                custom string inputs:childFrameId = "base_footprint"
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </S2_V2/Graph/ROS_Odometry/Context.outputs:context>
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </S2_V2/Graph/ROS_Odometry/OnPlaybackTick.outputs:tick>
+                custom string inputs:nodeNamespace = ""
+                custom string inputs:parentFrameId = "odom"
+                custom string inputs:qosProfile
+                custom uint64 inputs:queueSize
+                custom quatd inputs:rotation
+                prepend quatd inputs:rotation.connect = </S2_V2/Graph/ROS_Odometry/ComputeOdometry.outputs:orientation>
+                custom bool inputs:staticPublisher
+                custom double inputs:timeStamp
+                prepend double inputs:timeStamp.connect = </S2_V2/Graph/ROS_Odometry/ReadSimTime.outputs:simulationTime>
+                custom string inputs:topicName
+                custom vector3d inputs:translation
+                prepend vector3d inputs:translation.connect = </S2_V2/Graph/ROS_Odometry/ComputeOdometry.outputs:position>
+                token node:type = "isaacsim.ros2.bridge.ROS2PublishRawTransformTree"
+                int node:typeVersion = 1
+            }
+
+            def OmniGraphNode "ComputeOdometry"
+            {
+                custom rel inputs:chassisPrim = </S2_V2/base_footprint> (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </S2_V2/Graph/ROS_Odometry/OnPlaybackTick.outputs:tick>
+                token node:type = "isaacsim.core.nodes.IsaacComputeOdometry"
+                int node:typeVersion = 1
+                custom vector3d outputs:angularAcceleration
+                custom vector3d outputs:angularVelocity
+                custom uint outputs:execOut (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom vector3d outputs:globalLinearAcceleration
+                custom vector3d outputs:globalLinearVelocity
+                custom vector3d outputs:linearAcceleration
+                custom vector3d outputs:linearVelocity
+                custom quatd outputs:orientation
+                custom vector3d outputs:position
+            }
+
+            def OmniGraphNode "PublisherOdometry"
+            {
+                custom vector3d inputs:angularVelocity
+                prepend vector3d inputs:angularVelocity.connect = </S2_V2/Graph/ROS_Odometry/ComputeOdometry.outputs:angularVelocity>
+                custom string inputs:chassisFrameId = "base_footprint"
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </S2_V2/Graph/ROS_Odometry/Context.outputs:context>
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </S2_V2/Graph/ROS_Odometry/ComputeOdometry.outputs:execOut>
+                custom vector3d inputs:linearVelocity
+                prepend vector3d inputs:linearVelocity.connect = </S2_V2/Graph/ROS_Odometry/ComputeOdometry.outputs:linearVelocity>
+                custom string inputs:nodeNamespace = ""
+                custom string inputs:odomFrameId = "odom"
+                custom quatd inputs:orientation
+                prepend quatd inputs:orientation.connect = </S2_V2/Graph/ROS_Odometry/ComputeOdometry.outputs:orientation>
+                custom vector3d inputs:position
+                prepend vector3d inputs:position.connect = </S2_V2/Graph/ROS_Odometry/ComputeOdometry.outputs:position>
+                custom bool inputs:publishRawVelocities
+                custom string inputs:qosProfile
+                custom uint64 inputs:queueSize
+                custom vector3d inputs:robotFront
+                custom double inputs:timeStamp
+                prepend double inputs:timeStamp.connect = </S2_V2/Graph/ROS_Odometry/ReadSimTime.outputs:simulationTime>
+                custom string inputs:topicName = "/odom"
+                token node:type = "isaacsim.ros2.bridge.ROS2PublishOdometry"
+                int node:typeVersion = 1
+            }
+        }
+
+        def OmniGraph "ROS_Steering_Controller"
+        {
+            token evaluationMode = "Automatic"
+            token evaluator:type = "execution"
+            token fabricCacheBacking = "Shared"
+            int2 fileFormatVersion = (1, 9)
+            token pipelineStage = "pipelineStageSimulation"
+
+            def OmniGraphNode "Context"
+            {
+                custom uchar inputs:domain_id
+                custom bool inputs:useDomainIDEnvVar
+                token node:type = "isaacsim.ros2.bridge.ROS2Context"
+                int node:typeVersion = 2
+                custom uint64 outputs:context
+            }
+
+            def OmniGraphNode "OnPlaybackTick"
+            {
+                token node:type = "omni.graph.action.OnPlaybackTick"
+                int node:typeVersion = 2
+                custom double outputs:deltaSeconds
+                custom double outputs:frame
+                custom uint outputs:tick (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom double outputs:time
+            }
+
+            def OmniGraphNode "articulation_controller"
+            {
+                custom double[] inputs:effortCommand
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </S2_V2/Graph/ROS_Steering_Controller/OnPlaybackTick.outputs:tick>
+                custom int[] inputs:jointIndices
+                custom token[] inputs:jointNames
+                prepend token[] inputs:jointNames.connect = </S2_V2/Graph/ROS_Steering_Controller/script_node.outputs:Steer_Joints>
+                custom double[] inputs:positionCommand
+                prepend double[] inputs:positionCommand.connect = </S2_V2/Graph/ROS_Steering_Controller/script_node.outputs:Steer_Position_Command>
+                custom string inputs:robotPath
+                custom rel inputs:targetPrim = </S2_V2> (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
+                custom double[] inputs:velocityCommand
+                token node:type = "isaacsim.core.nodes.IsaacArticulationController"
+                int node:typeVersion = 1
+            }
+
+            def OmniGraphNode "articulation_controller_01"
+            {
+                custom double[] inputs:effortCommand
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </S2_V2/Graph/ROS_Steering_Controller/OnPlaybackTick.outputs:tick>
+                custom int[] inputs:jointIndices
+                custom token[] inputs:jointNames
+                prepend token[] inputs:jointNames.connect = </S2_V2/Graph/ROS_Steering_Controller/script_node.outputs:Wheel_Joints>
+                custom double[] inputs:positionCommand
+                custom string inputs:robotPath
+                custom rel inputs:targetPrim = </S2_V2> (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
+                custom double[] inputs:velocityCommand
+                prepend double[] inputs:velocityCommand.connect = </S2_V2/Graph/ROS_Steering_Controller/script_node.outputs:Wheel_Velocity_Command>
+                token node:type = "isaacsim.core.nodes.IsaacArticulationController"
+                int node:typeVersion = 1
+            }
+
+            def OmniGraphNode "ros2_subscribe_twist"
+            {
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </S2_V2/Graph/ROS_Steering_Controller/Context.outputs:context>
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </S2_V2/Graph/ROS_Steering_Controller/OnPlaybackTick.outputs:tick>
+                custom string inputs:nodeNamespace
+                custom string inputs:qosProfile
+                custom uint64 inputs:queueSize
+                custom string inputs:topicName = "cmd_vel"
+                token node:type = "isaacsim.ros2.bridge.ROS2SubscribeTwist"
+                int node:typeVersion = 1
+                custom vector3d outputs:angularVelocity
+                custom uint outputs:execOut (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom vector3d outputs:linearVelocity
+            }
+
+            def OmniGraphNode "scale_to_from_stage_units"
+            {
+                custom token inputs:conversion (
+                    allowedTokens = ["Convert to stage units", "Convert to meters"]
+                )
+                custom token inputs:value
+                prepend token inputs:value.connect = </S2_V2/Graph/ROS_Steering_Controller/ros2_subscribe_twist.outputs:linearVelocity>
+                token node:type = "isaacsim.core.nodes.OgnIsaacScaleToFromStageUnit"
+                int node:typeVersion = 1
+                custom token outputs:result
+            }
+
+            def OmniGraphNode "break_3_vector"
+            {
+                custom token inputs:tuple
+                prepend token inputs:tuple.connect = </S2_V2/Graph/ROS_Steering_Controller/ros2_subscribe_twist.outputs:angularVelocity>
+                token node:type = "omni.graph.nodes.BreakVector3"
+                int node:typeVersion = 1
+                custom token outputs:x
+                custom token outputs:y
+                custom token outputs:z
+            }
+
+            def OmniGraphNode "break_3_vector_01"
+            {
+                custom token inputs:tuple
+                prepend token inputs:tuple.connect = </S2_V2/Graph/ROS_Steering_Controller/scale_to_from_stage_units.outputs:result>
+                token node:type = "omni.graph.nodes.BreakVector3"
+                int node:typeVersion = 1
+                custom token outputs:x
+                custom token outputs:y
+                custom token outputs:z
+            }
+
+            def OmniGraphNode "script_node"
+            {
+                custom double inputs:angularGain = 1.04
+                custom double inputs:Desired_Angular_Velocity
+                prepend double inputs:Desired_Angular_Velocity.connect = </S2_V2/Graph/ROS_Steering_Controller/break_3_vector.outputs:z>
+                custom double inputs:Desired_Linear_Velocity_X
+                prepend double inputs:Desired_Linear_Velocity_X.connect = </S2_V2/Graph/ROS_Steering_Controller/break_3_vector_01.outputs:x>
+                custom double inputs:Desired_Linear_Velocity_Y
+                prepend double inputs:Desired_Linear_Velocity_Y.connect = </S2_V2/Graph/ROS_Steering_Controller/break_3_vector_01.outputs:y>
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </S2_V2/Graph/ROS_Steering_Controller/OnPlaybackTick.outputs:tick>
+                custom double inputs:linearGain = 14.28
+                custom string inputs:script = """# This script is executed the first time the script node computes, or the next time
+# it computes after this script is modified or the 'Reset' button is pressed.
+#
+# The following callback functions may be defined in this script:
+#     setup(db): Called immediately after this script is executed
+#     compute(db): Called every time the node computes (should always be defined)
+#     cleanup(db): Called when the node is deleted or the reset button is pressed
+# Available variables:
+#    db: og.Database The node interface, attributes are exposed like db.inputs.foo
+#                    Use db.log_error, db.log_warning to report problems.
+#    og: The omni.graph.core module
+
+import numpy as np
+
+_DEFAULT_LINEAR_GAIN = 50.0
+_DEFAULT_ANGULAR_GAIN = 1.0
+_DEFAULT_FLIP_VELOCITY_SCALE = 0.35
+
+_SPEED_EPS = 1e-6
+
+_prev_pos_cmd = np.zeros(4)
+_prev_vel_unscaled = np.zeros(4)
+_has_prev_steer = False
+
+
+def _wrap_to_pi(angle):
+    return (angle + np.pi) % (2 * np.pi) - np.pi
+
+
+def _angle_diff(target, reference):
+    return _wrap_to_pi(target - reference)
+
+
+def _pick_steer_and_wheel_speed(raw_angle, speed, ref_angle):
+    \"\"\"(θ, v) 与 (θ+π, -v) 运动学等价，选与 ref 夹角变化更小的一组。\"\"\"
+    a = _wrap_to_pi(raw_angle)
+    va = speed
+    b = _wrap_to_pi(raw_angle + np.pi)
+    vb = -speed
+    da = abs(_angle_diff(a, ref_angle))
+    db = abs(_angle_diff(b, ref_angle))
+    if db < da:
+        return b, vb
+    return a, va
+
+
+def setup(db):
+    global _prev_pos_cmd, _prev_vel_unscaled, _has_prev_steer
+    _prev_pos_cmd = np.zeros(4)
+    _prev_vel_unscaled = np.zeros(4)
+    _has_prev_steer = False
+
+
+def cleanup(db):
+    global _has_prev_steer, _prev_vel_unscaled
+    _has_prev_steer = False
+    _prev_vel_unscaled = np.zeros(4)
+
+
+def compute(db):
+    global _prev_pos_cmd, _prev_vel_unscaled, _has_prev_steer
+
+    linear_gain = float(getattr(db.inputs, \"linearGain\", _DEFAULT_LINEAR_GAIN))
+    angular_gain = float(getattr(db.inputs, \"angularGain\", _DEFAULT_ANGULAR_GAIN))
+    flip_vel_scale = float(getattr(db.inputs, \"flipVelocityScale\", _DEFAULT_FLIP_VELOCITY_SCALE))
+    flip_vel_scale = max(0.0, min(1.0, flip_vel_scale))
+
+    pos_cmd = np.zeros(4)
+    vel_cmd = np.zeros(4)
+
+    vx = db.inputs.Desired_Linear_Velocity_X
+    vy = db.inputs.Desired_Linear_Velocity_Y
+    omega_cmd = db.inputs.Desired_Angular_Velocity
+    omega = omega_cmd * angular_gain
+
+    wheel_positions = np.array(
+        [
+            [0.23072, 0.21738],  # fl
+            [-0.22928, 0.21738],  # rl
+            [-0.23072, -0.21738],  # rr
+            [0.22928, -0.21738],  # fr
+        ]
+    )
+
+    for i in range(4):
+        x_i, y_i = wheel_positions[i]
+
+        vx_angular = -omega * y_i
+        vy_angular = omega * x_i
+
+        vx_total = vx + vx_angular
+        vy_total = vy + vy_angular
+
+        angle = np.arctan2(vy_total, vx_total)
+        speed = np.linalg.norm([vx_total, vy_total])
+
+        if speed < _SPEED_EPS:
+            pos_cmd[i] = _prev_pos_cmd[i] if _has_prev_steer else 0.0
+            vel_cmd[i] = 0.0
+        else:
+            ref = _prev_pos_cmd[i] if _has_prev_steer else 0.0
+            pos_cmd[i], vel_cmd[i] = _pick_steer_and_wheel_speed(angle, speed, ref)
+            if _has_prev_steer:
+                pv = _prev_vel_unscaled[i]
+                nv = vel_cmd[i]
+                if (
+                    abs(pv) > _SPEED_EPS
+                    and abs(nv) > _SPEED_EPS
+                    and pv * nv < 0
+                    and flip_vel_scale < 1.0
+                ):
+                    vel_cmd[i] *= flip_vel_scale
+
+    vel_cmd[:] *= linear_gain
+
+    if np.linalg.norm([vx, vy]) < 0.0001 and abs(omega_cmd) < 0.0001:
+        pos_cmd[:] = 0
+        vel_cmd[:] = 0
+
+    inv_gain = 1.0 / linear_gain if linear_gain != 0.0 else 0.0
+    _prev_vel_unscaled = vel_cmd * inv_gain
+    _prev_pos_cmd = pos_cmd.copy()
+    _has_prev_steer = True
+
+    db.outputs.Steer_Position_Command = pos_cmd
+    db.outputs.Steer_Joints = [\"fl_steer_joint\", \"rl_steer_joint\", \"rr_steer_joint\", \"fr_steer_joint\"]
+    db.outputs.Wheel_Velocity_Command = vel_cmd
+    db.outputs.Wheel_Joints = [\"fl_wheel_joint\", \"rl_wheel_joint\", \"rr_wheel_joint\", \"fr_wheel_joint\"]
+    return True
+"""
+                custom bool inputs:usePath = 0
+                token node:type = "omni.graph.scriptnode.ScriptNode"
+                int node:typeVersion = 2
+                custom uint outputs:execOut (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom token[] outputs:Steer_Joints
+                custom double[] outputs:Steer_Position_Command
+                custom token[] outputs:Wheel_Joints
+                custom double[] outputs:Wheel_Velocity_Command
+                custom bool state:omni_initialized
+            }
+        }
+    }
+}

@@ -7,8 +7,8 @@
                 double radius = 5
             }
             dictionary Perspective = {
-                double3 position = (0.8941528777317467, 0.8811871336089167, 1.353307928028407)
-                double3 target = (-0.07106512316094804, -0.19387015467758062, 0.05418666381240356)
+                double3 position = (1.4651026578837687, 1.465102657883769, 1.465102742255512)
+                double3 target = (-3.97803838758648e-8, -3.978038298768638e-8, 7.956076819581881e-8)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -22,10 +22,6 @@
         }
         dictionary omni_layer = {
             string authoring_layer = "./empty.usda"
-            dictionary locked = {
-            }
-            dictionary muteness = {
-            }
         }
         dictionary renderSettings = {
         }
@@ -40,19 +36,29 @@
 
 def Xform "World"
 {
-    def "Linkhou_S2_V1" (
-        prepend payload = @../Linkhou_S2_V1.usda@
+    def "default_environment" (
+        prepend payload = @../../../../../environment/fiveages_env/background/Grid/default_environment.usd@
+    )
+    {
+    }
+
+    def "S2_V2" (
+        prepend payload = @../S2_V2.usda@
         variants = {
             string ROS = "enable"
         }
     )
     {
-    }
-
-    def "default_environment" (
-        prepend payload = @../../../../../environment/fiveages_env/background/Grid/default_environment.usd@
-    )
-    {
+        over "Graph"
+        {
+            over "ROS_Steering_Controller"
+            {
+                over "script_node"
+                {
+                    custom token inputs:scriptPath
+                }
+            }
+        }
     }
 }
 
@@ -150,10 +156,10 @@ over "OmniverseKit_Persp" (
     float exposure:time = 0.02
     float focalLength = 18.147562
     float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -1.9429642357705388)
-    float3 xformOp:rotateXYZ = (48.0387, -3.1805547e-15, 138.08157)
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -2.5376322904709383)
+    float3 xformOp:rotateXYZ = (54.73561, -6.3611094e-15, 135)
     float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (0.8941528777317467, 0.8811871336089167, 1.353307928028407)
+    double3 xformOp:translate = (1.4651026578837687, 1.465102657883769, 1.465102742255512)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 
