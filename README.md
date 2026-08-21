@@ -45,6 +45,7 @@ The following models are **Git submodules** (vendored repositories, checked in a
 | Path | Upstream repository | `branch` in `.gitmodules`* |
 |------|---------------------|----------------------------|
 | `humanoid/FiveAges/Gen2` | [fiveages-sim/fiveages-gen2-robot-usds](https://github.com/fiveages-sim/fiveages-gen2-robot-usds) | `main` |
+| `humanoid/FiveAges/Gen3` | [fiveages-sim/fiveages-gen3-robot-usds](https://github.com/fiveages-sim/fiveages-gen3-robot-usds) | `main` |
 | `humanoid/FiveAges_W1` | [fiveages-sim/fa-w1-usds](https://github.com/fiveages-sim/fa-w1-usds) | `main` |
 | `humanoid/Agibot_G2` | [fiveages-sim/agibot-g2-usds](https://github.com/fiveages-sim/agibot-g2-usds) | — |
 | `humanoid/Ubtech` | [fiveages-sim/ubtech-usds](https://github.com/fiveages-sim/ubtech-usds) | `main` |
@@ -98,6 +99,7 @@ The following models are **Git submodules** (vendored repositories, checked in a
     - Dobot Atom
     - FiveAges W1
     - FiveAges W2
+    - FiveAges WCE3
     - Galbot (`humanoid/Galbot` submodule)
         - Galbot One (`Galbot_One`)
         - Galbot Zero (`Galbot_Zero`)

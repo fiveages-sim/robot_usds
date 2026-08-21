@@ -46,6 +46,7 @@ git submodule update --init --recursive
 | 路径 | 上游仓库 | `.gitmodules` 中的 `branch`* |
 |------|----------|------------------------------|
 | `humanoid/FiveAges/Gen2` | [fiveages-sim/fiveages-gen2-robot-usds](https://github.com/fiveages-sim/fiveages-gen2-robot-usds) | `main` |
+| `humanoid/FiveAges/Gen3` | [fiveages-sim/fiveages-gen3-robot-usds](https://github.com/fiveages-sim/fiveages-gen3-robot-usds) | `main` |
 | `humanoid/FiveAges_W1` | [fiveages-sim/fa-w1-usds](https://github.com/fiveages-sim/fa-w1-usds) | `main` |
 | `humanoid/Agibot_G2` | [fiveages-sim/agibot-g2-usds](https://github.com/fiveages-sim/agibot-g2-usds) | — |
 | `humanoid/Ubtech` | [fiveages-sim/ubtech-usds](https://github.com/fiveages-sim/ubtech-usds) | `main` |
@@ -125,6 +126,7 @@ git submodule update --init --recursive
     - 越疆 Atom（`Dobot_Atom`）
     - 中科第五纪 W1
     - 中科第五纪 W2
+    - 中科第五纪 WCE3
     - 银河通用 Galbot（`humanoid/Galbot` 子模块）
         - Galbot One（`Galbot_One`）
         - Galbot Zero（`Galbot_Zero`）
