@@ -1,0 +1,46 @@
+#usda 1.0
+(
+    defaultPrim = "ART7"
+    doc = """EE=hook_type1 left-arm mount. Jointless fixed hook."""
+)
+
+def Xform "ART7"
+{
+    over "link7"
+    {
+        over "tcp"
+        {
+            def "Hook_type1" (
+                prepend payload = @../../../../../../../components/fixed_ee/Hook_type1/Hook_type1.usda@
+                variants = {
+                    string side = "left"
+                }
+            )
+            {
+                double3 xformOp:translate = (0, 0, 0)
+                double3 xformOp:rotateZYX = (0, 0, -180)
+                double3 xformOp:scale = (1, 1, 1)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateZYX", "xformOp:scale"]
+
+                over "root_joint" (
+                    active = false
+                )
+                {
+                }
+
+                over "gripper_base"
+                {
+                    def PhysicsFixedJoint "AssemblerFixedJoint"
+                    {
+                        rel physics:body0 = </ART7/link7/tcp>
+                        rel physics:body1 = </ART7/link7/tcp/Hook_type1/gripper_base>
+                        point3f physics:localPos0 = (0, 0, 0)
+                        point3f physics:localPos1 = (0, 0, 0)
+                        quatf physics:localRot0 = (1, 0, 0, 0)
+                        quatf physics:localRot1 = (1, 0, 0, 0)
+                    }
+                }
+            }
+        }
+    }
+}
