@@ -7,8 +7,8 @@
                 double radius = 5
             }
             dictionary Perspective = {
-                double3 position = (1.0789061454442672, 0.4089017594244898, 1.9972174353900187)
-                double3 target = (-2.3558464974098565, -1.6674786465491964, -1.136969614889126)
+                double3 position = (0.33989157274412773, 0.29159293386650487, 1.0712874553050555)
+                double3 target = (-0.22769908173611098, -0.2759977206137336, 0.5036968143722013)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -21,137 +21,86 @@
             string boundCamera = "/OmniverseKit_Persp"
         }
         dictionary omni_layer = {
-            string authoring_layer = "./station.usda"
+            string authoring_layer = "./default.usda"
         }
         dictionary renderSettings = {
         }
     }
-    defaultPrim = "Dual_Stand1"
-    doc = """Generated from Composed Stage of root layer /home/fiveages/libraries/FaSim-Isaac/robots/stands/Dual_Stand1/Dual_Stand1.usd
-
-
-Generated from Composed Stage of root layer /home/fiveages/libraries/FaSim-Isaac/robots/manipulators/Tianji/M6_Fa_Station/payloads/base.usd
-"""
+    defaultPrim = "M6_CCS"
     endTimeCode = 0
     metersPerUnit = 1
     startTimeCode = -1
     upAxis = "Z"
 )
 
-def Xform "Dual_Stand1" (
-    prepend references = @./payloads/base.usda@
-    variants = {
-        string Arm_Left = "M6_CCS"
-        string Arm_Right = "M6_CCS"
-        string Physics = "physx"
-        string Robot = "none"
-        string Sensor = "none"
-    }
-    prepend variantSets = ["Physics", "Arm_Left", "Arm_Right"]
-    append variantSets = ["Robot", "Sensor"]
-)
+def "M6_CCS"
 {
-    over "base_link"
+    over "link1"
     {
         string isaac:nameOverride (
             displayName = "Name Override"
         )
 
-        over "arm_base"
+        over "visuals"
         {
-            string isaac:Description (
-                displayName = "Reference Description"
+            over "link1" (
+                delete references = @../instances.usda@</Instances/mesh_1>
+                prepend references = @./instances/white.usda@</Instances/mesh_1>
             )
-            uniform token isaac:forwardAxis (
-                displayName = "Forward Axis"
-            )
-            double3 xformOp:translate = (0, 0, 0.701)
-
-            def Xform "left_mount"
             {
-                quatd xformOp:orient = (0.7071067811865476, -0.7071067811865475, 0, 0)
-                double3 xformOp:scale = (1, 1, 1)
-                double3 xformOp:translate = (0, 0.12, 0)
-                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
-            }
-
-            def Xform "right_mount"
-            {
-                quatd xformOp:orient = (0.7071067811865476, 0.7071067811865475, 0, 0)
-                double3 xformOp:scale = (1, 1, 1)
-                double3 xformOp:translate = (0, -0.12, 0)
-                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
             }
         }
     }
-    variantSet "Physics" = {
-        "mujoco" (
-            prepend payload = @./payloads/Physics/mujoco.usda@
-        ) {
 
-        }
-        "none" (
-            prepend payload = @./payloads/Physics/none.usda@
-        ) {
-
-        }
-        "physics" (
-            prepend payload = @./payloads/Physics/physics.usda@
-        ) {
-
-        }
-        "physx" (
-            prepend payload = @./payloads/Physics/physx.usda@
-        ) {
-
+    over "link2"
+    {
+        over "visuals"
+        {
+            over "link2" (
+                delete references = @../instances.usda@</Instances/mesh_2>
+                prepend references = @./instances/white.usda@</Instances/mesh_2>
+            )
+            {
+            }
         }
     }
-    variantSet "Arm_Left" = {
-        "None" {
 
-        }
-        "M6_CCS" (
-            prepend payload = @./payloads/Arm_Left/M6_CCS.usda@
-        ) {
-            prepend rel isaac:physics:robotJoints = </Dual_Stand1/base_link/arm_base/left_mount/M6_CCS>
-            prepend rel isaac:physics:robotLinks = </Dual_Stand1/base_link/arm_base/left_mount/M6_CCS>
-
-        }
-    }
-    variantSet "Arm_Right" = {
-        "None" {
-
-        }
-        "M6_CCS" (
-            prepend payload = @./payloads/Arm_Right/M6_CCS.usda@
-        ) {
-            prepend rel isaac:physics:robotJoints = </Dual_Stand1/base_link/arm_base/right_mount/M6_CCS>
-            prepend rel isaac:physics:robotLinks = </Dual_Stand1/base_link/arm_base/right_mount/M6_CCS>
-
+    over "link3"
+    {
+        over "visuals"
+        {
+            over "link3" (
+                delete references = @../instances.usda@</Instances/mesh_3>
+                prepend references = @./instances/white.usda@</Instances/mesh_3>
+            )
+            {
+            }
         }
     }
-    variantSet "Robot" = {
-        "none" (
-            prepend payload = @./payloads/Robot/none.usda@
-        ) {
 
-        }
-        "robot" (
-            prepend payload = @./payloads/Robot/robot.usda@
-        ) {
-
+    over "link4"
+    {
+        over "visuals"
+        {
+            over "link4" (
+                delete references = @../instances.usda@</Instances/mesh_4>
+                prepend references = @./instances/white.usda@</Instances/mesh_4>
+            )
+            {
+            }
         }
     }
-    variantSet "Sensor" = {
-        "none" (
-            prepend payload = @./payloads/Sensor/none.usda@
-        ) {
 
-        }
-        "sensors" (
-            prepend payload = @./payloads/Sensor/sensors.usda@
-        ) {
-
+    over "link5"
+    {
+        over "visuals"
+        {
+            over "link5" (
+                delete references = @../instances.usda@</Instances/mesh_5>
+                prepend references = @./instances/white.usda@</Instances/mesh_5>
+            )
+            {
+            }
         }
     }
 }
@@ -183,32 +132,27 @@ def "Render" (
                 bool omni:rtx:dlss:frameGeneration = 0
                 float3 omni:rtx:domeLight:rotationAxis = (0, 0, 1)
                 bool omni:rtx:indirectDiffuse:denoiser:enabled = 0
-                bool omni:rtx:material:db:nonVisualMaterialCSV:enabled = 0
-                string omni:rtx:material:db:rtSensorNameToIdMap = "DefaultMaterial:0;AsphaltStandardMaterial:1;AsphaltWeatheredMaterial:2;VegetationGrassMaterial:3;WaterStandardMaterial:4;GlassStandardMaterial:5;FiberGlassMaterial:6;MetalAlloyMaterial:7;MetalAluminumMaterial:8;MetalAluminumOxidizedMaterial:9;PlasticStandardMaterial:10;RetroMarkingsMaterial:11;RetroSignMaterial:12;RubberStandardMaterial:13;SoilClayMaterial:14;ConcreteRoughMaterial:15;ConcreteSmoothMaterial:16;OakTreeBarkMaterial:17;FabricStandardMaterial:18;PlexiGlassStandardMaterial:19;MetalSilverMaterial:20"
                 bool omni:rtx:material:db:syncLoads = 1
                 token omni:rtx:post:dlss:execMode = "performance"
                 bool omni:rtx:post:registeredCompositing:invertColorCorrection = 1
                 bool omni:rtx:post:registeredCompositing:invertToneMap = 1
                 bool omni:rtx:pt:adaptiveSampling:filterError = 0
                 uint omni:rtx:pt:adaptiveSampling:fixedSppIterations = 2
-                bool omni:rtx:pt:lightcache:cached:dontResolveConflicts = 1
                 uint omni:rtx:pt:maxSamplesPerLaunch = 2073600
                 uint omni:rtx:pt:mgpu:maxPixelsPerRegionExponent = 12
                 bool omni:rtx:reflections:denoiser:enabled = 0
                 token omni:rtx:rendermode = "RealTimePathTracing"
                 color3f omni:rtx:rt:ambientLight:color = (0.1, 0.1, 0.1)
                 bool omni:rtx:rt:demoire = 0
-                bool omni:rtx:rt:ecoMode:enabled
                 bool omni:rtx:rt:lightcache:spatialCache:dontResolveConflicts = 1
                 int omni:rtx:rt:sss:samples = 1
                 uint omni:rtx:rtpt:maxVolumeBounces = 15
                 float omni:rtx:rtpt:modulatingRoughnessThreshold = 0.08
                 bool omni:rtx:scene:hydra:materialSyncLoads = 1
                 bool omni:rtx:scene:hydra:mdlMaterialWarmup = 1
-                uint omni:rtx:viewTile:limit = 4294967295
                 rel orderedVars = </Render/Vars/LdrColor>
                 custom bool overrideClipRange = 0
-                uniform int2 resolution = (997, 603)
+                uniform int2 resolution = (1239, 654)
             }
         }
     }
@@ -229,12 +173,13 @@ def "Render" (
         )
         {
             uniform string sourceName = "LdrColor"
+            uniform token sourceType = "raw"
         }
     }
 }
 
 over "OmniverseKit_Persp" (
-    apiSchemas = ["OmniRtxCameraAutoExposureAPI_1", "OmniRtxCameraExposureAPI_1"]
+    prepend apiSchemas = ["OmniRtxCameraAutoExposureAPI_1", "OmniRtxCameraExposureAPI_1"]
     customData = {
         dictionary omni = {
             dictionary kit = {
@@ -254,10 +199,10 @@ over "OmniverseKit_Persp" (
     float exposure:time = 0.02
     float focalLength = 18.147562
     float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (8.259274735581825e-17, 0, -5.092348159154312)
-    float3 xformOp:rotateXYZ = (52.013927, -9.541664e-14, 121.15385)
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -0.9830958436394589)
+    float3 xformOp:rotateXYZ = (54.73561, -6.3611094e-15, 135)
     float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (1.0789061454442672, 0.4089017594244898, 1.9972174353900187)
+    double3 xformOp:translate = (0.33989157274412773, 0.29159293386650487, 1.0712874553050555)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 
@@ -334,11 +279,5 @@ over "OmniverseKit_Top" (
     float3 xformOp:scale = (1, 1, 1)
     double3 xformOp:translate = (0, 0, 5)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
-}
-
-def PhysicsScene "PhysicsScene" (
-    prepend apiSchemas = ["NewtonSceneAPI", "PhysxSceneAPI"]
-)
-{
 }
 

@@ -1,0 +1,142 @@
+#usda 1.0
+(
+    defaultPrim = "M20S_CCS"
+)
+
+def Xform "M20S_CCS"
+{
+    over "link7"
+    {
+        over "tcp"
+        {
+            def "AG2F90" (
+                prepend payload = @../../../../../../../grippers/ChangingTek/AG2F90/AG2F90.usda@
+                variants = {
+                    string Flange = "default"
+                    string Side = "default"
+                }
+            )
+            {
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0.024)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+                over "root_joint" (
+                    active = false
+                )
+                {
+                }
+
+                over "gripper_base"
+                {
+                    def PhysicsFixedJoint "AssemblerFixedJoint"
+                    {
+                        rel physics:body0 = </M20S_CCS/link7/tcp>
+                        rel physics:body1 = </M20S_CCS/link7/tcp/AG2F90/gripper_base>
+                        point3f physics:localPos0 = (0, 0, 0.024)
+                        point3f physics:localPos1 = (0, 0, 0)
+                        quatf physics:localRot0 = (1, 0, 0, 0)
+                        quatf physics:localRot1 = (1, 0, 0, 0)
+                    }
+                }
+
+                over "joints"
+                {
+                    over "gripper_joint"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+
+                    over "left_in_Joint"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+
+                    over "left_up_Joint"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+
+                    over "left_2_Joint"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+
+                    over "right_1_Joint"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+
+                    over "right_in_Joint"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+
+                    over "right_up_Joint"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+
+                    over "right_2_Joint"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+                }
+            }
+        }
+    }
+
+    over "joints"
+    {
+        over "joint1"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "joint2"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "joint3"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "joint4"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "joint5"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "joint6"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "joint7"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+    }
+}

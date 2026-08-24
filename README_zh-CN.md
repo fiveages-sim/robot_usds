@@ -114,7 +114,7 @@ git submodule update --init --recursive
     - 松灵（`manipulators/Agilex/`）
         - Piper
     - 天机智能（`manipulators/Tianji/`）
-        - Marvin M6 CCS（`Marvin_M6_CCS`）
+        - M6 CCS（`M6_CCS`）
     - 睿尔曼 RM75（`Realman_RM75`）
 - **Humanoid（人形机器人）** — 对应 `humanoid/` 下目录名
     - 智元 G1

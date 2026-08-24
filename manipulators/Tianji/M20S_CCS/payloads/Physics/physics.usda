@@ -1,0 +1,280 @@
+#usda 1.0
+(
+    defaultPrim = "M20S_CCS"
+    doc = """Generated from Composed Stage of root layer /home/fiveages/libraries/FaSim-Isaac/robots/manipulators/Tianji/M20S_CCS/M20S_CCS.usd
+
+
+Generated from Composed Stage of root layer /home/fiveages/libraries/FaSim-Isaac/robots/manipulators/Tianji/M20S_CCS/payloads/base.usd
+"""
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+over "M20S_CCS"
+{
+    over "base_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (-0.000099, -0.000277, 0.065583)
+        float3 physics:diagonalInertia = (0.013113353, 0.01319894, 0.014678707)
+        float physics:mass = 5.5745
+        quatf physics:principalAxes = (0.99912477, -0.016420562, -0.004238938, 0.038239777)
+    }
+
+    over "link1" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (-0.000142, -0.000279, -0.038052)
+        float3 physics:diagonalInertia = (0.05713658, 0.061826408, 0.020824019)
+        float physics:mass = 8.281
+        quatf physics:principalAxes = (0.99998575, -0.0008643691, -0.0035759346, 0.0038885043)
+    }
+
+    over "joints"
+    {
+        def PhysicsRevoluteJoint "joint1" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = 60000
+            float drive:angular:physics:maxForce = 490
+            float drive:angular:physics:stiffness = 600000
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            uniform token physics:axis = "Z"
+            custom rel physics:body0
+            prepend rel physics:body0 = </M20S_CCS/base_link>
+            custom rel physics:body1
+            prepend rel physics:body1 = </M20S_CCS/link1>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.461011
+            point3f physics:localPos0 = (0, 0, 0.305)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -170.00229
+            float physics:upperLimit = 170.00229
+        }
+
+        def PhysicsRevoluteJoint "joint2" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = 60000
+            float drive:angular:physics:maxForce = 490
+            float drive:angular:physics:stiffness = 600000
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            uniform token physics:axis = "Z"
+            custom rel physics:body0
+            prepend rel physics:body0 = </M20S_CCS/link1>
+            custom rel physics:body1
+            prepend rel physics:body1 = </M20S_CCS/link2>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.8055989
+            point3f physics:localPos0 = (0, 0, 0)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0.7071055, 0.7071081, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -120.00027
+            float physics:upperLimit = 120.00027
+        }
+
+        def PhysicsRevoluteJoint "joint3" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = 60000
+            float drive:angular:physics:maxForce = 230
+            float drive:angular:physics:stiffness = 600000
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            uniform token physics:axis = "Z"
+            custom rel physics:body0
+            prepend rel physics:body0 = </M20S_CCS/link2>
+            custom rel physics:body1
+            prepend rel physics:body1 = </M20S_CCS/link3>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 3.8007326
+            point3f physics:localPos0 = (0, 0.5, 0)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0.7071055, -0.7071081, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -170.00229
+            float physics:upperLimit = 170.00229
+        }
+
+        def PhysicsRevoluteJoint "joint4" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = 60000
+            float drive:angular:physics:maxForce = 230
+            float drive:angular:physics:stiffness = 600000
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            uniform token physics:axis = "Z"
+            custom rel physics:body0
+            prepend rel physics:body0 = </M20S_CCS/link3>
+            custom rel physics:body1
+            prepend rel physics:body1 = </M20S_CCS/link4>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 1.0761801
+            point3f physics:localPos0 = (0.023, 0, 0)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (-0.000002559715, 0.0000025597242, -0.7071081, 0.7071055)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -144.99841
+            float physics:upperLimit = 60.000134
+        }
+
+        def PhysicsRevoluteJoint "joint5" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = 60000
+            float drive:angular:physics:maxForce = 80
+            float drive:angular:physics:stiffness = 600000
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            uniform token physics:axis = "Z"
+            custom rel physics:body0
+            prepend rel physics:body0 = </M20S_CCS/link4>
+            custom rel physics:body1
+            prepend rel physics:body1 = </M20S_CCS/link5>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.83487433
+            point3f physics:localPos0 = (0.023, -0.43, 0)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (-0.000002559715, 0.0000025597242, -0.7071081, 0.7071055)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -170.00229
+            float physics:upperLimit = 170.00229
+        }
+
+        def PhysicsRevoluteJoint "joint6" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = 60000
+            float drive:angular:physics:maxForce = 80
+            float drive:angular:physics:stiffness = 600000
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            uniform token physics:axis = "Z"
+            custom rel physics:body0
+            prepend rel physics:body0 = </M20S_CCS/link5>
+            custom rel physics:body1
+            prepend rel physics:body1 = </M20S_CCS/link6>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.022984944
+            point3f physics:localPos0 = (0, 0, 0)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0.4999982, 0.5, -0.5, 0.50000185)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -60.000134
+            float physics:upperLimit = 60.000134
+        }
+
+        def PhysicsRevoluteJoint "joint7" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = 60000
+            float drive:angular:physics:maxForce = 80
+            float drive:angular:physics:stiffness = 600000
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            uniform token physics:axis = "Z"
+            custom rel physics:body0
+            prepend rel physics:body0 = </M20S_CCS/link6>
+            custom rel physics:body1
+            prepend rel physics:body1 = </M20S_CCS/link7>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.007844702
+            point3f physics:localPos0 = (0, 0, 0)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0.4999982, 0.5, -0.5, 0.50000185)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -90.000206
+            float physics:upperLimit = 90.000206
+        }
+    }
+
+    over "link2" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.000103, 0.10762, 0.007572)
+        float3 physics:diagonalInertia = (0.067552105, 0.020320466, 0.06379142)
+        float physics:mass = 5.9647
+        quatf physics:principalAxes = (0.9983302, 0.05772406, 0.0021416242, 0.0006054459)
+    }
+
+    over "link3" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.0145, 0.002547, -0.066586)
+        float3 physics:diagonalInertia = (0.06797998, 0.07008304, 0.0111599965)
+        float physics:mass = 5.6406
+        quatf physics:principalAxes = (0.9971307, 0.011384582, -0.049700018, -0.055954088)
+    }
+
+    over "link4" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.011043, -0.064625, 0.007523)
+        float3 physics:diagonalInertia = (0.026328094, 0.009380327, 0.02383658)
+        float physics:mass = 3.3145
+        quatf physics:principalAxes = (0.98924017, -0.04657409, 0.1137259, -0.079380184)
+    }
+
+    over "link5" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (-0.000212, -0.006424, -0.13848)
+        float3 physics:diagonalInertia = (0.017563332, 0.01593611, 0.0054495577)
+        float physics:mass = 2.9252
+        quatf physics:principalAxes = (0.99709517, -0.07603994, -0.0024997648, -0.003598358)
+    }
+
+    over "link6" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (-0.027149, -0.000533, -0.011163)
+        float3 physics:diagonalInertia = (0.00332616, 0.009197998, 0.009592843)
+        float physics:mass = 2.3349
+        quatf physics:principalAxes = (0.988303, 0.026289955, 0.15020686, -0.0020250776)
+    }
+
+    over "link7" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (-0.000063, -0.047715005, 0.010756)
+        float3 physics:diagonalInertia = (0.004108074, 0.0018695209, 0.003203405)
+        float physics:mass = 0.89196
+        quatf physics:principalAxes = (0.9642348, -0.26501638, -0.0034585602, 0.0023873674)
+    }
+
+    def PhysicsFixedJoint "root_joint" (
+        prepend apiSchemas = ["PhysicsArticulationRootAPI"]
+    )
+    {
+        rel physics:body1 = </M20S_CCS/base_link>
+    }
+}
+

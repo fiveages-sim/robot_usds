@@ -87,7 +87,7 @@ The following models are **Git submodules** (vendored repositories, checked in a
     - Agilex
         - Piper
     - Tianji (`manipulators/Tianji/`)
-        - Marvin M6 CCS (`Marvin_M6_CCS`)
+        - M6 CCS (`M6_CCS`)
     - Realman RM75
 - **Humanoid**
     - Agibot G1
