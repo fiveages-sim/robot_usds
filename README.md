@@ -44,9 +44,9 @@ The following models are **Git submodules** (vendored repositories, checked in a
 
 | Path | Upstream repository | `branch` in `.gitmodules`* |
 |------|---------------------|----------------------------|
+| `humanoid/FiveAges/Gen1` | [fiveages-sim/fiveages-gen1-robot-usds](https://github.com/fiveages-sim/fiveages-gen1-robot-usds) | `main` |
 | `humanoid/FiveAges/Gen2` | [fiveages-sim/fiveages-gen2-robot-usds](https://github.com/fiveages-sim/fiveages-gen2-robot-usds) | `main` |
 | `humanoid/FiveAges/Gen3` | [fiveages-sim/fiveages-gen3-robot-usds](https://github.com/fiveages-sim/fiveages-gen3-robot-usds) | `main` |
-| `humanoid/FiveAges_W1` | [fiveages-sim/fa-w1-usds](https://github.com/fiveages-sim/fa-w1-usds) | `main` |
 | `humanoid/Agibot_G2` | [fiveages-sim/agibot-g2-usds](https://github.com/fiveages-sim/agibot-g2-usds) | — |
 | `humanoid/Ubtech` | [fiveages-sim/ubtech-usds](https://github.com/fiveages-sim/ubtech-usds) | `main` |
 | `humanoid/Galbot` | [fiveages-sim/galbot-usds](https://github.com/fiveages-sim/galbot-usds) | `main` |
@@ -97,9 +97,9 @@ The following models are **Git submodules** (vendored repositories, checked in a
     - ARX X7S (`humanoid/ARX_X7S`)
     - Astribot S1
     - Dobot Atom
-    - FiveAges W1
-    - FiveAges W2
-    - FiveAges WCE3
+    - FiveAges W1 (`humanoid/FiveAges/Gen1`)
+    - FiveAges W2 (`humanoid/FiveAges/Gen2`)
+    - FiveAges WCE3 (`humanoid/FiveAges/Gen3`)
     - Galbot (`humanoid/Galbot` submodule)
         - Galbot One (`Galbot_One`)
         - Galbot Zero (`Galbot_Zero`)
