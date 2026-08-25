@@ -72,11 +72,10 @@ The following models are **Git submodules** (vendored repositories, checked in a
     - LinkerHand o7
 - **Manipulator**
     - ARX (`manipulators/ARX/`)
-        - ARX R5 (`ARX_R5`)
-        - ARX X5 (`ARX_X5`)
-        - ARX5 Agilex (`ARX5_Agilex`)
-        - ARX5 Gripper 2023 (`ARX5_Gripper_2023`)
-        - ARX5 Gripper 2025 (`ARX5_Gripper_2025`)
+        - X5 (`X5`)
+        - R5 (`R5`)
+        - Gripper 2023 (`Gripper_2023`)
+        - Gripper 2025 (`Gripper_2025`)
     - DobotCR5
         - Dobot CR5 Dual Arm
     - Elite EC66
@@ -117,7 +116,7 @@ The following models are **Git submodules** (vendored repositories, checked in a
     - Agilex Aloha Spilt
     - Agilex Aloha V1
     - Agilex Aloha V2
-    - ARX Lift2S (`mobile_manipulator/ARX_Lift2S`)
+    - ARX Lift 2S (`mobile_manipulator/ARX/Lift 2S`)
     - Galaxea R1 Lite
 - **Sensors**
     - d405

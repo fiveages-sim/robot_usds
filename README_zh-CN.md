@@ -99,11 +99,10 @@ git submodule update --init --recursive
     - 灵心巧手 o7
 - **Manipulator（机械臂）** — 对应 `manipulators/` 下目录名
     - 方舟无限（`manipulators/ARX/`）
-        - `ARX_R5`
-        - `ARX_X5`
-        - `ARX5_Agilex`
-        - `ARX5_Gripper_2023`
-        - `ARX5_Gripper_2025`
+        - `X5`
+        - `R5`
+        - `Gripper_2023`
+        - `Gripper_2025`
     - 越疆 DobotCR5
         - 越疆 Dobot CR5 Dual Arm
     - 艾利特 EC66
@@ -144,7 +143,7 @@ git submodule update --init --recursive
     - 松灵 Aloha Spilt
     - 松灵 Aloha V1
     - 松灵 Aloha V2
-    - 方舟无限 Lift2S（`mobile_manipulator/ARX_Lift2S`）
+    - 方舟无限 Lift 2S（`mobile_manipulator/ARX/Lift 2S`）
     - 星海图 R1 Lite（`mobile_manipulator/Galaxea_R1_Lite`）
 - **Sensors（传感器）** — 对应 `sensors/` 下 `.usd` 资源
     - 英特尔实感 D405（Intel RealSense）
