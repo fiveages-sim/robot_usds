@@ -1,0 +1,158 @@
+#usda 1.0
+(
+    customLayerData = {
+        dictionary cameraSettings = {
+            dictionary Front = {
+                double3 position = (5, 0, 0)
+                double radius = 5
+            }
+            dictionary Perspective = {
+                double3 position = (0.649065618722533, 0.499835247020928, 0.8235016576128232)
+                double3 target = (-0.23286884983028944, -0.14505396249830965, 0.046144757216957766)
+            }
+            dictionary Right = {
+                double3 position = (0, -5, 0)
+                double radius = 5
+            }
+            dictionary Top = {
+                double3 position = (0, 0, 5)
+                double radius = 5
+            }
+            string boundCamera = "/OmniverseKit_Persp"
+        }
+        dictionary omni_layer = {
+            string authoring_layer = "./A1.usda"
+        }
+        dictionary renderSettings = {
+        }
+    }
+    defaultPrim = "Galaxea_A1"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "Galaxea_A1" (
+    prepend references = @./payloads/base.usda@
+    variants = {
+        string Gripper = "galaxea_g1"
+        string Physics = "physx"
+        string ROS2 = "enable"
+        string Robot = "none"
+        string Sensor = "none"
+        string Side = "default"
+    }
+    prepend variantSets = ["Physics", "Side", "ROS2"]
+    append variantSets = ["Robot", "Sensor", "Gripper"]
+)
+{
+    string isaac:description = "Galaxea A1 Manipulator"
+    token isaac:robotType = "Manipulator"
+
+    variantSet "Gripper" = {
+        "None" {
+
+        }
+        "galaxea_g1" (
+            customData = {
+                string[] variantPrimPaths = ["."]
+            }
+            prepend payload = @./payloads/Side/payloads/Gripper/g1.usda@
+        ) {
+            prepend rel isaac:physics:robotJoints = </Galaxea_A1/Galaxea_G1>
+            prepend rel isaac:physics:robotLinks = </Galaxea_A1/Galaxea_G1>
+
+        }
+    }
+    variantSet "Physics" = {
+        "mujoco" (
+            prepend payload = @./payloads/Physics/mujoco.usda@
+        ) {
+
+        }
+        "none" (
+            prepend payload = @./payloads/Physics/none.usda@
+        ) {
+
+        }
+        "physics" (
+            prepend payload = @./payloads/Physics/physics.usda@
+        ) {
+
+        }
+        "physx" (
+            prepend payload = @./payloads/Physics/physx.usda@
+        ) {
+
+        }
+    }
+    variantSet "Robot" = {
+        "none" (
+            prepend payload = @./payloads/Robot/none.usda@
+        ) {
+
+        }
+        "robot" (
+            prepend payload = @./payloads/Robot/robot.usda@
+        ) {
+
+        }
+    }
+    variantSet "Sensor" = {
+        "none" (
+            prepend payload = @./payloads/Sensor/none.usda@
+        ) {
+
+        }
+        "sensors" (
+            prepend payload = @./payloads/Sensor/sensors.usda@
+        ) {
+
+        }
+    }
+    variantSet "Side" = {
+        "default" (
+            customData = {
+                string[] variantPrimPaths = ["."]
+            }
+            prepend payload = @./payloads/Side/default.usda@
+        ) {
+
+        }
+        "left" (
+            customData = {
+                string[] variantPrimPaths = ["."]
+            }
+            prepend payload = @./payloads/Side/left.usda@
+        ) {
+
+        }
+        "right" (
+            customData = {
+                string[] variantPrimPaths = ["."]
+            }
+            prepend payload = @./payloads/Side/right.usda@
+        ) {
+
+        }
+    }
+    variantSet "ROS2" = {
+        "enable" (
+            customData = {
+                string[] variantPrimPaths = ["."]
+            }
+            prepend payload = @./payloads/ROS/ros2.usda@
+        ) {
+
+        }
+        "none" {
+
+        }
+    }
+}
+
+def PhysicsScene "PhysicsScene" (
+    delete apiSchemas = ["MjcSceneAPI", "NewtonXpbdSceneAPI", "PhysxSceneAPI"]
+    prepend apiSchemas = ["NewtonSceneAPI", "MjcSceneAPI"]
+)
+{
+}

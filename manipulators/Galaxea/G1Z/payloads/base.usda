@@ -1,0 +1,148 @@
+#usda 1.0
+(
+    defaultPrim = "Galaxea_G1Z"
+    doc = """Generated from Composed Stage of root layer /home/fiveages/FaSim-Isaac/robots/manipulators/Galaxea/G1Z/G1Z.usd
+
+
+Generated from Composed Stage of root layer /home/fiveages/FaSim-Isaac/robots/manipulators/Galaxea/G1Z/payloads/base.usd
+"""
+    metersPerUnit = 1
+    subLayers = [
+        @./robot.usda@
+    ]
+    upAxis = "Z"
+)
+
+def Xform "Galaxea_G1Z"
+{
+    quatd xformOp:orient = (1, 0, 0, 0)
+    double3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (0, 0, 0)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+    def Xform "gripper_base"
+    {
+        quatd xformOp:orient = (1, 0, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def Xform "gripper_center"
+        {
+            quatd xformOp:orient = (1, 0, 0, 0)
+            double3 xformOp:scale = (1, 1, 1)
+            double3 xformOp:translate = (0.07270000129938126, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+        }
+
+        def Xform "visuals" (
+            instanceable = false
+        )
+        {
+            def Xform "gripper_base" (
+                instanceable = true
+                prepend references = @./instances.usda@</Instances/mesh>
+            )
+            {
+                token visibility = "inherited"
+            }
+        }
+
+        def Xform "collisions" (
+            instanceable = false
+        )
+        {
+            def Xform "gripper_base" (
+                instanceable = true
+                prepend references = @./instances.usda@</Instances/mesh_1>
+            )
+            {
+                uniform token purpose = "guide"
+                token visibility = "inherited"
+            }
+        }
+    }
+
+    def Xform "finger1"
+    {
+        quatd xformOp:orient = (1, 0, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0.07270000129938126, 0.02500000037252903, -0.017999999225139618)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def Xform "visuals" (
+            instanceable = false
+        )
+        {
+            def Xform "finger_right" (
+                instanceable = true
+                prepend references = @./instances.usda@</Instances/mesh_1_1>
+            )
+            {
+                token visibility = "inherited"
+            }
+        }
+
+        def Xform "collisions" (
+            instanceable = false
+        )
+        {
+            def Xform "finger_right" (
+                instanceable = true
+                prepend references = @./instances.usda@</Instances/mesh_1_2>
+            )
+            {
+                uniform token purpose = "guide"
+                token visibility = "inherited"
+            }
+        }
+    }
+
+    def Scope "joints"
+    {
+    }
+
+    def Xform "finger2"
+    {
+        quatd xformOp:orient = (1, 0, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0.07270000129938126, -0.02500000037252903, 0.017999999225139618)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def Xform "visuals" (
+            instanceable = false
+        )
+        {
+            def Xform "finger_left" (
+                instanceable = true
+                prepend references = @./instances.usda@</Instances/mesh_2>
+            )
+            {
+                token visibility = "inherited"
+            }
+        }
+
+        def Xform "collisions" (
+            instanceable = false
+        )
+        {
+            def Xform "finger_left" (
+                instanceable = true
+                prepend references = @./instances.usda@</Instances/mesh_2_1>
+            )
+            {
+                uniform token purpose = "guide"
+                token visibility = "inherited"
+            }
+        }
+    }
+
+    def Scope "Looks"
+    {
+    }
+
+    def Scope "VisualMaterials"
+    {
+    }
+}
+
