@@ -2,8 +2,8 @@
 (
     defaultPrim = "M6_CCS"
     doc = """EE=LinkerHand_o6 mount — RG75 pattern.
-Weld tcp -> flange; FixedJoint localRot0=Rz(-90) matches mount xform. Disable hand root_joint.
-Hand Side=left; mount TF Rz=-90° (left).
+Weld tcp -> flange; FixedJoint matches mount xform (T z=0.0045, Rz=+90). Disable hand root_joint.
+Hand Side=left; mount TF translate z=0.0045, Rz=+90°.
 """
 )
 
@@ -20,9 +20,9 @@ def Xform "M6_CCS"
                 }
             )
             {
-                quatd xformOp:orient = (0.7071067811865476, 0, 0, -0.7071067811865475)
+                quatd xformOp:orient = (0.7071067811865476, 0, 0, 0.7071067811865475)
                 double3 xformOp:scale = (1, 1, 1)
-                double3 xformOp:translate = (0, 0, 0)
+                double3 xformOp:translate = (0, 0, 0.0045)
                 uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
                 over "root_joint" (
@@ -37,10 +37,10 @@ def Xform "M6_CCS"
                     {
                         rel physics:body0 = </M6_CCS/link7/tcp>
                         rel physics:body1 = </M6_CCS/link7/tcp/LinkerHand_o6/flange>
-                        point3f physics:localPos0 = (0, 0, 0)
+                        point3f physics:localPos0 = (0, 0, 0.0045)
                         point3f physics:localPos1 = (0, 0, 0)
-                        # Must match LinkerHand_o6 xform Rz=-90 so PhysX does not snap on Play
-                        quatf physics:localRot0 = (0.70710677, 0, 0, -0.70710677)
+                        # Must match LinkerHand_o6 xform (T z=0.0045, Rz=+90) so PhysX does not snap on Play
+                        quatf physics:localRot0 = (0.70710677, 0, 0, 0.70710677)
                         quatf physics:localRot1 = (1, 0, 0, 0)
                     }
                 }
