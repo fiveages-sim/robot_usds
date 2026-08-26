@@ -12,23 +12,40 @@ Generated from Composed Stage of root layer /home/fiveages/FaSim-Isaac/robots/de
 
 over "LinkerHand_o6"
 {
-    over "flange" (
-        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    def Material "fingertip_material" (
+        prepend apiSchemas = ["PhysicsMaterialAPI", "PhysxMaterialAPI"]
     )
     {
+        float physics:dynamicFriction = 1.0
+        float physics:staticFriction = 1.2
+        float physics:restitution = 0
+        uniform token physics:frictionCombineMode = "max"
+        uniform token physics:restitutionCombineMode = "min"
+        # Hard contacts (compliant=0): prevent visual sink into static table.
+        # Soft compliant was causing palm/thumb/fingertip tunnelling.
+        float physxMaterial:compliantContactStiffness = 0
+        float physxMaterial:compliantContactDamping = 0
+    }
+
+    over "flange" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "MaterialBindingAPI"]
+    )
+    {
+        rel material:binding:physics = </LinkerHand_o6/fingertip_material>
         point3f physics:centerOfMass = (-0.00037343526, 0.0020602588, 0.029711625)
-        float3 physics:diagonalInertia = (0.00034460818, 0.0004091788, 0.00007688596)
-        float physics:mass = 0.18129352
+        float3 physics:diagonalInertia = (0.0005322324283846438, 0.0006319589580477008, 0.00011874703960737263)
+        float physics:mass = 0.28
         quatf physics:principalAxes = (0.99998814, 0.00449808, 0.0016936564, 0.00078035664)
     }
 
     over "index_proximal" (
-        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "MaterialBindingAPI"]
     )
     {
+        rel material:binding:physics = </LinkerHand_o6/fingertip_material>
         point3f physics:centerOfMass = (-0.0020865656, 0.0000025383872, 0.017273495)
-        float3 physics:diagonalInertia = (2.757608e-7, 2.7291304e-7, 7.583063e-8)
-        float physics:mass = 0.0025317466
+        float3 physics:diagonalInertia = (5.990664310559359e-06, 5.928799193410589e-06, 1.647354695766156e-06)
+        float physics:mass = 0.055
         quatf physics:principalAxes = (0.99374354, -0.00067657547, 0.111224, -0.010133154)
     }
 
@@ -286,102 +303,112 @@ over "LinkerHand_o6"
     }
 
     over "index_distal" (
-        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "MaterialBindingAPI"]
     )
     {
+        rel material:binding:physics = </LinkerHand_o6/fingertip_material>
         point3f physics:centerOfMass = (0.0065898662, 0.0000051385564, 0.01943936)
-        float3 physics:diagonalInertia = (3.7459088e-7, 3.6532765e-7, 7.204471e-8)
-        float physics:mass = 0.003769511
+        float3 physics:diagonalInertia = (6.956170601438754e-06, 6.784151976211238e-06, 1.3378737188988175e-06)
+        float physics:mass = 0.07
         quatf physics:principalAxes = (0.97712314, 0.000534673, -0.21263523, -0.0040453956)
     }
 
     over "middle_proximal" (
-        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "MaterialBindingAPI"]
     )
     {
+        rel material:binding:physics = </LinkerHand_o6/fingertip_material>
         point3f physics:centerOfMass = (-0.0020866066, 0.0000025691818, 0.0172735)
-        float3 physics:diagonalInertia = (2.7576112e-7, 2.729134e-7, 7.5831146e-8)
-        float physics:mass = 0.0025317736
+        float3 physics:diagonalInertia = (5.990607375003831e-06, 5.9287437865692255e-06, 1.6473483371498935e-06)
+        float physics:mass = 0.055
         quatf physics:principalAxes = (0.99374306, -0.0006816814, 0.11122383, -0.010175618)
     }
 
     over "middle_distal" (
-        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "MaterialBindingAPI"]
     )
     {
+        rel material:binding:physics = </LinkerHand_o6/fingertip_material>
         point3f physics:centerOfMass = (0.0065898653, 0.0000051086295, 0.019439332)
-        float3 physics:diagonalInertia = (3.7459216e-7, 3.6532907e-7, 7.204528e-8)
-        float physics:mass = 0.003769528
+        float3 physics:diagonalInertia = (6.956162999717738e-06, 6.784147750063139e-06, 1.3378782701706954e-06)
+        float physics:mass = 0.07
         quatf physics:principalAxes = (0.97712344, 0.0005325072, -0.21263468, -0.0040274872)
     }
 
     over "pinky_proximal" (
-        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "MaterialBindingAPI"]
     )
     {
+        rel material:binding:physics = </LinkerHand_o6/fingertip_material>
         point3f physics:centerOfMass = (-0.002086736, 0.0000026806224, 0.017273486)
-        float3 physics:diagonalInertia = (2.7576226e-7, 2.7291458e-7, 7.583309e-8)
-        float physics:mass = 0.00253186
+        float3 physics:diagonalInertia = (5.990427709273025e-06, 5.928567100866557e-06, 1.6473343510304674e-06)
+        float physics:mass = 0.055
         quatf physics:principalAxes = (0.99374187, -0.0006986145, 0.11122262, -0.010309533)
     }
 
     over "pinky_distal" (
-        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "MaterialBindingAPI"]
     )
     {
+        rel material:binding:physics = </LinkerHand_o6/fingertip_material>
         point3f physics:centerOfMass = (0.006589876, 0.0000050308754, 0.01943945)
-        float3 physics:diagonalInertia = (3.745882e-7, 3.6532472e-7, 7.204343e-8)
-        float physics:mass = 0.0037694806
+        float3 physics:diagonalInertia = (6.9561769332358416e-06, 6.7841522781679794e-06, 1.3378607386916914e-06)
+        float physics:mass = 0.07
         quatf physics:principalAxes = (0.97712296, 0.0005239559, -0.21263763, -0.003965729)
     }
 
     over "ring_proximal" (
-        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "MaterialBindingAPI"]
     )
     {
+        rel material:binding:physics = </LinkerHand_o6/fingertip_material>
         point3f physics:centerOfMass = (-0.0020866792, 0.0000026300042, 0.017273493)
-        float3 physics:diagonalInertia = (2.7576172e-7, 2.7291406e-7, 7.5832226e-8)
-        float physics:mass = 0.0025318223
+        float3 physics:diagonalInertia = (5.990505178819224e-06, 5.928644083749478e-06, 1.6473401115078257e-06)
+        float physics:mass = 0.055
         quatf physics:principalAxes = (0.9937424, -0.0006908647, 0.11122313, -0.010247913)
     }
 
     over "ring_distal" (
-        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "MaterialBindingAPI"]
     )
     {
+        rel material:binding:physics = </LinkerHand_o6/fingertip_material>
         point3f physics:centerOfMass = (0.0065898667, 0.000005058835, 0.019439397)
-        float3 physics:diagonalInertia = (3.7458938e-7, 3.6532612e-7, 7.204409e-8)
-        float physics:mass = 0.003769496
+        float3 physics:diagonalInertia = (6.956170427027911e-06, 6.784150560180991e-06, 1.3378675292399835e-06)
+        float physics:mass = 0.07
         quatf physics:principalAxes = (0.9771232, 0.0005279634, -0.21263646, -0.003993136)
     }
 
     over "thumb_metacarpals_base2" (
-        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "MaterialBindingAPI"]
     )
     {
+        rel material:binding:physics = </LinkerHand_o6/fingertip_material>
         point3f physics:centerOfMass = (0.0016280068, -0.0027668017, -0.0018423444)
-        float3 physics:diagonalInertia = (5.554517e-8, 4.6153662e-8, 2.804746e-8)
-        float physics:mass = 0.001385883
+        float3 physics:diagonalInertia = (1.2023779063600606e-06, 9.990813510231385e-07, 6.071391307924262e-07)
+        float physics:mass = 0.03
         quatf physics:principalAxes = (0.95556843, 0.070520215, 0.057735987, -0.28032595)
     }
 
     over "thumb_metacarpals" (
-        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "MaterialBindingAPI"]
     )
     {
+        rel material:binding:physics = </LinkerHand_o6/fingertip_material>
         point3f physics:centerOfMass = (0.00004248162, -0.000017418392, 0.022834163)
-        float3 physics:diagonalInertia = (0.0000011610093, 0.0000017675784, 8.782631e-7)
-        float physics:mass = 0.012338159
+        float3 physics:diagonalInertia = (5.175448906113141e-06, 7.879361256407865e-06, 3.91504684775095e-06)
+        float physics:mass = 0.055
         quatf physics:principalAxes = (0.97246754, -0.00027797063, 0.2330379, 0.00036449093)
     }
 
     over "thumb_distal" (
-        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "MaterialBindingAPI"]
     )
     {
+        rel material:binding:physics = </LinkerHand_o6/fingertip_material>
         point3f physics:centerOfMass = (-0.004137257, -5.907045e-8, 0.023011401)
-        float3 physics:diagonalInertia = (0.0000013107585, 0.0000012248909, 2.7226213e-7)
-        float physics:mass = 0.0076333294
+        float3 physics:diagonalInertia = (7.727182911823509e-06, 7.220976275437556e-06, 1.6050395846928862e-06)
+        float physics:mass = 0.045
         quatf physics:principalAxes = (0.9993961, 0, 0.03474868, 0)
     }
 
