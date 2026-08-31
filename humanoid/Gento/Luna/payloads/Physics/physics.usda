@@ -1,0 +1,308 @@
+#usda 1.0
+(
+    defaultPrim = "Luna"
+    doc = """Generated from Composed Stage of root layer /home/fiveages/libraries/FaSim-Isaac/robots/humanoid/Gento/Luna/Luna.usd
+
+
+Generated from Composed Stage of root layer /home/fiveages/libraries/FaSim-Isaac/robots/humanoid/Gento/Luna/payloads/base.usd
+"""
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+over "Luna"
+{
+    over "base_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "PhysicsArticulationRootAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.10700001, 0, 0.020000001)
+        float3 physics:diagonalInertia = (0.0009999999, 0.001, 0.0009999999)
+        float physics:mass = 0.1
+        quatf physics:principalAxes = (0.92387956, 0, 0.38268343, 0)
+    }
+
+    over "body_link1" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (-0.00305605, 0.11879615, 0.00090574)
+        float3 physics:diagonalInertia = (0.13549449, 0.011823299, 0.13138393)
+        float physics:mass = 6.042
+        quatf physics:principalAxes = (0.9999223, -0.0012645383, -0.001573643, -0.012308928)
+    }
+
+    over "joints"
+    {
+        def PhysicsRevoluteJoint "body_joint1" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = 0.00074994995
+            float drive:angular:physics:maxForce = 217
+            float drive:angular:physics:stiffness = 1.874875
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            uniform token physics:axis = "Z"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Luna/base_link>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Luna/body_link1>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.0029997998
+            point3f physics:localPos0 = (0.107, 0, 0.120000005)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0.49999997, 0.49999997, 0.49999997, 0.49999997)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -11.0002165
+            float physics:upperLimit = 11.0002165
+        }
+
+        def PhysicsRevoluteJoint "body_joint2" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = 0.052787196
+            float drive:angular:physics:maxForce = 217
+            float drive:angular:physics:stiffness = 131.96799
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            uniform token physics:axis = "Z"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Luna/body_link1>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Luna/body_link2>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.21114878
+            point3f physics:localPos0 = (0, 0.165, 0)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0.70710677, 0, -0.70710677, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -90
+            float physics:upperLimit = 90
+        }
+
+        def PhysicsRevoluteJoint "body_joint3" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = 0.4914733
+            float drive:angular:physics:maxForce = 217
+            float drive:angular:physics:stiffness = 1228.6832
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            uniform token physics:axis = "Z"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Luna/body_link2>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Luna/body_link3>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 1.9658931
+            point3f physics:localPos0 = (0, 0.3, 0)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -139.99994
+            float physics:upperLimit = 60.000134
+        }
+
+        def PhysicsRevoluteJoint "body_joint4" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = 1.0538772
+            float drive:angular:physics:maxForce = 108
+            float drive:angular:physics:stiffness = 2634.693
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            uniform token physics:axis = "Z"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Luna/body_link3>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Luna/body_link4>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 4.215509
+            point3f physics:localPos0 = (0, 0.3, 0)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -54.999935
+            float physics:upperLimit = 109.99987
+        }
+
+        def PhysicsRevoluteJoint "body_joint5" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = 0.6693204
+            float drive:angular:physics:maxForce = 108
+            float drive:angular:physics:stiffness = 1673.3009
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            uniform token physics:axis = "Z"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Luna/body_link4>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Luna/body_link5>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 2.6772816
+            point3f physics:localPos0 = (0, 0, 0)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0.70710677, 0, 0.70710677, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -30.000067
+            float physics:upperLimit = 30.000067
+        }
+
+        def PhysicsRevoluteJoint "body_joint6" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = 0.7388328
+            float drive:angular:physics:maxForce = 108
+            float drive:angular:physics:stiffness = 1847.0819
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            uniform token physics:axis = "Z"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Luna/body_link5>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Luna/body_link6>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 2.955331
+            point3f physics:localPos0 = (0, 0, 0)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0.49999997, -0.49999997, -0.49999997, -0.49999997)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -170.00002
+            float physics:upperLimit = 170.00002
+        }
+
+        def PhysicsRevoluteJoint "head_joint1" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = 0.026469044
+            float drive:angular:physics:maxForce = 18
+            float drive:angular:physics:stiffness = 66.172615
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            uniform token physics:axis = "Z"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Luna/body_link6>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Luna/head_link1>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.10587618
+            point3f physics:localPos0 = (-0.013496, 0, 0.49898)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0.70710677, 0.70710677, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -30.000067
+            float physics:upperLimit = 30.000067
+        }
+
+        def PhysicsRevoluteJoint "head_joint2" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = 0.026003517
+            float drive:angular:physics:maxForce = 18
+            float drive:angular:physics:stiffness = 65.0088
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            uniform token physics:axis = "Z"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Luna/head_link1>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Luna/head_link2>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.10401407
+            point3f physics:localPos0 = (0, 0, 0)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0.70710677, -0.70710677, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -90
+            float physics:upperLimit = 90
+        }
+    }
+
+    over "body_link2" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (-0.00305605, 0.11879615, 0.00090574)
+        float3 physics:diagonalInertia = (0.43954584, 0.026080256, 0.43765047)
+        float physics:mass = 6.0418596
+        quatf physics:principalAxes = (0.9992687, -0.018140046, -0.033445, 0.0038080132)
+    }
+
+    over "body_link3" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (-0.00357006, 0.14573558, -0.00024996)
+        float3 physics:diagonalInertia = (0.010932355, 0.038626228, 0.036937352)
+        float physics:mass = 4.6712165
+        quatf physics:principalAxes = (0.99999726, -0.0018498341, -0.0013688728, -0.00060181896)
+    }
+
+    over "body_link4" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (-0.0369066, -0.00007427, 0.30101985)
+        float3 physics:diagonalInertia = (0.010932355, 0.038626228, 0.036937352)
+        float physics:mass = 5.9004636
+        quatf physics:principalAxes = (0.99999726, -0.0018498341, -0.0013688728, -0.00060181896)
+    }
+
+    over "body_link5" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (-0.00154757, 0.12766899, -0.01565105)
+        float3 physics:diagonalInertia = (0.09653227, 0.02130669, 0.081899524)
+        float physics:mass = 3.7617757
+        quatf physics:principalAxes = (0.99948937, 0.031395752, -0.000055215343, -0.005948973)
+    }
+
+    over "body_link6" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (-0.0025231806, 0.00023889003, 0.3535202)
+        float3 physics:diagonalInertia = (1.0594944, 1.0462786, 0.06682138)
+        float physics:mass = 7.693925
+        quatf physics:principalAxes = (0.9998865, 0.00031045804, 0.001502206, 0.014987284)
+    }
+
+    over "head_link1" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (9.4918e-7, 0.017441, -0.0043026)
+        float3 physics:diagonalInertia = (0.0011491, 0.0007642003, 0.0011226496)
+        float physics:mass = 0.7216
+        quatf physics:principalAxes = (0.99674803, 0.08058139, -0.000034412245, -0.00003306056)
+    }
+
+    over "head_link2" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.052332, 0.00010809, 0.15733)
+        float3 physics:diagonalInertia = (0.009102072, 0.01044504, 0.0064245886)
+        float physics:mass = 2.3905
+        quatf physics:principalAxes = (0.9609931, -0.00028874856, 0.27656192, 0.0024041382)
+    }
+}
+
