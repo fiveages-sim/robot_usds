@@ -1,0 +1,90 @@
+#usda 1.0
+(
+    defaultPrim = "LinkerHand_o7"
+    doc = """LinkerHand o7 — unified left/right via Side variant (default|left|right).
+default: left morphology, unprefixed joints (original o7 force settings).
+left: left morphology, left_hand_* joints.
+right: right morphology, right_hand_* joints.
+"""
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "LinkerHand_o7" (
+    prepend references = @./payloads/base.usda@
+    variants = {
+        string Physics = "physx"
+        string Robot = "none"
+        string Sensor = "none"
+        string Side = "default"
+    }
+    prepend variantSets = ["Side", "Physics"]
+    append variantSets = ["Robot", "Sensor"]
+)
+{
+    variantSet "Side" = {
+        "default" (
+            prepend payload = @./payloads/Side/default.usda@
+        ) {
+
+        }
+        "left" (
+            prepend payload = @./payloads/Side/left.usda@
+        ) {
+
+        }
+        "right" (
+            prepend payload = @./payloads/Side/right.usda@
+            delete references = @./payloads/base.usda@
+            prepend references = @./payloads/Hand/right/base.usda@
+        ) {
+
+        }
+    }
+    variantSet "Physics" = {
+        "mujoco" (
+            prepend payload = @./payloads/Physics/mujoco.usda@
+        ) {
+
+        }
+        "none" (
+            prepend payload = @./payloads/Physics/none.usda@
+        ) {
+
+        }
+        "physics" (
+            prepend payload = @./payloads/Physics/physics.usda@
+        ) {
+
+        }
+        "physx" (
+            prepend payload = @./payloads/Physics/physx.usda@
+        ) {
+
+        }
+    }
+    variantSet "Robot" = {
+        "none" (
+            prepend payload = @./payloads/Robot/none.usda@
+        ) {
+
+        }
+        "robot" (
+            prepend payload = @./payloads/Robot/robot.usda@
+        ) {
+
+        }
+    }
+    variantSet "Sensor" = {
+        "none" (
+            prepend payload = @./payloads/Sensor/none.usda@
+        ) {
+
+        }
+        "sensors" (
+            prepend payload = @./payloads/Sensor/sensors.usda@
+        ) {
+
+        }
+    }
+}

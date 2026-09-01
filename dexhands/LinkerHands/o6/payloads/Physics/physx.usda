@@ -110,66 +110,14 @@ def "LinkerHand_o6"
         }
     }
 
-    # Cap contact correction impulse (Isaac Lab / PhysX common fix for flyaway).
-    # Does not change joint drive strength used for open/close.
-    over "flange" ( prepend apiSchemas = ["PhysxRigidBodyAPI"] )
-    {
-        float physxRigidBody:maxDepenetrationVelocity = 1
-    }
-    over "index_proximal" ( prepend apiSchemas = ["PhysxRigidBodyAPI"] )
-    {
-        float physxRigidBody:maxDepenetrationVelocity = 1
-    }
-    over "index_distal" ( prepend apiSchemas = ["PhysxRigidBodyAPI"] )
-    {
-        float physxRigidBody:maxDepenetrationVelocity = 1
-    }
-    over "middle_proximal" ( prepend apiSchemas = ["PhysxRigidBodyAPI"] )
-    {
-        float physxRigidBody:maxDepenetrationVelocity = 1
-    }
-    over "middle_distal" ( prepend apiSchemas = ["PhysxRigidBodyAPI"] )
-    {
-        float physxRigidBody:maxDepenetrationVelocity = 1
-    }
-    over "pinky_proximal" ( prepend apiSchemas = ["PhysxRigidBodyAPI"] )
-    {
-        float physxRigidBody:maxDepenetrationVelocity = 1
-    }
-    over "pinky_distal" ( prepend apiSchemas = ["PhysxRigidBodyAPI"] )
-    {
-        float physxRigidBody:maxDepenetrationVelocity = 1
-    }
-    over "ring_proximal" ( prepend apiSchemas = ["PhysxRigidBodyAPI"] )
-    {
-        float physxRigidBody:maxDepenetrationVelocity = 1
-    }
-    over "ring_distal" ( prepend apiSchemas = ["PhysxRigidBodyAPI"] )
-    {
-        float physxRigidBody:maxDepenetrationVelocity = 1
-    }
-    over "thumb_metacarpals_base2" ( prepend apiSchemas = ["PhysxRigidBodyAPI"] )
-    {
-        float physxRigidBody:maxDepenetrationVelocity = 1
-    }
-    over "thumb_metacarpals" ( prepend apiSchemas = ["PhysxRigidBodyAPI"] )
-    {
-        float physxRigidBody:maxDepenetrationVelocity = 1
-    }
-    over "thumb_distal" ( prepend apiSchemas = ["PhysxRigidBodyAPI"] )
-    {
-        float physxRigidBody:maxDepenetrationVelocity = 1
-    }
-
     over "root_joint" (
         prepend apiSchemas = ["PhysxArticulationAPI"]
     )
     {
         bool physxArticulation:enabledSelfCollisions = 0
-        int physxArticulation:solverPositionIterationCount = 96
-        int physxArticulation:solverVelocityIterationCount = 4
         float physxArticulation:sleepThreshold = 0.00005
+        int physxArticulation:solverPositionIterationCount = 64
+        int physxArticulation:solverVelocityIterationCount = 1
         float physxArticulation:stabilizationThreshold = 0.00001
     }
 }
-

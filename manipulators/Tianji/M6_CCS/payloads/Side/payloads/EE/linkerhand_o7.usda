@@ -1,0 +1,158 @@
+#usda 1.0
+(
+    defaultPrim = "M6_CCS"
+    doc = """EE=LinkerHand_o7 mount — RG75 pattern.
+Weld tcp -> flange; FixedJoint matches mount xform (T z=-0.0022, Rz=+90). Disable hand root_joint.
+Hand Side=default; mount TF translate z=-0.0022, Rz=+90°.
+Original o7 PhysX drive settings preserved in hand asset.
+"""
+)
+
+def Xform "M6_CCS"
+{
+    over "link7"
+    {
+        over "tcp"
+        {
+            def "LinkerHand_o7" (
+                prepend payload = @../../../../../../../dexhands/LinkerHands/o7/LinkerHand_o7.usda@
+                variants = {
+                    string Side = "default"
+                }
+            )
+            {
+                quatd xformOp:orient = (0.7071067811865476, 0, 0, 0.7071067811865475)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, -0.0022)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+                over "root_joint" (
+                    active = false
+                )
+                {
+                }
+
+                over "flange"
+                {
+                    def PhysicsFixedJoint "AssemblerFixedJoint"
+                    {
+                        rel physics:body0 = </M6_CCS/link7/tcp>
+                        rel physics:body1 = </M6_CCS/link7/tcp/LinkerHand_o7/flange>
+                        point3f physics:localPos0 = (0, 0, -0.0022)
+                        point3f physics:localPos1 = (0, 0, 0)
+                        # Must match LinkerHand_o7 xform (T z=-0.0022, Rz=+90) so PhysX does not snap on Play
+                        quatf physics:localRot0 = (0.70710677, 0, 0, 0.70710677)
+                        quatf physics:localRot1 = (1, 0, 0, 0)
+                    }
+                }
+
+                over "joints"
+                {
+
+                over "index_joint"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "index_pip"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "index_dip"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "middle_joint"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "middle_pip"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "middle_dip"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "pinky_joint"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "pinky_pip"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "pinky_dip"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "ring_joint"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "ring_pip"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "ring_dip"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "thumb_joint1"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "thumb_joint2"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "thumb_joint3"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "thumb_mcp"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "thumb_ip"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                }
+            }
+        }
+    }
+}
