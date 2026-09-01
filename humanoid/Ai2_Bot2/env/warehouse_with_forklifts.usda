@@ -7,8 +7,8 @@
                 double radius = 5
             }
             dictionary Perspective = {
-                double3 position = (-4.641725678984516, -3.602189812868179, 2.8479821503087903)
-                double3 target = (-0.5958761815650764, -1.0005883845717656, 1.4361751439786603)
+                double3 position = (3.8682761148240536, 13.035889544868297, 1.6406996655661277)
+                double3 target = (2.7600948900246527, -1.4440663228015715, 1.1386849510787576)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -18,7 +18,7 @@
                 double3 position = (0, 0, 5)
                 double radius = 5
             }
-            string boundCamera = "/OmniverseKit_Persp"
+            string boundCamera = "/World/Ai2_Bot2/head_link2/head_camera/d435/head_camera"
         }
         dictionary omni_layer = {
             string authoring_layer = "./warehouse_with_forklifts.usda"
@@ -162,6 +162,16 @@ def Xform "World"
 
         over "body_link4"
         {
+            over "back_camera"
+            {
+                over "d435"
+                {
+                    over "back_camera"
+                    {
+                        token visibility = "invisible"
+                    }
+                }
+            }
         }
 
         over "Ai2_Bot2_Arms"
@@ -456,10 +466,48 @@ def Xform "World"
 
         over "head_link1"
         {
+            string isaac:nameOverride (
+                displayName = "Name Override"
+                doc = "Name override for prim lookup in base name search"
+            )
+            double3 xformOp:translate = (0.1505500078201294, 0.0000029416323741315864, 1.5852800607681274)
         }
 
         over "head_link2"
         {
+            string isaac:nameOverride (
+                displayName = "Name Override"
+                doc = "Name override for prim lookup in base name search"
+            )
+            double3 xformOp:translate = (0.1505500078201294, 0.0000029416323741315864, 1.6452800035476685)
+
+            over "head_camera"
+            {
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:translate = (0, 0, 0)
+
+                over "d435"
+                {
+                    over "head_camera"
+                    {
+                        float focalLength = 10.4775
+                        float focusDistance = 4
+                        token projection = "perspective"
+                        uniform token stereoRole = "mono"
+                        float verticalAperture = 15.71625
+                        quatd xformOp:orient = (0.6123724356957947, 0.3535533905932736, -0.3535533905932738, -0.6123724356957944)
+                        double3 xformOp:scale = (1, 1, 1)
+                        double3 xformOp:translate = (0.19999999999999993, 1.0164395367051604e-20, 0)
+                        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                    }
+
+                    over "d435"
+                    {
+                        quatf xformOp:orient = (1, 0, 0, 0)
+                        double3 xformOp:translate = (0, 0, 0)
+                    }
+                }
+            }
         }
 
         over "joints"
@@ -498,6 +546,27 @@ def Xform "World"
             {
                 float state:angular:physics:position = 0
                 float state:angular:physics:velocity = 0
+            }
+        }
+
+        over "Graph"
+        {
+            over "Back_Camera"
+            {
+                over "DepthPclPublish"
+                {
+                    custom token inputs:viewport
+                }
+
+                over "DepthPublish"
+                {
+                    custom token inputs:viewport
+                }
+
+                over "RGBPublish"
+                {
+                    custom token inputs:viewport
+                }
             }
         }
     }
@@ -549,7 +618,7 @@ def "Render" (
                 no_delete = true
             )
             {
-                rel camera = </OmniverseKit_Persp>
+                rel camera = </World/Ai2_Bot2/head_link2/head_camera/d435/head_camera>
                 token omni:rtx:ambientOcclusion:denoiserMode = "none"
                 token omni:rtx:background:source:texture:textureMode = "repeatMirrored"
                 token omni:rtx:background:source:type = "domeLight"
@@ -557,12 +626,14 @@ def "Render" (
                 token omni:rtx:directLighting:sampledLighting:denoisingTechnique = "None"
                 bool omni:rtx:dlss:frameGeneration = 0
                 bool omni:rtx:indirectDiffuse:denoiser:enabled = 0
+                bool omni:rtx:material:db:nonVisualMaterialCSV:enabled = 0
                 bool omni:rtx:material:db:syncLoads = 1
                 token omni:rtx:post:dlss:execMode = "performance"
                 bool omni:rtx:post:registeredCompositing:invertColorCorrection = 1
                 bool omni:rtx:post:registeredCompositing:invertToneMap = 1
                 bool omni:rtx:pt:adaptiveSampling:filterError = 0
                 uint omni:rtx:pt:adaptiveSampling:fixedSppIterations = 2
+                bool omni:rtx:pt:lightcache:cached:dontResolveConflicts = 1
                 int omni:rtx:pt:maxSamplesPerLaunch = 2073600
                 int omni:rtx:pt:mgpu:maxPixelsPerRegionExponent = 12
                 bool omni:rtx:reflections:denoiser:enabled = 0
@@ -579,7 +650,7 @@ def "Render" (
                 uint omni:rtx:viewTile:limit = 4294967295
                 rel orderedVars = </Render/Vars/LdrColor>
                 custom bool overrideClipRange = 0
-                uniform int2 resolution = (2048, 1080)
+                uniform int2 resolution = (2560, 1440)
             }
 
             def RenderProduct "Replicator" (
@@ -692,7 +763,7 @@ over "OmniverseKit_Persp" (
     float exposure:time = 0.02
     float focalLength = 18.147562
     float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -5.013025750044171)
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -14.530974032398056)
     float3 xformOp:rotateXYZ = (73.642624, -4.1347212e-14, -57.25778)
     float3 xformOp:scale = (1, 1, 1)
     double3 xformOp:translate = (-4.641725678984516, -3.602189812868179, 2.8479821503087903)

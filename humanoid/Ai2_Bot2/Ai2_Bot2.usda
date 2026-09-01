@@ -8,7 +8,7 @@
             }
             dictionary Perspective = {
                 double3 position = (1.1873191648214327, -2.3801770734355165, 1.9851719040544378)
-                double3 target = (-12.930782237726799, 28.93085525145807, -9.924280979186538)
+                double3 target = (-18.73205683134715, 41.79688384462606, -14.817998942070284)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -202,17 +202,26 @@ def Xform "Ai2_Bot2" (
 
         over "head_camera"
         {
+            quatd xformOp:orient = (1, 0, 0, 0)
+            double3 xformOp:translate = (0, 0, 0)
+
             over "d435"
             {
                 def Camera "head_camera"
                 {
                     float2 clippingRange = (0.01, 10000000)
-                    float focalLength = 10
+                    float focalLength = 10.4775
                     float focusDistance = 5
-                    quatd xformOp:orient = (0.6427876096865395, 0.7660444431189781, 0, 0)
+                    float verticalAperture = 15.71625
+                    quatd xformOp:orient = (0.6123724356957947, 0.3535533905932736, -0.3535533905932738, -0.6123724356957944)
                     double3 xformOp:scale = (1, 1, 1)
-                    double3 xformOp:translate = (0, 0, 0)
+                    double3 xformOp:translate = (0.2, 0, 0)
                     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                }
+
+                over "d435"
+                {
+                    quatf xformOp:orient = (1, 0, 0, 0)
                 }
             }
         }
@@ -220,6 +229,10 @@ def Xform "Ai2_Bot2" (
 
     over "head_link1"
     {
+        string isaac:nameOverride (
+            displayName = "Name Override"
+            doc = "Name override for prim lookup in base name search"
+        )
     }
 
     over "joints"
@@ -894,7 +907,7 @@ def Xform "Ai2_Bot2" (
                 )
                 prepend uint inputs:execIn.connect = </Ai2_Bot2/Graph/Back_Camera/RenderProduct.outputs:execOut>
                 custom string inputs:frameId = "back_camera"
-                custom uint inputs:frameSkipCount = 2   # 20 Hz (60/3); global-costmap source only
+                custom uint inputs:frameSkipCount = 2
                 custom string inputs:nodeNamespace = "back_camera"
                 custom string inputs:qosProfile
                 custom uint64 inputs:queueSize
@@ -909,6 +922,7 @@ def Xform "Ai2_Bot2" (
                     allowedTokens = ["rgb", "rgb_h264", "depth", "depth_pcl", "instance_segmentation", "semantic_segmentation", "bbox_2d_tight", "bbox_2d_loose", "bbox_3d"]
                 )
                 custom bool inputs:useSystemTime
+                custom token inputs:viewport
                 token node:type = "isaacsim.ros2.bridge.ROS2CameraHelper"
                 int node:typeVersion = 3
             }
@@ -926,7 +940,7 @@ def Xform "Ai2_Bot2" (
                 )
                 prepend uint inputs:execIn.connect = </Ai2_Bot2/Graph/Back_Camera/RenderProduct.outputs:execOut>
                 custom string inputs:frameId = "back_camera"
-                custom uint inputs:frameSkipCount = 2   # 20 Hz (60/3); global-costmap source only
+                custom uint inputs:frameSkipCount = 2
                 custom string inputs:nodeNamespace = "back_camera"
                 custom string inputs:qosProfile
                 custom uint64 inputs:queueSize
@@ -941,6 +955,7 @@ def Xform "Ai2_Bot2" (
                     allowedTokens = ["rgb", "rgb_h264", "depth", "depth_pcl", "instance_segmentation", "semantic_segmentation", "bbox_2d_tight", "bbox_2d_loose", "bbox_3d"]
                 )
                 custom bool inputs:useSystemTime
+                custom token inputs:viewport
                 token node:type = "isaacsim.ros2.bridge.ROS2CameraHelper"
                 int node:typeVersion = 3
             }
@@ -958,7 +973,7 @@ def Xform "Ai2_Bot2" (
                 )
                 prepend uint inputs:execIn.connect = </Ai2_Bot2/Graph/Back_Camera/RenderProduct.outputs:execOut>
                 custom string inputs:frameId = "back_camera"
-                custom uint inputs:frameSkipCount = 2   # 20 Hz (60/3); global-costmap source only
+                custom uint inputs:frameSkipCount = 2
                 custom string inputs:nodeNamespace = "back_camera"
                 custom string inputs:qosProfile
                 custom uint64 inputs:queueSize
@@ -973,6 +988,7 @@ def Xform "Ai2_Bot2" (
                     allowedTokens = ["rgb", "rgb_h264", "depth", "depth_pcl", "instance_segmentation", "semantic_segmentation", "bbox_2d_tight", "bbox_2d_loose", "bbox_3d"]
                 )
                 custom bool inputs:useSystemTime
+                custom token inputs:viewport
                 token node:type = "isaacsim.ros2.bridge.ROS2CameraHelper"
                 int node:typeVersion = 3
             }
@@ -1105,7 +1121,7 @@ def "Render" (
                 uint omni:rtx:viewTile:limit = 4294967295
                 rel orderedVars = </Render/Vars/LdrColor>
                 custom bool overrideClipRange = 0
-                uniform int2 resolution = (1280, 720)
+                uniform int2 resolution = (2560, 1440)
             }
         }
     }
@@ -1151,7 +1167,7 @@ over "OmniverseKit_Persp" (
     float exposure:time = 0.02
     float focalLength = 18.147562
     float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (2.4820516742338495e-15, 3.9712826787741595e-15, -36.35294486614946)
+    custom uniform vector3d omni:kit:centerOfInterest = (3.50195250276783e-15, 5.6031240044285266e-15, -51.29074772236136)
     float3 xformOp:rotateXYZ = (70.87645, -6.2020816e-14, 24.270548)
     float3 xformOp:scale = (1, 1, 1)
     double3 xformOp:translate = (1.1873191648214327, -2.3801770734355165, 1.9851719040544378)

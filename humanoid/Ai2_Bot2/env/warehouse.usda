@@ -7,8 +7,8 @@
                 double radius = 5
             }
             dictionary Perspective = {
-                double3 position = (5.307492846845684, -2.111515111862651, 3.2801477708009146)
-                double3 target = (4.579592607013075, 2.955021636512742, -1.1391033562772441)
+                double3 position = (6.3152314992074325, 5.138833549388941, 2.2288694731745564)
+                double3 target = (3.2860212186164963, -3.776584841189946, 0.7241025832598813)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -18,7 +18,7 @@
                 double3 position = (0, 0, 5)
                 double radius = 5
             }
-            string boundCamera = "/World/Ai2_Bot2/body_link4/back_camera/d435/back_camera"
+            string boundCamera = "/World/Ai2_Bot2/head_link2/head_camera/d435/head_camera"
         }
         dictionary omni_layer = {
             string authoring_layer = "./warehouse.usda"
@@ -109,6 +109,8 @@ def Xform "World"
         {
             over "head_camera"
             {
+                double3 xformOp:translate = (0.08900000154972076, 0.04650000110268593, 0)
+
                 over "d435"
                 {
                     over "head_camera"
@@ -116,10 +118,10 @@ def Xform "World"
                         float focalLength = 15
                         float focusDistance = 5
                         bool omni:kit:cameraLock = 0
-                        custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -4.052109718883677)
-                        quatd xformOp:orient = (0.4843424017797952, 0.6948221316248454, 0.22569014372223667, 0.4813508099807476)
+                        custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -0.15992154775288225)
+                        quatd xformOp:orient = (0.7933533402912352, 0.6087614290087207, 0, 0)
                         double3 xformOp:scale = (1, 1, 1)
-                        double3 xformOp:translate = (3.510432431826523, -1.868300126390986, -0.32735804819322184)
+                        double3 xformOp:translate = (0, 1, 0)
                         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
                     }
 
@@ -162,6 +164,27 @@ def Xform "World"
                         double3 xformOp:translate = (0, 0, 0)
                         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
                     }
+                }
+            }
+        }
+
+        over "Graph"
+        {
+            over "Back_Camera"
+            {
+                over "DepthPclPublish"
+                {
+                    custom token inputs:viewport
+                }
+
+                over "RGBPublish"
+                {
+                    custom token inputs:viewport
+                }
+
+                over "DepthPublish"
+                {
+                    custom token inputs:viewport
                 }
             }
         }
@@ -214,7 +237,7 @@ def "Render" (
                 no_delete = true
             )
             {
-                rel camera = </World/Ai2_Bot2/body_link4/back_camera/d435/back_camera>
+                rel camera = </World/Ai2_Bot2/head_link2/head_camera/d435/head_camera>
                 token omni:rtx:ambientOcclusion:denoiserMode = "none"
                 token omni:rtx:background:source:texture:textureMode = "repeatMirrored"
                 token omni:rtx:background:source:type = "domeLight"
@@ -310,7 +333,7 @@ over "OmniverseKit_Persp" (
     float exposure:time = 0.02
     float focalLength = 18.147562
     float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -6.76235269014921)
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -9.535466606102373)
     float3 xformOp:rotateXYZ = (86.30181, -0, 132.35727)
     float3 xformOp:scale = (1, 1, 1)
     double3 xformOp:translate = (4.056051333531227, 2.589171760077136, 1.2629547589973418)
