@@ -13,25 +13,18 @@ Generated from Composed Stage of root layer /home/fiveages/libraries/FaSim-Isaac
 def Xform "Skye" (
     prepend references = @./payloads/base.usda@
     variants = {
+        string Arm_Left = "M6_CCS"
+        string Arm_Right = "M6_CCS"
+        string Chassis = "LinkhouS2_V2"
         string Physics = "physx"
+        string ROS = "none"
         string Robot = "none"
         string Sensor = "none"
     }
-    append variantSets = ["Robot", "Physics", "Sensor"]
+    prepend variantSets = ["Physics", "Chassis", "Arm_Left", "Arm_Right", "ROS"]
+    append variantSets = ["Robot", "Sensor"]
 )
 {
-    variantSet "Robot" = {
-        "none" (
-            prepend payload = @./payloads/Robot/none.usda@
-        ) {
-
-        }
-        "robot" (
-            prepend payload = @./payloads/Robot/robot.usda@
-        ) {
-
-        }
-    }
     variantSet "Physics" = {
         "none" (
             prepend payload = @./payloads/Physics/none.usda@
@@ -45,6 +38,64 @@ def Xform "Skye" (
         }
         "physx" (
             prepend payload = @./payloads/Physics/physx.usda@
+        ) {
+
+        }
+    }
+    variantSet "Chassis" = {
+        "LinkhouS2_V2" (
+            prepend payload = @payloads/Chassis/LinkhouS2_V2.usda@
+        ) {
+            prepend rel isaac:physics:robotJoints = </Skye/Linkhou_S2>
+            prepend rel isaac:physics:robotLinks = </Skye/Linkhou_S2>
+        }
+        "None" {
+
+        }
+    }
+    variantSet "Arm_Left" = {
+        "M6_CCS" (
+            prepend payload = @payloads/Arm_Left/M6_CCS.usda@
+        ) {
+            prepend rel isaac:physics:robotJoints = </Skye/Left_Arm>
+            prepend rel isaac:physics:robotLinks = </Skye/Left_Arm>
+        }
+        "None" {
+
+        }
+    }
+    variantSet "Arm_Right" = {
+        "M6_CCS" (
+            prepend payload = @payloads/Arm_Right/M6_CCS.usda@
+        ) {
+            prepend rel isaac:physics:robotJoints = </Skye/Right_Arm>
+            prepend rel isaac:physics:robotLinks = </Skye/Right_Arm>
+        }
+        "None" {
+
+        }
+    }
+    variantSet "ROS" = {
+        "enable" (
+            customData = {
+                string[] variantPrimPaths = ["."]
+            }
+            prepend payload = @./payloads/ROS/ros2.usda@
+        ) {
+
+        }
+        "none" {
+
+        }
+    }
+    variantSet "Robot" = {
+        "none" (
+            prepend payload = @./payloads/Robot/none.usda@
+        ) {
+
+        }
+        "robot" (
+            prepend payload = @./payloads/Robot/robot.usda@
         ) {
 
         }
@@ -142,4 +193,3 @@ over "OmniverseKit_Persp"
     float exposure:responsivity = 1.1026709
     float exposure:time = 0.02
 }
-
