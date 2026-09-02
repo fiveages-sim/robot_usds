@@ -1,31 +1,33 @@
 #usda 1.0
 (
-    defaultPrim = "Luna"
-    doc = """Generated from Composed Stage of root layer /home/fiveages/libraries/FaSim-Isaac/robots/humanoid/Gento/Luna/Luna.usd
+    defaultPrim = "M6S_Lite_CCS"
+    doc = """Generated from Composed Stage of root layer /home/fiveages/FaSim-Isaac/robots/manipulators/Tianji/M6S_Lite_CCS/M6S_Lite_CCS.usd
 
 
-Generated from Composed Stage of root layer /home/fiveages/libraries/FaSim-Isaac/robots/humanoid/Gento/Luna/payloads/base.usd
+Generated from Composed Stage of root layer /home/fiveages/FaSim-Isaac/robots/manipulators/Tianji/M6S_Lite_CCS/payloads/base.usd
 """
     metersPerUnit = 1
     upAxis = "Z"
 )
 
-def Xform "Luna" (
+def Xform "M6S_Lite_CCS" (
     prepend references = @./payloads/base.usda@
     variants = {
-        string Arm_Left = "M6S_Lite"
-        string Arm_Right = "M6S_Lite"
-        string Chassis = "LinkhouS2_V2"
         string Physics = "physx"
-        string ROS = "none"
+        string Side = "default"
         string Robot = "none"
         string Sensor = "none"
     }
-    prepend variantSets = ["Physics", "Chassis", "Arm_Left", "Arm_Right", "ROS"]
+    prepend variantSets = ["Physics", "Side"]
     append variantSets = ["Robot", "Sensor"]
 )
 {
     variantSet "Physics" = {
+        "mujoco" (
+            prepend payload = @./payloads/Physics/mujoco.usda@
+        ) {
+
+        }
         "none" (
             prepend payload = @./payloads/Physics/none.usda@
         ) {
@@ -42,49 +44,18 @@ def Xform "Luna" (
 
         }
     }
-    variantSet "Chassis" = {
-        "LinkhouS2_V2" (
-            prepend payload = @payloads/Chassis/LinkhouS2_V2.usda@
-        ) {
-            prepend rel isaac:physics:robotJoints = </Luna/Linkhou_S2>
-            prepend rel isaac:physics:robotLinks = </Luna/Linkhou_S2>
-        }
-        "None" {
+    variantSet "Side" = {
+        "default" {
 
         }
-    }
-    variantSet "Arm_Left" = {
-        "M6S_Lite" (
-            prepend payload = @payloads/Arm_Left/M6S_Lite.usda@
-        ) {
-            prepend rel isaac:physics:robotJoints = </Luna/Left_Arm>
-            prepend rel isaac:physics:robotLinks = </Luna/Left_Arm>
-        }
-        "None" {
-
-        }
-    }
-    variantSet "Arm_Right" = {
-        "M6S_Lite" (
-            prepend payload = @payloads/Arm_Right/M6S_Lite.usda@
-        ) {
-            prepend rel isaac:physics:robotJoints = </Luna/Right_Arm>
-            prepend rel isaac:physics:robotLinks = </Luna/Right_Arm>
-        }
-        "None" {
-
-        }
-    }
-    variantSet "ROS" = {
-        "enable" (
-            customData = {
-                string[] variantPrimPaths = ["."]
-            }
-            prepend payload = @./payloads/ROS/ros2.usda@
+        "left" (
+            prepend payload = @./payloads/Side/left.usda@
         ) {
 
         }
-        "none" {
+        "right" (
+            prepend payload = @./payloads/Side/right.usda@
+        ) {
 
         }
     }
@@ -161,7 +132,7 @@ def "Render" (
                 bool omni:rtx:scene:hydra:mdlMaterialWarmup = 1
                 rel orderedVars = </Render/Vars/LdrColor>
                 custom bool overrideClipRange = 0
-                uniform int2 resolution = (1088, 698)
+                uniform int2 resolution = (1280, 720)
             }
         }
     }

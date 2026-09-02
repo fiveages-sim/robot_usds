@@ -1,0 +1,138 @@
+#usda 1.0
+(
+    defaultPrim = "Luna"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "Luna"
+{
+    def "Linkhou_S2" (
+        prepend payload = @../../../../../mobile_base/Linkhou/S2_V2/S2_V2.usda@
+        variants = {
+            string Visual = "white"
+        }
+    )
+    {
+        quatd xformOp:orient = (1, 0, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0, 0, -0.04)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "base_footprint" (
+            delete apiSchemas = ["PhysicsArticulationRootAPI", "NewtonArticulationRootAPI"]
+        )
+        {
+            def PhysicsFixedJoint "AssemblerFixedJoint"
+            {
+                rel physics:body0 = </Luna/base_link>
+                rel physics:body1 = </Luna/Linkhou_S2/base_footprint>
+                point3f physics:localPos0 = (0, 0, -0.04)
+                point3f physics:localPos1 = (0, 0, 0)
+                quatf physics:localRot0 = (1, 0, 0, 0)
+                quatf physics:localRot1 = (1, 0, 0, 0)
+            }
+        }
+
+        over "joints"
+        {
+            over "fl_steer_joint"
+            {
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "fl_wheel_joint"
+            {
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "fr_steer_joint"
+            {
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "fr_wheel_joint"
+            {
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "rl_steer_joint"
+            {
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "rl_wheel_joint"
+            {
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "rr_steer_joint"
+            {
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "rr_wheel_joint"
+            {
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+        }
+
+        over "Graph"
+        {
+            over "ROS_Odometry"
+            {
+                over "ComputeOdometry"
+                {
+                    custom rel inputs:chassisPrim = </Luna/base_link> (
+                        customData = {
+                            dictionary omni = {
+                                dictionary graph = {
+                                    string relType = "target"
+                                }
+                            }
+                        }
+                    )
+                }
+            }
+
+            over "ROS_Steering_Controller"
+            {
+                over "articulation_controller"
+                {
+                    custom token[] inputs:jointNames = ["fl_steer_joint", "rl_steer_joint", "rr_steer_joint", "fr_steer_joint"]
+                    custom rel inputs:targetPrim = </Luna> (
+                        customData = {
+                            dictionary omni = {
+                                dictionary graph = {
+                                    string relType = "target"
+                                }
+                            }
+                        }
+                    )
+                }
+
+                over "articulation_controller_01"
+                {
+                    custom token[] inputs:jointNames = ["fl_wheel_joint", "rl_wheel_joint", "rr_wheel_joint", "fr_wheel_joint"]
+                    custom rel inputs:targetPrim = </Luna> (
+                        customData = {
+                            dictionary omni = {
+                                dictionary graph = {
+                                    string relType = "target"
+                                }
+                            }
+                        }
+                    )
+                }
+            }
+        }
+    }
+}
