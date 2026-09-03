@@ -32,6 +32,29 @@ def Xform "Skye"
                 quatf physics:localRot0 = (1, 0, 0, 0)
                 quatf physics:localRot1 = (1, 0, 0, 0)
             }
+
+            # Skye body mesh already includes rear S2 geometry — hide colliding chassis parts
+            # without editing the shared Linkhou S2_V2 asset.
+            over "base_link"
+            {
+                over "ultrasonic_c7"
+                {
+                    token visibility = "invisible"
+                }
+
+                over "ultrasonic_c8"
+                {
+                    token visibility = "invisible"
+                }
+
+                over "shell_default"
+                {
+                    over "back_shell"
+                    {
+                        token visibility = "invisible"
+                    }
+                }
+            }
         }
 
         over "joints"
