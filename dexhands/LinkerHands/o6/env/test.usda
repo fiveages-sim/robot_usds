@@ -7,8 +7,8 @@
                 double radius = 5
             }
             dictionary Perspective = {
-                double3 position = (-0.13445612024942094, -0.4893088598866313, 0.5338415466755497)
-                double3 target = (-0.3027099055723028, 0.9273270896354893, -0.6158144337902136)
+                double3 position = (0.18470545269151448, 0.2914090456229285, 0.18169630461773661)
+                double3 target = (0.24895708280429696, -1.3571547624801201, -0.5481792361053617)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -93,17 +93,16 @@ def Xform "World"
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale", "xformOp:scale:unitsResolve"]
 
         over "Apple" (
-            prepend apiSchemas = ["PhysicsCollisionAPI", "PhysxCollisionAPI", "PhysxTriangleMeshCollisionAPI", "PhysicsMeshCollisionAPI", "PhysxConvexHullCollisionAPI"]
+            prepend apiSchemas = ["PhysicsCollisionAPI", "PhysxCollisionAPI", "PhysxTriangleMeshCollisionAPI", "PhysicsMeshCollisionAPI", "PhysxConvexHullCollisionAPI", "PhysxConvexDecompositionCollisionAPI"]
         )
         {
-            uniform token physics:approximation = "convexHull"
+            uniform token physics:approximation = "boundingSphere"
             bool physics:collisionEnabled = 1
+            int physxConvexDecompositionCollision:hullVertexLimit = 50
+            int physxConvexDecompositionCollision:maxConvexHulls = 270
         }
     }
 
-    # Kinematic probe ≈ fixed table: does not yield under contact, but you can drag it
-    # with the mouse (same workflow as Apple) to press into the fixed palm-up hand.
-    # Dynamic Apple = soft contact; this cube = infinite-mass contact (mount/table case).
     def Xform "KinematicProbe" (
         prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysxRigidBodyAPI"]
     )
@@ -112,7 +111,7 @@ def Xform "World"
         bool physics:rigidBodyEnabled = 1
         quatd xformOp:orient = (1, 0, 0, 0)
         double3 xformOp:scale = (1, 1, 1)
-        double3 xformOp:translate = (0.06, 0.0, 0.14)
+        double3 xformOp:translate = (0.06, 0, 0.14)
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
         def Cube "Cube" (
@@ -262,10 +261,10 @@ over "OmniverseKit_Persp" (
     float exposure:time = 0.02
     float focalLength = 18.147562
     float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -1.8321778361214323)
-    float3 xformOp:rotateXYZ = (51.135513, -2.385416e-15, 6.7732873)
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -1.8040535486246538)
+    float3 xformOp:rotateXYZ = (66.13548, -4.4925333e-14, -177.76807)
     float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (-0.13445612024942094, -0.4893088598866313, 0.5338415466755497)
+    double3 xformOp:translate = (0.18470545269151448, 0.2914090456229285, 0.18169630461773661)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 

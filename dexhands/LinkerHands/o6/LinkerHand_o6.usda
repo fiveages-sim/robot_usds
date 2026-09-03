@@ -7,8 +7,8 @@
                 double radius = 5
             }
             dictionary Perspective = {
-                double3 position = (0.15394548370399758, -0.43324897885037117, 0.5539435540866378)
-                double3 target = (-0.09203401973332154, 0.3002750264133952, -0.1574107856814969)
+                double3 position = (-0.09426253490462483, -0.18835018191728556, 0.26640340635564025)
+                double3 target = (0.13415092541532922, 0.35255778766157664, -0.13437287024242928)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -52,9 +52,9 @@ def Xform "LinkerHand_o6" (
     {
         over "index_joint"
         {
-            float drive:angular:physics:damping = 1
-            float drive:angular:physics:maxForce = 20
-            float drive:angular:physics:stiffness = 5
+            float drive:angular:physics:damping = 0.0005
+            float drive:angular:physics:maxForce = 1.68
+            float drive:angular:physics:stiffness = 0.05
             float drive:angular:physics:targetPosition = 0
             uniform token drive:angular:physics:type = "force"
             bool[] isaac:actuator (
@@ -66,7 +66,7 @@ def Xform "LinkerHand_o6" (
             token[] isaac:physics:DofOffsetOpOrder (
                 displayName = "Dof Offset Op Order"
             )
-            float physxJoint:maxJointVelocity = 57.295776
+            float physxJoint:maxJointVelocity = 500000
             float state:angular:physics:position = 0
             float state:angular:physics:velocity = 0
         }
@@ -90,12 +90,21 @@ def Xform "LinkerHand_o6" (
 
         over "middle_joint"
         {
-            float drive:angular:physics:damping = 1
-            float drive:angular:physics:maxForce = 20
-            float drive:angular:physics:stiffness = 5
+            float drive:angular:physics:damping = 0.0005
+            float drive:angular:physics:maxForce = 1.68
+            float drive:angular:physics:stiffness = 0.05
             float drive:angular:physics:targetPosition = 0
             uniform token drive:angular:physics:type = "force"
-            float physxJoint:maxJointVelocity = 57.295776
+            bool[] isaac:actuator (
+                displayName = "Actuator"
+            )
+            string isaac:NameOverride (
+                displayName = "Joint Name Override"
+            )
+            token[] isaac:physics:DofOffsetOpOrder (
+                displayName = "Dof Offset Op Order"
+            )
+            float physxJoint:maxJointVelocity = 500000
             float state:angular:physics:position = 0
             float state:angular:physics:velocity = 0
         }
@@ -110,12 +119,12 @@ def Xform "LinkerHand_o6" (
 
         over "pinky_joint"
         {
-            float drive:angular:physics:damping = 1
-            float drive:angular:physics:maxForce = 20
-            float drive:angular:physics:stiffness = 5
+            float drive:angular:physics:damping = 0.0005
+            float drive:angular:physics:maxForce = 1.68
+            float drive:angular:physics:stiffness = 0.05
             float drive:angular:physics:targetPosition = 0
             uniform token drive:angular:physics:type = "force"
-            float physxJoint:maxJointVelocity = 57.295776
+            float physxJoint:maxJointVelocity = 500000
             float state:angular:physics:position = 0
             float state:angular:physics:velocity = 0
         }
@@ -130,12 +139,12 @@ def Xform "LinkerHand_o6" (
 
         over "ring_joint"
         {
-            float drive:angular:physics:damping = 1
-            float drive:angular:physics:maxForce = 20
-            float drive:angular:physics:stiffness = 5
+            float drive:angular:physics:damping = 0.0005
+            float drive:angular:physics:maxForce = 1.68
+            float drive:angular:physics:stiffness = 0.05
             float drive:angular:physics:targetPosition = 0
             uniform token drive:angular:physics:type = "force"
-            float physxJoint:maxJointVelocity = 57.295776
+            float physxJoint:maxJointVelocity = 500000
             float state:angular:physics:position = 0
             float state:angular:physics:velocity = 0
         }
@@ -150,24 +159,24 @@ def Xform "LinkerHand_o6" (
 
         over "thumb_joint2"
         {
-            float drive:angular:physics:damping = 1
-            float drive:angular:physics:maxForce = 30
-            float drive:angular:physics:stiffness = 10
+            float drive:angular:physics:damping = 0.0005
+            float drive:angular:physics:maxForce = 1.68
+            float drive:angular:physics:stiffness = 0.05
             float drive:angular:physics:targetPosition = 0
             uniform token drive:angular:physics:type = "force"
-            float physxJoint:maxJointVelocity = 57.295776
+            float physxJoint:maxJointVelocity = 500000
             float state:angular:physics:position = 0
             float state:angular:physics:velocity = 0
         }
 
         over "thumb_joint1"
         {
-            float drive:angular:physics:damping = 1
-            float drive:angular:physics:maxForce = 30
-            float drive:angular:physics:stiffness = 10
+            float drive:angular:physics:damping = 0.0005
+            float drive:angular:physics:maxForce = 1.68
+            float drive:angular:physics:stiffness = 0.05
             float drive:angular:physics:targetPosition = 0
             uniform token drive:angular:physics:type = "force"
-            float physxJoint:maxJointVelocity = 57.295776
+            float physxJoint:maxJointVelocity = 500000
             float state:angular:physics:position = 0
             float state:angular:physics:velocity = 0
         }
@@ -191,50 +200,50 @@ def Xform "LinkerHand_o6" (
 
         over "left_hand_index_joint"
         {
-            float drive:angular:physics:damping = 1
-            float drive:angular:physics:maxForce = 20
-            float drive:angular:physics:stiffness = 5
-            float physxJoint:maxJointVelocity = 57.295776
+            float drive:angular:physics:damping = 0.0005
+            float drive:angular:physics:maxForce = 1.68
+            float drive:angular:physics:stiffness = 0.05
+            float physxJoint:maxJointVelocity = 500000
             float state:angular:physics:position = 0
             float state:angular:physics:velocity = 0
         }
 
         over "left_hand_middle_joint"
         {
-            float drive:angular:physics:damping = 1
-            float drive:angular:physics:maxForce = 20
-            float drive:angular:physics:stiffness = 5
-            float physxJoint:maxJointVelocity = 57.295776
+            float drive:angular:physics:damping = 0.0005
+            float drive:angular:physics:maxForce = 1.68
+            float drive:angular:physics:stiffness = 0.05
+            float physxJoint:maxJointVelocity = 500000
             float state:angular:physics:position = 0
             float state:angular:physics:velocity = 0
         }
 
         over "left_hand_pinky_joint"
         {
-            float drive:angular:physics:damping = 1
-            float drive:angular:physics:maxForce = 20
-            float drive:angular:physics:stiffness = 5
-            float physxJoint:maxJointVelocity = 57.295776
+            float drive:angular:physics:damping = 0.0005
+            float drive:angular:physics:maxForce = 1.68
+            float drive:angular:physics:stiffness = 0.05
+            float physxJoint:maxJointVelocity = 500000
             float state:angular:physics:position = 0
             float state:angular:physics:velocity = 0
         }
 
         over "left_hand_ring_joint"
         {
-            float drive:angular:physics:damping = 1
-            float drive:angular:physics:maxForce = 20
-            float drive:angular:physics:stiffness = 5
-            float physxJoint:maxJointVelocity = 57.295776
+            float drive:angular:physics:damping = 0.0005
+            float drive:angular:physics:maxForce = 1.68
+            float drive:angular:physics:stiffness = 0.05
+            float physxJoint:maxJointVelocity = 500000
             float state:angular:physics:position = 0
             float state:angular:physics:velocity = 0
         }
 
         over "left_hand_thumb_joint2"
         {
-            float drive:angular:physics:damping = 1
-            float drive:angular:physics:maxForce = 30
-            float drive:angular:physics:stiffness = 10
-            float physxJoint:maxJointVelocity = 57.295776
+            float drive:angular:physics:damping = 0.0005
+            float drive:angular:physics:maxForce = 1.68
+            float drive:angular:physics:stiffness = 0.05
+            float physxJoint:maxJointVelocity = 500000
             float state:angular:physics:position = 0
             float state:angular:physics:velocity = 0
         }
@@ -273,10 +282,10 @@ def Xform "LinkerHand_o6" (
 
         over "left_hand_thumb_joint1"
         {
-            float drive:angular:physics:damping = 1
-            float drive:angular:physics:maxForce = 30
-            float drive:angular:physics:stiffness = 10
-            float physxJoint:maxJointVelocity = 57.295776
+            float drive:angular:physics:damping = 0.0005
+            float drive:angular:physics:maxForce = 1.68
+            float drive:angular:physics:stiffness = 0.05
+            float physxJoint:maxJointVelocity = 500000
             float state:angular:physics:position = 0
             float state:angular:physics:velocity = 0
         }
@@ -331,66 +340,66 @@ def Xform "LinkerHand_o6" (
 
         over "right_hand_index_joint"
         {
-            float drive:angular:physics:damping = 1
-            float drive:angular:physics:maxForce = 20
-            float drive:angular:physics:stiffness = 5
+            float drive:angular:physics:damping = 0.0005
+            float drive:angular:physics:maxForce = 1.68
+            float drive:angular:physics:stiffness = 0.05
             uniform token drive:angular:physics:type = "force"
-            float physxJoint:maxJointVelocity = 57.295776
+            float physxJoint:maxJointVelocity = 500000
             float state:angular:physics:position = 0
             float state:angular:physics:velocity = 0
         }
 
         over "right_hand_middle_joint"
         {
-            float drive:angular:physics:damping = 1
-            float drive:angular:physics:maxForce = 20
-            float drive:angular:physics:stiffness = 5
+            float drive:angular:physics:damping = 0.0005
+            float drive:angular:physics:maxForce = 1.68
+            float drive:angular:physics:stiffness = 0.05
             uniform token drive:angular:physics:type = "force"
-            float physxJoint:maxJointVelocity = 57.295776
+            float physxJoint:maxJointVelocity = 500000
             float state:angular:physics:position = 0
             float state:angular:physics:velocity = 0
         }
 
         over "right_hand_pinky_joint"
         {
-            float drive:angular:physics:damping = 1
-            float drive:angular:physics:maxForce = 20
-            float drive:angular:physics:stiffness = 5
+            float drive:angular:physics:damping = 0.0005
+            float drive:angular:physics:maxForce = 1.68
+            float drive:angular:physics:stiffness = 0.05
             uniform token drive:angular:physics:type = "force"
-            float physxJoint:maxJointVelocity = 57.295776
+            float physxJoint:maxJointVelocity = 500000
             float state:angular:physics:position = 0
             float state:angular:physics:velocity = 0
         }
 
         over "right_hand_ring_joint"
         {
-            float drive:angular:physics:damping = 1
-            float drive:angular:physics:maxForce = 20
-            float drive:angular:physics:stiffness = 5
+            float drive:angular:physics:damping = 0.0005
+            float drive:angular:physics:maxForce = 1.68
+            float drive:angular:physics:stiffness = 0.05
             uniform token drive:angular:physics:type = "force"
-            float physxJoint:maxJointVelocity = 57.295776
+            float physxJoint:maxJointVelocity = 500000
             float state:angular:physics:position = 0
             float state:angular:physics:velocity = 0
         }
 
         over "right_hand_thumb_joint2"
         {
-            float drive:angular:physics:damping = 1
-            float drive:angular:physics:maxForce = 30
-            float drive:angular:physics:stiffness = 10
+            float drive:angular:physics:damping = 0.0005
+            float drive:angular:physics:maxForce = 1.68
+            float drive:angular:physics:stiffness = 0.05
             uniform token drive:angular:physics:type = "force"
-            float physxJoint:maxJointVelocity = 57.295776
+            float physxJoint:maxJointVelocity = 500000
             float state:angular:physics:position = 0
             float state:angular:physics:velocity = 0
         }
 
         over "right_hand_thumb_joint1"
         {
-            float drive:angular:physics:damping = 1
-            float drive:angular:physics:maxForce = 30
-            float drive:angular:physics:stiffness = 10
+            float drive:angular:physics:damping = 0.0005
+            float drive:angular:physics:maxForce = 1.68
+            float drive:angular:physics:stiffness = 0.05
             uniform token drive:angular:physics:type = "force"
-            float physxJoint:maxJointVelocity = 57.295776
+            float physxJoint:maxJointVelocity = 500000
             float state:angular:physics:position = 0
             float state:angular:physics:velocity = 0
         }
@@ -617,10 +626,10 @@ over "OmniverseKit_Persp" (
     float exposure:time = 0.02
     float focalLength = 18.147562
     float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -1.0509939957566012)
-    float3 xformOp:rotateXYZ = (47.402832, 2.0673606e-14, 18.538332)
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -0.7108978578481405)
+    float3 xformOp:rotateXYZ = (55.683723, 9.541664e-15, -22.893257)
     float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (0.15394548370399758, -0.43324897885037117, 0.5539435540866378)
+    double3 xformOp:translate = (-0.09426253490462483, -0.18835018191728556, 0.26640340635564025)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 
