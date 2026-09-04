@@ -7,8 +7,8 @@
                 double radius = 5
             }
             dictionary Perspective = {
-                double3 position = (2.737852124377698, -0.5281930269806895, 2.312102797725273)
-                double3 target = (-0.6007544481333666, 0.14425868754250948, -0.2255960655579492)
+                double3 position = (2.8096991336035493, 0.936842952046824, 1.7901785698767816)
+                double3 target = (-3.6340436724935814, -1.7795705305608038, -1.1259725832162755)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -40,35 +40,6 @@
 
 def Xform "World"
 {
-    def Xform "GroundPlane"
-    {
-        quatf xformOp:orient = (1, 0, 0, 0)
-        float3 xformOp:scale = (1, 1, 1)
-        double3 xformOp:translate = (0, 0, 0)
-        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
-
-        def Mesh "CollisionMesh"
-        {
-            uniform bool doubleSided = 0
-            int[] faceVertexCounts = [4]
-            int[] faceVertexIndices = [0, 1, 2, 3]
-            normal3f[] normals = [(0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1)]
-            point3f[] points = [(-25, -25, 0), (25, -25, 0), (25, 25, 0), (-25, 25, 0)]
-            color3f[] primvars:displayColor = [(0.5, 0.5, 0.5)]
-            texCoord2f[] primvars:st = [(0, 0), (1, 0), (1, 1), (0, 1)] (
-                interpolation = "varying"
-            )
-        }
-
-        def Plane "CollisionPlane" (
-            prepend apiSchemas = ["PhysicsCollisionAPI"]
-        )
-        {
-            uniform token axis = "Z"
-            uniform token purpose = "guide"
-        }
-    }
-
     def "Skye" (
         prepend payload = @../Skye.usda@
         variants = {
@@ -98,34 +69,20 @@ def Xform "World"
                 }
             }
         }
+
+        over "body_link3"
+        {
+            over "visuals"
+            {
+                token visibility = "inherited"
+            }
+        }
     }
-}
 
-def Xform "Environment"
-{
-    quatd xformOp:orient = (1, 0, 0, 0)
-    double3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (0, 0, 0)
-    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
-
-    def DistantLight "defaultLight" (
-        prepend apiSchemas = ["ShapingAPI"]
+    def "default_environment" (
+        prepend payload = @../../../../../environment/fiveages_env/background/Grid/default_environment.usd@
     )
     {
-        float inputs:angle = 1
-        float inputs:exposure = 1.5
-        float inputs:intensity = 3000
-        bool inputs:normalize = 1
-        float inputs:shaping:cone:angle = 180
-        float inputs:shaping:cone:softness
-        float inputs:shaping:focus
-        color3f inputs:shaping:focusTint
-        asset inputs:shaping:ies:file
-        custom int omni:rtx:usdluxVersion = 2505
-        quatd xformOp:orient = (0.6532814824381883, 0.2705980500730985, 0.27059805007309845, 0.6532814824381882)
-        double3 xformOp:scale = (1, 1, 1)
-        double3 xformOp:translate = (0, 0, 0)
-        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
     }
 }
 
@@ -177,7 +134,7 @@ def "Render" (
                 bool omni:rtx:scene:hydra:mdlMaterialWarmup = 1
                 rel orderedVars = </Render/Vars/LdrColor>
                 custom bool overrideClipRange = 0
-                uniform int2 resolution = (1280, 720)
+                uniform int2 resolution = (1088, 698)
             }
         }
     }
@@ -224,15 +181,15 @@ over "OmniverseKit_Persp" (
     float exposure:time = 0.02
     float focalLength = 18.147562
     float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -4.247163838973983)
-    float3 xformOp:rotateXYZ = (53.30863, -6.3611094e-15, 78.61203)
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -7.57658637562504)
+    float3 xformOp:rotateXYZ = (67.3631, -2.2263883e-14, 112.85826)
     float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (2.737852124377698, -0.5281930269806895, 2.312102797725273)
+    double3 xformOp:translate = (2.8096991336035493, 0.936842952046824, 1.7901785698767816)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 
 def PhysicsScene "PhysicsScene" (
-    prepend apiSchemas = ["NewtonSceneAPI", "PhysxSceneAPI"]
+    prepend apiSchemas = ["NewtonSceneAPI", "PhysxSceneAPI", "MjcSceneAPI"]
 )
 {
 }
