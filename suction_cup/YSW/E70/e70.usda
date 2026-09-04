@@ -13,9 +13,13 @@ Hierarchy (critical for Play TF):
     gripper_base     <- PhysicsRigidBodyAPI (Physics=physx)
       visual         <- flange EE-tcp xformOps live HERE (non-RB child)
         suction_base / tips...
+      surface_gripper_joints/attach_tip_*  <- when type=z4
+    sg_d6_body1      <- D6 body1 placeholder (type=z4)
+    SurfaceGripper   <- IsaacSurfaceGripper (type=z4, on this root layer)
 
-Arm mount welds tcp -> gripper_base with identity FixedJoint (like Hook).
-Flange TF on visual is preserved because PhysX drives gripper_base only.
+Defaults: type=none, flange=none (flange_type1 only when assembly selects it).
+type=z4 adds tip visuals + official Surface Gripper (D6 poses assume flange=none).
+SurfaceGripper path: <instance>/SurfaceGripper
 """
     metersPerUnit = 1
     upAxis = "Z"
@@ -54,9 +58,23 @@ def Xform "ysw_e70" (
 
         }
         "z4" (
-            prepend payload = @./payloads/Type/z4/z4.usda@
+            prepend payload = @./payloads/Type/z4/payload.usda@
         ) {
-
+            def IsaacSurfaceGripper "SurfaceGripper"
+            {
+                rel isaac:attachmentPoints = [
+                    </ysw_e70/gripper_base/surface_gripper_joints/attach_tip_1>,
+                    </ysw_e70/gripper_base/surface_gripper_joints/attach_tip_2>,
+                    </ysw_e70/gripper_base/surface_gripper_joints/attach_tip_3>,
+                    </ysw_e70/gripper_base/surface_gripper_joints/attach_tip_4>,
+                ]
+                float isaac:coaxialForceLimit = 500
+                rel isaac:grippedObjects
+                float isaac:maxGripDistance = 0.08
+                float isaac:retryInterval = 3
+                float isaac:shearForceLimit = 500
+                uniform token isaac:status = "Open"
+            }
         }
     }
     variantSet "flange" = {
