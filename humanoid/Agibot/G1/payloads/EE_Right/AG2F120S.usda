@@ -1,0 +1,98 @@
+#usda 1.0
+(
+    defaultPrim = "Agibot_G1"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "Agibot_G1"
+{
+    over "right_end_link"
+    {
+        over "tcp"
+        {
+            def "EE" (
+                prepend payload = @../../../../../grippers/ChangingTek/AG2F120S/AG2F120S.usda@
+                variants = {
+                    string Flange = "none"
+                    string Side = "right"
+                }
+            )
+            {
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0.02773056)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+                over "root_joint" (
+                    active = false
+                )
+                {
+                }
+
+                over "gripper_base"
+                {
+                    def PhysicsFixedJoint "AssemblerFixedJoint"
+                    {
+                        rel physics:body0 = </Agibot_G1/right_end_link/tcp>
+                        rel physics:body1 = </Agibot_G1/right_end_link/tcp/EE/gripper_base>
+                        point3f physics:localPos0 = (0, 0, 0.02773056)
+                        point3f physics:localPos1 = (0, 0, 0)
+                        quatf physics:localRot0 = (1, 0, 0, 0)
+                        quatf physics:localRot1 = (1, 0, 0, 0)
+                    }
+
+                    def "camera_stand" (
+                        prepend payload = @../EE/120s_camera_stand.usd@
+                    )
+                    {
+                        quatf xformOp:orient = (0.70710677, -0.70710677, 0, 0)
+                        double xformOp:rotateX:unitsResolve = 90
+                        float3 xformOp:scale = (1, 1, 1)
+                        double3 xformOp:translate = (0, 0, -0.02773)
+                        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale", "xformOp:rotateX:unitsResolve"]
+                    }
+                }
+
+                over "joints"
+                {
+                    over "right_gripper_joint"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+
+                    over "right_left_support_joint"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+
+                    over "right_left_2_joint"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+
+                    over "right_right_1_joint"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+
+                    over "right_right_support_joint"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+
+                    over "right_right_2_joint"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+                }
+            }
+        }
+    }
+}

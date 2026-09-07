@@ -1,25 +1,25 @@
 #usda 1.0
 (
-    defaultPrim = "Q1"
-    doc = """Generated from Composed Stage of root layer /home/fiveages/libraries/FaSim-Isaac/robots/mobile_base/Linkhou/Q1/Q1.usd
+    defaultPrim = "OmniPicker"
+    doc = """Generated from Composed Stage of root layer /home/fiveages/libraries/FaSim-Isaac/robots/grippers/OmniPicker/OmniPicker.usd
 
 
-Generated from Composed Stage of root layer /home/fiveages/libraries/FaSim-Isaac/robots/mobile_base/Linkhou/Q1/payloads/base.usd
+Generated from Composed Stage of root layer /home/fiveages/libraries/FaSim-Isaac/robots/grippers/OmniPicker/payloads/base.usd
 """
     metersPerUnit = 1
     upAxis = "Z"
 )
 
-def Xform "Q1" (
+def Xform "OmniPicker" (
     prepend references = @./payloads/base.usda@
     variants = {
         string Physics = "physx"
-        string Robot = "robot"
-        string Sensor = "sensors"
-        string ROS = "enable"
-        string Visual = "default"
+        string Robot = "none"
+        string Sensor = "none"
+        string Side = "default"
     }
-    prepend variantSets = ["Physics", "Visual", "Robot", "Sensor", "ROS"]
+    prepend variantSets = ["Physics", "Side"]
+    append variantSets = ["Robot", "Sensor"]
 )
 {
     variantSet "Physics" = {
@@ -44,14 +44,19 @@ def Xform "Q1" (
 
         }
     }
-    variantSet "Visual" = {
-        "agibot_g1" (
-            prepend payload = @./payloads/Visual/agibot_g1.usda@
+    variantSet "Side" = {
+        "default" (
+            prepend payload = @./payloads/Side/default.usda@
         ) {
 
         }
-        "default" (
-            prepend payload = @./payloads/Visual/default.usda@
+        "left" (
+            prepend payload = @./payloads/Side/left.usda@
+        ) {
+
+        }
+        "right" (
+            prepend payload = @./payloads/Side/right.usda@
         ) {
 
         }
@@ -76,18 +81,6 @@ def Xform "Q1" (
         }
         "sensors" (
             prepend payload = @./payloads/Sensor/sensors.usda@
-        ) {
-
-        }
-    }
-    variantSet "ROS" = {
-        "enable" (
-            prepend payload = @./payloads/ROS/ros2.usda@
-        ) {
-
-        }
-        "none" (
-            prepend payload = @./payloads/ROS/none.usda@
         ) {
 
         }
@@ -141,7 +134,7 @@ def "Render" (
                 bool omni:rtx:scene:hydra:mdlMaterialWarmup = 1
                 rel orderedVars = </Render/Vars/LdrColor>
                 custom bool overrideClipRange = 0
-                uniform int2 resolution = (1379, 462)
+                uniform int2 resolution = (1088, 698)
             }
         }
     }

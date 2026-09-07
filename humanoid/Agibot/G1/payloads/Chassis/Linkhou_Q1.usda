@@ -1,0 +1,88 @@
+#usda 1.0
+(
+    defaultPrim = "Agibot_G1"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "Agibot_G1"
+{
+    def "Linkhou_Q1" (
+        prepend payload = @../../../../../mobile_base/Linkhou/Q1/Q1.usda@
+        variants = {
+            string Visual = "agibot_g1"
+        }
+    )
+    {
+        quatd xformOp:orient = (1, 0, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0.002651002258062362, 0, 0.03204)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "base_footprint" (
+            delete apiSchemas = ["PhysicsArticulationRootAPI", "NewtonArticulationRootAPI"]
+        )
+        {
+            def PhysicsFixedJoint "AssemblerFixedJoint"
+            {
+                rel physics:body0 = </Agibot_G1/base_footprint>
+                rel physics:body1 = </Agibot_G1/Linkhou_Q1/base_footprint>
+                point3f physics:localPos0 = (0.0026510023, 0, 0.03204)
+                point3f physics:localPos1 = (0, 0, 0)
+                quatf physics:localRot0 = (1, 0, 0, 0)
+                quatf physics:localRot1 = (1, 0, 0, 0)
+            }
+        }
+
+        over "joints"
+        {
+            over "chassis_left_joint"
+            {
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "chassis_right_joint"
+            {
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+        }
+
+        over "Graph"
+        {
+            over "ROS_Diff_Controller"
+            {
+                over "ArticulationController"
+                {
+                    custom token[] inputs:jointNames = ["chassis_left_joint", "chassis_right_joint"]
+                    custom rel inputs:targetPrim = </Agibot_G1> (
+                        customData = {
+                            dictionary omni = {
+                                dictionary graph = {
+                                    string relType = "target"
+                                }
+                            }
+                        }
+                    )
+                }
+            }
+
+            over "ROS_Odometry"
+            {
+                over "ComputeOdometry"
+                {
+                    custom rel inputs:chassisPrim = </Agibot_G1/base_footprint> (
+                        customData = {
+                            dictionary omni = {
+                                dictionary graph = {
+                                    string relType = "target"
+                                }
+                            }
+                        }
+                    )
+                }
+            }
+        }
+    }
+}
