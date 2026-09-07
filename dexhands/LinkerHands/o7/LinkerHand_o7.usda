@@ -2,9 +2,10 @@
 (
     defaultPrim = "LinkerHand_o7"
     doc = """LinkerHand o7 — unified left/right via Side variant (default|left|right).
-default: left morphology, unprefixed joints (original o7 force settings).
+default: left morphology, unprefixed joints.
 left: left morphology, left_hand_* joints.
 right: right morphology, right_hand_* joints.
+Joint drive baseline: D=1 K=3 F=1.68 maxJointVelocity=500000 (all Sides synced in Physics/Side).
 """
     metersPerUnit = 1
     upAxis = "Z"
@@ -22,69 +23,131 @@ def Xform "LinkerHand_o7" (
     append variantSets = ["Robot", "Sensor"]
 )
 {
+    over "joints"
+    {
+        over "index_joint"
+        {
+            float drive:angular:physics:damping = 0.0005
+            float drive:angular:physics:maxForce = 1.68
+            float drive:angular:physics:stiffness = 0.005
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:maxJointVelocity = 500000
+        }
+
+        over "middle_joint"
+        {
+            float drive:angular:physics:damping = 0.0005
+            float drive:angular:physics:maxForce = 1.68
+            float drive:angular:physics:stiffness = 0.005
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:maxJointVelocity = 500000
+        }
+
+        over "pinky_joint"
+        {
+            float drive:angular:physics:damping = 0.0005
+            float drive:angular:physics:maxForce = 1.68
+            float drive:angular:physics:stiffness = 0.005
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:maxJointVelocity = 500000
+        }
+
+        over "ring_joint"
+        {
+            float drive:angular:physics:damping = 0.0005
+            float drive:angular:physics:maxForce = 1.68
+            float drive:angular:physics:stiffness = 0.005
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:maxJointVelocity = 500000
+        }
+
+        over "thumb_joint3"
+        {
+            float drive:angular:physics:damping = 0.0005
+            float drive:angular:physics:maxForce = 1.68
+            float drive:angular:physics:stiffness = 0.005
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:maxJointVelocity = 500000
+        }
+
+        over "thumb_joint2"
+        {
+            float drive:angular:physics:damping = 0.0005
+            float drive:angular:physics:maxForce = 1.68
+            float drive:angular:physics:stiffness = 0.005
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:maxJointVelocity = 500000
+        }
+
+        over "thumb_joint1"
+        {
+            float drive:angular:physics:damping = 0.0005
+            float drive:angular:physics:maxForce = 1.68
+            float drive:angular:physics:stiffness = 0.005
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:maxJointVelocity = 500000
+        }
+    }
+
     variantSet "Side" = {
         "default" (
             prepend payload = @./payloads/Side/default.usda@
         ) {
-
         }
         "left" (
             prepend payload = @./payloads/Side/left.usda@
         ) {
-
         }
         "right" (
             prepend payload = @./payloads/Side/right.usda@
             delete references = @./payloads/base.usda@
             prepend references = @./payloads/Hand/right/base.usda@
         ) {
-
         }
     }
     variantSet "Physics" = {
         "mujoco" (
             prepend payload = @./payloads/Physics/mujoco.usda@
         ) {
-
         }
         "none" (
             prepend payload = @./payloads/Physics/none.usda@
         ) {
-
         }
         "physics" (
             prepend payload = @./payloads/Physics/physics.usda@
         ) {
-
         }
         "physx" (
             prepend payload = @./payloads/Physics/physx.usda@
         ) {
-
         }
     }
     variantSet "Robot" = {
         "none" (
             prepend payload = @./payloads/Robot/none.usda@
         ) {
-
         }
         "robot" (
             prepend payload = @./payloads/Robot/robot.usda@
         ) {
-
         }
     }
     variantSet "Sensor" = {
         "none" (
             prepend payload = @./payloads/Sensor/none.usda@
         ) {
-
         }
         "sensors" (
             prepend payload = @./payloads/Sensor/sensors.usda@
         ) {
-
         }
     }
 }
