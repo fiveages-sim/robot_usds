@@ -8,12 +8,8 @@
     upAxis = "Z"
 )
 
-def "Agibot_G1" (
-    prepend apiSchemas = ["NewtonArticulationRootAPI"]
-)
+def "Agibot_G1"
 {
-    bool newton:selfCollisionEnabled = 0
-
     over "joints"
     {
         over "body_joint1" (
@@ -322,6 +318,13 @@ def "Agibot_G1" (
             uniform double mjc:actuatorfrcrange:min = -30
             uniform double mjc:actuatorfrcrange:max = 30
         }
+    }
+
+    over "base_footprint" (
+        prepend apiSchemas = ["NewtonArticulationRootAPI"]
+    )
+    {
+        bool newton:selfCollisionEnabled = 0
     }
 
     over "body_link1"

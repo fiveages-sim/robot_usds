@@ -7,8 +7,8 @@
                 double radius = 5
             }
             dictionary Perspective = {
-                double3 position = (3.1496598931705604, 1.932252499155016, 2.153221071893104)
-                double3 target = (-0.9413882279997265, -0.5359106746735041, 0.3935854740124194)
+                double3 position = (0.9072089373018245, 2.5336288010728176, 0.26934285640719907)
+                double3 target = (-0.2520716889136244, -2.27065333316578, 0.7986679986031424)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -21,6 +21,7 @@
             string boundCamera = "/OmniverseKit_Persp"
         }
         dictionary omni_layer = {
+            string authoring_layer = "./empty.usda"
             dictionary locked = {
             }
             dictionary muteness = {
@@ -52,6 +53,7 @@ def Xform "World"
         double3 xformOp:scale = (1, 1, 1)
         double3 xformOp:translate = (0, 0, 0.21587888889471196)
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
     }
 
     def "default_environment" (
@@ -156,14 +158,15 @@ over "OmniverseKit_Persp" (
     float exposure:time = 0.02
     float focalLength = 18.147562
     float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -5.091642330300028)
-    float3 xformOp:rotateXYZ = (69.782005, 3.8166657e-14, 121.10293)
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -4.970436952808415)
+    float3 xformOp:rotateXYZ = (96.11329, 7.156248e-15, 166.43378)
     float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (3.1496598931705604, 1.932252499155016, 2.153221071893104)
+    double3 xformOp:translate = (0.9072089373018245, 2.5336288010728176, 0.26934285640719907)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 
 def PhysicsScene "PhysicsScene" (
+    delete apiSchemas = ["MjcSceneAPI", "NewtonXpbdSceneAPI"]
     prepend apiSchemas = ["NewtonSceneAPI", "PhysxSceneAPI"]
 )
 {

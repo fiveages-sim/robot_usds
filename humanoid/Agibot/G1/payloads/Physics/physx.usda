@@ -40,16 +40,8 @@
     upAxis = "Z"
 )
 
-def "Agibot_G1" (
-    prepend apiSchemas = ["PhysxArticulationAPI"]
-)
+def "Agibot_G1"
 {
-    bool physxArticulation:enabledSelfCollisions = 0
-    float physxArticulation:sleepThreshold = 0.00005
-    int physxArticulation:solverPositionIterationCount = 64
-    int physxArticulation:solverVelocityIterationCount = 4
-    float physxArticulation:stabilizationThreshold = 0.00001
-
     over "joints"
     {
         over "body_joint1" (
@@ -179,11 +171,15 @@ def "Agibot_G1" (
         }
     }
 
-    over "base_footprint"
+    over "base_footprint" (
+        prepend apiSchemas = ["PhysxArticulationAPI"]
+    )
     {
         bool physxArticulation:enabledSelfCollisions = 0
-        int physxArticulation:solverPositionIterationCount = 32
-        int physxArticulation:solverVelocityIterationCount = 1
+        float physxArticulation:sleepThreshold = 0.00005
+        int physxArticulation:solverPositionIterationCount = 64
+        int physxArticulation:solverVelocityIterationCount = 4
+        float physxArticulation:stabilizationThreshold = 0.00001
     }
 
     over "Linkhou_Q1" (
