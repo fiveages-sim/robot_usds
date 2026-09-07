@@ -105,7 +105,7 @@ git submodule update --init --recursive
     - 睿尔曼 RM75（`Realman_RM75`）
     - Panthera HT（`Panthera_HT`）
 - **Humanoid（人形机器人）** — `humanoid/`
-    - 智元 G1 / G2（`Agibot_G1`、`Agibot_G2` 子模块）
+    - 智元 G1（`Agibot/G1`）、G2（`Agibot_G2` 子模块）
     - 智平方 Bot2（`Ai2_Bot2`）
     - 星尘智能 S1（`Astribot_S1`）
     - 越疆 Atom（`Dobot_Atom`）
@@ -153,7 +153,7 @@ robots/
   humanoid/
     FiveAges/{Gen1,Gen2,Gen3}/
     Galaxea/{R1,R1_Lite}/
-    Galbot/ … Agibot_G1/ … Agibot_G2/ …
+    Galbot/ … Agibot/G1 … Agibot_G2/ …
   mobile_base/
   mobile_manipulator/
     ARX/{Lift,Lift 2S,X7S,AC_One_Base}/

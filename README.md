@@ -101,7 +101,7 @@ The following models are **Git submodules** (vendored repositories, checked in a
     - Realman RM75 (`Realman_RM75`)
     - Panthera HT (`Panthera_HT`)
 - **Humanoid** — under `humanoid/`
-    - Agibot G1 (`Agibot_G1`)
+    - Agibot G1 (`Agibot/G1`)
     - Agibot G2 (`Agibot_G2` submodule)
     - Ai2 Bot2 (`Ai2_Bot2`)
     - Astribot S1 (`Astribot_S1`)
@@ -161,7 +161,7 @@ robots/
   humanoid/
     FiveAges/{Gen1,Gen2,Gen3}/
     Galaxea/{R1,R1_Lite}/
-    Galbot/ … Agibot_G1/ … Agibot_G2/ …
+    Galbot/ … Agibot/G1 … Agibot_G2/ …
   mobile_base/
   mobile_manipulator/
     ARX/{Lift,Lift 2S,X7S,AC_One_Base}/
