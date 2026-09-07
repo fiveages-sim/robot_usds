@@ -12,11 +12,19 @@ Generated from Composed Stage of root layer /home/fiveages/FaSim-Isaac/robots/de
 
 over "LinkerHand_o6"
 {
-
     over "flange" (
-        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "PhysicsFilteredPairsAPI"]
     )
     {
+        rel physics:filteredPairs = [
+            </LinkerHand_o6/index_distal>,
+            </LinkerHand_o6/middle_distal>,
+            </LinkerHand_o6/ring_distal>,
+            </LinkerHand_o6/pinky_distal>,
+            </LinkerHand_o6/thumb_metacarpals>,
+            </LinkerHand_o6/thumb_distal>,
+        ]
+
         point3f physics:centerOfMass = (-0.00037343526, 0.0020602588, 0.029711625)
         float3 physics:diagonalInertia = (0.00034460818, 0.0004091788, 0.00007688596)
         float physics:mass = 0.18129352
@@ -24,9 +32,14 @@ over "LinkerHand_o6"
     }
 
     over "index_proximal" (
-        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "PhysicsFilteredPairsAPI"]
     )
     {
+        rel physics:filteredPairs = [
+            </LinkerHand_o6/middle_proximal>,
+            </LinkerHand_o6/middle_distal>,
+        ]
+
         point3f physics:centerOfMass = (-0.0020865656, 0.0000025383872, 0.017273495)
         float3 physics:diagonalInertia = (2.757608e-7, 2.7291304e-7, 7.583063e-8)
         float physics:mass = 0.0025317466
@@ -41,7 +54,7 @@ over "LinkerHand_o6"
         {
             float drive:angular:physics:damping = 0.0005
             float drive:angular:physics:maxForce = 1.68
-            float drive:angular:physics:stiffness = 0.05
+            float drive:angular:physics:stiffness = 0.005
             float drive:angular:physics:targetPosition = 0
             uniform token drive:angular:physics:type = "force"
             uniform token physics:axis = "Y"
@@ -86,7 +99,7 @@ over "LinkerHand_o6"
         {
             float drive:angular:physics:damping = 0.0005
             float drive:angular:physics:maxForce = 1.68
-            float drive:angular:physics:stiffness = 0.05
+            float drive:angular:physics:stiffness = 0.005
             float drive:angular:physics:targetPosition = 0
             uniform token drive:angular:physics:type = "force"
             uniform token physics:axis = "Y"
@@ -131,7 +144,7 @@ over "LinkerHand_o6"
         {
             float drive:angular:physics:damping = 0.0005
             float drive:angular:physics:maxForce = 1.68
-            float drive:angular:physics:stiffness = 0.05
+            float drive:angular:physics:stiffness = 0.005
             float drive:angular:physics:targetPosition = 0
             uniform token drive:angular:physics:type = "force"
             uniform token physics:axis = "Y"
@@ -176,7 +189,7 @@ over "LinkerHand_o6"
         {
             float drive:angular:physics:damping = 0.0005
             float drive:angular:physics:maxForce = 1.68
-            float drive:angular:physics:stiffness = 0.05
+            float drive:angular:physics:stiffness = 0.005
             float drive:angular:physics:targetPosition = 0
             uniform token drive:angular:physics:type = "force"
             uniform token physics:axis = "Y"
@@ -221,7 +234,7 @@ over "LinkerHand_o6"
         {
             float drive:angular:physics:damping = 0.0005
             float drive:angular:physics:maxForce = 1.68
-            float drive:angular:physics:stiffness = 0.05
+            float drive:angular:physics:stiffness = 0.005
             float drive:angular:physics:targetPosition = 0
             uniform token drive:angular:physics:type = "force"
             uniform token physics:axis = "Z"
@@ -246,7 +259,7 @@ over "LinkerHand_o6"
         {
             float drive:angular:physics:damping = 0.0005
             float drive:angular:physics:maxForce = 1.68
-            float drive:angular:physics:stiffness = 0.05
+            float drive:angular:physics:stiffness = 0.005
             float drive:angular:physics:targetPosition = 0
             uniform token drive:angular:physics:type = "force"
             uniform token physics:axis = "Y"
@@ -287,9 +300,11 @@ over "LinkerHand_o6"
     }
 
     over "index_distal" (
-        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "PhysicsFilteredPairsAPI"]
     )
     {
+        rel physics:filteredPairs = </LinkerHand_o6/middle_distal>
+
         point3f physics:centerOfMass = (0.0065898662, 0.0000051385564, 0.01943936)
         float3 physics:diagonalInertia = (3.7459088e-7, 3.6532765e-7, 7.204471e-8)
         float physics:mass = 0.003769511
@@ -297,9 +312,15 @@ over "LinkerHand_o6"
     }
 
     over "middle_proximal" (
-        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "PhysicsFilteredPairsAPI"]
     )
     {
+        rel physics:filteredPairs = [
+            </LinkerHand_o6/ring_proximal>,
+            </LinkerHand_o6/ring_distal>,
+            </LinkerHand_o6/index_distal>,
+        ]
+
         point3f physics:centerOfMass = (-0.0020866066, 0.0000025691818, 0.0172735)
         float3 physics:diagonalInertia = (2.7576112e-7, 2.729134e-7, 7.5831146e-8)
         float physics:mass = 0.0025317736
@@ -307,9 +328,11 @@ over "LinkerHand_o6"
     }
 
     over "middle_distal" (
-        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "PhysicsFilteredPairsAPI"]
     )
     {
+        rel physics:filteredPairs = </LinkerHand_o6/ring_distal>
+
         point3f physics:centerOfMass = (0.0065898653, 0.0000051086295, 0.019439332)
         float3 physics:diagonalInertia = (3.7459216e-7, 3.6532907e-7, 7.204528e-8)
         float physics:mass = 0.003769528
@@ -317,9 +340,11 @@ over "LinkerHand_o6"
     }
 
     over "pinky_proximal" (
-        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "PhysicsFilteredPairsAPI"]
     )
     {
+        rel physics:filteredPairs = </LinkerHand_o6/ring_distal>
+
         point3f physics:centerOfMass = (-0.002086736, 0.0000026806224, 0.017273486)
         float3 physics:diagonalInertia = (2.7576226e-7, 2.7291458e-7, 7.583309e-8)
         float physics:mass = 0.00253186
@@ -337,9 +362,15 @@ over "LinkerHand_o6"
     }
 
     over "ring_proximal" (
-        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "PhysicsFilteredPairsAPI"]
     )
     {
+        rel physics:filteredPairs = [
+            </LinkerHand_o6/pinky_proximal>,
+            </LinkerHand_o6/pinky_distal>,
+            </LinkerHand_o6/middle_distal>,
+        ]
+
         point3f physics:centerOfMass = (-0.0020866792, 0.0000026300042, 0.017273493)
         float3 physics:diagonalInertia = (2.7576172e-7, 2.7291406e-7, 7.5832226e-8)
         float physics:mass = 0.0025318223
@@ -347,9 +378,11 @@ over "LinkerHand_o6"
     }
 
     over "ring_distal" (
-        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "PhysicsFilteredPairsAPI"]
     )
     {
+        rel physics:filteredPairs = </LinkerHand_o6/pinky_distal>
+
         point3f physics:centerOfMass = (0.0065898667, 0.000005058835, 0.019439397)
         float3 physics:diagonalInertia = (3.7458938e-7, 3.6532612e-7, 7.204409e-8)
         float physics:mass = 0.003769496
@@ -357,9 +390,14 @@ over "LinkerHand_o6"
     }
 
     over "thumb_metacarpals_base2" (
-        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "PhysicsFilteredPairsAPI"]
     )
     {
+        rel physics:filteredPairs = [
+            </LinkerHand_o6/thumb_distal>,
+            </LinkerHand_o6/index_proximal>,
+        ]
+
         point3f physics:centerOfMass = (0.0016280068, -0.0027668017, -0.0018423444)
         float3 physics:diagonalInertia = (5.554517e-8, 4.6153662e-8, 2.804746e-8)
         float physics:mass = 0.001385883
@@ -367,9 +405,15 @@ over "LinkerHand_o6"
     }
 
     over "thumb_metacarpals" (
-        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "PhysicsFilteredPairsAPI"]
     )
     {
+        rel physics:filteredPairs = [
+            </LinkerHand_o6/index_proximal>,
+            </LinkerHand_o6/index_distal>,
+            </LinkerHand_o6/middle_proximal>,
+        ]
+
         point3f physics:centerOfMass = (0.00004248162, -0.000017418392, 0.022834163)
         float3 physics:diagonalInertia = (0.0000011610093, 0.0000017675784, 8.782631e-7)
         float physics:mass = 0.012338159
