@@ -1,0 +1,330 @@
+#usda 1.0
+(
+    defaultPrim = "Instances"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Scope "Instances"
+{
+    def Xform "mesh" (
+        prepend references = @../../geometries.usd@</Geometries/mesh>
+    )
+    {
+        over "mesh" (
+            apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            custom rel material:binding
+            prepend rel material:binding = </Instances/mesh/VisualMaterials/agibot_silver>
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "agibot_silver" (
+                instanceable = true
+                prepend references = @../../materials.usda@</Materials/agibot_silver>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "mesh_1" (
+        prepend references = @../../geometries.usd@</Geometries/mesh_1>
+    )
+    {
+        over "mesh_1" (
+            apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            custom rel material:binding = </Instances/mesh_1/VisualMaterials/black> (
+                bindMaterialAs = "weakerThanDescendants"
+            )
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "black" (
+                instanceable = true
+                prepend references = @../../materials.usda@</Materials/black>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "mesh_2" (
+        prepend references = @./agibot_g2_link2.usdc@</Geometries/mesh_2>
+    )
+    {
+        over "mesh_2"
+        {
+            over "red" (
+                active = false
+            )
+            {
+            }
+
+            over "white" (
+                active = false
+            )
+            {
+            }
+
+            over "Link2_P6" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding = </Instances/mesh_2/VisualMaterials/white> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+            }
+
+            over "Link2_P61" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding = </Instances/mesh_2/VisualMaterials/black> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+            }
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "white" (
+                instanceable = true
+                prepend references = @../../materials.usda@</Materials/white>
+            )
+            {
+            }
+
+            def Material "black" (
+                instanceable = true
+                prepend references = @../../materials.usda@</Materials/black>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "mesh_3" (
+        prepend references = @../../geometries.usd@</Geometries/mesh_3>
+    )
+    {
+        over "mesh_3"
+        {
+            over "red" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding = </Instances/mesh_3/VisualMaterials/white> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+            }
+
+            over "white" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_3/VisualMaterials/white>
+            }
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "white" (
+                instanceable = true
+                prepend references = @../../materials.usda@</Materials/white>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "mesh_4" (
+        prepend references = @../../geometries.usd@</Geometries/mesh_4>
+    )
+    {
+        over "mesh_4"
+        {
+            over "red" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding = </Instances/mesh_4/VisualMaterials/white> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+            }
+
+            over "silver" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_4/VisualMaterials/agibot_silver>
+            }
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "white" (
+                instanceable = true
+                prepend references = @../../materials.usda@</Materials/white>
+            )
+            {
+            }
+
+            def Material "agibot_silver" (
+                instanceable = true
+                prepend references = @../../materials.usda@</Materials/agibot_silver>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "mesh_5" (
+        prepend references = @../../geometries.usd@</Geometries/mesh_5>
+    )
+    {
+        over "mesh_5"
+        {
+            over "red" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding = </Instances/mesh_5/VisualMaterials/white> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+            }
+
+            over "silver" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_5/VisualMaterials/agibot_silver>
+            }
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "white" (
+                instanceable = true
+                prepend references = @../../materials.usda@</Materials/white>
+            )
+            {
+            }
+
+            def Material "agibot_silver" (
+                instanceable = true
+                prepend references = @../../materials.usda@</Materials/agibot_silver>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "mesh_6" (
+        prepend references = @../../geometries.usd@</Geometries/mesh_6>
+    )
+    {
+        over "mesh_6" (
+            apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            custom rel material:binding = </Instances/mesh_6/VisualMaterials/black> (
+                bindMaterialAs = "strongerThanDescendants"
+            )
+
+            over "white" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Instances/mesh_6/VisualMaterials/black>
+            }
+
+            over "silver" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Instances/mesh_6/VisualMaterials/black>
+            }
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "black" (
+                instanceable = true
+                prepend references = @../../materials.usda@</Materials/black>
+            )
+            {
+            }
+
+            over "white" (
+                active = false
+            )
+            {
+            }
+
+            over "silver" (
+                active = false
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "mesh_7" (
+        prepend references = @../../geometries.usd@</Geometries/mesh_7>
+    )
+    {
+        over "mesh_7" (
+            apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            custom rel material:binding = </Instances/mesh_7/VisualMaterials/black> (
+                bindMaterialAs = "strongerThanDescendants"
+            )
+
+            over "white" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Instances/mesh_7/VisualMaterials/black>
+            }
+
+            over "silver_eef" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Instances/mesh_7/VisualMaterials/black>
+            }
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "black" (
+                instanceable = true
+                prepend references = @../../materials.usda@</Materials/black>
+            )
+            {
+            }
+
+            over "white" (
+                active = false
+            )
+            {
+            }
+
+            over "silver_eef" (
+                active = false
+            )
+            {
+            }
+        }
+    }
+}

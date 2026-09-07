@@ -48,7 +48,6 @@ git submodule update --init --recursive
 | `humanoid/FiveAges/Gen1` | [fiveages-sim/fiveages-gen1-robot-usds](https://github.com/fiveages-sim/fiveages-gen1-robot-usds) | `main` |
 | `humanoid/FiveAges/Gen2` | [fiveages-sim/fiveages-gen2-robot-usds](https://github.com/fiveages-sim/fiveages-gen2-robot-usds) | `main` |
 | `humanoid/FiveAges/Gen3` | [fiveages-sim/fiveages-gen3-robot-usds](https://github.com/fiveages-sim/fiveages-gen3-robot-usds) | `main` |
-| `humanoid/Agibot_G2` | [fiveages-sim/agibot-g2-usds](https://github.com/fiveages-sim/agibot-g2-usds) | — |
 | `humanoid/Ubtech` | [fiveages-sim/ubtech-usds](https://github.com/fiveages-sim/ubtech-usds) | `main` |
 | `humanoid/Galbot` | [fiveages-sim/galbot-usds](https://github.com/fiveages-sim/galbot-usds) | `main` |
 
@@ -105,7 +104,7 @@ git submodule update --init --recursive
     - 睿尔曼 RM75（`Realman_RM75`）
     - Panthera HT（`Panthera_HT`）
 - **Humanoid（人形机器人）** — `humanoid/`
-    - 智元 G1（`Agibot/G1`）、G2（`Agibot_G2` 子模块）
+    - 智元 G1（`Agibot/G1`）、G2（`Agibot/G2`）
     - 智平方 Bot2（`Ai2_Bot2`）
     - 星尘智能 S1（`Astribot_S1`）
     - 越疆 Atom（`Dobot_Atom`）
@@ -153,7 +152,7 @@ robots/
   humanoid/
     FiveAges/{Gen1,Gen2,Gen3}/
     Galaxea/{R1,R1_Lite}/
-    Galbot/ … Agibot/G1 … Agibot_G2/ …
+    Galbot/ … Agibot/{G1,G2}/ …
   mobile_base/
   mobile_manipulator/
     ARX/{Lift,Lift 2S,X7S,AC_One_Base}/
