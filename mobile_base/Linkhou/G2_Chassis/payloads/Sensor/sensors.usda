@@ -1,0 +1,49 @@
+#usda 1.0
+(
+    defaultPrim = "G2_Chassis"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "G2_Chassis"
+{
+    over "base_footprint"
+    {
+        over "base_link"
+        {
+            over "fl_lidar_base"
+            {
+                over "fl_lidar"
+                {
+                    def "mid360" (
+                        prepend payload = @../../../../../sensors/mid360.usd@
+                    )
+                    {
+                        quatf xformOp:orient = (1, 0, 0, 0)
+                        double xformOp:rotateX:unitsResolve = 90
+                        float3 xformOp:scale = (1, 1, 1)
+                        double3 xformOp:translate = (0, 0, 0)
+                        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale", "xformOp:rotateX:unitsResolve"]
+                    }
+                }
+            }
+
+            over "rr_lidar_base"
+            {
+                over "rr_lidar"
+                {
+                    def "mid360" (
+                        prepend payload = @../../../../../sensors/mid360.usd@
+                    )
+                    {
+                        quatf xformOp:orient = (1, 0, 0, 0)
+                        double xformOp:rotateX:unitsResolve = 90
+                        float3 xformOp:scale = (1, 1, 1)
+                        double3 xformOp:translate = (0, 0, 0)
+                        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale", "xformOp:rotateX:unitsResolve"]
+                    }
+                }
+            }
+        }
+    }
+}

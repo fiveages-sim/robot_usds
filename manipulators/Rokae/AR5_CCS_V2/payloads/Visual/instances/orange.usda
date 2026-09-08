@@ -156,24 +156,36 @@ def Scope "Instances"
                 apiSchemas = ["MaterialBindingAPI"]
             )
             {
-                custom rel material:binding
-                prepend rel material:binding = </Instances/mesh_2/VisualMaterials/Shell_White_0>
+                custom rel material:binding = </Instances/mesh_2/VisualMaterials/black> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
             }
 
             over "rubber" (
                 apiSchemas = ["MaterialBindingAPI"]
             )
             {
-                custom rel material:binding
-                prepend rel material:binding = </Instances/mesh_2/VisualMaterials/rubber>
+                custom rel material:binding = </Instances/mesh_2/VisualMaterials/rubber> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
             }
 
             over "white_rubber" (
                 apiSchemas = ["MaterialBindingAPI"]
             )
             {
-                custom rel material:binding
-                prepend rel material:binding = </Instances/mesh_2/VisualMaterials/white_rubber>
+                custom rel material:binding = </Instances/mesh_2/VisualMaterials/white_rubber> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+            }
+
+            over "black" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding = </Instances/mesh_2/VisualMaterials/black> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
             }
         }
 
@@ -199,6 +211,13 @@ def Scope "Instances"
             )
             {
             }
+
+            def Material "black" (
+                instanceable = true
+                prepend references = @../../materials.usda@</Materials/orange>
+            )
+            {
+            }
         }
     }
 
@@ -212,30 +231,6 @@ def Scope "Instances"
         {
             token physics:approximation = "convexHull"
             uniform token purpose = "guide"
-
-            over "Shell_White" (
-                apiSchemas = ["MaterialBindingAPI"]
-            )
-            {
-                custom rel material:binding
-                prepend rel material:binding = </Instances/mesh_2_1/VisualMaterials/Shell_White_0>
-            }
-
-            over "rubber" (
-                apiSchemas = ["MaterialBindingAPI"]
-            )
-            {
-                custom rel material:binding
-                prepend rel material:binding = </Instances/mesh_2_1/VisualMaterials/rubber>
-            }
-
-            over "white_rubber" (
-                apiSchemas = ["MaterialBindingAPI"]
-            )
-            {
-                custom rel material:binding
-                prepend rel material:binding = </Instances/mesh_2_1/VisualMaterials/white_rubber>
-            }
         }
 
         def Scope "VisualMaterials"

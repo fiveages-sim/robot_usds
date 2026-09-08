@@ -47,7 +47,6 @@ The following models are **Git submodules** (vendored repositories, checked in a
 | `humanoid/FiveAges/Gen1` | [fiveages-sim/fiveages-gen1-robot-usds](https://github.com/fiveages-sim/fiveages-gen1-robot-usds) | `main` |
 | `humanoid/FiveAges/Gen2` | [fiveages-sim/fiveages-gen2-robot-usds](https://github.com/fiveages-sim/fiveages-gen2-robot-usds) | `main` |
 | `humanoid/FiveAges/Gen3` | [fiveages-sim/fiveages-gen3-robot-usds](https://github.com/fiveages-sim/fiveages-gen3-robot-usds) | `main` |
-| `humanoid/Agibot_G2` | [fiveages-sim/agibot-g2-usds](https://github.com/fiveages-sim/agibot-g2-usds) | — |
 | `humanoid/Ubtech` | [fiveages-sim/ubtech-usds](https://github.com/fiveages-sim/ubtech-usds) | `main` |
 | `humanoid/Galbot` | [fiveages-sim/galbot-usds](https://github.com/fiveages-sim/galbot-usds) | `main` |
 
@@ -102,7 +101,7 @@ The following models are **Git submodules** (vendored repositories, checked in a
     - Panthera HT (`Panthera_HT`)
 - **Humanoid** — under `humanoid/`
     - Agibot G1 (`Agibot/G1`)
-    - Agibot G2 (`Agibot_G2` submodule)
+    - Agibot G2 (`Agibot/G2`)
     - Ai2 Bot2 (`Ai2_Bot2`)
     - Astribot S1 (`Astribot_S1`)
     - Dobot Atom (`Dobot_Atom`)
@@ -161,7 +160,7 @@ robots/
   humanoid/
     FiveAges/{Gen1,Gen2,Gen3}/
     Galaxea/{R1,R1_Lite}/
-    Galbot/ … Agibot/G1 … Agibot_G2/ …
+    Galbot/ … Agibot/{G1,G2}/ …
   mobile_base/
   mobile_manipulator/
     ARX/{Lift,Lift 2S,X7S,AC_One_Base}/
