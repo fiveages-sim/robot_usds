@@ -1,0 +1,25 @@
+#usda 1.0
+(
+    defaultPrim = "Realman_AIDAL"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "Realman_AIDAL"
+{
+    over "head_link2"
+    {
+        over "camera_link"
+        {
+            def "d435" (
+                prepend payload = @../../../../../sensors/d435.usd@
+            )
+            {
+                double xformOp:rotateY = -90
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateY", "xformOp:scale"]
+            }
+        }
+    }
+}

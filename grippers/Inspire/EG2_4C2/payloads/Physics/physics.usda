@@ -1,0 +1,285 @@
+#usda 1.0
+(
+    customLayerData = {
+        dictionary cameraSettings = {
+            dictionary Front = {
+                double3 position = (5, 0, 0)
+                double radius = 5
+            }
+            dictionary Perspective = {
+                double3 position = (0.045940846208224195, 0.3301291459705218, 0.3140356260861154)
+                double3 target = (0.0018467940086242113, -0.12555353191553037, -0.012473837086909245)
+            }
+            dictionary Right = {
+                double3 position = (0, -5, 0)
+                double radius = 5
+            }
+            dictionary Top = {
+                double3 position = (0, 0, 5)
+                double radius = 5
+            }
+            string boundCamera = "/OmniverseKit_Persp"
+        }
+        dictionary omni_layer = {
+            string authoring_layer = "./Inspire_EG2_4C2.usd"
+        }
+        dictionary renderSettings = {
+        }
+    }
+    defaultPrim = "Inspire_EG2_4C2"
+    doc = """Generated from Composed Stage of root layer /home/fiveages/libraries/FaSim-Isaac/robots/grippers/Inspire_EG2_4C2/Inspire_EG2_4C2.usd
+
+
+Generated from Composed Stage of root layer /home/fiveages/libraries/FaSim-Isaac/robots/grippers/Inspire/EG2_4C2/payloads/base.usd
+"""
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+over "Inspire_EG2_4C2"
+{
+    over "gripper_base" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.000015645, -0.0000041838, 0.038)
+        float3 physics:diagonalInertia = (0.000050950013, 0.000060883, 0.000019329984)
+        float physics:mass = 0.072633
+        quatf physics:principalAxes = (1, -0.000054849254, -0.00031987656, 1.6607831e-7)
+        rel physics:simulationOwner
+    }
+
+    over "left_outer_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.0087669, 0.009, 0.013992)
+        float3 physics:diagonalInertia = (6.677512e-7, 5.7398e-7, 1.1032884e-7)
+        float physics:mass = 0.0024292
+        quatf physics:principalAxes = (0.9610942, 0, 0.27622122, 0)
+        rel physics:simulationOwner
+    }
+
+    over "joints"
+    {
+        def PhysicsRevoluteJoint "gripper_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform token physics:axis = "Y"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Inspire_EG2_4C2/gripper_base>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Inspire_EG2_4C2/left_outer_link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.000101855476
+            point3f physics:localPos0 = (-0.04, -0.009, 0.079)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0, 1, 0, 0)
+            quatf physics:localRot1 = (0, 1, 0, 0)
+            float physics:lowerLimit = 0
+            float physics:upperLimit = 46.982536
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        def PhysicsRevoluteJoint "left_pad_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform token physics:axis = "Y"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Inspire_EG2_4C2/left_outer_link>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Inspire_EG2_4C2/left_pad>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.000022035847
+            point3f physics:localPos0 = (0.0223, 0.003, 0.035591)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -9.396507
+            float physics:upperLimit = 56.379044
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        def PhysicsRevoluteJoint "left_inner_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform token physics:axis = "Y"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Inspire_EG2_4C2/gripper_base>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Inspire_EG2_4C2/left_inner_link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.000046220248
+            point3f physics:localPos0 = (-0.03, -0.009, 0.081)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0, 1, 0, 0)
+            quatf physics:localRot1 = (0, 1, 0, 0)
+            float physics:lowerLimit = -9.396507
+            float physics:upperLimit = 56.379044
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        def PhysicsRevoluteJoint "right_inner_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform token physics:axis = "Y"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Inspire_EG2_4C2/gripper_base>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Inspire_EG2_4C2/right_inner_link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.00004621695
+            point3f physics:localPos0 = (0.03, -0.009, 0.081)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -9.396507
+            float physics:upperLimit = 56.379044
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        def PhysicsRevoluteJoint "right_outer_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform token physics:axis = "Y"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Inspire_EG2_4C2/gripper_base>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Inspire_EG2_4C2/right_outer_link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.00010183914
+            point3f physics:localPos0 = (0.04, -0.009, 0.079)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -9.396507
+            float physics:upperLimit = 56.379044
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        def PhysicsRevoluteJoint "right_pad_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform token physics:axis = "Y"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Inspire_EG2_4C2/right_outer_link>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Inspire_EG2_4C2/right_pad>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.000022035734
+            point3f physics:localPos0 = (-0.0223, 0.003, 0.035591)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0, 1, 0, 0)
+            quatf physics:localRot1 = (0, 1, 0, 0)
+            float physics:lowerLimit = -9.396507
+            float physics:upperLimit = 56.379044
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+    }
+
+    over "left_pad" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.011864, 0.006, 0.011367)
+        float3 physics:diagonalInertia = (5.39377e-7, 5.3203e-7, 1.7440293e-7)
+        float physics:mass = 0.0045068
+        quatf physics:principalAxes = (0.99071085, 0, 0.13598512, 0)
+        rel physics:simulationOwner
+
+        over "collisions" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </Inspire_EG2_4C2/Looks/GripperPad>
+        }
+    }
+
+    over "left_inner_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.0087435, 0.009, 0.013955)
+        float3 physics:diagonalInertia = (7.378973e-7, 6.2305e-7, 1.4022277e-7)
+        float physics:mass = 0.0038971
+        quatf physics:principalAxes = (0.96109444, 0, 0.27622, 0)
+        rel physics:simulationOwner
+    }
+
+    over "right_inner_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (-0.0087435, 0.009, 0.013955)
+        float3 physics:diagonalInertia = (7.378973e-7, 6.2305e-7, 1.4022277e-7)
+        float physics:mass = 0.0038971
+        quatf physics:principalAxes = (0.96109444, 0, -0.27622, 0)
+        rel physics:simulationOwner
+    }
+
+    over "right_outer_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (-0.0087669, 0.009, 0.013992)
+        float3 physics:diagonalInertia = (6.677512e-7, 5.7398e-7, 1.1032884e-7)
+        float physics:mass = 0.0024292
+        quatf physics:principalAxes = (0.9610942, 0, -0.27622122, 0)
+        rel physics:simulationOwner
+    }
+
+    over "right_pad" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (-0.011864, 0.006, 0.011367)
+        float3 physics:diagonalInertia = (5.39377e-7, 5.3203e-7, 1.7440293e-7)
+        float physics:mass = 0.0045068
+        quatf physics:principalAxes = (0.99071085, 0, -0.13598512, 0)
+        rel physics:simulationOwner
+
+        over "collisions" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </Inspire_EG2_4C2/Looks/GripperPad>
+        }
+    }
+
+    over "Looks"
+    {
+        over "GripperPad" (
+            prepend apiSchemas = ["PhysicsMaterialAPI"]
+        )
+        {
+            float physics:dynamicFriction = 1
+            float physics:staticFriction = 1
+        }
+    }
+
+    def PhysicsFixedJoint "root_joint" (
+        prepend apiSchemas = ["PhysicsArticulationRootAPI"]
+    )
+    {
+        rel physics:body1 = </Inspire_EG2_4C2/gripper_base>
+    }
+}
+

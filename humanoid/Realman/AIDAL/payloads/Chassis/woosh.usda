@@ -1,0 +1,74 @@
+#usda 1.0
+(
+    defaultPrim = "Realman_AIDAL"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "Realman_AIDAL"
+{
+    def "Woosh_AGV" (
+        prepend payload = @../../../../../mobile_base/Woosh/RM_AIDAL_Chassis/RM_AIDAL_Chassis.usda@
+        delete apiSchemas = ["PhysicsArticulationRootAPI", "PhysxArticulationAPI", "NewtonArticulationRootAPI"]
+        variants = {
+            string Graph = "enable"
+        }
+    )
+    {
+        quatd xformOp:orient = (0.7071067811865476, 0, 0, -0.7071067811865475)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0, 0.015574, -0.238)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "base_footprint" (
+            delete apiSchemas = ["PhysicsArticulationRootAPI"]
+        )
+        {
+            def PhysicsFixedJoint "AssemblerFixedJoint"
+            {
+                rel physics:body0 = </Realman_AIDAL/base_link>
+                rel physics:body1 = </Realman_AIDAL/Woosh_AGV/base_footprint>
+                point3f physics:localPos0 = (0, 0.015574, -0.238)
+                point3f physics:localPos1 = (0, 0, 0)
+                quatf physics:localRot0 = (0.70710677, 0, 0, -0.70710677)
+                quatf physics:localRot1 = (1, 0, 0, 0)
+            }
+        }
+
+        over "Graphs"
+        {
+            over "differential_controller"
+            {
+                over "ArticulationController"
+                {
+                    custom token[] inputs:jointNames = ["left_wheel_joint", "right_wheel_joint"]
+                    custom rel inputs:targetPrim = </Realman_AIDAL/base_link> (
+                        customData = {
+                            dictionary omni = {
+                                dictionary graph = {
+                                    string relType = "target"
+                                }
+                            }
+                        }
+                    )
+                }
+            }
+
+            over "ROS_Odometry"
+            {
+                over "ComputeOdometry"
+                {
+                    custom rel inputs:chassisPrim = </Realman_AIDAL/base_link> (
+                        customData = {
+                            dictionary omni = {
+                                dictionary graph = {
+                                    string relType = "target"
+                                }
+                            }
+                        }
+                    )
+                }
+            }
+        }
+    }
+}

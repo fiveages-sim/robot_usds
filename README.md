@@ -97,7 +97,7 @@ The following models are **Git submodules** (vendored repositories, checked in a
     - Rokae (`manipulators/Rokae/`)
         - AR5 CCS V1 / V2 (`AR5_CCS_V1`, `AR5_CCS_V2`)
         - AR5 SRS (`AR5_SRS`)
-    - Realman RM75 (`Realman_RM75`)
+    - Realman RM75 (`RM75`)
     - Panthera HT (`Panthera_HT`)
 - **Humanoid** — under `humanoid/`
     - Agibot G1 (`Agibot/G1`)
@@ -114,7 +114,7 @@ The following models are **Git submodules** (vendored repositories, checked in a
         - R1 Lite (`R1_Lite`)
     - Galbot (`humanoid/Galbot` submodule)
         - Galbot One / Zero / S1 / G1
-    - Realman Aidal (`Realman_AIDAL`)
+    - Realman Aidal (`Realman/AIDAL`)
     - SpiritAI Moz1 (`SpiritAI_Moz1`)
     - Ubtech (`Ubtech` submodule)
 - **Mobile Base** — under `mobile_base/`

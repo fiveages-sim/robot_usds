@@ -1,0 +1,33 @@
+#usda 1.0
+(
+    defaultPrim = "RM75"
+    doc = """Payload shared ee_aidal EE kit. Visual instance -90 deg about X (legacy RM75_aidal); tcp yaw +90 deg Z, offset 0.047 m."""
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "RM75"
+{
+    over "link7"
+    {
+        over "tcp"
+        {
+            quatd xformOp:orient = (0.7071067811865476, 0, 0, 0.7071067811865476)
+            double3 xformOp:translate = (0, 0, 0.047)
+        }
+
+        over "ee"
+        {
+            def "ee_aidal" (
+                kind = "component"
+                prepend payload = @../../../components/ee_aidal.usdc@
+            )
+            {
+                double3 xformOp:rotateZYX = (-90, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateZYX", "xformOp:scale"]
+            }
+        }
+    }
+}

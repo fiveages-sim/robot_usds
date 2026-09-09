@@ -101,7 +101,7 @@ git submodule update --init --recursive
     - 法奥（`manipulators/Fairino/`）：ART7
     - 天机智能（`manipulators/Tianji/`）：`M6_CCS`、`M6_Fa_Station`、`M20S_CCS`
     - 珞石（`manipulators/Rokae/`）：`AR5_CCS_V1` / `AR5_CCS_V2`、`AR5_SRS`
-    - 睿尔曼 RM75（`Realman_RM75`）
+    - 睿尔曼 RM75（`RM75`）
     - Panthera HT（`Panthera_HT`）
 - **Humanoid（人形机器人）** — `humanoid/`
     - 智元 G1（`Agibot/G1`）、G2（`Agibot/G2`）
@@ -113,7 +113,7 @@ git submodule update --init --recursive
         - R1（`R1`，含 Robot 变体 `R1_Pro`）
         - R1 Lite（`R1_Lite`）
     - 银河通用 Galbot（`humanoid/Galbot` 子模块）：One / Zero / S1 / G1
-    - 睿尔曼 Aidal（`Realman_AIDAL`）
+    - 睿尔曼 Aidal（`Realman/AIDAL`）
     - SpiritAI Moz1（`SpiritAI_Moz1`）
     - 优必选（`Ubtech` 子模块）
 - **Mobile Base（移动底盘）** — `mobile_base/`
