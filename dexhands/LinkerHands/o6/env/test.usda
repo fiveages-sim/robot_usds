@@ -7,8 +7,8 @@
                 double radius = 5
             }
             dictionary Perspective = {
-                double3 position = (0.18470545269151448, 0.2914090456229285, 0.18169630461773661)
-                double3 target = (0.24895708280429696, -1.3571547624801201, -0.5481792361053617)
+                double3 position = (-0.29780129993482873, 0.31949545953754116, 0.4022957570535046)
+                double3 target = (0.9011174833332145, -1.1168222692540453, -0.6803812916939715)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -36,6 +36,10 @@
         }
     }
     defaultPrim = "World"
+    doc = """o6 single-hand G1 grasp smoke (synced from o7).
+Hand: K/D/F hold + μ=2.0 + contactOffset=0.002.
+Objects must have PhysicsMaterialAPI + frictionCombineMode=max.
+"""
     endTimeCode = 1000000
     metersPerUnit = 1
     startTimeCode = 0
@@ -53,7 +57,7 @@ def Xform "World"
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
         def Mesh "CollisionMesh" (
-            prepend apiSchemas = ["PhysicsCollisionAPI", "PhysxCollisionAPI", "PhysxTriangleMeshCollisionAPI", "PhysicsMeshCollisionAPI"]
+            prepend apiSchemas = ["PhysicsCollisionAPI", "PhysxCollisionAPI", "PhysxTriangleMeshCollisionAPI", "PhysicsMeshCollisionAPI", "PhysicsMaterialAPI", "PhysxMaterialAPI"]
         )
         {
             uniform bool doubleSided = 0
@@ -62,6 +66,11 @@ def Xform "World"
             normal3f[] normals = [(0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1)]
             uniform token physics:approximation = "none"
             bool physics:collisionEnabled = 1
+            float physics:dynamicFriction = 0.6
+            float physics:restitution = 0
+            float physics:staticFriction = 0.8
+            uniform token physxMaterial:frictionCombineMode = "max"
+            uniform token physxMaterial:restitutionCombineMode = "min"
             point3f[] points = [(-25, -25, 0), (25, -25, 0), (25, 25, 0), (-25, 25, 0)]
             color3f[] primvars:displayColor = [(0.5, 0.5, 0.5)]
             texCoord2f[] primvars:st = [(0, 0), (1, 0), (1, 1), (0, 1)] (
@@ -80,11 +89,12 @@ def Xform "World"
     }
 
     def "Apple" (
-        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysxRigidBodyAPI"]
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysxRigidBodyAPI", "PhysicsMassAPI"]
         prepend payload = @https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/ArchVis/Residential/Food/Fruit/Apple.usd@
     )
     {
         bool physics:kinematicEnabled = 0
+        float physics:mass = 0.15
         bool physics:rigidBodyEnabled = 1
         quatf xformOp:orient = (1, 0, 0, 0)
         float3 xformOp:scale = (1, 1, 1)
@@ -93,13 +103,21 @@ def Xform "World"
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale", "xformOp:scale:unitsResolve"]
 
         over "Apple" (
-            prepend apiSchemas = ["PhysicsCollisionAPI", "PhysxCollisionAPI", "PhysxTriangleMeshCollisionAPI", "PhysicsMeshCollisionAPI", "PhysxConvexHullCollisionAPI", "PhysxConvexDecompositionCollisionAPI"]
+            prepend apiSchemas = ["PhysicsCollisionAPI", "PhysxCollisionAPI", "PhysxTriangleMeshCollisionAPI", "PhysicsMeshCollisionAPI", "PhysxConvexHullCollisionAPI", "PhysxConvexDecompositionCollisionAPI", "PhysicsMaterialAPI", "PhysxMaterialAPI"]
         )
         {
-            uniform token physics:approximation = "boundingSphere"
+            uniform token physics:approximation = "convexHull"
             bool physics:collisionEnabled = 1
+            float physics:dynamicFriction = 1.6
+            float physics:restitution = 0
+            float physics:staticFriction = 2
+            float physxCollision:contactOffset = 0.002
+            float physxCollision:restOffset = 0
             int physxConvexDecompositionCollision:hullVertexLimit = 50
             int physxConvexDecompositionCollision:maxConvexHulls = 270
+            uniform token physxMaterial:frictionCombineMode = "max"
+            bool physxMaterial:improvePatchFriction = 1
+            uniform token physxMaterial:restitutionCombineMode = "min"
         }
     }
 
@@ -111,19 +129,58 @@ def Xform "World"
         bool physics:rigidBodyEnabled = 1
         quatd xformOp:orient = (1, 0, 0, 0)
         double3 xformOp:scale = (1, 1, 1)
-        double3 xformOp:translate = (0.06, 0, 0.14)
+        double3 xformOp:translate = (0.06, -0.1677771826690881, 0.14)
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
         def Cube "Cube" (
-            prepend apiSchemas = ["PhysicsCollisionAPI", "PhysxCollisionAPI", "PhysicsMeshCollisionAPI"]
+            prepend apiSchemas = ["PhysicsCollisionAPI", "PhysxCollisionAPI", "PhysicsMeshCollisionAPI", "PhysicsMaterialAPI", "PhysxMaterialAPI"]
         )
         {
             uniform token physics:approximation = "boundingCube"
             bool physics:collisionEnabled = 1
+            float physics:dynamicFriction = 1.6
+            float physics:restitution = 0
+            float physics:staticFriction = 2
+            float physxCollision:contactOffset = 0.002
+            float physxCollision:restOffset = 0
+            uniform token physxMaterial:frictionCombineMode = "max"
+            bool physxMaterial:improvePatchFriction = 1
+            uniform token physxMaterial:restitutionCombineMode = "min"
             color3f[] primvars:displayColor = [(0.2, 0.55, 0.95)]
             double3 xformOp:scale = (0.06, 0.06, 0.04)
             double3 xformOp:translate = (0, 0, 0)
             uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+        }
+    }
+
+    def "NaturalBostonRoundBottle_A01_PR_NVD_01" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysxRigidBodyAPI", "PhysicsMassAPI"]
+        prepend payload = @https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/DigitalTwin/Assets/Warehouse/Storage/Bottles/Plastic/NaturalBostonRound_A/NaturalBostonRoundBottle_A01_PR_NVD_01.usd@
+    )
+    {
+        bool physics:kinematicEnabled = 0
+        float physics:mass = 0.25
+        bool physics:rigidBodyEnabled = 1
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:scale:unitsResolve = (0.01, 0.01, 0.01)
+        double3 xformOp:translate = (0.05, 0, 0.08)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale", "xformOp:scale:unitsResolve"]
+
+        over "NaturalBostonRoundBottle_A01_01" (
+            prepend apiSchemas = ["PhysicsCollisionAPI", "PhysxCollisionAPI", "PhysxConvexHullCollisionAPI", "PhysicsMeshCollisionAPI", "PhysicsMaterialAPI", "PhysxMaterialAPI"]
+        )
+        {
+            uniform token physics:approximation = "convexHull"
+            bool physics:collisionEnabled = 1
+            float physics:dynamicFriction = 1.6
+            float physics:restitution = 0
+            float physics:staticFriction = 2
+            float physxCollision:contactOffset = 0.002
+            float physxCollision:restOffset = 0
+            uniform token physxMaterial:frictionCombineMode = "max"
+            bool physxMaterial:improvePatchFriction = 1
+            uniform token physxMaterial:restitutionCombineMode = "min"
         }
     }
 
@@ -261,10 +318,10 @@ over "OmniverseKit_Persp" (
     float exposure:time = 0.02
     float focalLength = 18.147562
     float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -1.8040535486246538)
-    float3 xformOp:rotateXYZ = (66.13548, -4.4925333e-14, -177.76807)
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -2.161620794403702)
+    float3 xformOp:rotateXYZ = (59.942852, -6.679165e-14, -140.14767)
     float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (0.18470545269151448, 0.2914090456229285, 0.18169630461773661)
+    double3 xformOp:translate = (-0.29780129993482873, 0.31949545953754116, 0.4022957570535046)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 
@@ -348,5 +405,6 @@ def PhysicsScene "PhysicsScene" (
     prepend apiSchemas = ["NewtonSceneAPI", "PhysxSceneAPI"]
 )
 {
+    bool physxScene:enableCCD = 1
 }
 

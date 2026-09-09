@@ -5,7 +5,10 @@
 default: left morphology, unprefixed joints.
 left: left morphology, left_hand_* joints.
 right: right morphology, right_hand_* joints.
-Joint drive baseline: D=1 K=3 F=1.68 maxJointVelocity=500000 (all Sides synced in Physics/Side).
+Hold/anti-backdrive G1 (W2 grasp validated): fingers K=0.1 D=0.06 F=30;
+thumb K=0.12 D=0.08 F=50; jointFriction=0.5 armature=0.001;
+maxJointVelocity=500000 frozen. Colliders μs=2.0 μd=1.6 max-combine,
+contactOffset=0.002; distal CCD; maxDepenetrationVelocity=2.0.
 """
     metersPerUnit = 1
     upAxis = "Z"
@@ -27,9 +30,9 @@ def Xform "LinkerHand_o7" (
     {
         over "index_joint"
         {
-            float drive:angular:physics:damping = 0.0005
-            float drive:angular:physics:maxForce = 1.68
-            float drive:angular:physics:stiffness = 0.005
+            float drive:angular:physics:damping = 0.06
+            float drive:angular:physics:maxForce = 30
+            float drive:angular:physics:stiffness = 0.1
             float drive:angular:physics:targetPosition = 0
             uniform token drive:angular:physics:type = "force"
             float physxJoint:maxJointVelocity = 500000
@@ -37,9 +40,9 @@ def Xform "LinkerHand_o7" (
 
         over "middle_joint"
         {
-            float drive:angular:physics:damping = 0.0005
-            float drive:angular:physics:maxForce = 1.68
-            float drive:angular:physics:stiffness = 0.005
+            float drive:angular:physics:damping = 0.06
+            float drive:angular:physics:maxForce = 30
+            float drive:angular:physics:stiffness = 0.1
             float drive:angular:physics:targetPosition = 0
             uniform token drive:angular:physics:type = "force"
             float physxJoint:maxJointVelocity = 500000
@@ -47,9 +50,9 @@ def Xform "LinkerHand_o7" (
 
         over "pinky_joint"
         {
-            float drive:angular:physics:damping = 0.0005
-            float drive:angular:physics:maxForce = 1.68
-            float drive:angular:physics:stiffness = 0.005
+            float drive:angular:physics:damping = 0.06
+            float drive:angular:physics:maxForce = 30
+            float drive:angular:physics:stiffness = 0.1
             float drive:angular:physics:targetPosition = 0
             uniform token drive:angular:physics:type = "force"
             float physxJoint:maxJointVelocity = 500000
@@ -57,9 +60,9 @@ def Xform "LinkerHand_o7" (
 
         over "ring_joint"
         {
-            float drive:angular:physics:damping = 0.0005
-            float drive:angular:physics:maxForce = 1.68
-            float drive:angular:physics:stiffness = 0.005
+            float drive:angular:physics:damping = 0.06
+            float drive:angular:physics:maxForce = 30
+            float drive:angular:physics:stiffness = 0.1
             float drive:angular:physics:targetPosition = 0
             uniform token drive:angular:physics:type = "force"
             float physxJoint:maxJointVelocity = 500000
@@ -67,9 +70,9 @@ def Xform "LinkerHand_o7" (
 
         over "thumb_joint3"
         {
-            float drive:angular:physics:damping = 0.0005
-            float drive:angular:physics:maxForce = 1.68
-            float drive:angular:physics:stiffness = 0.005
+            float drive:angular:physics:damping = 0.08
+            float drive:angular:physics:maxForce = 50
+            float drive:angular:physics:stiffness = 0.12
             float drive:angular:physics:targetPosition = 0
             uniform token drive:angular:physics:type = "force"
             float physxJoint:maxJointVelocity = 500000
@@ -77,9 +80,9 @@ def Xform "LinkerHand_o7" (
 
         over "thumb_joint2"
         {
-            float drive:angular:physics:damping = 0.0005
-            float drive:angular:physics:maxForce = 1.68
-            float drive:angular:physics:stiffness = 0.005
+            float drive:angular:physics:damping = 0.08
+            float drive:angular:physics:maxForce = 50
+            float drive:angular:physics:stiffness = 0.12
             float drive:angular:physics:targetPosition = 0
             uniform token drive:angular:physics:type = "force"
             float physxJoint:maxJointVelocity = 500000
@@ -87,9 +90,9 @@ def Xform "LinkerHand_o7" (
 
         over "thumb_joint1"
         {
-            float drive:angular:physics:damping = 0.0005
-            float drive:angular:physics:maxForce = 1.68
-            float drive:angular:physics:stiffness = 0.005
+            float drive:angular:physics:damping = 0.08
+            float drive:angular:physics:maxForce = 50
+            float drive:angular:physics:stiffness = 0.12
             float drive:angular:physics:targetPosition = 0
             uniform token drive:angular:physics:type = "force"
             float physxJoint:maxJointVelocity = 500000

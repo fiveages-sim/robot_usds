@@ -7,8 +7,8 @@
                 double radius = 5
             }
             dictionary Perspective = {
-                double3 position = (-0.28183640598267184, 0.49759515060005866, 0.40118434073370485)
-                double3 target = (0.5588320395445718, -1.6443291378255336, -1.028058551002963)
+                double3 position = (-0.5060562189294061, -0.029687113278020375, 0.29324755847954914)
+                double3 target = (-0.46044051092250426, -0.26163269761132435, -0.031091192664489176)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -23,6 +23,8 @@
         dictionary metricsAssembler = {
             dictionary "/World/Apple" = {
             }
+            dictionary "/World/NaturalBostonRoundBottle_A01_PR_NVD_01" = {
+            }
             int version = 1
         }
         dictionary omni_layer = {
@@ -36,6 +38,22 @@
         }
     }
     defaultPrim = "World"
+    doc = """o7 single-hand grasp smoke test.
+
+HOW TO TEST (do NOT drag the hand TF during Play):
+1. Stop. Pose bottle in the palm / between fingers.
+2. Set finger drive targetPosition near upper limits (wrap). Soft/Inspire-like
+   K needs ~20–40° of blocked error to build normal force → friction.
+3. Play. Fingers close onto the bottle via drives (mimic follows).
+4. Friction check: select the BOTTLE and drag it / apply force — it should
+   resist. Or keep hand fixed (root FixedJoint) and pull bottle out.
+5. Dragging LinkerHand_o7 translate arrows teleports the articulation against
+   contacts → looks oily / squeezes objects out even with good μ. That is not
+   a valid grasp test.
+
+Objects must have PhysicsMaterialAPI (bottle/apple below). Hand colliders use
+frictionCombineMode=max.
+"""
     endTimeCode = 1000000
     metersPerUnit = 1
     startTimeCode = 0
@@ -53,7 +71,7 @@ def Xform "World"
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
         def Mesh "CollisionMesh" (
-            prepend apiSchemas = ["PhysicsCollisionAPI", "PhysxCollisionAPI", "PhysxTriangleMeshCollisionAPI", "PhysicsMeshCollisionAPI"]
+            prepend apiSchemas = ["PhysicsCollisionAPI", "PhysxCollisionAPI", "PhysxTriangleMeshCollisionAPI", "PhysicsMeshCollisionAPI", "PhysicsMaterialAPI", "PhysxMaterialAPI"]
         )
         {
             uniform bool doubleSided = 0
@@ -62,11 +80,20 @@ def Xform "World"
             normal3f[] normals = [(0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1)]
             uniform token physics:approximation = "none"
             bool physics:collisionEnabled = 1
+            float physics:dynamicFriction = 0.6
+            float physics:restitution = 0
+            float physics:staticFriction = 0.8
+            uniform token physxMaterial:frictionCombineMode = "max"
+            uniform token physxMaterial:restitutionCombineMode = "min"
             point3f[] points = [(-25, -25, 0), (25, -25, 0), (25, 25, 0), (-25, 25, 0)]
             color3f[] primvars:displayColor = [(0.5, 0.5, 0.5)]
             texCoord2f[] primvars:st = [(0, 0), (1, 0), (1, 1), (0, 1)] (
                 interpolation = "varying"
             )
+            quatf xformOp:orient = (1, 0, 0, 0)
+            float3 xformOp:scale = (1, 1, 1)
+            double3 xformOp:translate = (-0.05422457673084914, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
         }
 
         def Plane "CollisionPlane" (
@@ -80,26 +107,34 @@ def Xform "World"
     }
 
     def "Apple" (
-        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysxRigidBodyAPI"]
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysxRigidBodyAPI", "PhysicsMassAPI"]
         prepend payload = @https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/ArchVis/Residential/Food/Fruit/Apple.usd@
     )
     {
+        vector3f physics:angularVelocity = (0.120651454, -0.05754171, 0.034276024)
         bool physics:kinematicEnabled = 0
+        float physics:mass = 0.15
         bool physics:rigidBodyEnabled = 1
-        quatf xformOp:orient = (1, 0, 0, 0)
+        vector3f physics:velocity = (-0.000048925627, -0.00004013199, -0.000022220243)
+        quatf xformOp:orient = (0.99188346, -0.12711443, 0.0024101846, -0.0018177348)
         float3 xformOp:scale = (1, 1, 1)
         double3 xformOp:scale:unitsResolve = (0.01, 0.01, 0.01)
-        double3 xformOp:translate = (0.1786105499258617, 0, 0)
+        double3 xformOp:translate = (0.17859718203544617, 0.00020614638924598694, 0.002171400934457779)
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale", "xformOp:scale:unitsResolve"]
 
         over "Apple" (
-            prepend apiSchemas = ["PhysicsCollisionAPI", "PhysxCollisionAPI", "PhysxTriangleMeshCollisionAPI", "PhysicsMeshCollisionAPI", "PhysxConvexHullCollisionAPI", "PhysxConvexDecompositionCollisionAPI"]
+            prepend apiSchemas = ["PhysicsCollisionAPI", "PhysxCollisionAPI", "PhysxTriangleMeshCollisionAPI", "PhysicsMeshCollisionAPI", "PhysxConvexHullCollisionAPI", "PhysxConvexDecompositionCollisionAPI", "PhysicsMaterialAPI", "PhysxMaterialAPI"]
         )
         {
-            uniform token physics:approximation = "boundingSphere"
+            uniform token physics:approximation = "convexHull"
             bool physics:collisionEnabled = 1
+            float physics:dynamicFriction = 1.2
+            float physics:restitution = 0
+            float physics:staticFriction = 1.5
             int physxConvexDecompositionCollision:hullVertexLimit = 50
             int physxConvexDecompositionCollision:maxConvexHulls = 270
+            uniform token physxMaterial:frictionCombineMode = "max"
+            uniform token physxMaterial:restitutionCombineMode = "min"
         }
     }
 
@@ -111,7 +146,7 @@ def Xform "World"
         bool physics:rigidBodyEnabled = 1
         quatd xformOp:orient = (1, 0, 0, 0)
         double3 xformOp:scale = (1, 1, 1)
-        double3 xformOp:translate = (-0.28894416696753283, 0, 0.1493184865238406)
+        double3 xformOp:translate = (-0.7515267671985145, 0.006385879440346243, 0.2403324520626365)
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
         def Cube "Cube" (
@@ -134,10 +169,395 @@ def Xform "World"
         }
     )
     {
-        quatd xformOp:orient = (0.6790688503723137, 0.03909995694460771, -0.7321348721878816, -0.03626594473315519)
+        quatd xformOp:orient = (0.5000000000000003, -0.4999999999999999, -0.4999999999999999, 0.4999999999999999)
         double3 xformOp:scale = (1, 1, 1)
-        double3 xformOp:translate = (-0.035083402843017406, -3.461794889507787e-17, 0.05177700432352162)
+        double3 xformOp:translate = (-0.3199137084831289, -0.2299112306510977, 0.06022190605143676)
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "joints"
+        {
+            over "left_hand_index_joint"
+            {
+                float drive:angular:physics:targetPosition = 0
+                float physics:lowerLimit = 0
+                float physics:upperLimit = 77.962364
+                float state:angular:physics:position = 0.009336378
+                float state:angular:physics:velocity = -1.6675267e-9
+            }
+
+            over "left_hand_middle_joint"
+            {
+                float drive:angular:physics:targetPosition = 0
+                float physics:lowerLimit = 0
+                float physics:upperLimit = 77.962364
+                float state:angular:physics:position = 0.018085735
+                float state:angular:physics:velocity = -3.3350533e-9
+            }
+
+            over "left_hand_pinky_joint"
+            {
+                float drive:angular:physics:targetPosition = 0
+                float physics:lowerLimit = 0
+                float physics:upperLimit = 77.962364
+                float state:angular:physics:position = 0.069748916
+                float state:angular:physics:velocity = -6.6701067e-9
+            }
+
+            over "left_hand_ring_joint"
+            {
+                float drive:angular:physics:targetPosition = 0
+                float physics:lowerLimit = 0
+                float physics:upperLimit = 77.962364
+                float state:angular:physics:position = 0.049306672
+                float state:angular:physics:velocity = -6.6701067e-9
+            }
+
+            over "left_hand_thumb_joint3"
+            {
+                float drive:angular:physics:targetPosition = 0
+                float physics:lowerLimit = 0
+                float physics:upperLimit = 64.96768
+                float state:angular:physics:position = 0.40376556
+                float state:angular:physics:velocity = -0.003451807
+            }
+
+            over "left_hand_thumb_joint2"
+            {
+                float drive:angular:physics:targetPosition = 0
+                float physics:lowerLimit = 0
+                float physics:upperLimit = 109.94486
+                float state:angular:physics:position = 0.46656233
+                float state:angular:physics:velocity = 0.00009727684
+            }
+
+            over "left_hand_thumb_joint1"
+            {
+                float drive:angular:physics:targetPosition = 0
+                float physics:lowerLimit = 0
+                float physics:upperLimit = 29.484406
+                float state:angular:physics:position = 0.43745655
+                float state:angular:physics:velocity = -0.0000029348469
+            }
+
+            over "left_hand_index_pip"
+            {
+                float state:angular:physics:position = 0.012568591
+                float state:angular:physics:velocity = -0.017910676
+            }
+
+            over "left_hand_middle_pip"
+            {
+                float state:angular:physics:position = 0.024346935
+                float state:angular:physics:velocity = -0.034694757
+            }
+
+            over "left_hand_pinky_pip"
+            {
+                float state:angular:physics:position = 0.09389569
+                float state:angular:physics:velocity = -0.13378891
+            }
+
+            over "left_hand_ring_pip"
+            {
+                float state:angular:physics:position = 0.06637643
+                float state:angular:physics:velocity = -0.09458037
+            }
+
+            over "left_hand_index_dip"
+            {
+                float state:angular:physics:position = 0.004308744
+                float state:angular:physics:velocity = 0.00024961415
+            }
+
+            over "left_hand_middle_dip"
+            {
+                float state:angular:physics:position = 0.008346577
+                float state:angular:physics:velocity = 0.00048361608
+            }
+
+            over "left_hand_pinky_dip"
+            {
+                float state:angular:physics:position = 0.03218916
+                float state:angular:physics:velocity = 0.0018669562
+            }
+
+            over "left_hand_ring_dip"
+            {
+                float state:angular:physics:position = 0.022755057
+                float state:angular:physics:velocity = 0.0013191804
+            }
+
+            over "left_hand_thumb_mcp"
+            {
+                float state:angular:physics:position = 0.6079619
+                float state:angular:physics:velocity = -1.8070211
+            }
+
+            over "left_hand_thumb_ip"
+            {
+                float state:angular:physics:position = 0.65990585
+                float state:angular:physics:velocity = 0.18078166
+            }
+        }
+
+        over "flange"
+        {
+            vector3f physics:angularVelocity = (0, 0, 0)
+            rel physics:simulationOwner
+            vector3f physics:velocity = (0, 0, 0)
+            quatd xformOp:orient = (0.9999999999999979, -4.4703483488050476e-8, 1.4901161754802498e-8, 4.4703483488050456e-8)
+            double3 xformOp:translate = (-7.303995686047671e-9, 3.3798427528930475e-9, 6.641001359941612e-9)
+        }
+
+        over "index_proximal"
+        {
+            vector3f physics:angularVelocity = (-1.9878467e-16, -6.9574635e-16, 1.6675267e-9)
+            rel physics:simulationOwner
+            vector3f physics:velocity = (4.2632564e-14, -1.8189894e-12, -2.1684043e-19)
+            quatd xformOp:orient = (0.9999999966776361, -5.3816358331580846e-8, 0.00008151513957365622, 8.361868055733244e-8)
+            double3 xformOp:translate = (0.0022097156917622873, -0.027176972824075635, 0.14884997078284706)
+        }
+
+        over "index_middle"
+        {
+            vector3f physics:angularVelocity = (-1.6336515e-9, -1.941599e-9, 0.017910676)
+            rel physics:simulationOwner
+            vector3f physics:velocity = (7.866773e-7, -0.0000034500717, -5.4567267e-13)
+            quatd xformOp:orient = (0.999999981743569, 2.068858069448222e-8, 0.0001910833872367034, -2.0688580694552613e-8)
+            double3 xformOp:translate = (0.0011294262086919138, -0.027176957922914427, 0.1844841010223337)
+        }
+
+        over "index_distal"
+        {
+            vector3f physics:angularVelocity = (-1.6490792e-9, -1.8985478e-9, 0.01766106)
+            rel physics:simulationOwner
+            vector3f physics:velocity = (0.000001839352, -0.000011780687, -1.3367989e-12)
+            quatd xformOp:orient = (0.9999999738623587, -5.5945970301668985e-9, 0.00022863783865367503, -1.4341702523800226e-7)
+            double3 xformOp:translate = (-0.0041464491212794, -0.02717695047233383, 0.2101891405235239)
+        }
+
+        over "middle_proximal"
+        {
+            vector3f physics:angularVelocity = (9.9392335e-17, -6.212021e-17, 3.3350533e-9)
+            rel physics:simulationOwner
+            vector3f physics:velocity = (5.684342e-14, -1.8189894e-12, -2.1684043e-19)
+            quatd xformOp:orient = (0.9999999875512162, 1.6127640071306918e-8, 0.00015778962272137035, -4.592996254111453e-8)
+            double3 xformOp:translate = (0.0022097007906010935, -0.008177083331087048, 0.15384999581679787)
+        }
+
+        over "middle_middle"
+        {
+            vector3f physics:angularVelocity = (-8.5932544e-10, -4.305858e-9, 0.034694757)
+            rel physics:simulationOwner
+            vector3f physics:velocity = (0.0000015214647, -0.000006683673, -6.0622297e-13)
+            quatd xformOp:orient = (0.9999999315007873, -1.1879647591882603e-8, 0.00037013297656162975, -1.7922675774590603e-8)
+            double3 xformOp:translate = (0.0011348502313664743, -0.008177075880506438, 0.18948433467254122)
+        }
+
+        over "middle_distal"
+        {
+            vector3f physics:angularVelocity = (-8.775792e-10, -4.196375e-9, 0.03421116)
+            rel physics:simulationOwner
+            vector3f physics:velocity = (0.0000035542562, -0.000022821701, -2.5344696e-12)
+            quatd xformOp:orient = (0.9999999019943784, -4.155013733875646e-8, 0.00044273155479888145, -4.7856830057511765e-8)
+            double3 xformOp:translate = (-0.004131831082148263, -0.008177068429925827, 0.21519128152236422)
+        }
+
+        over "pinky_proximal"
+        {
+            string isaac:nameOverride (
+                displayName = "Name Override"
+            )
+            vector3f physics:angularVelocity = (2.4848084e-17, 3.9756936e-15, 6.6701067e-9)
+            rel physics:simulationOwner
+            vector3f physics:velocity = (1.1368684e-13, 5.456968e-12, 4.3368087e-19)
+            quatd xformOp:orient = (0.9999998147455598, -1.8083525753394946e-8, 0.0006086943765921091, -4.1521121483592736e-8)
+            double3 xformOp:translate = (0.002209715691762315, 0.02982300857927519, 0.1438499755512186)
+        }
+
+        over "pinky_middle"
+        {
+            vector3f physics:angularVelocity = (-8.601753e-9, -9.780213e-9, 0.13378896)
+            rel physics:simulationOwner
+            vector3f physics:velocity = (0.000005812205, -0.000025785797, -5.9422432e-12)
+            quatd xformOp:orient = (0.999998980442847, -3.081943932983373e-9, 0.0014279752331739007, 3.0819439183148717e-9)
+            double3 xformOp:translate = (0.0011669920360616037, 0.0298230123045655, 0.1794852680812784)
+        }
+
+        over "pinky_distal"
+        {
+            vector3f physics:angularVelocity = (-8.645543e-9, -9.490241e-9, 0.13192193)
+            rel physics:simulationOwner
+            vector3f physics:velocity = (0.00001350678, -0.000088033245, -9.870677e-12)
+            quatd xformOp:orient = (0.9999985399777778, -5.2027016847792436e-8, 0.001708813126321238, -9.698459401275424e-8)
+            double3 xformOp:translate = (-0.004045285137934368, 0.02982301975514611, 0.20520321198806246)
+        }
+
+        over "ring_proximal"
+        {
+            vector3f physics:angularVelocity = (-9.9392335e-17, -3.1805547e-15, 6.6701067e-9)
+            rel physics:simulationOwner
+            vector3f physics:velocity = (2.2737368e-13, -7.275958e-12, -4.3368087e-19)
+            quatd xformOp:orient = (0.9999999075013924, -2.3903366335123017e-8, 0.0004301130119989299, 5.370568846930302e-8)
+            double3 xformOp:translate = (0.0022096858894398996, 0.01082300360228735, 0.1488500005851694)
+        }
+
+        over "ring_middle"
+        {
+            vector3f physics:angularVelocity = (-6.1670304e-9, -1.9015642e-8, 0.09458035)
+            rel physics:simulationOwner
+            vector3f physics:velocity = (0.0000041242056, -0.000018225495, -3.6581398e-12)
+            quatd xformOp:orient = (0.9999994906200375, -8.811611912345246e-9, 0.0010093362492499573, 3.861393446978839e-8)
+            double3 xformOp:translate = (0.001154251543240864, 0.01082300360228737, 0.18448493548736056)
+        }
+
+        over "ring_distal"
+        {
+            vector3f physics:angularVelocity = (-6.1734853e-9, -1.8693976e-8, 0.093261145)
+            rel physics:simulationOwner
+            vector3f physics:velocity = (0.000009604135, -0.00006222596, -1.2080302e-11)
+            quatd xformOp:orient = (0.9999992705564258, 1.5258469586985273e-8, 0.0012078437805483648, 1.3375314239419432e-7)
+            double3 xformOp:translate = (-0.0040795578086802176, 0.010823003602287377, 0.21019849845275362)
+        }
+
+        over "thumb_metacarpals_base1"
+        {
+            vector3f physics:angularVelocity = (2.3391708e-10, 0.0034517, 5.691841e-11)
+            rel physics:simulationOwner
+            vector3f physics:velocity = (-1.9235085e-7, 2.9966914e-14, 2.436849e-9)
+            quatd xformOp:orient = (0.9999937926266986, -0.0035234511556763554, 1.3714177933065232e-7, -7.753713257924016e-8)
+            double3 xformOp:translate = (-0.011599995049280748, -0.018173981803396203, 0.0836510128627726)
+        }
+
+        over "thumb_metacarpals_base2"
+        {
+            vector3f physics:angularVelocity = (-0.0000948756, 0.0034515935, 0.0000212643)
+            rel physics:simulationOwner
+            vector3f physics:velocity = (3.1281888e-7, 1.02591e-8, -8.6366526e-8)
+            quatd xformOp:orient = (0.9939597622548558, 0.10966956322704303, -0.0004465585195940431, 0.004047036613210737)
+            double3 xformOp:translate = (0.02420001491661586, -0.017515216368177378, 0.08379814692840065)
+        }
+
+        over "thumb_metacarpals"
+        {
+            vector3f physics:angularVelocity = (-0.00009535585, 0.0034545816, 0.000020117042)
+            rel physics:simulationOwner
+            vector3f physics:velocity = (0.0000021907035, 5.8673322e-8, 4.8810034e-7)
+            quatd xformOp:orient = (0.4912814898090338, 0.4095810656632635, -0.33818393631475135, 0.6903024508429778)
+            double3 xformOp:translate = (0.028883375374036235, -0.03186079521749302, 0.07861570187911476)
+        }
+
+        over "thumb_proximal"
+        {
+            vector3f physics:angularVelocity = (-0.11657671, 1.7295839, -0.5217502)
+            rel physics:simulationOwner
+            vector3f physics:velocity = (0.00040850404, 0.000099832774, 0.00024137826)
+            quatd xformOp:orient = (0.49306883627480347, 0.40591286536177457, -0.33557265123441327, 0.6924657855604939)
+            double3 xformOp:translate = (0.03894674047585048, -0.07108465989206117, 0.10505888530120339)
+        }
+
+        over "thumb_distal"
+        {
+            vector3f physics:angularVelocity = (-0.10492371, 1.5569252, -0.46955645)
+            rel physics:simulationOwner
+            vector3f physics:velocity = (0.0014069575, 0.00027608708, 0.0006025991)
+            quatd xformOp:orient = (0.4949931015365782, 0.4019184620757508, -0.3327276874558639, 0.6947918143401914)
+            double3 xformOp:translate = (0.047919102159696025, -0.1046011116084842, 0.12212214537963362)
+        }
+    }
+
+    def Xform "KinematicProbe_01" (
+        delete apiSchemas = ["PhysicsRigidBodyAPI", "PhysxRigidBodyAPI"]
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysxRigidBodyAPI"]
+    )
+    {
+        vector3f physics:angularVelocity = (0.010525374, -0.0030839464, 0.00023411772)
+        bool physics:kinematicEnabled = 0
+        bool physics:rigidBodyEnabled = 1
+        vector3f physics:velocity = (2.9274142e-7, 0.000003999787, -0.00001978435)
+        quatd xformOp:orient = (0.9999999999998099, 3.5709372375971913e-7, -5.025342751943808e-7, 9.150865417721172e-9)
+        double3 xformOp:scale = (2, 2, 2)
+        double3 xformOp:translate = (-0.2889441251754761, 0.2276127189397812, 0.08000002801418304)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def Cube "Cube" (
+            prepend apiSchemas = ["PhysicsCollisionAPI", "PhysxCollisionAPI", "PhysicsMeshCollisionAPI", "PhysicsMaterialAPI", "PhysxMaterialAPI"]
+        )
+        {
+            uniform token physics:approximation = "boundingCube"
+            bool physics:collisionEnabled = 1
+            float physics:dynamicFriction = 1.2
+            float physics:restitution = 0
+            float physics:staticFriction = 1.5
+            uniform token physxMaterial:frictionCombineMode = "max"
+            uniform token physxMaterial:restitutionCombineMode = "min"
+            color3f[] primvars:displayColor = [(0.2, 0.55, 0.95)]
+            double3 xformOp:scale = (0.06, 0.06, 0.04)
+            double3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+        }
+    }
+
+    def Xform "KinematicProbe_02" (
+        delete apiSchemas = ["PhysicsRigidBodyAPI", "PhysxRigidBodyAPI"]
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysxRigidBodyAPI"]
+    )
+    {
+        vector3f physics:angularVelocity = (-0.1491254, -0.008491648, 0.00084661535)
+        bool physics:kinematicEnabled = 0
+        bool physics:rigidBodyEnabled = 1
+        vector3f physics:velocity = (-0.0000026927428, 0.00001850842, -0.000070280934)
+        quatd xformOp:orient = (0.9999999999978352, -0.0000020756121342582373, -8.917958524067949e-8, -1.1631432037700763e-7)
+        double3 xformOp:scale = (0.4, 0.4, 0.4)
+        double3 xformOp:translate = (-0.795009970664978, -0.3133067488670349, 0.016000036150217056)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def Cube "Cube" (
+            prepend apiSchemas = ["PhysicsCollisionAPI", "PhysxCollisionAPI", "PhysicsMeshCollisionAPI", "PhysicsMaterialAPI", "PhysxMaterialAPI"]
+        )
+        {
+            uniform token physics:approximation = "boundingCube"
+            bool physics:collisionEnabled = 1
+            float physics:dynamicFriction = 1.2
+            float physics:restitution = 0
+            float physics:staticFriction = 1.5
+            uniform token physxMaterial:frictionCombineMode = "max"
+            uniform token physxMaterial:restitutionCombineMode = "min"
+            color3f[] primvars:displayColor = [(0.2, 0.55, 0.95)]
+            double3 xformOp:scale = (0.06, 0.06, 0.04)
+            double3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+        }
+    }
+
+    def "NaturalBostonRoundBottle_A01_PR_NVD_01" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysxRigidBodyAPI", "PhysicsMassAPI"]
+        prepend payload = @https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/DigitalTwin/Assets/Warehouse/Storage/Bottles/Plastic/NaturalBostonRound_A/NaturalBostonRoundBottle_A01_PR_NVD_01.usd@
+    )
+    {
+        vector3f physics:angularVelocity = (-0.070835404, -0.022285638, 0.0023396267)
+        bool physics:kinematicEnabled = 0
+        float physics:mass = 0.25
+        bool physics:rigidBodyEnabled = 1
+        vector3f physics:velocity = (-0.0000073124434, 0.00004105791, -1.00697e-7)
+        quatf xformOp:orient = (6.123234e-17, 0, 0, -1)
+        float3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:scale:unitsResolve = (0.01, 0.01, 0.01)
+        double3 xformOp:translate = (-0.4745551225237462, -0.15879446993951815, 0.008043669065581533)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale", "xformOp:scale:unitsResolve"]
+
+        over "NaturalBostonRoundBottle_A01_01" (
+            prepend apiSchemas = ["PhysicsCollisionAPI", "PhysxCollisionAPI", "PhysxConvexHullCollisionAPI", "PhysicsMeshCollisionAPI", "PhysicsMaterialAPI", "PhysxMaterialAPI"]
+        )
+        {
+            uniform token physics:approximation = "convexHull"
+            bool physics:collisionEnabled = 1
+            float physics:dynamicFriction = 1.2
+            float physics:restitution = 0
+            float physics:staticFriction = 1.5
+            uniform token physxMaterial:frictionCombineMode = "max"
+            uniform token physxMaterial:restitutionCombineMode = "min"
+        }
     }
 }
 
@@ -264,10 +684,10 @@ over "OmniverseKit_Persp" (
     float exposure:time = 0.02
     float focalLength = 18.147562
     float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -2.7087447897933212)
-    float3 xformOp:rotateXYZ = (58.153843, -7.156248e-14, -158.57085)
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -0.40134171525317813)
+    float3 xformOp:rotateXYZ = (36.085773, -4.512412e-13, -168.87389)
     float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (-0.28183640598267184, 0.49759515060005866, 0.40118434073370485)
+    double3 xformOp:translate = (-0.5060562189294061, -0.029687113278020375, 0.29324755847954914)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 
