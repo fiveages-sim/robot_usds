@@ -40,7 +40,12 @@
     defaultPrim = "World"
     doc = """o7 single-hand grasp smoke test.
 
-HOW TO TEST (do NOT drag the hand TF during Play):
+NEWTON viewport: if this file still goes black on Play, use env/newton_smoke.usda
+instead (no baked Hydra RenderProduct / no remote HTTPS props). This empty.usda
+keeps PhysX grasp bottle workflow. PhysicsScene includes MjcSceneAPI.
+After engine switch, Reload Stage so VariantSwitcher can re-apply hand Physics.
+
+PhysX grasp test (do NOT drag the hand TF during Play):
 1. Stop. Pose bottle in the palm / between fingers.
 2. Set finger drive targetPosition near upper limits (wrap). Soft/Inspire-like
    K needs ~20–40° of blocked error to build normal force → friction.
@@ -767,9 +772,11 @@ over "OmniverseKit_Top" (
 }
 
 def PhysicsScene "PhysicsScene" (
-    delete apiSchemas = ["MjcSceneAPI", "NewtonXpbdSceneAPI"]
-    prepend apiSchemas = ["NewtonSceneAPI", "PhysxSceneAPI"]
+    delete apiSchemas = ["NewtonXpbdSceneAPI"]
+    prepend apiSchemas = ["NewtonSceneAPI", "MjcSceneAPI", "PhysxSceneAPI"]
 )
 {
+    # Dual-engine smoke: keep MjcSceneAPI so Newton/MJWarp can initialize.
+    # (Previously deleted MjcSceneAPI → Newton Play could black the viewport.)
 }
 

@@ -1,0 +1,90 @@
+#usda 1.0
+(
+    defaultPrim = "World"
+    doc = """Minimal Newton/MJWarp smoke for LinkerHand o7.
+
+No remote HTTPS payloads, no baked Hydra RenderProduct (those often black the
+viewport under Newton). PhysX grasp bottle tests stay in env/empty.usda.
+
+USAGE:
+1. Launch isaac-sim.newton.sh and open this file.
+2. Confirm hand Physics=mujoco (accept Switcher popup or set manually).
+3. Play. Viewport should stay lit.
+4. Window → Script Editor, paste the snippet from the World doc customData
+   (or see LinkerHand_o7 root comments / chat notes) to move fingers.
+
+Reload Stage after switching PhysX↔Newton engines.
+"""
+    metersPerUnit = 1
+    upAxis = "Z"
+    customLayerData = {
+        dictionary omni_layer = {
+            string authoring_layer = "./newton_smoke.usda"
+        }
+    }
+)
+
+def Xform "World"
+{
+    def Xform "GroundPlane"
+    {
+        def Mesh "CollisionMesh" (
+            prepend apiSchemas = ["PhysicsCollisionAPI", "PhysicsMeshCollisionAPI", "PhysicsMaterialAPI"]
+        )
+        {
+            int[] faceVertexCounts = [4]
+            int[] faceVertexIndices = [0, 1, 2, 3]
+            normal3f[] normals = [(0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1)]
+            uniform token physics:approximation = "none"
+            bool physics:collisionEnabled = 1
+            float physics:dynamicFriction = 0.6
+            float physics:staticFriction = 0.8
+            float physics:restitution = 0
+            point3f[] points = [(-2, -2, 0), (2, -2, 0), (2, 2, 0), (-2, 2, 0)]
+            color3f[] primvars:displayColor = [(0.35, 0.35, 0.38)]
+            quatf xformOp:orient = (1, 0, 0, 0)
+            float3 xformOp:scale = (1, 1, 1)
+            double3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+        }
+
+        def Plane "CollisionPlane" (
+            prepend apiSchemas = ["PhysicsCollisionAPI"]
+        )
+        {
+            uniform token axis = "Z"
+            bool physics:collisionEnabled = 1
+            uniform token purpose = "guide"
+        }
+    }
+
+    def DistantLight "defaultLight"
+    {
+        float inputs:angle = 1
+        float inputs:intensity = 3000
+        bool inputs:normalize = 1
+        quatd xformOp:orient = (0.6532814824, 0.2705980501, 0.2705980501, 0.6532814824)
+        double3 xformOp:translate = (0, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient"]
+    }
+
+    def "LinkerHand_o7" (
+        prepend payload = @../LinkerHand_o7.usda@
+        variants = {
+            string Side = "default"
+        }
+    )
+    {
+        quatd xformOp:orient = (1, 0, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0, 0, 0.08)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+    }
+}
+
+def PhysicsScene "PhysicsScene" (
+    delete apiSchemas = ["NewtonXpbdSceneAPI"]
+    prepend apiSchemas = ["NewtonSceneAPI", "MjcSceneAPI", "PhysxSceneAPI"]
+)
+{
+}

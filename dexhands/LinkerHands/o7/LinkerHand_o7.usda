@@ -9,6 +9,11 @@ Hold/anti-backdrive G1 (W2 grasp validated): fingers K=0.1 D=0.06 F=30;
 thumb K=0.12 D=0.08 F=50; jointFriction=0.5 armature=0.001;
 maxJointVelocity=500000 frozen. Colliders μs=2.0 μd=1.6 max-combine,
 contactOffset=0.002; distal CCD; maxDepenetrationVelocity=2.0.
+Physics: no authored default — VariantSwitcher sets physx↔mujoco on first load.
+IMPORTANT: Switcher writes session-layer opinion and then SKIPS further auto
+updates. After switching the physics ENGINE mid-session: Stop → Reload Stage
+(or clear hand Physics selection) so Switcher can run again. Manual Physics
+variant switch always works. Physics variantSet is listed before Side.
 """
     metersPerUnit = 1
     upAxis = "Z"
@@ -17,12 +22,11 @@ contactOffset=0.002; distal CCD; maxDepenetrationVelocity=2.0.
 def Xform "LinkerHand_o7" (
     prepend references = @./payloads/base.usda@
     variants = {
-        string Physics = "physx"
         string Robot = "none"
         string Sensor = "none"
         string Side = "default"
     }
-    prepend variantSets = ["Side", "Physics"]
+    prepend variantSets = ["Physics", "Side"]
     append variantSets = ["Robot", "Sensor"]
 )
 {
