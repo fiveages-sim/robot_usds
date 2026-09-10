@@ -24,7 +24,7 @@ over "joint1" (
     uniform token drive:angular:physics:type = None
     uniform double mjc:armature = 0.01
     uniform bool mjc:actuatorgravcomp = 1
-    uniform double mjc:damping = 0.1
+    uniform double mjc:damping = 1.0
     uniform token mjc:actuatorfrclimited = "auto"
     uniform double mjc:actuatorfrcrange:min = -108
     uniform double mjc:actuatorfrcrange:max = 108
@@ -42,7 +42,7 @@ over "joint2" (
     uniform token drive:angular:physics:type = None
     uniform double mjc:armature = 0.01
     uniform bool mjc:actuatorgravcomp = 1
-    uniform double mjc:damping = 0.1
+    uniform double mjc:damping = 1.0
     uniform token mjc:actuatorfrclimited = "auto"
     uniform double mjc:actuatorfrcrange:min = -108
     uniform double mjc:actuatorfrcrange:max = 108
@@ -60,7 +60,7 @@ over "joint3" (
     uniform token drive:angular:physics:type = None
     uniform double mjc:armature = 0.01
     uniform bool mjc:actuatorgravcomp = 1
-    uniform double mjc:damping = 0.1
+    uniform double mjc:damping = 1.0
     uniform token mjc:actuatorfrclimited = "auto"
     uniform double mjc:actuatorfrcrange:min = -66
     uniform double mjc:actuatorfrcrange:max = 66
@@ -78,7 +78,7 @@ over "joint4" (
     uniform token drive:angular:physics:type = None
     uniform double mjc:armature = 0.01
     uniform bool mjc:actuatorgravcomp = 1
-    uniform double mjc:damping = 0.1
+    uniform double mjc:damping = 1.0
     uniform token mjc:actuatorfrclimited = "auto"
     uniform double mjc:actuatorfrcrange:min = -66
     uniform double mjc:actuatorfrcrange:max = 66
@@ -96,7 +96,7 @@ over "joint5" (
     uniform token drive:angular:physics:type = None
     uniform double mjc:armature = 0.01
     uniform bool mjc:actuatorgravcomp = 1
-    uniform double mjc:damping = 0.1
+    uniform double mjc:damping = 1.0
     uniform token mjc:actuatorfrclimited = "auto"
     uniform double mjc:actuatorfrcrange:min = -18
     uniform double mjc:actuatorfrcrange:max = 18
@@ -114,7 +114,7 @@ over "joint6" (
     uniform token drive:angular:physics:type = None
     uniform double mjc:armature = 0.01
     uniform bool mjc:actuatorgravcomp = 1
-    uniform double mjc:damping = 0.1
+    uniform double mjc:damping = 1.0
     uniform token mjc:actuatorfrclimited = "auto"
     uniform double mjc:actuatorfrcrange:min = -18
     uniform double mjc:actuatorfrcrange:max = 18
@@ -132,7 +132,7 @@ over "joint7" (
     uniform token drive:angular:physics:type = None
     uniform double mjc:armature = 0.01
     uniform bool mjc:actuatorgravcomp = 1
-    uniform double mjc:damping = 0.1
+    uniform double mjc:damping = 1.0
     uniform token mjc:actuatorfrclimited = "auto"
     uniform double mjc:actuatorfrcrange:min = -18
     uniform double mjc:actuatorfrcrange:max = 18
@@ -312,7 +312,9 @@ over "root_joint" (
     prepend apiSchemas = ["NewtonArticulationRootAPI"]
 )
 {
-    bool newton:selfCollisionEnabled = 0
+    # NEWTON: self-col ON. Arm mute = append-ref arm_self_collision_mute_newton
+    # on M6_CCS Physics=mujoco. PhysX: CollisionGroup. Hands not muted.
+    bool newton:selfCollisionEnabled = 1
 }
 
 over "link1"
@@ -352,12 +354,14 @@ over "link7"
 
 def Scope "actuators"
 {
+# Newton arm PD: kp/kd raised 200/10 → 800/50 (less teleop oscillation vs PhysX).
+# F = kp*(ctrl-q) - kd*qdot. Joint mjc:damping also 0.1→1.0. PhysX Drive unchanged.
 def MjcActuator "joint1"
 {
     uniform token mjc:gainType = "fixed"
     uniform token mjc:biasType = "affine"
-    uniform double[] mjc:gainPrm = [200, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-    uniform double[] mjc:biasPrm = [0, -200, -10, 0, 0, 0, 0, 0, 0, 0]
+    uniform double[] mjc:gainPrm = [800, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    uniform double[] mjc:biasPrm = [0, -800, -50, 0, 0, 0, 0, 0, 0, 0]
     uniform token mjc:forceLimited = "true"
     uniform double mjc:forceRange:min = -108
     uniform double mjc:forceRange:max = 108
@@ -370,8 +374,8 @@ def MjcActuator "joint2"
 {
     uniform token mjc:gainType = "fixed"
     uniform token mjc:biasType = "affine"
-    uniform double[] mjc:gainPrm = [200, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-    uniform double[] mjc:biasPrm = [0, -200, -10, 0, 0, 0, 0, 0, 0, 0]
+    uniform double[] mjc:gainPrm = [800, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    uniform double[] mjc:biasPrm = [0, -800, -50, 0, 0, 0, 0, 0, 0, 0]
     uniform token mjc:forceLimited = "true"
     uniform double mjc:forceRange:min = -108
     uniform double mjc:forceRange:max = 108
@@ -384,8 +388,8 @@ def MjcActuator "joint3"
 {
     uniform token mjc:gainType = "fixed"
     uniform token mjc:biasType = "affine"
-    uniform double[] mjc:gainPrm = [200, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-    uniform double[] mjc:biasPrm = [0, -200, -10, 0, 0, 0, 0, 0, 0, 0]
+    uniform double[] mjc:gainPrm = [800, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    uniform double[] mjc:biasPrm = [0, -800, -50, 0, 0, 0, 0, 0, 0, 0]
     uniform token mjc:forceLimited = "true"
     uniform double mjc:forceRange:min = -66
     uniform double mjc:forceRange:max = 66
@@ -398,8 +402,8 @@ def MjcActuator "joint4"
 {
     uniform token mjc:gainType = "fixed"
     uniform token mjc:biasType = "affine"
-    uniform double[] mjc:gainPrm = [200, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-    uniform double[] mjc:biasPrm = [0, -200, -10, 0, 0, 0, 0, 0, 0, 0]
+    uniform double[] mjc:gainPrm = [800, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    uniform double[] mjc:biasPrm = [0, -800, -50, 0, 0, 0, 0, 0, 0, 0]
     uniform token mjc:forceLimited = "true"
     uniform double mjc:forceRange:min = -66
     uniform double mjc:forceRange:max = 66
@@ -412,8 +416,8 @@ def MjcActuator "joint5"
 {
     uniform token mjc:gainType = "fixed"
     uniform token mjc:biasType = "affine"
-    uniform double[] mjc:gainPrm = [200, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-    uniform double[] mjc:biasPrm = [0, -200, -10, 0, 0, 0, 0, 0, 0, 0]
+    uniform double[] mjc:gainPrm = [800, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    uniform double[] mjc:biasPrm = [0, -800, -50, 0, 0, 0, 0, 0, 0, 0]
     uniform token mjc:forceLimited = "true"
     uniform double mjc:forceRange:min = -18
     uniform double mjc:forceRange:max = 18
@@ -426,8 +430,8 @@ def MjcActuator "joint6"
 {
     uniform token mjc:gainType = "fixed"
     uniform token mjc:biasType = "affine"
-    uniform double[] mjc:gainPrm = [200, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-    uniform double[] mjc:biasPrm = [0, -200, -10, 0, 0, 0, 0, 0, 0, 0]
+    uniform double[] mjc:gainPrm = [800, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    uniform double[] mjc:biasPrm = [0, -800, -50, 0, 0, 0, 0, 0, 0, 0]
     uniform token mjc:forceLimited = "true"
     uniform double mjc:forceRange:min = -18
     uniform double mjc:forceRange:max = 18
@@ -440,8 +444,8 @@ def MjcActuator "joint7"
 {
     uniform token mjc:gainType = "fixed"
     uniform token mjc:biasType = "affine"
-    uniform double[] mjc:gainPrm = [200, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-    uniform double[] mjc:biasPrm = [0, -200, -10, 0, 0, 0, 0, 0, 0, 0]
+    uniform double[] mjc:gainPrm = [800, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    uniform double[] mjc:biasPrm = [0, -800, -50, 0, 0, 0, 0, 0, 0, 0]
     uniform token mjc:forceLimited = "true"
     uniform double mjc:forceRange:min = -18
     uniform double mjc:forceRange:max = 18

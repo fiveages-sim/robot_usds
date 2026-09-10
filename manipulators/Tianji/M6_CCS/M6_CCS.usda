@@ -40,7 +40,7 @@ def Xform "M6_CCS" (
     prepend references = @./payloads/base.usda@
     variants = {
         string EE = "None"
-        string Physics = "physx"
+        # No authored Physics default — VariantSwitcher / parent W2 selects physx|mujoco.
         string Robot = "none"
         string Sensor = "none"
         string Side = "default"
@@ -157,6 +157,10 @@ def Xform "M6_CCS" (
         }
         "mujoco" (
             prepend payload = @./payloads/Physics/mujoco.usda@
+            # NEWTON arm NonDexHand mute (2026-09): append REFERENCE on M6 only.
+            # Do NOT put arm paths in W2 body mute (breaks Arm payload). One over per link.
+            # PhysX: arm_self_collision_mute.usda CollisionGroup. Art root unchanged.
+            append references = @./payloads/Physics/arm_self_collision_mute_newton.usda@</M6_CCS>
         ) {
 
         }

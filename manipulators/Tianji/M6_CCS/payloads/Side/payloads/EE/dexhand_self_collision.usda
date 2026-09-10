@@ -1,18 +1,30 @@
 #usda 1.0
 (
-    doc = """DexHand EE — carve dexterous-hand colliders out of NonDexHand.
+    doc = """DexHand EE — carve dexterous-hand colliders out of NonDexHand (PhysX).
 
 CONVENTION (mounted dexhand self-collision)
 ==========================================
-Parent articulation (arm / humanoid) enables physxArticulation:enabledSelfCollisions
-and puts body/arm links in PhysicsCollisionGroup "NonDexHand" that filters itself.
-That mutes body↔body and arm↔arm contacts so the robot does not shake.
+Parent articulation enables self-collision on BOTH rails:
+  PhysX:  physxArticulation:enabledSelfCollisions = 1
+  Newton: newton:selfCollisionEnabled = 1
 
-link7 (or wrist) collection includes EXPAND into EE children. Without excludes,
-finger colliders join NonDexHand, self-filter, and penetrate each other.
+PhysX mute: PhysicsCollisionGroup "NonDexHand" + filteredGroups self-filter
+  W2:  payloads/Physics/body_self_collision_mute.usda  (physx subLayer)
+  M6:  payloads/Physics/arm_self_collision_mute.usda   (physx subLayer)
 
+Newton mute: collisionEnabled=0 on NonDexHand SHAPES (not CollisionGroup)
+  W2:  body_self_collision_mute_newton.usda
+       → append references on FiveAges_W2 Physics=mujoco (NO arm paths)
+  M6:  arm_self_collision_mute_newton.usda
+       → append references on M6_CCS Physics=mujoco
+Reason: Newton lacks reliable filteredGroups; payload-subLayer mute loses to
+base.usda Reference. Validate: W2/env/newton_verify_mute.py (authored=True).
+
+link7 (or wrist) PhysX collection includes EXPAND into EE children. Without
+excludes, finger colliders join NonDexHand, self-filter, and penetrate.
 This EE sublayer ONLY prepends collection:colliders:excludes for dexhand roots
-under tcp. Hands stay ungrouped → articulation self-col + hand FilteredPairs apply.
+under tcp (PhysX path). Hands stay ungrouped → finger self-col + FilteredPairs.
+Newton filteredPairs mute never lists LinkerHand bodies → same finger freedom.
 Grippers (RG75, etc.) are intentionally NOT listed → remain muted (usually fine).
 
 WHEN ADDING A NEW DEXHAND EE
@@ -20,8 +32,9 @@ WHEN ADDING A NEW DEXHAND EE
 1. Mount with root_joint active=false + FixedJoint (same tree as parent).
 2. Sublayer this file from the EE usda (or append the new prim to excludes below).
 3. Prim name under link7/tcp must match the exclude path.
-4. On W2, also list both arms in payloads/Physics/body_self_collision_mute.usda
-   excludes (same hand prim names).
+4. On W2, also list both arms in body_self_collision_mute.usda excludes
+   (PhysX). Newton mute lists do not include hands — no change needed there
+   unless you add NonDexHand body links.
 
 Current excludes: LinkerHand_o6, LinkerHand_o7 (extend list as needed).
 """

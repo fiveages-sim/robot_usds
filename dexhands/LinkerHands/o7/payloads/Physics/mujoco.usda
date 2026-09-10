@@ -231,11 +231,10 @@ over "LinkerHand_o7"
         {
             uniform double mjc:armature = 0.005
             uniform double mjc:damping = 0.1
-            bool newton:mimicEnabled = 0
+            bool newton:mimicEnabled = 1
             float newton:mimicCoef0 = 0
             float newton:mimicCoef1 = 1.3898
             rel newton:mimicJoint = </LinkerHand_o7/joints/thumb_joint1>
-            # DIAG: mimicEnabled=0 — thumb_joint1 localRot is non-identity; Newton scalar mimic may fight
         }
 
         over "thumb_ip" (
@@ -245,7 +244,7 @@ over "LinkerHand_o7"
         {
             uniform double mjc:armature = 0.005
             uniform double mjc:damping = 0.1
-            bool newton:mimicEnabled = 0
+            bool newton:mimicEnabled = 1
             float newton:mimicCoef0 = 0
             float newton:mimicCoef1 = 1.5085
             rel newton:mimicJoint = </LinkerHand_o7/joints/thumb_joint1>
@@ -457,7 +456,7 @@ over "LinkerHand_o7"
         {
             uniform double mjc:armature = 0.005
             uniform double mjc:damping = 0.1
-            bool newton:mimicEnabled = 0
+            bool newton:mimicEnabled = 1
             float newton:mimicCoef0 = 0
             float newton:mimicCoef1 = 1.3898
             rel newton:mimicJoint = </LinkerHand_o7/joints/left_hand_thumb_joint1>
@@ -470,7 +469,7 @@ over "LinkerHand_o7"
         {
             uniform double mjc:armature = 0.005
             uniform double mjc:damping = 0.1
-            bool newton:mimicEnabled = 0
+            bool newton:mimicEnabled = 1
             float newton:mimicCoef0 = 0
             float newton:mimicCoef1 = 1.5085
             rel newton:mimicJoint = </LinkerHand_o7/joints/left_hand_thumb_joint1>
@@ -682,7 +681,7 @@ over "LinkerHand_o7"
         {
             uniform double mjc:armature = 0.005
             uniform double mjc:damping = 0.1
-            bool newton:mimicEnabled = 0
+            bool newton:mimicEnabled = 1
             float newton:mimicCoef0 = 0
             float newton:mimicCoef1 = 1.3898
             rel newton:mimicJoint = </LinkerHand_o7/joints/right_hand_thumb_joint1>
@@ -695,7 +694,7 @@ over "LinkerHand_o7"
         {
             uniform double mjc:armature = 0.005
             uniform double mjc:damping = 0.1
-            bool newton:mimicEnabled = 0
+            bool newton:mimicEnabled = 1
             float newton:mimicCoef0 = 0
             float newton:mimicCoef1 = 1.5085
             rel newton:mimicJoint = </LinkerHand_o7/joints/right_hand_thumb_joint1>
@@ -709,39 +708,182 @@ over "LinkerHand_o7"
         bool newton:selfCollisionEnabled = 1
     }
 
-    # Newton-only: mute non-tip thumb collision GEOMS (not the instance root).
-    # CollisionAPI lives on nested mesh_* inside instanceable prototypes;
-    # setting collisionEnabled on the instance Xform does nothing for Newton.
-    # Break instanceable so we can author the real mesh opinion. PhysX rail
-    # does not load this layer → PhysX FilteredPairs / meshes unchanged.
-    # Keep thumb_distal/mesh_9 enabled for tip↔finger-tip pinch.
-    over "thumb_metacarpals_base1"
+    # Thumb shaft collisions MUST stay ON for object grasp (apple through finger
+    # was caused by muting mesh_5..8 for self-col). Tip mesh_9 tuned below.
+    # If thumb self-jitter returns, use shape filteredPairs — do NOT mute shaft.
+
+    # === Stem / pad grasp (Newton-only) ===
+    # mu = friction coefficient. Soft ke caused stem burying + lift slip
+    # (bad normals). Use STIFF contact + high mu + condim=6.
+    # Pinch tips: hull verts=96. Pad mu_s/mu_d = 4.0/3.6 (MJWarp stem-grasp
+    # reference; higher than lab rubber ~1, needed because MJWarp≠PhysX friction).
+
+    over "thumb_distal"
     {
         over "collisions"
         {
-            over "thumb_metacarpals_base1" (
+            over "thumb_distal" (
                 instanceable = false
             )
             {
-                over "mesh_5"
+                over "mesh_9" (
+                    prepend apiSchemas = ["NewtonMeshCollisionAPI", "NewtonMaterialAPI", "NewtonCollisionAPI"]
+                )
                 {
-                    bool physics:collisionEnabled = 0
+                    token physics:approximation = "convexHull"
+                    int newton:maxHullVertices = 96
+                    float newton:contactStiffness = 25000
+                    float newton:contactDamping = 800
+                    float newton:contactFrictionGain = 8000
+                    float newton:torsionalFriction = 0.35
+                    float newton:rollingFriction = 0.12
+                    uniform int mjc:condim = 6
+                    float physics:staticFriction = 4.0
+                    float physics:dynamicFriction = 3.6
+                    float physics:restitution = 0
                 }
             }
         }
     }
 
-    over "thumb_metacarpals_base2"
+    # Four-finger pads: collision child is named "index_distal"/mesh_4
+    over "index_distal"
     {
         over "collisions"
         {
-            over "thumb_metacarpals_base2" (
+            over "index_distal" (
                 instanceable = false
             )
             {
-                over "mesh_6"
+                over "mesh_4" (
+                    prepend apiSchemas = ["NewtonMeshCollisionAPI", "NewtonMaterialAPI", "NewtonCollisionAPI"]
+                )
                 {
-                    bool physics:collisionEnabled = 0
+                    token physics:approximation = "convexHull"
+                    int newton:maxHullVertices = 96
+                    float newton:contactStiffness = 25000
+                    float newton:contactDamping = 800
+                    float newton:contactFrictionGain = 8000
+                    float newton:torsionalFriction = 0.35
+                    float newton:rollingFriction = 0.12
+                    uniform int mjc:condim = 6
+                    float physics:staticFriction = 4.0
+                    float physics:dynamicFriction = 3.6
+                    float physics:restitution = 0
+                }
+            }
+        }
+    }
+
+    over "middle_distal"
+    {
+        over "collisions"
+        {
+            over "index_distal" (
+                instanceable = false
+            )
+            {
+                over "mesh_4" (
+                    prepend apiSchemas = ["NewtonMeshCollisionAPI", "NewtonMaterialAPI", "NewtonCollisionAPI"]
+                )
+                {
+                    token physics:approximation = "convexHull"
+                    int newton:maxHullVertices = 96
+                    float newton:contactStiffness = 25000
+                    float newton:contactDamping = 800
+                    float newton:contactFrictionGain = 8000
+                    float newton:torsionalFriction = 0.35
+                    float newton:rollingFriction = 0.12
+                    uniform int mjc:condim = 6
+                    float physics:staticFriction = 4.0
+                    float physics:dynamicFriction = 3.6
+                    float physics:restitution = 0
+                }
+            }
+        }
+    }
+
+    over "ring_distal"
+    {
+        over "collisions"
+        {
+            over "index_distal" (
+                instanceable = false
+            )
+            {
+                over "mesh_4" (
+                    prepend apiSchemas = ["NewtonMeshCollisionAPI", "NewtonMaterialAPI", "NewtonCollisionAPI"]
+                )
+                {
+                    token physics:approximation = "convexHull"
+                    int newton:maxHullVertices = 96
+                    float newton:contactStiffness = 25000
+                    float newton:contactDamping = 800
+                    float newton:contactFrictionGain = 8000
+                    float newton:torsionalFriction = 0.35
+                    float newton:rollingFriction = 0.12
+                    uniform int mjc:condim = 6
+                    float physics:staticFriction = 4.0
+                    float physics:dynamicFriction = 3.6
+                    float physics:restitution = 0
+                }
+            }
+        }
+    }
+
+    over "pinky_distal"
+    {
+        over "collisions"
+        {
+            over "index_distal" (
+                instanceable = false
+            )
+            {
+                over "mesh_4" (
+                    prepend apiSchemas = ["NewtonMeshCollisionAPI", "NewtonMaterialAPI", "NewtonCollisionAPI"]
+                )
+                {
+                    token physics:approximation = "convexHull"
+                    int newton:maxHullVertices = 96
+                    float newton:contactStiffness = 25000
+                    float newton:contactDamping = 800
+                    float newton:contactFrictionGain = 8000
+                    float newton:torsionalFriction = 0.35
+                    float newton:rollingFriction = 0.12
+                    uniform int mjc:condim = 6
+                    float physics:staticFriction = 4.0
+                    float physics:dynamicFriction = 3.6
+                    float physics:restitution = 0
+                }
+            }
+        }
+    }
+
+    # Thumb proximal (2nd link) + CMC — ensure enabled + same contact family as tip.
+    over "thumb_proximal"
+    {
+        over "collisions"
+        {
+            over "thumb_proximal" (
+                instanceable = false
+            )
+            {
+                over "mesh_8" (
+                    prepend apiSchemas = ["NewtonMaterialAPI", "NewtonCollisionAPI"]
+                )
+                {
+                    bool physics:collisionEnabled = 1
+                    token physics:approximation = "convexHull"
+                    int newton:maxHullVertices = 48
+                    uniform int mjc:condim = 6
+                    float physics:staticFriction = 3.0
+                    float physics:dynamicFriction = 2.8
+                    float physics:restitution = 0
+                    float newton:contactStiffness = 20000
+                    float newton:contactDamping = 600
+                    float newton:contactFrictionGain = 6000
+                    float newton:torsionalFriction = 0.2
+                    float newton:rollingFriction = 0.06
                 }
             }
         }
@@ -757,23 +899,63 @@ over "LinkerHand_o7"
             {
                 over "mesh_7"
                 {
-                    bool physics:collisionEnabled = 0
+                    bool physics:collisionEnabled = 1
+                    token physics:approximation = "convexHull"
+                    uniform int mjc:condim = 3
+                    float physics:staticFriction = 2.0
+                    float physics:dynamicFriction = 1.6
                 }
             }
         }
     }
 
-    over "thumb_proximal"
+    over "thumb_metacarpals_base1"
     {
         over "collisions"
         {
-            over "thumb_proximal" (
+            over "thumb_metacarpals_base1" (
                 instanceable = false
             )
             {
-                over "mesh_8"
+                over "mesh_5"
                 {
-                    bool physics:collisionEnabled = 0
+                    bool physics:collisionEnabled = 1
+                }
+            }
+        }
+    }
+
+    over "thumb_metacarpals_base2"
+    {
+        over "collisions"
+        {
+            over "thumb_metacarpals_base2" (
+                instanceable = false
+            )
+            {
+                over "mesh_6"
+                {
+                    bool physics:collisionEnabled = 1
+                }
+            }
+        }
+    }
+
+    # Palm / flange collision — object contact with hand base
+    over "flange"
+    {
+        over "collisions"
+        {
+            over "base" (
+                instanceable = false
+            )
+            {
+                over "mesh_1"
+                {
+                    bool physics:collisionEnabled = 1
+                    uniform int mjc:condim = 3
+                    float physics:staticFriction = 2.0
+                    float physics:dynamicFriction = 1.6
                 }
             }
         }
@@ -786,8 +968,8 @@ over "LinkerHand_o7"
         {
             uniform token mjc:gainType = "fixed"
             uniform token mjc:biasType = "affine"
-            uniform double[] mjc:gainPrm = [5, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-            uniform double[] mjc:biasPrm = [0, -5, -1.5, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:gainPrm = [4, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -4, -3.0, 0, 0, 0, 0, 0, 0, 0]
             uniform token mjc:forceLimited = "true"
             uniform double mjc:forceRange:min = -30
             uniform double mjc:forceRange:max = 30
@@ -801,8 +983,8 @@ over "LinkerHand_o7"
         {
             uniform token mjc:gainType = "fixed"
             uniform token mjc:biasType = "affine"
-            uniform double[] mjc:gainPrm = [5, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-            uniform double[] mjc:biasPrm = [0, -5, -1.5, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:gainPrm = [4, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -4, -3.0, 0, 0, 0, 0, 0, 0, 0]
             uniform token mjc:forceLimited = "true"
             uniform double mjc:forceRange:min = -30
             uniform double mjc:forceRange:max = 30
@@ -816,8 +998,8 @@ over "LinkerHand_o7"
         {
             uniform token mjc:gainType = "fixed"
             uniform token mjc:biasType = "affine"
-            uniform double[] mjc:gainPrm = [5, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-            uniform double[] mjc:biasPrm = [0, -5, -1.5, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:gainPrm = [4, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -4, -3.0, 0, 0, 0, 0, 0, 0, 0]
             uniform token mjc:forceLimited = "true"
             uniform double mjc:forceRange:min = -30
             uniform double mjc:forceRange:max = 30
@@ -831,8 +1013,8 @@ over "LinkerHand_o7"
         {
             uniform token mjc:gainType = "fixed"
             uniform token mjc:biasType = "affine"
-            uniform double[] mjc:gainPrm = [5, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-            uniform double[] mjc:biasPrm = [0, -5, -1.5, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:gainPrm = [4, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -4, -3.0, 0, 0, 0, 0, 0, 0, 0]
             uniform token mjc:forceLimited = "true"
             uniform double mjc:forceRange:min = -30
             uniform double mjc:forceRange:max = 30
@@ -846,8 +1028,8 @@ over "LinkerHand_o7"
         {
             uniform token mjc:gainType = "fixed"
             uniform token mjc:biasType = "affine"
-            uniform double[] mjc:gainPrm = [8, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-            uniform double[] mjc:biasPrm = [0, -8, -5, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:gainPrm = [5, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -5, -4.0, 0, 0, 0, 0, 0, 0, 0]
             uniform token mjc:forceLimited = "true"
             uniform double mjc:forceRange:min = -50
             uniform double mjc:forceRange:max = 50
@@ -861,8 +1043,8 @@ over "LinkerHand_o7"
         {
             uniform token mjc:gainType = "fixed"
             uniform token mjc:biasType = "affine"
-            uniform double[] mjc:gainPrm = [8, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-            uniform double[] mjc:biasPrm = [0, -8, -5, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:gainPrm = [5, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -5, -4.0, 0, 0, 0, 0, 0, 0, 0]
             uniform token mjc:forceLimited = "true"
             uniform double mjc:forceRange:min = -50
             uniform double mjc:forceRange:max = 50
@@ -876,8 +1058,8 @@ over "LinkerHand_o7"
         {
             uniform token mjc:gainType = "fixed"
             uniform token mjc:biasType = "affine"
-            uniform double[] mjc:gainPrm = [8, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-            uniform double[] mjc:biasPrm = [0, -8, -5, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:gainPrm = [5, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -5, -4.0, 0, 0, 0, 0, 0, 0, 0]
             uniform token mjc:forceLimited = "true"
             uniform double mjc:forceRange:min = -50
             uniform double mjc:forceRange:max = 50

@@ -3,7 +3,8 @@
     defaultPrim = "M6_CCS"
     metersPerUnit = 1
     subLayers = [
-        @./physics.usda@
+        @./physics.usda@,
+        @./arm_self_collision_mute.usda@
     ]
     upAxis = "Z"
 )
@@ -66,33 +67,11 @@ def "M6_CCS"
         prepend apiSchemas = ["PhysxArticulationAPI"]
     )
     {
-        # Mounted dexhand: self-col on; NonDexHand below mutes arm↔arm.
-        # DexHand EE sublayers dexhand_self_collision.usda to exclude fingers.
+        # Mounted dexhand: self-col on; NonDexHand (arm_self_collision_mute.usda)
+        # mutes arm↔arm. DexHand EE sublayers dexhand_self_collision.usda to
+        # exclude fingers.
         bool physxArticulation:enabledSelfCollisions = 1
         int physxArticulation:solverPositionIterationCount = 32
         int physxArticulation:solverVelocityIterationCount = 1
     }
-
-    def Scope "CollisionGroups"
-    {
-        def PhysicsCollisionGroup "NonDexHand" (
-            prepend apiSchemas = ["CollectionAPI:colliders"]
-        )
-        {
-            prepend rel collection:colliders:includes = [
-                </M6_CCS/base_link>,
-                </M6_CCS/link1>,
-                </M6_CCS/link2>,
-                </M6_CCS/link3>,
-                </M6_CCS/link4>,
-                </M6_CCS/link5>,
-                </M6_CCS/link6>,
-                </M6_CCS/link7>,
-            ]
-            prepend rel physics:filteredGroups = [
-                </M6_CCS/CollisionGroups/NonDexHand>,
-            ]
-        }
-    }
 }
-
