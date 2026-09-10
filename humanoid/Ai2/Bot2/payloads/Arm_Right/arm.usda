@@ -1,0 +1,89 @@
+#usda 1.0
+(
+    defaultPrim = "Bot2"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "Bot2"
+{
+    def "Arm_Right" (
+        prepend payload = @../../components/Ai2_Bot2_Arms/Ai2_Bot2_Arms.usda@
+        variants = {
+            string EE = "EG2_4C2"
+            string Robot = "robot"
+            string Sensor = "ee_fb_405"
+            string Side = "right"
+        }
+    )
+    {
+        quatd xformOp:orient = (0.5, 0.5, -0.5, 0.5)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0.13055, -0.0485, 1.44204)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "root_joint" (
+            active = false
+        )
+        {
+        }
+
+        over "base_link"
+        {
+            def PhysicsFixedJoint "AssemblerFixedJoint"
+            {
+                rel physics:body0 = </Bot2/body_link4>
+                rel physics:body1 = </Bot2/Arm_Right/base_link>
+                point3f physics:localPos0 = (-0.061, -0.0485, 0.3255)
+                point3f physics:localPos1 = (0, 0, 0)
+                quatf physics:localRot0 = (0.5, 0.5, -0.5, 0.5)
+                quatf physics:localRot1 = (1, 0, 0, 0)
+            }
+        }
+
+        over "joints"
+        {
+            over "right_joint1"
+            {
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "right_joint2"
+            {
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "right_joint3"
+            {
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "right_joint4"
+            {
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "right_joint5"
+            {
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "right_joint6"
+            {
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "right_joint7"
+            {
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+        }
+    }
+}

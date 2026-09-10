@@ -1,0 +1,143 @@
+#usda 1.0
+(
+    customLayerData = {
+        dictionary cameraSettings = {
+            dictionary Front = {
+                double3 position = (5, 0, 0)
+                double radius = 5
+            }
+            dictionary Perspective = {
+                double3 position = (0.8208608887469456, -0.6892531616777056, 0.9421574890753756)
+                double3 target = (-1.547015363026636, 5.5745572636941825, -1.8898492492048056)
+            }
+            dictionary Right = {
+                double3 position = (0, -5, 0)
+                double radius = 5
+            }
+            dictionary Top = {
+                double3 position = (0, 0, 5)
+                double radius = 5
+            }
+            string boundCamera = "/OmniverseKit_Persp"
+        }
+        dictionary metricsAssembler = {
+            dictionary "/Realman_AIDAL/d435" = {
+            }
+            int version = 1
+        }
+        dictionary omni_layer = {
+            string authoring_layer = "./Realman_AIDAL.usd"
+        }
+        dictionary renderSettings = {
+        }
+    }
+    defaultPrim = "Realman_AIDAL"
+    endTimeCode = 0
+    metersPerUnit = 1
+    startTimeCode = -1
+    subLayers = [
+        @./physics.usda@
+    ]
+    upAxis = "Z"
+)
+
+def "Realman_AIDAL" (
+    delete apiSchemas = ["PhysxArticulationAPI"]
+)
+{
+
+    over "joints"
+    {
+        over "lift_joint" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = 0.15
+        }
+
+        over "head_joint1" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = 89.95437
+        }
+
+        over "head_joint2" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = 89.95437
+        }
+    }
+
+    over "base_link" (
+        prepend apiSchemas = ["PhysxArticulationAPI"]
+    )
+    {
+        bool physxArticulation:enabledSelfCollisions = 0
+        float physxArticulation:sleepThreshold = 0.00005
+        int physxArticulation:solverPositionIterationCount = 64
+        int physxArticulation:solverVelocityIterationCount = 4
+        float physxArticulation:stabilizationThreshold = 0.00001
+    }
+
+    over "Woosh_AGV" (
+        variants = {
+            string Physics = "physx"
+        }
+    )
+    {
+    }
+
+    over "platform_base_link"
+    {
+        over "left_base_link"
+        {
+            over "RM75_Left" (
+                variants = {
+                    string Physics = "physx"
+                }
+            )
+            {
+                over "link7"
+                {
+                    over "tcp"
+                    {
+                        over "Inspire_EG2_4C2" (
+                            variants = {
+                                string Physics = "physx"
+                            }
+                        )
+                        {
+                        }
+                    }
+                }
+            }
+        }
+
+        over "right_base_link"
+        {
+            over "RM75_Right" (
+                variants = {
+                    string Physics = "physx"
+                }
+            )
+            {
+                over "link7"
+                {
+                    over "tcp"
+                    {
+                        over "Inspire_EG2_4C2" (
+                            variants = {
+                                string Physics = "physx"
+                            }
+                        )
+                        {
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+

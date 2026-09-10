@@ -1,0 +1,62 @@
+#usda 1.0
+(
+    defaultPrim = "Bot2"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "Bot2"
+{
+    over "Ai2_Bot2_Chassis" (
+        variants = {
+            string Sensor = "sensors"
+        }
+    )
+    {
+    }
+
+    over "body_link4"
+    {
+        over "front_camera"
+        {
+            def "d435" (
+                prepend payload = @../../../../../sensors/d435.usd@
+            )
+            {
+                double xformOp:rotateY = -90
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateY", "xformOp:scale"]
+            }
+        }
+
+        over "back_camera"
+        {
+            def "d435" (
+                prepend payload = @../../../../../sensors/d435.usd@
+            )
+            {
+                double xformOp:rotateY = -90
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateY", "xformOp:scale"]
+            }
+        }
+    }
+
+    over "head_link2"
+    {
+        over "head_camera"
+        {
+            def "d435" (
+                prepend payload = @../../../../../sensors/d435.usd@
+            )
+            {
+                double xformOp:rotateY = -90
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateY", "xformOp:scale"]
+            }
+        }
+    }
+}

@@ -60,7 +60,7 @@ The following models are **Git submodules** (vendored repositories, checked in a
     - ChangingTek (`ChangingTek/`)
         - AG2F120S
         - AG2F90
-    - Inspire EG2 4C2 (`Inspire_EG2_4C2`)
+    - Inspire EG2 4C2 (`Inspire/EG2_4C2`)
     - Jodell (`Jodell/`)
         - RG75
         - ERG32
@@ -97,12 +97,12 @@ The following models are **Git submodules** (vendored repositories, checked in a
     - Rokae (`manipulators/Rokae/`)
         - AR5 CCS V1 / V2 (`AR5_CCS_V1`, `AR5_CCS_V2`)
         - AR5 SRS (`AR5_SRS`)
-    - Realman RM75 (`Realman_RM75`)
+    - Realman RM75 (`Realman/RM75`)
     - Panthera HT (`Panthera_HT`)
 - **Humanoid** — under `humanoid/`
     - Agibot G1 (`Agibot/G1`)
     - Agibot G2 (`Agibot/G2`)
-    - Ai2 Bot2 (`Ai2_Bot2`)
+    - Ai2 Bot2 (`Ai2/Bot2`)
     - Astribot S1 (`Astribot_S1`)
     - Dobot Atom (`Dobot_Atom`)
     - FiveAges (`humanoid/FiveAges/`)
@@ -114,7 +114,7 @@ The following models are **Git submodules** (vendored repositories, checked in a
         - R1 Lite (`R1_Lite`)
     - Galbot (`humanoid/Galbot` submodule)
         - Galbot One / Zero / S1 / G1
-    - Realman Aidal (`Realman_AIDAL`)
+    - Realman Aidal (`Realman/AIDAL`)
     - SpiritAI Moz1 (`SpiritAI_Moz1`)
     - Ubtech (`Ubtech` submodule)
 - **Mobile Base** — under `mobile_base/`

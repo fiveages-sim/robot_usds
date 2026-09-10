@@ -1,0 +1,57 @@
+#usda 1.0
+(
+    defaultPrim = "Woosh_AGV"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def "Woosh_AGV"
+{
+    over "base_footprint"
+    {
+        over "base_link"
+        {
+            over "chassis_camera_link"
+            {
+                def "orbbec_dabai_dw" (
+                    prepend payload = @../../../../../sensors/orbbec_dabai_dw.usd@
+                )
+                {
+                    quatf xformOp:orient = (0.5, 0.5, -0.5, 0.5)
+                    double xformOp:rotateX:unitsResolve = 90
+                    double3 xformOp:scale = (1, 1, 1)
+                    double3 xformOp:translate = (0, 0, 0)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale", "xformOp:rotateX:unitsResolve"]
+                }
+            }
+
+            over "lidar_link"
+            {
+                def "oradar_ms500" (
+                    prepend payload = @../../../../../sensors/oradar_ms500.usd@
+                )
+                {
+                    quatf xformOp:orient = (0.70710677, 0, 0, -0.70710677)
+                    double xformOp:rotateX:unitsResolve = 90
+                    double3 xformOp:scale = (1, 1, 1)
+                    double3 xformOp:translate = (0, 0, 0)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale", "xformOp:rotateX:unitsResolve"]
+                }
+            }
+
+            over "chassis_panel"
+            {
+                def "panel" (
+                    prepend payload = @../../../panel.usd@
+                )
+                {
+                    quatf xformOp:orient = (0.70710677, 0, 0, -0.70710677)
+                    double xformOp:rotateX:unitsResolve = 90
+                    double3 xformOp:scale = (1, 1, 1)
+                    double3 xformOp:translate = (0, 0, 0)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale", "xformOp:rotateX:unitsResolve"]
+                }
+            }
+        }
+    }
+}
