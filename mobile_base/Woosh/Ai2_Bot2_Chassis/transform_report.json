@@ -1,0 +1,1811 @@
+{
+  "profile": {
+    "profile_name": "Isaac Sim Structure",
+    "version": "1.0",
+    "rules": [
+      {
+        "name": "Route Variants",
+        "type": "isaacsim.asset.transformer.rules.structure.variants.VariantRoutingRule",
+        "destination": "payloads",
+        "params": {
+          "excluded_variants": [
+            "none",
+            "default",
+            "physx"
+          ]
+        },
+        "enabled": true
+      },
+      {
+        "name": "Flatten Base",
+        "type": "isaacsim.asset.transformer.rules.structure.flatten.FlattenRule",
+        "destination": "payloads",
+        "params": {
+          "output_path": "base.usd",
+          "selected_variants": {
+            "Physics": "PhysX",
+            "Robot": "Robot",
+            "Gripper": "None",
+            "Left_Hand": "None",
+            "Right_Hand": "None"
+          },
+          "clear_variants": false,
+          "case_insensitive": true
+        },
+        "enabled": true
+      },
+      {
+        "name": "Apply Joint State APIs",
+        "type": "isaacsim.asset.transformer.rules.isaac_sim.joint_state_api.JointStateAPIRule",
+        "destination": "payloads",
+        "params": {},
+        "enabled": true
+      },
+      {
+        "name": "Route Isaac Robot Schemas",
+        "type": "isaacsim.asset.transformer.rules.core.schemas.SchemaRoutingRule",
+        "destination": "payloads",
+        "params": {
+          "stage_name": "robot.usda",
+          "schemas": [
+            "IsaacRobotAPI",
+            "IsaacLinkAPI",
+            "IsaacReferencePointAPI",
+            "IsaacJointAPI",
+            "IsaacSurfaceGripper",
+            "IsaacAttachmentPointAPI",
+            "IsaacSiteAPI"
+          ]
+        },
+        "enabled": true
+      },
+      {
+        "name": "Route Isaac Robot Properties",
+        "type": "isaacsim.asset.transformer.rules.core.properties.PropertyRoutingRule",
+        "destination": "payloads",
+        "params": {
+          "stage_name": "robot.usda",
+          "prim_types": [
+            "Isaac.*",
+            "isaac.*"
+          ]
+        },
+        "enabled": true
+      },
+      {
+        "name": "Route Geometries",
+        "type": "isaacsim.asset.transformer.rules.perf.geometries.GeometriesRoutingRule",
+        "destination": "payloads",
+        "params": {
+          "geometries_layer": "geometries.usd",
+          "instance_layer": "instances.usda",
+          "deduplicate": true
+        },
+        "enabled": true
+      },
+      {
+        "name": "Fix Physics Joint Poses",
+        "type": "isaacsim.asset.transformer.rules.isaac_sim.physics_joint_pose_fix.PhysicsJointPoseFixRule",
+        "destination": "payloads",
+        "params": {},
+        "enabled": true
+      },
+      {
+        "name": "Route Materials",
+        "type": "isaacsim.asset.transformer.rules.perf.materials.MaterialsRoutingRule",
+        "destination": "payloads",
+        "params": {
+          "materials_layer": "materials.usda",
+          "assets_folder": "Textures",
+          "download_textures": true
+        },
+        "enabled": true
+      },
+      {
+        "name": "Route PhysX Schemas",
+        "type": "isaacsim.asset.transformer.rules.core.schemas.SchemaRoutingRule",
+        "destination": "payloads/Physics",
+        "params": {
+          "stage_name": "physx.usda",
+          "schemas": [
+            "Physx.*",
+            "physx.*"
+          ]
+        },
+        "enabled": true
+      },
+      {
+        "name": "Route PhysX Prims",
+        "type": "isaacsim.asset.transformer.rules.core.prims.PrimRoutingRule",
+        "destination": "payloads/Physics",
+        "params": {
+          "stage_name": "physx.usda",
+          "prim_types": [
+            "Physx.*",
+            "physx.*"
+          ]
+        },
+        "enabled": true
+      },
+      {
+        "name": "Route PhysX Properties",
+        "type": "isaacsim.asset.transformer.rules.core.properties.PropertyRoutingRule",
+        "destination": "payloads/Physics",
+        "params": {
+          "stage_name": "physx.usda",
+          "properties": [
+            "Physx.*",
+            "physx.*"
+          ]
+        },
+        "enabled": true
+      },
+      {
+        "name": "Route MuJoCo Schemas",
+        "type": "isaacsim.asset.transformer.rules.core.schemas.SchemaRoutingRule",
+        "destination": "payloads/Physics",
+        "params": {
+          "stage_name": "mujoco.usda",
+          "schemas": [
+            "Mjc.*",
+            "mjc.*"
+          ]
+        },
+        "enabled": true
+      },
+      {
+        "name": "Route MuJoCo Prims",
+        "type": "isaacsim.asset.transformer.rules.core.prims.PrimRoutingRule",
+        "destination": "payloads/Physics",
+        "params": {
+          "stage_name": "mujoco.usda",
+          "prim_types": [
+            "Mjc.*",
+            "mjc.*"
+          ]
+        },
+        "enabled": true
+      },
+      {
+        "name": "Route MuJoCo Properties",
+        "type": "isaacsim.asset.transformer.rules.core.properties.PropertyRoutingRule",
+        "destination": "payloads/Physics",
+        "params": {
+          "stage_name": "mujoco.usda",
+          "properties": [
+            "Mjc.*",
+            "mjc.*"
+          ]
+        },
+        "enabled": true
+      },
+      {
+        "name": "Route Physics Schemas",
+        "type": "isaacsim.asset.transformer.rules.core.schemas.SchemaRoutingRule",
+        "destination": "payloads/Physics",
+        "params": {
+          "stage_name": "physics.usda",
+          "schemas": [
+            "Physics.*",
+            "Newton.*"
+          ],
+          "ignore_schemas": [
+            "PhysicsCollisionAPI"
+          ],
+          "prim_names": [
+            ".*"
+          ],
+          "ignore_prim_names": []
+        },
+        "enabled": true
+      },
+      {
+        "name": "Route Physics Prims",
+        "type": "isaacsim.asset.transformer.rules.core.prims.PrimRoutingRule",
+        "destination": "payloads/Physics",
+        "params": {
+          "stage_name": "physics.usda",
+          "prim_types": [
+            "Physics.*",
+            "Newton.*"
+          ]
+        },
+        "enabled": true
+      },
+      {
+        "name": "Make Robot Schema",
+        "type": "isaacsim.asset.transformer.rules.isaac_sim.robot_schema.RobotSchemaRule",
+        "destination": "payloads",
+        "params": {
+          "prim_path": "",
+          "stage_name": "robot.usda",
+          "add_sites": true,
+          "sites_last": false,
+          "sublayer": "Physics/physics.usda"
+        },
+        "enabled": true
+      },
+      {
+        "name": "Make API Schemas Non-Explicit",
+        "type": "isaacsim.asset.transformer.rules.isaac_sim.make_lists_non_explicit.MakeListsNonExplicitRule",
+        "destination": "payloads",
+        "params": {
+          "metadata_names": [
+            "apiSchemas"
+          ],
+          "property_names": [],
+          "list_op_type": "prepend"
+        },
+        "enabled": true
+      },
+      {
+        "name": "Make Robot Relationship Lists Non-Explicit",
+        "type": "isaacsim.asset.transformer.rules.isaac_sim.make_lists_non_explicit.MakeListsNonExplicitRule",
+        "destination": "payloads",
+        "params": {
+          "metadata_names": [],
+          "property_names": [
+            "isaac:physics:robotLinks",
+            "isaac:physics:robotJoints"
+          ],
+          "list_op_type": "prepend"
+        },
+        "enabled": true
+      },
+      {
+        "name": "Generate Interface",
+        "type": "isaacsim.asset.transformer.rules.structure.interface.InterfaceConnectionRule",
+        "destination": "",
+        "params": {
+          "base_layer": "payloads/base.usda",
+          "base_connection_type": "Reference",
+          "generate_folder_variants": true,
+          "payloads_folder": "payloads",
+          "connections": [
+            {
+              "asset_path": "payloads/Physics/physx.usda",
+              "target_path": "payloads/Physics/physics.usda",
+              "connection_type": "Sublayer"
+            },
+            {
+              "asset_path": "payloads/Physics/mujoco.usda",
+              "target_path": "payloads/Physics/physics.usda",
+              "connection_type": "Sublayer"
+            },
+            {
+              "asset_path": "payloads/base.usda",
+              "target_path": "payloads/robot.usda",
+              "connection_type": "Sublayer"
+            }
+          ],
+          "default_variant_selections": {
+            "Physics": "physx",
+            "Gripper": "None",
+            "Left_Hand": "None",
+            "Right_Hand": "None"
+          }
+        },
+        "enabled": true
+      },
+      {
+        "name": "Delete Physics Drive and Joint State APIs",
+        "type": "isaacsim.asset.transformer.rules.core.remove_schema.RemoveSchemaRule",
+        "destination": "payloads/Physics",
+        "params": {
+          "stage_name": "mujoco.usda",
+          "schema_patterns": [
+            "PhysicsDriveAPI.*",
+            "PhysicsJointStateAPI.*"
+          ],
+          "prim_path_patterns": [
+            ".*"
+          ],
+          "clear_properties": false
+        },
+        "enabled": true
+      },
+      {
+        "name": "Delete Newton Redundant APIs",
+        "type": "isaacsim.asset.transformer.rules.core.remove_schema.RemoveSchemaRule",
+        "destination": "payloads/Physics",
+        "params": {
+          "stage_name": "physx.usda",
+          "schema_patterns": [
+            "NewtonMimicAPI.*",
+            "NewtonArticulationRootAPI.*"
+          ],
+          "prim_path_patterns": [
+            ".*"
+          ],
+          "clear_properties": false
+        },
+        "enabled": false
+      }
+    ],
+    "interface_asset_name": null,
+    "output_package_root": "/home/fiveages/libraries/FaSim-Isaac/robots/mobile_base/Woosh/Ai2_Bot2_Chassis/",
+    "flatten_source": false,
+    "base_name": "base.usd"
+  },
+  "input_stage_path": "/home/fiveages/libraries/FaSim-Isaac/robots/humanoid/Ai2_Bot2/components/Ai2_Bot2_Chassis/Ai2_Bot2_Chassis.usd",
+  "package_root": "/home/fiveages/libraries/FaSim-Isaac/robots/mobile_base/Woosh/Ai2_Bot2_Chassis/",
+  "started_at": "2026-09-10T01:27:48.909Z",
+  "finished_at": "2026-09-10T01:27:49.737Z",
+  "results": [
+    {
+      "rule": {
+        "name": "Route Variants",
+        "type": "isaacsim.asset.transformer.rules.structure.variants.VariantRoutingRule",
+        "destination": "payloads",
+        "params": {
+          "excluded_variants": [
+            "none",
+            "default",
+            "physx"
+          ]
+        },
+        "enabled": true
+      },
+      "success": true,
+      "log": [
+        {
+          "message": "VariantRoutingRule start destination=payloads, case_insensitive=True, collect_dependencies=True, excluded_variants={'physx', 'none', 'default'}"
+        },
+        {
+          "message": "Processing default prim: /Ai2_Bot2_Chassis"
+        },
+        {
+          "message": "Found variant sets: ['Physics', 'Sensor', 'Robot']"
+        },
+        {
+          "message": "Processing variant set 'Physics' -> /home/fiveages/libraries/FaSim-Isaac/robots/mobile_base/Woosh/Ai2_Bot2_Chassis/payloads/Physics"
+        },
+        {
+          "message": "Variant file mapping: {'/home/fiveages/libraries/FaSim-Isaac/robots/humanoid/Ai2_Bot2/components/Ai2_Bot2_Chassis/configuration/Ai2_Bot2_Chassis_base.usd': '/home/fiveages/libraries/FaSim-Isaac/robots/mobile_base/Woosh/Ai2_Bot2_Chassis/payloads/Physics/none.usda', '/home/fiveages/libraries/FaSim-Isaac/robots/humanoid/Ai2_Bot2/components/Ai2_Bot2_Chassis/configuration/Ai2_Bot2_Chassis_physics.usd': '/home/fiveages/libraries/FaSim-Isaac/robots/mobile_base/Woosh/Ai2_Bot2_Chassis/payloads/Physics/physx.usda'}"
+        },
+        {
+          "message": "Variant 'None' is excluded, creating empty variant file"
+        },
+        {
+          "message": "Creating empty variant file for excluded variant 'None' -> /home/fiveages/libraries/FaSim-Isaac/robots/mobile_base/Woosh/Ai2_Bot2_Chassis/payloads/Physics/none.usda"
+        },
+        {
+          "message": "Created empty prim spec at '/Ai2_Bot2_Chassis' for excluded variant"
+        },
+        {
+          "message": "Variant 'PhysX' is excluded, creating empty variant file"
+        },
+        {
+          "message": "Creating empty variant file for excluded variant 'PhysX' -> /home/fiveages/libraries/FaSim-Isaac/robots/mobile_base/Woosh/Ai2_Bot2_Chassis/payloads/Physics/physx.usda"
+        },
+        {
+          "message": "Created empty prim spec at '/Ai2_Bot2_Chassis' for excluded variant"
+        },
+        {
+          "message": "Processing variant set 'Sensor' -> /home/fiveages/libraries/FaSim-Isaac/robots/mobile_base/Woosh/Ai2_Bot2_Chassis/payloads/Sensor"
+        },
+        {
+          "message": "Variant file mapping: {'/home/fiveages/libraries/FaSim-Isaac/robots/humanoid/Ai2_Bot2/components/Ai2_Bot2_Chassis/configuration/Ai2_Bot2_Chassis_sensor.usd': '/home/fiveages/libraries/FaSim-Isaac/robots/mobile_base/Woosh/Ai2_Bot2_Chassis/payloads/Sensor/sensors.usda'}"
+        },
+        {
+          "message": "Variant 'None' is excluded, creating empty variant file"
+        },
+        {
+          "message": "Creating empty variant file for excluded variant 'None' -> /home/fiveages/libraries/FaSim-Isaac/robots/mobile_base/Woosh/Ai2_Bot2_Chassis/payloads/Sensor/none.usda"
+        },
+        {
+          "message": "Created empty prim spec at '/Ai2_Bot2_Chassis' for excluded variant"
+        },
+        {
+          "message": "Processing variant 'Sensors' -> /home/fiveages/libraries/FaSim-Isaac/robots/mobile_base/Woosh/Ai2_Bot2_Chassis/payloads/Sensor/sensors.usda"
+        },
+        {
+          "message": "Found 1 prepended payloads, 0 prepended references"
+        },
+        {
+          "message": "Original input path: /home/fiveages/libraries/FaSim-Isaac/robots/humanoid/Ai2_Bot2/components/Ai2_Bot2_Chassis/Ai2_Bot2_Chassis.usd, source dir: /home/fiveages/libraries/FaSim-Isaac/robots/humanoid/Ai2_Bot2/components/Ai2_Bot2_Chassis"
+        },
+        {
+          "message": "Primary source asset: /home/fiveages/libraries/FaSim-Isaac/robots/humanoid/Ai2_Bot2/components/Ai2_Bot2_Chassis/configuration/Ai2_Bot2_Chassis_sensor.usd"
+        },
+        {
+          "message": "ComputeAllDependencies found 1 layers, 0 assets, 0 unresolved"
+        },
+        {
+          "message": "Skipping variant file (will be remapped): /home/fiveages/libraries/FaSim-Isaac/robots/humanoid/Ai2_Bot2/components/Ai2_Bot2_Chassis/configuration/Ai2_Bot2_Chassis_sensor.usd"
+        },
+        {
+          "message": "Total collected dependencies: 0"
+        },
+        {
+          "message": "Collected 0 dependencies from primary source for variant 'Sensors'"
+        },
+        {
+          "message": "Resolving arc dependency: ./configuration/Ai2_Bot2_Chassis_sensor.usd -> /home/fiveages/libraries/FaSim-Isaac/robots/humanoid/Ai2_Bot2/components/Ai2_Bot2_Chassis/configuration/Ai2_Bot2_Chassis_sensor.usd"
+        },
+        {
+          "message": "Copying layer with remapping: /home/fiveages/libraries/FaSim-Isaac/robots/humanoid/Ai2_Bot2/components/Ai2_Bot2_Chassis/configuration/Ai2_Bot2_Chassis_sensor.usd -> /home/fiveages/libraries/FaSim-Isaac/robots/mobile_base/Woosh/Ai2_Bot2_Chassis/payloads/Sensor/sensors.usda"
+        },
+        {
+          "message": "  variant_file_map has 1 entries"
+        },
+        {
+          "message": "  collected_deps has 0 entries"
+        },
+        {
+          "message": "Remapped 0 asset paths"
+        },
+        {
+          "message": "Applying variant deltas to /Ai2_Bot2_Chassis"
+        },
+        {
+          "message": "  Variant deltas: 0 attributes, 0 relationships, 0 child prims"
+        },
+        {
+          "message": "Applied variant deltas as strongest opinion"
+        },
+        {
+          "message": "Created variant layer: /home/fiveages/libraries/FaSim-Isaac/robots/mobile_base/Woosh/Ai2_Bot2_Chassis/payloads/Sensor/sensors.usda"
+        },
+        {
+          "message": "Processing variant set 'Robot' -> /home/fiveages/libraries/FaSim-Isaac/robots/mobile_base/Woosh/Ai2_Bot2_Chassis/payloads/Robot"
+        },
+        {
+          "message": "Variant file mapping: {'/home/fiveages/libraries/FaSim-Isaac/robots/humanoid/Ai2_Bot2/components/Ai2_Bot2_Chassis/configuration/Ai2_Bot2_Chassis_robot.usd': '/home/fiveages/libraries/FaSim-Isaac/robots/mobile_base/Woosh/Ai2_Bot2_Chassis/payloads/Robot/robot.usda'}"
+        },
+        {
+          "message": "Variant 'None' is excluded, creating empty variant file"
+        },
+        {
+          "message": "Creating empty variant file for excluded variant 'None' -> /home/fiveages/libraries/FaSim-Isaac/robots/mobile_base/Woosh/Ai2_Bot2_Chassis/payloads/Robot/none.usda"
+        },
+        {
+          "message": "Created empty prim spec at '/Ai2_Bot2_Chassis' for excluded variant"
+        },
+        {
+          "message": "Processing variant 'Robot' -> /home/fiveages/libraries/FaSim-Isaac/robots/mobile_base/Woosh/Ai2_Bot2_Chassis/payloads/Robot/robot.usda"
+        },
+        {
+          "message": "Found 1 prepended payloads, 0 prepended references"
+        },
+        {
+          "message": "Original input path: /home/fiveages/libraries/FaSim-Isaac/robots/humanoid/Ai2_Bot2/components/Ai2_Bot2_Chassis/Ai2_Bot2_Chassis.usd, source dir: /home/fiveages/libraries/FaSim-Isaac/robots/humanoid/Ai2_Bot2/components/Ai2_Bot2_Chassis"
+        },
+        {
+          "message": "Primary source asset: /home/fiveages/libraries/FaSim-Isaac/robots/humanoid/Ai2_Bot2/components/Ai2_Bot2_Chassis/configuration/Ai2_Bot2_Chassis_robot.usd"
+        },
+        {
+          "message": "ComputeAllDependencies found 1 layers, 0 assets, 0 unresolved"
+        },
+        {
+          "message": "Skipping variant file (will be remapped): /home/fiveages/libraries/FaSim-Isaac/robots/humanoid/Ai2_Bot2/components/Ai2_Bot2_Chassis/configuration/Ai2_Bot2_Chassis_robot.usd"
+        },
+        {
+          "message": "Total collected dependencies: 0"
+        },
+        {
+          "message": "Collected 0 dependencies from primary source for variant 'Robot'"
+        },
+        {
+          "message": "Resolving arc dependency: ./configuration/Ai2_Bot2_Chassis_robot.usd -> /home/fiveages/libraries/FaSim-Isaac/robots/humanoid/Ai2_Bot2/components/Ai2_Bot2_Chassis/configuration/Ai2_Bot2_Chassis_robot.usd"
+        },
+        {
+          "message": "Copying layer with remapping: /home/fiveages/libraries/FaSim-Isaac/robots/humanoid/Ai2_Bot2/components/Ai2_Bot2_Chassis/configuration/Ai2_Bot2_Chassis_robot.usd -> /home/fiveages/libraries/FaSim-Isaac/robots/mobile_base/Woosh/Ai2_Bot2_Chassis/payloads/Robot/robot.usda"
+        },
+        {
+          "message": "  variant_file_map has 1 entries"
+        },
+        {
+          "message": "  collected_deps has 0 entries"
+        },
+        {
+          "message": "Remapped 0 asset paths"
+        },
+        {
+          "message": "Applying variant deltas to /Ai2_Bot2_Chassis"
+        },
+        {
+          "message": "  Variant deltas: 0 attributes, 0 relationships, 0 child prims"
+        },
+        {
+          "message": "Applied variant deltas as strongest opinion"
+        },
+        {
+          "message": "Created variant layer: /home/fiveages/libraries/FaSim-Isaac/robots/mobile_base/Woosh/Ai2_Bot2_Chassis/payloads/Robot/robot.usda"
+        },
+        {
+          "message": "VariantRoutingRule completed: 6 variant files created, 0 dependencies collected, 3 variants excluded from processing"
+        }
+      ],
+      "affected_stages": [
+        "/home/fiveages/libraries/FaSim-Isaac/robots/mobile_base/Woosh/Ai2_Bot2_Chassis/payloads/Physics/none.usda",
+        "/home/fiveages/libraries/FaSim-Isaac/robots/mobile_base/Woosh/Ai2_Bot2_Chassis/payloads/Physics/physx.usda",
+        "/home/fiveages/libraries/FaSim-Isaac/robots/mobile_base/Woosh/Ai2_Bot2_Chassis/payloads/Sensor/none.usda",
+        "/home/fiveages/libraries/FaSim-Isaac/robots/mobile_base/Woosh/Ai2_Bot2_Chassis/payloads/Sensor/sensors.usda",
+        "/home/fiveages/libraries/FaSim-Isaac/robots/mobile_base/Woosh/Ai2_Bot2_Chassis/payloads/Robot/none.usda",
+        "/home/fiveages/libraries/FaSim-Isaac/robots/mobile_base/Woosh/Ai2_Bot2_Chassis/payloads/Robot/robot.usda"
+      ],
+      "error": null,
+      "started_at": "2026-09-10T01:27:48.926Z",
+      "finished_at": "2026-09-10T01:27:48.933Z"
+    },
+    {
+      "rule": {
+        "name": "Flatten Base",
+        "type": "isaacsim.asset.transformer.rules.structure.flatten.FlattenRule",
+        "destination": "payloads",
+        "params": {
+          "output_path": "base.usd",
+          "selected_variants": {
+            "Physics": "PhysX",
+            "Robot": "Robot",
+            "Gripper": "None",
+            "Left_Hand": "None",
+            "Right_Hand": "None"
+          },
+          "clear_variants": false,
+          "case_insensitive": true
+        },
+        "enabled": true
+      },
+      "success": true,
+      "log": [
+        {
+          "message": "FlattenRule start input=/home/fiveages/libraries/FaSim-Isaac/robots/humanoid/Ai2_Bot2/components/Ai2_Bot2_Chassis/Ai2_Bot2_Chassis.usd output=base.usd clear_variants=False selected_variants={'Physics': 'PhysX', 'Robot': 'Robot', 'Gripper': 'None', 'Left_Hand': 'None', 'Right_Hand': 'None'} case_insensitive=True"
+        },
+        {
+          "message": "Set variant 'Physics' to 'PhysX'"
+        },
+        {
+          "message": "Set variant 'Robot' to 'Robot'"
+        },
+        {
+          "message": "Variant set 'Gripper' not found on default prim, skipping"
+        },
+        {
+          "message": "Variant set 'Left_Hand' not found on default prim, skipping"
+        },
+        {
+          "message": "Variant set 'Right_Hand' not found on default prim, skipping"
+        },
+        {
+          "message": "Applied 2 variant selection(s)"
+        },
+        {
+          "message": "Layer cached in USD registry, transferring content: /home/fiveages/libraries/FaSim-Isaac/robots/mobile_base/Woosh/Ai2_Bot2_Chassis/payloads/base.usd"
+        },
+        {
+          "message": "Exported flattened layer to: /home/fiveages/libraries/FaSim-Isaac/robots/mobile_base/Woosh/Ai2_Bot2_Chassis/payloads/base.usd"
+        },
+        {
+          "message": "FlattenRule completed"
+        }
+      ],
+      "affected_stages": [
+        "base.usd"
+      ],
+      "error": null,
+      "started_at": "2026-09-10T01:27:48.933Z",
+      "finished_at": "2026-09-10T01:27:48.961Z"
+    },
+    {
+      "rule": {
+        "name": "Apply Joint State APIs",
+        "type": "isaacsim.asset.transformer.rules.isaac_sim.joint_state_api.JointStateAPIRule",
+        "destination": "payloads",
+        "params": {},
+        "enabled": true
+      },
+      "success": true,
+      "log": [
+        {
+          "message": "JointStateAPIRule start joints=10"
+        },
+        {
+          "message": "JointStateAPIRule applied 'angular' on /Ai2_Bot2_Chassis/joints/driven_fl_joint_v"
+        },
+        {
+          "message": "JointStateAPIRule applied 'angular' on /Ai2_Bot2_Chassis/joints/driven_fl_joint_h"
+        },
+        {
+          "message": "JointStateAPIRule applied 'angular' on /Ai2_Bot2_Chassis/joints/driven_fr_joint_v"
+        },
+        {
+          "message": "JointStateAPIRule applied 'angular' on /Ai2_Bot2_Chassis/joints/driven_fr_joint_h"
+        },
+        {
+          "message": "JointStateAPIRule applied 'angular' on /Ai2_Bot2_Chassis/joints/driven_rl_joint_v"
+        },
+        {
+          "message": "JointStateAPIRule applied 'angular' on /Ai2_Bot2_Chassis/joints/driven_rl_joint_h"
+        },
+        {
+          "message": "JointStateAPIRule applied 'angular' on /Ai2_Bot2_Chassis/joints/driven_rr_joint_v"
+        },
+        {
+          "message": "JointStateAPIRule applied 'angular' on /Ai2_Bot2_Chassis/joints/driven_rr_joint_h"
+        },
+        {
+          "message": "JointStateAPIRule applied 'angular' on /Ai2_Bot2_Chassis/joints/driving_left_joint"
+        },
+        {
+          "message": "JointStateAPIRule applied 'angular' on /Ai2_Bot2_Chassis/joints/driving_right_joint"
+        },
+        {
+          "message": "JointStateAPIRule completed: 10 applied, 0 skipped"
+        }
+      ],
+      "affected_stages": [
+        "/home/fiveages/libraries/FaSim-Isaac/robots/mobile_base/Woosh/Ai2_Bot2_Chassis/payloads/base.usd"
+      ],
+      "error": null,
+      "started_at": "2026-09-10T01:27:48.961Z",
+      "finished_at": "2026-09-10T01:27:48.963Z"
+    },
+    {
+      "rule": {
+        "name": "Route Isaac Robot Schemas",
+        "type": "isaacsim.asset.transformer.rules.core.schemas.SchemaRoutingRule",
+        "destination": "payloads",
+        "params": {
+          "stage_name": "robot.usda",
+          "schemas": [
+            "IsaacRobotAPI",
+            "IsaacLinkAPI",
+            "IsaacReferencePointAPI",
+            "IsaacJointAPI",
+            "IsaacSurfaceGripper",
+            "IsaacAttachmentPointAPI",
+            "IsaacSiteAPI"
+          ]
+        },
+        "enabled": true
+      },
+      "success": true,
+      "log": [
+        {
+          "message": "SchemaRoutingRule start destination=payloads/robot.usda"
+        },
+        {
+          "message": "Schema patterns: IsaacRobotAPI, IsaacLinkAPI, IsaacReferencePointAPI, IsaacJointAPI, IsaacSurfaceGripper, IsaacAttachmentPointAPI, IsaacSiteAPI"
+        },
+        {
+          "message": "Prim name patterns: .*"
+        },
+        {
+          "message": "Using schemas layer: /home/fiveages/libraries/FaSim-Isaac/robots/mobile_base/Woosh/Ai2_Bot2_Chassis/payloads/robot.usda"
+        },
+        {
+          "message": "Moved 1 schema(s) from /Ai2_Bot2_Chassis: IsaacRobotAPI"
+        },
+        {
+          "message": "Moved 1 schema(s) from /Ai2_Bot2_Chassis/base_footprint: IsaacLinkAPI"
+        },
+        {
+          "message": "Moved 1 schema(s) from /Ai2_Bot2_Chassis/driven_fl_link_v: IsaacLinkAPI"
+        },
+        {
+          "message": "Moved 1 schema(s) from /Ai2_Bot2_Chassis/joints/driven_fl_joint_v: IsaacJointAPI"
+        },
+        {
+          "message": "Moved 1 schema(s) from /Ai2_Bot2_Chassis/joints/driven_fl_joint_h: IsaacJointAPI"
+        },
+        {
+          "message": "Moved 1 schema(s) from /Ai2_Bot2_Chassis/joints/driven_fr_joint_v: IsaacJointAPI"
+        },
+        {
+          "message": "Moved 1 schema(s) from /Ai2_Bot2_Chassis/joints/driven_fr_joint_h: IsaacJointAPI"
+        },
+        {
+          "message": "Moved 1 schema(s) from /Ai2_Bot2_Chassis/joints/driven_rl_joint_v: IsaacJointAPI"
+        },
+        {
+          "message": "Moved 1 schema(s) from /Ai2_Bot2_Chassis/joints/driven_rl_joint_h: IsaacJointAPI"
+        },
+        {
+          "message": "Moved 1 schema(s) from /Ai2_Bot2_Chassis/joints/driven_rr_joint_v: IsaacJointAPI"
+        },
+        {
+          "message": "Moved 1 schema(s) from /Ai2_Bot2_Chassis/joints/driven_rr_joint_h: IsaacJointAPI"
+        },
+        {
+          "message": "Moved 1 schema(s) from /Ai2_Bot2_Chassis/joints/driving_left_joint: IsaacJointAPI"
+        },
+        {
+          "message": "Moved 1 schema(s) from /Ai2_Bot2_Chassis/joints/driving_right_joint: IsaacJointAPI"
+        },
+        {
+          "message": "Moved 1 schema(s) from /Ai2_Bot2_Chassis/driven_fl_link_h: IsaacLinkAPI"
+        },
+        {
+          "message": "Moved 1 schema(s) from /Ai2_Bot2_Chassis/driven_fr_link_v: IsaacLinkAPI"
+        },
+        {
+          "message": "Moved 1 schema(s) from /Ai2_Bot2_Chassis/driven_fr_link_h: IsaacLinkAPI"
+        },
+        {
+          "message": "Moved 1 schema(s) from /Ai2_Bot2_Chassis/driven_rl_link_v: IsaacLinkAPI"
+        },
+        {
+          "message": "Moved 1 schema(s) from /Ai2_Bot2_Chassis/driven_rl_link_h: IsaacLinkAPI"
+        },
+        {
+          "message": "Moved 1 schema(s) from /Ai2_Bot2_Chassis/driven_rr_link_v: IsaacLinkAPI"
+        },
+        {
+          "message": "Moved 1 schema(s) from /Ai2_Bot2_Chassis/driven_rr_link_h: IsaacLinkAPI"
+        },
+        {
+          "message": "Moved 1 schema(s) from /Ai2_Bot2_Chassis/driving_left_link: IsaacLinkAPI"
+        },
+        {
+          "message": "Moved 1 schema(s) from /Ai2_Bot2_Chassis/driving_right_link: IsaacLinkAPI"
+        },
+        {
+          "message": "Processed 22 prim(s), moved 22 schema instance(s)"
+        },
+        {
+          "message": "SchemaRoutingRule completed"
+        }
+      ],
+      "affected_stages": [
+        "payloads/robot.usda"
+      ],
+      "error": null,
+      "started_at": "2026-09-10T01:27:48.963Z",
+      "finished_at": "2026-09-10T01:27:48.974Z"
+    },
+    {
+      "rule": {
+        "name": "Route Isaac Robot Properties",
+        "type": "isaacsim.asset.transformer.rules.core.properties.PropertyRoutingRule",
+        "destination": "payloads",
+        "params": {
+          "stage_name": "robot.usda",
+          "prim_types": [
+            "Isaac.*",
+            "isaac.*"
+          ]
+        },
+        "enabled": true
+      },
+      "success": true,
+      "log": [
+        {
+          "message": "No property patterns specified, skipping"
+        }
+      ],
+      "affected_stages": [],
+      "error": null,
+      "started_at": "2026-09-10T01:27:48.974Z",
+      "finished_at": "2026-09-10T01:27:48.975Z"
+    },
+    {
+      "rule": {
+        "name": "Route Geometries",
+        "type": "isaacsim.asset.transformer.rules.perf.geometries.GeometriesRoutingRule",
+        "destination": "payloads",
+        "params": {
+          "geometries_layer": "geometries.usd",
+          "instance_layer": "instances.usda",
+          "deduplicate": true
+        },
+        "enabled": true
+      },
+      "success": true,
+      "log": [
+        {
+          "message": "Pre-processing: making all instanceable references non-instanceable"
+        },
+        {
+          "message": "Clearing instanceable flag on /Ai2_Bot2_Chassis/base_footprint/visuals"
+        },
+        {
+          "message": "Clearing instanceable flag on /Ai2_Bot2_Chassis/base_footprint/collisions"
+        },
+        {
+          "message": "Clearing instanceable flag on /Ai2_Bot2_Chassis/driven_fl_link_v/visuals"
+        },
+        {
+          "message": "Clearing instanceable flag on /Ai2_Bot2_Chassis/driven_fl_link_h/visuals"
+        },
+        {
+          "message": "Clearing instanceable flag on /Ai2_Bot2_Chassis/driven_fl_link_h/collisions"
+        },
+        {
+          "message": "Clearing instanceable flag on /Ai2_Bot2_Chassis/driven_fr_link_v/visuals"
+        },
+        {
+          "message": "Clearing instanceable flag on /Ai2_Bot2_Chassis/driven_fr_link_h/visuals"
+        },
+        {
+          "message": "Clearing instanceable flag on /Ai2_Bot2_Chassis/driven_fr_link_h/collisions"
+        },
+        {
+          "message": "Clearing instanceable flag on /Ai2_Bot2_Chassis/driven_rl_link_v/visuals"
+        },
+        {
+          "message": "Clearing instanceable flag on /Ai2_Bot2_Chassis/driven_rl_link_h/visuals"
+        },
+        {
+          "message": "Clearing instanceable flag on /Ai2_Bot2_Chassis/driven_rl_link_h/collisions"
+        },
+        {
+          "message": "Clearing instanceable flag on /Ai2_Bot2_Chassis/driven_rr_link_v/visuals"
+        },
+        {
+          "message": "Clearing instanceable flag on /Ai2_Bot2_Chassis/driven_rr_link_h/visuals"
+        },
+        {
+          "message": "Clearing instanceable flag on /Ai2_Bot2_Chassis/driven_rr_link_h/collisions"
+        },
+        {
+          "message": "Clearing instanceable flag on /Ai2_Bot2_Chassis/driving_left_link/visuals"
+        },
+        {
+          "message": "Clearing instanceable flag on /Ai2_Bot2_Chassis/driving_left_link/collisions"
+        },
+        {
+          "message": "Clearing instanceable flag on /Ai2_Bot2_Chassis/driving_right_link/visuals"
+        },
+        {
+          "message": "Clearing instanceable flag on /Ai2_Bot2_Chassis/driving_right_link/collisions"
+        },
+        {
+          "message": "Pre-processing: cleared instanceable on 18 prims, deleted 0 child override specs"
+        },
+        {
+          "message": "Pre-processing: done"
+        },
+        {
+          "message": "GeometriesRoutingRule start scope=/ deduplicate=True geometries_layer=payloads/geometries.usd instance_layer=payloads/instances.usda"
+        },
+        {
+          "message": "Found 12 geometry prim usages"
+        },
+        {
+          "message": "Geometry sources: ['/Ai2_Bot2_Chassis/base_footprint/base_link/charge_port/charge_port/charge_port', '/Ai2_Bot2_Chassis/base_footprint/visuals/chassis/mesh', '/Ai2_Bot2_Chassis/driven_fl_link_v/visuals/driven_v/mesh', '/Ai2_Bot2_Chassis/driven_fl_link_h/visuals/driven_h/mesh', '/Ai2_Bot2_Chassis/driven_fr_link_v/visuals/driven_v/mesh', '/Ai2_Bot2_Chassis/driven_fr_link_h/visuals/driven_h/mesh', '/Ai2_Bot2_Chassis/driven_rl_link_v/visuals/driven_v/mesh', '/Ai2_Bot2_Chassis/driven_rl_link_h/visuals/driven_h/mesh', '/Ai2_Bot2_Chassis/driven_rr_link_v/visuals/driven_v/mesh', '/Ai2_Bot2_Chassis/driven_rr_link_h/visuals/driven_h/mesh', '/Ai2_Bot2_Chassis/driving_left_link/visuals/wheel/mesh', '/Ai2_Bot2_Chassis/driving_right_link/visuals/wheel/mesh']"
+        },
+        {
+          "message": "Created new geometries layer: /home/fiveages/libraries/FaSim-Isaac/robots/mobile_base/Woosh/Ai2_Bot2_Chassis/payloads/geometries.usd"
+        },
+        {
+          "message": "Created new instances layer: /home/fiveages/libraries/FaSim-Isaac/robots/mobile_base/Woosh/Ai2_Bot2_Chassis/payloads/instances.usda"
+        },
+        {
+          "message": "Copied geometry /Ai2_Bot2_Chassis/base_footprint/base_link/charge_port/charge_port/charge_port to /Geometries/charge_port/charge_port"
+        },
+        {
+          "message": "Copied geometry /Ai2_Bot2_Chassis/base_footprint/visuals/chassis/mesh to /Geometries/mesh/mesh"
+        },
+        {
+          "message": "Copied geometry /Ai2_Bot2_Chassis/driven_fl_link_v/visuals/driven_v/mesh to /Geometries/mesh_1/mesh_1"
+        },
+        {
+          "message": "Copied geometry /Ai2_Bot2_Chassis/driven_fl_link_h/visuals/driven_h/mesh to /Geometries/mesh_2/mesh_2"
+        },
+        {
+          "message": "Copied geometry /Ai2_Bot2_Chassis/driving_left_link/visuals/wheel/mesh to /Geometries/mesh_3/mesh_3"
+        },
+        {
+          "message": "Processed 12 geometry usages: 5 new, 0 reused from existing layer, 7 deduplicated within batch"
+        },
+        {
+          "message": "Materials: 1 copied, 0 deduplicated to /Ai2_Bot2_Chassis/VisualMaterials"
+        },
+        {
+          "message": "Materials: 3 copied, 0 deduplicated to /Ai2_Bot2_Chassis/VisualMaterials"
+        },
+        {
+          "message": "Materials: 0 copied, 1 deduplicated to /Ai2_Bot2_Chassis/VisualMaterials"
+        },
+        {
+          "message": "Materials: 1 copied, 1 deduplicated to /Ai2_Bot2_Chassis/VisualMaterials"
+        },
+        {
+          "message": "Materials: 2 copied, 0 deduplicated to /Ai2_Bot2_Chassis/VisualMaterials"
+        },
+        {
+          "message": "Created 5 unique instance definitions (7 deduplicated from 12 sources)"
+        },
+        {
+          "message": "Reference path: /home/fiveages/libraries/FaSim-Isaac/robots/mobile_base/Woosh/Ai2_Bot2_Chassis/payloads/base.usd -> ./instances.usda"
+        },
+        {
+          "message": "Updated 12 prims in source stage with instanceable references"
+        },
+        {
+          "message": "Cleaned up flattened prototypes: removed 0 references, deleted 18 prototype prims"
+        },
+        {
+          "message": "Deleted 6 relocated material sources, skipped 1 (from references/sublayers)"
+        },
+        {
+          "message": "Updated 9 references in instances layer: ./base.usd -> ./base.usda"
+        },
+        {
+          "message": "GeometriesRoutingRule completed: 5 unique geometries (5 new, 0 pre-existing), 5 unique instances (7 deduplicated)"
+        }
+      ],
+      "affected_stages": [
+        "/home/fiveages/libraries/FaSim-Isaac/robots/mobile_base/Woosh/Ai2_Bot2_Chassis/payloads/base.usda",
+        "payloads/geometries.usd",
+        "payloads/instances.usda"
+      ],
+      "error": null,
+      "started_at": "2026-09-10T01:27:48.975Z",
+      "finished_at": "2026-09-10T01:27:49.610Z"
+    },
+    {
+      "rule": {
+        "name": "Fix Physics Joint Poses",
+        "type": "isaacsim.asset.transformer.rules.isaac_sim.physics_joint_pose_fix.PhysicsJointPoseFixRule",
+        "destination": "payloads",
+        "params": {},
+        "enabled": true
+      },
+      "success": true,
+      "log": [
+        {
+          "message": "PhysicsJointPoseFixRule start original=/home/fiveages/libraries/FaSim-Isaac/robots/humanoid/Ai2_Bot2/components/Ai2_Bot2_Chassis/Ai2_Bot2_Chassis.usd joints=10 tol_pos=1e-06 tol_orient=1e-06"
+        },
+        {
+          "message": "PhysicsJointPoseFixRule completed: 0 joint body pose(s) corrected"
+        }
+      ],
+      "affected_stages": [],
+      "error": null,
+      "started_at": "2026-09-10T01:27:49.610Z",
+      "finished_at": "2026-09-10T01:27:49.614Z"
+    },
+    {
+      "rule": {
+        "name": "Route Materials",
+        "type": "isaacsim.asset.transformer.rules.perf.materials.MaterialsRoutingRule",
+        "destination": "payloads",
+        "params": {
+          "materials_layer": "materials.usda",
+          "assets_folder": "Textures",
+          "download_textures": true
+        },
+        "enabled": true
+      },
+      "success": true,
+      "log": [
+        {
+          "message": "MaterialsRoutingRule start scope=/ deduplicate=True materials_layer=payloads/materials.usda textures_folder=Textures download_textures=True"
+        },
+        {
+          "message": "Found 28 material prims"
+        },
+        {
+          "message": "Copied asset: /home/fiveages/isaacsim/kit/mdl/core/mdl/gltf/pbr.mdl -> /home/fiveages/libraries/FaSim-Isaac/robots/mobile_base/Woosh/Ai2_Bot2_Chassis/Textures/pbr.mdl"
+        },
+        {
+          "message": "Transferred 1 unique assets"
+        },
+        {
+          "message": "Using materials layer: /home/fiveages/libraries/FaSim-Isaac/robots/mobile_base/Woosh/Ai2_Bot2_Chassis/payloads/materials.usda"
+        },
+        {
+          "message": "Copied material /Ai2_Bot2_Chassis/base_footprint/base_link/charge_port/charge_port/charge_port/Looks/black_metal to /Materials/black_metal"
+        },
+        {
+          "message": "Copied material /Ai2_Bot2_Chassis/base_footprint/base_link/charge_port/charge_port/VisualMaterials/black_metal to /Materials/black_metal_1"
+        },
+        {
+          "message": "Copied material /Ai2_Bot2_Chassis/base_footprint/visuals/chassis/VisualMaterials/default_grey to /Materials/default_grey"
+        },
+        {
+          "message": "Copied material /Ai2_Bot2_Chassis/base_footprint/visuals/chassis/VisualMaterials/default_white to /Materials/default_white"
+        },
+        {
+          "message": "Copied material /Ai2_Bot2_Chassis/base_footprint/visuals/chassis/VisualMaterials/blue to /Materials/blue"
+        },
+        {
+          "message": "Copied material /Ai2_Bot2_Chassis/driven_fl_link_h/visuals/driven_h/VisualMaterials/default_black to /Materials/default_black"
+        },
+        {
+          "message": "Copied material /Ai2_Bot2_Chassis/driving_left_link/visuals/wheel/VisualMaterials/wheel_metal to /Materials/wheel_metal"
+        },
+        {
+          "message": "Copied material /Ai2_Bot2_Chassis/driving_left_link/visuals/wheel/VisualMaterials/rubber to /Materials/rubber"
+        },
+        {
+          "message": "Processed 28 materials: 8 new, 0 reused from existing layer, 20 deduplicated within batch"
+        },
+        {
+          "message": "Found 24 material bindings"
+        },
+        {
+          "message": "Saved modified layer: /home/fiveages/libraries/FaSim-Isaac/robots/mobile_base/Woosh/Ai2_Bot2_Chassis/payloads/instances.usda"
+        },
+        {
+          "message": "Updated 28 materials in their defining layers"
+        },
+        {
+          "message": "Removed 8 unused material references"
+        },
+        {
+          "message": "MaterialsRoutingRule completed: 8 unique materials in layer (8 new, 0 pre-existing), 24 bindings updated"
+        }
+      ],
+      "affected_stages": [
+        "/home/fiveages/libraries/FaSim-Isaac/robots/mobile_base/Woosh/Ai2_Bot2_Chassis/payloads/instances.usda",
+        "payloads/materials.usda"
+      ],
+      "error": null,
+      "started_at": "2026-09-10T01:27:49.614Z",
+      "finished_at": "2026-09-10T01:27:49.677Z"
+    },
+    {
+      "rule": {
+        "name": "Route PhysX Schemas",
+        "type": "isaacsim.asset.transformer.rules.core.schemas.SchemaRoutingRule",
+        "destination": "payloads/Physics",
+        "params": {
+          "stage_name": "physx.usda",
+          "schemas": [
+            "Physx.*",
+            "physx.*"
+          ]
+        },
+        "enabled": true
+      },
+      "success": true,
+      "log": [
+        {
+          "message": "SchemaRoutingRule start destination=payloads/Physics/physx.usda"
+        },
+        {
+          "message": "Schema patterns: Physx.*, physx.*"
+        },
+        {
+          "message": "Prim name patterns: .*"
+        },
+        {
+          "message": "Using schemas layer: /home/fiveages/libraries/FaSim-Isaac/robots/mobile_base/Woosh/Ai2_Bot2_Chassis/payloads/Physics/physx.usda"
+        },
+        {
+          "message": "Moved 1 schema(s) from /Ai2_Bot2_Chassis/base_footprint: PhysxArticulationAPI"
+        },
+        {
+          "message": "Moved 1 schema(s) from /Ai2_Bot2_Chassis/joints/driven_fl_joint_v: PhysxJointAPI"
+        },
+        {
+          "message": "Moved 1 schema(s) from /Ai2_Bot2_Chassis/joints/driven_fl_joint_h: PhysxJointAPI"
+        },
+        {
+          "message": "Moved 1 schema(s) from /Ai2_Bot2_Chassis/joints/driven_fr_joint_v: PhysxJointAPI"
+        },
+        {
+          "message": "Moved 1 schema(s) from /Ai2_Bot2_Chassis/joints/driven_fr_joint_h: PhysxJointAPI"
+        },
+        {
+          "message": "Moved 1 schema(s) from /Ai2_Bot2_Chassis/joints/driven_rl_joint_v: PhysxJointAPI"
+        },
+        {
+          "message": "Moved 1 schema(s) from /Ai2_Bot2_Chassis/joints/driven_rl_joint_h: PhysxJointAPI"
+        },
+        {
+          "message": "Moved 1 schema(s) from /Ai2_Bot2_Chassis/joints/driven_rr_joint_v: PhysxJointAPI"
+        },
+        {
+          "message": "Moved 1 schema(s) from /Ai2_Bot2_Chassis/joints/driven_rr_joint_h: PhysxJointAPI"
+        },
+        {
+          "message": "Moved 1 schema(s) from /Ai2_Bot2_Chassis/joints/driving_left_joint: PhysxJointAPI"
+        },
+        {
+          "message": "Moved 1 schema(s) from /Ai2_Bot2_Chassis/joints/driving_right_joint: PhysxJointAPI"
+        },
+        {
+          "message": "Processed 11 prim(s), moved 11 schema instance(s)"
+        },
+        {
+          "message": "SchemaRoutingRule completed"
+        }
+      ],
+      "affected_stages": [
+        "payloads/Physics/physx.usda"
+      ],
+      "error": null,
+      "started_at": "2026-09-10T01:27:49.677Z",
+      "finished_at": "2026-09-10T01:27:49.680Z"
+    },
+    {
+      "rule": {
+        "name": "Route PhysX Prims",
+        "type": "isaacsim.asset.transformer.rules.core.prims.PrimRoutingRule",
+        "destination": "payloads/Physics",
+        "params": {
+          "stage_name": "physx.usda",
+          "prim_types": [
+            "Physx.*",
+            "physx.*"
+          ]
+        },
+        "enabled": true
+      },
+      "success": true,
+      "log": [
+        {
+          "message": "PrimRoutingRule start destination=payloads/Physics/physx.usda"
+        },
+        {
+          "message": "Prim type patterns: Physx.*, physx.*"
+        },
+        {
+          "message": "Search scope: /"
+        },
+        {
+          "message": "Prim name patterns: .*"
+        },
+        {
+          "message": "No matching prims found, skipping output file creation"
+        }
+      ],
+      "affected_stages": [],
+      "error": null,
+      "started_at": "2026-09-10T01:27:49.680Z",
+      "finished_at": "2026-09-10T01:27:49.681Z"
+    },
+    {
+      "rule": {
+        "name": "Route PhysX Properties",
+        "type": "isaacsim.asset.transformer.rules.core.properties.PropertyRoutingRule",
+        "destination": "payloads/Physics",
+        "params": {
+          "stage_name": "physx.usda",
+          "properties": [
+            "Physx.*",
+            "physx.*"
+          ]
+        },
+        "enabled": true
+      },
+      "success": true,
+      "log": [
+        {
+          "message": "PropertyRoutingRule start destination=payloads/Physics/physx.usda"
+        },
+        {
+          "message": "Property patterns: Physx.*, physx.*"
+        },
+        {
+          "message": "Search scope: /"
+        },
+        {
+          "message": "Prim name patterns: .*"
+        },
+        {
+          "message": "No matching properties found, skipping output file creation"
+        }
+      ],
+      "affected_stages": [],
+      "error": null,
+      "started_at": "2026-09-10T01:27:49.681Z",
+      "finished_at": "2026-09-10T01:27:49.686Z"
+    },
+    {
+      "rule": {
+        "name": "Route MuJoCo Schemas",
+        "type": "isaacsim.asset.transformer.rules.core.schemas.SchemaRoutingRule",
+        "destination": "payloads/Physics",
+        "params": {
+          "stage_name": "mujoco.usda",
+          "schemas": [
+            "Mjc.*",
+            "mjc.*"
+          ]
+        },
+        "enabled": true
+      },
+      "success": true,
+      "log": [
+        {
+          "message": "SchemaRoutingRule start destination=payloads/Physics/mujoco.usda"
+        },
+        {
+          "message": "Schema patterns: Mjc.*, mjc.*"
+        },
+        {
+          "message": "Prim name patterns: .*"
+        },
+        {
+          "message": "No matching schemas found, skipping output file creation"
+        }
+      ],
+      "affected_stages": [],
+      "error": null,
+      "started_at": "2026-09-10T01:27:49.686Z",
+      "finished_at": "2026-09-10T01:27:49.687Z"
+    },
+    {
+      "rule": {
+        "name": "Route MuJoCo Prims",
+        "type": "isaacsim.asset.transformer.rules.core.prims.PrimRoutingRule",
+        "destination": "payloads/Physics",
+        "params": {
+          "stage_name": "mujoco.usda",
+          "prim_types": [
+            "Mjc.*",
+            "mjc.*"
+          ]
+        },
+        "enabled": true
+      },
+      "success": true,
+      "log": [
+        {
+          "message": "PrimRoutingRule start destination=payloads/Physics/mujoco.usda"
+        },
+        {
+          "message": "Prim type patterns: Mjc.*, mjc.*"
+        },
+        {
+          "message": "Search scope: /"
+        },
+        {
+          "message": "Prim name patterns: .*"
+        },
+        {
+          "message": "No matching prims found, skipping output file creation"
+        }
+      ],
+      "affected_stages": [],
+      "error": null,
+      "started_at": "2026-09-10T01:27:49.687Z",
+      "finished_at": "2026-09-10T01:27:49.687Z"
+    },
+    {
+      "rule": {
+        "name": "Route MuJoCo Properties",
+        "type": "isaacsim.asset.transformer.rules.core.properties.PropertyRoutingRule",
+        "destination": "payloads/Physics",
+        "params": {
+          "stage_name": "mujoco.usda",
+          "properties": [
+            "Mjc.*",
+            "mjc.*"
+          ]
+        },
+        "enabled": true
+      },
+      "success": true,
+      "log": [
+        {
+          "message": "PropertyRoutingRule start destination=payloads/Physics/mujoco.usda"
+        },
+        {
+          "message": "Property patterns: Mjc.*, mjc.*"
+        },
+        {
+          "message": "Search scope: /"
+        },
+        {
+          "message": "Prim name patterns: .*"
+        },
+        {
+          "message": "No matching properties found, skipping output file creation"
+        }
+      ],
+      "affected_stages": [],
+      "error": null,
+      "started_at": "2026-09-10T01:27:49.687Z",
+      "finished_at": "2026-09-10T01:27:49.692Z"
+    },
+    {
+      "rule": {
+        "name": "Route Physics Schemas",
+        "type": "isaacsim.asset.transformer.rules.core.schemas.SchemaRoutingRule",
+        "destination": "payloads/Physics",
+        "params": {
+          "stage_name": "physics.usda",
+          "schemas": [
+            "Physics.*",
+            "Newton.*"
+          ],
+          "ignore_schemas": [
+            "PhysicsCollisionAPI"
+          ],
+          "prim_names": [
+            ".*"
+          ],
+          "ignore_prim_names": []
+        },
+        "enabled": true
+      },
+      "success": true,
+      "log": [
+        {
+          "message": "SchemaRoutingRule start destination=payloads/Physics/physics.usda"
+        },
+        {
+          "message": "Schema patterns: Physics.*, Newton.*"
+        },
+        {
+          "message": "Ignoring schemas: PhysicsCollisionAPI"
+        },
+        {
+          "message": "Prim name patterns: .*"
+        },
+        {
+          "message": "Using schemas layer: /home/fiveages/libraries/FaSim-Isaac/robots/mobile_base/Woosh/Ai2_Bot2_Chassis/payloads/Physics/physics.usda"
+        },
+        {
+          "message": "Moved 3 schema(s) from /Ai2_Bot2_Chassis/base_footprint: PhysicsArticulationRootAPI, PhysicsRigidBodyAPI, PhysicsMassAPI"
+        },
+        {
+          "message": "Moved 2 schema(s) from /Ai2_Bot2_Chassis/driven_fl_link_v: PhysicsRigidBodyAPI, PhysicsMassAPI"
+        },
+        {
+          "message": "Moved 1 schema(s) from /Ai2_Bot2_Chassis/joints/driven_fl_joint_v: PhysicsJointStateAPI:angular"
+        },
+        {
+          "message": "Moved 2 schema(s) from /Ai2_Bot2_Chassis/joints/driven_fl_joint_h: PhysicsDriveAPI:angular, PhysicsJointStateAPI:angular"
+        },
+        {
+          "message": "Moved 1 schema(s) from /Ai2_Bot2_Chassis/joints/driven_fr_joint_v: PhysicsJointStateAPI:angular"
+        },
+        {
+          "message": "Moved 2 schema(s) from /Ai2_Bot2_Chassis/joints/driven_fr_joint_h: PhysicsDriveAPI:angular, PhysicsJointStateAPI:angular"
+        },
+        {
+          "message": "Moved 1 schema(s) from /Ai2_Bot2_Chassis/joints/driven_rl_joint_v: PhysicsJointStateAPI:angular"
+        },
+        {
+          "message": "Moved 2 schema(s) from /Ai2_Bot2_Chassis/joints/driven_rl_joint_h: PhysicsDriveAPI:angular, PhysicsJointStateAPI:angular"
+        },
+        {
+          "message": "Moved 1 schema(s) from /Ai2_Bot2_Chassis/joints/driven_rr_joint_v: PhysicsJointStateAPI:angular"
+        },
+        {
+          "message": "Moved 2 schema(s) from /Ai2_Bot2_Chassis/joints/driven_rr_joint_h: PhysicsDriveAPI:angular, PhysicsJointStateAPI:angular"
+        },
+        {
+          "message": "Moved 2 schema(s) from /Ai2_Bot2_Chassis/joints/driving_left_joint: PhysicsDriveAPI:angular, PhysicsJointStateAPI:angular"
+        },
+        {
+          "message": "Moved 2 schema(s) from /Ai2_Bot2_Chassis/joints/driving_right_joint: PhysicsDriveAPI:angular, PhysicsJointStateAPI:angular"
+        },
+        {
+          "message": "Moved 2 schema(s) from /Ai2_Bot2_Chassis/driven_fl_link_h: PhysicsRigidBodyAPI, PhysicsMassAPI"
+        },
+        {
+          "message": "Moved 2 schema(s) from /Ai2_Bot2_Chassis/driven_fr_link_v: PhysicsRigidBodyAPI, PhysicsMassAPI"
+        },
+        {
+          "message": "Moved 2 schema(s) from /Ai2_Bot2_Chassis/driven_fr_link_h: PhysicsRigidBodyAPI, PhysicsMassAPI"
+        },
+        {
+          "message": "Moved 2 schema(s) from /Ai2_Bot2_Chassis/driven_rl_link_v: PhysicsRigidBodyAPI, PhysicsMassAPI"
+        },
+        {
+          "message": "Moved 2 schema(s) from /Ai2_Bot2_Chassis/driven_rl_link_h: PhysicsRigidBodyAPI, PhysicsMassAPI"
+        },
+        {
+          "message": "Moved 2 schema(s) from /Ai2_Bot2_Chassis/driven_rr_link_v: PhysicsRigidBodyAPI, PhysicsMassAPI"
+        },
+        {
+          "message": "Moved 2 schema(s) from /Ai2_Bot2_Chassis/driven_rr_link_h: PhysicsRigidBodyAPI, PhysicsMassAPI"
+        },
+        {
+          "message": "Moved 2 schema(s) from /Ai2_Bot2_Chassis/driving_left_link: PhysicsRigidBodyAPI, PhysicsMassAPI"
+        },
+        {
+          "message": "Moved 2 schema(s) from /Ai2_Bot2_Chassis/driving_right_link: PhysicsRigidBodyAPI, PhysicsMassAPI"
+        },
+        {
+          "message": "Processed 21 prim(s), moved 39 schema instance(s)"
+        },
+        {
+          "message": "SchemaRoutingRule completed"
+        }
+      ],
+      "affected_stages": [
+        "payloads/Physics/physics.usda"
+      ],
+      "error": null,
+      "started_at": "2026-09-10T01:27:49.692Z",
+      "finished_at": "2026-09-10T01:27:49.698Z"
+    },
+    {
+      "rule": {
+        "name": "Route Physics Prims",
+        "type": "isaacsim.asset.transformer.rules.core.prims.PrimRoutingRule",
+        "destination": "payloads/Physics",
+        "params": {
+          "stage_name": "physics.usda",
+          "prim_types": [
+            "Physics.*",
+            "Newton.*"
+          ]
+        },
+        "enabled": true
+      },
+      "success": true,
+      "log": [
+        {
+          "message": "PrimRoutingRule start destination=payloads/Physics/physics.usda"
+        },
+        {
+          "message": "Prim type patterns: Physics.*, Newton.*"
+        },
+        {
+          "message": "Search scope: /"
+        },
+        {
+          "message": "Prim name patterns: .*"
+        },
+        {
+          "message": "Using prims layer: /home/fiveages/libraries/FaSim-Isaac/robots/mobile_base/Woosh/Ai2_Bot2_Chassis/payloads/Physics/physics.usda"
+        },
+        {
+          "message": "Processing prim: /Ai2_Bot2_Chassis/joints/driven_fl_joint_v (type: PhysicsRevoluteJoint)"
+        },
+        {
+          "message": "Copied composed prim: /Ai2_Bot2_Chassis/joints/driven_fl_joint_v"
+        },
+        {
+          "message": "Removed 1 prim spec(s) from source layers"
+        },
+        {
+          "message": "Processing prim: /Ai2_Bot2_Chassis/joints/driven_fl_joint_h (type: PhysicsRevoluteJoint)"
+        },
+        {
+          "message": "Copied composed prim: /Ai2_Bot2_Chassis/joints/driven_fl_joint_h"
+        },
+        {
+          "message": "Removed 1 prim spec(s) from source layers"
+        },
+        {
+          "message": "Processing prim: /Ai2_Bot2_Chassis/joints/driven_fr_joint_v (type: PhysicsRevoluteJoint)"
+        },
+        {
+          "message": "Copied composed prim: /Ai2_Bot2_Chassis/joints/driven_fr_joint_v"
+        },
+        {
+          "message": "Removed 1 prim spec(s) from source layers"
+        },
+        {
+          "message": "Processing prim: /Ai2_Bot2_Chassis/joints/driven_fr_joint_h (type: PhysicsRevoluteJoint)"
+        },
+        {
+          "message": "Copied composed prim: /Ai2_Bot2_Chassis/joints/driven_fr_joint_h"
+        },
+        {
+          "message": "Removed 1 prim spec(s) from source layers"
+        },
+        {
+          "message": "Processing prim: /Ai2_Bot2_Chassis/joints/driven_rl_joint_v (type: PhysicsRevoluteJoint)"
+        },
+        {
+          "message": "Copied composed prim: /Ai2_Bot2_Chassis/joints/driven_rl_joint_v"
+        },
+        {
+          "message": "Removed 1 prim spec(s) from source layers"
+        },
+        {
+          "message": "Processing prim: /Ai2_Bot2_Chassis/joints/driven_rl_joint_h (type: PhysicsRevoluteJoint)"
+        },
+        {
+          "message": "Copied composed prim: /Ai2_Bot2_Chassis/joints/driven_rl_joint_h"
+        },
+        {
+          "message": "Removed 1 prim spec(s) from source layers"
+        },
+        {
+          "message": "Processing prim: /Ai2_Bot2_Chassis/joints/driven_rr_joint_v (type: PhysicsRevoluteJoint)"
+        },
+        {
+          "message": "Copied composed prim: /Ai2_Bot2_Chassis/joints/driven_rr_joint_v"
+        },
+        {
+          "message": "Removed 1 prim spec(s) from source layers"
+        },
+        {
+          "message": "Processing prim: /Ai2_Bot2_Chassis/joints/driven_rr_joint_h (type: PhysicsRevoluteJoint)"
+        },
+        {
+          "message": "Copied composed prim: /Ai2_Bot2_Chassis/joints/driven_rr_joint_h"
+        },
+        {
+          "message": "Removed 1 prim spec(s) from source layers"
+        },
+        {
+          "message": "Processing prim: /Ai2_Bot2_Chassis/joints/driving_left_joint (type: PhysicsRevoluteJoint)"
+        },
+        {
+          "message": "Copied composed prim: /Ai2_Bot2_Chassis/joints/driving_left_joint"
+        },
+        {
+          "message": "Removed 1 prim spec(s) from source layers"
+        },
+        {
+          "message": "Processing prim: /Ai2_Bot2_Chassis/joints/driving_right_joint (type: PhysicsRevoluteJoint)"
+        },
+        {
+          "message": "Copied composed prim: /Ai2_Bot2_Chassis/joints/driving_right_joint"
+        },
+        {
+          "message": "Removed 1 prim spec(s) from source layers"
+        },
+        {
+          "message": "Saved modified layer: /home/fiveages/libraries/FaSim-Isaac/robots/mobile_base/Woosh/Ai2_Bot2_Chassis/payloads/base.usda"
+        },
+        {
+          "message": "Processed 10 prim(s), removed 10 prim spec(s) from source"
+        },
+        {
+          "message": "PrimRoutingRule completed"
+        }
+      ],
+      "affected_stages": [
+        "payloads/Physics/physics.usda"
+      ],
+      "error": null,
+      "started_at": "2026-09-10T01:27:49.699Z",
+      "finished_at": "2026-09-10T01:27:49.712Z"
+    },
+    {
+      "rule": {
+        "name": "Make Robot Schema",
+        "type": "isaacsim.asset.transformer.rules.isaac_sim.robot_schema.RobotSchemaRule",
+        "destination": "payloads",
+        "params": {
+          "prim_path": "",
+          "stage_name": "robot.usda",
+          "add_sites": true,
+          "sites_last": false,
+          "sublayer": "Physics/physics.usda"
+        },
+        "enabled": true
+      },
+      "success": true,
+      "log": [
+        {
+          "message": "RobotSchemaRule start prim=/Ai2_Bot2_Chassis destination=payloads/robot.usda add_sites=True sites_last=False"
+        },
+        {
+          "message": "Sublayer not found: /home/fiveages/libraries/FaSim-Isaac/robots/mobile_base/Woosh/Ai2_Bot2_Chassis/payloads/payloads"
+        },
+        {
+          "message": "Inserted sublayer: ./Physics/physics.usda"
+        },
+        {
+          "message": "Added robot schema layer as sublayer: ./robot.usda"
+        },
+        {
+          "message": "RobotAPI already applied, recalculating schema while preserving order"
+        },
+        {
+          "message": "Updated deprecated schemas"
+        },
+        {
+          "message": "Detected root link: /Ai2_Bot2_Chassis/base_footprint"
+        },
+        {
+          "message": "Detected root joint: /Ai2_Bot2_Chassis/joints/driven_fl_joint_v"
+        },
+        {
+          "message": "Discarded root layer changes (editing separate layer)"
+        },
+        {
+          "message": "RobotSchemaRule completed"
+        }
+      ],
+      "affected_stages": [
+        "/home/fiveages/libraries/FaSim-Isaac/robots/mobile_base/Woosh/Ai2_Bot2_Chassis/payloads/robot.usda"
+      ],
+      "error": null,
+      "started_at": "2026-09-10T01:27:49.712Z",
+      "finished_at": "2026-09-10T01:27:49.722Z"
+    },
+    {
+      "rule": {
+        "name": "Make API Schemas Non-Explicit",
+        "type": "isaacsim.asset.transformer.rules.isaac_sim.make_lists_non_explicit.MakeListsNonExplicitRule",
+        "destination": "payloads",
+        "params": {
+          "metadata_names": [
+            "apiSchemas"
+          ],
+          "property_names": [],
+          "list_op_type": "prepend"
+        },
+        "enabled": true
+      },
+      "success": true,
+      "log": [
+        {
+          "message": "MakeListsNonExplicitRule start metadata=['apiSchemas'] properties=[] list_op_type=prepend"
+        },
+        {
+          "message": "Converted metadata 'apiSchemas' on /Ai2_Bot2_Chassis/base_footprint/collisions/mesh_0/box (1 item(s))"
+        },
+        {
+          "message": "Converted metadata 'apiSchemas' on /Ai2_Bot2_Chassis/driven_fl_link_h/collisions/mesh_0/sphere (1 item(s))"
+        },
+        {
+          "message": "Converted metadata 'apiSchemas' on /Ai2_Bot2_Chassis/driven_fr_link_h/collisions/mesh_0/sphere (1 item(s))"
+        },
+        {
+          "message": "Converted metadata 'apiSchemas' on /Ai2_Bot2_Chassis/driven_rl_link_h/collisions/mesh_0/sphere (1 item(s))"
+        },
+        {
+          "message": "Converted metadata 'apiSchemas' on /Ai2_Bot2_Chassis/driven_rr_link_h/collisions/mesh_0/sphere (1 item(s))"
+        },
+        {
+          "message": "Converted metadata 'apiSchemas' on /Ai2_Bot2_Chassis/driving_left_link/collisions/mesh_0/cylinder (1 item(s))"
+        },
+        {
+          "message": "Converted metadata 'apiSchemas' on /Ai2_Bot2_Chassis/driving_right_link/collisions/mesh_0/cylinder (1 item(s))"
+        },
+        {
+          "message": "Converted metadata 'apiSchemas' on /Render/OmniverseKit/HydraTextures/omni_kit_widget_viewport_ViewportTexture_0 (14 item(s))"
+        },
+        {
+          "message": "Converted metadata 'apiSchemas' on /Render/OmniverseGlobalRenderSettings (2 item(s))"
+        },
+        {
+          "message": "Saved modified layer: /home/fiveages/libraries/FaSim-Isaac/robots/mobile_base/Woosh/Ai2_Bot2_Chassis/payloads/base.usda"
+        },
+        {
+          "message": "MakeListsNonExplicitRule completed: metadata=9, properties=0"
+        }
+      ],
+      "affected_stages": [
+        "/home/fiveages/libraries/FaSim-Isaac/robots/mobile_base/Woosh/Ai2_Bot2_Chassis/payloads/base.usda"
+      ],
+      "error": null,
+      "started_at": "2026-09-10T01:27:49.722Z",
+      "finished_at": "2026-09-10T01:27:49.724Z"
+    },
+    {
+      "rule": {
+        "name": "Make Robot Relationship Lists Non-Explicit",
+        "type": "isaacsim.asset.transformer.rules.isaac_sim.make_lists_non_explicit.MakeListsNonExplicitRule",
+        "destination": "payloads",
+        "params": {
+          "metadata_names": [],
+          "property_names": [
+            "isaac:physics:robotLinks",
+            "isaac:physics:robotJoints"
+          ],
+          "list_op_type": "prepend"
+        },
+        "enabled": true
+      },
+      "success": true,
+      "log": [
+        {
+          "message": "MakeListsNonExplicitRule start metadata=[] properties=['isaac:physics:robotLinks', 'isaac:physics:robotJoints'] list_op_type=prepend"
+        },
+        {
+          "message": "MakeListsNonExplicitRule completed: metadata=0, properties=0"
+        }
+      ],
+      "affected_stages": [],
+      "error": null,
+      "started_at": "2026-09-10T01:27:49.724Z",
+      "finished_at": "2026-09-10T01:27:49.726Z"
+    },
+    {
+      "rule": {
+        "name": "Generate Interface",
+        "type": "isaacsim.asset.transformer.rules.structure.interface.InterfaceConnectionRule",
+        "destination": "",
+        "params": {
+          "base_layer": "payloads/base.usda",
+          "base_connection_type": "Reference",
+          "generate_folder_variants": true,
+          "payloads_folder": "payloads",
+          "connections": [
+            {
+              "asset_path": "payloads/Physics/physx.usda",
+              "target_path": "payloads/Physics/physics.usda",
+              "connection_type": "Sublayer"
+            },
+            {
+              "asset_path": "payloads/Physics/mujoco.usda",
+              "target_path": "payloads/Physics/physics.usda",
+              "connection_type": "Sublayer"
+            },
+            {
+              "asset_path": "payloads/base.usda",
+              "target_path": "payloads/robot.usda",
+              "connection_type": "Sublayer"
+            }
+          ],
+          "default_variant_selections": {
+            "Physics": "physx",
+            "Gripper": "None",
+            "Left_Hand": "None",
+            "Right_Hand": "None"
+          }
+        },
+        "enabled": true
+      },
+      "success": true,
+      "log": [
+        {
+          "message": "InterfaceConnectionRule start interface=Ai2_Bot2_Chassis.usda base_connection=Reference folder_variants=True"
+        },
+        {
+          "message": "Created/opened interface layer with stage metadata"
+        },
+        {
+          "message": "Connected base layer via Reference: ./payloads/base.usda"
+        },
+        {
+          "message": "Created variant set 'Robot' with 2 variants + None"
+        },
+        {
+          "message": "Created variant set 'Physics' with 3 variants + None"
+        },
+        {
+          "message": "Created variant set 'Sensor' with 2 variants + None"
+        },
+        {
+          "message": "Added connection: payloads/Physics/physics.usda -> payloads/Physics/physx.usda via Sublayer"
+        },
+        {
+          "message": "Asset layer not found: payloads/Physics/mujoco.usda, skipping connection"
+        },
+        {
+          "message": "Added connection: payloads/robot.usda -> payloads/base.usda via Sublayer"
+        },
+        {
+          "message": "Recovered 5 root-level prim(s) from base layer into interface: ['Render', 'OmniverseKit_Persp', 'OmniverseKit_Front', 'OmniverseKit_Right', 'OmniverseKit_Top']"
+        },
+        {
+          "message": "InterfaceConnectionRule completed: /home/fiveages/libraries/FaSim-Isaac/robots/mobile_base/Woosh/Ai2_Bot2_Chassis/Ai2_Bot2_Chassis.usda"
+        }
+      ],
+      "affected_stages": [
+        "/home/fiveages/libraries/FaSim-Isaac/robots/mobile_base/Woosh/Ai2_Bot2_Chassis/payloads/Physics/physx.usda",
+        "/home/fiveages/libraries/FaSim-Isaac/robots/mobile_base/Woosh/Ai2_Bot2_Chassis/payloads/base.usda",
+        "/home/fiveages/libraries/FaSim-Isaac/robots/mobile_base/Woosh/Ai2_Bot2_Chassis/Ai2_Bot2_Chassis.usda"
+      ],
+      "error": null,
+      "started_at": "2026-09-10T01:27:49.726Z",
+      "finished_at": "2026-09-10T01:27:49.735Z"
+    },
+    {
+      "rule": {
+        "name": "Delete Physics Drive and Joint State APIs",
+        "type": "isaacsim.asset.transformer.rules.core.remove_schema.RemoveSchemaRule",
+        "destination": "payloads/Physics",
+        "params": {
+          "stage_name": "mujoco.usda",
+          "schema_patterns": [
+            "PhysicsDriveAPI.*",
+            "PhysicsJointStateAPI.*"
+          ],
+          "prim_path_patterns": [
+            ".*"
+          ],
+          "clear_properties": false
+        },
+        "enabled": true
+      },
+      "success": true,
+      "log": [
+        {
+          "message": "RemoveSchemaRule start destination=payloads/Physics/mujoco.usda schemas=2 properties=0"
+        },
+        {
+          "message": "RemoveSchemaRule completed"
+        }
+      ],
+      "affected_stages": [
+        "payloads/Physics/mujoco.usda"
+      ],
+      "error": null,
+      "started_at": "2026-09-10T01:27:49.735Z",
+      "finished_at": "2026-09-10T01:27:49.737Z"
+    }
+  ],
+  "output_stage_path": "/home/fiveages/libraries/FaSim-Isaac/robots/mobile_base/Woosh/Ai2_Bot2_Chassis/Ai2_Bot2_Chassis.usda"
+}

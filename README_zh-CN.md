@@ -85,7 +85,7 @@ git submodule update --init --recursive
 
 - **Gripper（夹爪）** — `grippers/`
     - 知行（`ChangingTek/`）：AG2F120S、AG2F90
-    - 因时 EG2 4C2（`Inspire_EG2_4C2`）
+    - 因时 EG2 4C2（`Inspire/EG2_4C2`）
     - 钧舵（`Jodell/`）：RG75、ERG32
     - 智元 OmniPicker
     - Robotiq 85（`Robotiq_85`）
@@ -101,11 +101,11 @@ git submodule update --init --recursive
     - 法奥（`manipulators/Fairino/`）：ART7
     - 天机智能（`manipulators/Tianji/`）：`M6_CCS`、`M6_Fa_Station`、`M20S_CCS`
     - 珞石（`manipulators/Rokae/`）：`AR5_CCS_V1` / `AR5_CCS_V2`、`AR5_SRS`
-    - 睿尔曼 RM75（`RM75`）
+    - 睿尔曼 RM75（`Realman/RM75`）
     - Panthera HT（`Panthera_HT`）
 - **Humanoid（人形机器人）** — `humanoid/`
     - 智元 G1（`Agibot/G1`）、G2（`Agibot/G2`）
-    - 智平方 Bot2（`Ai2_Bot2`）
+    - 智平方 Bot2（`Ai2/Bot2`）
     - 星尘智能 S1（`Astribot_S1`）
     - 越疆 Atom（`Dobot_Atom`）
     - 中科第五纪（`humanoid/FiveAges/`）：Gen1 / Gen2 / Gen3（W1 / W2 / WCE3，子模块）
