@@ -7,8 +7,8 @@
                 double radius = 5
             }
             dictionary Perspective = {
-                double3 position = (0.5200194323919689, 0.45501567971723167, 0.9946393808924918)
-                double3 target = (-0.6757045541029023, -0.679500046233822, 0.757061855125662)
+                double3 position = (5, 5, 5)
+                double3 target = (-3.978038431995401e-8, -3.978038254359717e-8, 7.956076863990802e-8)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -21,122 +21,65 @@
             string boundCamera = "/OmniverseKit_Persp"
         }
         dictionary omni_layer = {
-            string authoring_layer = "./M6_CCS.usda"
+            string authoring_layer = "./Scoop_type1.usda"
         }
         dictionary renderSettings = {
         }
     }
-    defaultPrim = "M6_CCS"
-    doc = """Generated from Composed Stage of root layer /home/fiveages/Documents/FaSim-Isaac/robots/manipulators/Tianji/M6_CCS/M6_CCS.usd
+    defaultPrim = "Scoop_type1"
+    doc = """Scoop_type1 — fixed jointless spade EE.
 
+Geometry: payloads/scoop_{left,right}.usdc via side variant.
+Single rigid body on gripper_base. No finger DOFs / virtual ROS joints.
 
-Generated from Composed Stage of root layer /home/fiveages/Documents/FaSim-Isaac/robots/manipulators/Tianji/M6_CCS/payloads/base.usd
-"""
+Visual mesh is mm-authored (scale 0.001). Simplified cube colliders stay in meters.
+USDC collision Xform carries a nested RigidBodyAPI; it is stripped here so only
+gripper_base is the body. Visual mesh is not collidable.
+
+Mount: same pattern as Hook_type1 under link7/tcp.
+    """
     metersPerUnit = 1
     upAxis = "Z"
 )
 
-def Xform "M6_CCS" (
-    prepend references = @./payloads/base.usda@
+def Xform "Scoop_type1" (
     variants = {
-        string EE = "None"
-        # No authored Physics default — VariantSwitcher / parent W2 selects physx|mujoco.
-        string Robot = "none"
-        string Sensor = "none"
-        string Side = "default"
-        string visual = "fiveages_w2_red"
+        string Physics = "physx"
+        string side = "default"
     }
-    prepend variantSets = ["Physics", "Side", "visual", "EE"]
-    append variantSets = ["Robot", "Sensor"]
+    prepend variantSets = ["Physics", "side"]
 )
 {
-    over "root_joint"
+    quatd xformOp:orient = (1, 0, 0, 0)
+    double3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (0, 0, 0)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+    def Xform "gripper_base" (
+        delete apiSchemas = ["ColorSpaceAPI"]
+    )
     {
-        bool[] isaac:actuator (
-            displayName = "Actuator"
+        quatd xformOp:orient = (1, 0, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "Spade_shaped_gripper_left"
+        {
+            over "Spade_shaped_gripper_left" (
+                delete apiSchemas = ["PhysicsCollisionAPI", "PhysxCollisionAPI", "PhysicsMeshCollisionAPI", "PhysxConvexDecompositionCollisionAPI", "PhysxConvexHullCollisionAPI"]
+            )
+            {
+                bool physics:collisionEnabled = 0
+            }
+        }
+
+        over "collision" (
+            delete apiSchemas = ["PhysicsRigidBodyAPI", "PhysxRigidBodyAPI"]
         )
-        string isaac:NameOverride (
-            displayName = "Joint Name Override"
-        )
-        token[] isaac:physics:DofOffsetOpOrder (
-            displayName = "Dof Offset Op Order"
-        )
-    }
-
-    over "base_link"
-    {
-    }
-
-    over "link1"
-    {
-    }
-
-    over "link2"
-    {
-    }
-
-    over "link3"
-    {
-    }
-
-    over "link4"
-    {
-    }
-
-    over "link5"
-    {
-    }
-
-    over "link6"
-    {
-    }
-
-    over "link7"
-    {
-    }
-
-    over "joints"
-    {
-        over "joint1"
         {
-            float state:angular:physics:position = 0
-            float state:angular:physics:velocity = 0
-        }
-
-        over "joint2"
-        {
-            float state:angular:physics:position = 0
-            float state:angular:physics:velocity = 0
-        }
-
-        over "joint3"
-        {
-            float state:angular:physics:position = 0
-            float state:angular:physics:velocity = 0
-        }
-
-        over "joint4"
-        {
-            float state:angular:physics:position = 0
-            float state:angular:physics:velocity = 0
-        }
-
-        over "joint5"
-        {
-            float state:angular:physics:position = 0
-            float state:angular:physics:velocity = 0
-        }
-
-        over "joint6"
-        {
-            float state:angular:physics:position = 0
-            float state:angular:physics:velocity = 0
-        }
-
-        over "joint7"
-        {
-            float state:angular:physics:position = 0
-            float state:angular:physics:velocity = 0
+            bool physics:rigidBodyEnabled = 0
+            token visibility = "invisible"
         }
     }
     variantSet "Physics" = {
@@ -155,143 +98,34 @@ def Xform "M6_CCS" (
         ) {
 
         }
-        "mujoco" (
-            prepend payload = @./payloads/Physics/mujoco.usda@
-            # NEWTON arm NonDexHand mute (2026-09): append REFERENCE on M6 only.
-            # Do NOT put arm paths in W2 body mute (breaks Arm payload). One over per link.
-            # PhysX: arm_self_collision_mute.usda CollisionGroup. Art root unchanged.
-            append references = @./payloads/Physics/arm_self_collision_mute_newton.usda@</M6_CCS>
-        ) {
-
-        }
     }
-    variantSet "Robot" = {
-        "none" (
-            prepend payload = @./payloads/Robot/none.usda@
+    variantSet "side" = {
+        "default" (
+            prepend payload = @./payloads/Side/left.usda@
         ) {
-
-        }
-        "robot" (
-            prepend payload = @./payloads/Robot/robot.usda@
-        ) {
-
-        }
-    }
-    variantSet "Sensor" = {
-        "KWR75B" (
-            prepend payload = @./payloads/Sensor/KWR75B.usda@
-        ) {
-
-        }
-        "none" (
-            prepend payload = @./payloads/Sensor/none.usda@
-        ) {
-
-        }
-        "sensors" (
-            prepend payload = @./payloads/Sensor/sensors.usda@
-        ) {
-
-        }
-    }
-    variantSet "Side" = {
-        "default" {
+            over "gripper_base"
+            {
+                point3f physics:centerOfMass = (0.069, -0.008, 0.009)
+            }
 
         }
         "left" (
             prepend payload = @./payloads/Side/left.usda@
         ) {
+            over "gripper_base"
+            {
+                point3f physics:centerOfMass = (0.069, -0.008, 0.009)
+            }
 
         }
         "right" (
             prepend payload = @./payloads/Side/right.usda@
         ) {
+            over "gripper_base"
+            {
+                point3f physics:centerOfMass = (-0.069, -0.008, 0.009)
+            }
 
-        }
-    }
-    variantSet "visual" = {
-        "default" (
-            prepend payload = @./payloads/Visual/default.usda@
-        ) {
-
-        }
-        "fiveages_w2" (
-            prepend payload = @./payloads/Visual/fa_w2.usda@
-        ) {
-
-        }
-        "fiveages_w2_red" (
-            prepend payload = @./payloads/Visual/fa_w2_red.usda@
-        ) {
-
-        }
-        "anigon" (
-            prepend payload = @./payloads/Visual/anigon.usda@
-        ) {
-
-        }
-        "white" (
-            prepend payload = @./payloads/Visual/default.usda@
-        ) {
-
-        }
-        "agibot_g2" (
-            prepend payload = @./payloads/Visual/agibot_g2.usda@
-        ) {
-
-        }
-    }
-    variantSet "EE" = {
-        "None" {
-
-        }
-        "RG75" (
-            prepend payload = @./payloads/EE/RG75.usda@
-        ) {
-            prepend rel isaac:physics:robotJoints = </M6_CCS/link7/tcp/RG75>
-            prepend rel isaac:physics:robotLinks = </M6_CCS/link7/tcp/RG75>
-        }
-        "AG2F90" (
-            prepend payload = @./payloads/EE/AG2F90.usda@
-        ) {
-            prepend rel isaac:physics:robotJoints = </M6_CCS/link7/tcp/AG2F90>
-            prepend rel isaac:physics:robotLinks = </M6_CCS/link7/tcp/AG2F90>
-        }
-        "AG2F120S" (
-            prepend payload = @./payloads/EE/AG2F120S.usda@
-        ) {
-            prepend rel isaac:physics:robotJoints = </M6_CCS/link7/tcp/AG2F120S>
-            prepend rel isaac:physics:robotLinks = </M6_CCS/link7/tcp/AG2F120S>
-        }
-        "hook_type1" (
-            prepend payload = @./payloads/EE/hook_type1.usda@
-        ) {
-            prepend rel isaac:physics:robotJoints = </M6_CCS/link7/tcp/Hook_type1>
-            prepend rel isaac:physics:robotLinks = </M6_CCS/link7/tcp/Hook_type1>
-        }
-        "scoop_type1" (
-            prepend payload = @./payloads/EE/scoop_type1.usda@
-        ) {
-            prepend rel isaac:physics:robotJoints = </M6_CCS/link7/tcp/Scoop_type1>
-            prepend rel isaac:physics:robotLinks = </M6_CCS/link7/tcp/Scoop_type1>
-        }
-        "ysw_e70" (
-            prepend payload = @./payloads/EE/ysw_e70.usda@
-        ) {
-            prepend rel isaac:physics:robotJoints = </M6_CCS/link7/tcp/ysw_e70>
-            prepend rel isaac:physics:robotLinks = </M6_CCS/link7/tcp/ysw_e70>
-        }
-        "LinkerHand_o6" (
-            prepend payload = @./payloads/EE/LinkerHand_o6.usda@
-        ) {
-            prepend rel isaac:physics:robotJoints = </M6_CCS/link7/tcp/LinkerHand_o6>
-            prepend rel isaac:physics:robotLinks = </M6_CCS/link7/tcp/LinkerHand_o6>
-        }
-        "LinkerHand_o7" (
-            prepend payload = @./payloads/EE/LinkerHand_o7.usda@
-        ) {
-            prepend rel isaac:physics:robotJoints = </M6_CCS/link7/tcp/LinkerHand_o7>
-            prepend rel isaac:physics:robotLinks = </M6_CCS/link7/tcp/LinkerHand_o7>
         }
     }
 }
@@ -335,7 +169,6 @@ def "Render" (
                 token omni:rtx:rendermode = "RealTimePathTracing"
                 color3f omni:rtx:rt:ambientLight:color = (0.1, 0.1, 0.1)
                 bool omni:rtx:rt:demoire = 0
-                bool omni:rtx:rt:ecoMode:enabled
                 bool omni:rtx:rt:lightcache:spatialCache:dontResolveConflicts = 1
                 int omni:rtx:rt:sss:samples = 1
                 uint omni:rtx:rtpt:maxVolumeBounces = 15
@@ -391,10 +224,10 @@ over "OmniverseKit_Persp" (
     float exposure:time = 0.02
     float focalLength = 18.147562
     float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -1.6653302570538133)
-    float3 xformOp:rotateXYZ = (81.79815, -4.770832e-14, 133.49536)
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -8.660254037844386)
+    float3 xformOp:rotateXYZ = (54.73561, -6.3611094e-15, 135)
     float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (0.5200194323919689, 0.45501567971723167, 0.9946393808924918)
+    double3 xformOp:translate = (5, 5, 5)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 
@@ -471,11 +304,5 @@ over "OmniverseKit_Top" (
     float3 xformOp:scale = (1, 1, 1)
     double3 xformOp:translate = (0, 0, 5)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
-}
-
-def PhysicsScene "PhysicsScene" (
-    prepend apiSchemas = ["NewtonSceneAPI", "PhysxSceneAPI"]
-)
-{
 }
 
