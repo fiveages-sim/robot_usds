@@ -1,0 +1,863 @@
+#usda 1.0
+(
+    defaultPrim = "Wuji_hand2"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def "Wuji_hand2"
+{
+    over "joints"
+    {
+        over "index_finger_mcp_flex" (
+            active = false
+        )
+        {
+        }
+
+        over "index_finger_mcp_abd" (
+            active = false
+        )
+        {
+        }
+
+        over "index_finger_pip" (
+            active = false
+        )
+        {
+        }
+
+        over "index_finger_dip" (
+            active = false
+        )
+        {
+        }
+
+        over "middle_finger_mcp_flex" (
+            active = false
+        )
+        {
+        }
+
+        over "middle_finger_mcp_abd" (
+            active = false
+        )
+        {
+        }
+
+        over "middle_finger_pip" (
+            active = false
+        )
+        {
+        }
+
+        over "middle_finger_dip" (
+            active = false
+        )
+        {
+        }
+
+        over "pinky_mcp_flex" (
+            active = false
+        )
+        {
+        }
+
+        over "pinky_mcp_abd" (
+            active = false
+        )
+        {
+        }
+
+        over "pinky_pip" (
+            active = false
+        )
+        {
+        }
+
+        over "pinky_dip" (
+            active = false
+        )
+        {
+        }
+
+        over "ring_mcp_flex" (
+            active = false
+        )
+        {
+        }
+
+        over "ring_mcp_abd" (
+            active = false
+        )
+        {
+        }
+
+        over "ring_pip" (
+            active = false
+        )
+        {
+        }
+
+        over "ring_dip" (
+            active = false
+        )
+        {
+        }
+
+        over "thumb_cmc_flex" (
+            active = false
+        )
+        {
+        }
+
+        over "thumb_cmc_abd" (
+            active = false
+        )
+        {
+        }
+
+        over "thumb_mcp" (
+            active = false
+        )
+        {
+        }
+
+        over "thumb_ip" (
+            active = false
+        )
+        {
+        }
+
+        def PhysicsRevoluteJoint "right_hand_index_finger_mcp_flex" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular", "PhysxJointAPI"]
+        )
+        {
+            float drive:angular:physics:damping = 0.0005
+            float drive:angular:physics:maxForce = 2
+            float drive:angular:physics:stiffness = 0.05
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            uniform token physics:axis = "X"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Wuji_hand2/world>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Wuji_hand2/index_finger_proximal>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.0014299942
+            point3f physics:localPos0 = (-0.025652416, 0.0030250608, -0.09847802)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (-0.048694517, 0.0693072, -0.016384996, 0.9962715)
+            quatf physics:localRot1 = (6.123234e-17, 0, 0, 1)
+            float physics:lowerLimit = -59.98868
+            float physics:upperLimit = 89.95437
+            float physxJoint:maxJointVelocity = 500000
+        }
+
+        def PhysicsRevoluteJoint "right_hand_index_finger_mcp_abd" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular", "PhysxJointAPI"]
+        )
+        {
+            float drive:angular:physics:damping = 0.0005
+            float drive:angular:physics:maxForce = 2
+            float drive:angular:physics:stiffness = 0.05
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            uniform token physics:axis = "Y"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Wuji_hand2/index_finger_proximal>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Wuji_hand2/index_finger_proximal_abd>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.00030854388
+            point3f physics:localPos0 = (0, 0.0012009802, -0.0145)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0, 1, 0, 0)
+            quatf physics:localRot1 = (0, 1, 0, 0)
+            float physics:lowerLimit = -39.992455
+            float physics:upperLimit = 39.992455
+            float physxJoint:maxJointVelocity = 500000
+        }
+
+        def PhysicsRevoluteJoint "right_hand_index_finger_pip" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular", "PhysxJointAPI"]
+        )
+        {
+            float drive:angular:physics:damping = 0.0005
+            float drive:angular:physics:maxForce = 2
+            float drive:angular:physics:stiffness = 0.05
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            uniform token physics:axis = "X"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Wuji_hand2/index_finger_proximal_abd>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Wuji_hand2/index_finger_middle>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.00016689653
+            point3f physics:localPos0 = (0, 0, -0.0376)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (6.123234e-17, 0, 0, 1)
+            quatf physics:localRot1 = (6.123234e-17, 0, 0, 1)
+            float physics:lowerLimit = -59.98868
+            float physics:upperLimit = 119.97736
+            float physxJoint:maxJointVelocity = 500000
+        }
+
+        def PhysicsRevoluteJoint "right_hand_index_finger_dip" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular", "PhysxJointAPI"]
+        )
+        {
+            float drive:angular:physics:damping = 0.0005
+            float drive:angular:physics:maxForce = 2
+            float drive:angular:physics:stiffness = 0.05
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            uniform token physics:axis = "X"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Wuji_hand2/index_finger_middle>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Wuji_hand2/index_finger_distal>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.000018702867
+            point3f physics:localPos0 = (0, 0, -0.0295)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (6.123234e-17, 0, 0, 1)
+            quatf physics:localRot1 = (6.123234e-17, 0, 0, 1)
+            float physics:lowerLimit = -59.98868
+            float physics:upperLimit = 89.95437
+            float physxJoint:maxJointVelocity = 500000
+        }
+
+        def PhysicsRevoluteJoint "right_hand_middle_finger_mcp_flex" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular", "PhysxJointAPI"]
+        )
+        {
+            float drive:angular:physics:damping = 0.0005
+            float drive:angular:physics:maxForce = 2
+            float drive:angular:physics:stiffness = 0.05
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            uniform token physics:axis = "X"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Wuji_hand2/world>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Wuji_hand2/middle_finger_proximal>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.0014545001
+            point3f physics:localPos0 = (-0.0039430936, 0.008002916, -0.10241544)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0.00026298923, -0.005584219, -0.01695381, 0.9998406)
+            quatf physics:localRot1 = (6.123234e-17, 0, 0, 1)
+            float physics:lowerLimit = -59.98868
+            float physics:upperLimit = 89.95437
+            float physxJoint:maxJointVelocity = 500000
+        }
+
+        def PhysicsRevoluteJoint "right_hand_middle_finger_mcp_abd" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular", "PhysxJointAPI"]
+        )
+        {
+            float drive:angular:physics:damping = 0.0005
+            float drive:angular:physics:maxForce = 2
+            float drive:angular:physics:stiffness = 0.05
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            uniform token physics:axis = "Y"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Wuji_hand2/middle_finger_proximal>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Wuji_hand2/middle_finger_proximal_abd>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.00030860768
+            point3f physics:localPos0 = (0, 0.0012009802, -0.0145)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0, 1, 0, 0)
+            quatf physics:localRot1 = (0, 1, 0, 0)
+            float physics:lowerLimit = -39.992455
+            float physics:upperLimit = 39.992455
+            float physxJoint:maxJointVelocity = 500000
+        }
+
+        def PhysicsRevoluteJoint "right_hand_middle_finger_pip" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular", "PhysxJointAPI"]
+        )
+        {
+            float drive:angular:physics:damping = 0.0005
+            float drive:angular:physics:maxForce = 2
+            float drive:angular:physics:stiffness = 0.05
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            uniform token physics:axis = "X"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Wuji_hand2/middle_finger_proximal_abd>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Wuji_hand2/middle_finger_middle>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.00016691413
+            point3f physics:localPos0 = (0, 0, -0.0376)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (6.123234e-17, 0, 0, 1)
+            quatf physics:localRot1 = (6.123234e-17, 0, 0, 1)
+            float physics:lowerLimit = -59.98868
+            float physics:upperLimit = 119.97736
+            float physxJoint:maxJointVelocity = 500000
+        }
+
+        def PhysicsRevoluteJoint "right_hand_middle_finger_dip" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular", "PhysxJointAPI"]
+        )
+        {
+            float drive:angular:physics:damping = 0.0005
+            float drive:angular:physics:maxForce = 2
+            float drive:angular:physics:stiffness = 0.05
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            uniform token physics:axis = "X"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Wuji_hand2/middle_finger_middle>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Wuji_hand2/middle_finger_distal>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.000018703044
+            point3f physics:localPos0 = (0, 0, -0.0295)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (6.123234e-17, 0, 0, 1)
+            quatf physics:localRot1 = (6.123234e-17, 0, 0, 1)
+            float physics:lowerLimit = -59.98868
+            float physics:upperLimit = 89.95437
+            float physxJoint:maxJointVelocity = 500000
+        }
+
+        def PhysicsRevoluteJoint "right_hand_pinky_mcp_flex" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular", "PhysxJointAPI"]
+        )
+        {
+            float drive:angular:physics:damping = 0.0005
+            float drive:angular:physics:maxForce = 2
+            float drive:angular:physics:stiffness = 0.05
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            uniform token physics:axis = "X"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Wuji_hand2/world>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Wuji_hand2/pinky_proximal>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.0011110512
+            point3f physics:localPos0 = (0.034357287, 0.00043365956, -0.0837917)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0.066825375, -0.12420906, 0.00357895, 0.9899968)
+            quatf physics:localRot1 = (6.123234e-17, 0, 0, 1)
+            float physics:lowerLimit = -59.98868
+            float physics:upperLimit = 89.95437
+            float physxJoint:maxJointVelocity = 500000
+        }
+
+        def PhysicsRevoluteJoint "right_hand_pinky_mcp_abd" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular", "PhysxJointAPI"]
+        )
+        {
+            float drive:angular:physics:damping = 0.0005
+            float drive:angular:physics:maxForce = 2
+            float drive:angular:physics:stiffness = 0.05
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            uniform token physics:axis = "Y"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Wuji_hand2/pinky_proximal>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Wuji_hand2/pinky_proximal_abd>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.0002484852
+            point3f physics:localPos0 = (0, 0.0012009803, -0.0145)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0, 1, 0, 0)
+            quatf physics:localRot1 = (0, 1, 0, 0)
+            float physics:lowerLimit = -39.992455
+            float physics:upperLimit = 39.992455
+            float physxJoint:maxJointVelocity = 500000
+        }
+
+        def PhysicsRevoluteJoint "right_hand_pinky_pip" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular", "PhysxJointAPI"]
+        )
+        {
+            float drive:angular:physics:damping = 0.0005
+            float drive:angular:physics:maxForce = 2
+            float drive:angular:physics:stiffness = 0.05
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            uniform token physics:axis = "X"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Wuji_hand2/pinky_proximal_abd>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Wuji_hand2/pinky_middle>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.00013089445
+            point3f physics:localPos0 = (0.0001, 0, -0.0336)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (6.123234e-17, 0, 0, 1)
+            quatf physics:localRot1 = (6.123234e-17, 0, 0, 1)
+            float physics:lowerLimit = -59.98868
+            float physics:upperLimit = 119.97736
+            float physxJoint:maxJointVelocity = 500000
+        }
+
+        def PhysicsRevoluteJoint "right_hand_pinky_dip" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular", "PhysxJointAPI"]
+        )
+        {
+            float drive:angular:physics:damping = 0.0005
+            float drive:angular:physics:maxForce = 2
+            float drive:angular:physics:stiffness = 0.05
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            uniform token physics:axis = "X"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Wuji_hand2/pinky_middle>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Wuji_hand2/pinky_distal>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.000016956314
+            point3f physics:localPos0 = (0, 0, -0.0275)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (6.123234e-17, 0, 0, 1)
+            quatf physics:localRot1 = (6.123234e-17, 0, 0, 1)
+            float physics:lowerLimit = -59.98868
+            float physics:upperLimit = 89.95437
+            float physxJoint:maxJointVelocity = 500000
+        }
+
+        def PhysicsRevoluteJoint "right_hand_ring_mcp_flex" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular", "PhysxJointAPI"]
+        )
+        {
+            float drive:angular:physics:damping = 0.0005
+            float drive:angular:physics:maxForce = 2
+            float drive:angular:physics:stiffness = 0.05
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            uniform token physics:axis = "X"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Wuji_hand2/world>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Wuji_hand2/ring_proximal>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.001324995
+            point3f physics:localPos0 = (0.016751999, 0.005292801, -0.093897)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0.033477284, -0.07105574, -0.005887182, 0.99689305)
+            quatf physics:localRot1 = (6.123234e-17, 0, 0, 1)
+            float physics:lowerLimit = -59.98868
+            float physics:upperLimit = 89.95437
+            float physxJoint:maxJointVelocity = 500000
+        }
+
+        def PhysicsRevoluteJoint "right_hand_ring_mcp_abd" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular", "PhysxJointAPI"]
+        )
+        {
+            float drive:angular:physics:damping = 0.0005
+            float drive:angular:physics:maxForce = 2
+            float drive:angular:physics:stiffness = 0.05
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            uniform token physics:axis = "Y"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Wuji_hand2/ring_proximal>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Wuji_hand2/ring_proximal_abd>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.00030830185
+            point3f physics:localPos0 = (0, 0.0012009802, -0.0145)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0, 1, 0, 0)
+            quatf physics:localRot1 = (0, 1, 0, 0)
+            float physics:lowerLimit = -39.992455
+            float physics:upperLimit = 39.992455
+            float physxJoint:maxJointVelocity = 500000
+        }
+
+        def PhysicsRevoluteJoint "right_hand_ring_pip" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular", "PhysxJointAPI"]
+        )
+        {
+            float drive:angular:physics:damping = 0.0005
+            float drive:angular:physics:maxForce = 2
+            float drive:angular:physics:stiffness = 0.05
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            uniform token physics:axis = "X"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Wuji_hand2/ring_proximal_abd>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Wuji_hand2/ring_middle>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.00016685452
+            point3f physics:localPos0 = (0, 0, -0.0376)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (6.123234e-17, 0, 0, 1)
+            quatf physics:localRot1 = (6.123234e-17, 0, 0, 1)
+            float physics:lowerLimit = -59.98868
+            float physics:upperLimit = 119.97736
+            float physxJoint:maxJointVelocity = 500000
+        }
+
+        def PhysicsRevoluteJoint "right_hand_ring_dip" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular", "PhysxJointAPI"]
+        )
+        {
+            float drive:angular:physics:damping = 0.0005
+            float drive:angular:physics:maxForce = 2
+            float drive:angular:physics:stiffness = 0.05
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            uniform token physics:axis = "X"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Wuji_hand2/ring_middle>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Wuji_hand2/ring_distal>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.00001870251
+            point3f physics:localPos0 = (0, 0, -0.0295)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (6.123234e-17, 0, 0, 1)
+            quatf physics:localRot1 = (6.123234e-17, 0, 0, 1)
+            float physics:lowerLimit = -59.98868
+            float physics:upperLimit = 89.95437
+            float physxJoint:maxJointVelocity = 500000
+        }
+
+        def PhysicsRevoluteJoint "right_hand_thumb_cmc_flex" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular", "PhysxJointAPI"]
+        )
+        {
+            float drive:angular:physics:damping = 0.0005
+            float drive:angular:physics:maxForce = 2
+            float drive:angular:physics:stiffness = 0.05
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            uniform token physics:axis = "X"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Wuji_hand2/world>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Wuji_hand2/thumb_proximal>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.0007390566
+            point3f physics:localPos0 = (-0.020208001, -0.008438107, -0.04496)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (-0.28561574, 0.7200706, -0.060619134, 0.62948173)
+            quatf physics:localRot1 = (6.123234e-17, 0, 0, 1)
+            float physics:lowerLimit = -68.010086
+            float physics:upperLimit = 73.96885
+            float physxJoint:maxJointVelocity = 500000
+        }
+
+        def PhysicsRevoluteJoint "right_hand_thumb_cmc_abd" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular", "PhysxJointAPI"]
+        )
+        {
+            float drive:angular:physics:damping = 0.0005
+            float drive:angular:physics:maxForce = 2
+            float drive:angular:physics:stiffness = 0.05
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            uniform token physics:axis = "Y"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Wuji_hand2/thumb_proximal>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Wuji_hand2/thumb_proximal_abd>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.0004021362
+            point3f physics:localPos0 = (-0.00025789, 0.00063167, -0.014161)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0.091928914, 0.9347107, -0.023366578, 0.34251857)
+            quatf physics:localRot1 = (0, 1, 0, 0)
+            float physics:lowerLimit = -85.02693
+            float physics:upperLimit = 39.992455
+            float physxJoint:maxJointVelocity = 500000
+        }
+
+        def PhysicsRevoluteJoint "right_hand_thumb_mcp" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular", "PhysxJointAPI"]
+        )
+        {
+            float drive:angular:physics:damping = 0.0005
+            float drive:angular:physics:maxForce = 2
+            float drive:angular:physics:stiffness = 0.05
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            uniform token physics:axis = "X"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Wuji_hand2/thumb_proximal_abd>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Wuji_hand2/thumb_middle>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.00027570422
+            point3f physics:localPos0 = (0.00004313646, 0.000024904868, -0.033495642)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (-0.2585727, -0.042133093, -0.011289528, 0.9650065)
+            quatf physics:localRot1 = (6.123234e-17, 0, 0, 1)
+            float physics:lowerLimit = -59.98868
+            float physics:upperLimit = 89.95437
+            float physxJoint:maxJointVelocity = 500000
+        }
+
+        def PhysicsRevoluteJoint "right_hand_thumb_ip" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular", "PhysxJointAPI"]
+        )
+        {
+            float drive:angular:physics:damping = 0.0005
+            float drive:angular:physics:maxForce = 2
+            float drive:angular:physics:stiffness = 0.05
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            uniform token physics:axis = "X"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Wuji_hand2/thumb_middle>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Wuji_hand2/thumb_distal>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.00005536851
+            point3f physics:localPos0 = (0, 0, -0.035)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (6.123234e-17, 0, 0, 1)
+            quatf physics:localRot1 = (6.123234e-17, 0, 0, 1)
+            float physics:lowerLimit = -59.98868
+            float physics:upperLimit = 89.95437
+            float physxJoint:maxJointVelocity = 500000
+        }
+    }
+
+    over "world" (
+        prepend apiSchemas = ["PhysicsMassAPI", "PhysicsRigidBodyAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.001063745, 0.0026796274, -0.05329342)
+        float3 physics:diagonalInertia = (0.00023708468, 0.00030040028, 0.00010218305)
+        float physics:mass = 0.3023
+        quatf physics:principalAxes = (0.9990817, 0.033590935, 0.02452545, 0.010296147)
+    }
+
+    over "index_finger_proximal" (
+        prepend apiSchemas = ["PhysicsMassAPI", "PhysicsRigidBodyAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (1.8318378e-9, 0.0017813694, -0.007601387)
+        float3 physics:diagonalInertia = (9.19684e-7, 9.0860823e-7, 7.8841225e-7)
+        float physics:mass = 0.0116
+        quatf physics:principalAxes = (0.9992753, 0.03806285, -1.3530246e-7, -0.000023024155)
+    }
+
+    over "index_finger_proximal_abd" (
+        prepend apiSchemas = ["PhysicsMassAPI", "PhysicsRigidBodyAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (8.046766e-8, -7.3040434e-7, -0.01879938)
+        float3 physics:diagonalInertia = (0.000007015885, 0.0000070155447, 9.1448044e-7)
+        float physics:mass = 0.0339
+        quatf physics:principalAxes = (0.9831599, 0.000015713253, 0.000003912854, -0.18274738)
+    }
+
+    over "index_finger_middle" (
+        prepend apiSchemas = ["PhysicsMassAPI", "PhysicsRigidBodyAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (-5.0733515e-8, 0.00024788678, -0.019034835)
+        float3 physics:diagonalInertia = (0.000002405254, 0.0000024779683, 6.5247815e-7)
+        float physics:mass = 0.0212
+        quatf physics:principalAxes = (0.9998833, -0.015275455, 0.000007822324, 0.00029798015)
+    }
+
+    over "index_finger_distal" (
+        prepend apiSchemas = ["PhysicsMassAPI", "PhysicsRigidBodyAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.00047973945, 0.0011903588, -0.010119155)
+        float3 physics:diagonalInertia = (6.3557417e-7, 6.916305e-7, 3.0609863e-7)
+        float physics:mass = 0.007999999
+        quatf physics:principalAxes = (0.99680835, 0.0583563, 0.054303028, 0.0043401564)
+    }
+
+    over "middle_finger_proximal" (
+        prepend apiSchemas = ["PhysicsMassAPI", "PhysicsRigidBodyAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (1.8318378e-9, 0.0017813694, -0.007601387)
+        float3 physics:diagonalInertia = (9.19684e-7, 9.0860823e-7, 7.8841225e-7)
+        float physics:mass = 0.0116
+        quatf physics:principalAxes = (0.9992753, 0.03806285, -1.3530246e-7, -0.000023024155)
+    }
+
+    over "middle_finger_proximal_abd" (
+        prepend apiSchemas = ["PhysicsMassAPI", "PhysicsRigidBodyAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (8.046766e-8, -7.3040434e-7, -0.01879938)
+        float3 physics:diagonalInertia = (0.000007015885, 0.0000070155447, 9.1448044e-7)
+        float physics:mass = 0.0339
+        quatf physics:principalAxes = (0.9831599, 0.000015713253, 0.000003912854, -0.18274738)
+    }
+
+    over "middle_finger_middle" (
+        prepend apiSchemas = ["PhysicsMassAPI", "PhysicsRigidBodyAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (-5.0733515e-8, 0.00024788678, -0.019034835)
+        float3 physics:diagonalInertia = (0.000002405254, 0.0000024779683, 6.5247815e-7)
+        float physics:mass = 0.0212
+        quatf physics:principalAxes = (0.9998833, -0.015275455, 0.000007822324, 0.00029798015)
+    }
+
+    over "middle_finger_distal" (
+        prepend apiSchemas = ["PhysicsMassAPI", "PhysicsRigidBodyAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.00047973945, 0.0011903588, -0.010119155)
+        float3 physics:diagonalInertia = (6.3557417e-7, 6.916305e-7, 3.0609863e-7)
+        float physics:mass = 0.007999999
+        quatf physics:principalAxes = (0.99680835, 0.0583563, 0.054303028, 0.0043401564)
+    }
+
+    over "pinky_proximal" (
+        prepend apiSchemas = ["PhysicsMassAPI", "PhysicsRigidBodyAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (-2.128126e-7, 0.0017813572, -0.0076014493)
+        float3 physics:diagonalInertia = (9.196641e-7, 9.0860345e-7, 7.884134e-7)
+        float physics:mass = 0.0116
+        quatf physics:principalAxes = (0.9992754, 0.038061615, 0.000024311208, -0.00010633607)
+    }
+
+    over "pinky_proximal_abd" (
+        prepend apiSchemas = ["PhysicsMassAPI", "PhysicsRigidBodyAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.0000015564857, -5.454044e-7, -0.016784972)
+        float3 physics:diagonalInertia = (0.0000053794383, 0.000005380142, 8.177098e-7)
+        float physics:mass = 0.0304
+        quatf physics:principalAxes = (0.9966996, 0.000026856138, 0.000015864667, 0.08117857)
+    }
+
+    over "pinky_middle" (
+        prepend apiSchemas = ["PhysicsMassAPI", "PhysicsRigidBodyAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (-3.2323615e-7, 0.0002644906, -0.017880667)
+        float3 physics:diagonalInertia = (0.000001986474, 0.0000020595742, 5.8491133e-7)
+        float physics:mass = 0.0188
+        quatf physics:principalAxes = (0.9998725, -0.015965119, 0.000003900551, 0.0003171072)
+    }
+
+    over "pinky_distal" (
+        prepend apiSchemas = ["PhysicsMassAPI", "PhysicsRigidBodyAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.00047973945, 0.0011903588, -0.010119155)
+        float3 physics:diagonalInertia = (6.3557417e-7, 6.916304e-7, 3.0609863e-7)
+        float physics:mass = 0.007999999
+        quatf physics:principalAxes = (0.99680835, 0.05835629, 0.054303028, 0.004340149)
+    }
+
+    over "ring_proximal" (
+        prepend apiSchemas = ["PhysicsMassAPI", "PhysicsRigidBodyAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (1.8318378e-9, 0.0017813694, -0.007601387)
+        float3 physics:diagonalInertia = (9.19684e-7, 9.0860823e-7, 7.8841225e-7)
+        float physics:mass = 0.0116
+        quatf physics:principalAxes = (0.9992753, 0.03806285, -1.3530246e-7, -0.000023024155)
+    }
+
+    over "ring_proximal_abd" (
+        prepend apiSchemas = ["PhysicsMassAPI", "PhysicsRigidBodyAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (8.046766e-8, -7.3040434e-7, -0.01879938)
+        float3 physics:diagonalInertia = (0.000007015885, 0.0000070155447, 9.1448044e-7)
+        float physics:mass = 0.0339
+        quatf physics:principalAxes = (0.9831599, 0.000015713253, 0.000003912854, -0.18274738)
+    }
+
+    over "ring_middle" (
+        prepend apiSchemas = ["PhysicsMassAPI", "PhysicsRigidBodyAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (-5.0733515e-8, 0.00024788678, -0.019034835)
+        float3 physics:diagonalInertia = (0.000002405254, 0.0000024779683, 6.5247815e-7)
+        float physics:mass = 0.0212
+        quatf physics:principalAxes = (0.9998833, -0.015275455, 0.000007822324, 0.00029798015)
+    }
+
+    over "ring_distal" (
+        prepend apiSchemas = ["PhysicsMassAPI", "PhysicsRigidBodyAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.00047973945, 0.0011903588, -0.010119155)
+        float3 physics:diagonalInertia = (6.3557417e-7, 6.916305e-7, 3.0609863e-7)
+        float physics:mass = 0.007999999
+        quatf physics:principalAxes = (0.99680835, 0.0583563, 0.054303028, 0.0043401564)
+    }
+
+    over "thumb_proximal" (
+        prepend apiSchemas = ["PhysicsMassAPI", "PhysicsRigidBodyAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (-0.0007912251, 0.0017831137, -0.007019863)
+        float3 physics:diagonalInertia = (8.628642e-7, 8.216933e-7, 6.543555e-7)
+        float physics:mass = 0.011
+        quatf physics:principalAxes = (0.9369274, 0.029229548, 0.08188767, -0.33853677)
+    }
+
+    over "thumb_proximal_abd" (
+        prepend apiSchemas = ["PhysicsMassAPI", "PhysicsRigidBodyAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (-0.000012255242, -0.0000049214464, -0.013560475)
+        float3 physics:diagonalInertia = (0.000004247459, 0.000004388538, 0.0000012372695)
+        float physics:mass = 0.0336
+        quatf physics:principalAxes = (0.9750197, -0.00071379775, 0.0024389173, 0.22210383)
+    }
+
+    over "thumb_middle" (
+        prepend apiSchemas = ["PhysicsMassAPI", "PhysicsRigidBodyAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (-7.074874e-7, 4.3116493e-8, -0.014305573)
+        float3 physics:diagonalInertia = (0.000004819596, 0.000004928588, 0.0000013268802)
+        float physics:mass = 0.0358
+        quatf physics:principalAxes = (0.9999993, 6.6976736e-7, 0.00004683111, -0.0011825041)
+    }
+
+    over "thumb_distal" (
+        prepend apiSchemas = ["PhysicsMassAPI", "PhysicsRigidBodyAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (-0.000091514514, 0.0014702968, -0.011627658)
+        float3 physics:diagonalInertia = (0.0000018447375, 0.0000017903451, 6.817455e-7)
+        float physics:mass = 0.0172
+        quatf physics:principalAxes = (0.9980841, 0.061263505, -0.0076843183, 0.0039746417)
+    }
+}
+
