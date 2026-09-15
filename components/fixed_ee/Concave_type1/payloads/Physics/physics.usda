@@ -1,0 +1,24 @@
+#usda 1.0
+(
+    defaultPrim = "Concave_type1"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+over "Concave_type1"
+{
+    over "gripper_base" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        float physics:mass = 0.4
+        float3 physics:diagonalInertia = (0.0013, 0.0010, 0.0019)
+    }
+
+    def PhysicsFixedJoint "root_joint" (
+        prepend apiSchemas = ["PhysicsArticulationRootAPI"]
+    )
+    {
+        rel physics:body1 = </Concave_type1/gripper_base>
+    }
+}
