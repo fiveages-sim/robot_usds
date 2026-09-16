@@ -1,0 +1,58 @@
+#usda 1.0
+(
+    defaultPrim = "World"
+    endTimeCode = 1000000
+    metersPerUnit = 1
+    startTimeCode = 0
+    timeCodesPerSecond = 60
+    upAxis = "Z"
+    doc = "Standalone Revo1 smoke scene. Select Physics=physx and Side=default|left|right."
+)
+
+def Xform "World"
+{
+    def Xform "GroundPlane"
+    {
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def Mesh "CollisionMesh" (
+            prepend apiSchemas = ["PhysicsCollisionAPI", "PhysxCollisionAPI", "PhysxTriangleMeshCollisionAPI", "PhysicsMeshCollisionAPI"]
+        )
+        {
+            uniform bool doubleSided = 0
+            int[] faceVertexCounts = [4]
+            int[] faceVertexIndices = [0, 1, 2, 3]
+            normal3f[] normals = [(0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1)]
+            uniform token physics:approximation = "none"
+            bool physics:collisionEnabled = 1
+            point3f[] points = [(-25, -25, 0), (25, -25, 0), (25, 25, 0), (-25, 25, 0)]
+            color3f[] primvars:displayColor = [(0.5, 0.5, 0.5)]
+        }
+
+        def Plane "CollisionPlane" (
+            prepend apiSchemas = ["PhysicsCollisionAPI", "PhysxCollisionAPI"]
+        )
+        {
+            uniform token axis = "Z"
+            bool physics:collisionEnabled = 1
+            uniform token purpose = "guide"
+        }
+    }
+
+    def "Revo1" (
+        prepend payload = @../Revo1.usda@
+        variants = {
+            string Physics = "physx"
+            string Side = "default"
+        }
+    )
+    {
+        quatd xformOp:orient = (1, 0, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0, 0, 0.05)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+    }
+}

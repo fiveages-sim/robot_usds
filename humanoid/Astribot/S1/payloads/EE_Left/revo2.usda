@@ -1,0 +1,58 @@
+#usda 1.0
+(
+    subLayers = [
+        @./dexhand_self_collision.usda@
+    ]
+    defaultPrim = "S1"
+    doc = """EE=revo2 left mount.
+Weld left_link7 -> Revo2/hand_base.
+URDF left_gripper_fixed_joint: xyz=(0,-0.048,0) rpy=(-1.5708, 3.1416, 0)
+  (Rx 90° flipped vs written +1.5708). translate (0,-0.048,0),
+  R = Ry(180°)*Rx(-90°) → quat (0, 0, 0.7071, -0.7071).
+FixedJoint MUST match mount xform so PhysX does not snap on Play.
+Hand Side=left; left_hand_* joints.
+root_joint inactive → fingers join parent S1 articulation.
+Physics left unset so VariantSwitcher / parent Physics payload can set physx↔mujoco.
+"""
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "S1"
+{
+    over "left_link7"
+    {
+        def "Revo2" (
+            prepend payload = @../../../../../dexhands/BrainCo/Revo2/Revo2.usda@
+            variants = {
+                string Sensor = "none"
+                string Side = "left"
+            }
+        )
+        {
+            quatd xformOp:orient = (0, 0, 0.7071067811865476, -0.7071067811865476)
+            double3 xformOp:scale = (1, 1, 1)
+            double3 xformOp:translate = (0, -0.048, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            over "root_joint" (
+                active = false
+            )
+            {
+            }
+
+            over "hand_base"
+            {
+                def PhysicsFixedJoint "AssemblerFixedJoint"
+                {
+                    rel physics:body0 = </S1/left_link7>
+                    rel physics:body1 = </S1/left_link7/Revo2/hand_base>
+                    point3f physics:localPos0 = (0, -0.048, 0)
+                    point3f physics:localPos1 = (0, 0, 0)
+                    quatf physics:localRot0 = (0, 0, 0.70710677, -0.70710677)
+                    quatf physics:localRot1 = (1, 0, 0, 0)
+                }
+            }
+        }
+    }
+}

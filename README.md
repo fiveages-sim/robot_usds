@@ -67,8 +67,8 @@ The following models are **Git submodules** (vendored repositories, checked in a
     - OmniPicker
     - Robotiq 85 (`Robotiq_85`)
 - **Dexterous Hand** — under `dexhands/`
-    - BrainCo Revo1 (`BrainCo_Revo1`)
-    - BrainCo Revo2 (`BrainCo_Revo2`)
+    - BrainCo Revo1 (`Revo1`)
+    - BrainCo Revo2 (`Revo2`)
     - LinkerHand o6 (`o6`)
     - LinkerHand o7 (`LinkerHand_o7`)
     - LinkerHands (`LinkerHands`)

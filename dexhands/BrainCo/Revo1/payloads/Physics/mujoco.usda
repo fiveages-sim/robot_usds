@@ -1,0 +1,169 @@
+#usda 1.0
+(
+    defaultPrim = "Revo1"
+    metersPerUnit = 1
+    subLayers = [
+        @./physics.usda@
+    ]
+    upAxis = "Z"
+)
+
+over "Revo1"
+{
+    over "root_joint" (
+        prepend apiSchemas = ["NewtonArticulationRootAPI"]
+    )
+    {
+        bool newton:selfCollisionEnabled = 1
+    }
+
+    over "joints"
+    {
+        over "index_joint" (
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = None
+            float drive:angular:physics:maxForce = None
+            float drive:angular:physics:stiffness = None
+            float drive:angular:physics:targetPosition = None
+            uniform token drive:angular:physics:type = None
+        }
+        over "index_pip_joint" (
+            delete apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+        }
+        over "middle_joint" (
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = None
+            float drive:angular:physics:maxForce = None
+            float drive:angular:physics:stiffness = None
+            float drive:angular:physics:targetPosition = None
+            uniform token drive:angular:physics:type = None
+        }
+        over "middle_pip_joint" (
+            delete apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+        }
+        over "pinky_joint" (
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = None
+            float drive:angular:physics:maxForce = None
+            float drive:angular:physics:stiffness = None
+            float drive:angular:physics:targetPosition = None
+            uniform token drive:angular:physics:type = None
+        }
+        over "pinky_pip_joint" (
+            delete apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+        }
+        over "ring_joint" (
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = None
+            float drive:angular:physics:maxForce = None
+            float drive:angular:physics:stiffness = None
+            float drive:angular:physics:targetPosition = None
+            uniform token drive:angular:physics:type = None
+        }
+        over "ring_pip_joint" (
+            delete apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+        }
+        over "thumb_joint2" (
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = None
+            float drive:angular:physics:maxForce = None
+            float drive:angular:physics:stiffness = None
+            float drive:angular:physics:targetPosition = None
+            uniform token drive:angular:physics:type = None
+        }
+        over "thumb_joint1" (
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = None
+            float drive:angular:physics:maxForce = None
+            float drive:angular:physics:stiffness = None
+            float drive:angular:physics:targetPosition = None
+            uniform token drive:angular:physics:type = None
+        }
+    }
+
+    # Newton: palm ↔ thumb rest overlap is a fake contact (Revo1 distal hull
+    # sits against the palm). Filter on the collision SHAPE; instanceable=false
+    # so import_usd sees nested mesh. Keep thumb_dist vs four-finger tips.
+    over "hand_base"
+    {
+        over "collisions"
+        {
+            over "base_link" (
+                instanceable = false
+            )
+            {
+                over "mesh_1" (
+                    prepend apiSchemas = ["PhysicsFilteredPairsAPI"]
+                )
+                {
+                    rel physics:filteredPairs = [
+                        </Revo1/thumb_prox/collisions/thumb_proximal/mesh_17>,
+                        </Revo1/thumb_dist/collisions/thumb_distal/mesh_19>,
+                    ]
+                }
+            }
+        }
+    }
+
+    over "thumb_prox"
+    {
+        over "collisions"
+        {
+            over "thumb_proximal" (
+                instanceable = false
+            )
+            {
+                over "mesh_17" (
+                    prepend apiSchemas = ["PhysicsFilteredPairsAPI"]
+                )
+                {
+                    rel physics:filteredPairs = [
+                        </Revo1/hand_base/collisions/base_link/mesh_1>,
+                        </Revo1/thumb_dist/collisions/thumb_distal/mesh_19>,
+                    ]
+                }
+            }
+        }
+    }
+
+    over "thumb_dist"
+    {
+        over "collisions"
+        {
+            over "thumb_distal" (
+                instanceable = false
+            )
+            {
+                over "mesh_19" (
+                    prepend apiSchemas = ["PhysicsFilteredPairsAPI"]
+                )
+                {
+                    rel physics:filteredPairs = [
+                        </Revo1/hand_base/collisions/base_link/mesh_1>,
+                        </Revo1/thumb_prox/collisions/thumb_proximal/mesh_17>,
+                    ]
+                }
+            }
+        }
+    }
+}

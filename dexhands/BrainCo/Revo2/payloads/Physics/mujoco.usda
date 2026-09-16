@@ -1,0 +1,119 @@
+#usda 1.0
+(
+    defaultPrim = "Revo2"
+    metersPerUnit = 1
+    subLayers = [
+        @./physics.usda@
+    ]
+    upAxis = "Z"
+)
+
+over "Revo2"
+{
+    over "root_joint" (
+        prepend apiSchemas = ["NewtonArticulationRootAPI"]
+    )
+    {
+        bool newton:selfCollisionEnabled = 1
+    }
+
+    over "joints"
+    {
+        over "index_joint" (
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = None
+            float drive:angular:physics:maxForce = None
+            float drive:angular:physics:stiffness = None
+            float drive:angular:physics:targetPosition = None
+            uniform token drive:angular:physics:type = None
+        }
+
+        over "index_distal_joint" (
+            delete apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+        }
+
+        over "middle_joint" (
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = None
+            float drive:angular:physics:maxForce = None
+            float drive:angular:physics:stiffness = None
+            float drive:angular:physics:targetPosition = None
+            uniform token drive:angular:physics:type = None
+        }
+
+        over "middle_distal_joint" (
+            delete apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+        }
+
+        over "pinky_joint" (
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = None
+            float drive:angular:physics:maxForce = None
+            float drive:angular:physics:stiffness = None
+            float drive:angular:physics:targetPosition = None
+            uniform token drive:angular:physics:type = None
+        }
+
+        over "pinky_distal_joint" (
+            delete apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+        }
+
+        over "ring_joint" (
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = None
+            float drive:angular:physics:maxForce = None
+            float drive:angular:physics:stiffness = None
+            float drive:angular:physics:targetPosition = None
+            uniform token drive:angular:physics:type = None
+        }
+
+        over "ring_distal_joint" (
+            delete apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+        }
+
+        over "thumb_joint2" (
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = None
+            float drive:angular:physics:maxForce = None
+            float drive:angular:physics:stiffness = None
+            float drive:angular:physics:targetPosition = None
+            uniform token drive:angular:physics:type = None
+        }
+
+        over "thumb_joint1" (
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = None
+            float drive:angular:physics:maxForce = None
+            float drive:angular:physics:stiffness = None
+            float drive:angular:physics:targetPosition = None
+            uniform token drive:angular:physics:type = None
+        }
+
+        over "thumb_distal_joint" (
+            delete apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+        }
+
+    }
+}

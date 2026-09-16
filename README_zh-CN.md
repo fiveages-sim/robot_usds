@@ -90,7 +90,7 @@ git submodule update --init --recursive
     - 智元 OmniPicker
     - Robotiq 85（`Robotiq_85`）
 - **Dexterous Hand（灵巧手）** — `dexhands/`
-    - 强脑 Revo1 / Revo2（`BrainCo_Revo1`、`BrainCo_Revo2`）
+    - 强脑 Revo1 / Revo2（`Revo1`、`Revo2`）
     - 灵心巧手 o6（`o6`）、o7（`LinkerHand_o7`）、`LinkerHands`
 - **Manipulator（机械臂）** — `manipulators/`（品牌目录 → 短产品名）
     - 方舟无限（`manipulators/ARX/`）：`X5`、`R5`、`Gripper_2023`、`Gripper_2025`

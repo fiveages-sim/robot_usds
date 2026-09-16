@@ -1,0 +1,53 @@
+#usda 1.0
+(
+    doc = """S1 NonDexHand mute — subLayer of physx.usda ONLY.
+
+PhysX: CollisionGroup + filteredGroups self-filter for body/torso/head/arms/wheels.
+DexHand EE sublayers dexhand_self_collision.usda to exclude Revo1/Revo2 fingers.
+Grippers stay in NonDexHand (self-filter).
+"""
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+over "S1"
+{
+    def Scope "CollisionGroups"
+    {
+        def PhysicsCollisionGroup "NonDexHand" (
+            prepend apiSchemas = ["CollectionAPI:colliders"]
+        )
+        {
+            prepend rel collection:colliders:includes = [
+                </S1/base_link>,
+                </S1/torso_link_1>,
+                </S1/torso_link_2>,
+                </S1/torso_link_3>,
+                </S1/torso_link_4>,
+                </S1/head_link1>,
+                </S1/head_link2>,
+                </S1/left_link1>,
+                </S1/left_link2>,
+                </S1/left_link3>,
+                </S1/left_link4>,
+                </S1/left_link5>,
+                </S1/left_link6>,
+                </S1/left_link7>,
+                </S1/right_link1>,
+                </S1/right_link2>,
+                </S1/right_link3>,
+                </S1/right_link4>,
+                </S1/right_link5>,
+                </S1/right_link6>,
+                </S1/right_link7>,
+                </S1/wheel_1>,
+                </S1/wheel_2>,
+                </S1/wheel_3>,
+                </S1/wheel_4>,
+            ]
+            prepend rel physics:filteredGroups = [
+                </S1/CollisionGroups/NonDexHand>,
+            ]
+        }
+    }
+}
