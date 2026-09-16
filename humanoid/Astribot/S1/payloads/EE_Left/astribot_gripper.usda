@@ -1,0 +1,45 @@
+#usda 1.0
+(
+    defaultPrim = "S1"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "S1"
+{
+    over "left_link7"
+    {
+        def "Astribot_Gripper" (
+            prepend payload = @../../../Gripper/Astribot_Gripper.usda@
+            variants = {
+                string Sensor = "none"
+                string Side = "left"
+            }
+        )
+        {
+            quatd xformOp:orient = (0.70710677, 0.70710677, 0, 0)
+            double3 xformOp:scale = (1, 1, 1)
+            double3 xformOp:translate = (0, -0.045001302, -0.00012405636)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            over "root_joint" (
+                active = false
+            )
+            {
+            }
+
+            over "gripper_base"
+            {
+                def PhysicsFixedJoint "AssemblerFixedJoint"
+                {
+                    rel physics:body0 = </S1/left_link7>
+                    rel physics:body1 = </S1/left_link7/Astribot_Gripper/gripper_base>
+                    point3f physics:localPos0 = (0, -0.045001302, -0.00012405636)
+                    point3f physics:localPos1 = (0, 0, 0)
+                    quatf physics:localRot0 = (0.70710677, 0.70710677, 0, 0)
+                    quatf physics:localRot1 = (1, 0, 0, 0)
+                }
+            }
+        }
+    }
+}

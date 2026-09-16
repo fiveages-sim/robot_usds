@@ -1,0 +1,840 @@
+#usda 1.0
+(
+    customLayerData = {
+        dictionary cameraSettings = {
+            dictionary Front = {
+                double3 position = (5, 0, 0)
+                double radius = 5
+            }
+            dictionary Perspective = {
+                double3 position = (1.5188829092834744, 1.6409106005698624, 0.5753116112944971)
+                double3 target = (-0.8194605809893756, -1.2778195009633022, 0.6494477521431233)
+            }
+            dictionary Right = {
+                double3 position = (0, -5, 0)
+                double radius = 5
+            }
+            dictionary Top = {
+                double3 position = (0, 0, 5)
+                double radius = 5
+            }
+            string boundCamera = "/OmniverseKit_Persp"
+        }
+        dictionary omni_layer = {
+            string authoring_layer = "./S1.usd"
+        }
+        dictionary renderSettings = {
+        }
+    }
+    defaultPrim = "S1"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+over "S1" (
+    prepend apiSchemas = ["IsaacRobotAPI"]
+)
+{
+    string isaac:description
+    string isaac:namespace
+    prepend rel isaac:physics:robotJoints = [
+        </S1/joints/body_joint1>,
+        </S1/joints/body_joint2>,
+        </S1/joints/body_joint3>,
+        </S1/joints/body_joint4>,
+        </S1/joints/head_joint1>,
+        </S1/joints/head_joint2>,
+        </S1/joints/left_joint1>,
+        </S1/joints/left_joint2>,
+        </S1/joints/left_joint3>,
+        </S1/joints/left_joint4>,
+        </S1/joints/left_joint5>,
+        </S1/joints/left_joint6>,
+        </S1/joints/left_joint7>,
+        </S1/joints/right_joint1>,
+        </S1/joints/right_joint2>,
+        </S1/joints/right_joint3>,
+        </S1/joints/right_joint4>,
+        </S1/joints/right_joint5>,
+        </S1/joints/right_joint6>,
+        </S1/joints/right_joint7>,
+        </S1/joints/wheel1_joint>,
+        </S1/joints/wheel2_joint>,
+        </S1/joints/wheel3_joint>,
+        </S1/joints/wheel4_joint>,
+    ]
+    prepend rel isaac:physics:robotLinks = [
+        </S1/base_link>,
+        </S1/torso_link_1>,
+        </S1/torso_link_2>,
+        </S1/torso_link_3>,
+        </S1/torso_link_4>,
+        </S1/head_link1>,
+        </S1/head_link2>,
+        </S1/left_link1>,
+        </S1/left_link2>,
+        </S1/left_link3>,
+        </S1/left_link4>,
+        </S1/left_link5>,
+        </S1/left_link6>,
+        </S1/left_link7>,
+        </S1/right_link1>,
+        </S1/right_link2>,
+        </S1/right_link3>,
+        </S1/right_link4>,
+        </S1/right_link5>,
+        </S1/right_link6>,
+        </S1/right_link7>,
+        </S1/wheel_1>,
+        </S1/wheel_2>,
+        </S1/wheel_3>,
+        </S1/wheel_4>,
+        </S1/base_link/fl_lidar>,
+        </S1/base_link/rr_lidar>,
+        </S1/base_link/ultrasonic_c1>,
+        </S1/base_link/ultrasonic_c2>,
+        </S1/base_link/ultrasonic_c3>,
+        </S1/base_link/ultrasonic_c4>,
+        </S1/base_link/ultrasonic_c5>,
+        </S1/base_link/ultrasonic_c6>,
+        </S1/base_link/ultrasonic_c7>,
+        </S1/base_link/ultrasonic_c8>,
+        </S1/torso_link_4/collisions>,
+        </S1/head_link1/collisions>,
+        </S1/left_link1/collisions>,
+        </S1/left_link2/collisions>,
+        </S1/left_link6/collisions>,
+        </S1/right_link1/collisions>,
+        </S1/right_link2/collisions>,
+        </S1/right_link6/collisions>,
+        </S1/wheel_1/visuals>,
+        </S1/wheel_1/collisions>,
+        </S1/wheel_2/visuals>,
+        </S1/wheel_2/collisions>,
+        </S1/wheel_3/visuals>,
+        </S1/wheel_3/collisions>,
+        </S1/wheel_4/visuals>,
+        </S1/wheel_4/collisions>,
+    ]
+
+    over "base_link" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+        string isaac:nameOverride
+
+        over "fl_lidar" (
+            prepend apiSchemas = ["IsaacSiteAPI"]
+        )
+        {
+        }
+
+        over "rr_lidar" (
+            prepend apiSchemas = ["IsaacSiteAPI"]
+        )
+        {
+        }
+
+        over "ultrasonic_c1" (
+            prepend apiSchemas = ["IsaacSiteAPI"]
+        )
+        {
+        }
+
+        over "ultrasonic_c2" (
+            prepend apiSchemas = ["IsaacSiteAPI"]
+        )
+        {
+        }
+
+        over "ultrasonic_c3" (
+            prepend apiSchemas = ["IsaacSiteAPI"]
+        )
+        {
+        }
+
+        over "ultrasonic_c4" (
+            prepend apiSchemas = ["IsaacSiteAPI"]
+        )
+        {
+        }
+
+        over "ultrasonic_c5" (
+            prepend apiSchemas = ["IsaacSiteAPI"]
+        )
+        {
+        }
+
+        over "ultrasonic_c6" (
+            prepend apiSchemas = ["IsaacSiteAPI"]
+        )
+        {
+        }
+
+        over "ultrasonic_c7" (
+            prepend apiSchemas = ["IsaacSiteAPI"]
+        )
+        {
+        }
+
+        over "ultrasonic_c8" (
+            prepend apiSchemas = ["IsaacSiteAPI"]
+        )
+        {
+        }
+    }
+
+    over "torso_link_1" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+        string isaac:nameOverride
+    }
+
+    over "joints"
+    {
+        over "body_joint1" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+            string isaac:nameOverride
+            float[] isaac:physics:AccelerationLimit
+            int isaac:physics:index
+            float[] isaac:physics:JerkLimit
+            int isaac:physics:Rot_X:DofOffset
+            int isaac:physics:Rot_Y:DofOffset
+            int isaac:physics:Rot_Z:DofOffset
+            int isaac:physics:Tr_X:DofOffset
+            int isaac:physics:Tr_Y:DofOffset
+            int isaac:physics:Tr_Z:DofOffset
+        }
+
+        over "body_joint2" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+            string isaac:nameOverride
+            float[] isaac:physics:AccelerationLimit
+            int isaac:physics:index
+            float[] isaac:physics:JerkLimit
+            int isaac:physics:Rot_X:DofOffset
+            int isaac:physics:Rot_Y:DofOffset
+            int isaac:physics:Rot_Z:DofOffset
+            int isaac:physics:Tr_X:DofOffset
+            int isaac:physics:Tr_Y:DofOffset
+            int isaac:physics:Tr_Z:DofOffset
+        }
+
+        over "body_joint3" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+            string isaac:nameOverride
+            float[] isaac:physics:AccelerationLimit
+            int isaac:physics:index
+            float[] isaac:physics:JerkLimit
+            int isaac:physics:Rot_X:DofOffset
+            int isaac:physics:Rot_Y:DofOffset
+            int isaac:physics:Rot_Z:DofOffset
+            int isaac:physics:Tr_X:DofOffset
+            int isaac:physics:Tr_Y:DofOffset
+            int isaac:physics:Tr_Z:DofOffset
+        }
+
+        over "body_joint4" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+            string isaac:nameOverride
+            float[] isaac:physics:AccelerationLimit
+            int isaac:physics:index
+            float[] isaac:physics:JerkLimit
+            int isaac:physics:Rot_X:DofOffset
+            int isaac:physics:Rot_Y:DofOffset
+            int isaac:physics:Rot_Z:DofOffset
+            int isaac:physics:Tr_X:DofOffset
+            int isaac:physics:Tr_Y:DofOffset
+            int isaac:physics:Tr_Z:DofOffset
+        }
+
+        over "head_joint1" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+            string isaac:nameOverride
+            float[] isaac:physics:AccelerationLimit
+            int isaac:physics:index
+            float[] isaac:physics:JerkLimit
+            int isaac:physics:Rot_X:DofOffset
+            int isaac:physics:Rot_Y:DofOffset
+            int isaac:physics:Rot_Z:DofOffset
+            int isaac:physics:Tr_X:DofOffset
+            int isaac:physics:Tr_Y:DofOffset
+            int isaac:physics:Tr_Z:DofOffset
+        }
+
+        over "head_joint2" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+            string isaac:nameOverride
+            float[] isaac:physics:AccelerationLimit
+            int isaac:physics:index
+            float[] isaac:physics:JerkLimit
+            int isaac:physics:Rot_X:DofOffset
+            int isaac:physics:Rot_Y:DofOffset
+            int isaac:physics:Rot_Z:DofOffset
+            int isaac:physics:Tr_X:DofOffset
+            int isaac:physics:Tr_Y:DofOffset
+            int isaac:physics:Tr_Z:DofOffset
+        }
+
+        over "left_joint1" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+            string isaac:nameOverride
+            float[] isaac:physics:AccelerationLimit
+            int isaac:physics:index
+            float[] isaac:physics:JerkLimit
+            int isaac:physics:Rot_X:DofOffset
+            int isaac:physics:Rot_Y:DofOffset
+            int isaac:physics:Rot_Z:DofOffset
+            int isaac:physics:Tr_X:DofOffset
+            int isaac:physics:Tr_Y:DofOffset
+            int isaac:physics:Tr_Z:DofOffset
+        }
+
+        over "left_joint2" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+            string isaac:nameOverride
+            float[] isaac:physics:AccelerationLimit
+            int isaac:physics:index
+            float[] isaac:physics:JerkLimit
+            int isaac:physics:Rot_X:DofOffset
+            int isaac:physics:Rot_Y:DofOffset
+            int isaac:physics:Rot_Z:DofOffset
+            int isaac:physics:Tr_X:DofOffset
+            int isaac:physics:Tr_Y:DofOffset
+            int isaac:physics:Tr_Z:DofOffset
+        }
+
+        over "left_joint3" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+            string isaac:nameOverride
+            float[] isaac:physics:AccelerationLimit
+            int isaac:physics:index
+            float[] isaac:physics:JerkLimit
+            int isaac:physics:Rot_X:DofOffset
+            int isaac:physics:Rot_Y:DofOffset
+            int isaac:physics:Rot_Z:DofOffset
+            int isaac:physics:Tr_X:DofOffset
+            int isaac:physics:Tr_Y:DofOffset
+            int isaac:physics:Tr_Z:DofOffset
+        }
+
+        over "left_joint4" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+            string isaac:nameOverride
+            float[] isaac:physics:AccelerationLimit
+            int isaac:physics:index
+            float[] isaac:physics:JerkLimit
+            int isaac:physics:Rot_X:DofOffset
+            int isaac:physics:Rot_Y:DofOffset
+            int isaac:physics:Rot_Z:DofOffset
+            int isaac:physics:Tr_X:DofOffset
+            int isaac:physics:Tr_Y:DofOffset
+            int isaac:physics:Tr_Z:DofOffset
+        }
+
+        over "left_joint5" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+            string isaac:nameOverride
+            float[] isaac:physics:AccelerationLimit
+            int isaac:physics:index
+            float[] isaac:physics:JerkLimit
+            int isaac:physics:Rot_X:DofOffset
+            int isaac:physics:Rot_Y:DofOffset
+            int isaac:physics:Rot_Z:DofOffset
+            int isaac:physics:Tr_X:DofOffset
+            int isaac:physics:Tr_Y:DofOffset
+            int isaac:physics:Tr_Z:DofOffset
+        }
+
+        over "left_joint6" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+            string isaac:nameOverride
+            float[] isaac:physics:AccelerationLimit
+            int isaac:physics:index
+            float[] isaac:physics:JerkLimit
+            int isaac:physics:Rot_X:DofOffset
+            int isaac:physics:Rot_Y:DofOffset
+            int isaac:physics:Rot_Z:DofOffset
+            int isaac:physics:Tr_X:DofOffset
+            int isaac:physics:Tr_Y:DofOffset
+            int isaac:physics:Tr_Z:DofOffset
+        }
+
+        over "left_joint7" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+            string isaac:nameOverride
+            float[] isaac:physics:AccelerationLimit
+            int isaac:physics:index
+            float[] isaac:physics:JerkLimit
+            int isaac:physics:Rot_X:DofOffset
+            int isaac:physics:Rot_Y:DofOffset
+            int isaac:physics:Rot_Z:DofOffset
+            int isaac:physics:Tr_X:DofOffset
+            int isaac:physics:Tr_Y:DofOffset
+            int isaac:physics:Tr_Z:DofOffset
+        }
+
+        over "right_joint1" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+            string isaac:nameOverride
+            float[] isaac:physics:AccelerationLimit
+            int isaac:physics:index
+            float[] isaac:physics:JerkLimit
+            int isaac:physics:Rot_X:DofOffset
+            int isaac:physics:Rot_Y:DofOffset
+            int isaac:physics:Rot_Z:DofOffset
+            int isaac:physics:Tr_X:DofOffset
+            int isaac:physics:Tr_Y:DofOffset
+            int isaac:physics:Tr_Z:DofOffset
+        }
+
+        over "right_joint2" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+            string isaac:nameOverride
+            float[] isaac:physics:AccelerationLimit
+            int isaac:physics:index
+            float[] isaac:physics:JerkLimit
+            int isaac:physics:Rot_X:DofOffset
+            int isaac:physics:Rot_Y:DofOffset
+            int isaac:physics:Rot_Z:DofOffset
+            int isaac:physics:Tr_X:DofOffset
+            int isaac:physics:Tr_Y:DofOffset
+            int isaac:physics:Tr_Z:DofOffset
+        }
+
+        over "right_joint3" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+            string isaac:nameOverride
+            float[] isaac:physics:AccelerationLimit
+            int isaac:physics:index
+            float[] isaac:physics:JerkLimit
+            int isaac:physics:Rot_X:DofOffset
+            int isaac:physics:Rot_Y:DofOffset
+            int isaac:physics:Rot_Z:DofOffset
+            int isaac:physics:Tr_X:DofOffset
+            int isaac:physics:Tr_Y:DofOffset
+            int isaac:physics:Tr_Z:DofOffset
+        }
+
+        over "right_joint4" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+            string isaac:nameOverride
+            float[] isaac:physics:AccelerationLimit
+            int isaac:physics:index
+            float[] isaac:physics:JerkLimit
+            int isaac:physics:Rot_X:DofOffset
+            int isaac:physics:Rot_Y:DofOffset
+            int isaac:physics:Rot_Z:DofOffset
+            int isaac:physics:Tr_X:DofOffset
+            int isaac:physics:Tr_Y:DofOffset
+            int isaac:physics:Tr_Z:DofOffset
+        }
+
+        over "right_joint5" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+            string isaac:nameOverride
+            float[] isaac:physics:AccelerationLimit
+            int isaac:physics:index
+            float[] isaac:physics:JerkLimit
+            int isaac:physics:Rot_X:DofOffset
+            int isaac:physics:Rot_Y:DofOffset
+            int isaac:physics:Rot_Z:DofOffset
+            int isaac:physics:Tr_X:DofOffset
+            int isaac:physics:Tr_Y:DofOffset
+            int isaac:physics:Tr_Z:DofOffset
+        }
+
+        over "right_joint6" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+            string isaac:nameOverride
+            float[] isaac:physics:AccelerationLimit
+            int isaac:physics:index
+            float[] isaac:physics:JerkLimit
+            int isaac:physics:Rot_X:DofOffset
+            int isaac:physics:Rot_Y:DofOffset
+            int isaac:physics:Rot_Z:DofOffset
+            int isaac:physics:Tr_X:DofOffset
+            int isaac:physics:Tr_Y:DofOffset
+            int isaac:physics:Tr_Z:DofOffset
+        }
+
+        over "right_joint7" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+            string isaac:nameOverride
+            float[] isaac:physics:AccelerationLimit
+            int isaac:physics:index
+            float[] isaac:physics:JerkLimit
+            int isaac:physics:Rot_X:DofOffset
+            int isaac:physics:Rot_Y:DofOffset
+            int isaac:physics:Rot_Z:DofOffset
+            int isaac:physics:Tr_X:DofOffset
+            int isaac:physics:Tr_Y:DofOffset
+            int isaac:physics:Tr_Z:DofOffset
+        }
+
+        over "wheel1_joint" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+            string isaac:nameOverride
+            float[] isaac:physics:AccelerationLimit
+            int isaac:physics:index
+            float[] isaac:physics:JerkLimit
+            int isaac:physics:Rot_X:DofOffset
+            int isaac:physics:Rot_Y:DofOffset
+            int isaac:physics:Rot_Z:DofOffset
+            int isaac:physics:Tr_X:DofOffset
+            int isaac:physics:Tr_Y:DofOffset
+            int isaac:physics:Tr_Z:DofOffset
+        }
+
+        over "wheel2_joint" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+            string isaac:nameOverride
+            float[] isaac:physics:AccelerationLimit
+            int isaac:physics:index
+            float[] isaac:physics:JerkLimit
+            int isaac:physics:Rot_X:DofOffset
+            int isaac:physics:Rot_Y:DofOffset
+            int isaac:physics:Rot_Z:DofOffset
+            int isaac:physics:Tr_X:DofOffset
+            int isaac:physics:Tr_Y:DofOffset
+            int isaac:physics:Tr_Z:DofOffset
+        }
+
+        over "wheel3_joint" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+            string isaac:nameOverride
+            float[] isaac:physics:AccelerationLimit
+            int isaac:physics:index
+            float[] isaac:physics:JerkLimit
+            int isaac:physics:Rot_X:DofOffset
+            int isaac:physics:Rot_Y:DofOffset
+            int isaac:physics:Rot_Z:DofOffset
+            int isaac:physics:Tr_X:DofOffset
+            int isaac:physics:Tr_Y:DofOffset
+            int isaac:physics:Tr_Z:DofOffset
+        }
+
+        over "wheel4_joint" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+            string isaac:nameOverride
+            float[] isaac:physics:AccelerationLimit
+            int isaac:physics:index
+            float[] isaac:physics:JerkLimit
+            int isaac:physics:Rot_X:DofOffset
+            int isaac:physics:Rot_Y:DofOffset
+            int isaac:physics:Rot_Z:DofOffset
+            int isaac:physics:Tr_X:DofOffset
+            int isaac:physics:Tr_Y:DofOffset
+            int isaac:physics:Tr_Z:DofOffset
+        }
+    }
+
+    over "torso_link_2" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+        string isaac:nameOverride (
+            displayName = "Name Override"
+        )
+    }
+
+    over "torso_link_3" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+        string isaac:nameOverride
+    }
+
+    over "torso_link_4" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+        string isaac:nameOverride
+
+        over "collisions" (
+            prepend apiSchemas = ["IsaacSiteAPI"]
+        )
+        {
+        }
+    }
+
+    over "head_link1" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+        string isaac:nameOverride
+
+        over "collisions" (
+            prepend apiSchemas = ["IsaacSiteAPI"]
+        )
+        {
+        }
+    }
+
+    over "head_link2" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+        string isaac:nameOverride
+    }
+
+    over "left_link1" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+        string isaac:nameOverride
+
+        over "collisions" (
+            prepend apiSchemas = ["IsaacSiteAPI"]
+        )
+        {
+        }
+    }
+
+    over "left_link2" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+        string isaac:nameOverride
+
+        over "collisions" (
+            prepend apiSchemas = ["IsaacSiteAPI"]
+        )
+        {
+        }
+    }
+
+    over "left_link3" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+        string isaac:nameOverride
+    }
+
+    over "left_link4" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+        string isaac:nameOverride
+    }
+
+    over "left_link5" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+        string isaac:nameOverride
+    }
+
+    over "left_link6" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+        string isaac:nameOverride
+
+        over "collisions" (
+            prepend apiSchemas = ["IsaacSiteAPI"]
+        )
+        {
+        }
+    }
+
+    over "left_link7" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+        string isaac:nameOverride
+    }
+
+    over "right_link1" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+        string isaac:nameOverride
+
+        over "collisions" (
+            prepend apiSchemas = ["IsaacSiteAPI"]
+        )
+        {
+        }
+    }
+
+    over "right_link2" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+        string isaac:nameOverride
+
+        over "collisions" (
+            prepend apiSchemas = ["IsaacSiteAPI"]
+        )
+        {
+        }
+    }
+
+    over "right_link3" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+        string isaac:nameOverride
+    }
+
+    over "right_link4" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+        string isaac:nameOverride
+    }
+
+    over "right_link5" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+        string isaac:nameOverride
+    }
+
+    over "right_link6" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+        string isaac:nameOverride
+
+        over "collisions" (
+            prepend apiSchemas = ["IsaacSiteAPI"]
+        )
+        {
+        }
+    }
+
+    over "right_link7" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+        string isaac:nameOverride
+    }
+
+    over "wheel_1" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+        string isaac:nameOverride
+
+        over "visuals" (
+            prepend apiSchemas = ["IsaacSiteAPI"]
+        )
+        {
+        }
+
+        over "collisions" (
+            prepend apiSchemas = ["IsaacSiteAPI"]
+        )
+        {
+        }
+    }
+
+    over "wheel_2" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+        string isaac:nameOverride
+
+        over "visuals" (
+            prepend apiSchemas = ["IsaacSiteAPI"]
+        )
+        {
+        }
+
+        over "collisions" (
+            prepend apiSchemas = ["IsaacSiteAPI"]
+        )
+        {
+        }
+    }
+
+    over "wheel_3" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+        string isaac:nameOverride
+
+        over "visuals" (
+            prepend apiSchemas = ["IsaacSiteAPI"]
+        )
+        {
+        }
+
+        over "collisions" (
+            prepend apiSchemas = ["IsaacSiteAPI"]
+        )
+        {
+        }
+    }
+
+    over "wheel_4" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+        string isaac:nameOverride
+
+        over "visuals" (
+            prepend apiSchemas = ["IsaacSiteAPI"]
+        )
+        {
+        }
+
+        over "collisions" (
+            prepend apiSchemas = ["IsaacSiteAPI"]
+        )
+        {
+        }
+    }
+}
+
