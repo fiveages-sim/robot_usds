@@ -1,0 +1,165 @@
+#usda 1.0
+(
+    subLayers = [
+        @./dexhand_self_collision.usda@
+    ]
+    defaultPrim = "M6_CCS"
+    doc = """EE=wuji_hand2 mount — left.
+Weld tcp -> Wuji_hand2/world (palm; Hand2 has no flange prim).
+FixedJoint MUST match mount xform (T z=-0.0022, Rx=180°, Rz=90°) so PhysX does not snap on Play.
+Hand Side=left; left_hand_* joints.
+root_joint inactive → fingers join parent M6 articulation.
+Physics left unset (like LinkerHand_o7) so VariantSwitcher can set physx↔mujoco.
+Do NOT author Physics=physx here — it blocks Newton and poisons the parent articulation.
+PhysX: dexhand_self_collision.usda excludes hand from NonDexHand.
+Newton: arm mute does not list hands; finger FilteredPairs from hand physics.usda.
+"""
+)
+
+def Xform "M6_CCS"
+{
+
+
+    over "link7"
+    {
+        over "tcp"
+        {
+            def "Wuji_hand2" (
+                prepend payload = @../../../../../../../dexhands/Wuji/Hand2/Wuji_hand2.usda@
+                variants = {
+                    string Side = "left"
+                }
+            )
+            {
+                quatd xformOp:orient = (0, 0.7071067811865476, 0.7071067811865475, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0.0, 0.0, -0.0022)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+                over "root_joint" (
+                    active = false
+                )
+                {
+                }
+
+                over "world"
+                {
+                    def PhysicsFixedJoint "AssemblerFixedJoint"
+                    {
+                        rel physics:body0 = </M6_CCS/link7/tcp>
+                        rel physics:body1 = </M6_CCS/link7/tcp/Wuji_hand2/world>
+                        point3f physics:localPos0 = (0.0, 0.0, -0.0022)
+                        point3f physics:localPos1 = (0, 0, 0)
+                        # Must match Wuji_hand2 mount xform (T z=-0.0022, Rx=180°, Rz=90°)
+                        quatf physics:localRot0 = (0, 0.70710677, 0.70710677, 0)
+                        quatf physics:localRot1 = (1, 0, 0, 0)
+                    }
+                }
+
+                over "joints"
+                {
+                    over "left_hand_index_finger_mcp_flex"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+                    over "left_hand_index_finger_mcp_abd"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+                    over "left_hand_index_finger_pip"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+                    over "left_hand_index_finger_dip"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+                    over "left_hand_middle_finger_mcp_flex"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+                    over "left_hand_middle_finger_mcp_abd"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+                    over "left_hand_middle_finger_pip"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+                    over "left_hand_middle_finger_dip"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+                    over "left_hand_pinky_mcp_flex"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+                    over "left_hand_pinky_mcp_abd"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+                    over "left_hand_pinky_pip"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+                    over "left_hand_pinky_dip"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+                    over "left_hand_ring_mcp_flex"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+                    over "left_hand_ring_mcp_abd"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+                    over "left_hand_ring_pip"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+                    over "left_hand_ring_dip"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+                    over "left_hand_thumb_cmc_flex"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+                    over "left_hand_thumb_cmc_abd"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+                    over "left_hand_thumb_mcp"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+                    over "left_hand_thumb_ip"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+                }
+            }
+        }
+    }
+}
