@@ -1,0 +1,48 @@
+#usda 1.0
+(
+    defaultPrim = "MOZ1"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "MOZ1"
+{
+    over "right07"
+    {
+        over "tcp"
+        {
+            def "OmniPicker" (
+                prepend payload = @../../../../../grippers/Agibot/OmniPicker/OmniPicker.usda@
+                variants = {
+                    string Sensor = "none"
+                    string Side = "right"
+                }
+            )
+            {
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+                over "root_joint" (
+                    active = false
+                )
+                {
+                }
+
+                over "gripper_base"
+                {
+                    def PhysicsFixedJoint "AssemblerFixedJoint"
+                    {
+                        rel physics:body0 = </MOZ1/right07>
+                        rel physics:body1 = </MOZ1/right07/tcp/OmniPicker/gripper_base>
+                        point3f physics:localPos0 = (-0.01, 0.001, -0.05)
+                        point3f physics:localPos1 = (0, 0, 0)
+                        quatf physics:localRot0 = (0.00079632671073, 0, -0.99999968293183, 0)
+                        quatf physics:localRot1 = (1, 0, 0, 0)
+                    }
+                }
+            }
+        }
+    }
+}
