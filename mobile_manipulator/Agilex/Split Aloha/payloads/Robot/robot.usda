@@ -1,0 +1,88 @@
+#usda 1.0
+(
+    customLayerData = {
+        dictionary cameraSettings = {
+            dictionary Front = {
+                double3 position = (5, 0, 0)
+                double radius = 5
+            }
+            dictionary Perspective = {
+                double3 position = (3.872632835829419, -3.1646952847858634, 1.576577226851735)
+                double3 target = (-1.6042533136600121, 2.1839883435628327, 0.2633624574346112)
+            }
+            dictionary Right = {
+                double3 position = (0.3468094947870353, -5, 0.07602648924614672)
+                double radius = 0.36727607250213623
+            }
+            dictionary Top = {
+                double3 position = (0, 0, 5)
+                double radius = 5
+            }
+            string boundCamera = "/OmniverseKit_Persp"
+        }
+        dictionary metricsAssembler = {
+            dictionary "/Split_Aloha/dabai" = {
+            }
+            dictionary "/Split_Aloha/mid360" = {
+            }
+            int version = 1
+        }
+        dictionary omni_layer = {
+            string authoring_layer = "./Split Aloha.usda"
+        }
+        dictionary renderSettings = {
+        }
+    }
+    defaultPrim = "Split_Aloha"
+    endTimeCode = 0
+    metersPerUnit = 1
+    startTimeCode = -1
+    upAxis = "Z"
+)
+
+def Xform "Split_Aloha" (
+    prepend apiSchemas = ["IsaacRobotAPI"]
+)
+{
+    string isaac:description
+    string isaac:namespace
+    prepend rel isaac:physics:robotJoints = </Split_Aloha/joints/lifting_joint>
+    prepend rel isaac:physics:robotLinks = [
+        </Split_Aloha/base>,
+        </Split_Aloha/lifting_link>,
+    ]
+
+    over "base" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+        string isaac:nameOverride
+    }
+
+    over "lifting_link" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+        string isaac:nameOverride
+    }
+
+    over "joints"
+    {
+        over "lifting_joint" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+            string isaac:nameOverride
+            float[] isaac:physics:AccelerationLimit
+            int isaac:physics:index
+            float[] isaac:physics:JerkLimit
+            int isaac:physics:Rot_X:DofOffset
+            int isaac:physics:Rot_Y:DofOffset
+            int isaac:physics:Rot_Z:DofOffset
+            int isaac:physics:Tr_X:DofOffset
+            int isaac:physics:Tr_Y:DofOffset
+            int isaac:physics:Tr_Z:DofOffset
+        }
+    }
+}
+

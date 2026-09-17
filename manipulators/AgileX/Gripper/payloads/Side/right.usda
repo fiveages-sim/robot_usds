@@ -1,0 +1,123 @@
+#usda 1.0
+(
+    defaultPrim = "Gripper"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def "Gripper"
+{
+    delete rel isaac:physics:robotJoints
+    prepend rel isaac:physics:robotJoints = [
+        </Gripper/root_joint>,
+        </Gripper/joints/right_gripper_joint>,
+        </Gripper/joints/right_joint8>,
+    ]
+
+    over "joints"
+    {
+        over "gripper_joint" (
+            active = false
+        )
+        {
+        }
+
+        def PhysicsPrismaticJoint "right_gripper_joint" (
+            prepend apiSchemas = ["MjcJointAPI", "PhysicsJointStateAPI:linear", "PhysicsDriveAPI:linear", "PhysxJointAPI"]
+        )
+        {
+            float drive:linear:physics:damping = 6000
+            float drive:linear:physics:maxForce = 100
+            float drive:linear:physics:stiffness = 60000
+            float drive:linear:physics:targetPosition = 0
+            uniform token drive:linear:physics:type = "force"
+            uniform double mjc:armature = 0.001
+            uniform double mjc:damping = 0.01
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -100
+            uniform double mjc:actuatorfrcrange:max = 100
+            uniform token physics:axis = "Z"
+            prepend rel physics:body0 = </Gripper/tcp>
+            prepend rel physics:body1 = </Gripper/link7>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.00033766503
+            point3f physics:localPos0 = (0, 0, 0.1425)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0.7071068, 0.70710677, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = 0
+            float physics:upperLimit = 0.05
+            float physxJoint:maxJointVelocity = 1
+            float state:linear:physics:position = 0
+            float state:linear:physics:velocity = 0
+        }
+
+        over "joint8" (
+            active = false
+        )
+        {
+        }
+
+        def PhysicsPrismaticJoint "right_joint8" (
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI", "PhysicsJointStateAPI:linear", "PhysxJointAPI", "PhysxMimicJointAPI:rotZ"]
+        )
+        {
+            uniform double mjc:armature = 0.001
+            uniform double mjc:damping = 0.01
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 1
+            rel newton:mimicJoint = </Gripper/joints/right_gripper_joint>
+            uniform token physics:axis = "Z"
+            prepend rel physics:body0 = </Gripper/tcp>
+            prepend rel physics:body1 = </Gripper/link8>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.000340792
+            point3f physics:localPos0 = (0, 0, 0.1425)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0.70710677, 0.7071068, 5.3385083e-8, 5.3385076e-8)
+            quatf physics:localRot1 = (0, 0, 1, 0)
+            float physics:lowerLimit = -0.05
+            float physics:upperLimit = 0.05
+            float physxMimicJoint:rotZ:dampingRatio = 0
+            float physxMimicJoint:rotZ:gearing = -1
+            float physxMimicJoint:rotZ:naturalFrequency = 0
+            float physxMimicJoint:rotZ:offset = 0
+            rel physxMimicJoint:rotZ:referenceJoint = </Gripper/joints/right_gripper_joint>
+            float state:linear:physics:position = 0
+            float state:linear:physics:velocity = 0
+        }
+    }
+
+    over "actuators"
+    {
+        over "gripper_joint" (
+            active = false
+        )
+        {
+        }
+
+        over "left_gripper_joint" (
+            active = false
+        )
+        {
+        }
+
+        def MjcActuator "right_gripper_joint"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [100, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -100, -10, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -100
+            uniform double mjc:forceRange:max = 100
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = 0
+            uniform double mjc:ctrlRange:max = 0.05
+            rel mjc:target = </Gripper/joints/right_gripper_joint>
+        }
+    }
+}

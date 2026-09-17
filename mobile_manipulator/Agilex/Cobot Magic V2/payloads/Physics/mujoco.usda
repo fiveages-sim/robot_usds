@@ -1,0 +1,50 @@
+#usda 1.0
+(
+    defaultPrim = "Cobot_Magic_V2"
+    metersPerUnit = 1
+    subLayers = [
+        @./physics.usda@
+    ]
+    upAxis = "Z"
+)
+
+over "Cobot_Magic_V2"
+{
+    over "base_footprint"
+    {
+        uniform float mjc:gravcomp = 0
+
+        over "body_Link"
+        {
+            over "left_base_link"
+            {
+                over "Piper" (
+                    variants = {
+                        string Physics = "mujoco"
+                    }
+                )
+                {
+                }
+            }
+
+            over "right_base_link"
+            {
+                over "Piper" (
+                    variants = {
+                        string Physics = "mujoco"
+                    }
+                )
+                {
+                }
+            }
+        }
+    }
+
+    over "Tracer" (
+        variants = {
+            string Physics = "mujoco"
+        }
+    )
+    {
+    }
+}
