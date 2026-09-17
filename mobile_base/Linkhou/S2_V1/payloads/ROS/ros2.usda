@@ -231,22 +231,19 @@ def "Linkhou_S2_V1"
                 )
                 delete uint inputs:execIn.connect = </Linkhou_S2_V1/Graph/ROS_Steering_Controller/on_playback_tick.outputs:tick>
                 prepend uint inputs:execIn.connect = [
-                    </Agilex_Ranger_Mini/steering_wheel_controller/OnPlaybackTick.outputs:tick>,
                     </Linkhou_S2_V1/Graph/ROS_Steering_Controller/OnPlaybackTick.outputs:tick>,
-                    </Linkhou_S2_V1/Graph/ROS_Steering_Controller/on_playback_tick.outputs:tick>,
+                    </Linkhou_S2_V1/Graph/ROS_Steering_Controller/on_playback_tick.outputs:tick>
                 ]
                 custom int[] inputs:jointIndices
                 custom token[] inputs:jointNames
                 delete token[] inputs:jointNames.connect = </Linkhou_S2_V1/Graph/ROS_Steering_Controller/script_node.outputs:Steer_Joints>
                 prepend token[] inputs:jointNames.connect = [
-                    </Agilex_Ranger_Mini/steering_wheel_controller/script_node.outputs:Steer_Joints>,
-                    </Linkhou_S2_V1/Graph/ROS_Steering_Controller/script_node.outputs:Steer_Joints>,
+                    </Linkhou_S2_V1/Graph/ROS_Steering_Controller/script_node.outputs:Steer_Joints>
                 ]
                 custom double[] inputs:positionCommand
                 delete double[] inputs:positionCommand.connect = </Linkhou_S2_V1/Graph/ROS_Steering_Controller/script_node.outputs:Steer_Position_Command>
                 prepend double[] inputs:positionCommand.connect = [
-                    </Agilex_Ranger_Mini/steering_wheel_controller/script_node.outputs:Steer_Position_Command>,
-                    </Linkhou_S2_V1/Graph/ROS_Steering_Controller/script_node.outputs:Steer_Position_Command>,
+                    </Linkhou_S2_V1/Graph/ROS_Steering_Controller/script_node.outputs:Steer_Position_Command>
                 ]
                 custom string inputs:robotPath
                 custom rel inputs:targetPrim = </Linkhou_S2_V1> (
@@ -276,16 +273,14 @@ def "Linkhou_S2_V1"
                 )
                 delete uint inputs:execIn.connect = </Linkhou_S2_V1/Graph/ROS_Steering_Controller/on_playback_tick.outputs:tick>
                 prepend uint inputs:execIn.connect = [
-                    </Agilex_Ranger_Mini/steering_wheel_controller/OnPlaybackTick.outputs:tick>,
                     </Linkhou_S2_V1/Graph/ROS_Steering_Controller/OnPlaybackTick.outputs:tick>,
-                    </Linkhou_S2_V1/Graph/ROS_Steering_Controller/on_playback_tick.outputs:tick>,
+                    </Linkhou_S2_V1/Graph/ROS_Steering_Controller/on_playback_tick.outputs:tick>
                 ]
                 custom int[] inputs:jointIndices
                 custom token[] inputs:jointNames
                 delete token[] inputs:jointNames.connect = </Linkhou_S2_V1/Graph/ROS_Steering_Controller/script_node.outputs:Wheel_Joints>
                 prepend token[] inputs:jointNames.connect = [
-                    </Agilex_Ranger_Mini/steering_wheel_controller/script_node.outputs:Wheel_Joints>,
-                    </Linkhou_S2_V1/Graph/ROS_Steering_Controller/script_node.outputs:Wheel_Joints>,
+                    </Linkhou_S2_V1/Graph/ROS_Steering_Controller/script_node.outputs:Wheel_Joints>
                 ]
                 custom double[] inputs:positionCommand
                 custom string inputs:robotPath
@@ -301,8 +296,7 @@ def "Linkhou_S2_V1"
                 custom double[] inputs:velocityCommand
                 delete double[] inputs:velocityCommand.connect = </Linkhou_S2_V1/Graph/ROS_Steering_Controller/script_node.outputs:Wheel_Velocity_Command>
                 prepend double[] inputs:velocityCommand.connect = [
-                    </Agilex_Ranger_Mini/steering_wheel_controller/script_node.outputs:Wheel_Velocity_Command>,
-                    </Linkhou_S2_V1/Graph/ROS_Steering_Controller/script_node.outputs:Wheel_Velocity_Command>,
+                    </Linkhou_S2_V1/Graph/ROS_Steering_Controller/script_node.outputs:Wheel_Velocity_Command>
                 ]
                 token node:type = "isaacsim.core.nodes.IsaacArticulationController"
                 int node:typeVersion = 1
@@ -316,8 +310,7 @@ def "Linkhou_S2_V1"
                 custom token inputs:tuple
                 delete token inputs:tuple.connect = </Linkhou_S2_V1/Graph/ROS_Steering_Controller/ros2_subscribe_twist.outputs:angularVelocity>
                 prepend token inputs:tuple.connect = [
-                    </Agilex_Ranger_Mini/steering_wheel_controller/ros2_subscribe_twist.outputs:angularVelocity>,
-                    </Linkhou_S2_V1/Graph/ROS_Steering_Controller/ros2_subscribe_twist.outputs:angularVelocity>,
+                    </Linkhou_S2_V1/Graph/ROS_Steering_Controller/ros2_subscribe_twist.outputs:angularVelocity>
                 ]
                 token node:type = "omni.graph.nodes.BreakVector3"
                 int node:typeVersion = 1
@@ -335,8 +328,7 @@ def "Linkhou_S2_V1"
                 custom token inputs:tuple
                 delete token inputs:tuple.connect = </Linkhou_S2_V1/Graph/ROS_Steering_Controller/scale_to_from_stage_units.outputs:result>
                 prepend token inputs:tuple.connect = [
-                    </Agilex_Ranger_Mini/steering_wheel_controller/scale_to_from_stage_units.outputs:result>,
-                    </Linkhou_S2_V1/Graph/ROS_Steering_Controller/scale_to_from_stage_units.outputs:result>,
+                    </Linkhou_S2_V1/Graph/ROS_Steering_Controller/scale_to_from_stage_units.outputs:result>
                 ]
                 token node:type = "omni.graph.nodes.BreakVector3"
                 int node:typeVersion = 1
@@ -352,8 +344,7 @@ def "Linkhou_S2_V1"
             {
                 custom uint64 inputs:context
                 prepend uint64 inputs:context.connect = [
-                    </Agilex_Ranger_Mini/steering_wheel_controller/Context.outputs:context>,
-                    </Linkhou_S2_V1/Graph/ROS_Steering_Controller/Context.outputs:context>,
+                    </Linkhou_S2_V1/Graph/ROS_Steering_Controller/Context.outputs:context>
                 ]
                 custom uint inputs:execIn (
                     customData = {
@@ -362,9 +353,8 @@ def "Linkhou_S2_V1"
                 )
                 delete uint inputs:execIn.connect = </Linkhou_S2_V1/Graph/ROS_Steering_Controller/on_playback_tick.outputs:tick>
                 prepend uint inputs:execIn.connect = [
-                    </Agilex_Ranger_Mini/steering_wheel_controller/OnPlaybackTick.outputs:tick>,
                     </Linkhou_S2_V1/Graph/ROS_Steering_Controller/OnPlaybackTick.outputs:tick>,
-                    </Linkhou_S2_V1/Graph/ROS_Steering_Controller/on_playback_tick.outputs:tick>,
+                    </Linkhou_S2_V1/Graph/ROS_Steering_Controller/on_playback_tick.outputs:tick>
                 ]
                 custom string inputs:nodeNamespace
                 custom string inputs:qosProfile
@@ -391,8 +381,7 @@ def "Linkhou_S2_V1"
                 )
                 custom token inputs:value
                 prepend token inputs:value.connect = [
-                    </Agilex_Ranger_Mini/steering_wheel_controller/ros2_subscribe_twist.outputs:linearVelocity>,
-                    </Linkhou_S2_V1/Graph/ROS_Steering_Controller/ros2_subscribe_twist.outputs:linearVelocity>,
+                    </Linkhou_S2_V1/Graph/ROS_Steering_Controller/ros2_subscribe_twist.outputs:linearVelocity>
                 ]
                 token node:type = "isaacsim.core.nodes.OgnIsaacScaleToFromStageUnit"
                 int node:typeVersion = 1
@@ -407,18 +396,15 @@ def "Linkhou_S2_V1"
                 custom double inputs:angularGain = 1.04
                 custom double inputs:Desired_Angular_Velocity
                 prepend double inputs:Desired_Angular_Velocity.connect = [
-                    </Agilex_Ranger_Mini/steering_wheel_controller/break_3_vector.outputs:z>,
-                    </Linkhou_S2_V1/Graph/ROS_Steering_Controller/break_3_vector.outputs:z>,
+                    </Linkhou_S2_V1/Graph/ROS_Steering_Controller/break_3_vector.outputs:z>
                 ]
                 custom double inputs:Desired_Linear_Velocity_X
                 prepend double inputs:Desired_Linear_Velocity_X.connect = [
-                    </Agilex_Ranger_Mini/steering_wheel_controller/break_3_vector_01.outputs:x>,
-                    </Linkhou_S2_V1/Graph/ROS_Steering_Controller/break_3_vector_01.outputs:x>,
+                    </Linkhou_S2_V1/Graph/ROS_Steering_Controller/break_3_vector_01.outputs:x>
                 ]
                 custom double inputs:Desired_Linear_Velocity_Y
                 prepend double inputs:Desired_Linear_Velocity_Y.connect = [
-                    </Agilex_Ranger_Mini/steering_wheel_controller/break_3_vector_01.outputs:y>,
-                    </Linkhou_S2_V1/Graph/ROS_Steering_Controller/break_3_vector_01.outputs:y>,
+                    </Linkhou_S2_V1/Graph/ROS_Steering_Controller/break_3_vector_01.outputs:y>
                 ]
                 custom uint inputs:execIn (
                     customData = {
@@ -427,8 +413,7 @@ def "Linkhou_S2_V1"
                 )
                 delete uint inputs:execIn.connect = </Linkhou_S2_V1/Graph/ROS_Steering_Controller/on_playback_tick.outputs:tick>
                 prepend uint inputs:execIn.connect = [
-                    </Agilex_Ranger_Mini/steering_wheel_controller/OnPlaybackTick.outputs:tick>,
-                    </Linkhou_S2_V1/Graph/ROS_Steering_Controller/on_playback_tick.outputs:tick>,
+                    </Linkhou_S2_V1/Graph/ROS_Steering_Controller/on_playback_tick.outputs:tick>
                 ]
                 custom double inputs:linearGain = 14.28
                 custom string inputs:script = """# This script is executed the first time the script node computes, or the next time
