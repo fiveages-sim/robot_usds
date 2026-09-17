@@ -20,8 +20,9 @@ def Xform "Luna" (
         string ROS = "none"
         string Robot = "none"
         string Sensor = "none"
+        string Visual = "white"
     }
-    prepend variantSets = ["Physics", "Chassis", "Arm_Left", "Arm_Right", "ROS"]
+    prepend variantSets = ["Physics", "Chassis", "Visual", "Arm_Left", "Arm_Right", "ROS"]
     append variantSets = ["Robot", "Sensor"]
 )
 {
@@ -53,6 +54,26 @@ def Xform "Luna" (
 
         }
     }
+    variantSet "Visual" = {
+        "white" {
+            over "Linkhou_S2" (
+                variants = {
+                    string Visual = "white"
+                }
+            )
+            {
+            }
+        }
+        "gento_skye" {
+            over "Linkhou_S2" (
+                variants = {
+                    string Visual = "gento_skye"
+                }
+            )
+            {
+            }
+        }
+    }
     variantSet "Arm_Left" = {
         "M6S_Lite" (
             prepend payload = @payloads/Arm_Left/M6S_Lite.usda@
@@ -82,9 +103,25 @@ def Xform "Luna" (
             }
             prepend payload = @./payloads/ROS/ros2.usda@
         ) {
+            over "Linkhou_S2" (
+                variants = {
+                    string ROS = "enable"
+                }
+            )
+            {
+            }
 
         }
-        "none" {
+        "none" (
+            prepend payload = @./payloads/ROS/none.usda@
+        ) {
+            over "Linkhou_S2" (
+                variants = {
+                    string ROS = "none"
+                }
+            )
+            {
+            }
 
         }
     }

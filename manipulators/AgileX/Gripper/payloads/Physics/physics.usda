@@ -1,0 +1,95 @@
+#usda 1.0
+(
+    defaultPrim = "Gripper"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+over "Gripper"
+{
+    over "tcp" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (-0.0000747869, 0.00013780328, 0.03404402)
+        float3 physics:diagonalInertia = (0.0009766084, 0.0007622995, 0.0004140941)
+        float physics:mass = 0.48999998
+        quatf physics:principalAxes = (0.99998564, 0.0012589346, 0.005171301, 0.0006853444)
+    }
+
+    over "link7" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.00065123185, -0.049192987, 0.009722588)
+        float3 physics:diagonalInertia = (0.00007367825, 0.0000050885983, 0.00007745315)
+        float physics:mass = 0.025
+        quatf physics:principalAxes = (0.993599, 0.09740352, 0.057173274, -0.0022268668)
+    }
+
+    over "joints"
+    {
+        def PhysicsPrismaticJoint "gripper_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:linear", "PhysicsDriveAPI:linear"]
+        )
+        {
+            float drive:linear:physics:damping = 6000
+            float drive:linear:physics:maxForce = 10
+            float drive:linear:physics:stiffness = 60000
+            float drive:linear:physics:targetPosition = 0
+            uniform token drive:linear:physics:type = "force"
+            uniform token physics:axis = "Z"
+            custom rel physics:body0
+            append rel physics:body0 = </Gripper/tcp>
+            custom rel physics:body1
+            append rel physics:body1 = </Gripper/link7>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.00033766503
+            point3f physics:localPos0 = (0, 0, 0.1425)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0.7071068, 0.70710677, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = 0
+            float physics:upperLimit = 0.05
+        }
+
+        def PhysicsPrismaticJoint "joint8" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:linear"]
+        )
+        {
+            uniform token physics:axis = "Z"
+            custom rel physics:body0
+            append rel physics:body0 = </Gripper/tcp>
+            custom rel physics:body1
+            append rel physics:body1 = </Gripper/link8>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.000340792
+            point3f physics:localPos0 = (0, 0, 0.1425)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0.70710677, 0.7071068, 5.3385083e-8, 5.3385076e-8)
+            quatf physics:localRot1 = (0, 0, 1, 0)
+            float physics:lowerLimit = -0.05
+            float physics:upperLimit = 0.05
+        }
+    }
+
+    over "link8" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.00065123185, -0.049192987, 0.009722588)
+        float3 physics:diagonalInertia = (0.00007367825, 0.0000050885983, 0.00007745315)
+        float physics:mass = 0.025
+        quatf physics:principalAxes = (0.993599, 0.09740352, 0.057173274, -0.0022268668)
+    }
+
+    def PhysicsFixedJoint "root_joint" (
+        prepend apiSchemas = ["PhysicsArticulationRootAPI"]
+    )
+    {
+        rel physics:body1 = </Gripper/tcp>
+    }
+}
+

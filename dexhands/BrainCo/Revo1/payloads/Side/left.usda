@@ -1,0 +1,326 @@
+#usda 1.0
+(
+    defaultPrim = "Revo1"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def "Revo1"
+{
+    over "joints"
+    {
+        over "index_joint" (
+            active = false
+        )
+        {
+        }
+        over "index_pip_joint" (
+            active = false
+        )
+        {
+        }
+        over "middle_joint" (
+            active = false
+        )
+        {
+        }
+        over "middle_pip_joint" (
+            active = false
+        )
+        {
+        }
+        over "pinky_joint" (
+            active = false
+        )
+        {
+        }
+        over "pinky_pip_joint" (
+            active = false
+        )
+        {
+        }
+        over "ring_joint" (
+            active = false
+        )
+        {
+        }
+        over "ring_pip_joint" (
+            active = false
+        )
+        {
+        }
+        over "thumb_joint2" (
+            active = false
+        )
+        {
+        }
+        over "thumb_joint1" (
+            active = false
+        )
+        {
+        }
+
+        def PhysicsRevoluteJoint "left_hand_index_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular", "PhysxJointAPI"]
+        )
+        {
+            float drive:angular:physics:damping = 0.06
+            float drive:angular:physics:maxForce = 30
+            float physxJoint:jointFriction = 0.5
+            float physxJoint:armature = 0.001
+            float drive:angular:physics:stiffness = 0.1
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            uniform token physics:axis = "X"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Revo1/hand_base>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Revo1/index_prox>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.0004456487
+            point3f physics:localPos0 = (-0.029003, 0.118055195, -0.0039488)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0.99825245, -0.050025422, 0.02652008, 0.016914437)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = 0
+            float physics:upperLimit = 75.000175
+            float physxJoint:maxJointVelocity = 500000
+        }
+        def PhysicsRevoluteJoint "left_hand_index_pip_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysxJointAPI", "PhysxMimicJointAPI:rotX"]
+        )
+        {
+            uniform token physics:axis = "X"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Revo1/index_prox>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Revo1/index_dist>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 5.6649722e-05
+            point3f physics:localPos0 = (0, 0.035, 0)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0.9953219, 0.096614055, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -18.000044
+            float physics:upperLimit = 108.00026
+            float physxJoint:maxJointVelocity = 500000
+            float physxMimicJoint:rotX:dampingRatio = 0
+            float physxMimicJoint:rotX:gearing = -1.2
+            float physxMimicJoint:rotX:naturalFrequency = 0
+            float physxMimicJoint:rotX:offset = 0.19373155
+            rel physxMimicJoint:rotX:referenceJoint = </Revo1/joints/left_hand_index_joint>
+        }
+        def PhysicsRevoluteJoint "left_hand_middle_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular", "PhysxJointAPI"]
+        )
+        {
+            float drive:angular:physics:damping = 0.06
+            float drive:angular:physics:maxForce = 30
+            float physxJoint:jointFriction = 0.5
+            float physxJoint:armature = 0.001
+            float drive:angular:physics:stiffness = 0.1
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            uniform token physics:axis = "X"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Revo1/hand_base>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Revo1/middle_prox>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.00052647514
+            point3f physics:localPos0 = (-0.008, 0.1217592, -0.0082038)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0.99939084, -0.03489941, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = 0
+            float physics:upperLimit = 75.000175
+            float physxJoint:maxJointVelocity = 500000
+        }
+        def PhysicsRevoluteJoint "left_hand_middle_pip_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysxJointAPI", "PhysxMimicJointAPI:rotX"]
+        )
+        {
+            uniform token physics:axis = "X"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Revo1/middle_prox>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Revo1/middle_dist>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 7.030466e-05
+            point3f physics:localPos0 = (0, 0.042, 0)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0.9957907, 0.09165618, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -18.000044
+            float physics:upperLimit = 108.00026
+            float physxJoint:maxJointVelocity = 500000
+            float physxMimicJoint:rotX:dampingRatio = 0
+            float physxMimicJoint:rotX:gearing = -1.2
+            float physxMimicJoint:rotX:naturalFrequency = 0
+            float physxMimicJoint:rotX:offset = 0.18325958
+            rel physxMimicJoint:rotX:referenceJoint = </Revo1/joints/left_hand_middle_joint>
+        }
+        def PhysicsRevoluteJoint "left_hand_pinky_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular", "PhysxJointAPI"]
+        )
+        {
+            float drive:angular:physics:damping = 0.06
+            float drive:angular:physics:maxForce = 30
+            float physxJoint:jointFriction = 0.5
+            float physxJoint:armature = 0.001
+            float drive:angular:physics:stiffness = 0.1
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            uniform token physics:axis = "X"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Revo1/hand_base>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Revo1/pinky_prox>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.0003305677
+            point3f physics:localPos0 = (0.033731, 0.1135512, -0.0036339)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0.9978848, -0.04821102, -0.026937738, -0.034291543)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = 0
+            float physics:upperLimit = 75.000175
+            float physxJoint:maxJointVelocity = 500000
+        }
+        def PhysicsRevoluteJoint "left_hand_pinky_pip_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysxJointAPI", "PhysxMimicJointAPI:rotX"]
+        )
+        {
+            uniform token physics:axis = "X"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Revo1/pinky_prox>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Revo1/pinky_dist>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 3.1280113e-05
+            point3f physics:localPos0 = (0, 0.035, 0)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0.99485636, 0.10129596, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -18.000044
+            float physics:upperLimit = 108.00026
+            float physxJoint:maxJointVelocity = 500000
+            float physxMimicJoint:rotX:dampingRatio = 0
+            float physxMimicJoint:rotX:gearing = -1.2
+            float physxMimicJoint:rotX:naturalFrequency = 0
+            float physxMimicJoint:rotX:offset = 0.20245819
+            rel physxMimicJoint:rotX:referenceJoint = </Revo1/joints/left_hand_pinky_joint>
+        }
+        def PhysicsRevoluteJoint "left_hand_ring_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular", "PhysxJointAPI"]
+        )
+        {
+            float drive:angular:physics:damping = 0.06
+            float drive:angular:physics:maxForce = 30
+            float physxJoint:jointFriction = 0.5
+            float physxJoint:armature = 0.001
+            float drive:angular:physics:stiffness = 0.1
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            uniform token physics:axis = "X"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Revo1/hand_base>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Revo1/ring_prox>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.00041808884
+            point3f physics:localPos0 = (0.013103, 0.1197712, -0.0080786)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0.9987064, -0.039952174, -0.02668937, -0.016646033)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = 0
+            float physics:upperLimit = 75.000175
+            float physxJoint:maxJointVelocity = 500000
+        }
+        def PhysicsRevoluteJoint "left_hand_ring_pip_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysxJointAPI", "PhysxMimicJointAPI:rotX"]
+        )
+        {
+            uniform token physics:axis = "X"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Revo1/ring_prox>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Revo1/ring_dist>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 4.374861e-05
+            point3f physics:localPos0 = (0, 0.042, 0)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0.9965645, 0.08282003, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -18.000044
+            float physics:upperLimit = 108.00026
+            float physxJoint:maxJointVelocity = 500000
+            float physxMimicJoint:rotX:dampingRatio = 0
+            float physxMimicJoint:rotX:gearing = -1.2
+            float physxMimicJoint:rotX:naturalFrequency = 0
+            float physxMimicJoint:rotX:offset = 0.16580628
+            rel physxMimicJoint:rotX:referenceJoint = </Revo1/joints/left_hand_ring_joint>
+        }
+        def PhysicsRevoluteJoint "left_hand_thumb_joint2" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular", "PhysxJointAPI"]
+        )
+        {
+            float drive:angular:physics:damping = 0.08
+            float drive:angular:physics:maxForce = 50
+            float physxJoint:jointFriction = 0.5
+            float physxJoint:armature = 0.001
+            float drive:angular:physics:stiffness = 0.12
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            uniform token physics:axis = "Y"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Revo1/hand_base>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Revo1/thumb_prox>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.0003978438
+            point3f physics:localPos0 = (-0.0245, 0.054024197, 0.021628)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0.8602941, 0, -0.50979805, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = 0
+            float physics:upperLimit = 90.000206
+            float physxJoint:maxJointVelocity = 500000
+        }
+        def PhysicsRevoluteJoint "left_hand_thumb_joint1" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular", "PhysxJointAPI"]
+        )
+        {
+            float drive:angular:physics:damping = 0.08
+            float drive:angular:physics:maxForce = 50
+            float physxJoint:jointFriction = 0.5
+            float physxJoint:armature = 0.001
+            float drive:angular:physics:stiffness = 0.12
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            uniform token physics:axis = "X"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Revo1/thumb_prox>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Revo1/thumb_dist>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.00014109378
+            point3f physics:localPos0 = (0, 0, 0.013647)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (-0.10382378, -0.22265217, -0.40966454, 0.8785338)
+            quatf physics:localRot1 = (0, 0, 0, 1)
+            float physics:lowerLimit = 0
+            float physics:upperLimit = 49.999733
+            float physxJoint:maxJointVelocity = 500000
+        }
+    }
+}

@@ -1,0 +1,93 @@
+#usda 1.0
+(
+    defaultPrim = "Split_Aloha"
+    metersPerUnit = 1
+    subLayers = [
+        @./physics.usda@
+    ]
+    upAxis = "Z"
+)
+
+over "Split_Aloha" (
+    prepend apiSchemas = ["NewtonArticulationRootAPI"]
+)
+{
+    over "joints"
+    {
+        over "lifting_joint" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:linear", "PhysicsDriveAPI:linear"]
+        )
+        {
+            float drive:linear:physics:damping = None
+            float drive:linear:physics:maxForce = None
+            float drive:linear:physics:stiffness = None
+            float drive:linear:physics:targetPosition = None
+            uniform token drive:linear:physics:type = None
+            uniform double mjc:armature = 0.01
+            uniform bool mjc:actuatorgravcomp = 1
+            uniform double mjc:damping = 0.1
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -1000
+            uniform double mjc:actuatorfrcrange:max = 1000
+        }
+    }
+
+    over "base"
+    {
+        uniform float mjc:gravcomp = 1
+    }
+
+    over "lifting_link"
+    {
+        uniform float mjc:gravcomp = 1
+
+        over "left_base_link"
+        {
+            over "Piper" (
+                variants = {
+                    string Physics = "mujoco"
+                }
+            )
+            {
+            }
+        }
+
+        over "right_base_link"
+        {
+            over "Piper" (
+                variants = {
+                    string Physics = "mujoco"
+                }
+            )
+            {
+            }
+        }
+    }
+
+    over "Ranger_Mini" (
+        variants = {
+            string Physics = "mujoco"
+        }
+    )
+    {
+    }
+
+    def Scope "actuators"
+    {
+        def MjcActuator "lifting_joint"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [50000, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -50000, -5000, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -1000
+            uniform double mjc:forceRange:max = 1000
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = -0.6
+            uniform double mjc:ctrlRange:max = 0
+            rel mjc:target = </Split_Aloha/joints/lifting_joint>
+        }
+    }
+}

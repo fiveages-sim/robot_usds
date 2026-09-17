@@ -11,18 +11,20 @@
 
 | | | |
 |:---:|:---:|:---:|
-| <img src=".images/agibot_g1.png" alt="智元 G1" width="300"> | <img src=".images/agilex_aloha_split.png" alt="松灵 Aloha Split" width="300"> | <img src=".images/agilex_aloha_v2.png" alt="松灵 Aloha V2" width="300"> |
-| **智元 G1** | **松灵 Aloha Split** | **松灵 Aloha V2** |
-| <img src=".images/arx_lift.png" alt="方舟无限 Lift" width="300"> | <img src=".images/arx_x7s.png" alt="方舟无限 X7S" width="300"> | <img src=".images/arx_lift2s.png" alt="方舟无限 Lift 2S" width="300"> |
-| **方舟无限 Lift** | **方舟无限 X7S** | **方舟无限 Lift 2S** |
-| <img src=".images/astribot_s1.png" alt="星尘智能 S1" width="300"> | <img src=".images/galaxea_r1_lite.png" alt="星海图 R1 Lite" width="300"> | <img src=".images/galaxea_r1.png" alt="星海图 R1" width="300"> |
-| **星尘智能 S1** | **星海图 R1 Lite** | **星海图 R1** |
-| <img src=".images/galaxea_r1_pro.png" alt="星海图 R1 Pro" width="300"> | <img src=".images/galbot%20one.png" alt="银河通用 Galbot One" width="300"> | <img src=".images/realman%20aidal.png" alt="睿尔曼 Aidal" width="300"> |
-| **星海图 R1 Pro** | **银河通用 Galbot One** | **睿尔曼 Aidal** |
-| <img src=".images/ai2_bot2.png" alt="智平方 Bot2" width="300"> | <img src=".images/galbot%20zero.png" alt="银河通用 Galbot Zero" width="300"> | |
-| **智平方 Bot2** | **银河通用 Galbot Zero** | |
-| <img src=".images/galbot%20s1.png" alt="银河通用 Galbot S1" width="300"> | <img src=".images/galbot%20g1.png" alt="银河通用 Galbot G1" width="300"> | |
-| **银河通用 S1** | **银河通用 G1** | |
+| <img src=".images/agibot_g1.png" alt="智元 G1" width="300"> | <img src=".images/agilex_aloha_split.png" alt="松灵 Aloha Split" width="300"> | <img src=".images/agilex_aloha_v1.png" alt="松灵 Cobot Magic V1" width="300"> |
+| **智元 G1** | **松灵 Aloha Split** | **松灵 Cobot Magic V1** |
+| <img src=".images/agilex_aloha_v2.png" alt="松灵 Cobot Magic V2" width="300"> | <img src=".images/arx_lift.png" alt="方舟无限 Lift" width="300"> | <img src=".images/arx_x7s.png" alt="方舟无限 X7S" width="300"> |
+| **松灵 Cobot Magic V2** | **方舟无限 Lift** | **方舟无限 X7S** |
+| <img src=".images/arx_lift2s.png" alt="方舟无限 Lift 2S" width="300"> | <img src=".images/astribot_s1.png" alt="星尘智能 S1" width="300"> | <img src=".images/galaxea_r1_lite.png" alt="星海图 R1 Lite" width="300"> |
+| **方舟无限 Lift 2S** | **星尘智能 S1** | **星海图 R1 Lite** |
+| <img src=".images/galaxea_r1.png" alt="星海图 R1" width="300"> | <img src=".images/galaxea_r1_pro.png" alt="星海图 R1 Pro" width="300"> | <img src=".images/galbot%20one.png" alt="银河通用 Galbot One" width="300"> |
+| **星海图 R1** | **星海图 R1 Pro** | **银河通用 Galbot One** |
+| <img src=".images/realman%20aidal.png" alt="睿尔曼 Aidal" width="300"> | <img src=".images/ai2_bot2.png" alt="智平方 Bot2" width="300"> | <img src=".images/galbot%20zero.png" alt="银河通用 Galbot Zero" width="300"> |
+| **睿尔曼 Aidal** | **智平方 Bot2** | **银河通用 Galbot Zero** |
+| <img src=".images/galbot%20s1.png" alt="银河通用 Galbot S1" width="300"> | <img src=".images/galbot%20g1.png" alt="银河通用 Galbot G1" width="300"> | <img src=".images/agibot%20g2.png" alt="智元 G2" width="300"> |
+| **银河通用 S1** | **银河通用 G1** | **智元 G2** |
+| <img src=".images/gento%20luna.png" alt="Gento Luna" width="300"> | <img src=".images/gento%20skye.png" alt="Gento Skye" width="300"> | <img src=".images/spiritai_moz1.png" alt="Spirit AI MOZ1" width="300"> |
+| **Gento Luna** | **Gento Skye** | **Spirit AI MOZ1** |
 
 </div>
 
@@ -72,69 +74,83 @@ git submodule update --init --recursive
 | 艾利特 | Elite |
 | 因时 | Inspire |
 | 强脑 | BrainCo |
-| 灵心巧手 | LinkerHand |
+| 灵心巧手 | LinkerHand、LinkerHands |
+| 机器人时代 | RobotEra |
+| 舞肌 | Wuji |
 | 知行 | ChangingTek |
 | 钧舵 | Jodell |
 | 智平方 | Ai2 |
 | 中科第五纪 | FiveAges |
 | 优必选 | Ubtech |
 | 天机智能 | Tianji、Marvin（系列） |
-| （保留英文） | Robotiq |
+| 法奥 | Fairino |
+| 珞石 | Rokae |
+| 灵猴 | Linkhou |
+| 悟时 | Woosh |
+| Gento | Gento |
+| Spirit AI | Spirit AI |
+| （保留英文） | Angellun、YSW、Panthera |
 
 ### 3.2 按类别列出
 
 - **Gripper（夹爪）** — `grippers/`
+    - 智元 OmniPicker（`Agibot/OmniPicker`）
     - 知行（`ChangingTek/`）：AG2F120S、AG2F90
     - 因时 EG2 4C2（`Inspire/EG2_4C2`）
     - 钧舵（`Jodell/`）：RG75、ERG32
-    - 智元 OmniPicker
-    - Robotiq 85（`Robotiq_85`）
 - **Dexterous Hand（灵巧手）** — `dexhands/`
-    - 强脑 Revo1 / Revo2（`BrainCo_Revo1`、`BrainCo_Revo2`）
-    - 灵心巧手 o6（`o6`）、o7（`LinkerHand_o7`）、`LinkerHands`
+    - 强脑（`BrainCo/`）：Revo1 / Revo2
+    - 灵心巧手（`LinkerHands/`）：L6 / o6 / o7
+    - 机器人时代 Xhand1（`RobotEra/Xhand1`）
+    - 舞肌 Hand2（`Wuji/Hand2`）
+- **Suction cup（吸盘）** — `suction_cup/`
+    - YSW E70（`YSW/E70`）
 - **Manipulator（机械臂）** — `manipulators/`（品牌目录 → 短产品名）
+    - 松灵（`manipulators/AgileX/`）：Piper、Gripper
     - 方舟无限（`manipulators/ARX/`）：`X5`、`R5`、`Gripper_2023`、`Gripper_2025`
     - 星海图（`manipulators/Galaxea/`）：`A1` / `A1X` / `A1Y` / `A1Z`、`G1` / `G1Z`
-    - 松灵（`manipulators/Agilex/`）：Piper
     - 越疆（`manipulators/Dobot/`）：CR5、`CR5_Fa_Station`
     - 艾利特（`manipulators/Elite/`）：EC66
     - 法奥（`manipulators/Fairino/`）：ART7
-    - 天机智能（`manipulators/Tianji/`）：`M6_CCS`、`M6_Fa_Station`、`M20S_CCS`
+    - 天机智能（`manipulators/Tianji/`）：`M6_CCS`、`M6S_Lite_CCS`、`M6_Fa_Station`、`M20S_CCS`
     - 珞石（`manipulators/Rokae/`）：`AR5_CCS_V1` / `AR5_CCS_V2`、`AR5_SRS`
     - 睿尔曼 RM75（`Realman/RM75`）
     - Panthera HT（`Panthera_HT`）
 - **Humanoid（人形机器人）** — `humanoid/`
     - 智元 G1（`Agibot/G1`）、G2（`Agibot/G2`）
     - 智平方 Bot2（`Ai2/Bot2`）
-    - 星尘智能 S1（`Astribot_S1`）
-    - 越疆 Atom（`Dobot_Atom`）
-    - 中科第五纪（`humanoid/FiveAges/`）：Gen1 / Gen2 / Gen3（W1 / W2 / WCE3，子模块）
+    - 星尘智能（`Astribot/`）：S1、Gripper
+    - 中科第五纪（`humanoid/FiveAges/`）：Gen1 / Gen2 / Gen3（W1 / W2、S2 / WCE3，子模块）
     - 星海图（`humanoid/Galaxea/`）
         - R1（`R1`，含 Robot 变体 `R1_Pro`）
         - R1 Lite（`R1_Lite`）
     - 银河通用 Galbot（`humanoid/Galbot` 子模块）：One / Zero / S1 / G1
+    - Gento（`Gento/`）：Luna / Skye
     - 睿尔曼 Aidal（`Realman/AIDAL`）
-    - SpiritAI Moz1（`SpiritAI_Moz1`）
-    - 优必选（`Ubtech` 子模块）
+    - Spirit AI MOZ1（`Spirit AI/MOZ1`）
+    - 优必选 Cruzr S2（`Ubtech/Ubtech_CruzrS2`，子模块）
 - **Mobile Base（移动底盘）** — `mobile_base/`
-    - 松灵 Ranger Mini（`Agilex_Ranger_Mini`）
-    - 松灵 Tracer（`Agilex_Tracer`）、Tracer V1（`Agilex/Tracer_V1`）、Tracer V2（`Agilex_Tracer_V2`）
-    - 灵猴（`Linkhou/`）：Q1、S2_V1、S2_V2
+    - 松灵（`Agilex/`）：Ranger Mini、Tracer V1、Tracer V2
+    - 灵猴（`Linkhou/`）：Q1、S2_V1、S2_V2、G2_Chassis
+    - Angellun Moz1 Chassis（`Angellun/Moz1_Chassis`）
+    - 悟时（`Woosh/`）：`Ai2_Bot2_Chassis`、`RM_AIDAL_Chassis`
 - **Mobile Manipulator（移动机械臂）** — `mobile_manipulator/`
-    - 松灵 Aloha Split（`Agilex_Aloha_Spilt`）、Aloha V2（`Agilex_Aloha_V2`）
-    - 松灵 Cobot Magic V1（`Agilex/Cobot Magic V1`）
+    - 松灵（`mobile_manipulator/Agilex/`）：Split Aloha、Cobot Magic V1、Cobot Magic V2
     - 方舟无限（`mobile_manipulator/ARX/`）
         - Lift（`Lift`）
         - Lift 2S（`Lift 2S`）
         - X7S（`X7S`）
         - AC One Base（`AC_One_Base`）
 - **Components（共享组件）** — `components/`
-    - Angellun_8 / Angellun_10、omnia_150、fixed_ee
+    - Angellun_8 / Angellun_10、omnia_150
+    - fixed_ee（`Concave_type1`、`Hook_type1`、`Scoop_type1`）
 - **Sensors（传感器）** — `sensors/`
     - RealSense d405 / d415 / d435
-    - dabai、mid360、oradar_ms500
-    - orbbec 305 / 336 / 336L / dabai_dw（及 `orbbec/`）
-    - usb_camera_01 / usb_camera_02、linkhou_ds51、robosense_airy、ultrasonic_02 等
+    - dabai、mid360、oradar_ms500、robosense_airy、linkhou_ds51、sdkeli_ls2
+    - orbbec 305 / 336 / 336L / dabai_dw；`orbbec/` 额外 335Le / 335Lg / 336
+    - usb_camera_01 / usb_camera_02
+    - ultrasonic_02 / ultrasonic_03
+    - 6Dof F&T Sensor（KWR75B）、sick（nanoScan3）、sensing（SHW5G、AstraS56、M3A）
 
 ## 4. 文件结构
 
@@ -143,21 +159,30 @@ git submodule update --init --recursive
 ```bash
 robots/
   grippers/
+    Agibot/OmniPicker/  ChangingTek/{AG2F120S,AG2F90}/
+    Inspire/EG2_4C2/  Jodell/{RG75,ERG32}/
   dexhands/
+    BrainCo/{Revo1,Revo2}/  LinkerHands/{L6,o6,o7}/
+    RobotEra/Xhand1/  Wuji/Hand2/
+  suction_cup/
+    YSW/E70/
   manipulators/
+    AgileX/{Piper,Gripper}/
     ARX/{X5,R5,Gripper_2023,Gripper_2025}/
     Galaxea/{A1,A1X,A1Y,A1Z,G1,G1Z}/
-    Agilex/Piper/
     Dobot/ … Elite/ … Fairino/ … Tianji/ … Rokae/ …
   humanoid/
     FiveAges/{Gen1,Gen2,Gen3}/
     Galaxea/{R1,R1_Lite}/
-    Galbot/ … Agibot/{G1,G2}/ …
+    Galbot/ … Agibot/{G1,G2}/ … Gento/{Luna,Skye}/
+    Astribot/{S1,Gripper}/  Spirit AI/MOZ1/
   mobile_base/
+    Agilex/{Ranger Mini,Tracer V1,Tracer V2}/
+    Linkhou/{Q1,S2_V1,S2_V2,G2_Chassis}/
+    Angellun/Moz1_Chassis/  Woosh/
   mobile_manipulator/
     ARX/{Lift,Lift 2S,X7S,AC_One_Base}/
-    Agilex/Cobot Magic V1/
-    Agilex_Aloha_Spilt/  Agilex_Aloha_V2/
+    Agilex/{Cobot Magic V1,Cobot Magic V2,Split Aloha}/
   components/
   sensors/
   README.md

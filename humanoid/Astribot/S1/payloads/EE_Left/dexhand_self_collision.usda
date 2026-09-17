@@ -1,0 +1,27 @@
+#usda 1.0
+(
+    doc = """DexHand EE — carve Revo1/Revo2 colliders out of NonDexHand (PhysX).
+
+link7 includes expand into EE children. Without excludes, fingers join
+NonDexHand, self-filter, and penetrate. Hands stay ungrouped.
+Grippers are intentionally NOT listed.
+"""
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+over "S1"
+{
+    over "CollisionGroups"
+    {
+        over "NonDexHand"
+        {
+            prepend rel collection:colliders:excludes = [
+                </S1/left_link7/Revo2>,
+                </S1/right_link7/Revo2>,
+                </S1/left_link7/Revo1>,
+                </S1/right_link7/Revo1>,
+            ]
+        }
+    }
+}

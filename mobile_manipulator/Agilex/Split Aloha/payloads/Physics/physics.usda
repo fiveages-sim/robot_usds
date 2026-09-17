@@ -1,0 +1,97 @@
+#usda 1.0
+(
+    customLayerData = {
+        dictionary cameraSettings = {
+            dictionary Front = {
+                double3 position = (5, 0, 0)
+                double radius = 5
+            }
+            dictionary Perspective = {
+                double3 position = (3.872632835829419, -3.1646952847858634, 1.576577226851735)
+                double3 target = (-1.6042533136600121, 2.1839883435628327, 0.2633624574346112)
+            }
+            dictionary Right = {
+                double3 position = (0.3468094947870353, -5, 0.07602648924614672)
+                double radius = 0.36727607250213623
+            }
+            dictionary Top = {
+                double3 position = (0, 0, 5)
+                double radius = 5
+            }
+            string boundCamera = "/OmniverseKit_Persp"
+        }
+        dictionary metricsAssembler = {
+            dictionary "/Split_Aloha/dabai" = {
+            }
+            dictionary "/Split_Aloha/mid360" = {
+            }
+            int version = 1
+        }
+        dictionary omni_layer = {
+            string authoring_layer = "./Split Aloha.usda"
+        }
+        dictionary renderSettings = {
+        }
+    }
+    defaultPrim = "Split_Aloha"
+    endTimeCode = 0
+    metersPerUnit = 1
+    startTimeCode = -1
+    upAxis = "Z"
+)
+
+over "Split_Aloha" (
+    prepend apiSchemas = ["PhysicsArticulationRootAPI"]
+)
+{
+    over "base" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.109751165, -0.008751071, 0.52669495)
+        float3 physics:diagonalInertia = (1.8256718, 1.7942611, 0.2834658)
+        float physics:mass = 27.32967
+        quatf physics:principalAxes = (0.99997586, 0.00007558819, -0.006843048, -0.001183554)
+    }
+
+    over "lifting_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.07456232, 0.00032497518, 0.113800846)
+        float3 physics:diagonalInertia = (0.012005623, 0.0026583795, 0.009991887)
+        float physics:mass = 0.490713
+        quatf physics:principalAxes = (0.9776867, 0.0003239116, 0.21006799, -0.00024019174)
+    }
+
+    over "joints"
+    {
+        def PhysicsPrismaticJoint "lifting_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:linear", "PhysicsDriveAPI:linear"]
+        )
+        {
+            float drive:linear:physics:damping = 5000
+            float drive:linear:physics:maxForce = 1000
+            float drive:linear:physics:stiffness = 50000
+            float drive:linear:physics:targetPosition = 0
+            uniform token drive:linear:physics:type = "force"
+            uniform token physics:axis = "Z"
+            custom rel physics:body0
+            append rel physics:body0 = </Split_Aloha/base>
+            custom rel physics:body1
+            append rel physics:body1 = </Split_Aloha/lifting_link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 1.0482183
+            point3f physics:localPos0 = (0.22448, 0, 1.1147)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -0.6
+            float physics:upperLimit = 0
+            float state:linear:physics:position = 0
+            float state:linear:physics:velocity = 0
+        }
+    }
+}
+

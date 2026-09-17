@@ -5,11 +5,17 @@
     upAxis = "Z"
 )
 
-def Xform "Luna"
+def Xform "Luna" (
+    variants = {
+        string Visual = "white"
+    }
+    prepend variantSets = ["Visual"]
+)
 {
     def "Linkhou_S2" (
         prepend payload = @../../../../../mobile_base/Linkhou/S2_V2/S2_V2.usda@
         variants = {
+            string ROS = "enable"
             string Visual = "white"
         }
     )
@@ -131,6 +137,99 @@ def Xform "Luna"
                             }
                         }
                     )
+                }
+            }
+        }
+    }
+
+    variantSet "Visual" = {
+        "white" {
+            over "Linkhou_S2" (
+                variants = {
+                    string Visual = "white"
+                }
+            )
+            {
+            }
+        }
+        "gento_skye" {
+            over "Linkhou_S2" (
+                variants = {
+                    string Visual = "gento_skye"
+                }
+            )
+            {
+                over "base_footprint"
+                {
+                    over "base_link"
+                    {
+                        over "shell_default"
+                        {
+                            over "Looks"
+                            {
+                                over "color"
+                                {
+                                    over "color"
+                                    {
+                                        color3f inputs:base_color_factor = (0.7000114, 0.7000114, 0.7000114)
+                                        float inputs:metallic_factor = 1
+                                        float inputs:roughness_factor = 0.39999998
+                                    }
+                                }
+
+                                over "color_inner"
+                                {
+                                    over "color_inner"
+                                    {
+                                        color3f inputs:base_color_factor = (0.7000114, 0.7000114, 0.7000114)
+                                        float inputs:metallic_factor = 1
+                                        float inputs:roughness_factor = 0.39999998
+                                    }
+                                }
+                            }
+                        }
+
+                        over "chassis_base"
+                        {
+                            over "chassis_left_battery"
+                            {
+                                over "battery"
+                                {
+                                    over "Looks"
+                                    {
+                                        over "color_battery"
+                                        {
+                                            over "color_battery"
+                                            {
+                                                color3f inputs:base_color_factor = (0.7000114, 0.7000114, 0.7000114)
+                                                float inputs:metallic_factor = 1
+                                                float inputs:roughness_factor = 0.39999998
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                            over "chassis_right_battery"
+                            {
+                                over "battery"
+                                {
+                                    over "Looks"
+                                    {
+                                        over "color_battery"
+                                        {
+                                            over "color_battery"
+                                            {
+                                                color3f inputs:base_color_factor = (0.7000114, 0.7000114, 0.7000114)
+                                                float inputs:metallic_factor = 1
+                                                float inputs:roughness_factor = 0.39999998
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }

@@ -1,0 +1,68 @@
+#usda 1.0
+(
+    defaultPrim = "Split_Aloha"
+    metersPerUnit = 1
+    startTimeCode = -1
+    endTimeCode = 0
+    subLayers = [
+        @./physics.usda@
+    ]
+    upAxis = "Z"
+)
+
+def "Split_Aloha" (
+    prepend apiSchemas = ["PhysxArticulationAPI"]
+)
+{
+    bool physxArticulation:enabledSelfCollisions = 0
+
+    over "joints"
+    {
+        over "lifting_joint" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = 10
+        }
+    }
+
+    over "base"
+    {
+        bool physxArticulation:enabledSelfCollisions = 0
+        int physxArticulation:solverPositionIterationCount = 32
+        int physxArticulation:solverVelocityIterationCount = 1
+    }
+
+    over "Ranger_Mini" (
+        variants = {
+            string Physics = "physx"
+        }
+    )
+    {
+    }
+
+    over "lifting_link"
+    {
+        over "left_base_link"
+        {
+            over "Piper" (
+                variants = {
+                    string Physics = "physx"
+                }
+            )
+            {
+            }
+        }
+
+        over "right_base_link"
+        {
+            over "Piper" (
+                variants = {
+                    string Physics = "physx"
+                }
+            )
+            {
+            }
+        }
+    }
+}

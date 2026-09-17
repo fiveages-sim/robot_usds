@@ -1,0 +1,642 @@
+#usda 1.0
+(
+    defaultPrim = "Xhand1"
+    doc = """MuJoCo/Newton physics rail for Xhand1.
+subLayers physics.usda (mass/joints). Strips PhysX Drive; adds MjcJointAPI +
+MjcActuator. No mimic joints (12 independent DOFs).
+Default-Side actuators only here; left/right actuators in Side payloads.
+Self-collision: newton:selfCollisionEnabled=1; FilteredPairs in physics.usda.
+"""
+    metersPerUnit = 1
+    subLayers = [
+        @./physics.usda@
+    ]
+    upAxis = "Z"
+)
+
+over "Xhand1"
+{
+    over "joints"
+    {
+        over "index_joint1" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            uniform double mjc:frictionloss = 0.0
+            uniform token mjc:actuatorfrclimited = "true"
+            uniform double mjc:actuatorfrcrange:min = -10
+            uniform double mjc:actuatorfrcrange:max = 10
+        }
+        over "index_joint2" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            uniform double mjc:frictionloss = 0.0
+            uniform token mjc:actuatorfrclimited = "true"
+            uniform double mjc:actuatorfrcrange:min = -10
+            uniform double mjc:actuatorfrcrange:max = 10
+        }
+        over "index_joint3" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            uniform double mjc:frictionloss = 0.0
+            uniform token mjc:actuatorfrclimited = "true"
+            uniform double mjc:actuatorfrcrange:min = -10
+            uniform double mjc:actuatorfrcrange:max = 10
+        }
+        over "middle_joint1" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            uniform double mjc:frictionloss = 0.0
+            uniform token mjc:actuatorfrclimited = "true"
+            uniform double mjc:actuatorfrcrange:min = -10
+            uniform double mjc:actuatorfrcrange:max = 10
+        }
+        over "middle_joint2" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            uniform double mjc:frictionloss = 0.0
+            uniform token mjc:actuatorfrclimited = "true"
+            uniform double mjc:actuatorfrcrange:min = -10
+            uniform double mjc:actuatorfrcrange:max = 10
+        }
+        over "pinky_joint1" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            uniform double mjc:frictionloss = 0.0
+            uniform token mjc:actuatorfrclimited = "true"
+            uniform double mjc:actuatorfrcrange:min = -10
+            uniform double mjc:actuatorfrcrange:max = 10
+        }
+        over "pinky_joint2" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            uniform double mjc:frictionloss = 0.0
+            uniform token mjc:actuatorfrclimited = "true"
+            uniform double mjc:actuatorfrcrange:min = -10
+            uniform double mjc:actuatorfrcrange:max = 10
+        }
+        over "ring_joint1" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            uniform double mjc:frictionloss = 0.0
+            uniform token mjc:actuatorfrclimited = "true"
+            uniform double mjc:actuatorfrcrange:min = -10
+            uniform double mjc:actuatorfrcrange:max = 10
+        }
+        over "ring_joint2" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            uniform double mjc:frictionloss = 0.0
+            uniform token mjc:actuatorfrclimited = "true"
+            uniform double mjc:actuatorfrcrange:min = -10
+            uniform double mjc:actuatorfrcrange:max = 10
+        }
+        over "thumb_joint1" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            uniform bool mjc:actuatorgravcomp = 1
+            uniform double mjc:armature = 0.005
+            uniform double mjc:damping = 0.08
+            uniform double mjc:frictionloss = 0.0
+            uniform token mjc:actuatorfrclimited = "true"
+            uniform double mjc:actuatorfrcrange:min = -15
+            uniform double mjc:actuatorfrcrange:max = 15
+        }
+        over "thumb_joint2" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            uniform bool mjc:actuatorgravcomp = 1
+            uniform double mjc:armature = 0.005
+            uniform double mjc:damping = 0.08
+            uniform double mjc:frictionloss = 0.0
+            uniform token mjc:actuatorfrclimited = "true"
+            uniform double mjc:actuatorfrcrange:min = -15
+            uniform double mjc:actuatorfrcrange:max = 15
+        }
+        over "thumb_joint3" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            uniform bool mjc:actuatorgravcomp = 1
+            uniform double mjc:armature = 0.005
+            uniform double mjc:damping = 0.08
+            uniform double mjc:frictionloss = 0.0
+            uniform token mjc:actuatorfrclimited = "true"
+            uniform double mjc:actuatorfrcrange:min = -15
+            uniform double mjc:actuatorfrcrange:max = 15
+        }
+        over "left_hand_index_joint1" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            uniform double mjc:frictionloss = 0.0
+            uniform token mjc:actuatorfrclimited = "true"
+            uniform double mjc:actuatorfrcrange:min = -10
+            uniform double mjc:actuatorfrcrange:max = 10
+        }
+        over "left_hand_index_joint2" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            uniform double mjc:frictionloss = 0.0
+            uniform token mjc:actuatorfrclimited = "true"
+            uniform double mjc:actuatorfrcrange:min = -10
+            uniform double mjc:actuatorfrcrange:max = 10
+        }
+        over "left_hand_index_joint3" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            uniform double mjc:frictionloss = 0.0
+            uniform token mjc:actuatorfrclimited = "true"
+            uniform double mjc:actuatorfrcrange:min = -10
+            uniform double mjc:actuatorfrcrange:max = 10
+        }
+        over "left_hand_middle_joint1" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            uniform double mjc:frictionloss = 0.0
+            uniform token mjc:actuatorfrclimited = "true"
+            uniform double mjc:actuatorfrcrange:min = -10
+            uniform double mjc:actuatorfrcrange:max = 10
+        }
+        over "left_hand_middle_joint2" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            uniform double mjc:frictionloss = 0.0
+            uniform token mjc:actuatorfrclimited = "true"
+            uniform double mjc:actuatorfrcrange:min = -10
+            uniform double mjc:actuatorfrcrange:max = 10
+        }
+        over "left_hand_pinky_joint1" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            uniform double mjc:frictionloss = 0.0
+            uniform token mjc:actuatorfrclimited = "true"
+            uniform double mjc:actuatorfrcrange:min = -10
+            uniform double mjc:actuatorfrcrange:max = 10
+        }
+        over "left_hand_pinky_joint2" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            uniform double mjc:frictionloss = 0.0
+            uniform token mjc:actuatorfrclimited = "true"
+            uniform double mjc:actuatorfrcrange:min = -10
+            uniform double mjc:actuatorfrcrange:max = 10
+        }
+        over "left_hand_ring_joint1" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            uniform double mjc:frictionloss = 0.0
+            uniform token mjc:actuatorfrclimited = "true"
+            uniform double mjc:actuatorfrcrange:min = -10
+            uniform double mjc:actuatorfrcrange:max = 10
+        }
+        over "left_hand_ring_joint2" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            uniform double mjc:frictionloss = 0.0
+            uniform token mjc:actuatorfrclimited = "true"
+            uniform double mjc:actuatorfrcrange:min = -10
+            uniform double mjc:actuatorfrcrange:max = 10
+        }
+        over "left_hand_thumb_joint1" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            uniform bool mjc:actuatorgravcomp = 1
+            uniform double mjc:armature = 0.005
+            uniform double mjc:damping = 0.08
+            uniform double mjc:frictionloss = 0.0
+            uniform token mjc:actuatorfrclimited = "true"
+            uniform double mjc:actuatorfrcrange:min = -15
+            uniform double mjc:actuatorfrcrange:max = 15
+        }
+        over "left_hand_thumb_joint2" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            uniform bool mjc:actuatorgravcomp = 1
+            uniform double mjc:armature = 0.005
+            uniform double mjc:damping = 0.08
+            uniform double mjc:frictionloss = 0.0
+            uniform token mjc:actuatorfrclimited = "true"
+            uniform double mjc:actuatorfrcrange:min = -15
+            uniform double mjc:actuatorfrcrange:max = 15
+        }
+        over "left_hand_thumb_joint3" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            uniform bool mjc:actuatorgravcomp = 1
+            uniform double mjc:armature = 0.005
+            uniform double mjc:damping = 0.08
+            uniform double mjc:frictionloss = 0.0
+            uniform token mjc:actuatorfrclimited = "true"
+            uniform double mjc:actuatorfrcrange:min = -15
+            uniform double mjc:actuatorfrcrange:max = 15
+        }
+        over "right_hand_index_joint1" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            uniform double mjc:frictionloss = 0.0
+            uniform token mjc:actuatorfrclimited = "true"
+            uniform double mjc:actuatorfrcrange:min = -10
+            uniform double mjc:actuatorfrcrange:max = 10
+        }
+        over "right_hand_index_joint2" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            uniform double mjc:frictionloss = 0.0
+            uniform token mjc:actuatorfrclimited = "true"
+            uniform double mjc:actuatorfrcrange:min = -10
+            uniform double mjc:actuatorfrcrange:max = 10
+        }
+        over "right_hand_index_joint3" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            uniform double mjc:frictionloss = 0.0
+            uniform token mjc:actuatorfrclimited = "true"
+            uniform double mjc:actuatorfrcrange:min = -10
+            uniform double mjc:actuatorfrcrange:max = 10
+        }
+        over "right_hand_middle_joint1" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            uniform double mjc:frictionloss = 0.0
+            uniform token mjc:actuatorfrclimited = "true"
+            uniform double mjc:actuatorfrcrange:min = -10
+            uniform double mjc:actuatorfrcrange:max = 10
+        }
+        over "right_hand_middle_joint2" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            uniform double mjc:frictionloss = 0.0
+            uniform token mjc:actuatorfrclimited = "true"
+            uniform double mjc:actuatorfrcrange:min = -10
+            uniform double mjc:actuatorfrcrange:max = 10
+        }
+        over "right_hand_pinky_joint1" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            uniform double mjc:frictionloss = 0.0
+            uniform token mjc:actuatorfrclimited = "true"
+            uniform double mjc:actuatorfrcrange:min = -10
+            uniform double mjc:actuatorfrcrange:max = 10
+        }
+        over "right_hand_pinky_joint2" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            uniform double mjc:frictionloss = 0.0
+            uniform token mjc:actuatorfrclimited = "true"
+            uniform double mjc:actuatorfrcrange:min = -10
+            uniform double mjc:actuatorfrcrange:max = 10
+        }
+        over "right_hand_ring_joint1" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            uniform double mjc:frictionloss = 0.0
+            uniform token mjc:actuatorfrclimited = "true"
+            uniform double mjc:actuatorfrcrange:min = -10
+            uniform double mjc:actuatorfrcrange:max = 10
+        }
+        over "right_hand_ring_joint2" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            uniform double mjc:frictionloss = 0.0
+            uniform token mjc:actuatorfrclimited = "true"
+            uniform double mjc:actuatorfrcrange:min = -10
+            uniform double mjc:actuatorfrcrange:max = 10
+        }
+        over "right_hand_thumb_joint1" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            uniform bool mjc:actuatorgravcomp = 1
+            uniform double mjc:armature = 0.005
+            uniform double mjc:damping = 0.08
+            uniform double mjc:frictionloss = 0.0
+            uniform token mjc:actuatorfrclimited = "true"
+            uniform double mjc:actuatorfrcrange:min = -15
+            uniform double mjc:actuatorfrcrange:max = 15
+        }
+        over "right_hand_thumb_joint2" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            uniform bool mjc:actuatorgravcomp = 1
+            uniform double mjc:armature = 0.005
+            uniform double mjc:damping = 0.08
+            uniform double mjc:frictionloss = 0.0
+            uniform token mjc:actuatorfrclimited = "true"
+            uniform double mjc:actuatorfrcrange:min = -15
+            uniform double mjc:actuatorfrcrange:max = 15
+        }
+        over "right_hand_thumb_joint3" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            uniform bool mjc:actuatorgravcomp = 1
+            uniform double mjc:armature = 0.005
+            uniform double mjc:damping = 0.08
+            uniform double mjc:frictionloss = 0.0
+            uniform token mjc:actuatorfrclimited = "true"
+            uniform double mjc:actuatorfrcrange:min = -15
+            uniform double mjc:actuatorfrcrange:max = 15
+        }
+    }
+
+    over "root_joint" (
+        prepend apiSchemas = ["NewtonArticulationRootAPI"]
+    )
+    {
+        bool newton:selfCollisionEnabled = 1
+    }
+
+    def Scope "actuators"
+    {
+        def MjcActuator "index_joint1"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [5, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -5, -1.5, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -10
+            uniform double mjc:forceRange:max = 10
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = -0.1739999889
+            uniform double mjc:ctrlRange:max = 0.1739999889
+            rel mjc:target = </Xhand1/joints/index_joint1>
+        }
+        def MjcActuator "index_joint2"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [5, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -5, -1.5, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -10
+            uniform double mjc:forceRange:max = 10
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = 0
+            uniform double mjc:ctrlRange:max = 1.918999985
+            rel mjc:target = </Xhand1/joints/index_joint2>
+        }
+        def MjcActuator "index_joint3"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [5, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -5, -1.5, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -10
+            uniform double mjc:forceRange:max = 10
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = 0
+            uniform double mjc:ctrlRange:max = 1.918999985
+            rel mjc:target = </Xhand1/joints/index_joint3>
+        }
+        def MjcActuator "middle_joint1"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [5, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -5, -1.5, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -10
+            uniform double mjc:forceRange:max = 10
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = 0
+            uniform double mjc:ctrlRange:max = 1.918999985
+            rel mjc:target = </Xhand1/joints/middle_joint1>
+        }
+        def MjcActuator "middle_joint2"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [5, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -5, -1.5, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -10
+            uniform double mjc:forceRange:max = 10
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = 0
+            uniform double mjc:ctrlRange:max = 1.918999985
+            rel mjc:target = </Xhand1/joints/middle_joint2>
+        }
+        def MjcActuator "pinky_joint1"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [5, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -5, -1.5, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -10
+            uniform double mjc:forceRange:max = 10
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = 0
+            uniform double mjc:ctrlRange:max = 1.918999985
+            rel mjc:target = </Xhand1/joints/pinky_joint1>
+        }
+        def MjcActuator "pinky_joint2"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [5, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -5, -1.5, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -10
+            uniform double mjc:forceRange:max = 10
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = 0
+            uniform double mjc:ctrlRange:max = 1.918999985
+            rel mjc:target = </Xhand1/joints/pinky_joint2>
+        }
+        def MjcActuator "ring_joint1"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [5, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -5, -1.5, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -10
+            uniform double mjc:forceRange:max = 10
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = 0
+            uniform double mjc:ctrlRange:max = 1.918999985
+            rel mjc:target = </Xhand1/joints/ring_joint1>
+        }
+        def MjcActuator "ring_joint2"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [5, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -5, -1.5, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -10
+            uniform double mjc:forceRange:max = 10
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = 0
+            uniform double mjc:ctrlRange:max = 1.918999985
+            rel mjc:target = </Xhand1/joints/ring_joint2>
+        }
+        def MjcActuator "thumb_joint1"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [2, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -2, -2.5, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -15
+            uniform double mjc:forceRange:max = 15
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = 0
+            uniform double mjc:ctrlRange:max = 1.831999964
+            rel mjc:target = </Xhand1/joints/thumb_joint1>
+        }
+        def MjcActuator "thumb_joint2"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [2, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -2, -2.5, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -15
+            uniform double mjc:forceRange:max = 15
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = -0.6980000157
+            uniform double mjc:ctrlRange:max = 1.569999933
+            rel mjc:target = </Xhand1/joints/thumb_joint2>
+        }
+        def MjcActuator "thumb_joint3"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [2, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -2, -2.5, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -15
+            uniform double mjc:forceRange:max = 15
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = 0
+            uniform double mjc:ctrlRange:max = 1.569999933
+            rel mjc:target = </Xhand1/joints/thumb_joint3>
+        }
+    }
+}

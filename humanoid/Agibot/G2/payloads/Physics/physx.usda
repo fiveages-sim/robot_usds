@@ -3,7 +3,8 @@
     defaultPrim = "G2"
     metersPerUnit = 1
     subLayers = [
-        @./physics.usda@
+        @./physics.usda@,
+        @./body_self_collision_mute.usda@
     ]
     upAxis = "Z"
 )
@@ -14,7 +15,9 @@ def "G2"
         prepend apiSchemas = ["PhysxArticulationAPI"]
     )
     {
-        bool physxArticulation:enabledSelfCollisions = 0
+        # On for any arm mix; NonDexHand (body_self_collision_mute.usda) mutes
+        # torso/chassis/arm self-pairs. Dexhand EE excludes keep fingers free.
+        bool physxArticulation:enabledSelfCollisions = 1
         int physxArticulation:solverPositionIterationCount = 32
         int physxArticulation:solverVelocityIterationCount = 1
     }

@@ -1,0 +1,134 @@
+#usda 1.0
+(
+    defaultPrim = "Cobot_Magic_V2"
+)
+
+def Xform "Cobot_Magic_V2" (
+    delete apiSchemas = ["PhysicsArticulationRootAPI", "PhysxArticulationAPI", "NewtonArticulationRootAPI"]
+)
+{
+    def "Tracer" (
+        prepend payload = @../../../../../mobile_base/Agilex/Tracer V2/Agilex_Tracer_V2.usda@
+        variants = {
+            string ROS = "enable"
+        }
+    )
+    {
+        quatd xformOp:orient = (1, 0, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "base_footprint"
+        {
+            def PhysicsFixedJoint "AssemblerFixedJoint"
+            {
+                rel physics:body0 = </Cobot_Magic_V2/Tracer/base_footprint>
+                rel physics:body1 = </Cobot_Magic_V2/base_footprint>
+                point3f physics:localPos0 = (0, 0, 0)
+                point3f physics:localPos1 = (0, 0, 0)
+                quatf physics:localRot0 = (1, 0, 0, 0)
+                quatf physics:localRot1 = (1, 0, 0, 0)
+            }
+        }
+
+        over "joints"
+        {
+            over "left_joint"
+            {
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "right_joint"
+            {
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "left_front_joint"
+            {
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "left_front_wheel_joint"
+            {
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "left_rear_joint"
+            {
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "left_rear_wheel_joint"
+            {
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "right_front_joint"
+            {
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "right_front_wheel_joint"
+            {
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "right_rear_joint"
+            {
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "right_rear_wheel_joint"
+            {
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+        }
+
+        over "Graph"
+        {
+            over "ROS_Odometry"
+            {
+                over "ComputeOdometry"
+                {
+                    custom rel inputs:chassisPrim = </Cobot_Magic_V2/Tracer/base_footprint> (
+                        customData = {
+                            dictionary omni = {
+                                dictionary graph = {
+                                    string relType = "target"
+                                }
+                            }
+                        }
+                    )
+                }
+            }
+
+            over "ROS_Differential_Controller"
+            {
+                over "ArticulationController"
+                {
+                    custom token[] inputs:jointNames = ["left_joint", "right_joint"]
+                    custom rel inputs:targetPrim = </Cobot_Magic_V2/Tracer> (
+                        customData = {
+                            dictionary omni = {
+                                dictionary graph = {
+                                    string relType = "target"
+                                }
+                            }
+                        }
+                    )
+                }
+            }
+        }
+    }
+}

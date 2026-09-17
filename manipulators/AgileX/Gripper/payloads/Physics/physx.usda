@@ -1,0 +1,108 @@
+#usda 1.0
+(
+    defaultPrim = "Gripper"
+    metersPerUnit = 1
+    subLayers = [
+        @./physics.usda@
+    ]
+    upAxis = "Z"
+)
+
+# PhysX gripper for OCS2 AdaptiveGripperController.
+# Hard mimic on rotZ (prismatic axis=Z). maxForce stays below force_threshold=0.5.
+
+def "Gripper"
+{
+    over "joints"
+    {
+        over "gripper_joint" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float drive:linear:physics:damping = 6000
+            float drive:linear:physics:maxForce = 0.4
+            float drive:linear:physics:stiffness = 60000
+            float drive:linear:physics:targetPosition = 0
+            uniform token drive:linear:physics:type = "force"
+            float physics:lowerLimit = 0
+            float physics:upperLimit = 0.05
+            float physxJoint:maxJointVelocity = 1
+        }
+
+        over "joint8" (
+            prepend apiSchemas = ["PhysxJointAPI", "PhysxMimicJointAPI:rotZ"]
+        )
+        {
+            float physics:lowerLimit = -0.05
+            float physics:upperLimit = 0.05
+            float physxMimicJoint:rotZ:dampingRatio = 0
+            float physxMimicJoint:rotZ:gearing = -1
+            float physxMimicJoint:rotZ:naturalFrequency = 0
+            float physxMimicJoint:rotZ:offset = 0
+            rel physxMimicJoint:rotZ:referenceJoint = </Gripper/joints/gripper_joint>
+        }
+
+        over "left_gripper_joint" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float drive:linear:physics:damping = 6000
+            float drive:linear:physics:maxForce = 0.4
+            float drive:linear:physics:stiffness = 60000
+            float drive:linear:physics:targetPosition = 0
+            uniform token drive:linear:physics:type = "force"
+            float physics:lowerLimit = 0
+            float physics:upperLimit = 0.05
+            float physxJoint:maxJointVelocity = 1
+        }
+
+        over "left_joint8" (
+            prepend apiSchemas = ["PhysxJointAPI", "PhysxMimicJointAPI:rotZ"]
+        )
+        {
+            float physics:lowerLimit = -0.05
+            float physics:upperLimit = 0.05
+            float physxMimicJoint:rotZ:dampingRatio = 0
+            float physxMimicJoint:rotZ:gearing = -1
+            float physxMimicJoint:rotZ:naturalFrequency = 0
+            float physxMimicJoint:rotZ:offset = 0
+            rel physxMimicJoint:rotZ:referenceJoint = </Gripper/joints/left_gripper_joint>
+        }
+
+        over "right_gripper_joint" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float drive:linear:physics:damping = 6000
+            float drive:linear:physics:maxForce = 0.4
+            float drive:linear:physics:stiffness = 60000
+            float drive:linear:physics:targetPosition = 0
+            uniform token drive:linear:physics:type = "force"
+            float physics:lowerLimit = 0
+            float physics:upperLimit = 0.05
+            float physxJoint:maxJointVelocity = 1
+        }
+
+        over "right_joint8" (
+            prepend apiSchemas = ["PhysxJointAPI", "PhysxMimicJointAPI:rotZ"]
+        )
+        {
+            float physics:lowerLimit = -0.05
+            float physics:upperLimit = 0.05
+            float physxMimicJoint:rotZ:dampingRatio = 0
+            float physxMimicJoint:rotZ:gearing = -1
+            float physxMimicJoint:rotZ:naturalFrequency = 0
+            float physxMimicJoint:rotZ:offset = 0
+            rel physxMimicJoint:rotZ:referenceJoint = </Gripper/joints/right_gripper_joint>
+        }
+    }
+
+    over "root_joint" (
+        prepend apiSchemas = ["PhysxArticulationAPI"]
+    )
+    {
+        bool physxArticulation:enabledSelfCollisions = 0
+        int physxArticulation:solverPositionIterationCount = 32
+        int physxArticulation:solverVelocityIterationCount = 1
+    }
+}

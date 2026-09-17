@@ -1,0 +1,148 @@
+#usda 1.0
+(
+    defaultPrim = "Revo2"
+    doc = """BrainCo Revo2 — unified left/right via Side variant (default|left|right).
+default: left morphology, unprefixed joints.
+left: left morphology, left_hand_* joints (default joints deactivated).
+right: right morphology, right_hand_* joints (X-mirror of Hand/left).
+PhysX Drive baseline (G1 hold · fasim-dexhand-asset §0.1): fingers D=0.06 K=0.1 F=30;
+thumb D=0.08 K=0.12 F=50; jointFriction=0.5 armature=0.001;
+maxJointVelocity=500000 frozen. Colliders μs=2.0 μd=1.6 max-combine,
+contactOffset=0.002; distal CCD; maxDepenetrationVelocity=2.0.
+Self-col On + FilteredPairs (keep thumb tip pinch).
+Physics: no authored default — VariantSwitcher sets physx↔mujoco on first load.
+Physics variantSet is listed before Side.
+"""
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "Revo2" (
+    prepend references = @./payloads/base.usda@
+    variants = {
+        string Robot = "none"
+        string Sensor = "none"
+        string Side = "default"
+    }
+    prepend variantSets = ["Physics", "Side"]
+    append variantSets = ["Robot", "Sensor"]
+)
+{
+    over "joints"
+    {
+        over "index_joint"
+        {
+            float drive:angular:physics:damping = 0.06
+            float drive:angular:physics:maxForce = 30
+            float drive:angular:physics:stiffness = 0.1
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:maxJointVelocity = 500000
+        }
+
+        over "middle_joint"
+        {
+            float drive:angular:physics:damping = 0.06
+            float drive:angular:physics:maxForce = 30
+            float drive:angular:physics:stiffness = 0.1
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:maxJointVelocity = 500000
+        }
+
+        over "pinky_joint"
+        {
+            float drive:angular:physics:damping = 0.06
+            float drive:angular:physics:maxForce = 30
+            float drive:angular:physics:stiffness = 0.1
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:maxJointVelocity = 500000
+        }
+
+        over "ring_joint"
+        {
+            float drive:angular:physics:damping = 0.06
+            float drive:angular:physics:maxForce = 30
+            float drive:angular:physics:stiffness = 0.1
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:maxJointVelocity = 500000
+        }
+
+        over "thumb_joint2"
+        {
+            float drive:angular:physics:damping = 0.08
+            float drive:angular:physics:maxForce = 50
+            float drive:angular:physics:stiffness = 0.12
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:maxJointVelocity = 500000
+        }
+
+        over "thumb_joint1"
+        {
+            float drive:angular:physics:damping = 0.08
+            float drive:angular:physics:maxForce = 50
+            float drive:angular:physics:stiffness = 0.12
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:maxJointVelocity = 500000
+        }
+    }
+
+    variantSet "Physics" = {
+        "physx" (
+            prepend payload = @./payloads/Physics/physx.usda@
+        ) {
+        }
+        "mujoco" (
+            prepend payload = @./payloads/Physics/mujoco.usda@
+        ) {
+        }
+        "none" (
+            prepend payload = @./payloads/Physics/none.usda@
+        ) {
+        }
+        "physics" (
+            prepend payload = @./payloads/Physics/physics.usda@
+        ) {
+        }
+    }
+    variantSet "Side" = {
+        "default" (
+            prepend payload = @./payloads/Side/default.usda@
+        ) {
+        }
+        "left" (
+            prepend payload = @./payloads/Side/left.usda@
+        ) {
+        }
+        "right" (
+            prepend payload = @./payloads/Side/right.usda@
+            delete references = @./payloads/base.usda@
+            prepend references = @./payloads/Hand/right/base.usda@
+        ) {
+        }
+    }
+    variantSet "Robot" = {
+        "none" (
+            prepend payload = @./payloads/Robot/none.usda@
+        ) {
+        }
+        "robot" (
+            prepend payload = @./payloads/Robot/robot.usda@
+        ) {
+        }
+    }
+    variantSet "Sensor" = {
+        "none" (
+            prepend payload = @./payloads/Sensor/none.usda@
+        ) {
+        }
+        "sensors" (
+            prepend payload = @./payloads/Sensor/sensors.usda@
+        ) {
+        }
+    }
+}

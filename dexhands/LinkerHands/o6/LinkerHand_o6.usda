@@ -14,12 +14,13 @@ G1 hold (synced from o7 validated): fingers K=0.1 D=0.06 F=30; thumb K=0.12 D=0.
 def Xform "LinkerHand_o6" (
     prepend references = @./payloads/base.usda@
     variants = {
+        string Flange = "default"
         string Physics = "physx"
         string Robot = "none"
         string Sensor = "none"
         string Side = "default"
     }
-    prepend variantSets = ["Side", "Physics"]
+    prepend variantSets = ["Side", "Physics", "Flange"]
     append variantSets = ["Robot", "Sensor"]
 )
 {
@@ -142,6 +143,14 @@ def Xform "LinkerHand_o6" (
             delete references = @./payloads/base.usda@
             prepend references = @./payloads/Hand/right/base.usda@
         ) {
+        }
+    }
+    variantSet "Flange" = {
+        "default" (
+            prepend payload = @./payloads/Flange/default.usda@
+        ) {
+        }
+        "none" {
         }
     }
     variantSet "Physics" = {

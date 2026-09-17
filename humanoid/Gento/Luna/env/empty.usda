@@ -7,8 +7,8 @@
                 double radius = 5
             }
             dictionary Perspective = {
-                double3 position = (2.1833959629818875, 0.8523346467588435, 2.1137805161674077)
-                double3 target = (-5.626951643396417, -2.1926241864618534, -2.1277826323750766)
+                double3 position = (1.8048753191615385, 1.8048753191615412, 1.8048753954235104)
+                double3 target = (-3.9780384986087824e-8, -3.978038165541875e-8, 7.95607677517296e-8)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -21,7 +21,6 @@
             string boundCamera = "/OmniverseKit_Persp"
         }
         dictionary omni_layer = {
-            string authoring_layer = "./empty.usda"
             dictionary locked = {
             }
             dictionary muteness = {
@@ -47,11 +46,12 @@ def Xform "World"
         }
     )
     {
-        over "Linkhou_S2" (
-            variants = {
-                string ROS = "enable"
-            }
-        )
+        quatd xformOp:orient = (1, 0, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0, 0, 0.029920077937652)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "Linkhou_S2"
         {
             over "Graph"
             {
@@ -61,49 +61,6 @@ def Xform "World"
                     {
                         custom token inputs:scriptPath
                     }
-                }
-            }
-
-            over "joints"
-            {
-                over "fl_wheel_joint"
-                {
-                    float drive:angular:physics:targetVelocity = 0
-                }
-
-                over "rl_wheel_joint"
-                {
-                    float drive:angular:physics:targetVelocity = 0
-                }
-
-                over "rr_wheel_joint"
-                {
-                    float drive:angular:physics:targetVelocity = 0
-                }
-
-                over "fr_wheel_joint"
-                {
-                    float drive:angular:physics:targetVelocity = 0
-                }
-
-                over "fl_steer_joint"
-                {
-                    float drive:angular:physics:targetPosition = 0
-                }
-
-                over "rl_steer_joint"
-                {
-                    float drive:angular:physics:targetPosition = 0
-                }
-
-                over "rr_steer_joint"
-                {
-                    float drive:angular:physics:targetPosition = 0
-                }
-
-                over "fr_steer_joint"
-                {
-                    float drive:angular:physics:targetPosition = 0
                 }
             }
         }
@@ -129,7 +86,7 @@ def "Render" (
         )
         {
             def RenderProduct "omni_kit_widget_viewport_ViewportTexture_0" (
-                prepend apiSchemas = ["OmniRtxSettingsCommonAdvancedAPI_1", "OmniRtxSettingsRtAdvancedAPI_1", "OmniRtxSettingsPtAdvancedAPI_1", "OmniRtxPostColorGradingAPI_1", "OmniRtxPostChromaticAberrationAPI_1", "OmniRtxPostBloomPhysicalAPI_1", "OmniRtxPostMatteObjectAPI_1", "OmniRtxPostCompositingAPI_1", "OmniRtxPostDofAPI_1", "OmniRtxPostMotionBlurAPI_1", "OmniRtxPostTvNoiseAPI_1", "OmniRtxPostTonemapIrayReinhardAPI_1", "OmniRtxPostDebugSettingsAPI_1", "OmniRtxDebugSettingsAPI_1"]
+                prepend apiSchemas = ["OmniRtxSettingsCommonAdvancedAPI_1", "OmniRtxSettingsRtAdvancedAPI_1", "OmniRtxSettingsPtAdvancedAPI_1", "OmniRtxSettingsParticleFieldAPI_1", "OmniRtxPostColorGradingAPI_1", "OmniRtxPostChromaticAberrationAPI_1", "OmniRtxPostBloomPhysicalAPI_1", "OmniRtxPostMatteObjectAPI_1", "OmniRtxPostCompositingAPI_1", "OmniRtxPostDofAPI_1", "OmniRtxPostMotionBlurAPI_1", "OmniRtxPostTvNoiseAPI_1", "OmniRtxPostTonemapIrayReinhardAPI_1", "OmniRtxPostDebugSettingsAPI_1", "OmniRtxDebugSettingsAPI_1"]
                 hide_in_stage_window = true
                 no_delete = true
             )
@@ -141,7 +98,6 @@ def "Render" (
                 bool omni:rtx:debug:view:pixelDebug:enableFixedTextPos = 1
                 token omni:rtx:directLighting:sampledLighting:denoisingTechnique = "None"
                 bool omni:rtx:dlss:frameGeneration = 0
-                float3 omni:rtx:domeLight:rotationAxis = (0, 0, 1)
                 bool omni:rtx:indirectDiffuse:denoiser:enabled = 0
                 bool omni:rtx:material:db:syncLoads = 1
                 token omni:rtx:post:dlss:execMode = "performance"
@@ -155,7 +111,6 @@ def "Render" (
                 token omni:rtx:rendermode = "RealTimePathTracing"
                 color3f omni:rtx:rt:ambientLight:color = (0.1, 0.1, 0.1)
                 bool omni:rtx:rt:demoire = 0
-                bool omni:rtx:rt:ecoMode:enabled
                 bool omni:rtx:rt:lightcache:spatialCache:dontResolveConflicts = 1
                 int omni:rtx:rt:sss:samples = 1
                 uint omni:rtx:rtpt:maxVolumeBounces = 15
@@ -164,7 +119,7 @@ def "Render" (
                 bool omni:rtx:scene:hydra:mdlMaterialWarmup = 1
                 rel orderedVars = </Render/Vars/LdrColor>
                 custom bool overrideClipRange = 0
-                uniform int2 resolution = (1088, 698)
+                uniform int2 resolution = (949, 577)
             }
         }
     }
@@ -177,7 +132,10 @@ def "Render" (
         rel products = </Render/OmniverseKit/HydraTextures/omni_kit_widget_viewport_ViewportTexture_0>
     }
 
-    def "Vars"
+    def "Vars" (
+        hide_in_stage_window = true
+        no_delete = true
+    )
     {
         def RenderVar "LdrColor" (
             hide_in_stage_window = true
@@ -211,17 +169,11 @@ over "OmniverseKit_Persp" (
     float exposure:time = 0.02
     float focalLength = 18.147562
     float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -9.394900849479026)
-    float3 xformOp:rotateXYZ = (63.16164, -6.679165e-14, 111.29893)
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -3.126135798144749)
+    float3 xformOp:rotateXYZ = (54.73561, -6.3611094e-15, 135)
     float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (2.1833959629818875, 0.8523346467588435, 2.1137805161674077)
+    double3 xformOp:translate = (1.8048753191615385, 1.8048753191615412, 1.8048753954235104)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
-}
-
-def PhysicsScene "PhysicsScene" (
-    prepend apiSchemas = ["NewtonSceneAPI", "PhysxSceneAPI"]
-)
-{
 }
 
 over "OmniverseKit_Front" (

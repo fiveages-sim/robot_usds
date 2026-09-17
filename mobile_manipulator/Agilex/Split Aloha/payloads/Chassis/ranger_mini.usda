@@ -1,0 +1,116 @@
+#usda 1.0
+(
+    defaultPrim = "Split_Aloha"
+)
+
+def Xform "Split_Aloha"
+{
+    def "Ranger_Mini" (
+        prepend payload = @../../../../../mobile_base/Agilex/Ranger Mini/Ranger Mini.usda@
+        delete apiSchemas = ["PhysicsArticulationRootAPI", "PhysxArticulationAPI", "NewtonArticulationRootAPI"]
+        variants = {
+            string ROS = "ros2"
+        }
+    )
+    {
+        quatd xformOp:orient = (1, 0, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0, 0, -0.33)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "base_link"
+        {
+            def PhysicsFixedJoint "AssemblerFixedJoint"
+            {
+                rel physics:body0 = </Split_Aloha/base>
+                rel physics:body1 = </Split_Aloha/Ranger_Mini/base_link>
+                point3f physics:localPos0 = (0, 0, -0.33)
+                point3f physics:localPos1 = (0, 0, 0)
+                quatf physics:localRot0 = (1, 0, 0, 0)
+                quatf physics:localRot1 = (1, 0, 0, 0)
+            }
+        }
+
+        over "joints"
+        {
+            over "fl_steering_joint"
+            {
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "fr_steering_joint"
+            {
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "rl_steering_joint"
+            {
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "rr_steering_joint"
+            {
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "fl_wheel"
+            {
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "fr_wheel"
+            {
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "rl_wheel"
+            {
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "rr_wheel"
+            {
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+        }
+
+        over "steering_wheel_controller"
+        {
+            over "articulation_controller"
+            {
+                custom token[] inputs:jointNames = ["fl_steering_joint", "rl_steering_joint", "rr_steering_joint", "fr_steering_joint"]
+                custom rel inputs:targetPrim = </Split_Aloha> (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
+            }
+
+            over "articulation_controller_01"
+            {
+                custom token[] inputs:jointNames = ["fl_wheel", "rl_wheel", "rr_wheel", "fr_wheel"]
+                custom rel inputs:targetPrim = </Split_Aloha> (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
+            }
+        }
+    }
+}

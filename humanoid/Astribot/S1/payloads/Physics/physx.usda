@@ -29,7 +29,8 @@
     defaultPrim = "S1"
     metersPerUnit = 1
     subLayers = [
-        @./physics.usda@
+        @./physics.usda@,
+        @./body_self_collision_mute.usda@
     ]
     upAxis = "Z"
 )
@@ -40,9 +41,9 @@ def "S1"
         prepend apiSchemas = ["PhysxArticulationAPI"]
     )
     {
-        bool physxArticulation:enabledSelfCollisions = 0
+        bool physxArticulation:enabledSelfCollisions = 1
         int physxArticulation:solverPositionIterationCount = 32
-        int physxArticulation:solverVelocityIterationCount = 1
+        int physxArticulation:solverVelocityIterationCount = 4
     }
 
     over "joints"
@@ -269,11 +270,43 @@ def "S1"
         )
         {
         }
+
+        over "Revo2" (
+            variants = {
+                string Physics = "physx"
+            }
+        )
+        {
+        }
+
+        over "Revo1" (
+            variants = {
+                string Physics = "physx"
+            }
+        )
+        {
+        }
     }
 
     over "right_link7"
     {
         over "Astribot_Gripper" (
+            variants = {
+                string Physics = "physx"
+            }
+        )
+        {
+        }
+
+        over "Revo2" (
+            variants = {
+                string Physics = "physx"
+            }
+        )
+        {
+        }
+
+        over "Revo1" (
             variants = {
                 string Physics = "physx"
             }

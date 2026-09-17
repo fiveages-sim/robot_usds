@@ -378,12 +378,13 @@ over "Angellun_OW"
     over "Looks"
     {
         over "wheel_material" (
-            prepend apiSchemas = ["PhysicsMaterialAPI"]
+            prepend apiSchemas = ["PhysicsMaterialAPI", "PhysxMaterialAPI"]
         )
         {
-            float physics:dynamicFriction = 0
+            float physics:dynamicFriction = 0.8
             float physics:restitution = 0
-            float physics:staticFriction = 0
+            float physics:staticFriction = 1.0
+            uniform token physxMaterial:frictionCombineMode = "average"
         }
     }
 

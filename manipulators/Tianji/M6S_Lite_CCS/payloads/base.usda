@@ -62,8 +62,12 @@ def Xform "M6S_Lite_CCS"
             instanceable = false
         )
         {
+            # PhysX CollisionGroup / Newton mute need a real mesh prim.
+            # instanceable=true keeps CollisionAPI on the prototype; NonDexHand
+            # never binds → parent self-col chatters (Luna EE=None).
+            # Visuals above stay instanceable.
             def Xform "link1" (
-                instanceable = true
+                instanceable = false
                 prepend references = @./instances.usda@</Instances/mesh_1>
             )
             {
@@ -102,7 +106,7 @@ def Xform "M6S_Lite_CCS"
         )
         {
             def Xform "link2" (
-                instanceable = true
+                instanceable = false
                 prepend references = @./instances.usda@</Instances/mesh_1_2>
             )
             {
@@ -137,7 +141,7 @@ def Xform "M6S_Lite_CCS"
         )
         {
             def Xform "link3" (
-                instanceable = true
+                instanceable = false
                 prepend references = @./instances.usda@</Instances/mesh_2_1>
             )
             {
@@ -172,7 +176,7 @@ def Xform "M6S_Lite_CCS"
         )
         {
             def Xform "link4" (
-                instanceable = true
+                instanceable = false
                 prepend references = @./instances.usda@</Instances/mesh_3_1>
             )
             {
@@ -207,7 +211,7 @@ def Xform "M6S_Lite_CCS"
         )
         {
             def Xform "link5" (
-                instanceable = true
+                instanceable = false
                 prepend references = @./instances.usda@</Instances/mesh_4_1>
             )
             {
@@ -246,7 +250,7 @@ def Xform "M6S_Lite_CCS"
         )
         {
             def Xform "link6" (
-                instanceable = true
+                instanceable = false
                 prepend references = @./instances.usda@</Instances/mesh_5_1>
             )
             {
@@ -301,7 +305,7 @@ def Xform "M6S_Lite_CCS"
         )
         {
             def Xform "link7" (
-                instanceable = true
+                instanceable = false
                 prepend references = @./instances.usda@</Instances/mesh_6_1>
             )
             {

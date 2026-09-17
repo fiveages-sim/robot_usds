@@ -1,0 +1,44 @@
+#usda 1.0
+(
+    defaultPrim = "LinkerHand_o6"
+    doc = """Flange=default — AG2F90 metal plate + black 3D-printed spacer.
+Metal: same CAD and unitsResolve as AG2F90 (cm Y-up). translate is identity
+(o6 flange origin is the weld; do not copy gripper_base z=-0.0195).
+Print: o6/payloads/Flange/flange.usd (meters, World already Rx+90); fills toward
+hand_base at z=0.0262. Visual only — no extra collider / mass.
+"""
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def "LinkerHand_o6"
+{
+    over "flange"
+    {
+        def "ag2f90" (
+            prepend payload = @../../../../../grippers/ChangingTek/AG2F120S/payloads/Flange/flange.usd@
+        )
+        {
+            quatf xformOp:orient = (1, 0, 0, 0)
+            double xformOp:rotateX:unitsResolve = 90
+            float3 xformOp:scale = (1, 1, 1)
+            double3 xformOp:scale:unitsResolve = (0.01, 0.01, 0.01)
+            double3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale", "xformOp:rotateX:unitsResolve", "xformOp:scale:unitsResolve"]
+        }
+
+        def Xform "print"
+        {
+            quatd xformOp:orient = (1, 0, 0, 0)
+            double3 xformOp:scale = (1, 1, 1)
+            double3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            def "visual" (
+                prepend payload = @./flange.usd@
+            )
+            {
+            }
+        }
+    }
+}
