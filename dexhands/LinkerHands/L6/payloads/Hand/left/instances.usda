@@ -1,0 +1,648 @@
+#usda 1.0
+(
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Scope "Instances"
+{
+    def Xform "mesh" (
+        prepend references = @./geometries.usd@</Geometries/mesh>
+    )
+    {
+        over "mesh"
+        {
+            over "shell" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh/VisualMaterials/shell>
+            }
+
+            over "light" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh/VisualMaterials/light>
+            }
+
+            over "rubber" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh/VisualMaterials/rubber>
+            }
+
+            over "finger" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh/VisualMaterials/finger>
+            }
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "shell" (
+                instanceable = false
+                prepend references = @../materials.usda@</Materials/shell>
+            )
+            {
+            }
+
+            def Material "light" (
+                instanceable = true
+                prepend references = @../materials.usda@</Materials/light>
+            )
+            {
+            }
+
+            def Material "rubber" (
+                instanceable = true
+                prepend references = @../materials.usda@</Materials/rubber>
+            )
+            {
+            }
+
+            def Material "finger" (
+                instanceable = false
+                prepend references = @../materials.usda@</Materials/finger>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "mesh_1" (
+        prepend references = @./geometries.usd@</Geometries/mesh>
+    )
+    {
+        over "mesh" (
+            apiSchemas = ["PhysicsCollisionAPI", "PhysicsMeshCollisionAPI", "PhysicsMaterialAPI", "PhysxMaterialAPI", "PhysxCollisionAPI"]
+        )
+        {
+            token physics:approximation = "convexHull"
+            uniform token purpose = "guide"
+            float physics:staticFriction = 2
+            float physics:dynamicFriction = 1.6
+            float physics:restitution = 0
+            token physxMaterial:frictionCombineMode = "max"
+            bool physxMaterial:improvePatchFriction = 1
+            float physxCollision:contactOffset = 0.002
+
+            over "shell" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_1/VisualMaterials/shell>
+            }
+
+            over "light" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_1/VisualMaterials/light>
+            }
+
+            over "rubber" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_1/VisualMaterials/rubber>
+            }
+
+            over "finger" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_1/VisualMaterials/finger>
+            }
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "shell" (
+                instanceable = false
+                prepend references = @../materials.usda@</Materials/shell>
+            )
+            {
+            }
+
+            def Material "light" (
+                instanceable = true
+                prepend references = @../materials.usda@</Materials/light>
+            )
+            {
+            }
+
+            def Material "rubber" (
+                instanceable = true
+                prepend references = @../materials.usda@</Materials/rubber>
+            )
+            {
+            }
+
+            def Material "finger" (
+                instanceable = false
+                prepend references = @../materials.usda@</Materials/finger>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "mesh_1_1" (
+        prepend references = @./geometries.usd@</Geometries/mesh_1>
+    )
+    {
+        over "mesh_1"
+        {
+            over "finger" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_1_1/VisualMaterials/finger>
+            }
+
+            over "rubber" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_1_1/VisualMaterials/rubber>
+            }
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "finger" (
+                instanceable = false
+                prepend references = @../materials.usda@</Materials/finger>
+            )
+            {
+            }
+
+            def Material "rubber" (
+                instanceable = true
+                prepend references = @../materials.usda@</Materials/rubber>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "mesh_1_2" (
+        prepend references = @./geometries.usd@</Geometries/mesh_1>
+    )
+    {
+        over "mesh_1" (
+            apiSchemas = ["PhysicsCollisionAPI", "PhysicsMeshCollisionAPI", "PhysicsMaterialAPI", "PhysxMaterialAPI", "PhysxCollisionAPI"]
+        )
+        {
+            token physics:approximation = "convexHull"
+            uniform token purpose = "guide"
+            float physics:staticFriction = 2
+            float physics:dynamicFriction = 1.6
+            float physics:restitution = 0
+            token physxMaterial:frictionCombineMode = "max"
+            bool physxMaterial:improvePatchFriction = 1
+            float physxCollision:contactOffset = 0.002
+
+            over "finger" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_1_2/VisualMaterials/finger>
+            }
+
+            over "rubber" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_1_2/VisualMaterials/rubber>
+            }
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "finger" (
+                instanceable = false
+                prepend references = @../materials.usda@</Materials/finger>
+            )
+            {
+            }
+
+            def Material "rubber" (
+                instanceable = true
+                prepend references = @../materials.usda@</Materials/rubber>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "mesh_2" (
+        prepend references = @./geometries.usd@</Geometries/mesh_2>
+    )
+    {
+        over "mesh_2"
+        {
+            over "finger" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_2/VisualMaterials/finger>
+            }
+
+            over "rubber" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_2/VisualMaterials/rubber>
+            }
+
+            over "black_metal" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_2/VisualMaterials/black_metal>
+            }
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "finger" (
+                instanceable = false
+                prepend references = @../materials.usda@</Materials/finger>
+            )
+            {
+            }
+
+            def Material "rubber" (
+                instanceable = true
+                prepend references = @../materials.usda@</Materials/rubber>
+            )
+            {
+            }
+
+            def Material "black_metal" (
+                instanceable = true
+                prepend references = @../materials.usda@</Materials/black_metal>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "mesh_2_1" (
+        prepend references = @./geometries.usd@</Geometries/mesh_2>
+    )
+    {
+        over "mesh_2" (
+            apiSchemas = ["PhysicsCollisionAPI", "PhysicsMeshCollisionAPI", "PhysicsMaterialAPI", "PhysxMaterialAPI", "PhysxCollisionAPI"]
+        )
+        {
+            token physics:approximation = "convexHull"
+            uniform token purpose = "guide"
+            float physics:staticFriction = 2
+            float physics:dynamicFriction = 1.6
+            float physics:restitution = 0
+            token physxMaterial:frictionCombineMode = "max"
+            bool physxMaterial:improvePatchFriction = 1
+            float physxCollision:contactOffset = 0.002
+
+            over "finger" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_2_1/VisualMaterials/finger>
+            }
+
+            over "rubber" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_2_1/VisualMaterials/rubber>
+            }
+
+            over "black_metal" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_2_1/VisualMaterials/black_metal>
+            }
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "finger" (
+                instanceable = false
+                prepend references = @../materials.usda@</Materials/finger>
+            )
+            {
+            }
+
+            def Material "rubber" (
+                instanceable = true
+                prepend references = @../materials.usda@</Materials/rubber>
+            )
+            {
+            }
+
+            def Material "black_metal" (
+                instanceable = true
+                prepend references = @../materials.usda@</Materials/black_metal>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "mesh_3" (
+        prepend references = @./geometries.usd@</Geometries/mesh_3>
+    )
+    {
+        over "mesh_3" (
+            apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            custom rel material:binding
+            prepend rel material:binding = </Instances/mesh_3/VisualMaterials/black_metal>
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "black_metal" (
+                instanceable = true
+                prepend references = @../materials.usda@</Materials/black_metal>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "mesh_3_1" (
+        prepend references = @./geometries.usd@</Geometries/mesh_3>
+    )
+    {
+        over "mesh_3" (
+            apiSchemas = ["PhysicsCollisionAPI", "PhysicsMeshCollisionAPI", "MaterialBindingAPI", "PhysicsMaterialAPI", "PhysxMaterialAPI", "PhysxCollisionAPI"]
+        )
+        {
+            float physics:staticFriction = 2
+            float physics:dynamicFriction = 1.6
+            float physics:restitution = 0
+            token physxMaterial:frictionCombineMode = "max"
+            bool physxMaterial:improvePatchFriction = 1
+            float physxCollision:contactOffset = 0.002
+            custom rel material:binding
+            prepend rel material:binding = </Instances/mesh_3_1/VisualMaterials/black_metal>
+            token physics:approximation = "convexHull"
+            uniform token purpose = "guide"
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "black_metal" (
+                instanceable = true
+                prepend references = @../materials.usda@</Materials/black_metal>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "mesh_4" (
+        prepend references = @./geometries.usd@</Geometries/mesh_4>
+    )
+    {
+        over "mesh_4"
+        {
+            over "black_metal" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_4/VisualMaterials/black_metal>
+            }
+
+            over "finger" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_4/VisualMaterials/finger>
+            }
+
+            over "rubber" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_4/VisualMaterials/rubber>
+            }
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "black_metal" (
+                instanceable = true
+                prepend references = @../materials.usda@</Materials/black_metal>
+            )
+            {
+            }
+
+            def Material "finger" (
+                instanceable = false
+                prepend references = @../materials.usda@</Materials/finger>
+            )
+            {
+            }
+
+            def Material "rubber" (
+                instanceable = true
+                prepend references = @../materials.usda@</Materials/rubber>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "mesh_4_1" (
+        prepend references = @./geometries.usd@</Geometries/mesh_4>
+    )
+    {
+        over "mesh_4" (
+            apiSchemas = ["PhysicsCollisionAPI", "PhysicsMeshCollisionAPI", "PhysicsMaterialAPI", "PhysxMaterialAPI", "PhysxCollisionAPI"]
+        )
+        {
+            token physics:approximation = "convexHull"
+            uniform token purpose = "guide"
+            float physics:staticFriction = 2
+            float physics:dynamicFriction = 1.6
+            float physics:restitution = 0
+            token physxMaterial:frictionCombineMode = "max"
+            bool physxMaterial:improvePatchFriction = 1
+            float physxCollision:contactOffset = 0.002
+
+            over "black_metal" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_4_1/VisualMaterials/black_metal>
+            }
+
+            over "finger" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_4_1/VisualMaterials/finger>
+            }
+
+            over "rubber" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_4_1/VisualMaterials/rubber>
+            }
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "black_metal" (
+                instanceable = true
+                prepend references = @../materials.usda@</Materials/black_metal>
+            )
+            {
+            }
+
+            def Material "finger" (
+                instanceable = false
+                prepend references = @../materials.usda@</Materials/finger>
+            )
+            {
+            }
+
+            def Material "rubber" (
+                instanceable = true
+                prepend references = @../materials.usda@</Materials/rubber>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "mesh_5" (
+        prepend references = @./geometries.usd@</Geometries/mesh_5>
+    )
+    {
+        over "mesh_5"
+        {
+            over "finger" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_5/VisualMaterials/finger>
+            }
+
+            over "rubber" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_5/VisualMaterials/rubber>
+            }
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "finger" (
+                instanceable = false
+                prepend references = @../materials.usda@</Materials/finger>
+            )
+            {
+            }
+
+            def Material "rubber" (
+                instanceable = true
+                prepend references = @../materials.usda@</Materials/rubber>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "mesh_5_1" (
+        prepend references = @./geometries.usd@</Geometries/mesh_5>
+    )
+    {
+        over "mesh_5" (
+            apiSchemas = ["PhysicsCollisionAPI", "PhysicsMeshCollisionAPI", "PhysicsMaterialAPI", "PhysxMaterialAPI", "PhysxCollisionAPI"]
+        )
+        {
+            token physics:approximation = "convexHull"
+            uniform token purpose = "guide"
+            float physics:staticFriction = 2
+            float physics:dynamicFriction = 1.6
+            float physics:restitution = 0
+            token physxMaterial:frictionCombineMode = "max"
+            bool physxMaterial:improvePatchFriction = 1
+            float physxCollision:contactOffset = 0.002
+
+            over "finger" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_5_1/VisualMaterials/finger>
+            }
+
+            over "rubber" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_5_1/VisualMaterials/rubber>
+            }
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "finger" (
+                instanceable = false
+                prepend references = @../materials.usda@</Materials/finger>
+            )
+            {
+            }
+
+            def Material "rubber" (
+                instanceable = true
+                prepend references = @../materials.usda@</Materials/rubber>
+            )
+            {
+            }
+        }
+    }
+}
+
