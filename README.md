@@ -20,8 +20,10 @@ Robot USD model files for ROS2 Control simulation.
 | **Galaxea R1** | **Galaxea R1 Pro** | **Galbot One** |
 | <img src=".images/realman%20aidal.png" alt="Realman Aidal" width="300"> | <img src=".images/ai2_bot2.png" alt="Ai2 Bot2" width="300"> | <img src=".images/galbot%20zero.png" alt="Galbot Zero" width="300"> |
 | **Realman Aidal** | **Ai2 Bot2** | **Galbot Zero** |
-| <img src=".images/galbot%20s1.png" alt="Galbot S1" width="300"> | <img src=".images/galbot%20g1.png" alt="Galbot G1" width="300"> | |
-| **Galbot S1** | **Galbot G1** | |
+| <img src=".images/galbot%20s1.png" alt="Galbot S1" width="300"> | <img src=".images/galbot%20g1.png" alt="Galbot G1" width="300"> | <img src=".images/agibot%20g2.png" alt="Agibot G2" width="300"> |
+| **Galbot S1** | **Galbot G1** | **Agibot G2** |
+| <img src=".images/gento%20luna.png" alt="Gento Luna" width="300"> | <img src=".images/gento%20skye.png" alt="Gento Skye" width="300"> | <img src=".images/spiritai_moz1.png" alt="Spirit AI MOZ1" width="300"> |
+| **Gento Luna** | **Gento Skye** | **Spirit AI MOZ1** |
 
 </div>
 

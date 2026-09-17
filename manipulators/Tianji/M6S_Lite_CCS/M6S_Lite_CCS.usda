@@ -13,18 +13,20 @@ Generated from Composed Stage of root layer /home/fiveages/FaSim-Isaac/robots/ma
 def Xform "M6S_Lite_CCS" (
     prepend references = @./payloads/base.usda@
     variants = {
+        string EE = "None"
         string Physics = "physx"
         string Side = "default"
         string Robot = "none"
         string Sensor = "none"
     }
-    prepend variantSets = ["Physics", "Side"]
+    prepend variantSets = ["Physics", "Side", "EE"]
     append variantSets = ["Robot", "Sensor"]
 )
 {
     variantSet "Physics" = {
         "mujoco" (
             prepend payload = @./payloads/Physics/mujoco.usda@
+            append references = @./payloads/Physics/arm_self_collision_mute_newton.usda@</M6S_Lite_CCS>
         ) {
 
         }
@@ -57,6 +59,29 @@ def Xform "M6S_Lite_CCS" (
             prepend payload = @./payloads/Side/right.usda@
         ) {
 
+        }
+    }
+    variantSet "EE" = {
+        "None" {
+
+        }
+        "LinkerHand_o6" (
+            prepend payload = @./payloads/EE/LinkerHand_o6.usda@
+        ) {
+            prepend rel isaac:physics:robotJoints = </M6S_Lite_CCS/link7/tcp/LinkerHand_o6>
+            prepend rel isaac:physics:robotLinks = </M6S_Lite_CCS/link7/tcp/LinkerHand_o6>
+        }
+        "LinkerHand_o7" (
+            prepend payload = @./payloads/EE/LinkerHand_o7.usda@
+        ) {
+            prepend rel isaac:physics:robotJoints = </M6S_Lite_CCS/link7/tcp/LinkerHand_o7>
+            prepend rel isaac:physics:robotLinks = </M6S_Lite_CCS/link7/tcp/LinkerHand_o7>
+        }
+        "LinkerHand_L6" (
+            prepend payload = @./payloads/EE/L6.usda@
+        ) {
+            prepend rel isaac:physics:robotJoints = </M6S_Lite_CCS/link7/tcp/L6>
+            prepend rel isaac:physics:robotLinks = </M6S_Lite_CCS/link7/tcp/L6>
         }
     }
     variantSet "Robot" = {

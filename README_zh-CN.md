@@ -21,8 +21,10 @@
 | **星海图 R1** | **星海图 R1 Pro** | **银河通用 Galbot One** |
 | <img src=".images/realman%20aidal.png" alt="睿尔曼 Aidal" width="300"> | <img src=".images/ai2_bot2.png" alt="智平方 Bot2" width="300"> | <img src=".images/galbot%20zero.png" alt="银河通用 Galbot Zero" width="300"> |
 | **睿尔曼 Aidal** | **智平方 Bot2** | **银河通用 Galbot Zero** |
-| <img src=".images/galbot%20s1.png" alt="银河通用 Galbot S1" width="300"> | <img src=".images/galbot%20g1.png" alt="银河通用 Galbot G1" width="300"> | |
-| **银河通用 S1** | **银河通用 G1** | |
+| <img src=".images/galbot%20s1.png" alt="银河通用 Galbot S1" width="300"> | <img src=".images/galbot%20g1.png" alt="银河通用 Galbot G1" width="300"> | <img src=".images/agibot%20g2.png" alt="智元 G2" width="300"> |
+| **银河通用 S1** | **银河通用 G1** | **智元 G2** |
+| <img src=".images/gento%20luna.png" alt="Gento Luna" width="300"> | <img src=".images/gento%20skye.png" alt="Gento Skye" width="300"> | <img src=".images/spiritai_moz1.png" alt="Spirit AI MOZ1" width="300"> |
+| **Gento Luna** | **Gento Skye** | **Spirit AI MOZ1** |
 
 </div>
 

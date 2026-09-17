@@ -5,7 +5,9 @@
     upAxis = "Z"
 )
 
-def "M6S_Lite_CCS"
+def "M6S_Lite_CCS" (
+    prepend variantSets = ["EE"]
+)
 {
     over "joints"
     {
@@ -468,5 +470,28 @@ def MjcActuator "left_joint7"
     rel mjc:target = </M6S_Lite_CCS/joints/left_joint7>
 }
 
+    }
+    variantSet "EE" = {
+        "None" {
+
+        }
+        "LinkerHand_o6" (
+            prepend payload = @./payloads/EE/linkerhand_o6_left.usda@
+        ) {
+            prepend rel isaac:physics:robotJoints = </M6S_Lite_CCS/link7/tcp/LinkerHand_o6>
+            prepend rel isaac:physics:robotLinks = </M6S_Lite_CCS/link7/tcp/LinkerHand_o6>
+        }
+        "LinkerHand_o7" (
+            prepend payload = @./payloads/EE/linkerhand_o7_left.usda@
+        ) {
+            prepend rel isaac:physics:robotJoints = </M6S_Lite_CCS/link7/tcp/LinkerHand_o7>
+            prepend rel isaac:physics:robotLinks = </M6S_Lite_CCS/link7/tcp/LinkerHand_o7>
+        }
+        "LinkerHand_L6" (
+            prepend payload = @./payloads/EE/l6_left.usda@
+        ) {
+            prepend rel isaac:physics:robotJoints = </M6S_Lite_CCS/link7/tcp/L6>
+            prepend rel isaac:physics:robotLinks = </M6S_Lite_CCS/link7/tcp/L6>
+        }
     }
 }
