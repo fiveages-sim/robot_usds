@@ -20,8 +20,9 @@ def Xform "Luna" (
         string ROS = "none"
         string Robot = "none"
         string Sensor = "none"
+        string Visual = "white"
     }
-    prepend variantSets = ["Physics", "Chassis", "Arm_Left", "Arm_Right", "ROS"]
+    prepend variantSets = ["Physics", "Chassis", "Visual", "Arm_Left", "Arm_Right", "ROS"]
     append variantSets = ["Robot", "Sensor"]
 )
 {
@@ -51,6 +52,26 @@ def Xform "Luna" (
         }
         "None" {
 
+        }
+    }
+    variantSet "Visual" = {
+        "white" {
+            over "Linkhou_S2" (
+                variants = {
+                    string Visual = "white"
+                }
+            )
+            {
+            }
+        }
+        "gento_skye" {
+            over "Linkhou_S2" (
+                variants = {
+                    string Visual = "gento_skye"
+                }
+            )
+            {
+            }
         }
     }
     variantSet "Arm_Left" = {
