@@ -9,8 +9,8 @@ Weld tcp -> Wuji_hand2/world (palm; Hand2 has no flange prim).
 FixedJoint MUST match mount xform (T z=-0.0022, Rx=180°, Rz=90°) so PhysX does not snap on Play.
 Hand Side=left; left_hand_* joints.
 root_joint inactive → fingers join parent M6 articulation.
-Physics left unset (like LinkerHand_o7) so VariantSwitcher can set physx↔mujoco.
-Do NOT author Physics=physx here — it blocks Newton and poisons the parent articulation.
+Physics left unset on the hand — M6_CCS Physics=physx|mujoco nests
+hand Physics (see M6_CCS.usda). Do NOT author Physics on this EE mount.
 PhysX: dexhand_self_collision.usda excludes hand from NonDexHand.
 Newton: arm mute does not list hands; finger FilteredPairs from hand physics.usda.
 """

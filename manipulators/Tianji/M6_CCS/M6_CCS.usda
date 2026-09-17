@@ -153,7 +153,41 @@ def Xform "M6_CCS" (
         "physx" (
             prepend payload = @./payloads/Physics/physx.usda@
         ) {
+            # Dex-hand Physics follows the arm (asset-native).
+            # VariantSwitcher session opinions on nested hands are cleared when
+            # this arm Physics resyncs (mute refs / payload swap); these overs
+            # live inside the arm Physics variant so they remain after clear.
+            # Inactive EE names become empty overs under tcp (no Hand payload) —
+            # harmless; the active EE def composes with the matching over.
+            over "link7"
+            {
+                over "tcp"
+                {
+                    over "LinkerHand_o6" (
+                        variants = {
+                            string Physics = "physx"
+                        }
+                    )
+                    {
+                    }
 
+                    over "LinkerHand_o7" (
+                        variants = {
+                            string Physics = "physx"
+                        }
+                    )
+                    {
+                    }
+
+                    over "Wuji_hand2" (
+                        variants = {
+                            string Physics = "physx"
+                        }
+                    )
+                    {
+                    }
+                }
+            }
         }
         "mujoco" (
             prepend payload = @./payloads/Physics/mujoco.usda@
@@ -162,7 +196,35 @@ def Xform "M6_CCS" (
             # PhysX: arm_self_collision_mute.usda CollisionGroup. Art root unchanged.
             append references = @./payloads/Physics/arm_self_collision_mute_newton.usda@</M6_CCS>
         ) {
+            over "link7"
+            {
+                over "tcp"
+                {
+                    over "LinkerHand_o6" (
+                        variants = {
+                            string Physics = "mujoco"
+                        }
+                    )
+                    {
+                    }
 
+                    over "LinkerHand_o7" (
+                        variants = {
+                            string Physics = "mujoco"
+                        }
+                    )
+                    {
+                    }
+
+                    over "Wuji_hand2" (
+                        variants = {
+                            string Physics = "mujoco"
+                        }
+                    )
+                    {
+                    }
+                }
+            }
         }
     }
     variantSet "Robot" = {

@@ -34,11 +34,10 @@ right: right morphology, right_hand_* joints (X-mirror of Hand/left).
 PhysX Drive baseline (G1 hold · fasim-dexhand-asset §0.1): fingers D=0.09 K=0.15 F=55; thumb D=0.12 K=0.18 F=80; jointFriction=0.8 armature=0.001; maxJointVelocity=500000; self-col On + FilteredPairs; collider μs=2.8 μd=2.2 contactOffset=0.002.
 No mimic joints (20 independent DOFs). MuJoCo/Newton via Physics=mujoco
 (MjcJointAPI + MjcActuator; Side-scoped actuators in Side payloads).
-Physics: no authored default — VariantSwitcher sets physx↔mujoco on first load.
-IMPORTANT: Switcher writes session-layer opinion and then SKIPS further auto
-updates. After switching the physics ENGINE mid-session: Stop → Reload Stage
-(or clear hand Physics selection) so Switcher can run again. Manual Physics
-variant switch always works. Physics variantSet is listed before Side.
+Physics: no authored default on this root (standalone Switcher can set it).
+When mounted under M6_CCS, arm Physics=physx|mujoco nests hand Physics via
+overs in M6_CCS.usda (hands follow the arm; do not author Physics on EE/env).
+Physics variantSet is listed before Side.
 """
     metersPerUnit = 1
     upAxis = "Z"
@@ -278,9 +277,9 @@ def Xform "Wuji_hand2" (
 
         }
     }
-    # Order matters as a safety net if Physics is unset (Isaac may show empty).
-    # Prefer physx first for PhysX Play; EE mounts also author Physics=physx
-    # so Side switch never leaves the nested hand blank.
+    # Order is a safety net if Physics is unset (Isaac may show empty).
+    # physx first so PhysX Play still has drives when Switcher has not run yet.
+    # EE mounts must NOT author Physics — leave that to VariantSwitcher.
     variantSet "Physics" = {
         "physx" (
             prepend payload = @./payloads/Physics/physx.usda@
