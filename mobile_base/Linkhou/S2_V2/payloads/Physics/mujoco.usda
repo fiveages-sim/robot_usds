@@ -8,6 +8,10 @@
     upAxis = "Z"
 )
 
+# W2 Newton chassis (pass after R1_Lite success):
+# Ice-skate + non-spinning wheels under whole-robot mass → raise grip + wheel torque.
+# Steer stays R1-stable (625/80); do NOT use PhysX kp=60000.
+
 def "S2_V2"
 {
     over "joints"
@@ -17,11 +21,11 @@ def "S2_V2"
             delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
         )
         {
-            uniform double mjc:armature = 0.01
-            uniform double mjc:damping = 0.1
+            uniform double mjc:armature = 0.05
+            uniform double mjc:damping = 1.0
             uniform token mjc:actuatorfrclimited = "auto"
-            uniform double mjc:actuatorfrcrange:min = -2000
-            uniform double mjc:actuatorfrcrange:max = 2000
+            uniform double mjc:actuatorfrcrange:min = -200
+            uniform double mjc:actuatorfrcrange:max = 200
         }
 
         over "fl_wheel_joint" (
@@ -29,13 +33,11 @@ def "S2_V2"
             delete apiSchemas = ["PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular"]
         )
         {
-            # W2-scale wheel joint: damping+frictionloss hold when ctrl≈0
-            uniform double mjc:armature = 0.05
-            uniform double mjc:damping = 5
-            uniform double mjc:frictionloss = 3
+            uniform double mjc:armature = 0.03
+            uniform double mjc:damping = 0.5
             uniform token mjc:actuatorfrclimited = "auto"
-            uniform double mjc:actuatorfrcrange:min = -400
-            uniform double mjc:actuatorfrcrange:max = 400
+            uniform double mjc:actuatorfrcrange:min = -1000
+            uniform double mjc:actuatorfrcrange:max = 1000
         }
 
         over "fr_steer_joint" (
@@ -43,11 +45,11 @@ def "S2_V2"
             delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
         )
         {
-            uniform double mjc:armature = 0.01
-            uniform double mjc:damping = 0.1
+            uniform double mjc:armature = 0.05
+            uniform double mjc:damping = 1.0
             uniform token mjc:actuatorfrclimited = "auto"
-            uniform double mjc:actuatorfrcrange:min = -2000
-            uniform double mjc:actuatorfrcrange:max = 2000
+            uniform double mjc:actuatorfrcrange:min = -200
+            uniform double mjc:actuatorfrcrange:max = 200
         }
 
         over "fr_wheel_joint" (
@@ -55,13 +57,11 @@ def "S2_V2"
             delete apiSchemas = ["PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular"]
         )
         {
-            # W2-scale wheel joint: damping+frictionloss hold when ctrl≈0
-            uniform double mjc:armature = 0.05
-            uniform double mjc:damping = 5
-            uniform double mjc:frictionloss = 3
+            uniform double mjc:armature = 0.03
+            uniform double mjc:damping = 0.5
             uniform token mjc:actuatorfrclimited = "auto"
-            uniform double mjc:actuatorfrcrange:min = -400
-            uniform double mjc:actuatorfrcrange:max = 400
+            uniform double mjc:actuatorfrcrange:min = -1000
+            uniform double mjc:actuatorfrcrange:max = 1000
         }
 
         over "rl_steer_joint" (
@@ -69,11 +69,11 @@ def "S2_V2"
             delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
         )
         {
-            uniform double mjc:armature = 0.01
-            uniform double mjc:damping = 0.1
+            uniform double mjc:armature = 0.05
+            uniform double mjc:damping = 1.0
             uniform token mjc:actuatorfrclimited = "auto"
-            uniform double mjc:actuatorfrcrange:min = -2000
-            uniform double mjc:actuatorfrcrange:max = 2000
+            uniform double mjc:actuatorfrcrange:min = -200
+            uniform double mjc:actuatorfrcrange:max = 200
         }
 
         over "rl_wheel_joint" (
@@ -81,13 +81,11 @@ def "S2_V2"
             delete apiSchemas = ["PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular"]
         )
         {
-            # W2-scale wheel joint: damping+frictionloss hold when ctrl≈0
-            uniform double mjc:armature = 0.05
-            uniform double mjc:damping = 5
-            uniform double mjc:frictionloss = 3
+            uniform double mjc:armature = 0.03
+            uniform double mjc:damping = 0.5
             uniform token mjc:actuatorfrclimited = "auto"
-            uniform double mjc:actuatorfrcrange:min = -400
-            uniform double mjc:actuatorfrcrange:max = 400
+            uniform double mjc:actuatorfrcrange:min = -1000
+            uniform double mjc:actuatorfrcrange:max = 1000
         }
 
         over "rr_steer_joint" (
@@ -95,11 +93,11 @@ def "S2_V2"
             delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
         )
         {
-            uniform double mjc:armature = 0.01
-            uniform double mjc:damping = 0.1
+            uniform double mjc:armature = 0.05
+            uniform double mjc:damping = 1.0
             uniform token mjc:actuatorfrclimited = "auto"
-            uniform double mjc:actuatorfrcrange:min = -2000
-            uniform double mjc:actuatorfrcrange:max = 2000
+            uniform double mjc:actuatorfrcrange:min = -200
+            uniform double mjc:actuatorfrcrange:max = 200
         }
 
         over "rr_wheel_joint" (
@@ -107,13 +105,11 @@ def "S2_V2"
             delete apiSchemas = ["PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular"]
         )
         {
-            # W2-scale wheel joint: damping+frictionloss hold when ctrl≈0
-            uniform double mjc:armature = 0.05
-            uniform double mjc:damping = 5
-            uniform double mjc:frictionloss = 3
+            uniform double mjc:armature = 0.03
+            uniform double mjc:damping = 0.5
             uniform token mjc:actuatorfrclimited = "auto"
-            uniform double mjc:actuatorfrcrange:min = -400
-            uniform double mjc:actuatorfrcrange:max = 400
+            uniform double mjc:actuatorfrcrange:min = -1000
+            uniform double mjc:actuatorfrcrange:max = 1000
         }
     }
 
@@ -128,142 +124,119 @@ def "S2_V2"
     {
         def MjcActuator "fl_steer_joint"
         {
-            # Position PD from PhysX kp=60000 kd=6000; force raised for W2+Newton
-            # (PhysX maxForce=100 starved Ackermann steers → chassis spin).
             uniform token mjc:gainType = "fixed"
             uniform token mjc:biasType = "affine"
-            uniform double[] mjc:gainPrm = [60000, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-            uniform double[] mjc:biasPrm = [0, -60000, -6000, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:gainPrm = [625, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -625, -80, 0, 0, 0, 0, 0, 0, 0]
             uniform token mjc:forceLimited = "true"
-            uniform double mjc:forceRange:min = -2000
-            uniform double mjc:forceRange:max = 2000
+            uniform double mjc:forceRange:min = -200
+            uniform double mjc:forceRange:max = 200
             uniform token mjc:ctrlLimited = "true"
-            # Isaac ArticulationController uses radians (not USD degree limits)
-            uniform double mjc:ctrlRange:min = -3.14159265
-            uniform double mjc:ctrlRange:max = 3.14159265
+            uniform double mjc:ctrlRange:min = -3.141592653589793
+            uniform double mjc:ctrlRange:max = 3.141592653589793
             rel mjc:target = </S2_V2/joints/fl_steer_joint>
         }
 
+        # W2 heavier than R1_Lite: kd=100 / ±1000 (was 50/500 → ice + no roll)
         def MjcActuator "fl_wheel_joint"
         {
-            # Velocity servo F=kd*(ctrl-qvel). kd=50/±400: track cmd_vel without overpowering grip.
-                        uniform token mjc:gainType = "fixed"
+            uniform token mjc:gainType = "fixed"
             uniform token mjc:biasType = "affine"
-            uniform double[] mjc:gainPrm = [50, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-            uniform double[] mjc:biasPrm = [0, 0, -50, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:gainPrm = [100, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, 0, -100, 0, 0, 0, 0, 0, 0, 0]
             uniform token mjc:forceLimited = "true"
-            uniform double mjc:forceRange:min = -400
-            uniform double mjc:forceRange:max = 400
+            uniform double mjc:forceRange:min = -1000
+            uniform double mjc:forceRange:max = 1000
             uniform token mjc:ctrlLimited = "false"
             rel mjc:target = </S2_V2/joints/fl_wheel_joint>
         }
 
         def MjcActuator "fr_steer_joint"
         {
-            # Position PD from PhysX kp=60000 kd=6000; force raised for W2+Newton
-            # (PhysX maxForce=100 starved Ackermann steers → chassis spin).
             uniform token mjc:gainType = "fixed"
             uniform token mjc:biasType = "affine"
-            uniform double[] mjc:gainPrm = [60000, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-            uniform double[] mjc:biasPrm = [0, -60000, -6000, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:gainPrm = [625, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -625, -80, 0, 0, 0, 0, 0, 0, 0]
             uniform token mjc:forceLimited = "true"
-            uniform double mjc:forceRange:min = -2000
-            uniform double mjc:forceRange:max = 2000
+            uniform double mjc:forceRange:min = -200
+            uniform double mjc:forceRange:max = 200
             uniform token mjc:ctrlLimited = "true"
-            # Isaac ArticulationController uses radians (not USD degree limits)
-            uniform double mjc:ctrlRange:min = -3.14159265
-            uniform double mjc:ctrlRange:max = 3.14159265
+            uniform double mjc:ctrlRange:min = -3.141592653589793
+            uniform double mjc:ctrlRange:max = 3.141592653589793
             rel mjc:target = </S2_V2/joints/fr_steer_joint>
         }
 
         def MjcActuator "fr_wheel_joint"
         {
-            # Velocity servo F=kd*(ctrl-qvel). kd=50/±400: track cmd_vel without overpowering grip.
-                        uniform token mjc:gainType = "fixed"
+            uniform token mjc:gainType = "fixed"
             uniform token mjc:biasType = "affine"
-            uniform double[] mjc:gainPrm = [50, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-            uniform double[] mjc:biasPrm = [0, 0, -50, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:gainPrm = [100, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, 0, -100, 0, 0, 0, 0, 0, 0, 0]
             uniform token mjc:forceLimited = "true"
-            uniform double mjc:forceRange:min = -400
-            uniform double mjc:forceRange:max = 400
+            uniform double mjc:forceRange:min = -1000
+            uniform double mjc:forceRange:max = 1000
             uniform token mjc:ctrlLimited = "false"
             rel mjc:target = </S2_V2/joints/fr_wheel_joint>
         }
 
         def MjcActuator "rl_steer_joint"
         {
-            # Position PD from PhysX kp=60000 kd=6000; force raised for W2+Newton
-            # (PhysX maxForce=100 starved Ackermann steers → chassis spin).
             uniform token mjc:gainType = "fixed"
             uniform token mjc:biasType = "affine"
-            uniform double[] mjc:gainPrm = [60000, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-            uniform double[] mjc:biasPrm = [0, -60000, -6000, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:gainPrm = [625, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -625, -80, 0, 0, 0, 0, 0, 0, 0]
             uniform token mjc:forceLimited = "true"
-            uniform double mjc:forceRange:min = -2000
-            uniform double mjc:forceRange:max = 2000
+            uniform double mjc:forceRange:min = -200
+            uniform double mjc:forceRange:max = 200
             uniform token mjc:ctrlLimited = "true"
-            # Isaac ArticulationController uses radians (not USD degree limits)
-            uniform double mjc:ctrlRange:min = -3.14159265
-            uniform double mjc:ctrlRange:max = 3.14159265
+            uniform double mjc:ctrlRange:min = -3.141592653589793
+            uniform double mjc:ctrlRange:max = 3.141592653589793
             rel mjc:target = </S2_V2/joints/rl_steer_joint>
         }
 
         def MjcActuator "rl_wheel_joint"
         {
-            # Velocity servo F=kd*(ctrl-qvel). kd=50/±400: track cmd_vel without overpowering grip.
-                        uniform token mjc:gainType = "fixed"
+            uniform token mjc:gainType = "fixed"
             uniform token mjc:biasType = "affine"
-            uniform double[] mjc:gainPrm = [50, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-            uniform double[] mjc:biasPrm = [0, 0, -50, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:gainPrm = [100, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, 0, -100, 0, 0, 0, 0, 0, 0, 0]
             uniform token mjc:forceLimited = "true"
-            uniform double mjc:forceRange:min = -400
-            uniform double mjc:forceRange:max = 400
+            uniform double mjc:forceRange:min = -1000
+            uniform double mjc:forceRange:max = 1000
             uniform token mjc:ctrlLimited = "false"
             rel mjc:target = </S2_V2/joints/rl_wheel_joint>
         }
 
         def MjcActuator "rr_steer_joint"
         {
-            # Position PD from PhysX kp=60000 kd=6000; force raised for W2+Newton
-            # (PhysX maxForce=100 starved Ackermann steers → chassis spin).
             uniform token mjc:gainType = "fixed"
             uniform token mjc:biasType = "affine"
-            uniform double[] mjc:gainPrm = [60000, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-            uniform double[] mjc:biasPrm = [0, -60000, -6000, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:gainPrm = [625, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -625, -80, 0, 0, 0, 0, 0, 0, 0]
             uniform token mjc:forceLimited = "true"
-            uniform double mjc:forceRange:min = -2000
-            uniform double mjc:forceRange:max = 2000
+            uniform double mjc:forceRange:min = -200
+            uniform double mjc:forceRange:max = 200
             uniform token mjc:ctrlLimited = "true"
-            # Isaac ArticulationController uses radians (not USD degree limits)
-            uniform double mjc:ctrlRange:min = -3.14159265
-            uniform double mjc:ctrlRange:max = 3.14159265
+            uniform double mjc:ctrlRange:min = -3.141592653589793
+            uniform double mjc:ctrlRange:max = 3.141592653589793
             rel mjc:target = </S2_V2/joints/rr_steer_joint>
         }
 
         def MjcActuator "rr_wheel_joint"
         {
-            # Velocity servo F=kd*(ctrl-qvel). kd=50/±400: track cmd_vel without overpowering grip.
-                        uniform token mjc:gainType = "fixed"
+            uniform token mjc:gainType = "fixed"
             uniform token mjc:biasType = "affine"
-            uniform double[] mjc:gainPrm = [50, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-            uniform double[] mjc:biasPrm = [0, 0, -50, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:gainPrm = [100, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, 0, -100, 0, 0, 0, 0, 0, 0, 0]
             uniform token mjc:forceLimited = "true"
-            uniform double mjc:forceRange:min = -400
-            uniform double mjc:forceRange:max = 400
+            uniform double mjc:forceRange:min = -1000
+            uniform double mjc:forceRange:max = 1000
             uniform token mjc:ctrlLimited = "false"
             rel mjc:target = </S2_V2/joints/rr_wheel_joint>
         }
     }
 
-
-
-
-
-
-
-
-    # Wheel–ground (Newton): W2~5x Lift2S mass — Lift2S has NO authored friction;
-    # grip comes from defaults + light base. S2 needs high mu + stiff contact.
+    # Grip for whole-robot mass: μ≈3.5 (1.2 iced W2; 5+ke8e4 jumped). Soft ke, no rolling lock.
     over "fl_wheel"
     {
         over "collisions"
@@ -275,19 +248,19 @@ def "S2_V2"
                 )
                 {
                     uniform int mjc:condim = 3
-                    float physics:staticFriction = 3.0
-                    float physics:dynamicFriction = 2.7
+                    float physics:staticFriction = 3.5
+                    float physics:dynamicFriction = 3.2
                     float physics:restitution = 0
-                    float newton:contactStiffness = 100000
-                    float newton:contactDamping = 2000
-                    float newton:contactFrictionGain = 10000
+                    float newton:rollingFriction = 0
+                    float newton:torsionalFriction = 0.001
+                    float newton:contactStiffness = 45000
+                    float newton:contactDamping = 1500
+                    float newton:contactFrictionGain = 15000
                 }
             }
         }
     }
 
-    # Wheel–ground (Newton): W2~5x Lift2S mass — Lift2S has NO authored friction;
-    # grip comes from defaults + light base. S2 needs high mu + stiff contact.
     over "fr_wheel"
     {
         over "collisions"
@@ -299,19 +272,19 @@ def "S2_V2"
                 )
                 {
                     uniform int mjc:condim = 3
-                    float physics:staticFriction = 3.0
-                    float physics:dynamicFriction = 2.7
+                    float physics:staticFriction = 3.5
+                    float physics:dynamicFriction = 3.2
                     float physics:restitution = 0
-                    float newton:contactStiffness = 100000
-                    float newton:contactDamping = 2000
-                    float newton:contactFrictionGain = 10000
+                    float newton:rollingFriction = 0
+                    float newton:torsionalFriction = 0.001
+                    float newton:contactStiffness = 45000
+                    float newton:contactDamping = 1500
+                    float newton:contactFrictionGain = 15000
                 }
             }
         }
     }
 
-    # Wheel–ground (Newton): W2~5x Lift2S mass — Lift2S has NO authored friction;
-    # grip comes from defaults + light base. S2 needs high mu + stiff contact.
     over "rl_wheel"
     {
         over "collisions"
@@ -323,19 +296,19 @@ def "S2_V2"
                 )
                 {
                     uniform int mjc:condim = 3
-                    float physics:staticFriction = 3.0
-                    float physics:dynamicFriction = 2.7
+                    float physics:staticFriction = 3.5
+                    float physics:dynamicFriction = 3.2
                     float physics:restitution = 0
-                    float newton:contactStiffness = 100000
-                    float newton:contactDamping = 2000
-                    float newton:contactFrictionGain = 10000
+                    float newton:rollingFriction = 0
+                    float newton:torsionalFriction = 0.001
+                    float newton:contactStiffness = 45000
+                    float newton:contactDamping = 1500
+                    float newton:contactFrictionGain = 15000
                 }
             }
         }
     }
 
-    # Wheel–ground (Newton): W2~5x Lift2S mass — Lift2S has NO authored friction;
-    # grip comes from defaults + light base. S2 needs high mu + stiff contact.
     over "rr_wheel"
     {
         over "collisions"
@@ -347,12 +320,14 @@ def "S2_V2"
                 )
                 {
                     uniform int mjc:condim = 3
-                    float physics:staticFriction = 3.0
-                    float physics:dynamicFriction = 2.7
+                    float physics:staticFriction = 3.5
+                    float physics:dynamicFriction = 3.2
                     float physics:restitution = 0
-                    float newton:contactStiffness = 100000
-                    float newton:contactDamping = 2000
-                    float newton:contactFrictionGain = 10000
+                    float newton:rollingFriction = 0
+                    float newton:torsionalFriction = 0.001
+                    float newton:contactStiffness = 45000
+                    float newton:contactDamping = 1500
+                    float newton:contactFrictionGain = 15000
                 }
             }
         }
