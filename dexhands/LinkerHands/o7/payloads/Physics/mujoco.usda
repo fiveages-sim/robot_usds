@@ -1,0 +1,1072 @@
+#usda 1.0
+(
+    defaultPrim = "LinkerHand_o7"
+    doc = """MuJoCo/Newton physics rail for LinkerHand o7.
+subLayers physics.usda (mass/joints/filteredPairs). Strips PhysX Drive;
+adds MjcJointAPI + MjcActuator + NewtonMimicAPI. Does not edit physx.usda.
+Mimic coef1 starts as PhysX gearing (negative); flip sign if open/close inverted.
+Actuator kp/kd are MJWarp starting values (not PhysX K=0.1).
+Side left/right actuators live in payloads/Side/{left,right}.usda.
+"""
+    metersPerUnit = 1
+    subLayers = [
+        @./physics.usda@
+    ]
+    upAxis = "Z"
+    customLayerData = {
+        dictionary omni_layer = {
+            string authoring_layer = "./mujoco.usda"
+        }
+    }
+)
+
+over "LinkerHand_o7"
+{
+    over "joints"
+    {
+        # --- default Side driven joints ---
+        over "index_joint" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            uniform double mjc:frictionloss = 0.0
+            uniform token mjc:actuatorfrclimited = "true"
+            uniform double mjc:actuatorfrcrange:min = -30
+            uniform double mjc:actuatorfrcrange:max = 30
+        }
+
+        over "middle_joint" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            uniform double mjc:frictionloss = 0.0
+            uniform token mjc:actuatorfrclimited = "true"
+            uniform double mjc:actuatorfrcrange:min = -30
+            uniform double mjc:actuatorfrcrange:max = 30
+        }
+
+        over "pinky_joint" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            uniform double mjc:frictionloss = 0.0
+            uniform token mjc:actuatorfrclimited = "true"
+            uniform double mjc:actuatorfrcrange:min = -30
+            uniform double mjc:actuatorfrcrange:max = 30
+        }
+
+        over "ring_joint" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            uniform double mjc:frictionloss = 0.0
+            uniform token mjc:actuatorfrclimited = "true"
+            uniform double mjc:actuatorfrcrange:min = -30
+            uniform double mjc:actuatorfrcrange:max = 30
+        }
+
+        over "thumb_joint2" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            uniform bool mjc:actuatorgravcomp = 1
+            uniform double mjc:armature = 0.005
+            uniform double mjc:damping = 0.08
+            uniform double mjc:frictionloss = 0.0
+            uniform token mjc:actuatorfrclimited = "true"
+            uniform double mjc:actuatorfrcrange:min = -50
+            uniform double mjc:actuatorfrcrange:max = 50
+        }
+
+        over "thumb_joint3" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            uniform bool mjc:actuatorgravcomp = 1
+            uniform double mjc:armature = 0.005
+            uniform double mjc:damping = 0.08
+            uniform double mjc:frictionloss = 0.0
+            uniform token mjc:actuatorfrclimited = "true"
+            uniform double mjc:actuatorfrcrange:min = -50
+            uniform double mjc:actuatorfrcrange:max = 50
+        }
+
+        over "thumb_joint1" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            uniform bool mjc:actuatorgravcomp = 1
+            uniform double mjc:armature = 0.005
+            uniform double mjc:damping = 0.08
+            uniform double mjc:frictionloss = 0.0
+            uniform token mjc:actuatorfrclimited = "true"
+            uniform double mjc:actuatorfrcrange:min = -50
+            uniform double mjc:actuatorfrcrange:max = 50
+        }
+
+        # --- mimic: coef1 = +abs(PhysX gearing); negative PhysX gearing fights under Newton ---
+        over "index_pip" (
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 1.3462
+            rel newton:mimicJoint = </LinkerHand_o7/joints/index_joint>
+        }
+
+        over "index_dip" (
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 0.4615
+            rel newton:mimicJoint = </LinkerHand_o7/joints/index_joint>
+        }
+
+        over "middle_pip" (
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 1.3462
+            rel newton:mimicJoint = </LinkerHand_o7/joints/middle_joint>
+        }
+
+        over "middle_dip" (
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 0.4615
+            rel newton:mimicJoint = </LinkerHand_o7/joints/middle_joint>
+        }
+
+        over "pinky_pip" (
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 1.3462
+            rel newton:mimicJoint = </LinkerHand_o7/joints/pinky_joint>
+        }
+
+        over "pinky_dip" (
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 0.4615
+            rel newton:mimicJoint = </LinkerHand_o7/joints/pinky_joint>
+        }
+
+        over "ring_pip" (
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 1.3462
+            rel newton:mimicJoint = </LinkerHand_o7/joints/ring_joint>
+        }
+
+        over "ring_dip" (
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 0.4615
+            rel newton:mimicJoint = </LinkerHand_o7/joints/ring_joint>
+        }
+
+        over "thumb_mcp" (
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.005
+            uniform double mjc:damping = 0.1
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 1.3898
+            rel newton:mimicJoint = </LinkerHand_o7/joints/thumb_joint1>
+        }
+
+        over "thumb_ip" (
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.005
+            uniform double mjc:damping = 0.1
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 1.5085
+            rel newton:mimicJoint = </LinkerHand_o7/joints/thumb_joint1>
+        }
+
+        # --- Side=left driven (Drive strip when Physics=mujoco; prims exist only if Side=left) ---
+        over "left_hand_index_joint" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            uniform double mjc:frictionloss = 0.0
+            uniform token mjc:actuatorfrclimited = "true"
+            uniform double mjc:actuatorfrcrange:min = -30
+            uniform double mjc:actuatorfrcrange:max = 30
+        }
+
+        over "left_hand_middle_joint" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            uniform double mjc:frictionloss = 0.0
+            uniform token mjc:actuatorfrclimited = "true"
+            uniform double mjc:actuatorfrcrange:min = -30
+            uniform double mjc:actuatorfrcrange:max = 30
+        }
+
+        over "left_hand_pinky_joint" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            uniform double mjc:frictionloss = 0.0
+            uniform token mjc:actuatorfrclimited = "true"
+            uniform double mjc:actuatorfrcrange:min = -30
+            uniform double mjc:actuatorfrcrange:max = 30
+        }
+
+        over "left_hand_ring_joint" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            uniform double mjc:frictionloss = 0.0
+            uniform token mjc:actuatorfrclimited = "true"
+            uniform double mjc:actuatorfrcrange:min = -30
+            uniform double mjc:actuatorfrcrange:max = 30
+        }
+
+        over "left_hand_thumb_joint2" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            uniform bool mjc:actuatorgravcomp = 1
+            uniform double mjc:armature = 0.005
+            uniform double mjc:damping = 0.08
+            uniform double mjc:frictionloss = 0.0
+            uniform token mjc:actuatorfrclimited = "true"
+            uniform double mjc:actuatorfrcrange:min = -50
+            uniform double mjc:actuatorfrcrange:max = 50
+        }
+
+        over "left_hand_thumb_joint3" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            uniform bool mjc:actuatorgravcomp = 1
+            uniform double mjc:armature = 0.005
+            uniform double mjc:damping = 0.08
+            uniform double mjc:frictionloss = 0.0
+            uniform token mjc:actuatorfrclimited = "true"
+            uniform double mjc:actuatorfrcrange:min = -50
+            uniform double mjc:actuatorfrcrange:max = 50
+        }
+
+        over "left_hand_thumb_joint1" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            uniform bool mjc:actuatorgravcomp = 1
+            uniform double mjc:armature = 0.005
+            uniform double mjc:damping = 0.08
+            uniform double mjc:frictionloss = 0.0
+            uniform token mjc:actuatorfrclimited = "true"
+            uniform double mjc:actuatorfrcrange:min = -50
+            uniform double mjc:actuatorfrcrange:max = 50
+        }
+
+        over "left_hand_index_pip" (
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 1.3462
+            rel newton:mimicJoint = </LinkerHand_o7/joints/left_hand_index_joint>
+        }
+
+        over "left_hand_index_dip" (
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 0.4615
+            rel newton:mimicJoint = </LinkerHand_o7/joints/left_hand_index_joint>
+        }
+
+        over "left_hand_middle_pip" (
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 1.3462
+            rel newton:mimicJoint = </LinkerHand_o7/joints/left_hand_middle_joint>
+        }
+
+        over "left_hand_middle_dip" (
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 0.4615
+            rel newton:mimicJoint = </LinkerHand_o7/joints/left_hand_middle_joint>
+        }
+
+        over "left_hand_pinky_pip" (
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 1.3462
+            rel newton:mimicJoint = </LinkerHand_o7/joints/left_hand_pinky_joint>
+        }
+
+        over "left_hand_pinky_dip" (
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 0.4615
+            rel newton:mimicJoint = </LinkerHand_o7/joints/left_hand_pinky_joint>
+        }
+
+        over "left_hand_ring_pip" (
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 1.3462
+            rel newton:mimicJoint = </LinkerHand_o7/joints/left_hand_ring_joint>
+        }
+
+        over "left_hand_ring_dip" (
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 0.4615
+            rel newton:mimicJoint = </LinkerHand_o7/joints/left_hand_ring_joint>
+        }
+
+        over "left_hand_thumb_mcp" (
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.005
+            uniform double mjc:damping = 0.1
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 1.3898
+            rel newton:mimicJoint = </LinkerHand_o7/joints/left_hand_thumb_joint1>
+        }
+
+        over "left_hand_thumb_ip" (
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.005
+            uniform double mjc:damping = 0.1
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 1.5085
+            rel newton:mimicJoint = </LinkerHand_o7/joints/left_hand_thumb_joint1>
+        }
+
+        # --- Side=right driven / mimic ---
+        over "right_hand_index_joint" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            uniform double mjc:frictionloss = 0.0
+            uniform token mjc:actuatorfrclimited = "true"
+            uniform double mjc:actuatorfrcrange:min = -30
+            uniform double mjc:actuatorfrcrange:max = 30
+        }
+
+        over "right_hand_middle_joint" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            uniform double mjc:frictionloss = 0.0
+            uniform token mjc:actuatorfrclimited = "true"
+            uniform double mjc:actuatorfrcrange:min = -30
+            uniform double mjc:actuatorfrcrange:max = 30
+        }
+
+        over "right_hand_pinky_joint" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            uniform double mjc:frictionloss = 0.0
+            uniform token mjc:actuatorfrclimited = "true"
+            uniform double mjc:actuatorfrcrange:min = -30
+            uniform double mjc:actuatorfrcrange:max = 30
+        }
+
+        over "right_hand_ring_joint" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            uniform double mjc:frictionloss = 0.0
+            uniform token mjc:actuatorfrclimited = "true"
+            uniform double mjc:actuatorfrcrange:min = -30
+            uniform double mjc:actuatorfrcrange:max = 30
+        }
+
+        over "right_hand_thumb_joint2" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            uniform bool mjc:actuatorgravcomp = 1
+            uniform double mjc:armature = 0.005
+            uniform double mjc:damping = 0.08
+            uniform double mjc:frictionloss = 0.0
+            uniform token mjc:actuatorfrclimited = "true"
+            uniform double mjc:actuatorfrcrange:min = -50
+            uniform double mjc:actuatorfrcrange:max = 50
+        }
+
+        over "right_hand_thumb_joint3" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            uniform bool mjc:actuatorgravcomp = 1
+            uniform double mjc:armature = 0.005
+            uniform double mjc:damping = 0.08
+            uniform double mjc:frictionloss = 0.0
+            uniform token mjc:actuatorfrclimited = "true"
+            uniform double mjc:actuatorfrcrange:min = -50
+            uniform double mjc:actuatorfrcrange:max = 50
+        }
+
+        over "right_hand_thumb_joint1" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            uniform bool mjc:actuatorgravcomp = 1
+            uniform double mjc:armature = 0.005
+            uniform double mjc:damping = 0.08
+            uniform double mjc:frictionloss = 0.0
+            uniform token mjc:actuatorfrclimited = "true"
+            uniform double mjc:actuatorfrcrange:min = -50
+            uniform double mjc:actuatorfrcrange:max = 50
+        }
+
+        over "right_hand_index_pip" (
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 1.3462
+            rel newton:mimicJoint = </LinkerHand_o7/joints/right_hand_index_joint>
+        }
+
+        over "right_hand_index_dip" (
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 0.4615
+            rel newton:mimicJoint = </LinkerHand_o7/joints/right_hand_index_joint>
+        }
+
+        over "right_hand_middle_pip" (
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 1.3462
+            rel newton:mimicJoint = </LinkerHand_o7/joints/right_hand_middle_joint>
+        }
+
+        over "right_hand_middle_dip" (
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 0.4615
+            rel newton:mimicJoint = </LinkerHand_o7/joints/right_hand_middle_joint>
+        }
+
+        over "right_hand_pinky_pip" (
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 1.3462
+            rel newton:mimicJoint = </LinkerHand_o7/joints/right_hand_pinky_joint>
+        }
+
+        over "right_hand_pinky_dip" (
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 0.4615
+            rel newton:mimicJoint = </LinkerHand_o7/joints/right_hand_pinky_joint>
+        }
+
+        over "right_hand_ring_pip" (
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 1.3462
+            rel newton:mimicJoint = </LinkerHand_o7/joints/right_hand_ring_joint>
+        }
+
+        over "right_hand_ring_dip" (
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.002
+            uniform double mjc:damping = 0.02
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 0.4615
+            rel newton:mimicJoint = </LinkerHand_o7/joints/right_hand_ring_joint>
+        }
+
+        over "right_hand_thumb_mcp" (
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.005
+            uniform double mjc:damping = 0.1
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 1.3898
+            rel newton:mimicJoint = </LinkerHand_o7/joints/right_hand_thumb_joint1>
+        }
+
+        over "right_hand_thumb_ip" (
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.005
+            uniform double mjc:damping = 0.1
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 1.5085
+            rel newton:mimicJoint = </LinkerHand_o7/joints/right_hand_thumb_joint1>
+        }
+    }
+
+    over "root_joint" (
+        prepend apiSchemas = ["NewtonArticulationRootAPI"]
+    )
+    {
+        bool newton:selfCollisionEnabled = 1
+    }
+
+    # Thumb shaft collisions MUST stay ON for object grasp (apple through finger
+    # was caused by muting mesh_5..8 for self-col). Tip mesh_9 tuned below.
+    # If thumb self-jitter returns, use shape filteredPairs — do NOT mute shaft.
+
+    # === Stem / pad grasp (Newton-only) ===
+    # mu = friction coefficient. Soft ke caused stem burying + lift slip
+    # (bad normals). Use STIFF contact + high mu + condim=6.
+    # Pinch tips: hull verts=96. Pad mu_s/mu_d = 4.0/3.6 (MJWarp stem-grasp
+    # reference; higher than lab rubber ~1, needed because MJWarp≠PhysX friction).
+
+    over "thumb_distal"
+    {
+        over "collisions"
+        {
+            over "thumb_distal" (
+                instanceable = false
+            )
+            {
+                over "mesh_9" (
+                    prepend apiSchemas = ["NewtonMeshCollisionAPI", "NewtonMaterialAPI", "NewtonCollisionAPI"]
+                )
+                {
+                    token physics:approximation = "convexHull"
+                    int newton:maxHullVertices = 96
+                    float newton:contactStiffness = 25000
+                    float newton:contactDamping = 800
+                    float newton:contactFrictionGain = 8000
+                    float newton:torsionalFriction = 0.35
+                    float newton:rollingFriction = 0.12
+                    uniform int mjc:condim = 6
+                    float physics:staticFriction = 4.0
+                    float physics:dynamicFriction = 3.6
+                    float physics:restitution = 0
+                }
+            }
+        }
+    }
+
+    # Four-finger pads: collision child is named "index_distal"/mesh_4
+    over "index_distal"
+    {
+        over "collisions"
+        {
+            over "index_distal" (
+                instanceable = false
+            )
+            {
+                over "mesh_4" (
+                    prepend apiSchemas = ["NewtonMeshCollisionAPI", "NewtonMaterialAPI", "NewtonCollisionAPI"]
+                )
+                {
+                    token physics:approximation = "convexHull"
+                    int newton:maxHullVertices = 96
+                    float newton:contactStiffness = 25000
+                    float newton:contactDamping = 800
+                    float newton:contactFrictionGain = 8000
+                    float newton:torsionalFriction = 0.35
+                    float newton:rollingFriction = 0.12
+                    uniform int mjc:condim = 6
+                    float physics:staticFriction = 4.0
+                    float physics:dynamicFriction = 3.6
+                    float physics:restitution = 0
+                }
+            }
+        }
+    }
+
+    over "middle_distal"
+    {
+        over "collisions"
+        {
+            over "index_distal" (
+                instanceable = false
+            )
+            {
+                over "mesh_4" (
+                    prepend apiSchemas = ["NewtonMeshCollisionAPI", "NewtonMaterialAPI", "NewtonCollisionAPI"]
+                )
+                {
+                    token physics:approximation = "convexHull"
+                    int newton:maxHullVertices = 96
+                    float newton:contactStiffness = 25000
+                    float newton:contactDamping = 800
+                    float newton:contactFrictionGain = 8000
+                    float newton:torsionalFriction = 0.35
+                    float newton:rollingFriction = 0.12
+                    uniform int mjc:condim = 6
+                    float physics:staticFriction = 4.0
+                    float physics:dynamicFriction = 3.6
+                    float physics:restitution = 0
+                }
+            }
+        }
+    }
+
+    over "ring_distal"
+    {
+        over "collisions"
+        {
+            over "index_distal" (
+                instanceable = false
+            )
+            {
+                over "mesh_4" (
+                    prepend apiSchemas = ["NewtonMeshCollisionAPI", "NewtonMaterialAPI", "NewtonCollisionAPI"]
+                )
+                {
+                    token physics:approximation = "convexHull"
+                    int newton:maxHullVertices = 96
+                    float newton:contactStiffness = 25000
+                    float newton:contactDamping = 800
+                    float newton:contactFrictionGain = 8000
+                    float newton:torsionalFriction = 0.35
+                    float newton:rollingFriction = 0.12
+                    uniform int mjc:condim = 6
+                    float physics:staticFriction = 4.0
+                    float physics:dynamicFriction = 3.6
+                    float physics:restitution = 0
+                }
+            }
+        }
+    }
+
+    over "pinky_distal"
+    {
+        over "collisions"
+        {
+            over "index_distal" (
+                instanceable = false
+            )
+            {
+                over "mesh_4" (
+                    prepend apiSchemas = ["NewtonMeshCollisionAPI", "NewtonMaterialAPI", "NewtonCollisionAPI"]
+                )
+                {
+                    token physics:approximation = "convexHull"
+                    int newton:maxHullVertices = 96
+                    float newton:contactStiffness = 25000
+                    float newton:contactDamping = 800
+                    float newton:contactFrictionGain = 8000
+                    float newton:torsionalFriction = 0.35
+                    float newton:rollingFriction = 0.12
+                    uniform int mjc:condim = 6
+                    float physics:staticFriction = 4.0
+                    float physics:dynamicFriction = 3.6
+                    float physics:restitution = 0
+                }
+            }
+        }
+    }
+
+    # Thumb proximal (2nd link) + CMC — ensure enabled + same contact family as tip.
+    over "thumb_proximal"
+    {
+        over "collisions"
+        {
+            over "thumb_proximal" (
+                instanceable = false
+            )
+            {
+                over "mesh_8" (
+                    prepend apiSchemas = ["NewtonMaterialAPI", "NewtonCollisionAPI"]
+                )
+                {
+                    bool physics:collisionEnabled = 1
+                    token physics:approximation = "convexHull"
+                    int newton:maxHullVertices = 48
+                    uniform int mjc:condim = 6
+                    float physics:staticFriction = 3.0
+                    float physics:dynamicFriction = 2.8
+                    float physics:restitution = 0
+                    float newton:contactStiffness = 20000
+                    float newton:contactDamping = 600
+                    float newton:contactFrictionGain = 6000
+                    float newton:torsionalFriction = 0.2
+                    float newton:rollingFriction = 0.06
+                }
+            }
+        }
+    }
+
+    over "thumb_metacarpals"
+    {
+        over "collisions"
+        {
+            over "thumb_metacarpals" (
+                instanceable = false
+            )
+            {
+                over "mesh_7"
+                {
+                    bool physics:collisionEnabled = 1
+                    token physics:approximation = "convexHull"
+                    uniform int mjc:condim = 3
+                    float physics:staticFriction = 2.0
+                    float physics:dynamicFriction = 1.6
+                }
+            }
+        }
+    }
+
+    over "thumb_metacarpals_base1"
+    {
+        over "collisions"
+        {
+            over "thumb_metacarpals_base1" (
+                instanceable = false
+            )
+            {
+                over "mesh_5"
+                {
+                    bool physics:collisionEnabled = 1
+                }
+            }
+        }
+    }
+
+    over "thumb_metacarpals_base2"
+    {
+        over "collisions"
+        {
+            over "thumb_metacarpals_base2" (
+                instanceable = false
+            )
+            {
+                over "mesh_6"
+                {
+                    bool physics:collisionEnabled = 1
+                }
+            }
+        }
+    }
+
+    # Palm / flange collision — object contact with hand base
+    over "flange"
+    {
+        over "collisions"
+        {
+            over "base" (
+                instanceable = false
+            )
+            {
+                over "mesh_1"
+                {
+                    bool physics:collisionEnabled = 1
+                    uniform int mjc:condim = 3
+                    float physics:staticFriction = 2.0
+                    float physics:dynamicFriction = 1.6
+                }
+            }
+        }
+    }
+
+    # Default-Side position actuators only (left/right actuators in Side payloads).
+    def Scope "actuators"
+    {
+        def MjcActuator "index_joint"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [4, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -4, -3.0, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -30
+            uniform double mjc:forceRange:max = 30
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = 0.0
+            uniform double mjc:ctrlRange:max = 1.36069994
+            rel mjc:target = </LinkerHand_o7/joints/index_joint>
+        }
+
+        def MjcActuator "middle_joint"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [4, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -4, -3.0, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -30
+            uniform double mjc:forceRange:max = 30
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = 0.0
+            uniform double mjc:ctrlRange:max = 1.36069994
+            rel mjc:target = </LinkerHand_o7/joints/middle_joint>
+        }
+
+        def MjcActuator "pinky_joint"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [4, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -4, -3.0, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -30
+            uniform double mjc:forceRange:max = 30
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = 0.0
+            uniform double mjc:ctrlRange:max = 1.36069994
+            rel mjc:target = </LinkerHand_o7/joints/pinky_joint>
+        }
+
+        def MjcActuator "ring_joint"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [4, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -4, -3.0, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -30
+            uniform double mjc:forceRange:max = 30
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = 0.0
+            uniform double mjc:ctrlRange:max = 1.36069994
+            rel mjc:target = </LinkerHand_o7/joints/ring_joint>
+        }
+
+        def MjcActuator "thumb_joint2"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [5, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -5, -4.0, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -50
+            uniform double mjc:forceRange:max = 50
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = 0.0
+            uniform double mjc:ctrlRange:max = 1.91889980
+            rel mjc:target = </LinkerHand_o7/joints/thumb_joint2>
+        }
+
+        def MjcActuator "thumb_joint3"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [5, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -5, -4.0, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -50
+            uniform double mjc:forceRange:max = 50
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = 0.0
+            uniform double mjc:ctrlRange:max = 1.13389992
+            rel mjc:target = </LinkerHand_o7/joints/thumb_joint3>
+        }
+
+        def MjcActuator "thumb_joint1"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [5, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -5, -4.0, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -50
+            uniform double mjc:forceRange:max = 50
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = 0.0
+            uniform double mjc:ctrlRange:max = 0.51459996
+            rel mjc:target = </LinkerHand_o7/joints/thumb_joint1>
+        }
+    }
+}

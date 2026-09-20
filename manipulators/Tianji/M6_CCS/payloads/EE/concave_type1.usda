@@ -1,0 +1,68 @@
+#usda 1.0
+(
+    defaultPrim = "M6_CCS"
+    doc = """EE=concave_type1 default mount.
+
+Play-safe TF (scoop pattern): identity weld tcp -> gripper_base.
+Flange rotateXYZ=(90,0,0) lives on non-RB children of gripper_base
+(visual + collision), not on Concave_type1 / gripper_base — avoids PhysX
+pose jump on Play.
+
+Disable EE root_joint. Jointless fixed concave EE.
+"""
+)
+
+def Xform "M6_CCS"
+{
+    over "link7"
+    {
+        over "tcp"
+        {
+            def "Concave_type1" (
+                prepend payload = @../../../../../components/fixed_ee/Concave_type1/Concave_type1.usda@
+                variants = {
+                    string side = "default"
+                }
+            )
+            {
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+                over "root_joint" (
+                    active = false
+                )
+                {
+                }
+
+                over "gripper_base"
+                {
+                    # COM/inertia in gripper_base (=tcp) after flange Rx=+90 on children
+                    point3f physics:centerOfMass = (-0.078, 0.0, 0.051)
+                    float3 physics:diagonalInertia = (0.0013, 0.0019, 0.0010)
+
+                    over "Concave_convex_shaped_left"
+                    {
+                        double3 xformOp:rotateXYZ = (90, 0, 0)
+                    }
+
+                    over "collision"
+                    {
+                        quatd xformOp:orient = (0.7071067811865476, 0.7071067811865476, 0, 0)
+                    }
+
+                    def PhysicsFixedJoint "AssemblerFixedJoint"
+                    {
+                        rel physics:body0 = </M6_CCS/link7/tcp>
+                        rel physics:body1 = </M6_CCS/link7/tcp/Concave_type1/gripper_base>
+                        point3f physics:localPos0 = (0, 0, 0)
+                        point3f physics:localPos1 = (0, 0, 0)
+                        quatf physics:localRot0 = (1, 0, 0, 0)
+                        quatf physics:localRot1 = (1, 0, 0, 0)
+                    }
+                }
+            }
+        }
+    }
+}

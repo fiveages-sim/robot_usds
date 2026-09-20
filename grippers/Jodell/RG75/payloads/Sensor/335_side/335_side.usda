@@ -1,0 +1,41 @@
+#usda 1.0
+(
+    defaultPrim = "RG75"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def "RG75"
+{
+    over "gripper_base"
+    {
+        # Seamless path for both Sides. Nested mount flips left/right flange.
+        # Side left/right sticky-selects mount; Sensors < side in variantSets so Side wins.
+        def "side_camera_support" (
+            variants = {
+                string mount = "left"
+            }
+            prepend variantSets = ["mount"]
+        )
+        {
+            variantSet "mount" = {
+                "left" (
+                    prepend payload = @./left_camera_support.usdc@
+                ) {
+                    double3 xformOp:rotateZYX = (-90, 180, 0)
+                    double3 xformOp:scale = (1, 1, 1)
+                    double3 xformOp:translate = (0, 0, 0)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateZYX", "xformOp:scale"]
+                }
+                "right" (
+                    prepend payload = @./right_camera_support.usda@
+                ) {
+                    double3 xformOp:rotateZYX = (90, 0, 0)
+                    double3 xformOp:scale = (1, 1, 1)
+                    double3 xformOp:translate = (0, 0, 0)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateZYX", "xformOp:scale"]
+                }
+            }
+        }
+    }
+}

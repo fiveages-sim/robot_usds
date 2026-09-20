@@ -1,0 +1,135 @@
+#usda 1.0
+(
+    defaultPrim = "Galaxea_R1"
+    metersPerUnit = 1
+    subLayers = [
+        @./physics.usda@
+    ]
+    upAxis = "Z"
+)
+
+def "Galaxea_R1"
+{
+    over "joints"
+    {
+        # PhysX DriveAPI (kp=2000, kd=200) -> MjcActuator position PD
+        # F = kp*(ctrl - q) - kd*qdot
+        over "torso_joint1" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.01
+            uniform double mjc:damping = 0.1
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -500
+            uniform double mjc:actuatorfrcrange:max = 500
+        }
+
+        over "torso_joint2" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.01
+            uniform double mjc:damping = 0.1
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -500
+            uniform double mjc:actuatorfrcrange:max = 500
+        }
+
+        over "torso_joint3" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.01
+            uniform double mjc:damping = 0.1
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -500
+            uniform double mjc:actuatorfrcrange:max = 500
+        }
+
+        over "torso_joint4" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.01
+            uniform double mjc:damping = 0.1
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -500
+            uniform double mjc:actuatorfrcrange:max = 500
+        }
+    }
+
+    over "base_link" (
+        prepend apiSchemas = ["NewtonArticulationRootAPI"]
+    )
+    {
+        bool newton:selfCollisionEnabled = 0
+    }
+
+    def Scope "actuators"
+    {
+        def MjcActuator "torso_joint1"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [2000, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -2000, -200, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -500
+            uniform double mjc:forceRange:max = 500
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = -65.00206
+            uniform double mjc:ctrlRange:max = 105.00024
+            rel mjc:target = </Galaxea_R1/joints/torso_joint1>
+        }
+
+        def MjcActuator "torso_joint2"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [2000, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -2000, -200, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -500
+            uniform double mjc:forceRange:max = 500
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = -159.99846
+            uniform double mjc:ctrlRange:max = 144.99841
+            rel mjc:target = </Galaxea_R1/joints/torso_joint2>
+        }
+
+        def MjcActuator "torso_joint3"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [2000, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -2000, -200, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -500
+            uniform double mjc:forceRange:max = 500
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = -105.00024
+            uniform double mjc:ctrlRange:max = 90
+            rel mjc:target = </Galaxea_R1/joints/torso_joint3>
+        }
+
+        def MjcActuator "torso_joint4"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [2000, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -2000, -200, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -500
+            uniform double mjc:forceRange:max = 500
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = -174.99849
+            uniform double mjc:ctrlRange:max = 174.99849
+            rel mjc:target = </Galaxea_R1/joints/torso_joint4>
+        }
+    }
+}

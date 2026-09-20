@@ -1,0 +1,147 @@
+#usda 1.0
+(
+    defaultPrim = "RG75"
+    doc = """Pad=heavy_carry — one Pad option; arm L/R meshes stickied by side=left|right.
+
+Nested variantSet \"arm\" (default left). Side payloads sticky-select arm so W2/M6
+rg75_left|right mounts auto-pick the correct Heavy CAD without showing
+heavy_carry_left / heavy_carry_right in the Pad dropdown.
+"""
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def "RG75"
+{
+    over "Looks"
+    {
+        def Material "PadMaterials" (
+            prepend apiSchemas = ["PhysicsMaterialAPI"]
+        )
+        {
+            float physics:dynamicFriction = 1
+            float physics:staticFriction = 1
+        }
+    }
+
+    over "gripper_base"
+    {
+        rel physics:simulationOwner
+
+        def "pad_left" (
+            prepend variantSets = ["arm"]
+            variants = {
+                string arm = "left"
+            }
+        )
+        {
+            variantSet "arm" = {
+                "left" (
+                    prepend payload = @./left/pad_left.usda@
+                ) {
+                    token visibility = "inherited"
+                    double3 xformOp:translate = (0.01475, 0.04124, 0.13525)
+                    float3 xformOp:rotateZYX = (0, 0, 0)
+                    float3 xformOp:scale = (1, 1, 1)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateZYX", "xformOp:scale"]
+
+                    over "mesh"
+                    {
+                        rel physics:simulationOwner
+                        prepend rel material:binding:physics = </RG75/Looks/PadMaterials>
+                    }
+                }
+                "right" (
+                    prepend payload = @./right/pad_left.usda@
+                ) {
+                    token visibility = "inherited"
+                    double3 xformOp:translate = (0.014750001369975507, 0.04124441702151671, 0.1352500021457672)
+                    float3 xformOp:rotateZYX = (-90, 0, 0)
+                    float3 xformOp:scale = (1, 1, 1)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateZYX", "xformOp:scale"]
+
+                    over "mesh"
+                    {
+                        rel physics:simulationOwner
+                        prepend rel material:binding:physics = </RG75/Looks/PadMaterials>
+                    }
+                }
+            }
+        }
+    }
+
+    over "left_finger"
+    {
+        rel physics:simulationOwner
+        token visibility = "invisible"
+
+        over "visuals"
+        {
+            token visibility = "invisible"
+
+            over "finger"
+            {
+                token visibility = "invisible"
+            }
+
+            over "finger_support"
+            {
+                token visibility = "invisible"
+            }
+        }
+    }
+
+    over "right_finger"
+    {
+        rel physics:simulationOwner
+
+        over "visuals"
+        {
+            over "finger_support"
+            {
+                token visibility = "invisible"
+            }
+        }
+
+        def "pad_right" (
+            prepend variantSets = ["arm"]
+            variants = {
+                string arm = "left"
+            }
+        )
+        {
+            variantSet "arm" = {
+                "left" (
+                    prepend payload = @./left/pad_right.usda@
+                ) {
+                    token visibility = "inherited"
+                    double3 xformOp:translate = (0, 0, 0)
+                    float3 xformOp:rotateZYX = (0, 0, 0)
+                    float3 xformOp:scale = (1, 1, 1)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateZYX", "xformOp:scale"]
+
+                    over "mesh"
+                    {
+                        rel physics:simulationOwner
+                        prepend rel material:binding:physics = </RG75/Looks/PadMaterials>
+                    }
+                }
+                "right" (
+                    prepend payload = @./right/pad_right.usda@
+                ) {
+                    token visibility = "inherited"
+                    double3 xformOp:translate = (0, 0, 0)
+                    float3 xformOp:rotateZYX = (-90, 0, 0)
+                    float3 xformOp:scale = (1, 1, 1)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateZYX", "xformOp:scale"]
+
+                    over "mesh"
+                    {
+                        rel physics:simulationOwner
+                        prepend rel material:binding:physics = </RG75/Looks/PadMaterials>
+                    }
+                }
+            }
+        }
+    }
+}

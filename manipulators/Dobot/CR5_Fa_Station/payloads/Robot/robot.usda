@@ -1,0 +1,52 @@
+#usda 1.0
+(
+    customLayerData = {
+        dictionary cameraSettings = {
+            dictionary Front = {
+                double3 position = (5, 0, 0)
+                double radius = 5
+            }
+            dictionary Perspective = {
+                double3 position = (1.4555943956735204, 0.9203044693294735, 1.574030508191503)
+                double3 target = (-1.2011256686555287, -0.73517238165473, -0.3574655741554573)
+            }
+            dictionary Right = {
+                double3 position = (0, -5, 0)
+                double radius = 5
+            }
+            dictionary Top = {
+                double3 position = (0, 0, 5)
+                double radius = 5
+            }
+            string boundCamera = "/OmniverseKit_Persp"
+        }
+        dictionary omni_layer = {
+            string authoring_layer = "./Dual_Stand2.usd"
+        }
+        dictionary renderSettings = {
+        }
+    }
+    defaultPrim = "Dual_Stand2"
+    endTimeCode = 0
+    metersPerUnit = 1
+    startTimeCode = -1
+    upAxis = "Z"
+)
+
+def Xform "Dual_Stand2" (
+    prepend apiSchemas = ["IsaacRobotAPI"]
+)
+{
+    string isaac:description
+    string isaac:namespace
+    rel isaac:physics:robotJoints
+    prepend rel isaac:physics:robotLinks = </Dual_Stand2/base_link>
+
+    over "base_link" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+        string isaac:nameOverride
+    }
+}
+

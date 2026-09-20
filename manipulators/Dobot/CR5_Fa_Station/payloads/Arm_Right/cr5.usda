@@ -1,0 +1,88 @@
+#usda 1.0
+(
+    defaultPrim = "Dual_Stand2"
+)
+
+# Mount standalone Dobot CR5 as right arm. No sticky Physics — VariantSwitcher.
+def Xform "Dual_Stand2"
+{
+    over "base_link"
+    {
+        over "right_mount"
+        {
+            def "CR5" (
+                prepend payload = @../../../CR5/CR5.usda@
+                variants = {
+                    string EE = "None"
+                    string ROS = "none"
+                    string Robot = "none"
+                    string Sensor = "none"
+                }
+            )
+            {
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+                over "root_joint" (
+                    active = false
+                )
+                {
+                }
+
+                over "base_link"
+                {
+                    def PhysicsFixedJoint "AssemblerFixedJoint"
+                    {
+                        rel physics:body0 = </Dual_Stand2/base_link>
+                        rel physics:body1 = </Dual_Stand2/base_link/right_mount/CR5/base_link>
+                        point3f physics:localPos0 = (0, -0.185, 0.625)
+                        point3f physics:localPos1 = (0, 0, 0)
+                        quatf physics:localRot0 = (0.5416752, 0.45451948, -0.45451948, 0.5416752)
+                        quatf physics:localRot1 = (1, 0, 0, 0)
+                    }
+                }
+
+                over "joints"
+                {
+                    over "joint1"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+
+                    over "joint2"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+
+                    over "joint3"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+
+                    over "joint4"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+
+                    over "joint5"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+
+                    over "joint6"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+                }
+            }
+        }
+    }
+}

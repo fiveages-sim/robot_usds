@@ -1,0 +1,22 @@
+#usda 1.0
+(
+    defaultPrim = "KWR75B"
+    doc = "KWR75B Side=left: topic/frame overlay only (Graph stays)."
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "KWR75B"
+{
+    over "Graph"
+    {
+        over "ROS_FT_Sensor"
+        {
+            over "ReadFT"
+            {
+                custom string inputs:frameId = "left_tcp"
+                custom string inputs:topicName = "/isaac/left_ft_wrench"
+            }
+        }
+    }
+}

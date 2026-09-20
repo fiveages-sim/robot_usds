@@ -1,0 +1,25 @@
+#usda 1.0
+(
+    defaultPrim = "Skye"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "Skye"
+{
+    over "body_link3"
+    {
+        over "body_camera1"
+        {
+            def "Orbbec_335Lg" (
+                prepend payload = @../../../../../sensors/orbbec/335Lg.usd@
+            )
+            {
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+        }
+    }
+}

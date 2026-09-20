@@ -1,0 +1,26 @@
+#usda 1.0
+(
+    defaultPrim = "S2_V2"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def "S2_V2"
+{
+    over "base_footprint"
+    {
+        over "base_link"
+        {
+            def "shell_default" (
+                prepend payload = @./shell_default.usd@
+            )
+            {
+                quatf xformOp:orient = (6.123234e-17, 4.3297803e-17, -0.70710677, 0.70710677)
+                double xformOp:rotateX:unitsResolve = 90
+                float3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale", "xformOp:rotateX:unitsResolve"]
+            }
+        }
+    }
+}

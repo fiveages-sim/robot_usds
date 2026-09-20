@@ -1,0 +1,109 @@
+#usda 1.0
+(
+    defaultPrim = "OmniPicker"
+    metersPerUnit = 1
+    subLayers = [
+        @./physics.usda@
+    ]
+    upAxis = "Z"
+)
+
+def "OmniPicker"
+{
+    over "joints"
+    {
+        over "gripper_joint" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = 180
+        }
+
+        over "narrow2_joint" (
+            prepend apiSchemas = ["PhysxJointAPI", "PhysxMimicJointAPI:rotZ"]
+        )
+        {
+            float physxMimicJoint:rotZ:dampingRatio = 0
+            float physxMimicJoint:rotZ:gearing = -0.02
+            float physxMimicJoint:rotZ:naturalFrequency = 0
+            float physxMimicJoint:rotZ:offset = 0
+            rel physxMimicJoint:rotZ:referenceJoint = </OmniPicker/joints/gripper_joint>
+        }
+
+        over "narrow3_joint" (
+            prepend apiSchemas = ["PhysxJointAPI", "PhysxMimicJointAPI:rotZ"]
+        )
+        {
+            float physxMimicJoint:rotZ:dampingRatio = 0
+            float physxMimicJoint:rotZ:gearing = -0.4
+            float physxMimicJoint:rotZ:naturalFrequency = 0
+            float physxMimicJoint:rotZ:offset = 0
+            rel physxMimicJoint:rotZ:referenceJoint = </OmniPicker/joints/gripper_joint>
+        }
+
+        over "narrow_loop_joint" (
+            prepend apiSchemas = ["PhysxJointAPI", "PhysxMimicJointAPI:rotZ"]
+        )
+        {
+            float physxMimicJoint:rotZ:dampingRatio = 0
+            float physxMimicJoint:rotZ:gearing = -1.5
+            float physxMimicJoint:rotZ:naturalFrequency = 0
+            float physxMimicJoint:rotZ:offset = 0
+            rel physxMimicJoint:rotZ:referenceJoint = </OmniPicker/joints/gripper_joint>
+        }
+
+        over "wide1_joint" (
+            prepend apiSchemas = ["PhysxJointAPI", "PhysxMimicJointAPI:rotZ"]
+        )
+        {
+            float physxMimicJoint:rotZ:dampingRatio = 0
+            float physxMimicJoint:rotZ:gearing = -1
+            float physxMimicJoint:rotZ:naturalFrequency = 0
+            float physxMimicJoint:rotZ:offset = 0
+            rel physxMimicJoint:rotZ:referenceJoint = </OmniPicker/joints/gripper_joint>
+        }
+
+        over "wide2_joint" (
+            prepend apiSchemas = ["PhysxJointAPI", "PhysxMimicJointAPI:rotZ"]
+        )
+        {
+            float physxMimicJoint:rotZ:dampingRatio = 0
+            float physxMimicJoint:rotZ:gearing = -0.02
+            float physxMimicJoint:rotZ:naturalFrequency = 0
+            float physxMimicJoint:rotZ:offset = 0
+            rel physxMimicJoint:rotZ:referenceJoint = </OmniPicker/joints/gripper_joint>
+        }
+
+        over "wide3_joint" (
+            prepend apiSchemas = ["PhysxJointAPI", "PhysxMimicJointAPI:rotZ"]
+        )
+        {
+            float physxMimicJoint:rotZ:dampingRatio = 0
+            float physxMimicJoint:rotZ:gearing = -0.4
+            float physxMimicJoint:rotZ:naturalFrequency = 0
+            float physxMimicJoint:rotZ:offset = 0
+            rel physxMimicJoint:rotZ:referenceJoint = </OmniPicker/joints/gripper_joint>
+        }
+
+        over "wide_loop_joint" (
+            prepend apiSchemas = ["PhysxJointAPI", "PhysxMimicJointAPI:rotZ"]
+        )
+        {
+            float physxMimicJoint:rotZ:dampingRatio = 0
+            float physxMimicJoint:rotZ:gearing = -1.5
+            float physxMimicJoint:rotZ:naturalFrequency = 0
+            float physxMimicJoint:rotZ:offset = 0
+            rel physxMimicJoint:rotZ:referenceJoint = </OmniPicker/joints/gripper_joint>
+        }
+    }
+
+    over "root_joint" (
+        prepend apiSchemas = ["PhysxArticulationAPI"]
+    )
+    {
+        bool physxArticulation:enabledSelfCollisions = 0
+        int physxArticulation:solverPositionIterationCount = 32
+        int physxArticulation:solverVelocityIterationCount = 1
+    }
+}
+

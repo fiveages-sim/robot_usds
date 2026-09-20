@@ -1,0 +1,160 @@
+#usda 1.0
+(
+    defaultPrim = "Galaxea_R1"
+)
+
+# R1 Pro dual-arm mount: A2_Arms (left+right 7-DoF) onto torso_link4.
+def Xform "Galaxea_R1"
+{
+    def "A2_Arms" (
+        prepend payload = @../../../../components/A2_Arms/A2_Arms.usda@
+    )
+    {
+        quatd xformOp:orient = (1, 0, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (-0.03284500166773796, 0, 1.100619912147522)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "root_joint" (
+            active = false
+        )
+        {
+        }
+
+        over "torso_link4"
+        {
+            def PhysicsFixedJoint "AssemblerFixedJoint"
+            {
+                rel physics:body0 = </Galaxea_R1/torso_link4>
+                rel physics:body1 = </Galaxea_R1/A2_Arms/torso_link4>
+                point3f physics:localPos0 = (0, 0, 0)
+                point3f physics:localPos1 = (0, 0, 0)
+                quatf physics:localRot0 = (1, 0, 0, 0)
+                quatf physics:localRot1 = (1, 0, 0, 0)
+            }
+        }
+
+        over "joints"
+        {
+            over "left_joint1"
+            {
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "left_joint2"
+            {
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "left_joint3"
+            {
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "left_joint4"
+            {
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "left_joint5"
+            {
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "left_joint6"
+            {
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "left_joint7"
+            {
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "right_joint1"
+            {
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "right_joint2"
+            {
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "right_joint3"
+            {
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "right_joint4"
+            {
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "right_joint5"
+            {
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "right_joint6"
+            {
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "right_joint7"
+            {
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+        }
+
+        over "G1_Left"
+        {
+            over "joints"
+            {
+                over "left_gripper_joint"
+                {
+                    float state:linear:physics:position = 0
+                    float state:linear:physics:velocity = 0
+                }
+
+                over "left_gripper_joint2"
+                {
+                    float state:linear:physics:position = 0
+                    float state:linear:physics:velocity = 0
+                }
+            }
+        }
+
+        over "G1_Right"
+        {
+            over "joints"
+            {
+                over "right_gripper_joint"
+                {
+                    float state:linear:physics:position = 0
+                    float state:linear:physics:velocity = 0
+                }
+
+                over "right_gripper_joint2"
+                {
+                    float state:linear:physics:position = 0
+                    float state:linear:physics:velocity = 0
+                }
+            }
+        }
+    }
+}

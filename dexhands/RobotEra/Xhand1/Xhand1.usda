@@ -1,0 +1,256 @@
+#usda 1.0
+(
+    defaultPrim = "Xhand1"
+    doc = """Xhand1 — unified left/right via Side variant (default|left|right).
+default: left morphology, unprefixed joints.
+left: left morphology, left_hand_* joints (default joints deactivated).
+right: right morphology, right_hand_* joints (Y-mirror poses of palm+thumb+four fingers; four-finger meshes unflipped).
+PhysX Drive (Xhand close speed): fingers D=0.18 K=1.2 F=120; thumb D=0.24 K=1.44 F=200; jointFriction=0.5 armature=0.001; maxJointVelocity=500000; self-col On + FilteredPairs; collider μs=2.0 μd=1.6 contactOffset=0.002. Heavier than Revo2; K raised for snappy tracking (stay below o7 explode ~1.5).
+No mimic joints (12 independent DOFs). MuJoCo/Newton via Physics=mujoco
+(MjcJointAPI + MjcActuator; Side-scoped actuators in Side payloads).
+Physics: root has no authored default (VariantSwitcher can still flip physx↔mujoco).
+Each Side payload weakly selects Physics=physx so switching Side=right/left does
+not drop the Physics variant. Session-layer mujoco still wins over this fallback.
+After switching the physics ENGINE mid-session: Stop → Reload Stage
+(or clear hand Physics selection) so Switcher can run again. Manual Physics
+variant switch always works. Physics variantSet is listed before Side.
+Flange: default none; default option = AG2F90 metal + Xhand black print
+(shifted -0.024144 in hand_base Z). M6 EE selects Flange=default.
+Sensor=d405 + Flange=default: hide AG2F90, keep print, CAD flange+brace + D405 (Side sticky-mirrors brace).
+"""
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "Xhand1" (
+    prepend references = @./payloads/base.usda@
+    variants = {
+        string Flange = "none"
+        string Robot = "none"
+        string Sensor = "none"
+        string Side = "default"
+    }
+    prepend variantSets = ["Physics", "Flange", "Side"]
+    append variantSets = ["Robot", "Sensor"]
+)
+{
+    over "joints"
+    {
+        over "index_joint1"
+        {
+            float drive:angular:physics:damping = 0.18
+            float drive:angular:physics:maxForce = 120
+            float drive:angular:physics:stiffness = 1.2
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:maxJointVelocity = 500000
+        }
+        over "index_joint2"
+        {
+            float drive:angular:physics:damping = 0.18
+            float drive:angular:physics:maxForce = 120
+            float drive:angular:physics:stiffness = 1.2
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:maxJointVelocity = 500000
+        }
+        over "index_joint3"
+        {
+            float drive:angular:physics:damping = 0.18
+            float drive:angular:physics:maxForce = 120
+            float drive:angular:physics:stiffness = 1.2
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:maxJointVelocity = 500000
+        }
+        over "middle_joint1"
+        {
+            float drive:angular:physics:damping = 0.18
+            float drive:angular:physics:maxForce = 120
+            float drive:angular:physics:stiffness = 1.2
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:maxJointVelocity = 500000
+        }
+        over "middle_joint2"
+        {
+            float drive:angular:physics:damping = 0.18
+            float drive:angular:physics:maxForce = 120
+            float drive:angular:physics:stiffness = 1.2
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:maxJointVelocity = 500000
+        }
+        over "pinky_joint1"
+        {
+            float drive:angular:physics:damping = 0.18
+            float drive:angular:physics:maxForce = 120
+            float drive:angular:physics:stiffness = 1.2
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:maxJointVelocity = 500000
+        }
+        over "pinky_joint2"
+        {
+            float drive:angular:physics:damping = 0.18
+            float drive:angular:physics:maxForce = 120
+            float drive:angular:physics:stiffness = 1.2
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:maxJointVelocity = 500000
+        }
+        over "ring_joint1"
+        {
+            float drive:angular:physics:damping = 0.18
+            float drive:angular:physics:maxForce = 120
+            float drive:angular:physics:stiffness = 1.2
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:maxJointVelocity = 500000
+        }
+        over "ring_joint2"
+        {
+            float drive:angular:physics:damping = 0.18
+            float drive:angular:physics:maxForce = 120
+            float drive:angular:physics:stiffness = 1.2
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:maxJointVelocity = 500000
+        }
+        over "thumb_joint1"
+        {
+            float drive:angular:physics:damping = 0.24
+            float drive:angular:physics:maxForce = 200
+            float drive:angular:physics:stiffness = 1.44
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:maxJointVelocity = 500000
+        }
+        over "thumb_joint2"
+        {
+            float drive:angular:physics:damping = 0.24
+            float drive:angular:physics:maxForce = 200
+            float drive:angular:physics:stiffness = 1.44
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:maxJointVelocity = 500000
+        }
+        over "thumb_joint3"
+        {
+            float drive:angular:physics:damping = 0.24
+            float drive:angular:physics:maxForce = 200
+            float drive:angular:physics:stiffness = 1.44
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:maxJointVelocity = 500000
+        }
+    }
+    variantSet "Side" = {
+        "default" (
+            prepend payload = @./payloads/Side/default.usda@
+        ) {
+
+        }
+        "left" (
+            prepend payload = @./payloads/Side/left.usda@
+        ) {
+            rel isaac:physics:robotJoints = [
+                </Xhand1/root_joint>,
+                </Xhand1/joints/left_hand_index_joint1>,
+                </Xhand1/joints/left_hand_index_joint2>,
+                </Xhand1/joints/left_hand_index_joint3>,
+                </Xhand1/joints/left_hand_middle_joint1>,
+                </Xhand1/joints/left_hand_middle_joint2>,
+                </Xhand1/joints/left_hand_pinky_joint1>,
+                </Xhand1/joints/left_hand_pinky_joint2>,
+                </Xhand1/joints/left_hand_ring_joint1>,
+                </Xhand1/joints/left_hand_ring_joint2>,
+                </Xhand1/joints/left_hand_thumb_joint1>,
+                </Xhand1/joints/left_hand_thumb_joint2>,
+                </Xhand1/joints/left_hand_thumb_joint3>,
+            ]
+        }
+        "right" (
+            prepend payload = @./payloads/Side/right.usda@
+            delete references = @./payloads/base.usda@
+            prepend references = @./payloads/Hand/right/base.usda@
+        ) {
+            rel isaac:physics:robotJoints = [
+                </Xhand1/root_joint>,
+                </Xhand1/joints/right_hand_index_joint1>,
+                </Xhand1/joints/right_hand_index_joint2>,
+                </Xhand1/joints/right_hand_index_joint3>,
+                </Xhand1/joints/right_hand_middle_joint1>,
+                </Xhand1/joints/right_hand_middle_joint2>,
+                </Xhand1/joints/right_hand_pinky_joint1>,
+                </Xhand1/joints/right_hand_pinky_joint2>,
+                </Xhand1/joints/right_hand_ring_joint1>,
+                </Xhand1/joints/right_hand_ring_joint2>,
+                </Xhand1/joints/right_hand_thumb_joint1>,
+                </Xhand1/joints/right_hand_thumb_joint2>,
+                </Xhand1/joints/right_hand_thumb_joint3>,
+            ]
+        }
+    }
+    variantSet "Flange" = {
+        "default" (
+            prepend payload = @./payloads/Flange/default.usda@
+        ) {
+
+        }
+        "none" {
+
+        }
+    }
+    variantSet "Physics" = {
+        "physx" (
+            prepend payload = @./payloads/Physics/physx.usda@
+        ) {
+
+        }
+        "mujoco" (
+            prepend payload = @./payloads/Physics/mujoco.usda@
+        ) {
+
+        }
+        "none" (
+            prepend payload = @./payloads/Physics/none.usda@
+        ) {
+
+        }
+        "physics" (
+            prepend payload = @./payloads/Physics/physics.usda@
+        ) {
+
+        }
+    }
+    variantSet "Robot" = {
+        "none" (
+            prepend payload = @./payloads/Robot/none.usda@
+        ) {
+
+        }
+        "robot" (
+            prepend payload = @./payloads/Robot/robot.usda@
+        ) {
+
+        }
+    }
+    variantSet "Sensor" = {
+        "none" (
+            prepend payload = @./payloads/Sensor/none.usda@
+        ) {
+
+        }
+        "sensors" (
+            prepend payload = @./payloads/Sensor/sensors.usda@
+        ) {
+
+        }
+        "d405" (
+            prepend payload = @./payloads/Sensor/d405.usda@
+        ) {
+
+        }
+    }
+}

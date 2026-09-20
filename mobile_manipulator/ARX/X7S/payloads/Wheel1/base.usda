@@ -1,0 +1,45 @@
+#usda 1.0
+(
+    defaultPrim = "ARX_X7S"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "ARX_X7S"
+{
+    over "wheel_1"
+    {
+        def "Angellun_OW" (
+            prepend payload = @../../../../../components/Angellun_8/Angellun_OW.usda@
+            variants = {
+                string Physics = "physx"
+            }
+        )
+        {
+            quatd xformOp:orient = (1, 0, 0, 0)
+            double3 xformOp:scale = (1, 1, 1)
+            double3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            over "root_joint" (
+                active = false
+                delete apiSchemas = ["PhysicsArticulationRootAPI", "PhysxArticulationAPI", "NewtonArticulationRootAPI"]
+            )
+            {
+            }
+
+            over "wheel"
+            {
+                def PhysicsFixedJoint "AssemblerFixedJoint"
+                {
+                    rel physics:body0 = </ARX_X7S/wheel_1>
+                    rel physics:body1 = </ARX_X7S/wheel_1/Angellun_OW/wheel>
+                    point3f physics:localPos0 = (0, 0, 0)
+                    point3f physics:localPos1 = (0, 0, 0)
+                    quatf physics:localRot0 = (1, 0, 0, 0)
+                    quatf physics:localRot1 = (1, 0, 0, 0)
+                }
+            }
+        }
+    }
+}

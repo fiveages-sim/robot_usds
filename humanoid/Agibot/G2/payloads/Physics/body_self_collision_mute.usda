@@ -1,0 +1,79 @@
+#usda 1.0
+(
+    doc = """G2 NonDexHand mute — subLayer of payloads/Physics/physx.usda ONLY.
+
+PhysX: CollisionGroup + filteredGroups self-filter. Always composed with
+Physics=physx (any Arm_Left/Arm_Right mix). Same convention as W2:
+parent self-col ON; NonDexHand mutes body/chassis/arm; dexhand EE excludes
+keep fingers ungrouped (finger self-col + FilteredPairs).
+
+Arm prims live under body_link5/arm_base (not root Left_Arm).
+Keep hand prim names in sync with M6_CCS EE dexhand_self_collision.usda.
+Grippers (RG75, AG2F90, …) are intentionally not excluded.
+"""
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+over "G2"
+{
+    def Scope "CollisionGroups"
+    {
+        def PhysicsCollisionGroup "NonDexHand" (
+            prepend apiSchemas = ["CollectionAPI:colliders"]
+        )
+        {
+            prepend rel collection:colliders:includes = [
+                </G2/base_link>,
+                </G2/body_link1>,
+                </G2/body_link2>,
+                </G2/body_link3>,
+                </G2/body_link4>,
+                </G2/body_link5>,
+                </G2/head_link1>,
+                </G2/head_link2>,
+                </G2/head_link3>,
+                </G2/G2_Chassis/base_footprint>,
+                </G2/G2_Chassis/fl_steer>,
+                </G2/G2_Chassis/fl_wheel>,
+                </G2/G2_Chassis/fr_steer>,
+                </G2/G2_Chassis/fr_wheel>,
+                </G2/G2_Chassis/rl_steer>,
+                </G2/G2_Chassis/rl_wheel>,
+                </G2/G2_Chassis/rr_steer>,
+                </G2/G2_Chassis/rr_wheel>,
+                </G2/body_link5/arm_base/Arm_Left/base_link>,
+                </G2/body_link5/arm_base/Arm_Left/link1>,
+                </G2/body_link5/arm_base/Arm_Left/link2>,
+                </G2/body_link5/arm_base/Arm_Left/link3>,
+                </G2/body_link5/arm_base/Arm_Left/link4>,
+                </G2/body_link5/arm_base/Arm_Left/link5>,
+                </G2/body_link5/arm_base/Arm_Left/link6>,
+                </G2/body_link5/arm_base/Arm_Left/link7>,
+                </G2/body_link5/arm_base/Arm_Right/base_link>,
+                </G2/body_link5/arm_base/Arm_Right/link1>,
+                </G2/body_link5/arm_base/Arm_Right/link2>,
+                </G2/body_link5/arm_base/Arm_Right/link3>,
+                </G2/body_link5/arm_base/Arm_Right/link4>,
+                </G2/body_link5/arm_base/Arm_Right/link5>,
+                </G2/body_link5/arm_base/Arm_Right/link6>,
+                </G2/body_link5/arm_base/Arm_Right/link7>,
+            ]
+            prepend rel collection:colliders:excludes = [
+                </G2/body_link5/arm_base/Arm_Left/link7/tcp/LinkerHand_o6>,
+                </G2/body_link5/arm_base/Arm_Left/link7/tcp/LinkerHand_o7>,
+                </G2/body_link5/arm_base/Arm_Left/link7/tcp/L6>,
+                </G2/body_link5/arm_base/Arm_Left/link7/tcp/Wuji_hand2>,
+                </G2/body_link5/arm_base/Arm_Left/link7/tcp/Xhand1>,
+                </G2/body_link5/arm_base/Arm_Right/link7/tcp/LinkerHand_o6>,
+                </G2/body_link5/arm_base/Arm_Right/link7/tcp/LinkerHand_o7>,
+                </G2/body_link5/arm_base/Arm_Right/link7/tcp/L6>,
+                </G2/body_link5/arm_base/Arm_Right/link7/tcp/Wuji_hand2>,
+                </G2/body_link5/arm_base/Arm_Right/link7/tcp/Xhand1>,
+            ]
+            prepend rel physics:filteredGroups = [
+                </G2/CollisionGroups/NonDexHand>,
+            ]
+        }
+    }
+}

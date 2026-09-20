@@ -11,18 +11,20 @@
 
 | | | |
 |:---:|:---:|:---:|
-| <img src=".images/agibot_g1.png" alt="智元 G1" width="300"> | <img src=".images/agilex_aloha_split.png" alt="松灵 Aloha Split" width="300"> | <img src=".images/agilex_aloha_v1.png" alt="松灵 Aloha V1" width="300"> |
-| **智元 G1** | **松灵 Aloha Split** | **松灵 Aloha V1** |
-| <img src=".images/agilex_aloha_v2.png" alt="松灵 Aloha V2" width="300"> | <img src=".images/arx_lift.png" alt="方舟无限 Lift" width="300"> | <img src=".images/arx_x7s.png" alt="方舟无限 X7S" width="300"> |
-| **松灵 Aloha V2** | **方舟无限 Lift** | **方舟无限 X7S** |
-| <img src=".images/astribot_s1.png" alt="星尘智能 S1" width="300"> | <img src=".images/galaxea_r1_lite.png" alt="星海图 R1 Lite" width="300"> | <img src=".images/galaxea_r1.png" alt="星海图 R1" width="300"> |
-| **星尘智能 S1** | **星海图 R1 Lite** | **星海图 R1** |
-| <img src=".images/galaxea_r1_pro.png" alt="星海图 R1 Pro" width="300"> | <img src=".images/galbot%20one.png" alt="银河通用 Galbot One" width="300"> | <img src=".images/realman%20aidal.png" alt="睿尔曼 Aidal" width="300"> |
-| **星海图 R1 Pro** | **银河通用 Galbot One** | **睿尔曼 Aidal** |
-| <img src=".images/ai2_bot2.png" alt="智平方 Bot2" width="300"> | <img src=".images/arx_lift2s.png" alt="方舟无限 Lift2S" width="300"> | <img src=".images/galbot%20zero.png" alt="银河通用 Galbot Zero" width="300"> |
-| **智平方 Bot2** | **方舟无限 Lift2S** | **银河通用 Galbot Zero** |
-| <img src=".images/galbot%20s1.png" alt="银河通用 Galbot S1" width="300"> | <img src=".images/galbot%20g1.png" alt="银河通用 Galbot G1" width="300"> | |
-| **银河通用 S1** | **银河通用 G1** | |
+| <img src=".images/agibot_g1.png" alt="智元 G1" width="300"> | <img src=".images/agilex_aloha_split.png" alt="松灵 Aloha Split" width="300"> | <img src=".images/agilex_aloha_v1.png" alt="松灵 Cobot Magic V1" width="300"> |
+| **智元 G1** | **松灵 Aloha Split** | **松灵 Cobot Magic V1** |
+| <img src=".images/agilex_aloha_v2.png" alt="松灵 Cobot Magic V2" width="300"> | <img src=".images/arx_lift.png" alt="方舟无限 Lift" width="300"> | <img src=".images/arx_x7s.png" alt="方舟无限 X7S" width="300"> |
+| **松灵 Cobot Magic V2** | **方舟无限 Lift** | **方舟无限 X7S** |
+| <img src=".images/arx_lift2s.png" alt="方舟无限 Lift 2S" width="300"> | <img src=".images/astribot_s1.png" alt="星尘智能 S1" width="300"> | <img src=".images/galaxea_r1_lite.png" alt="星海图 R1 Lite" width="300"> |
+| **方舟无限 Lift 2S** | **星尘智能 S1** | **星海图 R1 Lite** |
+| <img src=".images/galaxea_r1.png" alt="星海图 R1" width="300"> | <img src=".images/galaxea_r1_pro.png" alt="星海图 R1 Pro" width="300"> | <img src=".images/galbot%20one.png" alt="银河通用 Galbot One" width="300"> |
+| **星海图 R1** | **星海图 R1 Pro** | **银河通用 Galbot One** |
+| <img src=".images/realman%20aidal.png" alt="睿尔曼 Aidal" width="300"> | <img src=".images/ai2_bot2.png" alt="智平方 Bot2" width="300"> | <img src=".images/galbot%20zero.png" alt="银河通用 Galbot Zero" width="300"> |
+| **睿尔曼 Aidal** | **智平方 Bot2** | **银河通用 Galbot Zero** |
+| <img src=".images/galbot%20s1.png" alt="银河通用 Galbot S1" width="300"> | <img src=".images/galbot%20g1.png" alt="银河通用 Galbot G1" width="300"> | <img src=".images/agibot%20g2.png" alt="智元 G2" width="300"> |
+| **银河通用 S1** | **银河通用 G1** | **智元 G2** |
+| <img src=".images/gento%20luna.png" alt="天机 Gento Luna" width="300"> | <img src=".images/gento%20skye.png" alt="天机 Gento Skye" width="300"> | <img src=".images/spiritai_moz1.png" alt="千寻 MOZ1" width="300"> |
+| **天机 Gento Luna** | **天机 Gento Skye** | **千寻 MOZ1** |
 
 </div>
 
@@ -45,10 +47,9 @@ git submodule update --init --recursive
 
 | 路径 | 上游仓库 | `.gitmodules` 中的 `branch`* |
 |------|----------|------------------------------|
-| `humanoid/FiveAges_W1` | [fiveages-sim/fa-w1-usds](https://github.com/fiveages-sim/fa-w1-usds) | `main` |
-| `humanoid/FiveAges_W2` | [fiveages-sim/fa-w2-usds](https://github.com/fiveages-sim/fa-w2-usds) | `main` |
-| `humanoid/Agibot_G2` | [fiveages-sim/agibot-g2-usds](https://github.com/fiveages-sim/agibot-g2-usds) | — |
-| `manipulators/Marvin` | [fiveages-sim/marvin-usds](https://github.com/fiveages-sim/marvin-usds) | `main` |
+| `humanoid/FiveAges/Gen1` | [fiveages-sim/fiveages-gen1-robot-usds](https://github.com/fiveages-sim/fiveages-gen1-robot-usds) | `main` |
+| `humanoid/FiveAges/Gen2` | [fiveages-sim/fiveages-gen2-robot-usds](https://github.com/fiveages-sim/fiveages-gen2-robot-usds) | `main` |
+| `humanoid/FiveAges/Gen3` | [fiveages-sim/fiveages-gen3-robot-usds](https://github.com/fiveages-sim/fiveages-gen3-robot-usds) | `main` |
 | `humanoid/Ubtech` | [fiveages-sim/ubtech-usds](https://github.com/fiveages-sim/ubtech-usds) | `main` |
 | `humanoid/Galbot` | [fiveages-sim/galbot-usds](https://github.com/fiveages-sim/galbot-usds) | `main` |
 
@@ -73,111 +74,217 @@ git submodule update --init --recursive
 | 艾利特 | Elite |
 | 因时 | Inspire |
 | 强脑 | BrainCo |
-| 灵心巧手 | LinkerHand |
+| 灵心巧手 | LinkerHand、LinkerHands |
+| 星动纪元 | RobotEra |
+| 舞肌 | Wuji |
 | 知行 | ChangingTek |
 | 钧舵 | Jodell |
 | 智平方 | Ai2 |
 | 中科第五纪 | FiveAges |
 | 优必选 | Ubtech |
-| 天机智能 | Marvin（系列） |
-| （保留英文） | Robotiq |
+| 天机智能 | Tianji、Gento、Marvin（系列） |
+| 高擎 | HighTorque、Panthera |
+| 安捷伦 | Angellun |
+| 法奥 | Fairino |
+| 珞石 | Rokae |
+| 灵猴 | Linkhou |
+| 速腾 | RoboSense |
+| 悟时 | Woosh |
+| 千寻 | Spirit AI |
+| 易三伍 | YSW |
+| 奥比中光 | Orbbec |
+| 西克 | sick |
+| 森云 | sensing |
 
 ### 3.2 按类别列出
 
-- **Gripper（夹爪）** — 对应 `grippers/` 下目录名
-    - 知行 AG2F120S
-    - 知行 AG2F90
-    - 星海图 G1
-    - 因时 EG2 4C2
-    - 钧舵 RG75
-    - 智元 OmniPicker
-    - Robotiq 85
-- **Dexterous Hand（灵巧手）** — 对应 `dexhands/` 下目录名
-    - 强脑 Revo1
-    - 强脑 Revo2
-    - 灵心巧手 o6
-    - 灵心巧手 o7
-- **Manipulator（机械臂）** — 对应 `manipulators/` 下目录名
+- **Gripper（夹爪）** — `grippers/`
+    - 智元（`grippers/Agibot/`）
+        - OmniPicker（`OmniPicker`）
+    - 知行（`grippers/ChangingTek/`）
+        - AG2F120S（`AG2F120S`）
+        - AG2F90（`AG2F90`）
+    - 因时（`grippers/Inspire/`）
+        - EG2 4C2（`EG2_4C2`）
+    - 钧舵（`grippers/Jodell/`）
+        - RG75（`RG75`）
+        - ERG32（`ERG32`）
+- **Dexterous Hand（灵巧手）** — `dexhands/`
+    - 强脑（`dexhands/BrainCo/`）
+        - Revo1（`Revo1`）
+        - Revo2（`Revo2`）
+    - 灵心巧手（`dexhands/LinkerHands/`）
+        - L6（`L6`）
+        - o6（`o6`）
+        - o7（`o7`）
+    - 星动纪元（`dexhands/RobotEra/`）
+        - Xhand1（`Xhand1`）
+    - 舞肌（`dexhands/Wuji/`）
+        - Hand2（`Hand2`）
+- **Suction cup（吸盘）** — `suction_cup/`
+    - 易三伍（`suction_cup/YSW/`）
+        - E70（`E70`）
+- **Manipulator（机械臂）** — `manipulators/`（品牌目录 → 短产品名）
+    - 松灵（`manipulators/AgileX/`）
+        - Piper / Piper_H / Piper_X / Piper_L
+        - Gripper（`Gripper`）
     - 方舟无限（`manipulators/ARX/`）
-        - `ARX_R5`
-        - `ARX_X5`
-        - `ARX5_Agilex`
-        - `ARX5_Gripper_2023`
-        - `ARX5_Gripper_2025`
-    - 越疆 DobotCR5
-        - 越疆 Dobot CR5 Dual Arm
-    - 艾利特 EC66
+        - X5（`X5`）
+        - R5（`R5`）
+        - Gripper 2023（`Gripper_2023`）
+        - Gripper 2025（`Gripper_2025`）
     - 星海图（`manipulators/Galaxea/`）
-        - A1
-        - A1X
-        - A1Y
-    - 松灵（`manipulators/Agilex/`）
-        - Piper
-    - 天机智能 Marvin
-    - 睿尔曼 RM75（`Realman_RM75`）
-- **Humanoid（人形机器人）** — 对应 `humanoid/` 下目录名
-    - 智元 G1
-    - 智元 G2
-    - 智平方 Bot2
-    - 方舟无限 Lift（`humanoid/ARX_Lift`）
-    - 方舟无限 X7S（`humanoid/ARX_X7S`）
-    - 星尘智能 S1
-    - 越疆 Atom（`Dobot_Atom`）
-    - 中科第五纪 W1
-    - 中科第五纪 W2
-    - 银河通用 Galbot（`humanoid/Galbot` 子模块）
-        - Galbot One（`Galbot_One`）
-        - Galbot Zero（`Galbot_Zero`）
-        - Galbot S1（`Galbot_S1`）
-        - Galbot G1（`Galbot_G1`）
-    - 星海图 R1（`Galaxea_R1`）
-        - 星海图 R1 Pro
-    - 睿尔曼 Aidal（`Realman_AIDAL`）
-    - 优必选（`Ubtech`）
-- **Mobile Base（移动底盘）** — 对应 `mobile_base/` 下目录名
-    - 松灵 Ranger Mini
-    - 松灵 Tracer
-    - 松灵 Tracer V2
-- **Mobile Manipulator（移动机械臂）** — 对应 `mobile_manipulator/` 下目录名
-    - 松灵 Aloha Spilt
-    - 松灵 Aloha V1
-    - 松灵 Aloha V2
-    - 方舟无限 Lift2S（`mobile_manipulator/ARX_Lift2S`）
-    - 星海图 R1 Lite（`mobile_manipulator/Galaxea_R1_Lite`）
-- **Sensors（传感器）** — 对应 `sensors/` 下 `.usd` 资源
-    - 英特尔实感 D405（Intel RealSense）
-    - 英特尔实感 D415（Intel RealSense）
-    - 英特尔实感 D435（Intel RealSense）
-    - dabai
-    - mid360
-    - oradar ms500
-    - 奥比中光 orbbec 336
-    - 奥比中光 orbbec 336L
-    - 奥比中光 orbbec dabai dw
-    - usb camera 01
-- **Stands（支架）** — 对应 `stands/` 下目录名
-    - Dual Stand1
-    - Dual Stand2
+        - A1 / A1X / A1Y / A1Z
+        - G1 / G1Z
+    - 越疆（`manipulators/Dobot/`）
+        - CR5（`CR5`）
+        - CR5 Fa Station（`CR5_Fa_Station`）
+    - 艾利特（`manipulators/Elite/`）
+        - EC66（`EC66`）
+    - 法奥（`manipulators/Fairino/`）
+        - ART7（`ART7`）
+    - 天机智能（`manipulators/Tianji/`）
+        - M6 CCS（`M6_CCS`）
+        - M6S Lite CCS（`M6S_Lite_CCS`）
+        - M6 Fa Station（`M6_Fa_Station`）
+        - M20S CCS（`M20S_CCS`）
+    - 珞石（`manipulators/Rokae/`）
+        - AR5 CCS V1 / V2（`AR5_CCS_V1`、`AR5_CCS_V2`）
+        - AR5 SRS（`AR5_SRS`）
+    - 睿尔曼（`manipulators/Realman/`）
+        - RM75（`RM75`）
+    - 高擎（`manipulators/HighTorque/`）
+        - Panthera HT（`Panthera_HT`）
+- **Humanoid（人形机器人）** — `humanoid/`
+    - 智元（`humanoid/Agibot/`）
+        - G1（`G1`）
+        - G2（`G2`）
+    - 智平方（`humanoid/Ai2/`）
+        - Bot2（`Bot2`）
+    - 星尘智能（`humanoid/Astribot/`）
+        - S1（`S1`）
+        - Gripper（`Gripper`）
+    - 中科第五纪（`humanoid/FiveAges/`，子模块）
+        - W1 / Gen1（`Gen1`）
+        - W2 / S2 / Gen2（`Gen2`）
+        - WCE3 / Gen3（`Gen3`）
+    - 星海图（`humanoid/Galaxea/`）
+        - R1（`R1`，含 Robot 变体 `R1_Pro`）
+        - R1 Lite（`R1_Lite`）
+    - 银河通用（`humanoid/Galbot` 子模块）
+        - Galbot One / Zero / S1 / G1
+    - 天机智能（Gento 子品牌，`humanoid/Gento/`）
+        - Luna（`Luna`）
+        - Skye（`Skye`）
+    - 睿尔曼（`humanoid/Realman/`）
+        - Aidal（`AIDAL`）
+    - 千寻（`humanoid/Spirit AI/`）
+        - MOZ1（`MOZ1`）
+    - 优必选（`humanoid/Ubtech` 子模块）
+        - Cruzr S2（`Ubtech_CruzrS2`）
+- **Mobile Base（移动底盘）** — `mobile_base/`
+    - 松灵（`mobile_base/Agilex/`）
+        - Ranger Mini
+        - Tracer V1
+        - Tracer V2
+    - 灵猴（`mobile_base/Linkhou/`）
+        - Q1（`Q1`）
+        - S2_V1（`S2_V1`）
+        - S2_V2（`S2_V2`）
+        - G2 Chassis（`G2_Chassis`）
+    - 安捷伦（`mobile_base/Angellun/`）
+        - Moz1 Chassis（`Moz1_Chassis`）
+    - 悟时（`mobile_base/Woosh/`）
+        - Ai2 Bot2 Chassis（`Ai2_Bot2_Chassis`）
+        - RM AIDAL Chassis（`RM_AIDAL_Chassis`）
+- **Mobile Manipulator（移动机械臂）** — `mobile_manipulator/`
+    - 松灵（`mobile_manipulator/Agilex/`）
+        - Split Aloha（`Arm_Left` / `Arm_Right`：Piper、Piper_H、Piper_X、Piper_L）
+        - Cobot Magic V1
+        - Cobot Magic V2（`Arm_Left` / `Arm_Right`：Piper、Piper_H、Piper_X、Piper_L）
+    - 方舟无限（`mobile_manipulator/ARX/`）
+        - Lift（`Lift`）
+        - Lift 2S（`Lift 2S`）
+        - X7S（`X7S`）
+        - AC One Base（`AC_One_Base`）
+- **Components（共享组件）** — `components/`
+    - 安捷伦
+        - Angellun_8（`Angellun_8`）
+        - Angellun_10（`Angellun_10`）
+    - omnia_150（`omnia_150`）
+    - fixed_ee（`fixed_ee/`）
+        - Concave_type1 / Hook_type1 / Scoop_type1
+- **Sensors（传感器）** — `sensors/`
+    - RealSense（`sensors/realsense/`）
+        - d405 / d415 / d435
+    - 奥比中光（`sensors/orbbec/`）
+        - 305 / 336 / 336L / 335Le / 335Lg
+        - dabai_agilex / dabai_dw / oradar_ms500
+    - 速腾（`sensors/robosense/`）
+        - Airy（`airy`）
+    - 灵猴（`sensors/linkhou/`）
+        - DS51（`ds51`）
+    - mid360、sdkeli_ls2
+    - usb_camera_01 / usb_camera_02
+    - ultrasonic（`sensors/ultrasonic/`）
+        - ultrasonic_02 / ultrasonic_03
+    - 6Dof F&T Sensor
+        - KWR75B
+    - 西克（`sensors/sick/`）
+        - nanoScan3
+    - 森云（`sensors/sensing/`）
+        - SHW5G / AstraS56 / M3A
 
 ## 4. 文件结构
 
-项目核心目录为 `robots`，包含以下子目录与资源：
+项目核心目录为 `robots`。品牌资产采用 **品牌目录 + 短产品名**（与 `manipulators/ARX/X5`、`humanoid/Galaxea/R1` 一致）。Gento 为人形侧的天机子品牌，目录仍为 `humanoid/Gento/`。
 
 ```bash
 robots/
-  grippers/           # 夹爪模型及按功能拆分的配置
-  dexhands/           # 灵巧手模型及配置
-  manipulators/       # 机械臂模型、环境示例与配置
-  humanoid/          # 人形机器人模型及配置
-  mobile_base/        # 移动底盘模型及配置
-  mobile_manipulator/ # 移动机械臂模型及配置
-  sensors/            # 传感器模型
-  stands/             # 支架 / 工装模型
+  grippers/
+    Agibot/OmniPicker/  ChangingTek/{AG2F120S,AG2F90}/
+    Inspire/EG2_4C2/  Jodell/{RG75,ERG32}/
+  dexhands/
+    BrainCo/{Revo1,Revo2}/  LinkerHands/{L6,o6,o7}/
+    RobotEra/Xhand1/  Wuji/Hand2/
+  suction_cup/
+    YSW/E70/
+  manipulators/
+    AgileX/{Piper,Piper_H,Piper_X,Piper_L,Gripper}/
+    ARX/{X5,R5,Gripper_2023,Gripper_2025}/
+    Galaxea/{A1,A1X,A1Y,A1Z,G1,G1Z}/
+    Dobot/{CR5,CR5_Fa_Station}/  Elite/EC66/  Fairino/ART7/
+    Tianji/{M6_CCS,M6S_Lite_CCS,M6_Fa_Station,M20S_CCS}/
+    Rokae/{AR5_CCS_V1,AR5_CCS_V2,AR5_SRS}/
+    Realman/RM75/  HighTorque/Panthera_HT/
+  humanoid/
+    FiveAges/{Gen1,Gen2,Gen3}/
+    Galaxea/{R1,R1_Lite}/
+    Galbot/  Agibot/{G1,G2}/
+    Gento/{Luna,Skye}/          # 天机子品牌
+    Astribot/{S1,Gripper}/  Spirit AI/MOZ1/
+    Realman/AIDAL/  Ubtech/Ubtech_CruzrS2/
+  mobile_base/
+    Agilex/{Ranger Mini,Tracer V1,Tracer V2}/
+    Linkhou/{Q1,S2_V1,S2_V2,G2_Chassis}/
+    Angellun/Moz1_Chassis/
+    Woosh/{Ai2_Bot2_Chassis,RM_AIDAL_Chassis}/
+  mobile_manipulator/
+    ARX/{Lift,Lift 2S,X7S,AC_One_Base}/
+    Agilex/{Cobot Magic V1,Cobot Magic V2,Split Aloha}/
+  components/
+    Angellun_8/  Angellun_10/  omnia_150/
+    fixed_ee/{Concave_type1,Hook_type1,Scoop_type1}/
+  sensors/
+    realsense/{d405,d415,d435}.usd
+    orbbec/{305,336,336L,335Le,335Lg,dabai_agilex,dabai_dw,oradar_ms500}.usd
+    robosense/airy.usd  linkhou/ds51.usd
+    sensing/  sick/  ultrasonic/
   README.md
   LICENSE
 ```
 
-`manipulators/*/envs/` 下的部分场景依赖外部环境资源（纹理、资产、共享组件等）。
+`*/env/` 下部分场景依赖外部环境资源（见第 5 节）。
 
 ## 5. 使用环境内容
 

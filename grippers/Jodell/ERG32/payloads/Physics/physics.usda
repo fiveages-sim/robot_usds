@@ -1,0 +1,135 @@
+#usda 1.0
+(
+    defaultPrim = "ERG32"
+    doc = """Generated from Composed Stage of root layer /home/fiveages/Documents/FaSim-Isaac/robots/grippers/Jodell/ERG32/ERG32.usd
+
+
+Generated from Composed Stage of root layer /home/fiveages/Documents/FaSim-Isaac/robots/grippers/Jodell/ERG32/payloads/base.usd
+"""
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+over "ERG32"
+{
+    over "gripper_base" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (-0.00006799377, -0.00041797172, 0.07243398)
+        float3 physics:diagonalInertia = (0.0023778107, 0.002095335, 0.0011936539)
+        float physics:mass = 2.9571335
+        quatf physics:principalAxes = (0.9999787, -0.0064540044, 0.000635897, -0.0008106027)
+    }
+
+    over "rotate_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (-5.4579395e-8, 9.524205e-8, 0.0064239847)
+        float3 physics:diagonalInertia = (0.000012904032, 0.00001058615, 0.0000200428)
+        float physics:mass = 0.08652144
+        quatf physics:principalAxes = (1, 0.0000022425918, 0.0000017780397, 0.000019662533)
+    }
+
+    over "joints"
+    {
+        def PhysicsRevoluteJoint "rotate_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = 0
+            float drive:angular:physics:maxForce = 100
+            float drive:angular:physics:stiffness = 625
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "acceleration"
+            uniform token physics:axis = "Z"
+            custom rel physics:body0
+            prepend rel physics:body0 = </ERG32/gripper_base>
+            custom rel physics:body1
+            prepend rel physics:body1 = </ERG32/rotate_link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.0037188157
+            point3f physics:localPos0 = (0, 0.006, 0.1542)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -180
+            float physics:upperLimit = 180
+        }
+
+        def PhysicsPrismaticJoint "gripper_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:linear", "PhysicsDriveAPI:linear"]
+        )
+        {
+            float drive:linear:physics:damping = 0
+            float drive:linear:physics:maxForce = 100
+            float drive:linear:physics:stiffness = 625
+            float drive:linear:physics:targetPosition = 0
+            uniform token drive:linear:physics:type = "acceleration"
+            uniform token physics:axis = "Y"
+            custom rel physics:body0
+            prepend rel physics:body0 = </ERG32/rotate_link>
+            custom rel physics:body1
+            prepend rel physics:body1 = </ERG32/left_finger>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.00000471742
+            point3f physics:localPos0 = (0.0085, 0.0005, 0.0158)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = 0
+            float physics:upperLimit = 0.016
+        }
+
+        def PhysicsPrismaticJoint "right_finger_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:linear"]
+        )
+        {
+            uniform token physics:axis = "Y"
+            custom rel physics:body0
+            prepend rel physics:body0 = </ERG32/rotate_link>
+            custom rel physics:body1
+            prepend rel physics:body1 = </ERG32/right_finger>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.000004717419
+            point3f physics:localPos0 = (-0.0085, -0.0005, 0.0158)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -0.0192
+            float physics:upperLimit = 0.0032000002
+        }
+    }
+
+    over "left_finger" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (-0.00019188754, -0.008, -0.007321426)
+        float3 physics:diagonalInertia = (7.8495924e-7, 2.318724e-7, 7.108682e-7)
+        float physics:mass = 0.013849229
+        quatf physics:principalAxes = (0.9996884, 0, 0.024963304, 0)
+    }
+
+    over "right_finger" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.00019188754, 0.008, -0.007321426)
+        float3 physics:diagonalInertia = (7.8495924e-7, 2.318724e-7, 7.108682e-7)
+        float physics:mass = 0.013849229
+        quatf physics:principalAxes = (0.9996884, 0, -0.024963304, 0)
+    }
+
+    def PhysicsFixedJoint "root_joint" (
+        prepend apiSchemas = ["PhysicsArticulationRootAPI"]
+    )
+    {
+        rel physics:body1 = </ERG32/gripper_base>
+    }
+}
+

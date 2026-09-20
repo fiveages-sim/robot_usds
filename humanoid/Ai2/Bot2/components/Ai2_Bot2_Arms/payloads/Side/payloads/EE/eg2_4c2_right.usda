@@ -1,0 +1,132 @@
+#usda 1.0
+(
+    defaultPrim = "Ai2_Bot2_Arms"
+)
+
+def Xform "Ai2_Bot2_Arms"
+{
+    over "link7"
+    {
+        over "link8"
+        {
+            over "tcp"
+            {
+                def "Inspire_EG2_4C2" (
+                    prepend payload = @../../../../../../../../../grippers/Inspire/EG2_4C2/Inspire_EG2_4C2.usda@
+                    variants = {
+                        string Side = "right"
+                    }
+                )
+                {
+                    quatd xformOp:orient = (1, 0, 0, 0)
+                    double3 xformOp:scale = (1, 1, 1)
+                    double3 xformOp:translate = (0, 0, 0)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+                    over "root_joint" (
+                        active = false
+                    )
+                    {
+                    }
+
+                    over "gripper_base"
+                    {
+                        def PhysicsFixedJoint "AssemblerFixedJoint"
+                        {
+                            rel physics:body0 = </Ai2_Bot2_Arms/link7/link8/tcp>
+                            rel physics:body1 = </Ai2_Bot2_Arms/link7/link8/tcp/Inspire_EG2_4C2/gripper_base>
+                            point3f physics:localPos0 = (0, 0, 0)
+                            point3f physics:localPos1 = (0, 0, 0)
+                            quatf physics:localRot0 = (1, 0, 0, 0)
+                            quatf physics:localRot1 = (1, 0, 0, 0)
+                        }
+                    }
+
+                    over "joints"
+                    {
+                        over "right_gripper_joint"
+                        {
+                            float state:angular:physics:position = 0
+                            float state:angular:physics:velocity = 0
+                        }
+
+                        over "right_left_pad_joint"
+                        {
+                            float state:angular:physics:position = 0
+                            float state:angular:physics:velocity = 0
+                        }
+
+                        over "right_left_inner_joint"
+                        {
+                            float state:angular:physics:position = 0
+                            float state:angular:physics:velocity = 0
+                        }
+
+                        over "right_right_inner_joint"
+                        {
+                            float state:angular:physics:position = 0
+                            float state:angular:physics:velocity = 0
+                        }
+
+                        over "right_right_outer_joint"
+                        {
+                            float state:angular:physics:position = 0
+                            float state:angular:physics:velocity = 0
+                        }
+
+                        over "right_right_pad_joint"
+                        {
+                            float state:angular:physics:position = 0
+                            float state:angular:physics:velocity = 0
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    over "joints"
+    {
+        over "right_joint1"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "right_joint2"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "right_joint3"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "right_joint4"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "right_joint5"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "right_joint6"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "right_joint7"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+    }
+}

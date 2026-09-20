@@ -1,0 +1,275 @@
+#usda 1.0
+(
+    defaultPrim = "Astribot_Gripper"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def "Astribot_Gripper"
+{
+    delete rel isaac:physics:robotJoints
+    prepend rel isaac:physics:robotJoints = [
+        </Astribot_Gripper/root_joint>,
+        </Astribot_Gripper/joints/right_gripper_joint>,
+        </Astribot_Gripper/joints/right_gripper_joint_L11>,
+        </Astribot_Gripper/joints/right_gripper_joint_L2>,
+        </Astribot_Gripper/joints/right_gripper_joint_R1>,
+        </Astribot_Gripper/joints/right_gripper_joint_R11>,
+        </Astribot_Gripper/joints/right_gripper_joint_R2>,
+    ]
+
+    over "joints"
+    {
+        over "gripper_joint" (
+            active = false
+        )
+        {
+        }
+
+        def PhysicsRevoluteJoint "right_gripper_joint" (
+            prepend apiSchemas = ["MjcJointAPI", "PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular", "PhysxJointAPI"]
+        )
+        {
+            float drive:angular:physics:damping = 1
+            float drive:angular:physics:maxForce = 10
+            float drive:angular:physics:stiffness = 10
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            uniform double mjc:armature = 0.001
+            uniform double mjc:damping = 0.01
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -10
+            uniform double mjc:actuatorfrcrange:max = 10
+            uniform token physics:axis = "Y"
+            prepend rel physics:body0 = </Astribot_Gripper/gripper_base>
+            prepend rel physics:body1 = </Astribot_Gripper/gripper_L1>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.00024833222
+            point3f physics:localPos0 = (0.0145, 0, 0.0511)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0, 1, 0, 0)
+            quatf physics:localRot1 = (0, 1, 0, 0)
+            float physics:lowerLimit = 0
+            float physics:upperLimit = 57.295776
+            float physxJoint:maxJointVelocity = 57.295776
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "gripper_joint_L11" (
+            active = false
+        )
+        {
+        }
+
+        def PhysicsRevoluteJoint "right_gripper_joint_L11" (
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI", "PhysicsJointStateAPI:angular", "PhysxJointAPI", "PhysxMimicJointAPI:rotY"]
+        )
+        {
+            uniform double mjc:armature = 0.001
+            uniform double mjc:damping = 0.01
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 1
+            rel newton:mimicJoint = </Astribot_Gripper/joints/right_gripper_joint>
+            uniform token physics:axis = "Y"
+            prepend rel physics:body0 = </Astribot_Gripper/gripper_L1>
+            prepend rel physics:body1 = </Astribot_Gripper/gripper_L11>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.00037653488
+            point3f physics:localPos0 = (0.04125, 0, 0.03637908)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -11.459155
+            float physics:upperLimit = 68.75493
+            float physxMimicJoint:rotY:dampingRatio = 0
+            float physxMimicJoint:rotY:gearing = -1
+            float physxMimicJoint:rotY:naturalFrequency = 0
+            float physxMimicJoint:rotY:offset = 0
+            rel physxMimicJoint:rotY:referenceJoint = </Astribot_Gripper/joints/right_gripper_joint>
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "gripper_joint_L2" (
+            active = false
+        )
+        {
+        }
+
+        def PhysicsRevoluteJoint "right_gripper_joint_L2" (
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI", "PhysicsJointStateAPI:angular", "PhysxJointAPI", "PhysxMimicJointAPI:rotY"]
+        )
+        {
+            uniform double mjc:armature = 0.001
+            uniform double mjc:damping = 0.01
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 1
+            rel newton:mimicJoint = </Astribot_Gripper/joints/right_gripper_joint>
+            uniform token physics:axis = "Y"
+            prepend rel physics:body0 = </Astribot_Gripper/gripper_base>
+            prepend rel physics:body1 = </Astribot_Gripper/gripper_L2>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.00015301285
+            point3f physics:localPos0 = (0.0325, 0, 0.0511)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0, 1, 0, 0)
+            quatf physics:localRot1 = (0, 1, 0, 0)
+            float physics:lowerLimit = -11.459155
+            float physics:upperLimit = 68.75493
+            float physxMimicJoint:rotY:dampingRatio = 0
+            float physxMimicJoint:rotY:gearing = -1
+            float physxMimicJoint:rotY:naturalFrequency = 0
+            float physxMimicJoint:rotY:offset = 0
+            rel physxMimicJoint:rotY:referenceJoint = </Astribot_Gripper/joints/right_gripper_joint>
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "gripper_joint_R1" (
+            active = false
+        )
+        {
+        }
+
+        def PhysicsRevoluteJoint "right_gripper_joint_R1" (
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI", "PhysicsJointStateAPI:angular", "PhysxJointAPI", "PhysxMimicJointAPI:rotY"]
+        )
+        {
+            uniform double mjc:armature = 0.001
+            uniform double mjc:damping = 0.01
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 1
+            rel newton:mimicJoint = </Astribot_Gripper/joints/right_gripper_joint>
+            uniform token physics:axis = "Y"
+            prepend rel physics:body0 = </Astribot_Gripper/gripper_base>
+            prepend rel physics:body1 = </Astribot_Gripper/gripper_R1>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.0002508852
+            point3f physics:localPos0 = (-0.0145, 0, 0.0511)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -11.459155
+            float physics:upperLimit = 68.75493
+            float physxMimicJoint:rotY:dampingRatio = 0
+            float physxMimicJoint:rotY:gearing = -1
+            float physxMimicJoint:rotY:naturalFrequency = 0
+            float physxMimicJoint:rotY:offset = 0
+            rel physxMimicJoint:rotY:referenceJoint = </Astribot_Gripper/joints/right_gripper_joint>
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "gripper_joint_R11" (
+            active = false
+        )
+        {
+        }
+
+        def PhysicsRevoluteJoint "right_gripper_joint_R11" (
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI", "PhysicsJointStateAPI:angular", "PhysxJointAPI", "PhysxMimicJointAPI:rotY"]
+        )
+        {
+            uniform double mjc:armature = 0.001
+            uniform double mjc:damping = 0.01
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 1
+            rel newton:mimicJoint = </Astribot_Gripper/joints/right_gripper_joint>
+            uniform token physics:axis = "Y"
+            prepend rel physics:body0 = </Astribot_Gripper/gripper_R1>
+            prepend rel physics:body1 = </Astribot_Gripper/gripper_R11>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.0003772252
+            point3f physics:localPos0 = (-0.04125, 0, 0.03637908)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0, 1, 0, 0)
+            quatf physics:localRot1 = (0, 1, 0, 0)
+            float physics:lowerLimit = -11.459155
+            float physics:upperLimit = 68.75493
+            float physxMimicJoint:rotY:dampingRatio = 0
+            float physxMimicJoint:rotY:gearing = -1
+            float physxMimicJoint:rotY:naturalFrequency = 0
+            float physxMimicJoint:rotY:offset = 0
+            rel physxMimicJoint:rotY:referenceJoint = </Astribot_Gripper/joints/right_gripper_joint>
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "gripper_joint_R2" (
+            active = false
+        )
+        {
+        }
+
+        def PhysicsRevoluteJoint "right_gripper_joint_R2" (
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI", "PhysicsJointStateAPI:angular", "PhysxJointAPI", "PhysxMimicJointAPI:rotY"]
+        )
+        {
+            uniform double mjc:armature = 0.001
+            uniform double mjc:damping = 0.01
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 1
+            rel newton:mimicJoint = </Astribot_Gripper/joints/right_gripper_joint>
+            uniform token physics:axis = "Y"
+            prepend rel physics:body0 = </Astribot_Gripper/gripper_base>
+            prepend rel physics:body1 = </Astribot_Gripper/gripper_R2>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.00015378029
+            point3f physics:localPos0 = (-0.0325, 0, 0.0511)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -11.459155
+            float physics:upperLimit = 68.75493
+            float physxMimicJoint:rotY:dampingRatio = 0
+            float physxMimicJoint:rotY:gearing = -1
+            float physxMimicJoint:rotY:naturalFrequency = 0
+            float physxMimicJoint:rotY:offset = 0
+            rel physxMimicJoint:rotY:referenceJoint = </Astribot_Gripper/joints/right_gripper_joint>
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+    }
+
+    over "actuators"
+    {
+        over "gripper_joint" (
+            active = false
+        )
+        {
+        }
+
+        over "left_gripper_joint" (
+            active = false
+        )
+        {
+        }
+
+        def MjcActuator "right_gripper_joint"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [10, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -10, -1, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -10
+            uniform double mjc:forceRange:max = 10
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = 0
+            uniform double mjc:ctrlRange:max = 57.295776
+            rel mjc:target = </Astribot_Gripper/joints/right_gripper_joint>
+        }
+    }
+}

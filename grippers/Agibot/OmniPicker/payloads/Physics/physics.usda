@@ -1,0 +1,295 @@
+#usda 1.0
+(
+    defaultPrim = "OmniPicker"
+    doc = """Generated from Composed Stage of root layer /home/fiveages/libraries/FaSim-Isaac/robots/grippers/OmniPicker/OmniPicker.usd
+
+Generated from Composed Stage of root layer /home/fiveages/libraries/FaSim-Isaac/robots/grippers/OmniPicker/payloads/base.usd
+"""
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+over "OmniPicker"
+{
+    over "gripper_base" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (-0.0000552, 0.000012341, 0.03296193)
+        float3 physics:diagonalInertia = (0.00046351302, 0.00044524996, 0.00010437697)
+        float physics:mass = 0.25641367
+        quatf physics:principalAxes = (0.999999, -0.000073772004, 0.0014479092, -0.00026970587)
+    }
+
+    over "narrow1_Link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.0094685, 0.0068806, 0.000065437)
+        float3 physics:diagonalInertia = (0.0000016936792, 0.000002655621, 0.0000015500997)
+        float physics:mass = 0.025428
+        quatf physics:principalAxes = (0.96227974, -0.00028224906, 0.00060459104, 0.27206102)
+    }
+
+    over "joints"
+    {
+        def PhysicsRevoluteJoint "gripper_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = 1
+            float drive:angular:physics:maxForce = 50
+            float drive:angular:physics:stiffness = 10
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            uniform token physics:axis = "Z"
+            custom rel physics:body0
+            prepend rel physics:body0 = </OmniPicker/gripper_base>
+            custom rel physics:body1
+            prepend rel physics:body1 = </OmniPicker/narrow1_Link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.00036006336
+            point3f physics:localPos0 = (0, -0.0195, 0.0565)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (-0.004648268, -0.70709145, 0.004648268, -0.70709145)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = 0
+            float physics:upperLimit = 57.295776
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        def PhysicsRevoluteJoint "narrow2_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform token physics:axis = "Z"
+            custom rel physics:body0
+            prepend rel physics:body0 = </OmniPicker/narrow1_Link>
+            custom rel physics:body1
+            prepend rel physics:body1 = </OmniPicker/narrow2_Link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.00010043752
+            point3f physics:localPos0 = (0.030852, 0.018551, 0)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0, 0, 1, 0)
+            quatf physics:localRot1 = (0, 0, 1, 0)
+            float physics:lowerLimit = -0.2291831
+            float physics:upperLimit = 1.3750986
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        def PhysicsRevoluteJoint "narrow3_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform token physics:axis = "Z"
+            custom rel physics:body0
+            prepend rel physics:body0 = </OmniPicker/narrow2_Link>
+            custom rel physics:body1
+            prepend rel physics:body1 = </OmniPicker/narrow3_Link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.000040798528
+            point3f physics:localPos0 = (0.018118, -0.01574, 0)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0, 0, 1, 0)
+            quatf physics:localRot1 = (0, 0, 1, 0)
+            float physics:lowerLimit = -4.583662
+            float physics:upperLimit = 27.501972
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        def PhysicsRevoluteJoint "narrow_loop_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform token physics:axis = "Z"
+            custom rel physics:body0
+            prepend rel physics:body0 = </OmniPicker/gripper_base>
+            custom rel physics:body1
+            prepend rel physics:body1 = </OmniPicker/narrow_loop_Link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.0002217832
+            point3f physics:localPos0 = (0, -0.021633, 0.07387)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (-0.004648268, -0.70709145, 0.004648268, -0.70709145)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -17.188732
+            float physics:upperLimit = 103.13239
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        def PhysicsRevoluteJoint "wide1_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform token physics:axis = "Z"
+            custom rel physics:body0
+            prepend rel physics:body0 = </OmniPicker/gripper_base>
+            custom rel physics:body1
+            prepend rel physics:body1 = </OmniPicker/wide1_Link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.0004750468
+            point3f physics:localPos0 = (0, 0.0195, 0.0565)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (-0.004648268, 0.70709145, -0.004648268, -0.70709145)
+            quatf physics:localRot1 = (0, 0, 1, 0)
+            float physics:lowerLimit = -11.459155
+            float physics:upperLimit = 68.75493
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        def PhysicsRevoluteJoint "wide2_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform token physics:axis = "Z"
+            custom rel physics:body0
+            prepend rel physics:body0 = </OmniPicker/wide1_Link>
+            custom rel physics:body1
+            prepend rel physics:body1 = </OmniPicker/wide2_Link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.00019795119
+            point3f physics:localPos0 = (0.030852, -0.018551, 0)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -0.2291831
+            float physics:upperLimit = 1.3750986
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        def PhysicsRevoluteJoint "wide3_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform token physics:axis = "Z"
+            custom rel physics:body0
+            prepend rel physics:body0 = </OmniPicker/wide2_Link>
+            custom rel physics:body1
+            prepend rel physics:body1 = </OmniPicker/wide3_Link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.00009805335
+            point3f physics:localPos0 = (0.018118, 0.01574, 0)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -4.583662
+            float physics:upperLimit = 27.501972
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        def PhysicsRevoluteJoint "wide_loop_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform token physics:axis = "Z"
+            custom rel physics:body0
+            prepend rel physics:body0 = </OmniPicker/gripper_base>
+            custom rel physics:body1
+            prepend rel physics:body1 = </OmniPicker/wide_loop_Link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.00024840233
+            point3f physics:localPos0 = (0, 0.021633, 0.07387)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (-0.004648268, 0.70709145, -0.004648268, -0.70709145)
+            quatf physics:localRot1 = (0, 0, 1, 0)
+            float physics:lowerLimit = -17.188732
+            float physics:upperLimit = 103.13239
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+    }
+
+    over "narrow2_Link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.0088027, -0.007035, 0.000016424)
+        float3 physics:diagonalInertia = (5.035838e-8, 1.6656102e-7, 1.7009062e-7)
+        float physics:mass = 0.0040132
+        quatf physics:principalAxes = (0.93250054, -0.0056448686, 0.0025878828, -0.36111528)
+    }
+
+    over "narrow3_Link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.012507999, -0.0079729, 0.000094339)
+        float3 physics:diagonalInertia = (9.5227296e-7, 0.000002758427, 0.0000023252)
+        float physics:mass = 0.018029
+        quatf physics:principalAxes = (0.98653895, 9.892445e-7, -4.3451047e-7, -0.16352662)
+    }
+
+    over "narrow_loop_Link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.014869, -0.0036066, 0.00029307)
+        float3 physics:diagonalInertia = (0.000004358788, 0.000004769812, 6.0445e-7)
+        float physics:mass = 0.022591
+        quatf physics:principalAxes = (0.9897613, 0.0000019670542, 0.0000010081592, -0.14273272)
+    }
+
+    over "wide1_Link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.0095051, -0.0068479, 0.000068268)
+        float3 physics:diagonalInertia = (0.0000016942795, 0.000002655021, 0.0000015500996)
+        float physics:mass = 0.025428
+        quatf physics:principalAxes = (0.96246535, -0.00026185423, -0.0009308069, -0.27140316)
+    }
+
+    over "wide2_Link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.0088027, 0.007035, -0.000016424)
+        float3 physics:diagonalInertia = (5.035838e-8, 1.6656102e-7, 1.7009062e-7)
+        float physics:mass = 0.0040132
+        quatf physics:principalAxes = (0.93250054, -0.0056448407, -0.0025878686, 0.36111528)
+    }
+
+    over "wide3_Link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.016206, 0.0094593, 0.000047668)
+        float3 physics:diagonalInertia = (0.0000080944665, 0.000011646133, 0.0000046309)
+        float physics:mass = 0.035835
+        quatf physics:principalAxes = (0.9849725, -0.0000021602386, 0.0000069933403, 0.17271142)
+    }
+
+    over "wide_loop_Link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.016268, 0.0040555, 0.00030323)
+        float3 physics:diagonalInertia = (0.000005853966, 0.000006269035, 6.2389e-7)
+        float physics:mass = 0.025142
+        quatf physics:principalAxes = (0.9897933, -0.0000010891671, -0.0000019330303, 0.142511)
+    }
+
+    def PhysicsFixedJoint "root_joint" (
+        prepend apiSchemas = ["PhysicsArticulationRootAPI"]
+    )
+    {
+        rel physics:body1 = </OmniPicker/gripper_base>
+    }
+}
+

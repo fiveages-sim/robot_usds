@@ -1,0 +1,88 @@
+#usda 1.0
+(
+    doc = """Luna NonDexHand mute — subLayer of payloads/Physics/physx.usda ONLY.
+
+PhysX: CollisionGroup + filteredGroups self-filter. Always composed with
+Physics=physx (any Arm_Left/Arm_Right mix). Same convention as W2:
+parent self-col ON; NonDexHand mutes body/chassis/arm; dexhand EE excludes
+keep fingers ungrouped (finger self-col + FilteredPairs).
+
+M6S_Lite nested arm has its own CollisionGroups/NonDexHand. Parent and child
+groups must filter each other or arm convex hulls vs torso chatter (EE=None).
+Include whole Left_Arm/Right_Arm/Linkhou_S2 subtrees so tcp/arm_base/extra
+chassis colliders are not left ungrouped.
+
+Keep hand prim names in sync with M6S_Lite_CCS EE dexhand_self_collision.usda.
+Grippers are intentionally not excluded.
+"""
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+over "Luna"
+{
+    def Scope "CollisionGroups"
+    {
+        def PhysicsCollisionGroup "NonDexHand" (
+            prepend apiSchemas = ["CollectionAPI:colliders"]
+        )
+        {
+            uniform token collection:colliders:expansionRule = "expandPrims"
+            prepend rel collection:colliders:includes = [
+                </Luna/base_link>,
+                </Luna/body_link1>,
+                </Luna/body_link2>,
+                </Luna/body_link3>,
+                </Luna/body_link4>,
+                </Luna/body_link5>,
+                </Luna/body_link6>,
+                </Luna/head_link1>,
+                </Luna/head_link2>,
+                </Luna/Linkhou_S2>,
+                </Luna/Left_Arm>,
+                </Luna/Right_Arm>,
+            ]
+            prepend rel collection:colliders:excludes = [
+                </Luna/Left_Arm/link7/tcp/LinkerHand_o6>,
+                </Luna/Left_Arm/link7/tcp/LinkerHand_o7>,
+                </Luna/Left_Arm/link7/tcp/L6>,
+                </Luna/Left_Arm/link7/tcp/Xhand1>,
+                </Luna/Right_Arm/link7/tcp/LinkerHand_o6>,
+                </Luna/Right_Arm/link7/tcp/LinkerHand_o7>,
+                </Luna/Right_Arm/link7/tcp/L6>,
+                </Luna/Right_Arm/link7/tcp/Xhand1>,
+            ]
+            prepend rel physics:filteredGroups = [
+                </Luna/CollisionGroups/NonDexHand>,
+                </Luna/Left_Arm/CollisionGroups/NonDexHand>,
+                </Luna/Right_Arm/CollisionGroups/NonDexHand>,
+            ]
+        }
+    }
+
+    over "Left_Arm"
+    {
+        over "CollisionGroups"
+        {
+            over "NonDexHand"
+            {
+                prepend rel physics:filteredGroups = [
+                    </Luna/CollisionGroups/NonDexHand>,
+                ]
+            }
+        }
+    }
+
+    over "Right_Arm"
+    {
+        over "CollisionGroups"
+        {
+            over "NonDexHand"
+            {
+                prepend rel physics:filteredGroups = [
+                    </Luna/CollisionGroups/NonDexHand>,
+                ]
+            }
+        }
+    }
+}

@@ -1,0 +1,579 @@
+#usda 1.0
+(
+    customLayerData = {
+        dictionary cameraSettings = {
+            dictionary Front = {
+                double3 position = (5, 0, 0)
+                double radius = 5
+            }
+            dictionary Perspective = {
+                double3 position = (1.356713823171096, -1.364912956395908, 0.7834301684875337)
+                double3 target = (-1.292766514041617, 1.6247877509392017, -0.19004519128799202)
+            }
+            dictionary Right = {
+                double3 position = (0, -5, 0)
+                double radius = 5
+            }
+            dictionary Top = {
+                double3 position = (0, 0, 5)
+                double radius = 5
+            }
+            string boundCamera = "/OmniverseKit_Persp"
+        }
+        dictionary metricsAssembler = {
+            dictionary "/Cobot_Magic_V1/d435" = {
+            }
+            dictionary "/Cobot_Magic_V1/mid360" = {
+            }
+            int version = 1
+        }
+        dictionary omni_layer = {
+            string authoring_layer = "./Cobot Magic V1.usda"
+            dictionary locked = {
+            }
+            dictionary muteness = {
+            }
+        }
+        dictionary renderSettings = {
+        }
+    }
+    doc = """Generated from Composed Stage of root layer /home/fiveages/libraries/FaSim-Isaac/robots/mobile_manipulator/Agilex/Cobot Magic V1/Cobot Magic V1.usda
+
+
+Generated from Composed Stage of root layer /home/fiveages/libraries/FaSim-Isaac/robots/mobile_manipulator/Agilex/Mobile Aloha V1/payloads/base.usd
+"""
+    endTimeCode = 0
+    metersPerUnit = 1
+    startTimeCode = -1
+    upAxis = "Z"
+)
+
+def Scope "Materials"
+{
+    def Material "white_metal"
+    {
+        token outputs:displacement (
+            displayGroup = "Outputs"
+        )
+        prepend token outputs:mdl:displacement.connect = </Materials/white_metal/white_metal.outputs:out>
+        prepend token outputs:mdl:surface.connect = </Materials/white_metal/white_metal.outputs:out>
+        prepend token outputs:mdl:volume.connect = </Materials/white_metal/white_metal.outputs:out>
+        token outputs:surface (
+            displayGroup = "Outputs"
+        )
+        token outputs:volume (
+            displayGroup = "Outputs"
+        )
+
+        def Shader "white_metal" (
+            apiSchemas = ["NodeDefAPI"]
+        )
+        {
+            token info:implementationSource = "sourceAsset"
+            asset info:mdl:sourceAsset = @OmniPBR.mdl@
+            token info:mdl:sourceAsset:subIdentifier = "OmniPBR"
+            color3f inputs:diffuse_color_constant = (0.8, 0.8, 0.8) (
+                customData = {
+                    float3 default = (1, 1, 1)
+                    dictionary range = {
+                        float3 max = (1, 1, 1)
+                        float3 min = (0, 0, 0)
+                    }
+                }
+                displayGroup = "Albedo"
+            )
+            color3f inputs:emissive_color = (1, 1, 1) (
+                customData = {
+                    float3 default = (1, 1, 1)
+                    dictionary range = {
+                        float3 max = (1, 1, 1)
+                        float3 min = (0, 0, 0)
+                    }
+                }
+                displayGroup = "Emissive"
+            )
+            float inputs:emissive_intensity = 10000 (
+                customData = {
+                    double default = 10000
+                    dictionary range = {
+                        double max = 100000
+                        double min = 0
+                    }
+                }
+                displayGroup = "Emissive"
+            )
+            bool inputs:enable_emission = 0 (
+                customData = {
+                    bool default = 0
+                }
+                displayGroup = "Emissive"
+            )
+            bool inputs:enable_opacity = 0 (
+                customData = {
+                    bool default = 0
+                }
+                displayGroup = "Opacity"
+            )
+            bool inputs:enable_opacity_texture = 0 (
+                customData = {
+                    bool default = 0
+                }
+                displayGroup = "Opacity"
+            )
+            float inputs:metallic_constant = 0.77
+            float inputs:opacity_constant = 1 (
+                customData = {
+                    double default = 1
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Opacity"
+            )
+            int inputs:opacity_mode = 1 (
+                customData = {
+                    int default = 1
+                    dictionary range = {
+                        int max = 3
+                        int min = 0
+                    }
+                }
+                displayGroup = "Opacity"
+                renderType = "::base::mono_mode"
+                sdrMetadata = {
+                    string __SDR__enum_value = "mono_average"
+                    string options = "mono_alpha:0|mono_average:1|mono_luminance:2|mono_maximum:3"
+                }
+            )
+            float inputs:opacity_threshold = 0 (
+                customData = {
+                    double default = 0
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Opacity"
+            )
+            float inputs:texture_rotate = 0 (
+                customData = {
+                    double default = 0
+                    dictionary range = {
+                        double max = 360
+                        double min = 0
+                    }
+                }
+                displayGroup = "UV"
+            )
+            float2 inputs:texture_scale = (1, 1) (
+                customData = {
+                    float2 default = (1, 1)
+                }
+                displayGroup = "UV"
+            )
+            float2 inputs:texture_translate = (0, 0) (
+                customData = {
+                    float2 default = (0, 0)
+                }
+                displayGroup = "UV"
+            )
+            token outputs:out
+        }
+    }
+
+    def Material "screen"
+    {
+        token outputs:displacement (
+            displayGroup = "Outputs"
+        )
+        prepend token outputs:mdl:displacement.connect = </Materials/screen/screen.outputs:out>
+        prepend token outputs:mdl:surface.connect = </Materials/screen/screen.outputs:out>
+        prepend token outputs:mdl:volume.connect = </Materials/screen/screen.outputs:out>
+        token outputs:surface (
+            displayGroup = "Outputs"
+        )
+        token outputs:volume (
+            displayGroup = "Outputs"
+        )
+
+        def Shader "screen" (
+            apiSchemas = ["NodeDefAPI"]
+        )
+        {
+            token info:implementationSource = "sourceAsset"
+            asset info:mdl:sourceAsset = @OmniPBR.mdl@
+            token info:mdl:sourceAsset:subIdentifier = "OmniPBR"
+            color3f inputs:diffuse_color_constant = (0, 0, 0) (
+                customData = {
+                    float3 default = (1, 1, 1)
+                    dictionary range = {
+                        float3 max = (1, 1, 1)
+                        float3 min = (0, 0, 0)
+                    }
+                }
+                displayGroup = "Albedo"
+            )
+            color3f inputs:emissive_color = (1, 1, 1) (
+                customData = {
+                    float3 default = (1, 1, 1)
+                    dictionary range = {
+                        float3 max = (1, 1, 1)
+                        float3 min = (0, 0, 0)
+                    }
+                }
+                displayGroup = "Emissive"
+            )
+            float inputs:emissive_intensity = 10000 (
+                customData = {
+                    double default = 10000
+                    dictionary range = {
+                        double max = 100000
+                        double min = 0
+                    }
+                }
+                displayGroup = "Emissive"
+            )
+            bool inputs:enable_emission = 0 (
+                customData = {
+                    bool default = 0
+                }
+                displayGroup = "Emissive"
+            )
+            bool inputs:enable_opacity = 0 (
+                customData = {
+                    bool default = 0
+                }
+                displayGroup = "Opacity"
+            )
+            bool inputs:enable_opacity_texture = 0 (
+                customData = {
+                    bool default = 0
+                }
+                displayGroup = "Opacity"
+            )
+            float inputs:metallic_constant = 0.68
+            float inputs:opacity_constant = 1 (
+                customData = {
+                    double default = 1
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Opacity"
+            )
+            int inputs:opacity_mode = 1 (
+                customData = {
+                    int default = 1
+                    dictionary range = {
+                        int max = 3
+                        int min = 0
+                    }
+                }
+                displayGroup = "Opacity"
+                renderType = "::base::mono_mode"
+                sdrMetadata = {
+                    string __SDR__enum_value = "mono_average"
+                    string options = "mono_alpha:0|mono_average:1|mono_luminance:2|mono_maximum:3"
+                }
+            )
+            float inputs:opacity_threshold = 0 (
+                customData = {
+                    double default = 0
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Opacity"
+            )
+            float inputs:texture_rotate = 0 (
+                customData = {
+                    double default = 0
+                    dictionary range = {
+                        double max = 360
+                        double min = 0
+                    }
+                }
+                displayGroup = "UV"
+            )
+            float2 inputs:texture_scale = (1, 1) (
+                customData = {
+                    float2 default = (1, 1)
+                }
+                displayGroup = "UV"
+            )
+            float2 inputs:texture_translate = (0, 0) (
+                customData = {
+                    float2 default = (0, 0)
+                }
+                displayGroup = "UV"
+            )
+            token outputs:out
+        }
+    }
+
+    def Material "orange"
+    {
+        token outputs:displacement (
+            displayGroup = "Outputs"
+        )
+        prepend token outputs:mdl:displacement.connect = </Materials/orange/orange.outputs:out>
+        prepend token outputs:mdl:surface.connect = </Materials/orange/orange.outputs:out>
+        prepend token outputs:mdl:volume.connect = </Materials/orange/orange.outputs:out>
+        token outputs:surface (
+            displayGroup = "Outputs"
+        )
+        token outputs:volume (
+            displayGroup = "Outputs"
+        )
+
+        def Shader "orange" (
+            apiSchemas = ["NodeDefAPI"]
+        )
+        {
+            token info:implementationSource = "sourceAsset"
+            asset info:mdl:sourceAsset = @OmniPBR.mdl@
+            token info:mdl:sourceAsset:subIdentifier = "OmniPBR"
+            color3f inputs:diffuse_color_constant = (0.800323, 0.031508, 0) (
+                customData = {
+                    float3 default = (1, 1, 1)
+                    dictionary range = {
+                        float3 max = (1, 1, 1)
+                        float3 min = (0, 0, 0)
+                    }
+                }
+                displayGroup = "Albedo"
+            )
+            color3f inputs:emissive_color = (1, 1, 1) (
+                customData = {
+                    float3 default = (1, 1, 1)
+                    dictionary range = {
+                        float3 max = (1, 1, 1)
+                        float3 min = (0, 0, 0)
+                    }
+                }
+                displayGroup = "Emissive"
+            )
+            float inputs:emissive_intensity = 10000 (
+                customData = {
+                    double default = 10000
+                    dictionary range = {
+                        double max = 100000
+                        double min = 0
+                    }
+                }
+                displayGroup = "Emissive"
+            )
+            bool inputs:enable_emission = 0 (
+                customData = {
+                    bool default = 0
+                }
+                displayGroup = "Emissive"
+            )
+            bool inputs:enable_opacity = 0 (
+                customData = {
+                    bool default = 0
+                }
+                displayGroup = "Opacity"
+            )
+            bool inputs:enable_opacity_texture = 0 (
+                customData = {
+                    bool default = 0
+                }
+                displayGroup = "Opacity"
+            )
+            float inputs:opacity_constant = 1 (
+                customData = {
+                    double default = 1
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Opacity"
+            )
+            int inputs:opacity_mode = 1 (
+                customData = {
+                    int default = 1
+                    dictionary range = {
+                        int max = 3
+                        int min = 0
+                    }
+                }
+                displayGroup = "Opacity"
+                renderType = "::base::mono_mode"
+                sdrMetadata = {
+                    string __SDR__enum_value = "mono_average"
+                    string options = "mono_alpha:0|mono_average:1|mono_luminance:2|mono_maximum:3"
+                }
+            )
+            float inputs:opacity_threshold = 0 (
+                customData = {
+                    double default = 0
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Opacity"
+            )
+            float inputs:texture_rotate = 0 (
+                customData = {
+                    double default = 0
+                    dictionary range = {
+                        double max = 360
+                        double min = 0
+                    }
+                }
+                displayGroup = "UV"
+            )
+            float2 inputs:texture_scale = (1, 1) (
+                customData = {
+                    float2 default = (1, 1)
+                }
+                displayGroup = "UV"
+            )
+            float2 inputs:texture_translate = (0, 0) (
+                customData = {
+                    float2 default = (0, 0)
+                }
+                displayGroup = "UV"
+            )
+            token outputs:out
+        }
+    }
+
+    def Material "white"
+    {
+        token outputs:displacement (
+            displayGroup = "Outputs"
+        )
+        prepend token outputs:mdl:displacement.connect = </Materials/white/white.outputs:out>
+        prepend token outputs:mdl:surface.connect = </Materials/white/white.outputs:out>
+        prepend token outputs:mdl:volume.connect = </Materials/white/white.outputs:out>
+        token outputs:surface (
+            displayGroup = "Outputs"
+        )
+        token outputs:volume (
+            displayGroup = "Outputs"
+        )
+
+        def Shader "white" (
+            apiSchemas = ["NodeDefAPI"]
+        )
+        {
+            token info:implementationSource = "sourceAsset"
+            asset info:mdl:sourceAsset = @OmniPBR.mdl@
+            token info:mdl:sourceAsset:subIdentifier = "OmniPBR"
+            color3f inputs:diffuse_color_constant = (1, 1, 1) (
+                customData = {
+                    float3 default = (1, 1, 1)
+                    dictionary range = {
+                        float3 max = (1, 1, 1)
+                        float3 min = (0, 0, 0)
+                    }
+                }
+                displayGroup = "Albedo"
+            )
+            color3f inputs:emissive_color = (1, 1, 1) (
+                customData = {
+                    float3 default = (1, 1, 1)
+                    dictionary range = {
+                        float3 max = (1, 1, 1)
+                        float3 min = (0, 0, 0)
+                    }
+                }
+                displayGroup = "Emissive"
+            )
+            float inputs:emissive_intensity = 10000 (
+                customData = {
+                    double default = 10000
+                    dictionary range = {
+                        double max = 100000
+                        double min = 0
+                    }
+                }
+                displayGroup = "Emissive"
+            )
+            bool inputs:enable_emission = 0 (
+                customData = {
+                    bool default = 0
+                }
+                displayGroup = "Emissive"
+            )
+            bool inputs:enable_opacity = 0 (
+                customData = {
+                    bool default = 0
+                }
+                displayGroup = "Opacity"
+            )
+            bool inputs:enable_opacity_texture = 0 (
+                customData = {
+                    bool default = 0
+                }
+                displayGroup = "Opacity"
+            )
+            float inputs:opacity_constant = 1 (
+                customData = {
+                    double default = 1
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Opacity"
+            )
+            int inputs:opacity_mode = 1 (
+                customData = {
+                    int default = 1
+                    dictionary range = {
+                        int max = 3
+                        int min = 0
+                    }
+                }
+                displayGroup = "Opacity"
+                renderType = "::base::mono_mode"
+                sdrMetadata = {
+                    string __SDR__enum_value = "mono_average"
+                    string options = "mono_alpha:0|mono_average:1|mono_luminance:2|mono_maximum:3"
+                }
+            )
+            float inputs:opacity_threshold = 0 (
+                customData = {
+                    double default = 0
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Opacity"
+            )
+            float inputs:texture_rotate = 0 (
+                customData = {
+                    double default = 0
+                    dictionary range = {
+                        double max = 360
+                        double min = 0
+                    }
+                }
+                displayGroup = "UV"
+            )
+            float2 inputs:texture_scale = (1, 1) (
+                customData = {
+                    float2 default = (1, 1)
+                }
+                displayGroup = "UV"
+            )
+            float2 inputs:texture_translate = (0, 0) (
+                customData = {
+                    float2 default = (0, 0)
+                }
+                displayGroup = "UV"
+            )
+            token outputs:out
+        }
+    }
+}
+

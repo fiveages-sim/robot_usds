@@ -1,0 +1,114 @@
+#usda 1.0
+(
+    defaultPrim = "Gripper_2023"
+    metersPerUnit = 1
+    subLayers = [
+        @./physics.usda@
+    ]
+    upAxis = "Z"
+)
+
+# Same PhysX OCS2-close fix as Gripper_2025. Do not edit mujoco.usda.
+
+def "Gripper_2023"
+{
+    prepend rel isaac:physics:robotJoints = [
+        </Gripper_2023/joints/left_gripper_joint>,
+        </Gripper_2023/joints/right_gripper_joint>,
+        </Gripper_2023/joints/left_joint8>,
+        </Gripper_2023/joints/right_joint8>,
+    ]
+
+    over "joints"
+    {
+        over "gripper_joint" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float drive:linear:physics:damping = 6000
+            float drive:linear:physics:maxForce = 0.4
+            float drive:linear:physics:stiffness = 60000
+            float drive:linear:physics:targetPosition = 0
+            uniform token drive:linear:physics:type = "force"
+            float physics:lowerLimit = 0
+            float physics:upperLimit = 0.044
+            float physxJoint:maxJointVelocity = 5
+        }
+
+        over "joint8" (
+            prepend apiSchemas = ["PhysxJointAPI", "PhysxMimicJointAPI:rotY"]
+        )
+        {
+            float physics:lowerLimit = -0.044
+            float physics:upperLimit = 0.044
+            float physxMimicJoint:rotY:dampingRatio = 0
+            float physxMimicJoint:rotY:gearing = -1
+            float physxMimicJoint:rotY:naturalFrequency = 0
+            float physxMimicJoint:rotY:offset = 0
+            rel physxMimicJoint:rotY:referenceJoint = </Gripper_2023/joints/gripper_joint>
+        }
+
+        over "left_gripper_joint" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float drive:linear:physics:damping = 6000
+            float drive:linear:physics:maxForce = 0.4
+            float drive:linear:physics:stiffness = 60000
+            float drive:linear:physics:targetPosition = 0
+            uniform token drive:linear:physics:type = "force"
+            float physics:lowerLimit = 0
+            float physics:upperLimit = 0.044
+            float physxJoint:maxJointVelocity = 5
+        }
+
+        over "left_joint8" (
+            prepend apiSchemas = ["PhysxJointAPI", "PhysxMimicJointAPI:rotY"]
+        )
+        {
+            float physics:lowerLimit = -0.044
+            float physics:upperLimit = 0.044
+            float physxMimicJoint:rotY:dampingRatio = 0
+            float physxMimicJoint:rotY:gearing = -1
+            float physxMimicJoint:rotY:naturalFrequency = 0
+            float physxMimicJoint:rotY:offset = 0
+            rel physxMimicJoint:rotY:referenceJoint = </Gripper_2023/joints/left_gripper_joint>
+        }
+
+        over "right_gripper_joint" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float drive:linear:physics:damping = 6000
+            float drive:linear:physics:maxForce = 0.4
+            float drive:linear:physics:stiffness = 60000
+            float drive:linear:physics:targetPosition = 0
+            uniform token drive:linear:physics:type = "force"
+            float physics:lowerLimit = 0
+            float physics:upperLimit = 0.044
+            float physxJoint:maxJointVelocity = 5
+        }
+
+        over "right_joint8" (
+            prepend apiSchemas = ["PhysxJointAPI", "PhysxMimicJointAPI:rotY"]
+        )
+        {
+            float physics:lowerLimit = -0.044
+            float physics:upperLimit = 0.044
+            float physxMimicJoint:rotY:dampingRatio = 0
+            float physxMimicJoint:rotY:gearing = -1
+            float physxMimicJoint:rotY:naturalFrequency = 0
+            float physxMimicJoint:rotY:offset = 0
+            rel physxMimicJoint:rotY:referenceJoint = </Gripper_2023/joints/right_gripper_joint>
+        }
+    }
+
+    over "root_joint" (
+        prepend apiSchemas = ["PhysxArticulationAPI"]
+    )
+    {
+        bool physxArticulation:enabledSelfCollisions = 0
+        int physxArticulation:solverPositionIterationCount = 32
+        int physxArticulation:solverVelocityIterationCount = 1
+    }
+}

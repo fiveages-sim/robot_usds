@@ -1,0 +1,409 @@
+#usda 1.0
+(
+    customLayerData = {
+        dictionary cameraSettings = {
+            dictionary Front = {
+                double3 position = (5, 0, 0)
+                double radius = 5
+            }
+            dictionary Perspective = {
+                double3 position = (1.5188829092834744, 1.6409106005698624, 0.5753116112944971)
+                double3 target = (-0.8194605809893756, -1.2778195009633022, 0.6494477521431233)
+            }
+            dictionary Right = {
+                double3 position = (0, -5, 0)
+                double radius = 5
+            }
+            dictionary Top = {
+                double3 position = (0, 0, 5)
+                double radius = 5
+            }
+            string boundCamera = "/OmniverseKit_Persp"
+        }
+        dictionary omni_layer = {
+            string authoring_layer = "./S1.usd"
+        }
+        dictionary renderSettings = {
+        }
+    }
+    defaultPrim = "S1"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "S1" (
+    prepend references = @./payloads/base.usda@
+    variants = {
+        string EE_Left = "astribot_gripper"
+        string EE_Right = "astribot_gripper"
+        string Physics = "physx"
+        string ROS = "enable"
+        string Robot = "none"
+        string Sensor = "sensors"
+        string Wheel1 = "Angellun_OW"
+        string Wheel2 = "Angellun_OW"
+        string Wheel3 = "Angellun_OW"
+        string Wheel4 = "Angellun_OW"
+    }
+    prepend variantSets = ["Physics", "Wheel1", "Wheel2", "Wheel3", "Wheel4", "EE_Left", "EE_Right", "ROS"]
+    append variantSets = ["Robot", "Sensor"]
+)
+{
+    token isaac:robotType = "Holonomic"
+
+    over "joints"
+    {
+        over "wheel1_joint"
+        {
+            custom double isaacmecanumwheel:angle = 90
+            custom double isaacmecanumwheel:radius = 0.08
+        }
+
+        over "wheel2_joint"
+        {
+            custom double isaacmecanumwheel:angle = 90
+            custom double isaacmecanumwheel:radius = 0.08
+        }
+
+        over "wheel3_joint"
+        {
+            custom double isaacmecanumwheel:angle = 90
+            custom double isaacmecanumwheel:radius = 0.08
+        }
+
+        over "wheel4_joint"
+        {
+            custom double isaacmecanumwheel:angle = 90
+            custom double isaacmecanumwheel:radius = 0.08
+        }
+    }
+
+    variantSet "Physics" = {
+        "mujoco" (
+            prepend payload = @./payloads/Physics/mujoco.usda@
+            append references = @./payloads/Physics/body_self_collision_mute_newton.usda@</S1>
+        ) {
+
+        }
+        "none" (
+            prepend payload = @./payloads/Physics/none.usda@
+        ) {
+
+        }
+        "physics" (
+            prepend payload = @./payloads/Physics/physics.usda@
+        ) {
+
+        }
+        "physx" (
+            prepend payload = @./payloads/Physics/physx.usda@
+        ) {
+
+        }
+    }
+    variantSet "Wheel1" = {
+        "Angellun_OW" (
+            prepend payload = @./payloads/Wheel1/angellun_8.usda@
+        ) {
+            prepend rel isaac:physics:robotJoints = </S1/wheel_1/Angellun_OW>
+            prepend rel isaac:physics:robotLinks = </S1/wheel_1/Angellun_OW>
+        }
+        "None" {
+
+        }
+    }
+    variantSet "Wheel2" = {
+        "Angellun_OW" (
+            prepend payload = @./payloads/Wheel2/angellun_8.usda@
+        ) {
+            prepend rel isaac:physics:robotJoints = </S1/wheel_2/Angellun_OW>
+            prepend rel isaac:physics:robotLinks = </S1/wheel_2/Angellun_OW>
+        }
+        "None" {
+
+        }
+    }
+    variantSet "Wheel3" = {
+        "Angellun_OW" (
+            prepend payload = @./payloads/Wheel3/angellun_8.usda@
+        ) {
+            prepend rel isaac:physics:robotJoints = </S1/wheel_3/Angellun_OW>
+            prepend rel isaac:physics:robotLinks = </S1/wheel_3/Angellun_OW>
+        }
+        "None" {
+
+        }
+    }
+    variantSet "Wheel4" = {
+        "Angellun_OW" (
+            prepend payload = @./payloads/Wheel4/angellun_8.usda@
+        ) {
+            prepend rel isaac:physics:robotJoints = </S1/wheel_4/Angellun_OW>
+            prepend rel isaac:physics:robotLinks = </S1/wheel_4/Angellun_OW>
+        }
+        "None" {
+
+        }
+    }
+    variantSet "EE_Left" = {
+        "astribot_gripper" (
+            prepend payload = @./payloads/EE_Left/astribot_gripper.usda@
+        ) {
+            prepend rel isaac:physics:robotJoints = </S1/left_link7/Astribot_Gripper>
+            prepend rel isaac:physics:robotLinks = </S1/left_link7/Astribot_Gripper>
+        }
+        "revo2" (
+            prepend payload = @./payloads/EE_Left/revo2.usda@
+        ) {
+            prepend rel isaac:physics:robotJoints = </S1/left_link7/Revo2>
+            prepend rel isaac:physics:robotLinks = </S1/left_link7/Revo2>
+        }
+        "revo1" (
+            prepend payload = @./payloads/EE_Left/revo1.usda@
+        ) {
+            prepend rel isaac:physics:robotJoints = </S1/left_link7/Revo1>
+            prepend rel isaac:physics:robotLinks = </S1/left_link7/Revo1>
+        }
+        "None" {
+
+        }
+    }
+    variantSet "EE_Right" = {
+        "astribot_gripper" (
+            prepend payload = @./payloads/EE_Right/astribot_gripper.usda@
+        ) {
+            prepend rel isaac:physics:robotJoints = </S1/right_link7/Astribot_Gripper>
+            prepend rel isaac:physics:robotLinks = </S1/right_link7/Astribot_Gripper>
+        }
+        "revo2" (
+            prepend payload = @./payloads/EE_Right/revo2.usda@
+        ) {
+            prepend rel isaac:physics:robotJoints = </S1/right_link7/Revo2>
+            prepend rel isaac:physics:robotLinks = </S1/right_link7/Revo2>
+        }
+        "revo1" (
+            prepend payload = @./payloads/EE_Right/revo1.usda@
+        ) {
+            prepend rel isaac:physics:robotJoints = </S1/right_link7/Revo1>
+            prepend rel isaac:physics:robotLinks = </S1/right_link7/Revo1>
+        }
+        "None" {
+
+        }
+    }
+    variantSet "ROS" = {
+        "enable" (
+            prepend payload = @./payloads/ROS/ros2.usda@
+        ) {
+
+        }
+        "none" (
+            prepend payload = @./payloads/ROS/none.usda@
+        ) {
+
+        }
+    }
+    variantSet "Robot" = {
+        "none" (
+            prepend payload = @./payloads/Robot/none.usda@
+        ) {
+
+        }
+        "robot" (
+            prepend payload = @./payloads/Robot/robot.usda@
+        ) {
+
+        }
+    }
+    variantSet "Sensor" = {
+        "none" (
+            prepend payload = @./payloads/Sensor/none.usda@
+        ) {
+
+        }
+        "sensors" (
+            prepend payload = @./payloads/Sensor/sensors.usda@
+        ) {
+
+        }
+    }
+}
+
+def "Render" (
+    hide_in_stage_window = true
+    no_delete = true
+)
+{
+    def "OmniverseKit"
+    {
+        def "HydraTextures" (
+            hide_in_stage_window = true
+            no_delete = true
+        )
+        {
+            def RenderProduct "omni_kit_widget_viewport_ViewportTexture_0" (
+                prepend apiSchemas = ["OmniRtxSettingsCommonAdvancedAPI_1", "OmniRtxSettingsRtAdvancedAPI_1", "OmniRtxSettingsPtAdvancedAPI_1", "OmniRtxSettingsParticleFieldAPI_1", "OmniRtxPostColorGradingAPI_1", "OmniRtxPostChromaticAberrationAPI_1", "OmniRtxPostBloomPhysicalAPI_1", "OmniRtxPostMatteObjectAPI_1", "OmniRtxPostCompositingAPI_1", "OmniRtxPostDofAPI_1", "OmniRtxPostMotionBlurAPI_1", "OmniRtxPostTvNoiseAPI_1", "OmniRtxPostTonemapIrayReinhardAPI_1", "OmniRtxPostDebugSettingsAPI_1", "OmniRtxDebugSettingsAPI_1"]
+                hide_in_stage_window = true
+                no_delete = true
+            )
+            {
+                rel camera = </OmniverseKit_Persp>
+                token omni:rtx:ambientOcclusion:denoiserMode = "none"
+                token omni:rtx:background:source:texture:textureMode = "repeatMirrored"
+                token omni:rtx:background:source:type = "domeLight"
+                bool omni:rtx:debug:view:pixelDebug:enableFixedTextPos = 1
+                token omni:rtx:directLighting:sampledLighting:denoisingTechnique = "None"
+                bool omni:rtx:dlss:frameGeneration = 0
+                bool omni:rtx:indirectDiffuse:denoiser:enabled = 0
+                bool omni:rtx:material:db:syncLoads = 1
+                token omni:rtx:post:dlss:execMode = "performance"
+                bool omni:rtx:post:registeredCompositing:invertColorCorrection = 1
+                bool omni:rtx:post:registeredCompositing:invertToneMap = 1
+                bool omni:rtx:pt:adaptiveSampling:filterError = 0
+                uint omni:rtx:pt:adaptiveSampling:fixedSppIterations = 2
+                uint omni:rtx:pt:maxSamplesPerLaunch = 2073600
+                uint omni:rtx:pt:mgpu:maxPixelsPerRegionExponent = 12
+                bool omni:rtx:reflections:denoiser:enabled = 0
+                token omni:rtx:rendermode = "RealTimePathTracing"
+                color3f omni:rtx:rt:ambientLight:color = (0.1, 0.1, 0.1)
+                bool omni:rtx:rt:demoire = 0
+                bool omni:rtx:rt:lightcache:spatialCache:dontResolveConflicts = 1
+                int omni:rtx:rt:sss:samples = 1
+                uint omni:rtx:rtpt:maxVolumeBounces = 15
+                float omni:rtx:rtpt:modulatingRoughnessThreshold = 0.08
+                bool omni:rtx:scene:hydra:materialSyncLoads = 1
+                bool omni:rtx:scene:hydra:mdlMaterialWarmup = 1
+                rel orderedVars = </Render/Vars/LdrColor>
+                custom bool overrideClipRange = 0
+                uniform int2 resolution = (1280, 720)
+            }
+        }
+    }
+
+    def RenderSettings "OmniverseGlobalRenderSettings" (
+        prepend apiSchemas = ["OmniRtxSettingsGlobalRtAdvancedAPI_1", "OmniRtxSettingsGlobalPtAdvancedAPI_1"]
+        no_delete = true
+    )
+    {
+        rel products = </Render/OmniverseKit/HydraTextures/omni_kit_widget_viewport_ViewportTexture_0>
+    }
+
+    def "Vars" (
+        hide_in_stage_window = true
+        no_delete = true
+    )
+    {
+        def RenderVar "LdrColor" (
+            hide_in_stage_window = true
+            no_delete = true
+        )
+        {
+            uniform string sourceName = "LdrColor"
+            uniform token sourceType = "raw"
+        }
+    }
+}
+
+over "OmniverseKit_Persp" (
+    apiSchemas = ["OmniRtxCameraAutoExposureAPI_1", "OmniRtxCameraExposureAPI_1"]
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (0.01, 10000000)
+    float exposure:fStop = 5
+    float exposure:responsivity = 1.1026709
+    float exposure:time = 0.02
+    float focalLength = 18.147562
+    float focusDistance = 400
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -3.7406325469734574)
+    float3 xformOp:rotateXYZ = (91.13563, -2.5444438e-14, 141.3)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (1.5188829092834744, 1.6409106005698624, 0.5753116112944971)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+
+over "OmniverseKit_Front" (
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (1, 10000000)
+    float horizontalAperture = 50
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -5)
+    token projection = "orthographic"
+    float verticalAperture = 50
+    float3 xformOp:rotateXYZ = (90, -1.2722219e-14, 90)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (5, 0, 0)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+
+over "OmniverseKit_Right" (
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (1, 10000000)
+    float horizontalAperture = 50
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -5)
+    token projection = "orthographic"
+    float verticalAperture = 50
+    float3 xformOp:rotateXYZ = (90, -1.41245e-30, 1.2722219e-14)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (0, -5, 0)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+
+over "OmniverseKit_Top" (
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (1, 10000000)
+    float horizontalAperture = 50
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -5)
+    token projection = "orthographic"
+    float verticalAperture = 50
+    float3 xformOp:rotateXYZ = (-1.2722219e-14, -7.016709e-15, -90)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (0, 0, 5)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+

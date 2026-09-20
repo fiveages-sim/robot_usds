@@ -1,0 +1,597 @@
+#usda 1.0
+(
+    customLayerData = {
+        dictionary cameraSettings = {
+            dictionary Front = {
+                double3 position = (5, -0.018108169296467712, 0.17746005910538143)
+                double radius = 0.6355711460113526
+            }
+            dictionary Perspective = {
+                double3 position = (1.2079228136378675, 1.4239328588322782, 0.9260825541372442)
+                double3 target = (-1.1830391237017068, -2.1710383046762702, -0.4303201089154187)
+            }
+            dictionary Right = {
+                double3 position = (0, -5, 0)
+                double radius = 1.3599302291870117
+            }
+            dictionary Top = {
+                double3 position = (0, 0, 5)
+                double radius = 5
+            }
+            string boundCamera = "/OmniverseKit_Persp"
+        }
+        dictionary metricsAssembler = {
+            dictionary "/Ai2_Bot2_Chassis/base_footprint/base_link/chassis_panel/panel" = {
+            }
+            dictionary "/Ai2_Bot2_Chassis/base_footprint/base_link/dabai_dw/orbbec_dabai_dw" = {
+            }
+            dictionary "/Ai2_Bot2_Chassis/base_footprint/base_link/lidar_link/ms500" = {
+            }
+            int version = 1
+        }
+        dictionary omni_layer = {
+            string authoring_layer = "./Ai2_Bot2_Chassis.usda"
+            dictionary locked = {
+            }
+            dictionary muteness = {
+            }
+        }
+        dictionary renderSettings = {
+        }
+    }
+    defaultPrim = "Ai2_Bot2_Chassis"
+    doc = """Generated from Composed Stage of root layer /home/fiveages/libraries/FaSim-Isaac/robots/humanoid/Ai2_Bot2/components/Ai2_Bot2_Chassis/Ai2_Bot2_Chassis.usd
+
+
+Generated from Composed Stage of root layer /home/fiveages/libraries/FaSim-Isaac/robots/mobile_base/Woosh/Ai2_Bot2_Chassis/payloads/base.usd
+"""
+    metersPerUnit = 1
+    subLayers = [
+        @./robot.usda@
+    ]
+    upAxis = "Z"
+)
+
+def Xform "Ai2_Bot2_Chassis"
+{
+    quatd xformOp:orient = (1, 0, 0, 0)
+    double3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (0, 0, 0)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+    def Xform "base_footprint"
+    {
+        quatd xformOp:orient = (1, 0, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def Xform "base_link"
+        {
+            quatd xformOp:orient = (1, 0, 0, 0)
+            double3 xformOp:scale = (1, 1, 1)
+            double3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            def Xform "charge_port"
+            {
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0.283735990524292, 0, 0.05655499920248985)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+                def Xform "charge_port" (
+                    instanceable = true
+                    kind = "component"
+                    prepend references = @./instances.usda@</Instances/charge_port>
+                )
+                {
+                    quatd xformOp:orient = (0.7071068287, 0.7071067337, 0, 0)
+                    double3 xformOp:scale = (0.01, 0.01, 0.01)
+                    double3 xformOp:translate = (0, 0, 0)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                }
+            }
+
+            def Xform "chassis_panel"
+            {
+                quatd xformOp:orient = (0.49999821186065674, 0.5, -0.5, 0.500001847743988)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (-0.052400000393390656, 0.17710000276565552, 0.24629999697208405)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Xform "lidar_link"
+            {
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0.26098498702049255, 0, 0.1264760047197342)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+                def "Ai2_Bot2_Chassis"
+                {
+                    def OmniLidar "Example_Rotary_2D" (
+                        prepend apiSchemas = ["OmniSensorGenericLidarCoreAPI"]
+                    )
+                    {
+                        float omni:sensor:Core:nearRangeM = 0.1
+                        bool omni:sensor:Core:skipDroppingInvalidPoints = 1
+                        float omni:sensor:Core:validEndAzimuthDeg = 180
+                        float omni:sensor:Core:validStartAzimuthDeg = 0
+                        string omni:sensor:modelName = "Example_Rotary"
+                        token omni:sensor:Core:scanType = "ROTARY"
+                        uint omni:sensor:Core:scanRateBaseHz = 10
+                        float omni:sensor:tickRate = 10
+                        quatd xformOp:orient = (0.7071067811865476, 0, 0, 0.7071067811865475)
+                        double3 xformOp:scale = (1, 1, 1)
+                        double3 xformOp:translate = (0, 0, 0.06)
+                        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                    }
+                }
+            }
+
+            def Xform "chassis_camera"
+            {
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0.315, 0, 0.104)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            over "charge_port_01"
+            {
+                def "charge_port"
+                {
+                    over "charge_port"
+                    {
+                        quatf xformOp:orient = (1, 0, 0, 0)
+                    }
+                }
+            }
+        }
+
+        def Xform "visuals" (
+            instanceable = false
+        )
+        {
+            def Xform "chassis" (
+                instanceable = true
+                prepend references = @./instances.usda@</Instances/mesh>
+            )
+            {
+                token visibility = "inherited"
+            }
+        }
+
+        def Xform "collisions" (
+            instanceable = false
+        )
+        {
+            def Xform "mesh_0"
+            {
+                uniform token purpose = "guide"
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (0.6000000238418579, 0.46000000834465027, 0.15000000596046448)
+                double3 xformOp:translate = (0, 0, 0.10000000149011612)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+                def Cube "box" (
+                    prepend apiSchemas = ["PhysicsCollisionAPI"]
+                )
+                {
+                    float3[] extent = [(-0.3, -0.23, -0.075), (0.3, 0.23, 0.075)]
+                    double size = 1
+                }
+            }
+        }
+    }
+
+    def Xform "driven_fl_link_v"
+    {
+        quatd xformOp:orient = (1, 0, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0.2150000035762787, 0.15000000596046448, 0.08570399880409241)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def Xform "visuals" (
+            instanceable = false
+        )
+        {
+            def Xform "driven_v" (
+                instanceable = true
+                prepend references = @./instances.usda@</Instances/mesh_1>
+            )
+            {
+                token visibility = "inherited"
+            }
+        }
+
+        def Xform "collisions"
+        {
+        }
+    }
+
+    def Scope "joints"
+    {
+    }
+
+    def Xform "driven_fl_link_h"
+    {
+        quatd xformOp:orient = (0.7071055173873901, -0.7071080803871155, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0.19899900257587433, 0.15000000596046448, 0.03750399872660637)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def Xform "visuals" (
+            instanceable = false
+        )
+        {
+            def Xform "driven_h" (
+                instanceable = true
+                prepend references = @./instances.usda@</Instances/mesh_2>
+            )
+            {
+                token visibility = "inherited"
+            }
+        }
+
+        def Xform "collisions" (
+            instanceable = false
+        )
+        {
+            def Xform "mesh_0"
+            {
+                uniform token purpose = "guide"
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+                def Sphere "sphere" (
+                    prepend apiSchemas = ["PhysicsCollisionAPI"]
+                )
+                {
+                    float3[] extent = [(-0.0375, -0.0375, -0.0375), (0.0375, 0.0375, 0.0375)]
+                    double radius = 0.03750000149011612
+                }
+            }
+        }
+    }
+
+    def Xform "driven_fr_link_v"
+    {
+        quatd xformOp:orient = (1, 0, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0.2150000035762787, -0.15000000596046448, 0.08570399880409241)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def Xform "visuals" (
+            instanceable = false
+        )
+        {
+            def Xform "driven_v" (
+                instanceable = true
+                prepend references = @./instances.usda@</Instances/mesh_1>
+            )
+            {
+                token visibility = "inherited"
+            }
+        }
+
+        def Xform "collisions"
+        {
+        }
+    }
+
+    def Xform "driven_fr_link_h"
+    {
+        quatd xformOp:orient = (0.7071055173873901, -0.7071080803871155, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0.19899900257587433, -0.15000000596046448, 0.03750399872660637)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def Xform "visuals" (
+            instanceable = false
+        )
+        {
+            def Xform "driven_h" (
+                instanceable = true
+                prepend references = @./instances.usda@</Instances/mesh_2>
+            )
+            {
+                token visibility = "inherited"
+            }
+        }
+
+        def Xform "collisions" (
+            instanceable = false
+        )
+        {
+            def Xform "mesh_0"
+            {
+                uniform token purpose = "guide"
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+                def Sphere "sphere" (
+                    prepend apiSchemas = ["PhysicsCollisionAPI"]
+                )
+                {
+                    float3[] extent = [(-0.0375, -0.0375, -0.0375), (0.0375, 0.0375, 0.0375)]
+                    double radius = 0.03750000149011612
+                }
+            }
+        }
+    }
+
+    def Xform "driven_rl_link_v"
+    {
+        quatd xformOp:orient = (1, 0, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (-0.2150000035762787, 0.15000000596046448, 0.08570399880409241)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def Xform "visuals" (
+            instanceable = false
+        )
+        {
+            def Xform "driven_v" (
+                instanceable = true
+                prepend references = @./instances.usda@</Instances/mesh_1>
+            )
+            {
+                token visibility = "inherited"
+            }
+        }
+
+        def Xform "collisions"
+        {
+        }
+    }
+
+    def Xform "driven_rl_link_h"
+    {
+        quatd xformOp:orient = (0.7071055173873901, -0.7071080803871155, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (-0.23100100457668304, 0.15000000596046448, 0.03750399872660637)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def Xform "visuals" (
+            instanceable = false
+        )
+        {
+            def Xform "driven_h" (
+                instanceable = true
+                prepend references = @./instances.usda@</Instances/mesh_2>
+            )
+            {
+                token visibility = "inherited"
+            }
+        }
+
+        def Xform "collisions" (
+            instanceable = false
+        )
+        {
+            def Xform "mesh_0"
+            {
+                uniform token purpose = "guide"
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+                def Sphere "sphere" (
+                    prepend apiSchemas = ["PhysicsCollisionAPI"]
+                )
+                {
+                    float3[] extent = [(-0.0375, -0.0375, -0.0375), (0.0375, 0.0375, 0.0375)]
+                    double radius = 0.03750000149011612
+                }
+            }
+        }
+    }
+
+    def Xform "driven_rr_link_v"
+    {
+        quatd xformOp:orient = (1, 0, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (-0.2150000035762787, -0.15000000596046448, 0.08570399880409241)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def Xform "visuals" (
+            instanceable = false
+        )
+        {
+            def Xform "driven_v" (
+                instanceable = true
+                prepend references = @./instances.usda@</Instances/mesh_1>
+            )
+            {
+                token visibility = "inherited"
+            }
+        }
+
+        def Xform "collisions"
+        {
+        }
+    }
+
+    def Xform "driven_rr_link_h"
+    {
+        quatd xformOp:orient = (0.7071055173873901, -0.7071080803871155, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (-0.23100100457668304, -0.15000000596046448, 0.03750399872660637)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def Xform "visuals" (
+            instanceable = false
+        )
+        {
+            def Xform "driven_h" (
+                instanceable = true
+                prepend references = @./instances.usda@</Instances/mesh_2>
+            )
+            {
+                token visibility = "inherited"
+            }
+        }
+
+        def Xform "collisions" (
+            instanceable = false
+        )
+        {
+            def Xform "mesh_0"
+            {
+                uniform token purpose = "guide"
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+                def Sphere "sphere" (
+                    prepend apiSchemas = ["PhysicsCollisionAPI"]
+                )
+                {
+                    float3[] extent = [(-0.0375, -0.0375, -0.0375), (0.0375, 0.0375, 0.0375)]
+                    double radius = 0.03750000149011612
+                }
+            }
+        }
+    }
+
+    def Xform "driving_left_link"
+    {
+        quatd xformOp:orient = (0.7071055173873901, 0, 0, -0.7071080803871155)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0, 0.20800000429153442, 0.08449999988079071)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def Xform "visuals" (
+            instanceable = false
+        )
+        {
+            def Xform "wheel" (
+                instanceable = true
+                prepend references = @./instances.usda@</Instances/mesh_3>
+            )
+            {
+                token visibility = "inherited"
+            }
+        }
+
+        def Xform "collisions" (
+            instanceable = false
+        )
+        {
+            def Xform "mesh_0"
+            {
+                uniform token purpose = "guide"
+                quatd xformOp:orient = (0.7071055173873901, 0, 0.7071080803871155, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+                def Cylinder "cylinder" (
+                    prepend apiSchemas = ["PhysicsCollisionAPI"]
+                )
+                {
+                    uniform token axis = "Z"
+                    float3[] extent = [(-0.085, -0.085, -0.017), (0.085, 0.085, 0.017)]
+                    double height = 0.03400000184774399
+                    double radius = 0.08500000089406967
+                }
+            }
+        }
+    }
+
+    def Xform "driving_right_link"
+    {
+        quatd xformOp:orient = (0.7071055173873901, 0, 0, -0.7071080803871155)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0, -0.20800000429153442, 0.08449999988079071)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def Xform "visuals" (
+            instanceable = false
+        )
+        {
+            def Xform "wheel" (
+                instanceable = true
+                prepend references = @./instances.usda@</Instances/mesh_3>
+            )
+            {
+                token visibility = "inherited"
+                quatd xformOp:orient = (0, 0, 1, 0)
+                double3 xformOp:scale = (-1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+        }
+
+        def Xform "collisions" (
+            instanceable = false
+        )
+        {
+            def Xform "mesh_0"
+            {
+                uniform token purpose = "guide"
+                quatd xformOp:orient = (0.7071055173873901, 0, 0.7071080803871155, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+                def Cylinder "cylinder" (
+                    prepend apiSchemas = ["PhysicsCollisionAPI"]
+                )
+                {
+                    uniform token axis = "Z"
+                    float3[] extent = [(-0.085, -0.085, -0.017), (0.085, 0.085, 0.017)]
+                    double height = 0.03400000184774399
+                    double radius = 0.08500000089406967
+                }
+            }
+        }
+    }
+
+    def Scope "Looks"
+    {
+    }
+
+    over "charge_port"
+    {
+        def "charge_port"
+        {
+            over "charge_port"
+            {
+                quatf xformOp:orient = (1, 0, 0, 0)
+            }
+        }
+    }
+
+    over "charge_port_01"
+    {
+        def "charge_port"
+        {
+            over "charge_port"
+            {
+                quatf xformOp:orient = (1, 0, 0, 0)
+            }
+        }
+    }
+
+    def Xform "lidar_frame"
+    {
+        quatd xformOp:orient = (0.7071055173873901, 0, 0, 0.7071080449834463)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0.26098498702049255, 0, 0.1864760047197342)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+    }
+
+    def Scope "VisualMaterials"
+    {
+    }
+}
+

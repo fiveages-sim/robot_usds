@@ -1,0 +1,274 @@
+#usda 1.0
+(
+    defaultPrim = "Inspire_EG2_4C2"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def "Inspire_EG2_4C2"
+{
+    rel isaac:physics:robotJoints = [
+        </Inspire_EG2_4C2/root_joint>,
+        </Inspire_EG2_4C2/joints/right_gripper_joint>,
+        </Inspire_EG2_4C2/joints/right_left_pad_joint>,
+        </Inspire_EG2_4C2/joints/right_left_inner_joint>,
+        </Inspire_EG2_4C2/joints/right_right_inner_joint>,
+        </Inspire_EG2_4C2/joints/right_right_outer_joint>,
+        </Inspire_EG2_4C2/joints/right_right_pad_joint>,
+    ]
+
+    over "joints"
+    {
+        over "gripper_joint" (
+            active = false
+        )
+        {
+        }
+
+        def PhysicsRevoluteJoint "right_gripper_joint" (
+            prepend apiSchemas = ["MjcJointAPI", "PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular", "PhysxJointAPI"]
+        )
+        {
+            float drive:angular:physics:damping = 1
+            float drive:angular:physics:maxForce = 10
+            float drive:angular:physics:stiffness = 3
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            uniform double mjc:armature = 0.001
+            uniform double mjc:damping = 0.01
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -10
+            uniform double mjc:actuatorfrcrange:max = 10
+            uniform token physics:axis = "Y"
+            prepend rel physics:body0 = </Inspire_EG2_4C2/gripper_base>
+            prepend rel physics:body1 = </Inspire_EG2_4C2/left_outer_link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.000101855476
+            point3f physics:localPos0 = (-0.04, -0.009, 0.079)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0, 1, 0, 0)
+            quatf physics:localRot1 = (0, 1, 0, 0)
+            float physics:lowerLimit = 0
+            float physics:upperLimit = 46.982536
+            float physxJoint:maxJointVelocity = 180
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "left_pad_joint" (
+            active = false
+        )
+        {
+        }
+
+        def PhysicsRevoluteJoint "right_left_pad_joint" (
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI", "PhysicsJointStateAPI:angular", "PhysxJointAPI", "PhysxMimicJointAPI:rotY"]
+        )
+        {
+            uniform double mjc:armature = 0.001
+            uniform double mjc:damping = 0.01
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 1
+            rel newton:mimicJoint = </Inspire_EG2_4C2/joints/right_gripper_joint>
+            uniform token physics:axis = "Y"
+            prepend rel physics:body0 = </Inspire_EG2_4C2/left_outer_link>
+            prepend rel physics:body1 = </Inspire_EG2_4C2/left_pad>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.000022035847
+            point3f physics:localPos0 = (0.0223, 0.003, 0.035591)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -9.396507
+            float physics:upperLimit = 56.379044
+            float physxMimicJoint:rotY:dampingRatio = 0
+            float physxMimicJoint:rotY:gearing = -1
+            float physxMimicJoint:rotY:naturalFrequency = 0
+            float physxMimicJoint:rotY:offset = 0
+            rel physxMimicJoint:rotY:referenceJoint = </Inspire_EG2_4C2/joints/right_gripper_joint>
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "left_inner_joint" (
+            active = false
+        )
+        {
+        }
+
+        def PhysicsRevoluteJoint "right_left_inner_joint" (
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI", "PhysicsJointStateAPI:angular", "PhysxJointAPI", "PhysxMimicJointAPI:rotY"]
+        )
+        {
+            uniform double mjc:armature = 0.001
+            uniform double mjc:damping = 0.01
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 1
+            rel newton:mimicJoint = </Inspire_EG2_4C2/joints/right_gripper_joint>
+            uniform token physics:axis = "Y"
+            prepend rel physics:body0 = </Inspire_EG2_4C2/gripper_base>
+            prepend rel physics:body1 = </Inspire_EG2_4C2/left_inner_link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.000046220248
+            point3f physics:localPos0 = (-0.03, -0.009, 0.081)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0, 1, 0, 0)
+            quatf physics:localRot1 = (0, 1, 0, 0)
+            float physics:lowerLimit = -9.396507
+            float physics:upperLimit = 56.379044
+            float physxMimicJoint:rotY:dampingRatio = 0
+            float physxMimicJoint:rotY:gearing = -1
+            float physxMimicJoint:rotY:naturalFrequency = 0
+            float physxMimicJoint:rotY:offset = 0
+            rel physxMimicJoint:rotY:referenceJoint = </Inspire_EG2_4C2/joints/right_gripper_joint>
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "right_inner_joint" (
+            active = false
+        )
+        {
+        }
+
+        def PhysicsRevoluteJoint "right_right_inner_joint" (
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI", "PhysicsJointStateAPI:angular", "PhysxJointAPI", "PhysxMimicJointAPI:rotY"]
+        )
+        {
+            uniform double mjc:armature = 0.001
+            uniform double mjc:damping = 0.01
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 1
+            rel newton:mimicJoint = </Inspire_EG2_4C2/joints/right_gripper_joint>
+            uniform token physics:axis = "Y"
+            prepend rel physics:body0 = </Inspire_EG2_4C2/gripper_base>
+            prepend rel physics:body1 = </Inspire_EG2_4C2/right_inner_link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.00004621695
+            point3f physics:localPos0 = (0.03, -0.009, 0.081)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -9.396507
+            float physics:upperLimit = 56.379044
+            float physxMimicJoint:rotY:dampingRatio = 0
+            float physxMimicJoint:rotY:gearing = -1
+            float physxMimicJoint:rotY:naturalFrequency = 0
+            float physxMimicJoint:rotY:offset = 0
+            rel physxMimicJoint:rotY:referenceJoint = </Inspire_EG2_4C2/joints/right_gripper_joint>
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "right_outer_joint" (
+            active = false
+        )
+        {
+        }
+
+        def PhysicsRevoluteJoint "right_right_outer_joint" (
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI", "PhysicsJointStateAPI:angular", "PhysxJointAPI", "PhysxMimicJointAPI:rotY"]
+        )
+        {
+            uniform double mjc:armature = 0.001
+            uniform double mjc:damping = 0.01
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 1
+            rel newton:mimicJoint = </Inspire_EG2_4C2/joints/right_gripper_joint>
+            uniform token physics:axis = "Y"
+            prepend rel physics:body0 = </Inspire_EG2_4C2/gripper_base>
+            prepend rel physics:body1 = </Inspire_EG2_4C2/right_outer_link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.00010183914
+            point3f physics:localPos0 = (0.04, -0.009, 0.079)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -9.396507
+            float physics:upperLimit = 56.379044
+            float physxMimicJoint:rotY:dampingRatio = 0
+            float physxMimicJoint:rotY:gearing = -1
+            float physxMimicJoint:rotY:naturalFrequency = 0
+            float physxMimicJoint:rotY:offset = 0
+            rel physxMimicJoint:rotY:referenceJoint = </Inspire_EG2_4C2/joints/right_gripper_joint>
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "right_pad_joint" (
+            active = false
+        )
+        {
+        }
+
+        def PhysicsRevoluteJoint "right_right_pad_joint" (
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI", "PhysicsJointStateAPI:angular", "PhysxJointAPI", "PhysxMimicJointAPI:rotY"]
+        )
+        {
+            uniform double mjc:armature = 0.001
+            uniform double mjc:damping = 0.01
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 1
+            rel newton:mimicJoint = </Inspire_EG2_4C2/joints/right_gripper_joint>
+            uniform token physics:axis = "Y"
+            prepend rel physics:body0 = </Inspire_EG2_4C2/right_outer_link>
+            prepend rel physics:body1 = </Inspire_EG2_4C2/right_pad>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.000022035734
+            point3f physics:localPos0 = (-0.0223, 0.003, 0.035591)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0, 1, 0, 0)
+            quatf physics:localRot1 = (0, 1, 0, 0)
+            float physics:lowerLimit = -9.396507
+            float physics:upperLimit = 56.379044
+            float physxMimicJoint:rotY:dampingRatio = 0
+            float physxMimicJoint:rotY:gearing = -1
+            float physxMimicJoint:rotY:naturalFrequency = 0
+            float physxMimicJoint:rotY:offset = 0
+            rel physxMimicJoint:rotY:referenceJoint = </Inspire_EG2_4C2/joints/right_gripper_joint>
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+    }
+
+    over "actuators"
+    {
+        over "gripper_joint" (
+            active = false
+        )
+        {
+        }
+
+        over "left_gripper_joint" (
+            active = false
+        )
+        {
+        }
+
+        def MjcActuator "right_gripper_joint"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [3, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -3, -1, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -10
+            uniform double mjc:forceRange:max = 10
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = 0
+            uniform double mjc:ctrlRange:max = 46.982536
+            rel mjc:target = </Inspire_EG2_4C2/joints/right_gripper_joint>
+        }
+    }
+}

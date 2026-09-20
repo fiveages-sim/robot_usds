@@ -1,0 +1,169 @@
+#usda 1.0
+(
+    defaultPrim = "Cobot_Magic_V1"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def "Cobot_Magic_V1"
+{
+    def "Graph"
+    {
+        def OmniGraph "ROS_JointStates"
+        {
+            token evaluationMode = "Automatic"
+            token evaluator:type = "execution"
+            token fabricCacheBacking = "StageWithoutHistory"
+            int2 fileFormatVersion = (1, 9)
+            token pipelineStage = "pipelineStageSimulation"
+
+            def OmniGraphNode "OnPlaybackTick"
+            {
+                token node:type = "omni.graph.action.OnPlaybackTick"
+                int node:typeVersion = 2
+                custom double outputs:deltaSeconds
+                custom double outputs:frame
+                custom uint outputs:tick (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom double outputs:time
+            }
+
+            def OmniGraphNode "Context"
+            {
+                custom uchar inputs:domain_id
+                custom bool inputs:useDomainIDEnvVar
+                token node:type = "isaacsim.ros2.bridge.ROS2Context"
+                int node:typeVersion = 2
+                custom uint64 outputs:context
+            }
+
+            def OmniGraphNode "ReadSimTime"
+            {
+                custom uint64 inputs:referenceTimeDenominator
+                custom int64 inputs:referenceTimeNumerator
+                custom bool inputs:resetOnStop = 0
+                token node:type = "isaacsim.core.nodes.IsaacReadSimulationTime"
+                int node:typeVersion = 1
+                custom double outputs:simulationTime
+            }
+
+            def OmniGraphNode "PublisherJointState"
+            {
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </Cobot_Magic_V1/Graph/ROS_JointStates/Context.outputs:context>
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </Cobot_Magic_V1/Graph/ROS_JointStates/OnPlaybackTick.outputs:tick>
+                custom uchar[] inputs:jointDofTypes
+                custom double[] inputs:jointEfforts
+                custom token[] inputs:jointNames
+                custom double[] inputs:jointPositions
+                custom double[] inputs:jointVelocities
+                custom string inputs:nodeNamespace = "isaac"
+                custom string inputs:qosProfile
+                custom uint64 inputs:queueSize
+                custom float inputs:sensorTime
+                custom float inputs:stageMetersPerUnit
+                custom rel inputs:targetPrim = </Cobot_Magic_V1> (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
+                custom double inputs:timeStamp
+                prepend double inputs:timeStamp.connect = </Cobot_Magic_V1/Graph/ROS_JointStates/ReadSimTime.outputs:simulationTime>
+                custom string inputs:topicName = "/joint_states"
+                token node:type = "isaacsim.ros2.bridge.ROS2PublishJointState"
+                int node:typeVersion = 1
+            }
+
+            def OmniGraphNode "SubscriberJointState"
+            {
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </Cobot_Magic_V1/Graph/ROS_JointStates/Context.outputs:context>
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </Cobot_Magic_V1/Graph/ROS_JointStates/OnPlaybackTick.outputs:tick>
+                custom string inputs:nodeNamespace = "isaac"
+                custom string inputs:qosProfile
+                custom uint64 inputs:queueSize
+                custom string inputs:topicName = "/joint_command"
+                token node:type = "isaacsim.ros2.bridge.ROS2SubscribeJointState"
+                int node:typeVersion = 2
+                custom double[] outputs:effortCommand
+                custom uint outputs:execOut (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom token[] outputs:jointNames
+                custom double[] outputs:positionCommand
+                custom double outputs:timeStamp
+                custom double[] outputs:velocityCommand
+            }
+
+            def OmniGraphNode "ArticulationController"
+            {
+                custom double[] inputs:effortCommand
+                prepend double[] inputs:effortCommand.connect = </Cobot_Magic_V1/Graph/ROS_JointStates/SubscriberJointState.outputs:effortCommand>
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </Cobot_Magic_V1/Graph/ROS_JointStates/OnPlaybackTick.outputs:tick>
+                custom int[] inputs:jointIndices
+                custom token[] inputs:jointNames
+                prepend token[] inputs:jointNames.connect = </Cobot_Magic_V1/Graph/ROS_JointStates/SubscriberJointState.outputs:jointNames>
+                custom double[] inputs:positionCommand
+                prepend double[] inputs:positionCommand.connect = </Cobot_Magic_V1/Graph/ROS_JointStates/SubscriberJointState.outputs:positionCommand>
+                custom string inputs:robotPath
+                custom rel inputs:targetPrim = </Cobot_Magic_V1> (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
+                custom double[] inputs:velocityCommand
+                prepend double[] inputs:velocityCommand.connect = </Cobot_Magic_V1/Graph/ROS_JointStates/SubscriberJointState.outputs:velocityCommand>
+                token node:type = "isaacsim.core.nodes.IsaacArticulationController"
+                int node:typeVersion = 1
+            }
+
+            def OmniGraphNode "ros2_publish_clock"
+            {
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </Cobot_Magic_V1/Graph/ROS_JointStates/Context.outputs:context>
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </Cobot_Magic_V1/Graph/ROS_JointStates/OnPlaybackTick.outputs:tick>
+                custom string inputs:nodeNamespace
+                custom string inputs:qosProfile
+                custom uint64 inputs:queueSize
+                custom double inputs:timeStamp
+                prepend double inputs:timeStamp.connect = </Cobot_Magic_V1/Graph/ROS_JointStates/ReadSimTime.outputs:simulationTime>
+                custom string inputs:topicName
+                token node:type = "isaacsim.ros2.bridge.ROS2PublishClock"
+                int node:typeVersion = 1
+            }
+        }
+    }
+}

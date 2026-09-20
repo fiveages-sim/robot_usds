@@ -1,0 +1,761 @@
+#usda 1.0
+(
+    customLayerData = {
+        dictionary omni_layer = {
+            string authoring_layer = "./ros2.usda"
+        }
+    }
+    defaultPrim = "Galaxea_R1_Lite"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def "Galaxea_R1_Lite"
+{
+    def "Graph"
+    {
+        def OmniGraph "ROS_JointStates"
+        {
+            token evaluationMode = "Automatic"
+            token evaluator:type = "execution"
+            token fabricCacheBacking = "StageWithoutHistory"
+            int2 fileFormatVersion = (1, 9)
+            token pipelineStage = "pipelineStageSimulation"
+
+            def OmniGraphNode "OnPlaybackTick"
+            {
+                token node:type = "omni.graph.action.OnPlaybackTick"
+                int node:typeVersion = 2
+                custom double outputs:deltaSeconds
+                custom double outputs:frame
+                custom uint outputs:tick (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom double outputs:time
+            }
+
+            def OmniGraphNode "Context"
+            {
+                custom uchar inputs:domain_id
+                custom bool inputs:useDomainIDEnvVar
+                token node:type = "isaacsim.ros2.bridge.ROS2Context"
+                int node:typeVersion = 2
+                custom uint64 outputs:context
+            }
+
+            def OmniGraphNode "ReadSimTime"
+            {
+                custom uint64 inputs:referenceTimeDenominator
+                custom int64 inputs:referenceTimeNumerator
+                custom bool inputs:resetOnStop = 0
+                token node:type = "isaacsim.core.nodes.IsaacReadSimulationTime"
+                int node:typeVersion = 1
+                custom double outputs:simulationTime
+            }
+
+            def OmniGraphNode "isaac_read_joint_state_node" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </Galaxea_R1_Lite/Graph/ROS_JointStates/OnPlaybackTick.outputs:tick>
+                custom rel inputs:prim = </Galaxea_R1_Lite/base_link> (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
+                token node:type = "isaacsim.sensors.physics.IsaacReadJointState"
+                int node:typeVersion = 1
+                custom uint outputs:execOut (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom uchar[] outputs:jointDofTypes
+                custom double[] outputs:jointEfforts
+                custom token[] outputs:jointNames
+                custom double[] outputs:jointPositions
+                custom double[] outputs:jointVelocities
+                custom float outputs:sensorTime
+                custom float outputs:stageMetersPerUnit
+            }
+
+            def OmniGraphNode "PublisherJointState"
+            {
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </Galaxea_R1_Lite/Graph/ROS_JointStates/Context.outputs:context>
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </Galaxea_R1_Lite/Graph/ROS_JointStates/isaac_read_joint_state_node.outputs:execOut>
+                custom uchar[] inputs:jointDofTypes
+                prepend uchar[] inputs:jointDofTypes.connect = </Galaxea_R1_Lite/Graph/ROS_JointStates/isaac_read_joint_state_node.outputs:jointDofTypes>
+                custom double[] inputs:jointEfforts
+                prepend double[] inputs:jointEfforts.connect = </Galaxea_R1_Lite/Graph/ROS_JointStates/isaac_read_joint_state_node.outputs:jointEfforts>
+                custom token[] inputs:jointNames
+                prepend token[] inputs:jointNames.connect = </Galaxea_R1_Lite/Graph/ROS_JointStates/isaac_read_joint_state_node.outputs:jointNames>
+                custom double[] inputs:jointPositions
+                prepend double[] inputs:jointPositions.connect = </Galaxea_R1_Lite/Graph/ROS_JointStates/isaac_read_joint_state_node.outputs:jointPositions>
+                custom double[] inputs:jointVelocities
+                prepend double[] inputs:jointVelocities.connect = </Galaxea_R1_Lite/Graph/ROS_JointStates/isaac_read_joint_state_node.outputs:jointVelocities>
+                custom string inputs:nodeNamespace = "isaac"
+                custom string inputs:qosProfile
+                custom uint64 inputs:queueSize
+                custom float inputs:sensorTime
+                prepend float inputs:sensorTime.connect = </Galaxea_R1_Lite/Graph/ROS_JointStates/isaac_read_joint_state_node.outputs:sensorTime>
+                custom float inputs:stageMetersPerUnit
+                prepend float inputs:stageMetersPerUnit.connect = </Galaxea_R1_Lite/Graph/ROS_JointStates/isaac_read_joint_state_node.outputs:stageMetersPerUnit>
+                custom rel inputs:targetPrim = None (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
+                custom double inputs:timeStamp
+                prepend double inputs:timeStamp.connect = </Galaxea_R1_Lite/Graph/ROS_JointStates/ReadSimTime.outputs:simulationTime>
+                custom string inputs:topicName = "/joint_states"
+                token node:type = "isaacsim.ros2.bridge.ROS2PublishJointState"
+                int node:typeVersion = 1
+            }
+
+            def OmniGraphNode "SubscriberJointState"
+            {
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </Galaxea_R1_Lite/Graph/ROS_JointStates/Context.outputs:context>
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </Galaxea_R1_Lite/Graph/ROS_JointStates/OnPlaybackTick.outputs:tick>
+                custom string inputs:nodeNamespace = "isaac"
+                custom string inputs:qosProfile
+                custom uint64 inputs:queueSize
+                custom string inputs:topicName = "/joint_command"
+                token node:type = "isaacsim.ros2.bridge.ROS2SubscribeJointState"
+                int node:typeVersion = 2
+                custom double[] outputs:effortCommand
+                custom uint outputs:execOut (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom token[] outputs:jointNames
+                custom double[] outputs:positionCommand
+                custom double outputs:timeStamp
+                custom double[] outputs:velocityCommand
+            }
+
+            def OmniGraphNode "ArticulationController"
+            {
+                custom double[] inputs:effortCommand
+                prepend double[] inputs:effortCommand.connect = </Galaxea_R1_Lite/Graph/ROS_JointStates/SubscriberJointState.outputs:effortCommand>
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </Galaxea_R1_Lite/Graph/ROS_JointStates/OnPlaybackTick.outputs:tick>
+                custom int[] inputs:jointIndices
+                custom token[] inputs:jointNames
+                prepend token[] inputs:jointNames.connect = </Galaxea_R1_Lite/Graph/ROS_JointStates/SubscriberJointState.outputs:jointNames>
+                custom double[] inputs:positionCommand
+                prepend double[] inputs:positionCommand.connect = </Galaxea_R1_Lite/Graph/ROS_JointStates/SubscriberJointState.outputs:positionCommand>
+                custom string inputs:robotPath
+                custom rel inputs:targetPrim = </Galaxea_R1_Lite/base_link> (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
+                custom double[] inputs:velocityCommand
+                prepend double[] inputs:velocityCommand.connect = </Galaxea_R1_Lite/Graph/ROS_JointStates/SubscriberJointState.outputs:velocityCommand>
+                token node:type = "isaacsim.core.nodes.IsaacArticulationController"
+                int node:typeVersion = 1
+            }
+
+            def OmniGraphNode "ros2_publish_clock" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </Galaxea_R1_Lite/Graph/ROS_JointStates/Context.outputs:context>
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </Galaxea_R1_Lite/Graph/ROS_JointStates/OnPlaybackTick.outputs:tick>
+                custom string inputs:nodeNamespace
+                custom string inputs:qosProfile
+                custom uint64 inputs:queueSize
+                custom double inputs:timeStamp
+                prepend double inputs:timeStamp.connect = </Galaxea_R1_Lite/Graph/ROS_JointStates/ReadSimTime.outputs:simulationTime>
+                custom string inputs:topicName
+                token node:type = "isaacsim.ros2.bridge.ROS2PublishClock"
+                int node:typeVersion = 1
+            }
+        }
+
+        def OmniGraph "ROS_Odometry"
+        {
+            token evaluationMode = "Automatic"
+            token evaluator:type = "execution"
+            token fabricCacheBacking = "StageWithoutHistory"
+            int2 fileFormatVersion = (1, 9)
+            token pipelineStage = "pipelineStageSimulation"
+
+            def OmniGraphNode "OnPlaybackTick"
+            {
+                token node:type = "omni.graph.action.OnPlaybackTick"
+                int node:typeVersion = 2
+                custom double outputs:deltaSeconds
+                custom double outputs:frame
+                custom uint outputs:tick (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom double outputs:time
+            }
+
+            def OmniGraphNode "Context"
+            {
+                custom uchar inputs:domain_id
+                custom bool inputs:useDomainIDEnvVar
+                token node:type = "isaacsim.ros2.bridge.ROS2Context"
+                int node:typeVersion = 2
+                custom uint64 outputs:context
+            }
+
+            def OmniGraphNode "ReadSimTime"
+            {
+                custom uint64 inputs:referenceTimeDenominator
+                custom int64 inputs:referenceTimeNumerator
+                custom bool inputs:resetOnStop = 0
+                token node:type = "isaacsim.core.nodes.IsaacReadSimulationTime"
+                int node:typeVersion = 1
+                custom double outputs:simulationTime
+            }
+
+            def OmniGraphNode "TFWorld2Odom"
+            {
+                custom string inputs:childFrameId = "odom"
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </Galaxea_R1_Lite/Graph/ROS_Odometry/Context.outputs:context>
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </Galaxea_R1_Lite/Graph/ROS_Odometry/OnPlaybackTick.outputs:tick>
+                custom string inputs:nodeNamespace = ""
+                custom string inputs:parentFrameId = "world"
+                custom string inputs:qosProfile
+                custom uint64 inputs:queueSize
+                custom quatd inputs:rotation
+                custom bool inputs:staticPublisher
+                custom double inputs:timeStamp
+                prepend double inputs:timeStamp.connect = </Galaxea_R1_Lite/Graph/ROS_Odometry/ReadSimTime.outputs:simulationTime>
+                custom string inputs:topicName
+                custom vector3d inputs:translation
+                token node:type = "isaacsim.ros2.bridge.ROS2PublishRawTransformTree"
+                int node:typeVersion = 1
+            }
+
+            def OmniGraphNode "TFOdom2Robot"
+            {
+                custom string inputs:childFrameId = "base_link"
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </Galaxea_R1_Lite/Graph/ROS_Odometry/Context.outputs:context>
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </Galaxea_R1_Lite/Graph/ROS_Odometry/OnPlaybackTick.outputs:tick>
+                custom string inputs:nodeNamespace = ""
+                custom string inputs:parentFrameId = "odom"
+                custom string inputs:qosProfile
+                custom uint64 inputs:queueSize
+                custom quatd inputs:rotation
+                prepend quatd inputs:rotation.connect = </Galaxea_R1_Lite/Graph/ROS_Odometry/ComputeOdometry.outputs:orientation>
+                custom bool inputs:staticPublisher
+                custom double inputs:timeStamp
+                prepend double inputs:timeStamp.connect = </Galaxea_R1_Lite/Graph/ROS_Odometry/ReadSimTime.outputs:simulationTime>
+                custom string inputs:topicName
+                custom vector3d inputs:translation
+                prepend vector3d inputs:translation.connect = </Galaxea_R1_Lite/Graph/ROS_Odometry/ComputeOdometry.outputs:position>
+                token node:type = "isaacsim.ros2.bridge.ROS2PublishRawTransformTree"
+                int node:typeVersion = 1
+            }
+
+            def OmniGraphNode "ComputeOdometry"
+            {
+                custom rel inputs:chassisPrim = </Galaxea_R1_Lite/base_link> (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </Galaxea_R1_Lite/Graph/ROS_Odometry/OnPlaybackTick.outputs:tick>
+                token node:type = "isaacsim.core.nodes.IsaacComputeOdometry"
+                int node:typeVersion = 1
+                custom vector3d outputs:angularAcceleration
+                custom vector3d outputs:angularVelocity
+                custom uint outputs:execOut (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom vector3d outputs:globalLinearAcceleration
+                custom vector3d outputs:globalLinearVelocity
+                custom vector3d outputs:linearAcceleration
+                custom vector3d outputs:linearVelocity
+                custom quatd outputs:orientation
+                custom vector3d outputs:position
+            }
+
+            def OmniGraphNode "PublisherOdometry"
+            {
+                custom vector3d inputs:angularVelocity
+                prepend vector3d inputs:angularVelocity.connect = </Galaxea_R1_Lite/Graph/ROS_Odometry/ComputeOdometry.outputs:angularVelocity>
+                custom string inputs:chassisFrameId = "base_link"
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </Galaxea_R1_Lite/Graph/ROS_Odometry/Context.outputs:context>
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </Galaxea_R1_Lite/Graph/ROS_Odometry/ComputeOdometry.outputs:execOut>
+                custom vector3d inputs:linearVelocity
+                prepend vector3d inputs:linearVelocity.connect = </Galaxea_R1_Lite/Graph/ROS_Odometry/ComputeOdometry.outputs:linearVelocity>
+                custom string inputs:nodeNamespace = ""
+                custom string inputs:odomFrameId
+                custom quatd inputs:orientation
+                prepend quatd inputs:orientation.connect = </Galaxea_R1_Lite/Graph/ROS_Odometry/ComputeOdometry.outputs:orientation>
+                custom vector3d inputs:position
+                prepend vector3d inputs:position.connect = </Galaxea_R1_Lite/Graph/ROS_Odometry/ComputeOdometry.outputs:position>
+                custom bool inputs:publishRawVelocities
+                custom string inputs:qosProfile
+                custom uint64 inputs:queueSize
+                custom vector3d inputs:robotFront
+                custom double inputs:timeStamp
+                prepend double inputs:timeStamp.connect = </Galaxea_R1_Lite/Graph/ROS_Odometry/ReadSimTime.outputs:simulationTime>
+                custom string inputs:topicName = "/odom"
+                token node:type = "isaacsim.ros2.bridge.ROS2PublishOdometry"
+                int node:typeVersion = 1
+            }
+
+            def OmniGraphNode "ComputeTFRobot" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </Galaxea_R1_Lite/Graph/ROS_Odometry/OnPlaybackTick.outputs:tick>
+                custom rel inputs:parentPrim = </Galaxea_R1_Lite/base_link> (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
+                custom rel inputs:targetPrims = </Galaxea_R1_Lite/base_link> (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
+                token node:type = "isaacsim.core.nodes.IsaacComputeTransformTree"
+                int node:typeVersion = 1
+                custom token[] outputs:childFrames
+                custom uint outputs:execOut (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom double4[] outputs:orientations
+                custom token[] outputs:parentFrames
+                custom double3[] outputs:translations
+                uniform float2 ui:nodegraph:node:pos = (-609.02, -657.7506)
+            }
+        }
+
+        def OmniGraph "ROS_Steering_Controller"
+        {
+            token evaluationMode = "Automatic"
+            token evaluator:type = "execution"
+            token fabricCacheBacking = "Shared"
+            int2 fileFormatVersion = (1, 9)
+            token pipelineStage = "pipelineStageSimulation"
+            token ui:displayGroup = "Material Graphs"
+            token ui:displayName = "steering_wheel_controller"
+            int ui:order = 1024
+            uniform token[] xformOpOrder = []
+
+            def OmniGraphNode "articulation_controller" (
+                apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom double[] inputs:effortCommand
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                uint inputs:execIn.connect = </Galaxea_R1_Lite/Graph/ROS_Steering_Controller/script_node.outputs:execOut>
+                custom int[] inputs:jointIndices
+                custom token[] inputs:jointNames
+                token[] inputs:jointNames.connect = </Galaxea_R1_Lite/Graph/ROS_Steering_Controller/script_node.outputs:Steer_Joints>
+                custom double[] inputs:positionCommand
+                double[] inputs:positionCommand.connect = </Galaxea_R1_Lite/Graph/ROS_Steering_Controller/script_node.outputs:Steer_Position_Command>
+                custom string inputs:robotPath
+                custom rel inputs:targetPrim = </Galaxea_R1_Lite/base_link> (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
+                custom double[] inputs:velocityCommand
+                token node:type = "isaacsim.core.nodes.IsaacArticulationController"
+                int node:typeVersion = 1
+                uniform token ui:nodegraph:node:expansionState = "open"
+                uniform float2 ui:nodegraph:node:pos = (811.57446, 217.67787)
+            }
+
+            def OmniGraphNode "articulation_controller_01" (
+                apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom double[] inputs:effortCommand
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                uint inputs:execIn.connect = </Galaxea_R1_Lite/Graph/ROS_Steering_Controller/script_node.outputs:execOut>
+                custom int[] inputs:jointIndices
+                custom token[] inputs:jointNames
+                token[] inputs:jointNames.connect = </Galaxea_R1_Lite/Graph/ROS_Steering_Controller/script_node.outputs:Wheel_Joints>
+                custom double[] inputs:positionCommand
+                custom string inputs:robotPath
+                custom rel inputs:targetPrim = </Galaxea_R1_Lite/base_link> (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
+                custom double[] inputs:velocityCommand
+                double[] inputs:velocityCommand.connect = </Galaxea_R1_Lite/Graph/ROS_Steering_Controller/script_node.outputs:Wheel_Velocity_Command>
+                token node:type = "isaacsim.core.nodes.IsaacArticulationController"
+                int node:typeVersion = 1
+                uniform token ui:nodegraph:node:expansionState = "open"
+                uniform float2 ui:nodegraph:node:pos = (782.25073, 481.87903)
+            }
+
+            def OmniGraphNode "script_node" (
+                apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom double inputs:angularGain = 1
+                custom double inputs:Desired_Angular_Velocity
+                double inputs:Desired_Angular_Velocity.connect = </Galaxea_R1_Lite/Graph/ROS_Steering_Controller/break_3_vector.outputs:z>
+                custom double inputs:Desired_Linear_Velocity_X
+                double inputs:Desired_Linear_Velocity_X.connect = </Galaxea_R1_Lite/Graph/ROS_Steering_Controller/break_3_vector_01.outputs:x>
+                custom double inputs:Desired_Linear_Velocity_Y
+                double inputs:Desired_Linear_Velocity_Y.connect = </Galaxea_R1_Lite/Graph/ROS_Steering_Controller/break_3_vector_01.outputs:y>
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                uint inputs:execIn.connect = </Galaxea_R1_Lite/Graph/ROS_Steering_Controller/OnPlaybackTick.outputs:tick>
+                # Wheel r≈0.07 → ω≈v/r ⇒ gain≈14.3 (50 overspun wheels → Newton slip/jerk)
+                custom double inputs:linearGain = 14.3
+                custom double inputs:flipVelocityScale = 0.35
+                custom string inputs:script = """
+# OmniGraph ScriptNode for Galaxea_R1_Lite tri-steer chassis.
+# Inputs: Desired_Linear_Velocity_{X,Y}, Desired_Angular_Velocity, linearGain, angularGain, flipVelocityScale
+# Outputs: Steer_* (position), Wheel_* (velocity)
+
+import numpy as np
+
+# Match Copy/R1 convention: wheel speed scale ~50; angular gain default 1
+_DEFAULT_LINEAR_GAIN = 14.3
+_DEFAULT_ANGULAR_GAIN = 1.0
+_DEFAULT_FLIP_VELOCITY_SCALE = 0.35
+
+_SPEED_EPS = 1e-6
+_NUM_WHEELS = 3
+
+# Lite chassis steer motor XY (Z ignored for planar IK)
+_WHEEL_POSITIONS = np.array(
+    [
+        [0.29183, 0.0],  # wheel1 / steer_joint1
+        [-0.16817, 0.24],  # wheel2 / steer_joint2
+        [-0.16817, -0.24],  # wheel3 / steer_joint3
+    ]
+)
+
+_prev_pos_cmd = np.zeros(_NUM_WHEELS)
+_prev_vel_unscaled = np.zeros(_NUM_WHEELS)
+_has_prev_steer = False
+
+
+def _wrap_to_pi(angle):
+    return (angle + np.pi) % (2 * np.pi) - np.pi
+
+
+def _angle_diff(target, reference):
+    return _wrap_to_pi(target - reference)
+
+
+def _pick_steer_and_wheel_speed(raw_angle, speed, ref_angle):
+    # (theta, v) and (theta+pi, -v) are equivalent; pick smaller steer delta vs ref.
+    a = _wrap_to_pi(raw_angle)
+    va = speed
+    b = _wrap_to_pi(raw_angle + np.pi)
+    vb = -speed
+    da = abs(_angle_diff(a, ref_angle))
+    db = abs(_angle_diff(b, ref_angle))
+    if db < da:
+        return b, vb
+    return a, va
+
+
+def setup(db):
+    global _prev_pos_cmd, _prev_vel_unscaled, _has_prev_steer
+    _prev_pos_cmd = np.zeros(_NUM_WHEELS)
+    _prev_vel_unscaled = np.zeros(_NUM_WHEELS)
+    _has_prev_steer = False
+
+
+def cleanup(db):
+    global _has_prev_steer, _prev_vel_unscaled
+    _has_prev_steer = False
+    _prev_vel_unscaled = np.zeros(_NUM_WHEELS)
+
+
+def compute(db):
+    global _prev_pos_cmd, _prev_vel_unscaled, _has_prev_steer
+
+    linear_gain = float(getattr(db.inputs, \"linearGain\", _DEFAULT_LINEAR_GAIN))
+    angular_gain = float(getattr(db.inputs, \"angularGain\", _DEFAULT_ANGULAR_GAIN))
+    flip_vel_scale = float(getattr(db.inputs, \"flipVelocityScale\", _DEFAULT_FLIP_VELOCITY_SCALE))
+    flip_vel_scale = max(0.0, min(1.0, flip_vel_scale))
+
+    pos_cmd = np.zeros(_NUM_WHEELS)
+    vel_cmd = np.zeros(_NUM_WHEELS)
+
+    vx = db.inputs.Desired_Linear_Velocity_X
+    vy = db.inputs.Desired_Linear_Velocity_Y
+    omega_cmd = db.inputs.Desired_Angular_Velocity
+    omega = omega_cmd * angular_gain
+
+    for i in range(_NUM_WHEELS):
+        x_i, y_i = _WHEEL_POSITIONS[i]
+        vx_total = vx + (-omega * y_i)
+        vy_total = vy + (omega * x_i)
+        angle = np.arctan2(vy_total, vx_total)
+        speed = np.linalg.norm([vx_total, vy_total])
+
+        if speed < _SPEED_EPS:
+            pos_cmd[i] = _prev_pos_cmd[i] if _has_prev_steer else 0.0
+            vel_cmd[i] = 0.0
+        else:
+            ref = _prev_pos_cmd[i] if _has_prev_steer else 0.0
+            pos_cmd[i], vel_cmd[i] = _pick_steer_and_wheel_speed(angle, speed, ref)
+            if _has_prev_steer:
+                pv = _prev_vel_unscaled[i]
+                nv = vel_cmd[i]
+                if (
+                    abs(pv) > _SPEED_EPS
+                    and abs(nv) > _SPEED_EPS
+                    and pv * nv < 0
+                    and flip_vel_scale < 1.0
+                ):
+                    vel_cmd[i] *= flip_vel_scale
+
+    vel_cmd[:] *= linear_gain
+
+    if np.linalg.norm([vx, vy]) < 0.0001 and abs(omega_cmd) < 0.0001:
+        pos_cmd[:] = 0
+        vel_cmd[:] = 0
+
+    inv_gain = 1.0 / linear_gain if linear_gain != 0.0 else 0.0
+    _prev_vel_unscaled = vel_cmd * inv_gain
+    _prev_pos_cmd = pos_cmd.copy()
+    _has_prev_steer = True
+
+    db.outputs.Steer_Position_Command = pos_cmd
+    db.outputs.Steer_Joints = [\"steer_joint1\", \"steer_joint2\", \"steer_joint3\"]
+    db.outputs.Wheel_Velocity_Command = vel_cmd
+    db.outputs.Wheel_Joints = [\"wheel_joint1\", \"wheel_joint2\", \"wheel_joint3\"]
+    return True
+"""
+                custom token inputs:scriptPath = "./steering_wheel_controller.py"
+                custom bool inputs:usePath = 0
+                token node:type = "omni.graph.scriptnode.ScriptNode"
+                int node:typeVersion = 2
+                custom uint outputs:execOut (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom token[] outputs:Steer_Joints
+                custom double[] outputs:Steer_Position_Command
+                custom token[] outputs:Wheel_Joints
+                custom double[] outputs:Wheel_Velocity_Command
+                custom bool state:omni_initialized
+                uniform token ui:nodegraph:node:expansionState = "open"
+                uniform float2 ui:nodegraph:node:pos = (436.06595, 321.1863)
+            }
+
+            def OmniGraphNode "Context" (
+                apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom uchar inputs:domain_id
+                custom bool inputs:useDomainIDEnvVar
+                token node:type = "isaacsim.ros2.bridge.ROS2Context"
+                int node:typeVersion = 2
+                custom uint64 outputs:context
+                uniform float2 ui:nodegraph:node:pos = (-578.31665, 230.14069)
+            }
+
+            def OmniGraphNode "OnPlaybackTick" (
+                apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                token node:type = "omni.graph.action.OnPlaybackTick"
+                int node:typeVersion = 2
+                custom double outputs:deltaSeconds
+                custom double outputs:frame
+                custom uint outputs:tick (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom double outputs:time
+                uniform float2 ui:nodegraph:node:pos = (-552.17035, 454.69354)
+            }
+
+            def OmniGraphNode "ros2_subscribe_twist" (
+                apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom uint64 inputs:context
+                uint64 inputs:context.connect = </Galaxea_R1_Lite/Graph/ROS_Steering_Controller/Context.outputs:context>
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                uint inputs:execIn.connect = </Galaxea_R1_Lite/Graph/ROS_Steering_Controller/OnPlaybackTick.outputs:tick>
+                custom string inputs:nodeNamespace
+                custom string inputs:qosProfile
+                custom uint64 inputs:queueSize
+                custom string inputs:topicName = "/cmd_vel"
+                token node:type = "isaacsim.ros2.bridge.ROS2SubscribeTwist"
+                int node:typeVersion = 1
+                custom vector3d outputs:angularVelocity
+                custom uint outputs:execOut (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom vector3d outputs:linearVelocity
+                uniform token ui:nodegraph:node:expansionState = "open"
+                uniform float2 ui:nodegraph:node:pos = (-314.30386, 308.7966)
+            }
+
+            def OmniGraphNode "scale_to_from_stage_units" (
+                apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom token inputs:conversion (
+                    allowedTokens = ["Convert to stage units", "Convert to meters"]
+                )
+                custom token inputs:value
+                token inputs:value.connect = </Galaxea_R1_Lite/Graph/ROS_Steering_Controller/ros2_subscribe_twist.outputs:linearVelocity>
+                token node:type = "isaacsim.core.nodes.OgnIsaacScaleToFromStageUnit"
+                int node:typeVersion = 1
+                custom token outputs:result
+                uniform token ui:nodegraph:node:expansionState = "open"
+                uniform float2 ui:nodegraph:node:pos = (-62.87071, 473.76718)
+            }
+
+            def OmniGraphNode "break_3_vector" (
+                apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom token inputs:tuple
+                token inputs:tuple.connect = </Galaxea_R1_Lite/Graph/ROS_Steering_Controller/ros2_subscribe_twist.outputs:angularVelocity>
+                token node:type = "omni.graph.nodes.BreakVector3"
+                int node:typeVersion = 1
+                custom token outputs:x
+                custom token outputs:y
+                custom token outputs:z
+                uniform token ui:nodegraph:node:expansionState = "open"
+                uniform float2 ui:nodegraph:node:pos = (-10.477634, 237.99794)
+            }
+
+            def OmniGraphNode "break_3_vector_01" (
+                apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom token inputs:tuple
+                token inputs:tuple.connect = </Galaxea_R1_Lite/Graph/ROS_Steering_Controller/scale_to_from_stage_units.outputs:result>
+                token node:type = "omni.graph.nodes.BreakVector3"
+                int node:typeVersion = 1
+                custom token outputs:x
+                custom token outputs:y
+                custom token outputs:z
+                uniform token ui:nodegraph:node:expansionState = "open"
+                uniform float2 ui:nodegraph:node:pos = (156.13281, 577.50555)
+            }
+        }
+    }
+}

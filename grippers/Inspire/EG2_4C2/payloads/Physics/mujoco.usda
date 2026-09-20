@@ -1,0 +1,156 @@
+#usda 1.0
+(
+    defaultPrim = "Inspire_EG2_4C2"
+    metersPerUnit = 1
+    subLayers = [
+        @./physics.usda@
+    ]
+    upAxis = "Z"
+)
+
+over "Inspire_EG2_4C2"
+{
+    over "joints"
+    {
+        over "gripper_joint" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = None
+            float drive:angular:physics:maxForce = None
+            float drive:angular:physics:stiffness = None
+            float drive:angular:physics:targetPosition = None
+            uniform token drive:angular:physics:type = None
+            uniform double mjc:armature = 0.001
+            uniform double mjc:damping = 0.01
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -10
+            uniform double mjc:actuatorfrcrange:max = 10
+        }
+
+        over "left_gripper_joint" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = None
+            float drive:angular:physics:maxForce = None
+            float drive:angular:physics:stiffness = None
+            float drive:angular:physics:targetPosition = None
+            uniform token drive:angular:physics:type = None
+            uniform double mjc:armature = 0.001
+            uniform double mjc:damping = 0.01
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -10
+            uniform double mjc:actuatorfrcrange:max = 10
+        }
+
+        over "right_gripper_joint" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = None
+            float drive:angular:physics:maxForce = None
+            float drive:angular:physics:stiffness = None
+            float drive:angular:physics:targetPosition = None
+            uniform token drive:angular:physics:type = None
+            uniform double mjc:armature = 0.001
+            uniform double mjc:damping = 0.01
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -10
+            uniform double mjc:actuatorfrcrange:max = 10
+        }
+
+        over "left_pad_joint" (
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.001
+            uniform double mjc:damping = 0.01
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 1
+            rel newton:mimicJoint = </Inspire_EG2_4C2/joints/gripper_joint>
+        }
+
+        over "left_inner_joint" (
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.001
+            uniform double mjc:damping = 0.01
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 1
+            rel newton:mimicJoint = </Inspire_EG2_4C2/joints/gripper_joint>
+        }
+
+        over "right_inner_joint" (
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.001
+            uniform double mjc:damping = 0.01
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 1
+            rel newton:mimicJoint = </Inspire_EG2_4C2/joints/gripper_joint>
+        }
+
+        over "right_outer_joint" (
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.001
+            uniform double mjc:damping = 0.01
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 1
+            rel newton:mimicJoint = </Inspire_EG2_4C2/joints/gripper_joint>
+        }
+
+        over "right_pad_joint" (
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.001
+            uniform double mjc:damping = 0.01
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 1
+            rel newton:mimicJoint = </Inspire_EG2_4C2/joints/gripper_joint>
+        }
+    }
+
+    over "root_joint" (
+        prepend apiSchemas = ["NewtonArticulationRootAPI"]
+    )
+    {
+        bool newton:selfCollisionEnabled = 0
+    }
+
+    def Scope "actuators"
+    {
+        def MjcActuator "gripper_joint"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [3, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -3, -1, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -10
+            uniform double mjc:forceRange:max = 10
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = 0
+            uniform double mjc:ctrlRange:max = 46.982536
+            rel mjc:target = </Inspire_EG2_4C2/joints/gripper_joint>
+        }
+    }
+}

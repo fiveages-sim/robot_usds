@@ -1,0 +1,100 @@
+#usda 1.0
+(
+    defaultPrim = "Concave_type1"
+    doc = """Concave_type1 — fixed jointless concave/convex EE.
+
+Geometry: payloads/concave_{left,right}.usdc via side variant.
+Single rigid body on gripper_base. No finger DOFs / virtual ROS joints.
+
+USDC collision Xform carries a nested RigidBodyAPI; it is stripped here so only
+gripper_base is the body. Visual mesh is not collidable.
+
+Mount: same pattern as Scoop_type1 / Hook_type1 under link7/tcp.
+"""
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "Concave_type1" (
+    variants = {
+        string Physics = "physx"
+        string side = "default"
+    }
+    prepend variantSets = ["Physics", "side"]
+)
+{
+    quatd xformOp:orient = (1, 0, 0, 0)
+    double3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (0, 0, 0)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+    def Xform "gripper_base" (
+        delete apiSchemas = ["ColorSpaceAPI"]
+    )
+    {
+        quatd xformOp:orient = (1, 0, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "Concave_convex_shaped_left"
+        {
+            over "顺丰夹爪" (
+                delete apiSchemas = ["PhysicsCollisionAPI", "PhysxCollisionAPI", "PhysicsMeshCollisionAPI", "PhysxConvexDecompositionCollisionAPI", "PhysxConvexHullCollisionAPI"]
+            )
+            {
+                bool physics:collisionEnabled = 0
+            }
+        }
+
+        over "collision" (
+            delete apiSchemas = ["PhysicsRigidBodyAPI", "PhysxRigidBodyAPI"]
+        )
+        {
+            bool physics:rigidBodyEnabled = 0
+            token visibility = "invisible"
+        }
+    }
+
+    variantSet "Physics" = {
+        "none" (
+            prepend payload = @./payloads/Physics/none.usda@
+        ) {
+        }
+        "physics" (
+            prepend payload = @./payloads/Physics/physics.usda@
+        ) {
+        }
+        "physx" (
+            prepend payload = @./payloads/Physics/physx.usda@
+        ) {
+        }
+    }
+
+    variantSet "side" = {
+        "default" (
+            prepend payload = @./payloads/Side/left.usda@
+        ) {
+            over "gripper_base"
+            {
+                point3f physics:centerOfMass = (-0.078, 0.051, 0.0)
+            }
+        }
+        "left" (
+            prepend payload = @./payloads/Side/left.usda@
+        ) {
+            over "gripper_base"
+            {
+                point3f physics:centerOfMass = (-0.078, 0.051, 0.0)
+            }
+        }
+        "right" (
+            prepend payload = @./payloads/Side/right.usda@
+        ) {
+            over "gripper_base"
+            {
+                point3f physics:centerOfMass = (0.078, 0.051, 0.0)
+            }
+        }
+    }
+}

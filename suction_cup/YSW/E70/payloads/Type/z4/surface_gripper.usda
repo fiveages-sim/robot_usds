@@ -1,0 +1,245 @@
+#usda 1.0
+(
+    defaultPrim = "ysw_e70"
+    doc = """type=z4 Surface Gripper (modular).
+
+Default D6 poses = flange=none (visual rotateZYX=(180,0,0), suction -Z in gripper_base).
+flange_type1 remapping deferred — do not rely on SG with flange_type1 yet.
+
+sg_d6_body1: collision-free / no-gravity body1 placeholder (avoids world pin).
+"""
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+over "ysw_e70"
+{
+    def Xform "sg_d6_body1" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "PhysxRigidBodyAPI"]
+    )
+    {
+        bool physics:rigidBodyEnabled = 1
+        bool physics:kinematicEnabled = 0
+        float physics:mass = 0.001
+        bool physxRigidBody:disableGravity = 1
+        float physxRigidBody:linearDamping = 10
+        float physxRigidBody:angularDamping = 10
+    }
+
+    over "gripper_base"
+    {
+        over "visual"
+        {
+            over "tip_1"
+            {
+                over "Mesh_6" (
+                    prepend apiSchemas = [
+                        "PhysicsCollisionAPI",
+                        "PhysxCollisionAPI",
+                        "PhysxConvexHullCollisionAPI",
+                        "PhysicsMeshCollisionAPI",
+                    ]
+                )
+                {
+                    uniform token physics:approximation = "convexHull"
+                    bool physics:collisionEnabled = 1
+                }
+            }
+
+            over "tip_2"
+            {
+                over "Mesh_5" (
+                    prepend apiSchemas = [
+                        "PhysicsCollisionAPI",
+                        "PhysxCollisionAPI",
+                        "PhysxConvexHullCollisionAPI",
+                        "PhysicsMeshCollisionAPI",
+                    ]
+                )
+                {
+                    uniform token physics:approximation = "convexHull"
+                    bool physics:collisionEnabled = 1
+                }
+            }
+
+            over "tip_3"
+            {
+                over "Mesh_13" (
+                    prepend apiSchemas = [
+                        "PhysicsCollisionAPI",
+                        "PhysxCollisionAPI",
+                        "PhysxConvexHullCollisionAPI",
+                        "PhysicsMeshCollisionAPI",
+                    ]
+                )
+                {
+                    uniform token physics:approximation = "convexHull"
+                    bool physics:collisionEnabled = 1
+                }
+            }
+
+            over "tip_4"
+            {
+                over "Mesh_7" (
+                    prepend apiSchemas = [
+                        "PhysicsCollisionAPI",
+                        "PhysxCollisionAPI",
+                        "PhysxConvexHullCollisionAPI",
+                        "PhysicsMeshCollisionAPI",
+                    ]
+                )
+                {
+                    uniform token physics:approximation = "convexHull"
+                    bool physics:collisionEnabled = 1
+                }
+            }
+        }
+
+        def Scope "surface_gripper_joints"
+        {
+            def PhysicsJoint "attach_tip_1" (
+                prepend apiSchemas = [
+                    "IsaacAttachmentPointAPI",
+                    "PhysicsLimitAPI:transX",
+                    "PhysicsLimitAPI:transY",
+                    "PhysicsLimitAPI:transZ",
+                    "PhysicsLimitAPI:rotX",
+                    "PhysicsLimitAPI:rotY",
+                    "PhysicsLimitAPI:rotZ",
+                ]
+            )
+            {
+                float isaac:clearanceOffset = 0.003
+                uniform token isaac:forwardAxis = "Z"
+                float limit:transX:physics:high = -1
+                float limit:transX:physics:low = 1
+                float limit:transY:physics:high = -1
+                float limit:transY:physics:low = 1
+                float limit:transZ:physics:high = -1
+                float limit:transZ:physics:low = 1
+                float limit:rotX:physics:high = -1
+                float limit:rotX:physics:low = 1
+                float limit:rotY:physics:high = -1
+                float limit:rotY:physics:low = 1
+                float limit:rotZ:physics:high = -1
+                float limit:rotZ:physics:low = 1
+                rel physics:body0 = </ysw_e70/gripper_base>
+                rel physics:body1 = </ysw_e70/sg_d6_body1>
+                uniform bool physics:excludeFromArticulation = 1
+                bool physics:jointEnabled = 1
+                point3f physics:localPos0 = (-0.018, 0.018, -0.0734)
+                quatf physics:localRot0 = (0, 1, 0, 0)
+                point3f physics:localPos1 = (-0.018, 0.018, -0.0734)
+                quatf physics:localRot1 = (0, 1, 0, 0)
+            }
+
+            def PhysicsJoint "attach_tip_2" (
+                prepend apiSchemas = [
+                    "IsaacAttachmentPointAPI",
+                    "PhysicsLimitAPI:transX",
+                    "PhysicsLimitAPI:transY",
+                    "PhysicsLimitAPI:transZ",
+                    "PhysicsLimitAPI:rotX",
+                    "PhysicsLimitAPI:rotY",
+                    "PhysicsLimitAPI:rotZ",
+                ]
+            )
+            {
+                float isaac:clearanceOffset = 0.003
+                uniform token isaac:forwardAxis = "Z"
+                float limit:transX:physics:high = -1
+                float limit:transX:physics:low = 1
+                float limit:transY:physics:high = -1
+                float limit:transY:physics:low = 1
+                float limit:transZ:physics:high = -1
+                float limit:transZ:physics:low = 1
+                float limit:rotX:physics:high = -1
+                float limit:rotX:physics:low = 1
+                float limit:rotY:physics:high = -1
+                float limit:rotY:physics:low = 1
+                float limit:rotZ:physics:high = -1
+                float limit:rotZ:physics:low = 1
+                rel physics:body0 = </ysw_e70/gripper_base>
+                rel physics:body1 = </ysw_e70/sg_d6_body1>
+                uniform bool physics:excludeFromArticulation = 1
+                bool physics:jointEnabled = 1
+                point3f physics:localPos0 = (0.018, 0.018, -0.0734)
+                quatf physics:localRot0 = (0, 1, 0, 0)
+                point3f physics:localPos1 = (0.018, 0.018, -0.0734)
+                quatf physics:localRot1 = (0, 1, 0, 0)
+            }
+
+            def PhysicsJoint "attach_tip_3" (
+                prepend apiSchemas = [
+                    "IsaacAttachmentPointAPI",
+                    "PhysicsLimitAPI:transX",
+                    "PhysicsLimitAPI:transY",
+                    "PhysicsLimitAPI:transZ",
+                    "PhysicsLimitAPI:rotX",
+                    "PhysicsLimitAPI:rotY",
+                    "PhysicsLimitAPI:rotZ",
+                ]
+            )
+            {
+                float isaac:clearanceOffset = 0.003
+                uniform token isaac:forwardAxis = "Z"
+                float limit:transX:physics:high = -1
+                float limit:transX:physics:low = 1
+                float limit:transY:physics:high = -1
+                float limit:transY:physics:low = 1
+                float limit:transZ:physics:high = -1
+                float limit:transZ:physics:low = 1
+                float limit:rotX:physics:high = -1
+                float limit:rotX:physics:low = 1
+                float limit:rotY:physics:high = -1
+                float limit:rotY:physics:low = 1
+                float limit:rotZ:physics:high = -1
+                float limit:rotZ:physics:low = 1
+                rel physics:body0 = </ysw_e70/gripper_base>
+                rel physics:body1 = </ysw_e70/sg_d6_body1>
+                uniform bool physics:excludeFromArticulation = 1
+                bool physics:jointEnabled = 1
+                point3f physics:localPos0 = (-0.018, -0.018, -0.0734)
+                quatf physics:localRot0 = (0, 1, 0, 0)
+                point3f physics:localPos1 = (-0.018, -0.018, -0.0734)
+                quatf physics:localRot1 = (0, 1, 0, 0)
+            }
+
+            def PhysicsJoint "attach_tip_4" (
+                prepend apiSchemas = [
+                    "IsaacAttachmentPointAPI",
+                    "PhysicsLimitAPI:transX",
+                    "PhysicsLimitAPI:transY",
+                    "PhysicsLimitAPI:transZ",
+                    "PhysicsLimitAPI:rotX",
+                    "PhysicsLimitAPI:rotY",
+                    "PhysicsLimitAPI:rotZ",
+                ]
+            )
+            {
+                float isaac:clearanceOffset = 0.003
+                uniform token isaac:forwardAxis = "Z"
+                float limit:transX:physics:high = -1
+                float limit:transX:physics:low = 1
+                float limit:transY:physics:high = -1
+                float limit:transY:physics:low = 1
+                float limit:transZ:physics:high = -1
+                float limit:transZ:physics:low = 1
+                float limit:rotX:physics:high = -1
+                float limit:rotX:physics:low = 1
+                float limit:rotY:physics:high = -1
+                float limit:rotY:physics:low = 1
+                float limit:rotZ:physics:high = -1
+                float limit:rotZ:physics:low = 1
+                rel physics:body0 = </ysw_e70/gripper_base>
+                rel physics:body1 = </ysw_e70/sg_d6_body1>
+                uniform bool physics:excludeFromArticulation = 1
+                bool physics:jointEnabled = 1
+                point3f physics:localPos0 = (0.018, -0.018, -0.0734)
+                quatf physics:localRot0 = (0, 1, 0, 0)
+                point3f physics:localPos1 = (0.018, -0.018, -0.0734)
+                quatf physics:localRot1 = (0, 1, 0, 0)
+            }
+        }
+    }
+}

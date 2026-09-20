@@ -1,0 +1,96 @@
+#usda 1.0
+(
+    defaultPrim = "Galaxea_G1Z"
+    doc = """Generated from Composed Stage of root layer /home/fiveages/FaSim-Isaac/robots/manipulators/Galaxea/G1Z/G1Z.usd
+"""
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+over "Galaxea_G1Z" (
+    prepend apiSchemas = ["IsaacRobotAPI"]
+)
+{
+    string isaac:description
+    string isaac:namespace
+    prepend rel isaac:physics:robotJoints = [
+        </Galaxea_G1Z/root_joint>,
+        </Galaxea_G1Z/joints/gripper_joint>,
+        </Galaxea_G1Z/joints/gripper_joint2>,
+    ]
+    prepend rel isaac:physics:robotLinks = [
+        </Galaxea_G1Z/gripper_base>,
+        </Galaxea_G1Z/finger1>,
+        </Galaxea_G1Z/finger2>,
+        </Galaxea_G1Z/gripper_base/gripper_center>,
+    ]
+
+    over "gripper_base" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+        string isaac:nameOverride
+
+        over "gripper_center" (
+            prepend apiSchemas = ["IsaacSiteAPI"]
+        )
+        {
+        }
+    }
+
+    over "finger1" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+        string isaac:nameOverride
+    }
+
+    over "joints"
+    {
+        over "gripper_joint" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+            string isaac:nameOverride
+            float[] isaac:physics:AccelerationLimit
+            int isaac:physics:index
+            float[] isaac:physics:JerkLimit
+            int isaac:physics:Rot_X:DofOffset
+            int isaac:physics:Rot_Y:DofOffset
+            int isaac:physics:Rot_Z:DofOffset
+            int isaac:physics:Tr_X:DofOffset
+            int isaac:physics:Tr_Y:DofOffset
+            int isaac:physics:Tr_Z:DofOffset
+        }
+
+        over "gripper_joint2" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+            string isaac:nameOverride
+            float[] isaac:physics:AccelerationLimit
+            int isaac:physics:index
+            float[] isaac:physics:JerkLimit
+            int isaac:physics:Rot_X:DofOffset
+            int isaac:physics:Rot_Y:DofOffset
+            int isaac:physics:Rot_Z:DofOffset
+            int isaac:physics:Tr_X:DofOffset
+            int isaac:physics:Tr_Y:DofOffset
+            int isaac:physics:Tr_Z:DofOffset
+        }
+    }
+
+    over "finger2" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+        string isaac:nameOverride
+    }
+
+    over "root_joint" (
+        prepend apiSchemas = ["IsaacJointAPI"]
+    )
+    {
+    }
+}
+

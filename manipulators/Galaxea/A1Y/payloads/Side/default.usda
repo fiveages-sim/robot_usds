@@ -1,0 +1,121 @@
+#usda 1.0
+(
+    customLayerData = {
+        dictionary cameraSettings = {
+            dictionary Front = {
+                double3 position = (5, 0, 0)
+                double radius = 5
+            }
+            dictionary Perspective = {
+                double3 position = (-0.0008027682719937963, 0.16243322167030927, 0.3062581890031967)
+                double3 target = (-0.09801941121747192, -0.09082479177319741, 0.14062346288759744)
+            }
+            dictionary Right = {
+                double3 position = (0, -5, 0)
+                double radius = 5
+            }
+            dictionary Top = {
+                double3 position = (0, 0, 5)
+                double radius = 5
+            }
+            string boundCamera = "/OmniverseKit_Persp"
+        }
+        dictionary omni_layer = {
+            string authoring_layer = "./default.usda"
+        }
+        dictionary renderSettings = {
+        }
+    }
+    defaultPrim = "Galaxea_A1Y"
+    endTimeCode = 0
+    metersPerUnit = 1
+    startTimeCode = -1
+    upAxis = "Z"
+)
+
+def "Galaxea_A1Y" (
+    variants = {
+        string Gripper = "galaxea_g1"
+    }
+    prepend variantSets = "Gripper"
+)
+{
+    over "base_link"
+    {
+    }
+
+    over "link1"
+    {
+    }
+
+    over "link2"
+    {
+    }
+
+    over "link3"
+    {
+    }
+
+    over "link4"
+    {
+    }
+
+    over "link5"
+    {
+    }
+
+    over "link6"
+    {
+    }
+
+    over "joints"
+    {
+        over "joint1"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "joint2"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "joint3"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "joint4"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "joint5"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "joint6"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+    }
+    variantSet "Gripper" = {
+        "None" {
+
+        }
+        "galaxea_g1" (
+            prepend payload = @payloads/Gripper/g1.usda@
+        ) {
+            prepend rel isaac:physics:robotJoints = </Galaxea_A1Y/Galaxea_G1>
+            prepend rel isaac:physics:robotLinks = </Galaxea_A1Y/Galaxea_G1>
+
+        }
+    }
+}

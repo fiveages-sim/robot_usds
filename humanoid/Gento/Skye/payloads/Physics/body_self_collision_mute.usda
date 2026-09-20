@@ -1,0 +1,75 @@
+#usda 1.0
+(
+    doc = """Skye NonDexHand mute — subLayer of payloads/Physics/physx.usda ONLY.
+
+PhysX: CollisionGroup + filteredGroups self-filter. Always composed with
+Physics=physx (any Arm_Left/Arm_Right mix). Same convention as W2:
+parent self-col ON; NonDexHand mutes body/chassis/arm; dexhand EE excludes
+keep fingers ungrouped (finger self-col + FilteredPairs).
+
+Keep hand prim names in sync with M6_CCS EE dexhand_self_collision.usda.
+Grippers (RG75, AG2F90, …) are intentionally not excluded.
+"""
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+over "Skye"
+{
+    def Scope "CollisionGroups"
+    {
+        def PhysicsCollisionGroup "NonDexHand" (
+            prepend apiSchemas = ["CollectionAPI:colliders"]
+        )
+        {
+            prepend rel collection:colliders:includes = [
+                </Skye/base_link>,
+                </Skye/body_link1>,
+                </Skye/body_link2>,
+                </Skye/body_link3>,
+                </Skye/head_link1>,
+                </Skye/head_link2>,
+                </Skye/Linkhou_S2/base_footprint>,
+                </Skye/Linkhou_S2/fl_steer>,
+                </Skye/Linkhou_S2/fl_wheel>,
+                </Skye/Linkhou_S2/fr_steer>,
+                </Skye/Linkhou_S2/fr_wheel>,
+                </Skye/Linkhou_S2/rl_steer>,
+                </Skye/Linkhou_S2/rl_wheel>,
+                </Skye/Linkhou_S2/rr_steer>,
+                </Skye/Linkhou_S2/rr_wheel>,
+                </Skye/Left_Arm/base_link>,
+                </Skye/Left_Arm/link1>,
+                </Skye/Left_Arm/link2>,
+                </Skye/Left_Arm/link3>,
+                </Skye/Left_Arm/link4>,
+                </Skye/Left_Arm/link5>,
+                </Skye/Left_Arm/link6>,
+                </Skye/Left_Arm/link7>,
+                </Skye/Right_Arm/base_link>,
+                </Skye/Right_Arm/link1>,
+                </Skye/Right_Arm/link2>,
+                </Skye/Right_Arm/link3>,
+                </Skye/Right_Arm/link4>,
+                </Skye/Right_Arm/link5>,
+                </Skye/Right_Arm/link6>,
+                </Skye/Right_Arm/link7>,
+            ]
+            prepend rel collection:colliders:excludes = [
+                </Skye/Left_Arm/link7/tcp/LinkerHand_o6>,
+                </Skye/Left_Arm/link7/tcp/LinkerHand_o7>,
+                </Skye/Left_Arm/link7/tcp/L6>,
+                </Skye/Left_Arm/link7/tcp/Wuji_hand2>,
+                </Skye/Left_Arm/link7/tcp/Xhand1>,
+                </Skye/Right_Arm/link7/tcp/LinkerHand_o6>,
+                </Skye/Right_Arm/link7/tcp/LinkerHand_o7>,
+                </Skye/Right_Arm/link7/tcp/L6>,
+                </Skye/Right_Arm/link7/tcp/Wuji_hand2>,
+                </Skye/Right_Arm/link7/tcp/Xhand1>,
+            ]
+            prepend rel physics:filteredGroups = [
+                </Skye/CollisionGroups/NonDexHand>,
+            ]
+        }
+    }
+}

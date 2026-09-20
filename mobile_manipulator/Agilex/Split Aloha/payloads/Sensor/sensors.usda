@@ -1,0 +1,78 @@
+#usda 1.0
+(
+    defaultPrim = "Split_Aloha"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "Split_Aloha"
+{
+    over "base"
+    {
+        over "box_link"
+        {
+            over "front_camera_link"
+            {
+                def "dabai" (
+                    prepend payload = @../../../../../sensors/orbbec/dabai_agilex.usd@
+                )
+                {
+                    quatd xformOp:orient = (0.5, 0.5, -0.5, 0.5)
+                    double xformOp:rotateX:unitsResolve = 90
+                    double3 xformOp:scale = (1, 1, 1)
+                    double3 xformOp:translate = (0, 0, 0)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale", "xformOp:rotateX:unitsResolve"]
+                }
+            }
+
+            over "lidar_link"
+            {
+                def "mid360" (
+                    prepend payload = @../../../../../sensors/mid360.usd@
+                )
+                {
+                    quatd xformOp:orient = (1, 0, 0, 0)
+                    double xformOp:rotateX:unitsResolve = 90
+                    double3 xformOp:scale = (1, 1, 1)
+                    double3 xformOp:translate = (0, 0, 0)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale", "xformOp:rotateX:unitsResolve"]
+                }
+            }
+        }
+    }
+
+    over "lifting_link"
+    {
+        over "top_camera_support"
+        {
+            over "top_camera_link"
+            {
+                def Camera "Camera"
+                {
+                    float2 clippingRange = (0.01, 10000000)
+                    float focalLength = 18.147562
+                    float focusDistance = 400
+                    float horizontalAperture = 33.84575
+                    token projection = "perspective"
+                    float verticalAperture = 18.89405
+                    quatd xformOp:orient = (0, 1, 0, 0)
+                    double3 xformOp:scale = (1, 1, 1)
+                    double3 xformOp:translate = (0, 0, 0)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                }
+
+                def "dabai" (
+                    prepend payload = @../../../../../sensors/orbbec/dabai_agilex.usd@
+                )
+                {
+                    quatd xformOp:orient = (0.5, 0.5, -0.5, 0.5)
+                    double xformOp:rotateX:unitsResolve = 90
+                    double3 xformOp:scale = (1, 1, 1)
+                    double3 xformOp:translate = (0, 0, 0)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale", "xformOp:rotateX:unitsResolve"]
+                }
+            }
+        }
+    }
+}
+

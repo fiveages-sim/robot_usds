@@ -1,0 +1,44 @@
+#usda 1.0
+(
+    defaultPrim = "Xhand1"
+    doc = """Flange=default — AG2F90 metal plate + Xhand black 3D-printed spacer.
+Palm (hand_base) sits at z=0; print mesh is already meters, disk in XY,
+thickness along Z [0.005631, 0.036131] (no Rx — unlike o6 print's baked Rx+90).
+Both pieces shift by -0.024144 so the print sits behind the palm (user-measured hand offset).
+Visual only — no extra collider / mass.
+"""
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def "Xhand1"
+{
+    over "hand_base"
+    {
+        def "ag2f90" (
+            prepend payload = @../../../../../grippers/ChangingTek/AG2F120S/payloads/Flange/flange.usd@
+        )
+        {
+            quatf xformOp:orient = (1, 0, 0, 0)
+            double xformOp:rotateX:unitsResolve = 90
+            float3 xformOp:scale = (1, 1, 1)
+            double3 xformOp:scale:unitsResolve = (0.01, 0.01, 0.01)
+            double3 xformOp:translate = (0, 0, -0.024144)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale", "xformOp:rotateX:unitsResolve", "xformOp:scale:unitsResolve"]
+        }
+
+        def Xform "print"
+        {
+            quatd xformOp:orient = (1, 0, 0, 0)
+            double3 xformOp:scale = (1, 1, 1)
+            double3 xformOp:translate = (0, 0, -0.024144)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            def "visual" (
+                prepend payload = @./flange.usd@
+            )
+            {
+            }
+        }
+    }
+}

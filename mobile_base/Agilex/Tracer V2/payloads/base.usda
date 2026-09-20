@@ -1,0 +1,472 @@
+#usda 1.0
+(
+    customLayerData = {
+        dictionary cameraSettings = {
+            dictionary Front = {
+                double3 position = (5, 0, 0)
+                double radius = 5
+            }
+            dictionary Perspective = {
+                double3 position = (0.4649331756743933, 0.779788385088484, -0.0333880760367665)
+                double3 target = (-0.1038614722106076, -0.4731946691855692, 0.08718323135104158)
+            }
+            dictionary Right = {
+                double3 position = (0, -5, 0)
+                double radius = 5
+            }
+            dictionary Top = {
+                double3 position = (0, 0, 5)
+                double radius = 5
+            }
+            string boundCamera = "/OmniverseKit_Persp"
+        }
+        dictionary omni_layer = {
+            string authoring_layer = "./Agilex_Tracer_V2.usd"
+        }
+        dictionary renderSettings = {
+        }
+    }
+    defaultPrim = "Tracer_V2"
+    doc = """Generated from Composed Stage of root layer /home/fiveages/libraries/FaSim-Isaac/robots/mobile_base/Agilex/Tracer V2/payloads/base.usd
+"""
+    metersPerUnit = 1
+    subLayers = [
+        @./robot.usda@
+    ]
+    upAxis = "Z"
+)
+
+def Xform "Tracer_V2"
+{
+    quatd xformOp:orient = (1, 0, 0, 0)
+    double3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (0, 0, 0)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+    def Xform "base_footprint"
+    {
+        quatd xformOp:orient = (1, 0, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def Xform "base_link"
+        {
+            quatd xformOp:orient = (1, 0, 0, 0)
+            double3 xformOp:scale = (1, 1, 1)
+            double3 xformOp:translate = (0, 0, 0.15000000596046448)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+        }
+
+        def Xform "visuals" (
+            instanceable = false
+        )
+        {
+            def Xform "base" (
+                instanceable = true
+                prepend references = @./instances.usda@</Instances/mesh>
+            )
+            {
+                token visibility = "inherited"
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0.150000006)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+        }
+
+        def Xform "collisions" (
+            instanceable = false
+        )
+        {
+            def Xform "base" (
+                instanceable = true
+                prepend references = @./instances.usda@</Instances/mesh_1>
+            )
+            {
+                uniform token purpose = "guide"
+                token visibility = "inherited"
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0.150000006)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+        }
+    }
+
+    def Xform "left_front_link"
+    {
+        quatd xformOp:orient = (1, 0, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0.23917999863624573, 0.19769999384880066, 0.09200000762939453)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def Xform "visuals" (
+            instanceable = false
+        )
+        {
+            def Xform "support_wheel" (
+                instanceable = true
+                prepend references = @./instances.usda@</Instances/mesh_1_1>
+            )
+            {
+                token visibility = "inherited"
+            }
+        }
+
+        def Xform "collisions"
+        {
+        }
+    }
+
+    def Scope "joints"
+    {
+    }
+
+    def Xform "left_front_wheel"
+    {
+        quatd xformOp:orient = (0.7071067690849304, 0.7071067690849304, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0.21918000280857086, 0.19769999384880066, 0.03450000658631325)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def Xform "visuals" (
+            instanceable = false
+        )
+        {
+        }
+
+        def Xform "collisions" (
+            instanceable = false
+        )
+        {
+            def Xform "mesh_0"
+            {
+                uniform token purpose = "guide"
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+                def Cylinder "cylinder" (
+                    prepend apiSchemas = ["PhysicsCollisionAPI", "MaterialBindingAPI"]
+                )
+                {
+                    uniform token axis = "Z"
+                    float3[] extent = [(-0.0375, -0.0375, -0.024), (0.0375, 0.0375, 0.024)]
+                    double height = 0.04800000041723251
+                    rel material:binding:physics = </Tracer_V2/Looks/wheel_material> (
+                        bindMaterialAs = "weakerThanDescendants"
+                    )
+                    double radius = 0.03750000149011612
+                }
+            }
+        }
+    }
+
+    def Xform "left_Link"
+    {
+        quatd xformOp:orient = (0.7071055173873901, 0.7071080803871155, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (-0.018818000331521034, 0.25369998812675476, 0.05950000882148743)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def Xform "visuals" (
+            instanceable = false
+        )
+        {
+            def Xform "drive_wheel" (
+                instanceable = true
+                prepend references = @./instances.usda@</Instances/mesh_2>
+            )
+            {
+                token visibility = "inherited"
+            }
+        }
+
+        def Xform "collisions" (
+            instanceable = false
+        )
+        {
+            def Xform "mesh_0"
+            {
+                uniform token purpose = "guide"
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, -0.004800000227987766)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+                def Cylinder "cylinder" (
+                    prepend apiSchemas = ["PhysicsCollisionAPI", "MaterialBindingAPI"]
+                )
+                {
+                    uniform token axis = "Z"
+                    float3[] extent = [(-0.0628, -0.0628, -0.02), (0.0628, 0.0628, 0.02)]
+                    double height = 0.03999999910593033
+                    rel material:binding:physics = </Tracer_V2/Looks/wheel_material> (
+                        bindMaterialAs = "weakerThanDescendants"
+                    )
+                    double radius = 0.06279999762773514
+                }
+            }
+        }
+    }
+
+    def Xform "left_rear_link"
+    {
+        quatd xformOp:orient = (1, 0, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (-0.27077001333236694, 0.1830500066280365, 0.09200000762939453)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def Xform "visuals" (
+            instanceable = false
+        )
+        {
+            def Xform "support_wheel" (
+                instanceable = true
+                prepend references = @./instances.usda@</Instances/mesh_1_1>
+            )
+            {
+                token visibility = "inherited"
+            }
+        }
+
+        def Xform "collisions"
+        {
+        }
+    }
+
+    def Xform "left_rear_wheel"
+    {
+        quatd xformOp:orient = (0.7071067690849304, 0.7071067690849304, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (-0.290770024061203, 0.1830500066280365, 0.03450000658631325)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def Xform "visuals" (
+            instanceable = false
+        )
+        {
+        }
+
+        def Xform "collisions" (
+            instanceable = false
+        )
+        {
+            def Xform "mesh_0"
+            {
+                uniform token purpose = "guide"
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+                def Cylinder "cylinder" (
+                    prepend apiSchemas = ["PhysicsCollisionAPI", "MaterialBindingAPI"]
+                )
+                {
+                    uniform token axis = "Z"
+                    float3[] extent = [(-0.0375, -0.0375, -0.024), (0.0375, 0.0375, 0.024)]
+                    double height = 0.04800000041723251
+                    rel material:binding:physics = </Tracer_V2/Looks/wheel_material> (
+                        bindMaterialAs = "weakerThanDescendants"
+                    )
+                    double radius = 0.03750000149011612
+                }
+            }
+        }
+    }
+
+    def Xform "right_front_link"
+    {
+        quatd xformOp:orient = (1, 0, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0.23917999863624573, -0.19769999384880066, 0.09200000762939453)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def Xform "visuals" (
+            instanceable = false
+        )
+        {
+            def Xform "support_wheel" (
+                instanceable = true
+                prepend references = @./instances.usda@</Instances/mesh_1_1>
+            )
+            {
+                token visibility = "inherited"
+            }
+        }
+
+        def Xform "collisions"
+        {
+        }
+    }
+
+    def Xform "right_front_wheel"
+    {
+        quatd xformOp:orient = (0.7071067690849304, 0.7071067690849304, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0.21918000280857086, -0.19769999384880066, 0.03450000658631325)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def Xform "visuals" (
+            instanceable = false
+        )
+        {
+        }
+
+        def Xform "collisions" (
+            instanceable = false
+        )
+        {
+            def Xform "mesh_0"
+            {
+                uniform token purpose = "guide"
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+                def Cylinder "cylinder" (
+                    prepend apiSchemas = ["PhysicsCollisionAPI", "MaterialBindingAPI"]
+                )
+                {
+                    uniform token axis = "Z"
+                    float3[] extent = [(-0.0375, -0.0375, -0.024), (0.0375, 0.0375, 0.024)]
+                    double height = 0.04800000041723251
+                    rel material:binding:physics = </Tracer_V2/Looks/wheel_material> (
+                        bindMaterialAs = "weakerThanDescendants"
+                    )
+                    double radius = 0.03750000149011612
+                }
+            }
+        }
+    }
+
+    def Xform "right_link"
+    {
+        quatd xformOp:orient = (0.7071055173873901, -0.7071080803871155, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (-0.018818000331521034, -0.25369998812675476, 0.05950000882148743)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def Xform "visuals" (
+            instanceable = false
+        )
+        {
+            def Xform "drive_wheel" (
+                instanceable = true
+                prepend references = @./instances.usda@</Instances/mesh_2>
+            )
+            {
+                token visibility = "inherited"
+            }
+        }
+
+        def Xform "collisions" (
+            instanceable = false
+        )
+        {
+            def Xform "mesh_0"
+            {
+                uniform token purpose = "guide"
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, -0.004800000227987766)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+                def Cylinder "cylinder" (
+                    prepend apiSchemas = ["PhysicsCollisionAPI", "MaterialBindingAPI"]
+                )
+                {
+                    uniform token axis = "Z"
+                    float3[] extent = [(-0.0628, -0.0628, -0.02), (0.0628, 0.0628, 0.02)]
+                    double height = 0.03999999910593033
+                    rel material:binding:physics = </Tracer_V2/Looks/wheel_material> (
+                        bindMaterialAs = "weakerThanDescendants"
+                    )
+                    double radius = 0.06279999762773514
+                }
+            }
+        }
+    }
+
+    def Xform "right_rear_link"
+    {
+        quatd xformOp:orient = (1, 0, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (-0.2708199918270111, -0.18299999833106995, 0.09200000762939453)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def Xform "visuals" (
+            instanceable = false
+        )
+        {
+            def Xform "support_wheel" (
+                instanceable = true
+                prepend references = @./instances.usda@</Instances/mesh_1_1>
+            )
+            {
+                token visibility = "inherited"
+            }
+        }
+
+        def Xform "collisions"
+        {
+        }
+    }
+
+    def Xform "right_rear_wheel"
+    {
+        quatd xformOp:orient = (0.7071067690849304, 0.7071067690849304, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (-0.29082000255584717, -0.18299999833106995, 0.03450000658631325)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def Xform "visuals" (
+            instanceable = false
+        )
+        {
+        }
+
+        def Xform "collisions" (
+            instanceable = false
+        )
+        {
+            def Xform "mesh_0"
+            {
+                uniform token purpose = "guide"
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+                def Cylinder "cylinder" (
+                    prepend apiSchemas = ["PhysicsCollisionAPI", "MaterialBindingAPI"]
+                )
+                {
+                    uniform token axis = "Z"
+                    float3[] extent = [(-0.0375, -0.0375, -0.024), (0.0375, 0.0375, 0.024)]
+                    double height = 0.04800000041723251
+                    rel material:binding:physics = </Tracer_V2/Looks/wheel_material> (
+                        bindMaterialAs = "weakerThanDescendants"
+                    )
+                    double radius = 0.03750000149011612
+                }
+            }
+        }
+    }
+
+    def Scope "Looks"
+    {
+        def Material "wheel_material"
+        {
+        }
+    }
+
+    def Scope "VisualMaterials"
+    {
+    }
+}
+

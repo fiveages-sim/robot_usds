@@ -1,0 +1,244 @@
+#usda 1.0
+(
+    defaultPrim = "Ranger_Mini"
+    metersPerUnit = 1
+    subLayers = [
+        @./physics.usda@
+    ]
+    upAxis = "Z"
+)
+
+over "Ranger_Mini" (
+    prepend apiSchemas = ["NewtonArticulationRootAPI"]
+)
+{
+    over "joints"
+    {
+        over "fl_steering_joint" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = None
+            float drive:angular:physics:maxForce = None
+            float drive:angular:physics:stiffness = None
+            float drive:angular:physics:targetPosition = None
+            float drive:angular:physics:targetVelocity = None
+            uniform token drive:angular:physics:type = None
+            uniform double mjc:armature = 0.01
+            uniform double mjc:damping = 1.0
+        }
+
+        over "fr_steering_joint" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = None
+            float drive:angular:physics:maxForce = None
+            float drive:angular:physics:stiffness = None
+            float drive:angular:physics:targetPosition = None
+            float drive:angular:physics:targetVelocity = None
+            uniform token drive:angular:physics:type = None
+            uniform double mjc:armature = 0.01
+            uniform double mjc:damping = 1.0
+        }
+
+        over "rl_steering_joint" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = None
+            float drive:angular:physics:maxForce = None
+            float drive:angular:physics:stiffness = None
+            float drive:angular:physics:targetPosition = None
+            float drive:angular:physics:targetVelocity = None
+            uniform token drive:angular:physics:type = None
+            uniform double mjc:armature = 0.01
+            uniform double mjc:damping = 1.0
+        }
+
+        over "rr_steering_joint" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = None
+            float drive:angular:physics:maxForce = None
+            float drive:angular:physics:stiffness = None
+            float drive:angular:physics:targetPosition = None
+            float drive:angular:physics:targetVelocity = None
+            uniform token drive:angular:physics:type = None
+            uniform double mjc:armature = 0.01
+            uniform double mjc:damping = 1.0
+        }
+
+        over "fl_wheel" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = None
+            float drive:angular:physics:maxForce = None
+            float drive:angular:physics:stiffness = None
+            float drive:angular:physics:targetPosition = None
+            float drive:angular:physics:targetVelocity = None
+            uniform token drive:angular:physics:type = None
+            uniform double mjc:armature = 0.01
+            uniform double mjc:damping = 0.1
+        }
+
+        over "fr_wheel" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = None
+            float drive:angular:physics:maxForce = None
+            float drive:angular:physics:stiffness = None
+            float drive:angular:physics:targetPosition = None
+            float drive:angular:physics:targetVelocity = None
+            uniform token drive:angular:physics:type = None
+            uniform double mjc:armature = 0.01
+            uniform double mjc:damping = 0.1
+        }
+
+        over "rl_wheel" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = None
+            float drive:angular:physics:maxForce = None
+            float drive:angular:physics:stiffness = None
+            float drive:angular:physics:targetPosition = None
+            float drive:angular:physics:targetVelocity = None
+            uniform token drive:angular:physics:type = None
+            uniform double mjc:armature = 0.01
+            uniform double mjc:damping = 0.1
+        }
+
+        over "rr_wheel" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = None
+            float drive:angular:physics:maxForce = None
+            float drive:angular:physics:stiffness = None
+            float drive:angular:physics:targetPosition = None
+            float drive:angular:physics:targetVelocity = None
+            uniform token drive:angular:physics:type = None
+            uniform double mjc:armature = 0.01
+            uniform double mjc:damping = 0.1
+        }
+    }
+
+    def Scope "actuators"
+    {
+        def MjcActuator "fl_steering_joint"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [1500, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -1500, -300, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -120
+            uniform double mjc:forceRange:max = 120
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = -180
+            uniform double mjc:ctrlRange:max = 180
+            rel mjc:target = </Ranger_Mini/joints/fl_steering_joint>
+        }
+
+        def MjcActuator "fr_steering_joint"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [1500, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -1500, -300, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -120
+            uniform double mjc:forceRange:max = 120
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = -180
+            uniform double mjc:ctrlRange:max = 180
+            rel mjc:target = </Ranger_Mini/joints/fr_steering_joint>
+        }
+
+        def MjcActuator "rl_steering_joint"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [1500, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -1500, -300, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -120
+            uniform double mjc:forceRange:max = 120
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = -180
+            uniform double mjc:ctrlRange:max = 180
+            rel mjc:target = </Ranger_Mini/joints/rl_steering_joint>
+        }
+
+        def MjcActuator "rr_steering_joint"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [1500, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -1500, -300, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -120
+            uniform double mjc:forceRange:max = 120
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = -180
+            uniform double mjc:ctrlRange:max = 180
+            rel mjc:target = </Ranger_Mini/joints/rr_steering_joint>
+        }
+
+        def MjcActuator "fl_wheel"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, 0, -1, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "false"
+            uniform token mjc:ctrlLimited = "false"
+            rel mjc:target = </Ranger_Mini/joints/fl_wheel>
+        }
+
+        def MjcActuator "fr_wheel"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, 0, -1, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "false"
+            uniform token mjc:ctrlLimited = "false"
+            rel mjc:target = </Ranger_Mini/joints/fr_wheel>
+        }
+
+        def MjcActuator "rl_wheel"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, 0, -1, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "false"
+            uniform token mjc:ctrlLimited = "false"
+            rel mjc:target = </Ranger_Mini/joints/rl_wheel>
+        }
+
+        def MjcActuator "rr_wheel"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, 0, -1, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "false"
+            uniform token mjc:ctrlLimited = "false"
+            rel mjc:target = </Ranger_Mini/joints/rr_wheel>
+        }
+    }
+}

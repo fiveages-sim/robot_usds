@@ -1,0 +1,149 @@
+#usda 1.0
+(
+    defaultPrim = "Q1"
+    doc = """Generated from Composed Stage of root layer /home/fiveages/libraries/FaSim-Isaac/robots/mobile_base/Linkhou/Q1/Q1.usd
+
+
+Generated from Composed Stage of root layer /home/fiveages/libraries/FaSim-Isaac/robots/mobile_base/Linkhou/Q1/payloads/base.usd
+"""
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+over "Q1"
+{
+    over "base_footprint" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "PhysicsArticulationRootAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.01206301, -0.07803153, 0.12495858)
+        float3 physics:diagonalInertia = (0.6652292, 0.6013996, 1.1281024)
+        float physics:mass = 87.34483
+        quatf physics:principalAxes = (0.9998549, -0.000906089, 0.017008053, 0.00042822238)
+
+        over "collisions"
+        {
+            over "mesh_1"
+            {
+                over "sphere" (
+                    prepend apiSchemas = ["PhysicsMaterialAPI"]
+                )
+                {
+                    float physics:dynamicFriction = 0
+                    float physics:restitution = 0
+                    float physics:staticFriction = 0
+                }
+            }
+
+            over "mesh_2"
+            {
+                over "sphere" (
+                    prepend apiSchemas = ["PhysicsMaterialAPI"]
+                )
+                {
+                    float physics:dynamicFriction = 0
+                    float physics:restitution = 0
+                    float physics:staticFriction = 0
+                }
+            }
+
+            over "mesh_3"
+            {
+                over "sphere" (
+                    prepend apiSchemas = ["PhysicsMaterialAPI"]
+                )
+                {
+                    float physics:dynamicFriction = 0
+                    float physics:restitution = 0
+                    float physics:staticFriction = 0
+                }
+            }
+
+            over "mesh_4"
+            {
+                over "sphere" (
+                    prepend apiSchemas = ["PhysicsMaterialAPI"]
+                )
+                {
+                    float physics:dynamicFriction = 0
+                    float physics:restitution = 0
+                    float physics:staticFriction = 0
+                }
+            }
+        }
+    }
+
+    over "left_wheel" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (-3.330669e-15, -0.016854616, 6.661338e-15)
+        float3 physics:diagonalInertia = (0.006064188, 0.011459765, 0.0060628485)
+        float physics:mass = 2.9041686
+        quatf physics:principalAxes = (1, 0, 0.00012941637, 0)
+    }
+
+    over "joints"
+    {
+        def PhysicsRevoluteJoint "chassis_left_joint" (
+            prepend apiSchemas = ["PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = 100000
+            float drive:angular:physics:maxForce = 100
+            float drive:angular:physics:stiffness = 0
+            float drive:angular:physics:targetVelocity = 0
+            uniform token drive:angular:physics:type = "force"
+            uniform token physics:axis = "Y"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Q1/base_footprint>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Q1/left_wheel>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.3479977
+            point3f physics:localPos0 = (0.0133489985, 0.20625, 0.04498498)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -inf
+            float physics:upperLimit = inf
+        }
+
+        def PhysicsRevoluteJoint "chassis_right_joint" (
+            prepend apiSchemas = ["PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = 100000
+            float drive:angular:physics:maxForce = 100
+            float drive:angular:physics:stiffness = 0
+            float drive:angular:physics:targetVelocity = 0
+            uniform token drive:angular:physics:type = "force"
+            uniform token physics:axis = "Y"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Q1/base_footprint>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Q1/right_wheel>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.33254254
+            point3f physics:localPos0 = (0.0133489985, -0.20625, 0.04498498)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -inf
+            float physics:upperLimit = inf
+        }
+    }
+
+    over "right_wheel" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (4.2188475e-15, 0.016854616, 5.9952043e-15)
+        float3 physics:diagonalInertia = (0.0060641887, 0.011459765, 0.0060628485)
+        float physics:mass = 2.9041686
+        quatf physics:principalAxes = (0.9988501, 0, 0.047942393, 0)
+    }
+}
+

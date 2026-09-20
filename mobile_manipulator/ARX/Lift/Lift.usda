@@ -1,0 +1,267 @@
+#usda 1.0
+(
+    defaultPrim = "ARX_Lift"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "ARX_Lift" (
+    prepend references = @./payloads/base.usda@
+    variants = {
+        string Arm_Left = "X5"
+        string Arm_Right = "X5"
+        string Physics = "physx"
+        string ROS = "none"
+        string Robot = "robot"
+        string Sensor = "sensors"
+        string Wheel = "Angellun_OW"
+        string Wheel2 = "Angellun_OW"
+        string Wheel3 = "Angellun_OW"
+    }
+    prepend variantSets = ["Physics", "Wheel", "Wheel2", "Wheel3", "Arm_Left", "Arm_Right", "ROS"]
+    append variantSets = ["Sensor", "Robot"]
+)
+{
+    variantSet "Physics" = {
+        "mujoco" (
+            prepend payload = @./payloads/Physics/mujoco.usda@
+        ) {
+            over "lift_link"
+            {
+                over "Arm_Left" (
+                    variants = {
+                        string Physics = "mujoco"
+                    }
+                )
+                {
+                    over "Gripper_2023" (
+                        variants = {
+                            string Physics = "mujoco"
+                        }
+                    )
+                    {
+                    }
+                }
+
+                over "Arm_Right" (
+                    variants = {
+                        string Physics = "mujoco"
+                    }
+                )
+                {
+                    over "Gripper_2023" (
+                        variants = {
+                            string Physics = "mujoco"
+                        }
+                    )
+                    {
+                    }
+                }
+            }
+        }
+        "none" (
+            prepend payload = @./payloads/Physics/none.usda@
+        ) {
+            over "lift_link"
+            {
+                over "Arm_Left" (
+                    variants = {
+                        string Physics = "none"
+                    }
+                )
+                {
+                    over "Gripper_2023" (
+                        variants = {
+                            string Physics = "none"
+                        }
+                    )
+                    {
+                    }
+                }
+
+                over "Arm_Right" (
+                    variants = {
+                        string Physics = "none"
+                    }
+                )
+                {
+                    over "Gripper_2023" (
+                        variants = {
+                            string Physics = "none"
+                        }
+                    )
+                    {
+                    }
+                }
+            }
+        }
+        "physics" (
+            prepend payload = @./payloads/Physics/physics.usda@
+        ) {
+            over "lift_link"
+            {
+                over "Arm_Left" (
+                    variants = {
+                        string Physics = "physics"
+                    }
+                )
+                {
+                    over "Gripper_2023" (
+                        variants = {
+                            string Physics = "physics"
+                        }
+                    )
+                    {
+                    }
+                }
+
+                over "Arm_Right" (
+                    variants = {
+                        string Physics = "physics"
+                    }
+                )
+                {
+                    over "Gripper_2023" (
+                        variants = {
+                            string Physics = "physics"
+                        }
+                    )
+                    {
+                    }
+                }
+            }
+        }
+        "physx" (
+            prepend payload = @./payloads/Physics/physx.usda@
+        ) {
+            over "lift_link"
+            {
+                over "Arm_Left" (
+                    variants = {
+                        string Physics = "physx"
+                    }
+                )
+                {
+                    over "Gripper_2023" (
+                        variants = {
+                            string Physics = "physx"
+                        }
+                    )
+                    {
+                    }
+                }
+
+                over "Arm_Right" (
+                    variants = {
+                        string Physics = "physx"
+                    }
+                )
+                {
+                    over "Gripper_2023" (
+                        variants = {
+                            string Physics = "physx"
+                        }
+                    )
+                    {
+                    }
+                }
+            }
+        }
+    }
+    variantSet "Wheel" = {
+        "Angellun_OW" (
+            prepend payload = @./payloads/Wheel/angellun_8.usda@
+        ) {
+        }
+        "None" (
+            delete payload = @./payloads/Wheel/angellun_8.usda@
+        ) {
+        }
+    }
+    variantSet "Wheel2" = {
+        "Angellun_OW" (
+            prepend payload = @./payloads/Wheel2/angellun_8.usda@
+        ) {
+        }
+        "None" (
+            delete payload = @./payloads/Wheel2/angellun_8.usda@
+        ) {
+        }
+    }
+    variantSet "Wheel3" = {
+        "Angellun_OW" (
+            prepend payload = @./payloads/Wheel3/angellun_8.usda@
+        ) {
+        }
+        "None" (
+            delete payload = @./payloads/Wheel3/angellun_8.usda@
+        ) {
+        }
+    }
+    variantSet "Arm_Left" = {
+        "X5" (
+            delete payload = @./payloads/Arm_Left/R5_Arm.usda@
+            prepend payload = @./payloads/Arm_Left/X5_Arm.usda@
+        ) {
+        }
+        "R5" (
+            delete payload = @./payloads/Arm_Left/X5_Arm.usda@
+            prepend payload = @./payloads/Arm_Left/R5_Arm.usda@
+        ) {
+        }
+        "None" (
+            delete payload = [
+                @./payloads/Arm_Left/X5_Arm.usda@,
+                @./payloads/Arm_Left/R5_Arm.usda@
+            ]
+        ) {
+        }
+    }
+    variantSet "Arm_Right" = {
+        "X5" (
+            delete payload = @./payloads/Arm_Right/R5_Arm.usda@
+            prepend payload = @./payloads/Arm_Right/X5_Arm.usda@
+        ) {
+        }
+        "R5" (
+            delete payload = @./payloads/Arm_Right/X5_Arm.usda@
+            prepend payload = @./payloads/Arm_Right/R5_Arm.usda@
+        ) {
+        }
+        "None" (
+            delete payload = [
+                @./payloads/Arm_Right/X5_Arm.usda@,
+                @./payloads/Arm_Right/R5_Arm.usda@
+            ]
+        ) {
+        }
+    }
+    variantSet "ROS" = {
+        "Enable" (
+            prepend payload = @./payloads/ROS/ros2.usda@
+        ) {
+        }
+        "none" {
+        }
+    }
+    variantSet "Sensor" = {
+        "none" (
+            prepend payload = @./payloads/Sensor/none.usda@
+        ) {
+        }
+        "sensors" (
+            prepend payload = @./payloads/Sensor/sensors.usda@
+        ) {
+        }
+    }
+    variantSet "Robot" = {
+        "none" (
+            prepend payload = @./payloads/Robot/none.usda@
+        ) {
+        }
+        "robot" (
+            prepend payload = @./payloads/Robot/robot.usda@
+        ) {
+        }
+    }
+}

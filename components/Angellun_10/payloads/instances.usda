@@ -1,0 +1,111 @@
+#usda 1.0
+(
+    customLayerData = {
+        dictionary cameraSettings = {
+            dictionary Front = {
+                double3 position = (5, 0, 0)
+                double radius = 5
+            }
+            dictionary Perspective = {
+                double3 position = (0.3814816376243953, 0.40852313434127063, 0.3180796411381741)
+                double3 target = (-0.005495222481497752, -0.08890452369707164, -0.04831826588967941)
+            }
+            dictionary Right = {
+                double3 position = (0, -5, 0)
+                double radius = 5
+            }
+            dictionary Top = {
+                double3 position = (0, 0, 5)
+                double radius = 5
+            }
+            string boundCamera = "/OmniverseKit_Persp"
+        }
+        dictionary omni_layer = {
+            string authoring_layer = "./OmniWheel_10.usd"
+        }
+        dictionary renderSettings = {
+        }
+    }
+    doc = """Generated from Composed Stage of root layer /home/fiveages/Documents/FaSim-Isaac/robots/components/Angellun_10/OmniWheel_10.usd
+
+
+Generated from Composed Stage of root layer /home/fiveages/Documents/FaSim-Isaac/robots/components/Angellun_10/Angellun_10/payloads/base.usd
+"""
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Scope "Instances"
+{
+    def Xform "mesh" (
+        prepend references = @./geometries.usd@</Geometries/mesh>
+    )
+    {
+        over "mesh"
+        {
+            over "wheel_grey1" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh/VisualMaterials/wheel_grey1>
+            }
+
+            over "wheel_grey_2" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh/VisualMaterials/wheel_grey_2>
+            }
+
+            over "silver_003" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh/VisualMaterials/silver_003>
+            }
+
+            over "black_003" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh/VisualMaterials/black_003>
+            }
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "wheel_grey1" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/wheel_grey1>
+            )
+            {
+            }
+
+            def Material "wheel_grey_2" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/wheel_grey_2>
+            )
+            {
+            }
+
+            def Material "silver_003" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/silver_003>
+            )
+            {
+            }
+
+            def Material "black_003" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/black_003>
+            )
+            {
+            }
+        }
+    }
+}
+

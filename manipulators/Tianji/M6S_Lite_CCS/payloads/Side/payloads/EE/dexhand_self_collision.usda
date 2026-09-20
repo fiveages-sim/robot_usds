@@ -1,0 +1,39 @@
+#usda 1.0
+(
+    doc = """DexHand EE — carve dexterous-hand colliders out of NonDexHand (PhysX).
+
+Parent articulation enables self-collision on BOTH rails:
+  PhysX:  physxArticulation:enabledSelfCollisions = 1
+  Newton: newton:selfCollisionEnabled = 1
+
+PhysX mute: PhysicsCollisionGroup "NonDexHand" + filteredGroups self-filter
+  M6S: payloads/Physics/arm_self_collision_mute.usda   (physx subLayer)
+
+Newton mute: collisionEnabled=0 on NonDexHand SHAPES
+  M6S: arm_self_collision_mute_newton.usda
+       → append references on M6S_Lite_CCS Physics=mujoco
+
+link7 PhysX collection includes EXPAND into EE children. Without excludes,
+finger colliders join NonDexHand, self-filter, and penetrate.
+This EE sublayer ONLY prepends collection:colliders:excludes for dexhand roots
+under tcp (PhysX path). Hands stay ungrouped → finger self-col + FilteredPairs.
+"""
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+over "M6S_Lite_CCS"
+{
+    over "CollisionGroups"
+    {
+        over "NonDexHand"
+        {
+            prepend rel collection:colliders:excludes = [
+                </M6S_Lite_CCS/link7/tcp/LinkerHand_o6>,
+                </M6S_Lite_CCS/link7/tcp/LinkerHand_o7>,
+                </M6S_Lite_CCS/link7/tcp/L6>,
+                </M6S_Lite_CCS/link7/tcp/Xhand1>,
+            ]
+        }
+    }
+}

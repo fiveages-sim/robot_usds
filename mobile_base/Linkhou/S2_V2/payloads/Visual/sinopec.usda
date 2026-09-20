@@ -1,0 +1,118 @@
+#usda 1.0
+(
+    defaultPrim = "S2_V2"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def "S2_V2"
+{
+    over "base_footprint"
+    {
+        over "base_link"
+        {
+            def "shell_default" (
+                prepend payload = @./shell_default.usd@
+            )
+            {
+                quatf xformOp:orient = (6.123234e-17, 4.3297803e-17, -0.70710677, 0.70710677)
+                double xformOp:rotateX:unitsResolve = 90
+                float3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale", "xformOp:rotateX:unitsResolve"]
+
+                over "Looks"
+                {
+                    over "color"
+                    {
+                        over "color"
+                        {
+                            color3f inputs:base_color_factor = (0.8, 0, 0)
+                        }
+                    }
+
+                    over "color_inner"
+                    {
+                        over "color_inner"
+                        {
+                            color3f inputs:base_color_factor = (0.8, 0, 0)
+                        }
+                    }
+
+                    def Material "color_back"
+                    {
+                        prepend token outputs:mdl:displacement.connect = </S2_V2/base_footprint/base_link/shell_default/Looks/color_back/color_back.outputs:out>
+                        prepend token outputs:mdl:surface.connect = </S2_V2/base_footprint/base_link/shell_default/Looks/color_back/color_back.outputs:out>
+                        prepend token outputs:mdl:volume.connect = </S2_V2/base_footprint/base_link/shell_default/Looks/color_back/color_back.outputs:out>
+
+                        def Shader "color_back" (
+                            apiSchemas = ["NodeDefAPI"]
+                        )
+                        {
+                            token info:implementationSource = "sourceAsset"
+                            asset info:mdl:sourceAsset = @../../Textures/pbr.mdl@
+                            token info:mdl:sourceAsset:subIdentifier = "gltf_material"
+                            float inputs:base_alpha = 1
+                            color3f inputs:base_color_factor = (1, 1, 1)
+                            float inputs:metallic_factor = 0
+                            float inputs:roughness_factor = 0.18
+                            token outputs:out
+                        }
+                    }
+                }
+
+                over "back_shell"
+                {
+                    over "YD_link_356"
+                    {
+                        over "color" (
+                            prepend apiSchemas = ["MaterialBindingAPI"]
+                        )
+                        {
+                            rel material:binding = </S2_V2/base_footprint/base_link/shell_default/Looks/color_back> (
+                                bindMaterialAs = "strongerThanDescendants"
+                            )
+                        }
+                    }
+                }
+            }
+
+            over "chassis_base"
+            {
+                over "chassis_left_battery"
+                {
+                    over "battery"
+                    {
+                        over "Looks"
+                        {
+                            over "color_battery"
+                            {
+                                over "color_battery"
+                                {
+                                    color3f inputs:base_color_factor = (1, 0.9999928, 0.99999)
+                                }
+                            }
+                        }
+                    }
+                }
+
+                over "chassis_right_battery"
+                {
+                    over "battery"
+                    {
+                        over "Looks"
+                        {
+                            over "color_battery"
+                            {
+                                over "color_battery"
+                                {
+                                    color3f inputs:base_color_factor = (1, 0.9999929, 0.99999)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

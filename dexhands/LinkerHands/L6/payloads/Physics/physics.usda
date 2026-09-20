@@ -1,0 +1,496 @@
+#usda 1.0
+(
+    defaultPrim = "L6"
+    doc = "L6 physics — FilteredPairs keep thumb_distal↔finger tips. Drive lives on Side/entry (Xhand1 close speed)."
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+over "L6"
+{
+    over "flange" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "PhysicsFilteredPairsAPI", "PhysxRigidBodyAPI"]
+    )
+    {
+        float physxRigidBody:maxDepenetrationVelocity = 2.0
+        rel physics:filteredPairs = [
+            </L6/index_proximal>,
+            </L6/middle_proximal>,
+            </L6/ring_proximal>,
+            </L6/pinky_proximal>,
+            </L6/index_distal>,
+            </L6/middle_distal>,
+            </L6/ring_distal>,
+            </L6/pinky_distal>,
+            </L6/thumb_metacarpals_base1>,
+            </L6/thumb_metacarpals>,
+            </L6/thumb_distal>
+        ]
+        point3f physics:centerOfMass = (0.006461403, -0.011281044, 0.09053071)
+        float3 physics:diagonalInertia = (9.18023070e-04, 0.00109004, 2.04821270e-04)
+        float physics:mass = 0.48295903
+        quatf physics:principalAxes = (0.9853697, -0.11398501, 0.025329713, 0.12414718)
+    }
+    over "index_proximal" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "PhysicsFilteredPairsAPI", "PhysxRigidBodyAPI"]
+    )
+    {
+        float physxRigidBody:maxDepenetrationVelocity = 2.0
+        rel physics:filteredPairs = [
+            </L6/index_distal>,
+            </L6/middle_proximal>,
+            </L6/middle_distal>
+        ]
+        point3f physics:centerOfMass = (0.0071296142, 0.015931632, -0.03139046)
+        float3 physics:diagonalInertia = (7.34616272e-07, 7.27029947e-07, 2.02009911e-07)
+        float physics:mass = 0.00674448
+        quatf physics:principalAxes = (0.98204815, -0.13973993, 0.028570851, 0.12344169)
+    }
+    over "index_distal" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "PhysicsFilteredPairsAPI", "PhysxRigidBodyAPI"]
+    )
+    {
+        float physxRigidBody:maxDepenetrationVelocity = 2.0
+        bool physxRigidBody:enableCCD = 1
+        rel physics:filteredPairs = [
+            </L6/index_proximal>
+        ]
+        point3f physics:centerOfMass = (0.006192129, 0.015931632, -0.05939262)
+        float3 physics:diagonalInertia = (9.97895842e-07, 9.73218949e-07, 1.91924364e-07)
+        float physics:mass = 0.01004183
+        quatf physics:principalAxes = (0.98204815, -0.13973993, 0.028570851, 0.12344169)
+    }
+    over "middle_proximal" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "PhysicsFilteredPairsAPI", "PhysxRigidBodyAPI"]
+    )
+    {
+        float physxRigidBody:maxDepenetrationVelocity = 2.0
+        rel physics:filteredPairs = [
+            </L6/middle_distal>,
+            </L6/index_proximal>,
+            </L6/index_distal>,
+            </L6/ring_proximal>,
+            </L6/ring_distal>
+        ]
+        point3f physics:centerOfMass = (0.0071296142, -0.00251315, -0.03651102)
+        float3 physics:diagonalInertia = (7.34617124e-07, 7.27030906e-07, 2.02011286e-07)
+        float physics:mass = 0.00674455
+        quatf physics:principalAxes = (0.9853697, -0.11398501, 0.025329713, 0.12414718)
+    }
+    over "middle_distal" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "PhysicsFilteredPairsAPI", "PhysxRigidBodyAPI"]
+    )
+    {
+        float physxRigidBody:maxDepenetrationVelocity = 2.0
+        bool physxRigidBody:enableCCD = 1
+        rel physics:filteredPairs = [
+            </L6/middle_proximal>
+        ]
+        point3f physics:centerOfMass = (0.006192129, -0.00251315, -0.06451318)
+        float3 physics:diagonalInertia = (9.97899251e-07, 9.73222733e-07, 1.91925882e-07)
+        float physics:mass = 0.01004188
+        quatf physics:principalAxes = (0.9853697, -0.11398501, 0.025329713, 0.12414718)
+    }
+    over "pinky_proximal" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "PhysicsFilteredPairsAPI", "PhysxRigidBodyAPI"]
+    )
+    {
+        float physxRigidBody:maxDepenetrationVelocity = 2.0
+        rel physics:filteredPairs = [
+            </L6/pinky_distal>,
+            </L6/ring_proximal>,
+            </L6/ring_distal>
+        ]
+        point3f physics:centerOfMass = (0.007139925, -0.033744637, -0.031016385)
+        float3 physics:diagonalInertia = (7.34620161e-07, 7.27034050e-07, 2.02016464e-07)
+        float physics:mass = 0.00674478
+        quatf physics:principalAxes = (0.9894038, -0.07089533, 0.019890387, 0.12513398)
+    }
+    over "pinky_distal" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "PhysicsFilteredPairsAPI", "PhysxRigidBodyAPI"]
+    )
+    {
+        float physxRigidBody:maxDepenetrationVelocity = 2.0
+        bool physxRigidBody:enableCCD = 1
+        rel physics:filteredPairs = [
+            </L6/pinky_proximal>
+        ]
+        point3f physics:centerOfMass = (0.006202693, -0.038672358, -0.059018556)
+        float3 physics:diagonalInertia = (9.97888703e-07, 9.73211144e-07, 1.91920954e-07)
+        float physics:mass = 0.01004175
+        quatf physics:principalAxes = (0.9894038, -0.07089533, 0.019890387, 0.12513398)
+    }
+    over "ring_proximal" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "PhysicsFilteredPairsAPI", "PhysxRigidBodyAPI"]
+    )
+    {
+        float physxRigidBody:maxDepenetrationVelocity = 2.0
+        rel physics:filteredPairs = [
+            </L6/ring_distal>,
+            </L6/middle_proximal>,
+            </L6/middle_distal>,
+            </L6/pinky_proximal>,
+            </L6/pinky_distal>
+        ]
+        point3f physics:centerOfMass = (0.0071350858, -0.020451728, -0.032627963)
+        float3 physics:diagonalInertia = (7.34618722e-07, 7.27032664e-07, 2.02014163e-07)
+        float physics:mass = 0.00674468
+        quatf physics:principalAxes = (0.9880158, -0.08815199, 0.022071244, 0.124767736)
+    }
+    over "ring_distal" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "PhysicsFilteredPairsAPI", "PhysxRigidBodyAPI"]
+    )
+    {
+        float physxRigidBody:maxDepenetrationVelocity = 2.0
+        bool physxRigidBody:enableCCD = 1
+        rel physics:filteredPairs = [
+            </L6/ring_proximal>
+        ]
+        point3f physics:centerOfMass = (0.0061978535, -0.020451728, -0.060630135)
+        float3 physics:diagonalInertia = (9.97891845e-07, 9.73214874e-07, 1.91922712e-07)
+        float physics:mass = 0.01004179
+        quatf physics:principalAxes = (0.9880158, -0.08815199, 0.022071244, 0.124767736)
+    }
+    over "thumb_metacarpals_base1" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "PhysicsFilteredPairsAPI", "PhysxRigidBodyAPI"]
+    )
+    {
+        float physxRigidBody:maxDepenetrationVelocity = 2.0
+        rel physics:filteredPairs = [
+            </L6/thumb_metacarpals>,
+            </L6/index_proximal>,
+            </L6/middle_proximal>
+        ]
+        point3f physics:centerOfMass = (-0.0013518612, 0.016378084, 0.06444937)
+        float3 physics:diagonalInertia = (1.47970218e-07, 1.22951598e-07, 7.47173654e-08)
+        float physics:mass = 0.00369194
+        quatf physics:principalAxes = (0.9872089, -0.09677065, 0.02315919, 0.12457045)
+    }
+    over "thumb_metacarpals" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "PhysicsFilteredPairsAPI", "PhysxRigidBodyAPI"]
+    )
+    {
+        float physxRigidBody:maxDepenetrationVelocity = 2.0
+        rel physics:filteredPairs = [
+            </L6/thumb_metacarpals_base1>,
+            </L6/thumb_distal>,
+            </L6/index_proximal>
+        ]
+        point3f physics:centerOfMass = (0.0042615444, 0.06427776, -0.011326157)
+        float3 physics:diagonalInertia = (3.09288457e-06, 4.70876154e-06, 2.33965946e-06)
+        float physics:mass = 0.03286839
+        quatf physics:principalAxes = (0.9960423, 0.06288251, -0.042066433, -0.046647105)
+    }
+    over "thumb_distal" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "PhysicsFilteredPairsAPI", "PhysxRigidBodyAPI"]
+    )
+    {
+        float physxRigidBody:maxDepenetrationVelocity = 2.0
+        bool physxRigidBody:enableCCD = 1
+        rel physics:filteredPairs = [
+            </L6/thumb_metacarpals>
+        ]
+        point3f physics:centerOfMass = (0.0042615444, 0.023266563, -0.10809365)
+        float3 physics:diagonalInertia = (3.49181073e-06, 3.26306273e-06, 7.25295948e-07)
+        float physics:mass = 0.02033490
+        quatf physics:principalAxes = (0.9922117, -0.10756641, -0.049392153, -0.038806554)
+    }
+
+    over "joints"
+    {
+        def PhysicsRevoluteJoint "index_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular", "PhysxJointAPI"]
+        )
+        {
+            float drive:angular:physics:damping = 0.18
+            float drive:angular:physics:maxForce = 80
+            float drive:angular:physics:stiffness = 1.2
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:jointFriction = 0.5
+            float physxJoint:armature = 0.001
+            uniform token physics:axis = "Y"
+            custom rel physics:body0
+            prepend rel physics:body0 = </L6/flange>
+            custom rel physics:body1
+            prepend rel physics:body1 = </L6/index_proximal>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 4.34395249e-05
+            point3f physics:localPos0 = (-0.00066821, -0.028834, 0.12104)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0.99965733, 0.026177008, 0, 0)
+            quatf physics:localRot1 = (1.0, 0, 0, 0)
+            float physics:lowerLimit = 0
+            float physics:upperLimit = 72.19268
+            float physxJoint:maxJointVelocity = 500000
+        }
+        def PhysicsRevoluteJoint "index_dip" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysxJointAPI", "PhysxMimicJointAPI:rotY"]
+        )
+        {
+            uniform token physics:axis = "Y"
+            custom rel physics:body0
+            prepend rel physics:body0 = </L6/index_proximal>
+            custom rel physics:body1
+            prepend rel physics:body1 = </L6/index_distal>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 5.85545260e-05
+            point3f physics:localPos0 = (0.00093749, 0, 0.028002)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1.0, 0, 0, 0)
+            quatf physics:localRot1 = (1.0, 0, 0, 0)
+            float physics:lowerLimit = -13.062544
+            float physics:upperLimit = 78.37526
+            float physxJoint:maxJointVelocity = 500000
+            float physxMimicJoint:rotY:dampingRatio = 0
+            float physxMimicJoint:rotY:gearing = -0.9047
+            float physxMimicJoint:rotY:naturalFrequency = 0
+            float physxMimicJoint:rotY:offset = 0
+            rel physxMimicJoint:rotY:referenceJoint = </L6/joints/index_joint>
+        }
+        def PhysicsRevoluteJoint "middle_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular", "PhysxJointAPI"]
+        )
+        {
+            float drive:angular:physics:damping = 0.18
+            float drive:angular:physics:maxForce = 80
+            float drive:angular:physics:stiffness = 1.2
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:jointFriction = 0.5
+            float physxJoint:armature = 0.001
+            uniform token physics:axis = "Y"
+            custom rel physics:body0
+            prepend rel physics:body0 = </L6/flange>
+            custom rel physics:body1
+            prepend rel physics:body1 = </L6/middle_proximal>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 4.45362336e-05
+            point3f physics:localPos0 = (-0.00066821, -0.0087679, 0.12704)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1.0, 0, 0, 0)
+            quatf physics:localRot1 = (1.0, 0, 0, 0)
+            float physics:lowerLimit = 0
+            float physics:upperLimit = 72.19268
+            float physxJoint:maxJointVelocity = 500000
+        }
+        def PhysicsRevoluteJoint "middle_dip" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysxJointAPI", "PhysxMimicJointAPI:rotY"]
+        )
+        {
+            uniform token physics:axis = "Y"
+            custom rel physics:body0
+            prepend rel physics:body0 = </L6/middle_proximal>
+            custom rel physics:body1
+            prepend rel physics:body1 = </L6/middle_distal>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 6.08648385e-05
+            point3f physics:localPos0 = (0.00093749, 0, 0.028002)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1.0, 0, 0, 0)
+            quatf physics:localRot1 = (1.0, 0, 0, 0)
+            float physics:lowerLimit = -13.062544
+            float physics:upperLimit = 78.37526
+            float physxJoint:maxJointVelocity = 500000
+            float physxMimicJoint:rotY:dampingRatio = 0
+            float physxMimicJoint:rotY:gearing = -0.9047
+            float physxMimicJoint:rotY:naturalFrequency = 0
+            float physxMimicJoint:rotY:offset = 0
+            rel physxMimicJoint:rotY:referenceJoint = </L6/joints/middle_joint>
+        }
+        def PhysicsRevoluteJoint "pinky_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular", "PhysxJointAPI"]
+        )
+        {
+            float drive:angular:physics:damping = 0.18
+            float drive:angular:physics:maxForce = 80
+            float drive:angular:physics:stiffness = 1.2
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:jointFriction = 0.5
+            float physxJoint:armature = 0.001
+            uniform token physics:axis = "Y"
+            custom rel physics:body0
+            prepend rel physics:body0 = </L6/flange>
+            custom rel physics:body1
+            prepend rel physics:body1 = </L6/pinky_proximal>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 5.08381051e-05
+            point3f physics:localPos0 = (-0.00067852, 0.02995, 0.11849)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0.99904823, -0.043619156, 0, 0)
+            quatf physics:localRot1 = (1.0, 0, 0, 0)
+            float physics:lowerLimit = 0
+            float physics:upperLimit = 72.19268
+            float physxJoint:maxJointVelocity = 500000
+        }
+        def PhysicsRevoluteJoint "pinky_dip" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysxJointAPI", "PhysxMimicJointAPI:rotY"]
+        )
+        {
+            uniform token physics:axis = "Y"
+            custom rel physics:body0
+            prepend rel physics:body0 = </L6/pinky_proximal>
+            custom rel physics:body1
+            prepend rel physics:body1 = </L6/pinky_distal>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 6.94627401e-05
+            point3f physics:localPos0 = (0.00093723, 0, 0.028002)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1.0, 0, 0, 0)
+            quatf physics:localRot1 = (1.0, 0, 0, 0)
+            float physics:lowerLimit = -13.062544
+            float physics:upperLimit = 78.37526
+            float physxJoint:maxJointVelocity = 500000
+            float physxMimicJoint:rotY:dampingRatio = 0
+            float physxMimicJoint:rotY:gearing = -0.9047
+            float physxMimicJoint:rotY:naturalFrequency = 0
+            float physxMimicJoint:rotY:offset = 0
+            rel physxMimicJoint:rotY:referenceJoint = </L6/joints/pinky_joint>
+        }
+        def PhysicsRevoluteJoint "ring_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular", "PhysxJointAPI"]
+        )
+        {
+            float drive:angular:physics:damping = 0.18
+            float drive:angular:physics:maxForce = 80
+            float drive:angular:physics:stiffness = 1.2
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:jointFriction = 0.5
+            float physxJoint:armature = 0.001
+            uniform token physics:axis = "Y"
+            custom rel physics:body0
+            prepend rel physics:body0 = </L6/flange>
+            custom rel physics:body1
+            prepend rel physics:body1 = </L6/ring_proximal>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 4.53833525e-05
+            point3f physics:localPos0 = (-0.00067368, 0.01085, 0.12204)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0.99965733, -0.026177008, 0, 0)
+            quatf physics:localRot1 = (1.0, 0, 0, 0)
+            float physics:lowerLimit = 0
+            float physics:upperLimit = 72.19268
+            float physxJoint:maxJointVelocity = 500000
+        }
+        def PhysicsRevoluteJoint "ring_dip" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysxJointAPI", "PhysxMimicJointAPI:rotY"]
+        )
+        {
+            uniform token physics:axis = "Y"
+            custom rel physics:body0
+            prepend rel physics:body0 = </L6/ring_proximal>
+            custom rel physics:body1
+            prepend rel physics:body1 = </L6/ring_distal>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 6.17024584e-05
+            point3f physics:localPos0 = (0.00093723, 0, 0.028002)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1.0, 0, 0, 0)
+            quatf physics:localRot1 = (1.0, 0, 0, 0)
+            float physics:lowerLimit = -13.062544
+            float physics:upperLimit = 78.37526
+            float physxJoint:maxJointVelocity = 500000
+            float physxMimicJoint:rotY:dampingRatio = 0
+            float physxMimicJoint:rotY:gearing = -0.9047
+            float physxMimicJoint:rotY:naturalFrequency = 0
+            float physxMimicJoint:rotY:offset = 0
+            rel physxMimicJoint:rotY:referenceJoint = </L6/joints/ring_joint>
+        }
+        def PhysicsRevoluteJoint "thumb_joint2" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular", "PhysxJointAPI"]
+        )
+        {
+            float drive:angular:physics:damping = 0.24
+            float drive:angular:physics:maxForce = 130
+            float drive:angular:physics:stiffness = 1.44
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:jointFriction = 0.5
+            float physxJoint:armature = 0.001
+            uniform token physics:axis = "Z"
+            custom rel physics:body0
+            prepend rel physics:body0 = </L6/flange>
+            custom rel physics:body1
+            prepend rel physics:body1 = </L6/thumb_metacarpals_base1>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 3.79557744e-05
+            point3f physics:localPos0 = (0.0078133, -0.029898, 0.026692)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1.0, 0, 0, 0)
+            quatf physics:localRot1 = (1.0, 0, 0, 0)
+            float physics:lowerLimit = 0
+            float physics:upperLimit = 79.64113
+            float physxJoint:maxJointVelocity = 500000
+        }
+        def PhysicsRevoluteJoint "thumb_joint1" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular", "PhysxJointAPI"]
+        )
+        {
+            float drive:angular:physics:damping = 0.24
+            float drive:angular:physics:maxForce = 130
+            float drive:angular:physics:stiffness = 1.44
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:jointFriction = 0.5
+            float physxJoint:armature = 0.001
+            uniform token physics:axis = "X"
+            custom rel physics:body0
+            prepend rel physics:body0 = </L6/thumb_metacarpals_base1>
+            custom rel physics:body1
+            prepend rel physics:body1 = </L6/thumb_metacarpals>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 5.18136889e-04
+            point3f physics:localPos0 = (0.0050248, -0.013602, 0.0066685)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (-0.14023739, 0.10241032, -0.5807907, 0.7953161)
+            quatf physics:localRot1 = (0, 0, 0, 1.0)
+            float physics:lowerLimit = 0
+            float physics:upperLimit = 56.72282
+            float physxJoint:maxJointVelocity = 500000
+        }
+        def PhysicsRevoluteJoint "thumb_dip" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysxJointAPI", "PhysxMimicJointAPI:rotX"]
+        )
+        {
+            uniform token physics:axis = "X"
+            custom rel physics:body0
+            prepend rel physics:body0 = </L6/thumb_metacarpals>
+            custom rel physics:body1
+            prepend rel physics:body1 = </L6/thumb_distal>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 2.41471935e-04
+            point3f physics:localPos0 = (0, 0.0061, 0.0827)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0, 0, -0.3090177, 0.9510563)
+            quatf physics:localRot1 = (0, 0, 0, 1.0)
+            float physics:lowerLimit = -13.9538145
+            float physics:upperLimit = 83.722885
+            float physxJoint:maxJointVelocity = 500000
+            float physxMimicJoint:rotX:dampingRatio = 0
+            float physxMimicJoint:rotX:gearing = -1.23
+            float physxMimicJoint:rotX:naturalFrequency = 0
+            float physxMimicJoint:rotX:offset = 0
+            rel physxMimicJoint:rotX:referenceJoint = </L6/joints/thumb_joint1>
+        }
+    }
+
+    def PhysicsFixedJoint "root_joint" (
+        prepend apiSchemas = ["PhysicsArticulationRootAPI"]
+    )
+    {
+        rel physics:body1 = </L6/flange>
+    }
+}

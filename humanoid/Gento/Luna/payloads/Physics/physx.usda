@@ -1,0 +1,108 @@
+#usda 1.0
+(
+    defaultPrim = "Luna"
+    metersPerUnit = 1
+    subLayers = [
+        @./physics.usda@,
+        @./body_self_collision_mute.usda@
+    ]
+    upAxis = "Z"
+)
+
+def "Luna"
+{
+    over "base_link" (
+        prepend apiSchemas = ["PhysxArticulationAPI"]
+    )
+    {
+        # On for any arm mix; NonDexHand (body_self_collision_mute.usda) mutes
+        # torso/chassis/arm self-pairs. Dexhand EE excludes keep fingers free.
+        bool physxArticulation:enabledSelfCollisions = 1
+        int physxArticulation:solverPositionIterationCount = 32
+        int physxArticulation:solverVelocityIterationCount = 1
+    }
+
+    over "joints"
+    {
+        over "body_joint1" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = 204.0016
+        }
+
+        over "body_joint2" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = 204.0016
+        }
+
+        over "body_joint3" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = 204.0016
+        }
+
+        over "body_joint4" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = 204.0016
+        }
+
+        over "body_joint5" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = 300.0007
+        }
+
+        over "body_joint6" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = 300.0007
+        }
+
+        over "head_joint1" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = 209.98901
+        }
+
+        over "head_joint2" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = 209.98901
+        }
+    }
+
+    over "Linkhou_S2" (
+        variants = {
+            string Physics = "physx"
+        }
+    )
+    {
+    }
+
+    over "Left_Arm" (
+        variants = {
+            string Physics = "physx"
+        }
+    )
+    {
+    }
+
+    over "Right_Arm" (
+        variants = {
+            string Physics = "physx"
+        }
+    )
+    {
+    }
+}
+

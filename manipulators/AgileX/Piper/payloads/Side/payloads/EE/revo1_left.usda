@@ -1,0 +1,162 @@
+#usda 1.0
+(
+    subLayers = [
+        @./dexhand_self_collision.usda@
+    ]
+    defaultPrim = "Piper"
+    doc = """EE=Revo1 mount (Side=left).
+Weld tcp -> hand_base; FixedJoint matches mount xform
+(T z=0.0105, native-to-Revo2 align then Rz=-90 → Rx=+90).
+Disable hand root_joint. Hand Side=left.
+Same TF as default Revo1 so palm matches Revo2 (tcp -Y, inward).
+"""
+)
+
+def Xform "Piper"
+{
+    over "link6"
+    {
+        over "tcp"
+        {
+            def Xform "PiperFlange" (
+                prepend references = @../../../../flange.usd@
+            )
+            {
+            }
+
+            def "Revo1" (
+                prepend payload = @../../../../../../../dexhands/BrainCo/Revo1/Revo1.usda@
+                variants = {
+                    string Side = "left"
+                }
+            )
+            {
+                quatd xformOp:orient = (0.7071067811865476, 0.7071067811865476, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0.0105)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+                over "root_joint" (
+                    active = false
+                )
+                {
+                }
+
+                over "hand_base"
+                {
+                    def PhysicsFixedJoint "AssemblerFixedJoint"
+                    {
+                        rel physics:body0 = </Piper/link6/tcp>
+                        rel physics:body1 = </Piper/link6/tcp/Revo1/hand_base>
+                        point3f physics:localPos0 = (0, 0, 0.0105)
+                        point3f physics:localPos1 = (0, 0, 0)
+                        quatf physics:localRot0 = (0.70710677, 0.70710677, 0, 0)
+                        quatf physics:localRot1 = (1, 0, 0, 0)
+                    }
+                }
+
+                over "joints"
+                {
+                    over "left_hand_index_joint"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+
+                    over "left_hand_index_pip_joint"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+
+                    over "left_hand_middle_joint"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+
+                    over "left_hand_middle_pip_joint"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+
+                    over "left_hand_pinky_joint"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+
+                    over "left_hand_pinky_pip_joint"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+
+                    over "left_hand_ring_joint"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+
+                    over "left_hand_ring_pip_joint"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+
+                    over "left_hand_thumb_joint2"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+
+                    over "left_hand_thumb_joint1"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+                }
+            }
+        }
+    }
+
+    over "joints"
+    {
+        over "left_joint1"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "left_joint2"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "left_joint3"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "left_joint4"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "left_joint5"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "left_joint6"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+    }
+}

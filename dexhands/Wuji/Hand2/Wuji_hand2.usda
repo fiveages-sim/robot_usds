@@ -1,0 +1,506 @@
+#usda 1.0
+(
+    customLayerData = {
+        dictionary cameraSettings = {
+            dictionary Front = {
+                double3 position = (5, 0, 0)
+                double radius = 5
+            }
+            dictionary Perspective = {
+                double3 position = (-0.059754649081853524, 0.6549028902374446, 0.5693925513069001)
+                double3 target = (0.033958005851743696, -0.6116435663454501, -0.22726029627459288)
+            }
+            dictionary Right = {
+                double3 position = (0, -5, 0)
+                double radius = 5
+            }
+            dictionary Top = {
+                double3 position = (0, 0, 5)
+                double radius = 5
+            }
+            string boundCamera = "/OmniverseKit_Persp"
+        }
+        dictionary omni_layer = {
+            string authoring_layer = "./Wuji_hand2.usda"
+        }
+        dictionary renderSettings = {
+        }
+    }
+    defaultPrim = "Wuji_hand2"
+    doc = """Wuji Hand2 — unified left/right via Side variant (default|left|right).
+default: left morphology, unprefixed joints.
+left: left morphology, left_hand_* joints (default joints deactivated).
+right: right morphology, right_hand_* joints (X-mirror of Hand/left).
+PhysX Drive baseline (G1 hold · fasim-dexhand-asset §0.1): fingers D=0.09 K=0.15 F=55; thumb D=0.12 K=0.18 F=80; jointFriction=0.8 armature=0.001; maxJointVelocity=500000; self-col On + FilteredPairs; collider μs=2.8 μd=2.2 contactOffset=0.002.
+No mimic joints (20 independent DOFs). MuJoCo/Newton via Physics=mujoco
+(MjcJointAPI + MjcActuator; Side-scoped actuators in Side payloads).
+Physics: no authored default on this root (standalone Switcher can set it).
+When mounted under M6_CCS, arm Physics=physx|mujoco nests hand Physics via
+overs in M6_CCS.usda (hands follow the arm; do not author Physics on EE/env).
+Physics variantSet is listed before Side.
+"""
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "Wuji_hand2" (
+    prepend references = @./payloads/base.usda@
+    variants = {
+        string Robot = "none"
+        string Sensor = "none"
+        string Side = "default"
+    }
+    prepend variantSets = ["Physics", "Side"]
+    append variantSets = ["Robot", "Sensor"]
+)
+{
+    quatd xformOp:orient = (6.123233995736766e-17, -1, 0, 0)
+
+    over "joints"
+    {
+        over "index_finger_mcp_flex"
+        {
+            float drive:angular:physics:damping = 0.09
+            float drive:angular:physics:maxForce = 55
+            float drive:angular:physics:stiffness = 0.15
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:maxJointVelocity = 500000
+        }
+
+        over "index_finger_mcp_abd"
+        {
+            float drive:angular:physics:damping = 0.09
+            float drive:angular:physics:maxForce = 55
+            float drive:angular:physics:stiffness = 0.15
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:maxJointVelocity = 500000
+        }
+
+        over "index_finger_pip"
+        {
+            float drive:angular:physics:damping = 0.09
+            float drive:angular:physics:maxForce = 55
+            float drive:angular:physics:stiffness = 0.15
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:maxJointVelocity = 500000
+        }
+
+        over "index_finger_dip"
+        {
+            float drive:angular:physics:damping = 0.09
+            float drive:angular:physics:maxForce = 55
+            float drive:angular:physics:stiffness = 0.15
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:maxJointVelocity = 500000
+        }
+
+        over "middle_finger_mcp_flex"
+        {
+            float drive:angular:physics:damping = 0.09
+            float drive:angular:physics:maxForce = 55
+            float drive:angular:physics:stiffness = 0.15
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:maxJointVelocity = 500000
+        }
+
+        over "middle_finger_mcp_abd"
+        {
+            float drive:angular:physics:damping = 0.09
+            float drive:angular:physics:maxForce = 55
+            float drive:angular:physics:stiffness = 0.15
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:maxJointVelocity = 500000
+        }
+
+        over "middle_finger_pip"
+        {
+            float drive:angular:physics:damping = 0.09
+            float drive:angular:physics:maxForce = 55
+            float drive:angular:physics:stiffness = 0.15
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:maxJointVelocity = 500000
+        }
+
+        over "middle_finger_dip"
+        {
+            float drive:angular:physics:damping = 0.09
+            float drive:angular:physics:maxForce = 55
+            float drive:angular:physics:stiffness = 0.15
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:maxJointVelocity = 500000
+        }
+
+        over "pinky_mcp_flex"
+        {
+            float drive:angular:physics:damping = 0.09
+            float drive:angular:physics:maxForce = 55
+            float drive:angular:physics:stiffness = 0.15
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:maxJointVelocity = 500000
+        }
+
+        over "pinky_mcp_abd"
+        {
+            float drive:angular:physics:damping = 0.09
+            float drive:angular:physics:maxForce = 55
+            float drive:angular:physics:stiffness = 0.15
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:maxJointVelocity = 500000
+        }
+
+        over "pinky_pip"
+        {
+            float drive:angular:physics:damping = 0.09
+            float drive:angular:physics:maxForce = 55
+            float drive:angular:physics:stiffness = 0.15
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:maxJointVelocity = 500000
+        }
+
+        over "pinky_dip"
+        {
+            float drive:angular:physics:damping = 0.09
+            float drive:angular:physics:maxForce = 55
+            float drive:angular:physics:stiffness = 0.15
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:maxJointVelocity = 500000
+        }
+
+        over "ring_mcp_flex"
+        {
+            float drive:angular:physics:damping = 0.09
+            float drive:angular:physics:maxForce = 55
+            float drive:angular:physics:stiffness = 0.15
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:maxJointVelocity = 500000
+        }
+
+        over "ring_mcp_abd"
+        {
+            float drive:angular:physics:damping = 0.09
+            float drive:angular:physics:maxForce = 55
+            float drive:angular:physics:stiffness = 0.15
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:maxJointVelocity = 500000
+        }
+
+        over "ring_pip"
+        {
+            float drive:angular:physics:damping = 0.09
+            float drive:angular:physics:maxForce = 55
+            float drive:angular:physics:stiffness = 0.15
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:maxJointVelocity = 500000
+        }
+
+        over "ring_dip"
+        {
+            float drive:angular:physics:damping = 0.09
+            float drive:angular:physics:maxForce = 55
+            float drive:angular:physics:stiffness = 0.15
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:maxJointVelocity = 500000
+        }
+
+        over "thumb_cmc_flex"
+        {
+            float drive:angular:physics:damping = 0.12
+            float drive:angular:physics:maxForce = 80
+            float drive:angular:physics:stiffness = 0.18
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:maxJointVelocity = 500000
+        }
+
+        over "thumb_cmc_abd"
+        {
+            float drive:angular:physics:damping = 0.12
+            float drive:angular:physics:maxForce = 80
+            float drive:angular:physics:stiffness = 0.18
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:maxJointVelocity = 500000
+        }
+
+        over "thumb_mcp"
+        {
+            float drive:angular:physics:damping = 0.12
+            float drive:angular:physics:maxForce = 80
+            float drive:angular:physics:stiffness = 0.18
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:maxJointVelocity = 500000
+        }
+
+        over "thumb_ip"
+        {
+            float drive:angular:physics:damping = 0.12
+            float drive:angular:physics:maxForce = 80
+            float drive:angular:physics:stiffness = 0.18
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:maxJointVelocity = 500000
+        }
+    }
+    variantSet "Side" = {
+        "default" (
+            prepend payload = @./payloads/Side/default.usda@
+        ) {
+
+        }
+        "left" (
+            prepend payload = @./payloads/Side/left.usda@
+        ) {
+
+        }
+        "right" (
+            prepend payload = @./payloads/Side/right.usda@
+            delete references = @./payloads/base.usda@
+            prepend references = @./payloads/Hand/right/base.usda@
+        ) {
+
+        }
+    }
+    # Order is a safety net if Physics is unset (Isaac may show empty).
+    # physx first so PhysX Play still has drives when Switcher has not run yet.
+    # EE mounts must NOT author Physics — leave that to VariantSwitcher.
+    variantSet "Physics" = {
+        "physx" (
+            prepend payload = @./payloads/Physics/physx.usda@
+        ) {
+
+        }
+        "mujoco" (
+            prepend payload = @./payloads/Physics/mujoco.usda@
+        ) {
+
+        }
+        "none" (
+            prepend payload = @./payloads/Physics/none.usda@
+        ) {
+
+        }
+        "physics" (
+            prepend payload = @./payloads/Physics/physics.usda@
+        ) {
+
+        }
+    }
+    variantSet "Robot" = {
+        "none" (
+            prepend payload = @./payloads/Robot/none.usda@
+        ) {
+
+        }
+        "robot" (
+            prepend payload = @./payloads/Robot/robot.usda@
+        ) {
+
+        }
+    }
+    variantSet "Sensor" = {
+        "none" (
+            prepend payload = @./payloads/Sensor/none.usda@
+        ) {
+
+        }
+        "sensors" (
+            prepend payload = @./payloads/Sensor/sensors.usda@
+        ) {
+
+        }
+    }
+}
+
+def "Render" (
+    hide_in_stage_window = true
+    no_delete = true
+)
+{
+    def "OmniverseKit"
+    {
+        def "HydraTextures" (
+            hide_in_stage_window = true
+            no_delete = true
+        )
+        {
+            def RenderProduct "omni_kit_widget_viewport_ViewportTexture_0" (
+                prepend apiSchemas = ["OmniRtxSettingsCommonAdvancedAPI_1", "OmniRtxSettingsRtAdvancedAPI_1", "OmniRtxSettingsPtAdvancedAPI_1", "OmniRtxPostColorGradingAPI_1", "OmniRtxPostChromaticAberrationAPI_1", "OmniRtxPostBloomPhysicalAPI_1", "OmniRtxPostMatteObjectAPI_1", "OmniRtxPostCompositingAPI_1", "OmniRtxPostDofAPI_1", "OmniRtxPostMotionBlurAPI_1", "OmniRtxPostTvNoiseAPI_1", "OmniRtxPostTonemapIrayReinhardAPI_1", "OmniRtxPostDebugSettingsAPI_1", "OmniRtxDebugSettingsAPI_1"]
+                hide_in_stage_window = true
+                no_delete = true
+            )
+            {
+                rel camera = </OmniverseKit_Persp>
+                token omni:rtx:ambientOcclusion:denoiserMode = "none"
+                token omni:rtx:background:source:texture:textureMode = "repeatMirrored"
+                token omni:rtx:background:source:type = "domeLight"
+                bool omni:rtx:debug:view:pixelDebug:enableFixedTextPos = 1
+                token omni:rtx:directLighting:sampledLighting:denoisingTechnique = "None"
+                bool omni:rtx:dlss:frameGeneration = 0
+                float3 omni:rtx:domeLight:rotationAxis = (0, 0, 1)
+                bool omni:rtx:indirectDiffuse:denoiser:enabled = 0
+                bool omni:rtx:material:db:syncLoads = 1
+                token omni:rtx:post:dlss:execMode = "performance"
+                bool omni:rtx:post:registeredCompositing:invertColorCorrection = 1
+                bool omni:rtx:post:registeredCompositing:invertToneMap = 1
+                bool omni:rtx:pt:adaptiveSampling:filterError = 0
+                uint omni:rtx:pt:adaptiveSampling:fixedSppIterations = 2
+                uint omni:rtx:pt:maxSamplesPerLaunch = 2073600
+                uint omni:rtx:pt:mgpu:maxPixelsPerRegionExponent = 12
+                bool omni:rtx:reflections:denoiser:enabled = 0
+                token omni:rtx:rendermode = "RealTimePathTracing"
+                color3f omni:rtx:rt:ambientLight:color = (0.1, 0.1, 0.1)
+                bool omni:rtx:rt:demoire = 0
+                bool omni:rtx:rt:lightcache:spatialCache:dontResolveConflicts = 1
+                int omni:rtx:rt:sss:samples = 1
+                uint omni:rtx:rtpt:maxVolumeBounces = 15
+                float omni:rtx:rtpt:modulatingRoughnessThreshold = 0.08
+                bool omni:rtx:scene:hydra:materialSyncLoads = 1
+                bool omni:rtx:scene:hydra:mdlMaterialWarmup = 1
+                rel orderedVars = </Render/Vars/LdrColor>
+                custom bool overrideClipRange = 0
+                uniform int2 resolution = (1280, 720)
+            }
+        }
+    }
+
+    def RenderSettings "OmniverseGlobalRenderSettings" (
+        prepend apiSchemas = ["OmniRtxSettingsGlobalRtAdvancedAPI_1", "OmniRtxSettingsGlobalPtAdvancedAPI_1"]
+        no_delete = true
+    )
+    {
+        rel products = </Render/OmniverseKit/HydraTextures/omni_kit_widget_viewport_ViewportTexture_0>
+    }
+
+    def "Vars"
+    {
+        def RenderVar "LdrColor" (
+            hide_in_stage_window = true
+            no_delete = true
+        )
+        {
+            uniform string sourceName = "LdrColor"
+            uniform token sourceType = "raw"
+        }
+    }
+}
+
+over "OmniverseKit_Persp" (
+    prepend apiSchemas = ["OmniRtxCameraAutoExposureAPI_1", "OmniRtxCameraExposureAPI_1"]
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (0.01, 10000000)
+    float exposure:fStop = 5
+    float exposure:responsivity = 1.1026709
+    float exposure:time = 0.02
+    float focalLength = 18.147562
+    float focusDistance = 400
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -1.4991923652210517)
+    float3 xformOp:rotateXYZ = (57.900715, 9.144095e-15, -175.76836)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (-0.059754649081853524, 0.6549028902374446, 0.5693925513069001)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+
+over "OmniverseKit_Front" (
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (1, 10000000)
+    float horizontalAperture = 50
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -5)
+    token projection = "orthographic"
+    float verticalAperture = 50
+    float3 xformOp:rotateXYZ = (90, -1.2722219e-14, 90)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (5, 0, 0)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+
+over "OmniverseKit_Right" (
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (1, 10000000)
+    float horizontalAperture = 50
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -5)
+    token projection = "orthographic"
+    float verticalAperture = 50
+    float3 xformOp:rotateXYZ = (90, -1.41245e-30, 1.2722219e-14)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (0, -5, 0)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+
+over "OmniverseKit_Top" (
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (1, 10000000)
+    float horizontalAperture = 50
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -5)
+    token projection = "orthographic"
+    float verticalAperture = 50
+    float3 xformOp:rotateXYZ = (-1.2722219e-14, -7.016709e-15, -90)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (0, 0, 5)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+

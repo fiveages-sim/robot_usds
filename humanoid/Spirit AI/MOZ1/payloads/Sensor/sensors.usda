@@ -1,0 +1,27 @@
+#usda 1.0
+(
+    defaultPrim = "MOZ1"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "MOZ1"
+{
+    over "head23"
+    {
+        over "head_camera"
+        {
+            def "orbbec_336L" (
+                prepend payload = @../../../../../sensors/orbbec/336L.usd@
+            )
+            {
+                quatf xformOp:orient = (1, 0, 0, 0)
+                double xformOp:rotateX:unitsResolve = 90
+                float3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale", "xformOp:rotateX:unitsResolve"]
+            }
+        }
+    }
+}
+

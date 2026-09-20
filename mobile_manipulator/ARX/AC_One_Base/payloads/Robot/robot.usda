@@ -1,0 +1,24 @@
+#usda 1.0
+(
+    defaultPrim = "AC_One_Base"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "AC_One_Base" (
+    prepend apiSchemas = ["IsaacRobotAPI"]
+)
+{
+    string isaac:description
+    string isaac:namespace
+    rel isaac:physics:robotJoints
+    prepend rel isaac:physics:robotLinks = </AC_One_Base/base_link>
+
+    over "base_link" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+        string isaac:nameOverride
+    }
+}
+

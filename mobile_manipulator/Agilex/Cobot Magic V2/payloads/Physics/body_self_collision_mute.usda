@@ -1,0 +1,86 @@
+#usda 1.0
+(
+    doc = """Cobot Magic V2 NonDexHand mute — subLayer of payloads/Physics/physx.usda ONLY.
+
+PhysX: CollisionGroup + filteredGroups self-filter. Always composed with
+Physics=physx (any Arm_Left/Arm_Right / EE mix). Same convention as Split Aloha:
+parent self-col ON; NonDexHand mutes body/chassis/arm; dexhand EE excludes
+keep fingers ungrouped (finger self-col + FilteredPairs).
+
+Nested Piper has its own CollisionGroups/NonDexHand. Parent and child groups
+must filter each other or arm convex hulls vs box chatter (EE=Gripper/None).
+
+Keep hand prim names in sync with Piper EE dexhand_self_collision.usda
+(Revo1 / Revo2 under link6/tcp). Grippers are intentionally not excluded.
+"""
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+over "Cobot_Magic_V2"
+{
+    def Scope "CollisionGroups"
+    {
+        def PhysicsCollisionGroup "NonDexHand" (
+            prepend apiSchemas = ["CollectionAPI:colliders"]
+        )
+        {
+            uniform token collection:colliders:expansionRule = "expandPrims"
+            prepend rel collection:colliders:includes = [
+                </Cobot_Magic_V2/base_footprint>,
+                </Cobot_Magic_V2/Tracer>,
+                </Cobot_Magic_V2/base_footprint/body_Link/left_base_link/Piper>,
+                </Cobot_Magic_V2/base_footprint/body_Link/right_base_link/Piper>,
+            ]
+            prepend rel collection:colliders:excludes = [
+                </Cobot_Magic_V2/base_footprint/body_Link/left_base_link/Piper/link6/tcp/Revo1>,
+                </Cobot_Magic_V2/base_footprint/body_Link/left_base_link/Piper/link6/tcp/Revo2>,
+                </Cobot_Magic_V2/base_footprint/body_Link/right_base_link/Piper/link6/tcp/Revo1>,
+                </Cobot_Magic_V2/base_footprint/body_Link/right_base_link/Piper/link6/tcp/Revo2>,
+            ]
+            prepend rel physics:filteredGroups = [
+                </Cobot_Magic_V2/CollisionGroups/NonDexHand>,
+                </Cobot_Magic_V2/base_footprint/body_Link/left_base_link/Piper/CollisionGroups/NonDexHand>,
+                </Cobot_Magic_V2/base_footprint/body_Link/right_base_link/Piper/CollisionGroups/NonDexHand>,
+            ]
+        }
+    }
+
+    over "base_footprint"
+    {
+        over "body_Link"
+        {
+            over "left_base_link"
+            {
+                over "Piper"
+                {
+                    over "CollisionGroups"
+                    {
+                        over "NonDexHand"
+                        {
+                            prepend rel physics:filteredGroups = [
+                                </Cobot_Magic_V2/CollisionGroups/NonDexHand>,
+                            ]
+                        }
+                    }
+                }
+            }
+
+            over "right_base_link"
+            {
+                over "Piper"
+                {
+                    over "CollisionGroups"
+                    {
+                        over "NonDexHand"
+                        {
+                            prepend rel physics:filteredGroups = [
+                                </Cobot_Magic_V2/CollisionGroups/NonDexHand>,
+                            ]
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

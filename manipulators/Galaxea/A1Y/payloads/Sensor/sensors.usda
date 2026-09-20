@@ -1,0 +1,26 @@
+#usda 1.0
+(
+    defaultPrim = "Galaxea_A1Y"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "Galaxea_A1Y"
+{
+    over "Galaxea_G1"
+    {
+        over "gripper_base"
+        {
+            def "camera_stand_405" (
+                prepend payload = @../../Galaxea_G1/payloads/Sensor/camera_stand_405.usd@
+            )
+            {
+                quatf xformOp:orient = (0.29883623, -0.6408564, 0.6408564, -0.29883623)
+                double xformOp:rotateX:unitsResolve = 90
+                float3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (-0.019206, 0.009, 0.074757)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale", "xformOp:rotateX:unitsResolve"]
+            }
+        }
+    }
+}

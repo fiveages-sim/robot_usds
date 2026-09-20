@@ -1,0 +1,42 @@
+#usda 1.0
+(
+    defaultPrim = "L6"
+    doc = """Flange=default — same stack as o6 (AG2F90 metal + black print).
+L6 palm sits at flange origin (z=0), unlike o6 hand_base at z=0.0262, so both
+pieces are shifted by -0.024383 along flange Z. Visual only.
+"""
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def "L6"
+{
+    over "flange"
+    {
+        def "ag2f90" (
+            prepend payload = @../../../../../grippers/ChangingTek/AG2F120S/payloads/Flange/flange.usd@
+        )
+        {
+            quatf xformOp:orient = (1, 0, 0, 0)
+            double xformOp:rotateX:unitsResolve = 90
+            float3 xformOp:scale = (1, 1, 1)
+            double3 xformOp:scale:unitsResolve = (0.01, 0.01, 0.01)
+            double3 xformOp:translate = (0, 0, -0.024383)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale", "xformOp:rotateX:unitsResolve", "xformOp:scale:unitsResolve"]
+        }
+
+        def Xform "print"
+        {
+            quatd xformOp:orient = (1, 0, 0, 0)
+            double3 xformOp:scale = (1, 1, 1)
+            double3 xformOp:translate = (0, 0, -0.024383)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            def "visual" (
+                prepend payload = @../../../o6/payloads/Flange/flange.usd@
+            )
+            {
+            }
+        }
+    }
+}

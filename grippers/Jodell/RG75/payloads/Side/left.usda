@@ -1,0 +1,173 @@
+#usda 1.0
+(
+    defaultPrim = "RG75"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def "RG75"
+{
+    over "joints"
+    {
+        over "gripper_joint" (
+            active = false
+        )
+        {
+        }
+
+        def PhysicsPrismaticJoint "left_gripper_joint" (
+            prepend apiSchemas = ["MjcJointAPI", "PhysicsJointStateAPI:linear", "PhysicsDriveAPI:linear", "PhysxJointAPI", "PhysxDrivePerformanceEnvelopeAPI:linear"]
+        )
+        {
+            float drive:linear:physics:damping = 6000
+            float drive:linear:physics:maxForce = 100
+            float drive:linear:physics:stiffness = 60000
+            float drive:linear:physics:targetPosition = 0
+            uniform token drive:linear:physics:type = "force"
+            uniform double mjc:armature = 0.001
+            uniform double mjc:damping = 0.01
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -100
+            uniform double mjc:actuatorfrcrange:max = 100
+            uniform token physics:axis = "Y"
+            prepend rel physics:body0 = </RG75/gripper_base>
+            prepend rel physics:body1 = </RG75/left_finger>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.0029318354
+            point3f physics:localPos0 = (0.01475, 0.005263, 0.13525)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = 0
+            float physics:upperLimit = 0.038372
+            float physxDrivePerformanceEnvelope:linear:maxActuatorVelocity = 1
+            float physxJoint:maxJointVelocity = 1
+        }
+
+        over "right_finger_joint" (
+            active = false
+        )
+        {
+        }
+
+        def PhysicsPrismaticJoint "left_right_finger_joint" (
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI", "PhysicsJointStateAPI:linear", "PhysxJointAPI", "PhysxMimicJointAPI:rotY"]
+        )
+        {
+            uniform double mjc:armature = 0.001
+            uniform double mjc:damping = 0.01
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 1
+            rel newton:mimicJoint = </RG75/joints/left_gripper_joint>
+            uniform token physics:axis = "Y"
+            prepend rel physics:body0 = </RG75/gripper_base>
+            prepend rel physics:body1 = </RG75/right_finger>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.0029438608
+            point3f physics:localPos0 = (-0.01475, -0.005263, 0.13525)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0, 1, 0, 0)
+            quatf physics:localRot1 = (0, 1, 0, 0)
+            float physics:lowerLimit = -0.0076743998
+            float physics:upperLimit = 0.0460464
+            float physxMimicJoint:rotY:dampingRatio = 0
+            float physxMimicJoint:rotY:gearing = -1
+            float physxMimicJoint:rotY:naturalFrequency = 0
+            float physxMimicJoint:rotY:offset = 0
+            rel physxMimicJoint:rotY:referenceJoint = </RG75/joints/left_gripper_joint>
+        }
+    }
+
+    over "gripper_base"
+    {
+        # Sticky left Orbbec flange when Sensors=orbbec_335_side.
+        over "side_camera_support" (
+            variants = {
+                string mount = "left"
+            }
+        )
+        {
+        }
+
+        # Sticky Heavy pad CAD when Pad=heavy_carry (no-op if Pad=none|type1).
+        over "pad_left" (
+            variants = {
+                string arm = "left"
+            }
+        )
+        {
+        }
+    }
+
+    over "left_finger"
+    {
+        # Sticky nested-arm pads: heavy_type2/3/4/5/6, load_type3 (pad_left/pad_right).
+        over "left_finger_pad"
+        {
+            over "pad_left" (
+                variants = {
+                    string arm = "left"
+                }
+            )
+            {
+            }
+        }
+    }
+
+    over "right_finger"
+    {
+        # Sticky heavy_carry pad CAD.
+        over "pad_right" (
+            variants = {
+                string arm = "left"
+            }
+        )
+        {
+        }
+
+        # Sticky nested-arm pads: heavy_type2/3/4/5/6, load_type3 (pad_left/pad_right).
+        over "right_finger_pad"
+        {
+            over "pad_right" (
+                variants = {
+                    string arm = "left"
+                }
+            )
+            {
+            }
+        }
+    }
+
+    over "actuators"
+    {
+        over "gripper_joint" (
+            active = false
+        )
+        {
+        }
+
+        over "right_gripper_joint" (
+            active = false
+        )
+        {
+        }
+
+        def MjcActuator "left_gripper_joint"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [100, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -100, -10, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -100
+            uniform double mjc:forceRange:max = 100
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = 0
+            uniform double mjc:ctrlRange:max = 0.038372
+            rel mjc:target = </RG75/joints/left_gripper_joint>
+        }
+    }
+}

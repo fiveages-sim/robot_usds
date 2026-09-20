@@ -10,18 +10,20 @@ Robot USD model files for ROS2 Control simulation.
 
 | | | |
 |:---:|:---:|:---:|
-| <img src=".images/agibot_g1.png" alt="Agibot G1" width="300"> | <img src=".images/agilex_aloha_split.png" alt="Agilex Aloha Split" width="300"> | <img src=".images/agilex_aloha_v1.png" alt="Agilex Aloha V1" width="300"> |
-| **Agibot G1** | **Agilex Aloha Split** | **Agilex Aloha V1** |
-| <img src=".images/agilex_aloha_v2.png" alt="Agilex Aloha V2" width="300"> | <img src=".images/arx_lift.png" alt="ARX Lift" width="300"> | <img src=".images/arx_x7s.png" alt="ARX X7S" width="300"> |
-| **Agilex Aloha V2** | **ARX Lift** | **ARX X7S** |
-| <img src=".images/astribot_s1.png" alt="Astribot S1" width="300"> | <img src=".images/galaxea_r1_lite.png" alt="Galaxea R1 Lite" width="300"> | <img src=".images/galaxea_r1.png" alt="Galaxea R1" width="300"> |
-| **Astribot S1** | **Galaxea R1 Lite** | **Galaxea R1** |
-| <img src=".images/galaxea_r1_pro.png" alt="Galaxea R1 Pro" width="300"> | <img src=".images/galbot%20one.png" alt="Galbot One" width="300"> | <img src=".images/realman%20aidal.png" alt="Realman Aidal" width="300"> |
-| **Galaxea R1 Pro** | **Galbot One** | **Realman Aidal** |
-| <img src=".images/ai2_bot2.png" alt="Ai2 Bot2" width="300"> | <img src=".images/arx_lift2s.png" alt="ARX Lift2S" width="300"> | <img src=".images/galbot%20zero.png" alt="Galbot Zero" width="300"> |
-| **Ai2 Bot2** | **ARX Lift2S** | **Galbot Zero** |
-| <img src=".images/galbot%20s1.png" alt="Galbot S1" width="300"> | <img src=".images/galbot%20g1.png" alt="Galbot G1" width="300"> | |
-| **Galbot S1** | **Galbot G1** | |
+| <img src=".images/agibot_g1.png" alt="Agibot G1" width="300"> | <img src=".images/agilex_aloha_split.png" alt="Agilex Aloha Split" width="300"> | <img src=".images/agilex_aloha_v1.png" alt="Agilex Cobot Magic V1" width="300"> |
+| **Agibot G1** | **Agilex Aloha Split** | **Agilex Cobot Magic V1** |
+| <img src=".images/agilex_aloha_v2.png" alt="Agilex Cobot Magic V2" width="300"> | <img src=".images/arx_lift.png" alt="ARX Lift" width="300"> | <img src=".images/arx_x7s.png" alt="ARX X7S" width="300"> |
+| **Agilex Cobot Magic V2** | **ARX Lift** | **ARX X7S** |
+| <img src=".images/arx_lift2s.png" alt="ARX Lift 2S" width="300"> | <img src=".images/astribot_s1.png" alt="Astribot S1" width="300"> | <img src=".images/galaxea_r1_lite.png" alt="Galaxea R1 Lite" width="300"> |
+| **ARX Lift 2S** | **Astribot S1** | **Galaxea R1 Lite** |
+| <img src=".images/galaxea_r1.png" alt="Galaxea R1" width="300"> | <img src=".images/galaxea_r1_pro.png" alt="Galaxea R1 Pro" width="300"> | <img src=".images/galbot%20one.png" alt="Galbot One" width="300"> |
+| **Galaxea R1** | **Galaxea R1 Pro** | **Galbot One** |
+| <img src=".images/realman%20aidal.png" alt="Realman Aidal" width="300"> | <img src=".images/ai2_bot2.png" alt="Ai2 Bot2" width="300"> | <img src=".images/galbot%20zero.png" alt="Galbot Zero" width="300"> |
+| **Realman Aidal** | **Ai2 Bot2** | **Galbot Zero** |
+| <img src=".images/galbot%20s1.png" alt="Galbot S1" width="300"> | <img src=".images/galbot%20g1.png" alt="Galbot G1" width="300"> | <img src=".images/agibot%20g2.png" alt="Agibot G2" width="300"> |
+| **Galbot S1** | **Galbot G1** | **Agibot G2** |
+| <img src=".images/gento%20luna.png" alt="Tianji Gento Luna" width="300"> | <img src=".images/gento%20skye.png" alt="Tianji Gento Skye" width="300"> | <img src=".images/spiritai_moz1.png" alt="Spirit AI MOZ1" width="300"> |
+| **Tianji Gento Luna** | **Tianji Gento Skye** | **Spirit AI MOZ1** |
 
 </div>
 
@@ -44,10 +46,9 @@ The following models are **Git submodules** (vendored repositories, checked in a
 
 | Path | Upstream repository | `branch` in `.gitmodules`* |
 |------|---------------------|----------------------------|
-| `humanoid/FiveAges_W1` | [fiveages-sim/fa-w1-usds](https://github.com/fiveages-sim/fa-w1-usds) | `main` |
-| `humanoid/FiveAges_W2` | [fiveages-sim/fa-w2-usds](https://github.com/fiveages-sim/fa-w2-usds) | `main` |
-| `humanoid/Agibot_G2` | [fiveages-sim/agibot-g2-usds](https://github.com/fiveages-sim/agibot-g2-usds) | — |
-| `manipulators/Marvin` | [fiveages-sim/marvin-usds](https://github.com/fiveages-sim/marvin-usds) | `main` |
+| `humanoid/FiveAges/Gen1` | [fiveages-sim/fiveages-gen1-robot-usds](https://github.com/fiveages-sim/fiveages-gen1-robot-usds) | `main` |
+| `humanoid/FiveAges/Gen2` | [fiveages-sim/fiveages-gen2-robot-usds](https://github.com/fiveages-sim/fiveages-gen2-robot-usds) | `main` |
+| `humanoid/FiveAges/Gen3` | [fiveages-sim/fiveages-gen3-robot-usds](https://github.com/fiveages-sim/fiveages-gen3-robot-usds) | `main` |
 | `humanoid/Ubtech` | [fiveages-sim/ubtech-usds](https://github.com/fiveages-sim/ubtech-usds) | `main` |
 | `humanoid/Galbot` | [fiveages-sim/galbot-usds](https://github.com/fiveages-sim/galbot-usds) | `main` |
 
@@ -57,100 +58,193 @@ The following models are **Git submodules** (vendored repositories, checked in a
 
 ### 3.1 Models by category
 
-- **Gripper**
-    - ChangingTek AG2F120S
-    - ChangingTek AG2F90
-    - Galaxea G1
-    - Inspire EG2 4C2
-    - Jodell RG75
-    - OmniPicker
-    - Robotiq 85
-- **Dexterous Hand**
-    - BrainCo Revo1
-    - BrainCo Revo2
-    - LinkerHand o6
-    - LinkerHand o7
-- **Manipulator**
+- **Gripper** — under `grippers/`
+    - Agibot (`grippers/Agibot/`)
+        - OmniPicker (`OmniPicker`)
+    - ChangingTek (`grippers/ChangingTek/`)
+        - AG2F120S (`AG2F120S`)
+        - AG2F90 (`AG2F90`)
+    - Inspire (`grippers/Inspire/`)
+        - EG2 4C2 (`EG2_4C2`)
+    - Jodell (`grippers/Jodell/`)
+        - RG75 (`RG75`)
+        - ERG32 (`ERG32`)
+- **Dexterous Hand** — under `dexhands/`
+    - BrainCo (`dexhands/BrainCo/`)
+        - Revo1 (`Revo1`)
+        - Revo2 (`Revo2`)
+    - LinkerHands (`dexhands/LinkerHands/`)
+        - L6 (`L6`)
+        - o6 (`o6`)
+        - o7 (`o7`)
+    - RobotEra (`dexhands/RobotEra/`)
+        - Xhand1 (`Xhand1`)
+    - Wuji (`dexhands/Wuji/`)
+        - Hand2 (`Hand2`)
+- **Suction cup** — under `suction_cup/`
+    - YSW (`suction_cup/YSW/`)
+        - E70 (`E70`)
+- **Manipulator** — under `manipulators/` (brand folder → product short name)
+    - Agilex (`manipulators/AgileX/`)
+        - Piper / Piper_H / Piper_X / Piper_L
+        - Gripper (`Gripper`)
     - ARX (`manipulators/ARX/`)
-        - ARX R5 (`ARX_R5`)
-        - ARX X5 (`ARX_X5`)
-        - ARX5 Agilex (`ARX5_Agilex`)
-        - ARX5 Gripper 2023 (`ARX5_Gripper_2023`)
-        - ARX5 Gripper 2025 (`ARX5_Gripper_2025`)
-    - DobotCR5
-        - Dobot CR5 Dual Arm
-    - Elite EC66
-    - Galaxea
-        - A1
-        - A1X
-        - A1Y
-    - Agilex
-        - Piper
-    - Marvin (Tianji AI series)
-    - Realman RM75
-- **Humanoid**
-    - Agibot G1
-    - Agibot G2
-    - Ai2 Bot2
-    - ARX Lift (`humanoid/ARX_Lift`)
-    - ARX X7S (`humanoid/ARX_X7S`)
-    - Astribot S1
-    - Dobot Atom
-    - FiveAges W1
-    - FiveAges W2
+        - X5 (`X5`)
+        - R5 (`R5`)
+        - Gripper 2023 (`Gripper_2023`)
+        - Gripper 2025 (`Gripper_2025`)
+    - Galaxea (`manipulators/Galaxea/`)
+        - A1 / A1X / A1Y / A1Z
+        - G1 / G1Z
+    - Dobot (`manipulators/Dobot/`)
+        - CR5 (`CR5`)
+        - CR5 Fa Station (`CR5_Fa_Station`)
+    - Elite (`manipulators/Elite/`)
+        - EC66 (`EC66`)
+    - Fairino (`manipulators/Fairino/`)
+        - ART7 (`ART7`)
+    - Tianji (`manipulators/Tianji/`)
+        - M6 CCS (`M6_CCS`)
+        - M6S Lite CCS (`M6S_Lite_CCS`)
+        - M6 Fa Station (`M6_Fa_Station`)
+        - M20S CCS (`M20S_CCS`)
+    - Rokae (`manipulators/Rokae/`)
+        - AR5 CCS V1 / V2 (`AR5_CCS_V1`, `AR5_CCS_V2`)
+        - AR5 SRS (`AR5_SRS`)
+    - Realman (`manipulators/Realman/`)
+        - RM75 (`RM75`)
+    - HighTorque (`manipulators/HighTorque/`)
+        - Panthera HT (`Panthera_HT`)
+- **Humanoid** — under `humanoid/`
+    - Agibot (`humanoid/Agibot/`)
+        - G1 (`G1`)
+        - G2 (`G2`)
+    - Ai2 (`humanoid/Ai2/`)
+        - Bot2 (`Bot2`)
+    - Astribot (`humanoid/Astribot/`)
+        - S1 (`S1`)
+        - Gripper (`Gripper`)
+    - FiveAges (`humanoid/FiveAges/`, submodules)
+        - W1 / Gen1 (`Gen1`)
+        - W2 / S2 / Gen2 (`Gen2`)
+        - WCE3 / Gen3 (`Gen3`)
+    - Galaxea (`humanoid/Galaxea/`)
+        - R1 (`R1`) — includes R1 Pro (Robot variant `R1_Pro`)
+        - R1 Lite (`R1_Lite`)
     - Galbot (`humanoid/Galbot` submodule)
-        - Galbot One (`Galbot_One`)
-        - Galbot Zero (`Galbot_Zero`)
-        - Galbot S1 (`Galbot_S1`)
-        - Galbot G1 (`Galbot_G1`)
-    - Galaxea R1
-        - Galaxea R1 Pro
-    - Realman Aidal
-    - Ubtech
-- **Mobile Base**
-    - Agilex Ranger Mini
-    - Agilex Tracer
-    - Agilex Tracer V2
-- **Mobile Manipulator**
-    - Agilex Aloha Spilt
-    - Agilex Aloha V1
-    - Agilex Aloha V2
-    - ARX Lift2S (`mobile_manipulator/ARX_Lift2S`)
-    - Galaxea R1 Lite
-- **Sensors**
-    - d405
-    - d415
-    - d435
-    - dabai
-    - mid360
-    - oradar ms500
-    - orbbec 336
-    - orbbec 336L
-    - orbbec dabai dw
-    - usb camera 01
-- **Stands**
-    - Dual Stand1
-    - Dual Stand2
+        - Galbot One / Zero / S1 / G1
+    - Tianji Gento (`humanoid/Gento/`; Gento is a Tianji sub-brand)
+        - Luna (`Luna`)
+        - Skye (`Skye`)
+    - Realman (`humanoid/Realman/`)
+        - Aidal (`AIDAL`)
+    - Spirit AI (`humanoid/Spirit AI/`)
+        - MOZ1 (`MOZ1`)
+    - Ubtech (`humanoid/Ubtech` submodule)
+        - Cruzr S2 (`Ubtech_CruzrS2`)
+- **Mobile Base** — under `mobile_base/`
+    - Agilex (`mobile_base/Agilex/`)
+        - Ranger Mini
+        - Tracer V1
+        - Tracer V2
+    - Linkhou (`mobile_base/Linkhou/`)
+        - Q1 (`Q1`)
+        - S2_V1 (`S2_V1`)
+        - S2_V2 (`S2_V2`)
+        - G2 Chassis (`G2_Chassis`)
+    - Angellun (`mobile_base/Angellun/`)
+        - Moz1 Chassis (`Moz1_Chassis`)
+    - Woosh (`mobile_base/Woosh/`)
+        - Ai2 Bot2 Chassis (`Ai2_Bot2_Chassis`)
+        - RM AIDAL Chassis (`RM_AIDAL_Chassis`)
+- **Mobile Manipulator** — under `mobile_manipulator/`
+    - Agilex (`mobile_manipulator/Agilex/`)
+        - Split Aloha (`Arm_Left` / `Arm_Right`: Piper, Piper_H, Piper_X, Piper_L)
+        - Cobot Magic V1
+        - Cobot Magic V2 (`Arm_Left` / `Arm_Right`: Piper, Piper_H, Piper_X, Piper_L)
+    - ARX (`mobile_manipulator/ARX/`)
+        - Lift (`Lift`)
+        - Lift 2S (`Lift 2S`)
+        - X7S (`X7S`)
+        - AC One Base (`AC_One_Base`)
+- **Components** — under `components/` (shared wheels / fixtures)
+    - Angellun
+        - Angellun_8 (`Angellun_8`)
+        - Angellun_10 (`Angellun_10`)
+    - omnia_150 (`omnia_150`)
+    - fixed_ee (`fixed_ee/`)
+        - Concave_type1 / Hook_type1 / Scoop_type1
+- **Sensors** — under `sensors/`
+    - RealSense (`sensors/realsense/`)
+        - d405 / d415 / d435
+    - Orbbec (`sensors/orbbec/`)
+        - 305 / 336 / 336L / 335Le / 335Lg
+        - dabai_agilex / dabai_dw / oradar_ms500
+    - RoboSense (`sensors/robosense/`)
+        - Airy (`airy`)
+    - Linkhou (`sensors/linkhou/`)
+        - DS51 (`ds51`)
+    - mid360, sdkeli_ls2
+    - usb_camera_01 / usb_camera_02
+    - ultrasonic (`sensors/ultrasonic/`)
+        - ultrasonic_02 / ultrasonic_03
+    - 6Dof F&T Sensor
+        - KWR75B
+    - sick (`sensors/sick/`)
+        - nanoScan3
+    - sensing (`sensors/sensing/`)
+        - SHW5G / AstraS56 / M3A
 
 ## 4. Directory Structure
 
-The core directory is `robots`, which contains the following subfolders and resources:
+The core directory is `robots`. Brand-owned product trees use **short product names** under a brand folder (same pattern as `manipulators/ARX/X5`, `humanoid/Galaxea/R1`). Gento is a Tianji sub-brand on the humanoid side; the folder remains `humanoid/Gento/`.
 
 ```bash
 robots/
-  grippers/           # Gripper models and their configurations
-  dexhands/           # Dexterous hand models and their configurations
-  manipulators/       # Manipulator models, environment samples, and configurations
-  humanoid/          # Humanoid robot models and configurations
-  mobile_base/        # Mobile base models and configurations
-  mobile_manipulator/ # Mobile manipulator models and configurations
-  sensors/            # Sensor models
-  stands/             # Stand / fixture models
+  grippers/
+    Agibot/OmniPicker/  ChangingTek/{AG2F120S,AG2F90}/
+    Inspire/EG2_4C2/  Jodell/{RG75,ERG32}/
+  dexhands/
+    BrainCo/{Revo1,Revo2}/  LinkerHands/{L6,o6,o7}/
+    RobotEra/Xhand1/  Wuji/Hand2/
+  suction_cup/
+    YSW/E70/
+  manipulators/
+    AgileX/{Piper,Piper_H,Piper_X,Piper_L,Gripper}/
+    ARX/{X5,R5,Gripper_2023,Gripper_2025}/
+    Galaxea/{A1,A1X,A1Y,A1Z,G1,G1Z}/
+    Dobot/{CR5,CR5_Fa_Station}/  Elite/EC66/  Fairino/ART7/
+    Tianji/{M6_CCS,M6S_Lite_CCS,M6_Fa_Station,M20S_CCS}/
+    Rokae/{AR5_CCS_V1,AR5_CCS_V2,AR5_SRS}/
+    Realman/RM75/  HighTorque/Panthera_HT/
+  humanoid/
+    FiveAges/{Gen1,Gen2,Gen3}/
+    Galaxea/{R1,R1_Lite}/
+    Galbot/  Agibot/{G1,G2}/
+    Gento/{Luna,Skye}/          # Tianji sub-brand
+    Astribot/{S1,Gripper}/  Spirit AI/MOZ1/
+    Realman/AIDAL/  Ubtech/Ubtech_CruzrS2/
+  mobile_base/
+    Agilex/{Ranger Mini,Tracer V1,Tracer V2}/
+    Linkhou/{Q1,S2_V1,S2_V2,G2_Chassis}/
+    Angellun/Moz1_Chassis/
+    Woosh/{Ai2_Bot2_Chassis,RM_AIDAL_Chassis}/
+  mobile_manipulator/
+    ARX/{Lift,Lift 2S,X7S,AC_One_Base}/
+    Agilex/{Cobot Magic V1,Cobot Magic V2,Split Aloha}/
+  components/
+    Angellun_8/  Angellun_10/  omnia_150/
+    fixed_ee/{Concave_type1,Hook_type1,Scoop_type1}/
+  sensors/
+    realsense/{d405,d415,d435}.usd
+    orbbec/{305,336,336L,335Le,335Lg,dabai_agilex,dabai_dw,oradar_ms500}.usd
+    robosense/airy.usd  linkhou/ds51.usd
+    sensing/  sick/  ultrasonic/
   README.md
   LICENSE
 ```
 
-Some scenes under `manipulators/*/envs/` depend on external environment assets (textures, shared assets, etc.).
+Some scenes under `*/env/` depend on external environment assets (see §5).
 
 ## 5. Using Environment Assets
 

@@ -1,0 +1,132 @@
+#usda 1.0
+(
+    defaultPrim = "AR5_CCS_V2"
+)
+
+def Xform "AR5_CCS_V2"
+{
+    over "link7"
+    {
+        over "tcp"
+        {
+            def "AG2F120S" (
+                prepend payload = @../../../../../../../grippers/ChangingTek/AG2F120S/AG2F120S.usda@
+                variants = {
+                    string Flange = "default"
+                    string Side = "left"
+                }
+            )
+            {
+                quatd xformOp:orient = (0.7071067811865476, 0, 0, 0.7071067811865475)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0.0258)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+                over "root_joint" (
+                    active = false
+                )
+                {
+                }
+
+                over "gripper_base"
+                {
+                    def PhysicsFixedJoint "AssemblerFixedJoint"
+                    {
+                        rel physics:body0 = </AR5_CCS_V2/link7/tcp>
+                        rel physics:body1 = </AR5_CCS_V2/link7/tcp/AG2F120S/gripper_base>
+                        point3f physics:localPos0 = (0, 0, 0.0258)
+                        point3f physics:localPos1 = (0, 0, 0)
+                        quatf physics:localRot0 = (0.70710677, 1.2971286e-09, -1.2971284e-09, 0.70710677)
+                        quatf physics:localRot1 = (1, 1.2391298e-16, -1.5881049e-09, 1.4816293e-08)
+                    }
+                }
+
+            over "joints"
+            {
+                over "left_gripper_joint"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "left_left_support_joint"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "left_left_2_joint"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "left_right_1_joint"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "left_right_support_joint"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "left_right_2_joint"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+            }
+            }
+        }
+    }
+
+    over "joints"
+    {
+        over "joint1"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "joint2"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "joint3"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "joint4"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "joint5"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "joint6"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "joint7"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+    }
+}

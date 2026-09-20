@@ -1,0 +1,220 @@
+#usda 1.0
+(
+    defaultPrim = "ARX_Lift"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+over "ARX_Lift"
+{
+    over "base_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "PhysicsArticulationRootAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (-0.0153, 0, 0.21685784)
+        float3 physics:diagonalInertia = (0.8, 0.4, 0.7)
+        float physics:mass = 67.76965
+        quatf physics:principalAxes = (0.9985295, 0.009625343, -0.022850662, 0.04820952)
+    }
+
+    over "lift_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.14589816, 0, 0.08249812)
+        float3 physics:diagonalInertia = (0.21516196, 0.21910545, 0.31077623)
+        float physics:mass = 18.380539
+        quatf physics:principalAxes = (0.9993288, 0.0015626686, 0.02667995, 0.025052369)
+    }
+
+    over "joints"
+    {
+        def PhysicsPrismaticJoint "lift_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:linear"]
+        )
+        {
+            uniform token physics:axis = "Z"
+            custom rel physics:body0
+            prepend rel physics:body0 = </ARX_Lift/base_link>
+            custom rel physics:body1
+            prepend rel physics:body1 = </ARX_Lift/lift_link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 3.2228909
+            point3f physics:localPos0 = (-0.032, 0, 0.233)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = 0
+            float physics:upperLimit = 0.86
+            float state:linear:physics:position = 0
+            float state:linear:physics:velocity = 0
+        }
+
+        def PhysicsRevoluteJoint "head_joint1" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform token physics:axis = "Z"
+            custom rel physics:body0
+            prepend rel physics:body0 = </ARX_Lift/lift_link>
+            custom rel physics:body1
+            prepend rel physics:body1 = </ARX_Lift/head_link1>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.07900996
+            point3f physics:localPos0 = (0.258786, 0, 0.266008)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -90
+            float physics:upperLimit = 90
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        def PhysicsRevoluteJoint "head_joint2" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform token physics:axis = "Y"
+            custom rel physics:body0
+            prepend rel physics:body0 = </ARX_Lift/head_link1>
+            custom rel physics:body1
+            prepend rel physics:body1 = </ARX_Lift/head_link2>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.04418183
+            point3f physics:localPos0 = (0, -0.025, 0.049)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0, 1, 0, 0)
+            quatf physics:localRot1 = (0, 1, 0, 0)
+            float physics:lowerLimit = -45
+            float physics:upperLimit = 45
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        def PhysicsRevoluteJoint "wheel1_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            custom double isaacmecanumwheel:angle = 90
+            custom double isaacmecanumwheel:radius = 0.08
+            uniform token physics:axis = "X"
+            custom rel physics:body0
+            prepend rel physics:body0 = </ARX_Lift/base_link>
+            custom rel physics:body1
+            prepend rel physics:body1 = </ARX_Lift/wheel_1>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0
+            point3f physics:localPos0 = (0.182349, 0.315838, 0.03)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0.49999997, 0, 0, -0.86602545)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -inf
+            float physics:upperLimit = inf
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        def PhysicsRevoluteJoint "wheel2_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            custom double isaacmecanumwheel:angle = 90
+            custom double isaacmecanumwheel:radius = 0.08
+            uniform token physics:axis = "X"
+            custom rel physics:body0
+            prepend rel physics:body0 = </ARX_Lift/base_link>
+            custom rel physics:body1
+            prepend rel physics:body1 = </ARX_Lift/wheel_2>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0
+            point3f physics:localPos0 = (0.182349, -0.315838, 0.03)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0.49999997, 0, 0, 0.86602545)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -inf
+            float physics:upperLimit = inf
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        def PhysicsRevoluteJoint "wheel3_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            custom double isaacmecanumwheel:angle = 90
+            custom double isaacmecanumwheel:radius = 0.08
+            uniform token physics:axis = "X"
+            custom rel physics:body0
+            prepend rel physics:body0 = </ARX_Lift/base_link>
+            custom rel physics:body1
+            prepend rel physics:body1 = </ARX_Lift/wheel_3>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0
+            point3f physics:localPos0 = (-0.364699, 0, 0.03)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -inf
+            float physics:upperLimit = inf
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+    }
+
+    over "head_link1" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (-1.2166452e-8, 0.0001551011, 0.041477513)
+        float3 physics:diagonalInertia = (0.00027, 0.00026123106, 0.00017876894)
+        float physics:mass = 0.42940658
+        quatf physics:principalAxes = (0.9981252, -0.06120637, 0, 0)
+    }
+
+    over "head_link2" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.014547462, 0.022959521, 0.07879144)
+        float3 physics:diagonalInertia = (0.0057503222, 0.0047559827, 0.0077036954)
+        float physics:mass = 1.5442044
+        quatf physics:principalAxes = (0.9978382, -0.026219051, 0.044203643, -0.040957574)
+    }
+
+    over "wheel_1" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        float3 physics:diagonalInertia = (0.0001, 0.0001, 0.0001)
+        float physics:mass = 0.01
+    }
+
+    over "wheel_2" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        float3 physics:diagonalInertia = (0.0001, 0.0001, 0.0001)
+        float physics:mass = 0.01
+    }
+
+    over "wheel_3" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        float3 physics:diagonalInertia = (0.0001, 0.0001, 0.0001)
+        float physics:mass = 0.01
+    }
+}
+
+def PhysicsScene "PhysicsScene" (
+    prepend apiSchemas = ["NewtonSceneAPI"]
+)
+{
+}

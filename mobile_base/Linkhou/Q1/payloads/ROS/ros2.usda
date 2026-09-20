@@ -1,0 +1,318 @@
+#usda 1.0
+(
+    defaultPrim = "Q1"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "Q1"
+{
+    def "Graph"
+    {
+        def OmniGraph "ROS_Diff_Controller"
+        {
+            token evaluationMode = "Automatic"
+            token evaluator:type = "execution"
+            token fabricCacheBacking = "StageWithoutHistory"
+            int2 fileFormatVersion = (1, 9)
+            token pipelineStage = "pipelineStageSimulation"
+
+            def OmniGraphNode "OnPlaybackTick"
+            {
+                token node:type = "omni.graph.action.OnPlaybackTick"
+                int node:typeVersion = 2
+                custom double outputs:deltaSeconds
+                custom double outputs:frame
+                custom uint outputs:tick (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom double outputs:time
+            }
+
+            def OmniGraphNode "Context"
+            {
+                custom uchar inputs:domain_id
+                custom bool inputs:useDomainIDEnvVar
+                token node:type = "isaacsim.ros2.bridge.ROS2Context"
+                int node:typeVersion = 2
+                custom uint64 outputs:context
+            }
+
+            def OmniGraphNode "ros2_subscribe_twist"
+            {
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </Q1/Graph/ROS_Diff_Controller/Context.outputs:context>
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </Q1/Graph/ROS_Diff_Controller/OnPlaybackTick.outputs:tick>
+                custom string inputs:nodeNamespace
+                custom string inputs:qosProfile
+                custom uint64 inputs:queueSize
+                custom string inputs:topicName = "/cmd_vel"
+                token node:type = "isaacsim.ros2.bridge.ROS2SubscribeTwist"
+                int node:typeVersion = 1
+                custom vector3d outputs:angularVelocity
+                custom uint outputs:execOut (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom vector3d outputs:linearVelocity
+            }
+
+            def OmniGraphNode "scale_to_from_stage_units"
+            {
+                custom token inputs:conversion (
+                    allowedTokens = ["Convert to stage units", "Convert to meters"]
+                )
+                custom token inputs:value
+                prepend token inputs:value.connect = </Q1/Graph/ROS_Diff_Controller/ros2_subscribe_twist.outputs:linearVelocity>
+                token node:type = "isaacsim.core.nodes.OgnIsaacScaleToFromStageUnit"
+                int node:typeVersion = 1
+                custom token outputs:result
+            }
+
+            def OmniGraphNode "break_linear"
+            {
+                custom token inputs:tuple
+                prepend token inputs:tuple.connect = </Q1/Graph/ROS_Diff_Controller/scale_to_from_stage_units.outputs:result>
+                token node:type = "omni.graph.nodes.BreakVector3"
+                int node:typeVersion = 1
+                custom token outputs:x
+                custom token outputs:y
+                custom token outputs:z
+            }
+
+            def OmniGraphNode "break_angular"
+            {
+                custom token inputs:tuple
+                prepend token inputs:tuple.connect = </Q1/Graph/ROS_Diff_Controller/ros2_subscribe_twist.outputs:angularVelocity>
+                token node:type = "omni.graph.nodes.BreakVector3"
+                int node:typeVersion = 1
+                custom token outputs:x
+                custom token outputs:y
+                custom token outputs:z
+            }
+
+            def OmniGraphNode "DifferentialController"
+            {
+                custom double inputs:angularVelocity
+                prepend double inputs:angularVelocity.connect = </Q1/Graph/ROS_Diff_Controller/break_angular.outputs:z>
+                custom double inputs:dt
+                prepend double inputs:dt.connect = </Q1/Graph/ROS_Diff_Controller/OnPlaybackTick.outputs:deltaSeconds>
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </Q1/Graph/ROS_Diff_Controller/OnPlaybackTick.outputs:tick>
+                custom double inputs:linearVelocity
+                prepend double inputs:linearVelocity.connect = </Q1/Graph/ROS_Diff_Controller/break_linear.outputs:x>
+                custom double inputs:maxAcceleration
+                custom double inputs:maxAngularAcceleration
+                custom double inputs:maxAngularSpeed
+                custom double inputs:maxDeceleration
+                custom double inputs:maxLinearSpeed
+                custom double inputs:maxWheelSpeed
+                custom double inputs:wheelDistance = 0.4125
+                custom double inputs:wheelRadius = 0.07585
+                token node:type = "isaacsim.robot.wheeled_robots.DifferentialController"
+                int node:typeVersion = 1
+                custom double[] outputs:velocityCommand
+            }
+
+            def OmniGraphNode "ArticulationController"
+            {
+                custom double[] inputs:effortCommand
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </Q1/Graph/ROS_Diff_Controller/OnPlaybackTick.outputs:tick>
+                custom int[] inputs:jointIndices
+                custom token[] inputs:jointNames = ["chassis_left_joint", "chassis_right_joint"]
+                custom double[] inputs:positionCommand
+                custom string inputs:robotPath
+                custom rel inputs:targetPrim = </Q1/base_footprint> (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
+                custom double[] inputs:velocityCommand
+                prepend double[] inputs:velocityCommand.connect = </Q1/Graph/ROS_Diff_Controller/DifferentialController.outputs:velocityCommand>
+                token node:type = "isaacsim.core.nodes.IsaacArticulationController"
+                int node:typeVersion = 1
+            }
+        }
+
+        def OmniGraph "ROS_Odometry"
+        {
+            token evaluationMode = "Automatic"
+            token evaluator:type = "execution"
+            token fabricCacheBacking = "StageWithoutHistory"
+            int2 fileFormatVersion = (1, 9)
+            token pipelineStage = "pipelineStageSimulation"
+
+            def OmniGraphNode "OnPlaybackTick"
+            {
+                token node:type = "omni.graph.action.OnPlaybackTick"
+                int node:typeVersion = 2
+                custom double outputs:deltaSeconds
+                custom double outputs:frame
+                custom uint outputs:tick (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom double outputs:time
+            }
+
+            def OmniGraphNode "Context"
+            {
+                custom uchar inputs:domain_id
+                custom bool inputs:useDomainIDEnvVar
+                token node:type = "isaacsim.ros2.bridge.ROS2Context"
+                int node:typeVersion = 2
+                custom uint64 outputs:context
+            }
+
+            def OmniGraphNode "ReadSimTime"
+            {
+                custom uint64 inputs:referenceTimeDenominator
+                custom int64 inputs:referenceTimeNumerator
+                custom bool inputs:resetOnStop = 0
+                token node:type = "isaacsim.core.nodes.IsaacReadSimulationTime"
+                int node:typeVersion = 1
+                custom double outputs:simulationTime
+            }
+
+            def OmniGraphNode "TFWorld2Odom"
+            {
+                custom string inputs:childFrameId = "odom"
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </Q1/Graph/ROS_Odometry/Context.outputs:context>
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </Q1/Graph/ROS_Odometry/OnPlaybackTick.outputs:tick>
+                custom string inputs:nodeNamespace = ""
+                custom string inputs:parentFrameId = "world"
+                custom string inputs:qosProfile
+                custom uint64 inputs:queueSize
+                custom quatd inputs:rotation
+                custom bool inputs:staticPublisher
+                custom double inputs:timeStamp
+                prepend double inputs:timeStamp.connect = </Q1/Graph/ROS_Odometry/ReadSimTime.outputs:simulationTime>
+                custom string inputs:topicName
+                custom vector3d inputs:translation
+                token node:type = "isaacsim.ros2.bridge.ROS2PublishRawTransformTree"
+                int node:typeVersion = 1
+            }
+
+            def OmniGraphNode "TFOdom2Robot"
+            {
+                custom string inputs:childFrameId = "base_footprint"
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </Q1/Graph/ROS_Odometry/Context.outputs:context>
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </Q1/Graph/ROS_Odometry/OnPlaybackTick.outputs:tick>
+                custom string inputs:nodeNamespace = ""
+                custom string inputs:parentFrameId
+                custom string inputs:qosProfile
+                custom uint64 inputs:queueSize
+                custom quatd inputs:rotation
+                prepend quatd inputs:rotation.connect = </Q1/Graph/ROS_Odometry/ComputeOdometry.outputs:orientation>
+                custom bool inputs:staticPublisher
+                custom double inputs:timeStamp
+                prepend double inputs:timeStamp.connect = </Q1/Graph/ROS_Odometry/ReadSimTime.outputs:simulationTime>
+                custom string inputs:topicName
+                custom vector3d inputs:translation
+                prepend vector3d inputs:translation.connect = </Q1/Graph/ROS_Odometry/ComputeOdometry.outputs:position>
+                token node:type = "isaacsim.ros2.bridge.ROS2PublishRawTransformTree"
+                int node:typeVersion = 1
+            }
+
+            def OmniGraphNode "ComputeOdometry"
+            {
+                custom rel inputs:chassisPrim = </Q1/base_footprint> (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </Q1/Graph/ROS_Odometry/OnPlaybackTick.outputs:tick>
+                token node:type = "isaacsim.core.nodes.IsaacComputeOdometry"
+                int node:typeVersion = 1
+                custom vector3d outputs:angularAcceleration
+                custom vector3d outputs:angularVelocity
+                custom uint outputs:execOut (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom vector3d outputs:globalLinearAcceleration
+                custom vector3d outputs:globalLinearVelocity
+                custom vector3d outputs:linearAcceleration
+                custom vector3d outputs:linearVelocity
+                custom quatd outputs:orientation
+                custom vector3d outputs:position
+            }
+
+            def OmniGraphNode "PublisherOdometry"
+            {
+                custom vector3d inputs:angularVelocity
+                prepend vector3d inputs:angularVelocity.connect = </Q1/Graph/ROS_Odometry/ComputeOdometry.outputs:angularVelocity>
+                custom string inputs:chassisFrameId = "base_footprint"
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </Q1/Graph/ROS_Odometry/Context.outputs:context>
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </Q1/Graph/ROS_Odometry/ComputeOdometry.outputs:execOut>
+                custom vector3d inputs:linearVelocity
+                prepend vector3d inputs:linearVelocity.connect = </Q1/Graph/ROS_Odometry/ComputeOdometry.outputs:linearVelocity>
+                custom string inputs:nodeNamespace = ""
+                custom string inputs:odomFrameId
+                custom quatd inputs:orientation
+                prepend quatd inputs:orientation.connect = </Q1/Graph/ROS_Odometry/ComputeOdometry.outputs:orientation>
+                custom vector3d inputs:position
+                prepend vector3d inputs:position.connect = </Q1/Graph/ROS_Odometry/ComputeOdometry.outputs:position>
+                custom bool inputs:publishRawVelocities
+                custom string inputs:qosProfile
+                custom uint64 inputs:queueSize
+                custom vector3d inputs:robotFront
+                custom double inputs:timeStamp
+                prepend double inputs:timeStamp.connect = </Q1/Graph/ROS_Odometry/ReadSimTime.outputs:simulationTime>
+                custom string inputs:topicName = "/odom"
+                token node:type = "isaacsim.ros2.bridge.ROS2PublishOdometry"
+                int node:typeVersion = 1
+            }
+        }
+    }
+}

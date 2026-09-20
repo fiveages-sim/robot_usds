@@ -1,0 +1,142 @@
+#usda 1.0
+(
+    defaultPrim = "Gripper"
+    metersPerUnit = 1
+    subLayers = [
+        @./physics.usda@
+    ]
+    upAxis = "Z"
+)
+
+over "Gripper"
+{
+    over "joints"
+    {
+        over "gripper_joint" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:linear", "PhysicsDriveAPI:linear"]
+        )
+        {
+            float drive:linear:physics:damping = None
+            float drive:linear:physics:maxForce = None
+            float drive:linear:physics:stiffness = None
+            float drive:linear:physics:targetPosition = None
+            uniform token drive:linear:physics:type = None
+            uniform double mjc:armature = 0.001
+            uniform double mjc:damping = 0.01
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -100
+            uniform double mjc:actuatorfrcrange:max = 100
+        }
+
+        over "joint8" (
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:linear", "PhysxMimicJointAPI:rotZ"]
+        )
+        {
+            uniform double mjc:armature = 0.001
+            uniform double mjc:damping = 0.01
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = -1
+            rel newton:mimicJoint = </Gripper/joints/gripper_joint>
+            float physxMimicJoint:rotZ:dampingRatio = None
+            float physxMimicJoint:rotZ:gearing = None
+            float physxMimicJoint:rotZ:naturalFrequency = None
+            float physxMimicJoint:rotZ:offset = None
+        }
+
+        over "left_gripper_joint" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:linear", "PhysicsDriveAPI:linear", "PhysxJointAPI"]
+        )
+        {
+            float drive:linear:physics:damping = None
+            float drive:linear:physics:maxForce = None
+            float drive:linear:physics:stiffness = None
+            float drive:linear:physics:targetPosition = None
+            uniform token drive:linear:physics:type = None
+            uniform double mjc:armature = 0.001
+            uniform double mjc:damping = 0.01
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -100
+            uniform double mjc:actuatorfrcrange:max = 100
+        }
+
+        over "left_joint8" (
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:linear", "PhysxMimicJointAPI:rotZ", "PhysxJointAPI"]
+        )
+        {
+            uniform double mjc:armature = 0.001
+            uniform double mjc:damping = 0.01
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = -1
+            rel newton:mimicJoint = </Gripper/joints/left_gripper_joint>
+            float physxMimicJoint:rotZ:dampingRatio = None
+            float physxMimicJoint:rotZ:gearing = None
+            float physxMimicJoint:rotZ:naturalFrequency = None
+            float physxMimicJoint:rotZ:offset = None
+        }
+
+        over "right_gripper_joint" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:linear", "PhysicsDriveAPI:linear", "PhysxJointAPI"]
+        )
+        {
+            float drive:linear:physics:damping = None
+            float drive:linear:physics:maxForce = None
+            float drive:linear:physics:stiffness = None
+            float drive:linear:physics:targetPosition = None
+            uniform token drive:linear:physics:type = None
+            uniform double mjc:armature = 0.001
+            uniform double mjc:damping = 0.01
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -100
+            uniform double mjc:actuatorfrcrange:max = 100
+        }
+
+        over "right_joint8" (
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:linear", "PhysxMimicJointAPI:rotZ", "PhysxJointAPI"]
+        )
+        {
+            uniform double mjc:armature = 0.001
+            uniform double mjc:damping = 0.01
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = -1
+            rel newton:mimicJoint = </Gripper/joints/right_gripper_joint>
+            float physxMimicJoint:rotZ:dampingRatio = None
+            float physxMimicJoint:rotZ:gearing = None
+            float physxMimicJoint:rotZ:naturalFrequency = None
+            float physxMimicJoint:rotZ:offset = None
+        }
+    }
+
+    over "root_joint" (
+        prepend apiSchemas = ["NewtonArticulationRootAPI"]
+    )
+    {
+        bool newton:selfCollisionEnabled = 0
+    }
+
+    def Scope "actuators"
+    {
+        def MjcActuator "gripper_joint"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [100, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -100, -10, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -100
+            uniform double mjc:forceRange:max = 100
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = 0
+            uniform double mjc:ctrlRange:max = 0.05
+            rel mjc:target = </Gripper/joints/gripper_joint>
+        }
+    }
+}

@@ -1,0 +1,195 @@
+#usda 1.0
+(
+    defaultPrim = "LinkerHand_o6"
+    doc = """LinkerHand o6 — unified left/right via Side variant (default|left|right).
+default: left morphology, unprefixed joints.
+left: left morphology, left_hand_* joints (default joints deactivated).
+right: right morphology, right_hand_* joints (default joints deactivated).
+Finger/thumb meshes shared from left (pose mirror only); palm PhysX collider uses right xflip geo (visual: left mesh + scale X=-1).
+G1 hold (synced from o7 validated): fingers K=0.1 D=0.06 F=30; thumb K=0.12 D=0.08 F=50; jointFriction=0.5 armature=0.001; maxJointVelocity=500000 frozen. Colliders μs=2.0 contactOffset=0.002.
+"""
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "LinkerHand_o6" (
+    prepend references = @./payloads/base.usda@
+    variants = {
+        string Flange = "default"
+        string Physics = "physx"
+        string Robot = "none"
+        string Sensor = "none"
+        string Side = "default"
+    }
+    prepend variantSets = ["Side", "Physics", "Flange"]
+    append variantSets = ["Robot", "Sensor"]
+)
+{
+    over "joints"
+    {
+        over "index_joint"
+        {
+            float drive:angular:physics:damping = 0.06
+            float drive:angular:physics:maxForce = 30
+            float drive:angular:physics:stiffness = 0.1
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:jointFriction = 0.5
+            float physxJoint:armature = 0.001
+            float physxJoint:maxJointVelocity = 500000
+        }
+
+        over "index_dip"
+        {
+            float physxMimicJoint:rotY:dampingRatio = 0
+            float physxMimicJoint:rotY:naturalFrequency = 0
+        }
+
+        over "middle_joint"
+        {
+            float drive:angular:physics:damping = 0.06
+            float drive:angular:physics:maxForce = 30
+            float drive:angular:physics:stiffness = 0.1
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:jointFriction = 0.5
+            float physxJoint:armature = 0.001
+            float physxJoint:maxJointVelocity = 500000
+        }
+
+        over "middle_dip"
+        {
+            float physxMimicJoint:rotY:dampingRatio = 0
+            float physxMimicJoint:rotY:naturalFrequency = 0
+        }
+
+        over "pinky_joint"
+        {
+            float drive:angular:physics:damping = 0.06
+            float drive:angular:physics:maxForce = 30
+            float drive:angular:physics:stiffness = 0.1
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:jointFriction = 0.5
+            float physxJoint:armature = 0.001
+            float physxJoint:maxJointVelocity = 500000
+        }
+
+        over "pinky_dip"
+        {
+            float physxMimicJoint:rotY:dampingRatio = 0
+            float physxMimicJoint:rotY:naturalFrequency = 0
+        }
+
+        over "ring_joint"
+        {
+            float drive:angular:physics:damping = 0.06
+            float drive:angular:physics:maxForce = 30
+            float drive:angular:physics:stiffness = 0.1
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:jointFriction = 0.5
+            float physxJoint:armature = 0.001
+            float physxJoint:maxJointVelocity = 500000
+        }
+
+        over "ring_dip"
+        {
+            float physxMimicJoint:rotY:dampingRatio = 0
+            float physxMimicJoint:rotY:naturalFrequency = 0
+        }
+
+        over "thumb_joint2"
+        {
+            float drive:angular:physics:damping = 0.08
+            float drive:angular:physics:maxForce = 50
+            float drive:angular:physics:stiffness = 0.12
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:jointFriction = 0.5
+            float physxJoint:armature = 0.001
+            float physxJoint:maxJointVelocity = 500000
+        }
+
+        over "thumb_joint1"
+        {
+            float drive:angular:physics:damping = 0.08
+            float drive:angular:physics:maxForce = 50
+            float drive:angular:physics:stiffness = 0.12
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:jointFriction = 0.5
+            float physxJoint:armature = 0.001
+            float physxJoint:maxJointVelocity = 500000
+        }
+
+        over "thumb_dip"
+        {
+            float physxMimicJoint:rotY:dampingRatio = 0
+            float physxMimicJoint:rotY:naturalFrequency = 0
+        }
+    }
+
+    variantSet "Side" = {
+        "default" (
+            prepend payload = @./payloads/Side/default.usda@
+        ) {
+        }
+        "left" (
+            prepend payload = @./payloads/Side/left.usda@
+        ) {
+        }
+        "right" (
+            prepend payload = @./payloads/Side/right.usda@
+            delete references = @./payloads/base.usda@
+            prepend references = @./payloads/Hand/right/base.usda@
+        ) {
+        }
+    }
+    variantSet "Flange" = {
+        "default" (
+            prepend payload = @./payloads/Flange/default.usda@
+        ) {
+        }
+        "none" {
+        }
+    }
+    variantSet "Physics" = {
+        "mujoco" (
+            prepend payload = @./payloads/Physics/mujoco.usda@
+        ) {
+        }
+        "none" (
+            prepend payload = @./payloads/Physics/none.usda@
+        ) {
+        }
+        "physics" (
+            prepend payload = @./payloads/Physics/physics.usda@
+        ) {
+        }
+        "physx" (
+            prepend payload = @./payloads/Physics/physx.usda@
+        ) {
+        }
+    }
+    variantSet "Robot" = {
+        "none" (
+            prepend payload = @./payloads/Robot/none.usda@
+        ) {
+        }
+        "robot" (
+            prepend payload = @./payloads/Robot/robot.usda@
+        ) {
+        }
+    }
+    variantSet "Sensor" = {
+        "none" (
+            prepend payload = @./payloads/Sensor/none.usda@
+        ) {
+        }
+        "sensors" (
+            prepend payload = @./payloads/Sensor/sensors.usda@
+        ) {
+        }
+    }
+}

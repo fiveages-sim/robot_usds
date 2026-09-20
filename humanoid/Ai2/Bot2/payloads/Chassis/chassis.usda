@@ -1,0 +1,80 @@
+#usda 1.0
+(
+    defaultPrim = "Bot2"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "Bot2"
+{
+    def "Ai2_Bot2_Chassis" (
+        prepend payload = @../../../../../mobile_base/Woosh/Ai2_Bot2_Chassis/Ai2_Bot2_Chassis.usda@
+        delete apiSchemas = ["PhysicsArticulationRootAPI", "PhysxArticulationAPI", "NewtonArticulationRootAPI"]
+        variants = {
+            string Sensor = "sensors"
+        }
+    )
+    {
+        quatd xformOp:orient = (1, 0, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "base_footprint" (
+            delete apiSchemas = ["PhysicsArticulationRootAPI", "PhysxArticulationAPI", "NewtonArticulationRootAPI"]
+        )
+        {
+            def PhysicsFixedJoint "AssemblerFixedJoint"
+            {
+                rel physics:body0 = </Bot2/base_link>
+                rel physics:body1 = </Bot2/Ai2_Bot2_Chassis/base_footprint>
+                point3f physics:localPos0 = (0, 0, 0)
+                point3f physics:localPos1 = (0, 0, 0)
+                quatf physics:localRot0 = (1, 0, 0, 0)
+                quatf physics:localRot1 = (1, 0, 0, 0)
+            }
+        }
+
+        over "Graphs"
+        {
+            over "differential_controller"
+            {
+                over "ArticulationController"
+                {
+                    custom token[] inputs:jointNames = ["driving_left_joint", "driving_right_joint"]
+                    custom rel inputs:targetPrim = </Bot2> (
+                        customData = {
+                            dictionary omni = {
+                                dictionary graph = {
+                                    string relType = "target"
+                                }
+                            }
+                        }
+                    )
+                }
+
+                over "ros2_subscribe_twist"
+                {
+                    custom string inputs:nodeNamespace = ""
+                    custom string inputs:topicName = "/cmd_vel"
+                }
+            }
+
+            over "ROS_Odometry"
+            {
+                over "ComputeOdometry"
+                {
+                    custom rel inputs:chassisPrim = </Bot2> (
+                        customData = {
+                            dictionary omni = {
+                                dictionary graph = {
+                                    string relType = "target"
+                                }
+                            }
+                        }
+                    )
+                }
+            }
+        }
+    }
+}

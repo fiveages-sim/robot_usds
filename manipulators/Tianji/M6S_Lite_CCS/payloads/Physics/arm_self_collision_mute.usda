@@ -1,0 +1,38 @@
+#usda 1.0
+(
+    doc = """M6S_Lite_CCS NonDexHand mute — subLayer of physx.usda ONLY.
+
+PhysX: CollisionGroup + filteredGroups self-filter for arm links.
+
+Newton: see arm_self_collision_mute_newton.usda — append references on
+M6S_Lite_CCS Physics=mujoco (not mujoco.usda subLayer). DexHand EE still prepends
+excludes for PhysX group.
+"""
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+over "M6S_Lite_CCS"
+{
+    def Scope "CollisionGroups"
+    {
+        def PhysicsCollisionGroup "NonDexHand" (
+            prepend apiSchemas = ["CollectionAPI:colliders"]
+        )
+        {
+            prepend rel collection:colliders:includes = [
+                </M6S_Lite_CCS/base_link>,
+                </M6S_Lite_CCS/link1>,
+                </M6S_Lite_CCS/link2>,
+                </M6S_Lite_CCS/link3>,
+                </M6S_Lite_CCS/link4>,
+                </M6S_Lite_CCS/link5>,
+                </M6S_Lite_CCS/link6>,
+                </M6S_Lite_CCS/link7>,
+            ]
+            prepend rel physics:filteredGroups = [
+                </M6S_Lite_CCS/CollisionGroups/NonDexHand>,
+            ]
+        }
+    }
+}

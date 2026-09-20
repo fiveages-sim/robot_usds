@@ -1,0 +1,64 @@
+#usda 1.0
+(
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Scope "Instances"
+{
+    def Xform "mesh_3" (
+        prepend references = @../../geometries.usd@</Geometries/mesh_3>
+    )
+    {
+        over "mesh_3"
+        {
+            over "black_metal" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_3/VisualMaterials/black_metal>
+            }
+
+            over "red_light" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_3/VisualMaterials/red_light>
+            }
+
+            over "grey_metal" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_3/VisualMaterials/grey_metal>
+            }
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "black_metal" (
+                instanceable = true
+                prepend references = @../../materials.usda@</Materials/black_metal>
+            )
+            {
+            }
+
+            def Material "red_light" (
+                instanceable = true
+                prepend references = @../../materials.usda@</Materials/blue_light>
+            )
+            {
+            }
+
+            def Material "grey_metal" (
+                instanceable = true
+                prepend references = @../../materials.usda@</Materials/grey_metal>
+            )
+            {
+            }
+        }
+    }
+}

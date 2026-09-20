@@ -1,0 +1,303 @@
+#usda 1.0
+(
+    customLayerData = {
+        dictionary cameraSettings = {
+            dictionary Front = {
+                double3 position = (5, 0, 0)
+                double radius = 5
+            }
+            dictionary Perspective = {
+                double3 position = (0.3274176994328161, 0.1736013205702011, 0.7700787443648259)
+                double3 target = (0.1200839679779189, 0.0010686569465702123, -0.04503041415236897)
+            }
+            dictionary Right = {
+                double3 position = (0, -5, 0)
+                double radius = 5
+            }
+            dictionary Top = {
+                double3 position = (0, 0, 5)
+                double radius = 5
+            }
+            string boundCamera = "/OmniverseKit_Persp"
+        }
+        dictionary omni_layer = {
+            string authoring_layer = "./Panthera_HT.usd"
+        }
+        dictionary renderSettings = {
+        }
+    }
+    defaultPrim = "Panthera_HT"
+    metersPerUnit = 1
+    subLayers = [
+        @./physics.usda@
+    ]
+    upAxis = "Z"
+)
+
+def "Panthera_HT"
+{
+    over "joints"
+    {
+        over "joint1" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = 240.64224
+        }
+
+        over "joint2" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = 286.47888
+        }
+
+        over "joint3" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = 286.47888
+        }
+
+        over "joint4" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = 240.64224
+        }
+
+        over "joint5" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = 211.99437
+        }
+
+        over "joint6" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = 211.99437
+        }
+
+        over "gripper_joint" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = 0.25
+        }
+
+        over "gripper_joint2" (
+            prepend apiSchemas = ["PhysxJointAPI", "PhysxMimicJointAPI:rotY"]
+        )
+        {
+            float physxMimicJoint:rotY:dampingRatio = 0
+            float physxMimicJoint:rotY:gearing = -1
+            float physxMimicJoint:rotY:naturalFrequency = 0
+            float physxMimicJoint:rotY:offset = 0
+            rel physxMimicJoint:rotY:referenceJoint = </Panthera_HT/joints/gripper_joint>
+        }
+    }
+
+    over "root_joint" (
+        prepend apiSchemas = ["PhysxArticulationAPI"]
+    )
+    {
+        bool physxArticulation:enabledSelfCollisions = 0
+        int physxArticulation:solverPositionIterationCount = 32
+        int physxArticulation:solverVelocityIterationCount = 1
+    }
+
+    over "base_link"
+    {
+        over "visuals"
+        {
+            over "base_link"
+            {
+            }
+        }
+
+        over "collisions"
+        {
+            over "base_link"
+            {
+            }
+        }
+    }
+
+    over "link1"
+    {
+        over "visuals"
+        {
+            over "link1"
+            {
+            }
+        }
+
+        over "collisions"
+        {
+            over "link1"
+            {
+            }
+        }
+    }
+
+    over "link2"
+    {
+        over "visuals"
+        {
+            over "link2"
+            {
+            }
+        }
+
+        over "collisions"
+        {
+            over "link2"
+            {
+            }
+        }
+    }
+
+    over "link3"
+    {
+        over "visuals"
+        {
+            over "link3"
+            {
+            }
+        }
+
+        over "collisions"
+        {
+            over "link3"
+            {
+            }
+        }
+    }
+
+    over "link4"
+    {
+        over "visuals"
+        {
+            over "link4"
+            {
+            }
+        }
+
+        over "collisions"
+        {
+            over "link4"
+            {
+            }
+        }
+    }
+
+    over "link5"
+    {
+        over "visuals"
+        {
+            over "link5"
+            {
+            }
+        }
+
+        over "collisions"
+        {
+            over "link5"
+            {
+            }
+        }
+    }
+
+    over "link6"
+    {
+        over "gripper_center"
+        {
+        }
+
+        over "visuals"
+        {
+            over "link6"
+            {
+            }
+        }
+
+        over "collisions"
+        {
+            over "link6"
+            {
+            }
+        }
+    }
+
+    over "finger1"
+    {
+        over "visuals"
+        {
+            over "gripper_pad"
+            {
+            }
+        }
+
+        over "collisions"
+        {
+            over "gripper_pad"
+            {
+            }
+        }
+    }
+
+    over "finger2"
+    {
+        over "visuals"
+        {
+            over "gripper_pad"
+            {
+            }
+        }
+
+        over "collisions"
+        {
+            over "gripper_pad"
+            {
+            }
+        }
+    }
+
+    over "Looks"
+    {
+        over "PhysicsMaterial"
+        {
+        }
+    }
+
+    over "VisualMaterials"
+    {
+    }
+}
+
+over "Render"
+{
+    over "OmniverseKit"
+    {
+        over "HydraTextures"
+        {
+            over "omni_kit_widget_viewport_ViewportTexture_0"
+            {
+            }
+        }
+    }
+
+    over "OmniverseGlobalRenderSettings"
+    {
+    }
+
+    over "Vars"
+    {
+        over "LdrColor"
+        {
+        }
+    }
+}
+

@@ -1,0 +1,25 @@
+#usda 1.0
+(
+    defaultPrim = "Hook_type1"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+over "Hook_type1"
+{
+    over "gripper_base" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        float physics:mass = 0.5
+        point3f physics:centerOfMass = (0, 0, 0.06)
+        float3 physics:diagonalInertia = (0.001, 0.001, 0.0005)
+    }
+
+    def PhysicsFixedJoint "root_joint" (
+        prepend apiSchemas = ["PhysicsArticulationRootAPI"]
+    )
+    {
+        rel physics:body1 = </Hook_type1/gripper_base>
+    }
+}

@@ -1,0 +1,250 @@
+#usda 1.0
+(
+    defaultPrim = "ARX_LIFT2S"
+    metersPerUnit = 1
+    subLayers = [
+        @./physics.usda@
+    ]
+    upAxis = "Z"
+)
+
+def "ARX_LIFT2S"
+{
+    over "base_link" (
+        prepend apiSchemas = ["NewtonArticulationRootAPI"]
+    )
+    {
+        bool newton:selfCollisionEnabled = 0
+    }
+
+    # Single articulation tree: disable nested mount articulation roots so they
+    # cannot reconnect to world while AssemblerFixedJoint already attaches them.
+    over "lift_link"
+    {
+        over "AC_One_Base"
+        {
+            over "root_joint" (
+                active = false
+                delete apiSchemas = ["PhysicsArticulationRootAPI", "PhysxArticulationAPI", "NewtonArticulationRootAPI"]
+            )
+            {
+            }
+
+            over "base_link" (
+                delete apiSchemas = ["PhysicsArticulationRootAPI", "NewtonArticulationRootAPI"]
+            )
+            {
+                over "body_link"
+                {
+                    over "left_base_link"
+                    {
+                        over "Arm_Left"
+                        {
+                            over "base_link" (
+                                delete apiSchemas = ["PhysicsArticulationRootAPI", "NewtonArticulationRootAPI"]
+                            )
+                            {
+                            }
+
+                            over "root_joint" (
+                                active = false
+                                delete apiSchemas = ["PhysicsArticulationRootAPI", "PhysxArticulationAPI", "NewtonArticulationRootAPI"]
+                            )
+                            {
+                            }
+
+                            # Do NOT over Gripper_* here — empty overs create ghost prims
+                            # when that EE is not mounted (Newton cycle / remount bugs).
+                            # Nested artic-root disables live in the Side EE mount files.
+                        }
+                    }
+
+                    over "right_base_link"
+                    {
+                        over "Arm_Right"
+                        {
+                            over "base_link" (
+                                delete apiSchemas = ["PhysicsArticulationRootAPI", "NewtonArticulationRootAPI"]
+                            )
+                            {
+                            }
+
+                            over "root_joint" (
+                                active = false
+                                delete apiSchemas = ["PhysicsArticulationRootAPI", "PhysxArticulationAPI", "NewtonArticulationRootAPI"]
+                            )
+                            {
+                            }
+
+                            # Do NOT over Gripper_* here (see Arm_Left note above).
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    over "joints"
+    {
+        # PhysX force-drive kp/kd (60000/20000) must NOT be copied into MuJoCo PD.
+        # Use R1_Lite-scale position PD; forceRange still clamps to ±1000 N.
+        over "lift_joint" (
+            delete apiSchemas = ["PhysicsJointStateAPI:linear", "PhysicsDriveAPI:linear"]
+            prepend apiSchemas = ["MjcJointAPI"]
+        )
+        {
+            # Gravity pulls into lowerLimit=0; MuJoCo gravcomp + overdamp keep payload off the stop spring.
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:max = 3000
+            uniform double mjc:actuatorfrcrange:min = -3000
+            uniform bool mjc:actuatorgravcomp = 1
+            uniform double mjc:armature = 1.0
+            uniform double mjc:damping = 400
+            uniform double[] mjc:solimplimit = [0.9, 0.95, 0.001, 0.5, 2]
+            uniform double[] mjc:solreflimit = [0.05, 1]
+        }
+
+        # Mecanum wheels: PhysX velocity drive -> MuJoCo velocity actuators
+        # F = kd*(ctrl - qvel) => gain=[kd], bias=[0, 0, -kd]
+        over "wheel1_joint" (
+            delete apiSchemas = ["PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular"]
+            prepend apiSchemas = ["MjcJointAPI"]
+        )
+        {
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:max = 100
+            uniform double mjc:actuatorfrcrange:min = -100
+            uniform double mjc:armature = 0.05
+            uniform double mjc:damping = 1
+        }
+
+        over "wheel2_joint" (
+            delete apiSchemas = ["PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular"]
+            prepend apiSchemas = ["MjcJointAPI"]
+        )
+        {
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:max = 100
+            uniform double mjc:actuatorfrcrange:min = -100
+            uniform double mjc:armature = 0.05
+            uniform double mjc:damping = 1
+        }
+
+        over "wheel3_joint" (
+            delete apiSchemas = ["PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular"]
+            prepend apiSchemas = ["MjcJointAPI"]
+        )
+        {
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:max = 100
+            uniform double mjc:actuatorfrcrange:min = -100
+            uniform double mjc:armature = 0.05
+            uniform double mjc:damping = 1
+        }
+    }
+
+    def Scope "actuators"
+    {
+        def MjcActuator "lift_joint"
+        {
+            # Standard PD; mjc:actuatorgravcomp on the joint supplies gravity hold at ctrl=0.
+            uniform double[] mjc:biasPrm = [0, -8000, -3000, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:biasType = "affine"
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:max = 0.46
+            uniform double mjc:ctrlRange:min = 0
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:max = 3000
+            uniform double mjc:forceRange:min = -3000
+            uniform double[] mjc:gainPrm = [8000, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:gainType = "fixed"
+            rel mjc:target = </ARX_LIFT2S/joints/lift_joint>
+        }
+
+        def MjcActuator "wheel1_joint"
+        {
+            uniform double[] mjc:biasPrm = [0, 0, -20, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:biasType = "affine"
+            uniform token mjc:ctrlLimited = "false"
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:max = 100
+            uniform double mjc:forceRange:min = -100
+            uniform double[] mjc:gainPrm = [20, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:gainType = "fixed"
+            rel mjc:target = </ARX_LIFT2S/joints/wheel1_joint>
+        }
+
+        def MjcActuator "wheel2_joint"
+        {
+            uniform double[] mjc:biasPrm = [0, 0, -20, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:biasType = "affine"
+            uniform token mjc:ctrlLimited = "false"
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:max = 100
+            uniform double mjc:forceRange:min = -100
+            uniform double[] mjc:gainPrm = [20, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:gainType = "fixed"
+            rel mjc:target = </ARX_LIFT2S/joints/wheel2_joint>
+        }
+
+        def MjcActuator "wheel3_joint"
+        {
+            uniform double[] mjc:biasPrm = [0, 0, -20, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:biasType = "affine"
+            uniform token mjc:ctrlLimited = "false"
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:max = 100
+            uniform double mjc:forceRange:min = -100
+            uniform double[] mjc:gainPrm = [20, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:gainType = "fixed"
+            rel mjc:target = </ARX_LIFT2S/joints/wheel3_joint>
+        }
+    }
+
+    # Wheel mount Xforms have inertia but no mass in physics.usda; Newton requires
+    # mass > 0 when inertia is non-zero (PhysX tolerates the mismatch).
+    over "wheel_1"
+    {
+        float physics:mass = 0.01
+
+        over "omnia_150"
+        {
+            over "root_joint" (
+                active = false
+                delete apiSchemas = ["PhysicsArticulationRootAPI", "PhysxArticulationAPI", "NewtonArticulationRootAPI"]
+            )
+            {
+            }
+        }
+    }
+
+    over "wheel_2"
+    {
+        float physics:mass = 0.01
+
+        over "omnia_150"
+        {
+            over "root_joint" (
+                active = false
+                delete apiSchemas = ["PhysicsArticulationRootAPI", "PhysxArticulationAPI", "NewtonArticulationRootAPI"]
+            )
+            {
+            }
+        }
+    }
+
+    over "wheel_3"
+    {
+        float physics:mass = 0.01
+
+        over "omnia_150"
+        {
+            over "root_joint" (
+                active = false
+                delete apiSchemas = ["PhysicsArticulationRootAPI", "PhysxArticulationAPI", "NewtonArticulationRootAPI"]
+            )
+            {
+            }
+        }
+    }
+}

@@ -1,0 +1,1169 @@
+#usda 1.0
+(
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Scope "Instances"
+{
+    def Xform "mesh" (
+        prepend references = @./geometries.usd@</Geometries/mesh>
+    )
+    {
+        over "mesh"
+        {
+            over "silver" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh/VisualMaterials/silver>
+            }
+
+            over "metal_grey" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh/VisualMaterials/metal_grey>
+            }
+
+            over "green_light" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh/VisualMaterials/green_light>
+            }
+
+            over "metal_black" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh/VisualMaterials/metal_black>
+            }
+
+            over "rubber_grey" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh/VisualMaterials/rubber_grey>
+            }
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "silver" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/silver>
+            )
+            {
+            }
+
+            def Material "metal_grey" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/metal_grey>
+            )
+            {
+            }
+
+            def Material "green_light" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/green_light>
+            )
+            {
+            }
+
+            def Material "metal_black" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/metal_black>
+            )
+            {
+            }
+
+            def Material "rubber_grey" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/rubber_grey>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "mesh_1" (
+        prepend references = @./geometries.usd@</Geometries/mesh>
+    )
+    {
+        over "mesh" (
+            apiSchemas = ["PhysicsCollisionAPI", "PhysicsMeshCollisionAPI", "PhysxCollisionAPI", "PhysicsMaterialAPI", "PhysxMaterialAPI"]
+        )
+        {
+            float physics:staticFriction = 2.0
+            float physics:dynamicFriction = 1.6
+            float physics:restitution = 0
+            uniform token physxMaterial:frictionCombineMode = "max"
+            uniform token physxMaterial:restitutionCombineMode = "min"
+            bool physxMaterial:improvePatchFriction = 1
+            float physxCollision:contactOffset = 0.002
+            float physxCollision:restOffset = 0
+
+            token physics:approximation = "convexHull"
+            uniform token purpose = "guide"
+
+            over "silver" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_1/VisualMaterials/silver>
+            }
+
+            over "metal_grey" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_1/VisualMaterials/metal_grey>
+            }
+
+            over "green_light" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_1/VisualMaterials/green_light>
+            }
+
+            over "metal_black" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_1/VisualMaterials/metal_black>
+            }
+
+            over "rubber_grey" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_1/VisualMaterials/rubber_grey>
+            }
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "silver" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/silver>
+            )
+            {
+            }
+
+            def Material "metal_grey" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/metal_grey>
+            )
+            {
+            }
+
+            def Material "green_light" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/green_light>
+            )
+            {
+            }
+
+            def Material "metal_black" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/metal_black>
+            )
+            {
+            }
+
+            def Material "rubber_grey" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/rubber_grey>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "mesh_1_1" (
+        prepend references = @./geometries.usd@</Geometries/mesh_1>
+    )
+    {
+        over "mesh_1" (
+            apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            custom rel material:binding
+            prepend rel material:binding = </Instances/mesh_1_1/VisualMaterials/silver>
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "silver" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/silver>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "mesh_1_2" (
+        prepend references = @./geometries.usd@</Geometries/mesh_1>
+    )
+    {
+        over "mesh_1" (
+            apiSchemas = ["PhysicsCollisionAPI", "PhysicsMeshCollisionAPI", "MaterialBindingAPI", "PhysxCollisionAPI", "PhysicsMaterialAPI", "PhysxMaterialAPI"]
+        )
+        {
+            float physics:staticFriction = 2.0
+            float physics:dynamicFriction = 1.6
+            float physics:restitution = 0
+            uniform token physxMaterial:frictionCombineMode = "max"
+            uniform token physxMaterial:restitutionCombineMode = "min"
+            bool physxMaterial:improvePatchFriction = 1
+            float physxCollision:contactOffset = 0.002
+            float physxCollision:restOffset = 0
+
+            custom rel material:binding
+            prepend rel material:binding = </Instances/mesh_1_2/VisualMaterials/silver>
+            token physics:approximation = "convexHull"
+            uniform token purpose = "guide"
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "silver" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/silver>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "mesh_2" (
+        prepend references = @./geometries.usd@</Geometries/mesh_2>
+    )
+    {
+        over "mesh_2"
+        {
+            over "silver" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_2/VisualMaterials/silver>
+            }
+
+            over "rubber_grey" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_2/VisualMaterials/rubber_grey>
+            }
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "silver" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/silver>
+            )
+            {
+            }
+
+            def Material "rubber_grey" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/rubber_grey>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "mesh_2_1" (
+        prepend references = @./geometries.usd@</Geometries/mesh_2>
+    )
+    {
+        over "mesh_2" (
+            apiSchemas = ["PhysicsCollisionAPI", "PhysicsMeshCollisionAPI", "PhysxCollisionAPI", "PhysicsMaterialAPI", "PhysxMaterialAPI"]
+        )
+        {
+            float physics:staticFriction = 2.0
+            float physics:dynamicFriction = 1.6
+            float physics:restitution = 0
+            uniform token physxMaterial:frictionCombineMode = "max"
+            uniform token physxMaterial:restitutionCombineMode = "min"
+            bool physxMaterial:improvePatchFriction = 1
+            float physxCollision:contactOffset = 0.002
+            float physxCollision:restOffset = 0
+
+            token physics:approximation = "convexHull"
+            uniform token purpose = "guide"
+
+            over "silver" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_2_1/VisualMaterials/silver>
+            }
+
+            over "rubber_grey" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_2_1/VisualMaterials/rubber_grey>
+            }
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "silver" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/silver>
+            )
+            {
+            }
+
+            def Material "rubber_grey" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/rubber_grey>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "mesh_3" (
+        prepend references = @./geometries.usd@</Geometries/mesh_3>
+    )
+    {
+        over "mesh_3" (
+            apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            custom rel material:binding
+            prepend rel material:binding = </Instances/mesh_3/VisualMaterials/silver>
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "silver" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/silver>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "mesh_3_1" (
+        prepend references = @./geometries.usd@</Geometries/mesh_3>
+    )
+    {
+        over "mesh_3" (
+            apiSchemas = ["PhysicsCollisionAPI", "PhysicsMeshCollisionAPI", "MaterialBindingAPI", "PhysxCollisionAPI", "PhysicsMaterialAPI", "PhysxMaterialAPI"]
+        )
+        {
+            float physics:staticFriction = 2.0
+            float physics:dynamicFriction = 1.6
+            float physics:restitution = 0
+            uniform token physxMaterial:frictionCombineMode = "max"
+            uniform token physxMaterial:restitutionCombineMode = "min"
+            bool physxMaterial:improvePatchFriction = 1
+            float physxCollision:contactOffset = 0.002
+            float physxCollision:restOffset = 0
+
+            custom rel material:binding
+            prepend rel material:binding = </Instances/mesh_3_1/VisualMaterials/silver>
+            token physics:approximation = "convexHull"
+            uniform token purpose = "guide"
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "silver" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/silver>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "mesh_4" (
+        prepend references = @./geometries.usd@</Geometries/mesh_4>
+    )
+    {
+        over "mesh_4"
+        {
+            over "silver" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_4/VisualMaterials/silver>
+            }
+
+            over "rubber_grey" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_4/VisualMaterials/rubber_grey>
+            }
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "silver" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/silver>
+            )
+            {
+            }
+
+            def Material "rubber_grey" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/rubber_grey>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "mesh_4_1" (
+        prepend references = @./geometries.usd@</Geometries/mesh_4>
+    )
+    {
+        over "mesh_4" (
+            apiSchemas = ["PhysicsCollisionAPI", "PhysicsMeshCollisionAPI", "PhysxCollisionAPI", "PhysicsMaterialAPI", "PhysxMaterialAPI"]
+        )
+        {
+            float physics:staticFriction = 2.0
+            float physics:dynamicFriction = 1.6
+            float physics:restitution = 0
+            uniform token physxMaterial:frictionCombineMode = "max"
+            uniform token physxMaterial:restitutionCombineMode = "min"
+            bool physxMaterial:improvePatchFriction = 1
+            float physxCollision:contactOffset = 0.002
+            float physxCollision:restOffset = 0
+
+            token physics:approximation = "convexHull"
+            uniform token purpose = "guide"
+
+            over "silver" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_4_1/VisualMaterials/silver>
+            }
+
+            over "rubber_grey" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_4_1/VisualMaterials/rubber_grey>
+            }
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "silver" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/silver>
+            )
+            {
+            }
+
+            def Material "rubber_grey" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/rubber_grey>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "mesh_5" (
+        prepend references = @./geometries.usd@</Geometries/mesh_5>
+    )
+    {
+        over "mesh_5" (
+            apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            custom rel material:binding
+            prepend rel material:binding = </Instances/mesh_5/VisualMaterials/silver>
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "silver" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/silver>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "mesh_5_1" (
+        prepend references = @./geometries.usd@</Geometries/mesh_5>
+    )
+    {
+        over "mesh_5" (
+            apiSchemas = ["PhysicsCollisionAPI", "PhysicsMeshCollisionAPI", "MaterialBindingAPI", "PhysxCollisionAPI", "PhysicsMaterialAPI", "PhysxMaterialAPI"]
+        )
+        {
+            float physics:staticFriction = 2.0
+            float physics:dynamicFriction = 1.6
+            float physics:restitution = 0
+            uniform token physxMaterial:frictionCombineMode = "max"
+            uniform token physxMaterial:restitutionCombineMode = "min"
+            bool physxMaterial:improvePatchFriction = 1
+            float physxCollision:contactOffset = 0.002
+            float physxCollision:restOffset = 0
+
+            custom rel material:binding
+            prepend rel material:binding = </Instances/mesh_5_1/VisualMaterials/silver>
+            token physics:approximation = "convexHull"
+            uniform token purpose = "guide"
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "silver" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/silver>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "mesh_6" (
+        prepend references = @./geometries.usd@</Geometries/mesh_6>
+    )
+    {
+        over "mesh_6"
+        {
+            over "silver" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_6/VisualMaterials/silver>
+            }
+
+            over "rubber_grey" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_6/VisualMaterials/rubber_grey>
+            }
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "silver" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/silver>
+            )
+            {
+            }
+
+            def Material "rubber_grey" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/rubber_grey>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "mesh_6_1" (
+        prepend references = @./geometries.usd@</Geometries/mesh_6>
+    )
+    {
+        over "mesh_6" (
+            apiSchemas = ["PhysicsCollisionAPI", "PhysicsMeshCollisionAPI", "PhysxCollisionAPI", "PhysicsMaterialAPI", "PhysxMaterialAPI"]
+        )
+        {
+            float physics:staticFriction = 2.0
+            float physics:dynamicFriction = 1.6
+            float physics:restitution = 0
+            uniform token physxMaterial:frictionCombineMode = "max"
+            uniform token physxMaterial:restitutionCombineMode = "min"
+            bool physxMaterial:improvePatchFriction = 1
+            float physxCollision:contactOffset = 0.002
+            float physxCollision:restOffset = 0
+
+            token physics:approximation = "convexHull"
+            uniform token purpose = "guide"
+
+            over "silver" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_6_1/VisualMaterials/silver>
+            }
+
+            over "rubber_grey" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_6_1/VisualMaterials/rubber_grey>
+            }
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "silver" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/silver>
+            )
+            {
+            }
+
+            def Material "rubber_grey" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/rubber_grey>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "mesh_7" (
+        prepend references = @./geometries.usd@</Geometries/mesh_7>
+    )
+    {
+        over "mesh_7" (
+            apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            custom rel material:binding
+            prepend rel material:binding = </Instances/mesh_7/VisualMaterials/silver>
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "silver" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/silver>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "mesh_7_1" (
+        prepend references = @./geometries.usd@</Geometries/mesh_7>
+    )
+    {
+        over "mesh_7" (
+            apiSchemas = ["PhysicsCollisionAPI", "PhysicsMeshCollisionAPI", "MaterialBindingAPI", "PhysxCollisionAPI", "PhysicsMaterialAPI", "PhysxMaterialAPI"]
+        )
+        {
+            float physics:staticFriction = 2.0
+            float physics:dynamicFriction = 1.6
+            float physics:restitution = 0
+            uniform token physxMaterial:frictionCombineMode = "max"
+            uniform token physxMaterial:restitutionCombineMode = "min"
+            bool physxMaterial:improvePatchFriction = 1
+            float physxCollision:contactOffset = 0.002
+            float physxCollision:restOffset = 0
+
+            custom rel material:binding
+            prepend rel material:binding = </Instances/mesh_7_1/VisualMaterials/silver>
+            token physics:approximation = "convexHull"
+            uniform token purpose = "guide"
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "silver" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/silver>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "mesh_8" (
+        prepend references = @./geometries.usd@</Geometries/mesh_8>
+    )
+    {
+        over "mesh_8"
+        {
+            over "silver" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_8/VisualMaterials/silver>
+            }
+
+            over "rubber_grey" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_8/VisualMaterials/rubber_grey>
+            }
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "silver" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/silver>
+            )
+            {
+            }
+
+            def Material "rubber_grey" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/rubber_grey>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "mesh_8_1" (
+        prepend references = @./geometries.usd@</Geometries/mesh_8>
+    )
+    {
+        over "mesh_8" (
+            apiSchemas = ["PhysicsCollisionAPI", "PhysicsMeshCollisionAPI", "PhysxCollisionAPI", "PhysicsMaterialAPI", "PhysxMaterialAPI"]
+        )
+        {
+            float physics:staticFriction = 2.0
+            float physics:dynamicFriction = 1.6
+            float physics:restitution = 0
+            uniform token physxMaterial:frictionCombineMode = "max"
+            uniform token physxMaterial:restitutionCombineMode = "min"
+            bool physxMaterial:improvePatchFriction = 1
+            float physxCollision:contactOffset = 0.002
+            float physxCollision:restOffset = 0
+
+            token physics:approximation = "convexHull"
+            uniform token purpose = "guide"
+
+            over "silver" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_8_1/VisualMaterials/silver>
+            }
+
+            over "rubber_grey" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_8_1/VisualMaterials/rubber_grey>
+            }
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "silver" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/silver>
+            )
+            {
+            }
+
+            def Material "rubber_grey" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/rubber_grey>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "mesh_9" (
+        prepend references = @./geometries.usd@</Geometries/mesh_9>
+    )
+    {
+        over "mesh_9" (
+            apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            custom rel material:binding
+            prepend rel material:binding = </Instances/mesh_9/VisualMaterials/metal_grey>
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "metal_grey" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/metal_grey>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "mesh_9_1" (
+        prepend references = @./geometries.usd@</Geometries/mesh_9>
+    )
+    {
+        over "mesh_9" (
+            apiSchemas = ["PhysicsCollisionAPI", "PhysicsMeshCollisionAPI", "MaterialBindingAPI", "PhysxCollisionAPI", "PhysicsMaterialAPI", "PhysxMaterialAPI"]
+        )
+        {
+            float physics:staticFriction = 2.0
+            float physics:dynamicFriction = 1.6
+            float physics:restitution = 0
+            uniform token physxMaterial:frictionCombineMode = "max"
+            uniform token physxMaterial:restitutionCombineMode = "min"
+            bool physxMaterial:improvePatchFriction = 1
+            float physxCollision:contactOffset = 0.002
+            float physxCollision:restOffset = 0
+
+            custom rel material:binding
+            prepend rel material:binding = </Instances/mesh_9_1/VisualMaterials/metal_grey>
+            token physics:approximation = "convexHull"
+            uniform token purpose = "guide"
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "metal_grey" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/metal_grey>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "mesh_10" (
+        prepend references = @./geometries.usd@</Geometries/mesh_10>
+    )
+    {
+        over "mesh_10"
+        {
+            over "silver" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_10/VisualMaterials/silver>
+            }
+
+            over "metal_grey" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_10/VisualMaterials/metal_grey>
+            }
+
+            over "metal_black" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_10/VisualMaterials/metal_black>
+            }
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "silver" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/silver>
+            )
+            {
+            }
+
+            def Material "metal_grey" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/metal_grey>
+            )
+            {
+            }
+
+            def Material "metal_black" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/metal_black>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "mesh_10_1" (
+        prepend references = @./geometries.usd@</Geometries/mesh_10>
+    )
+    {
+        over "mesh_10" (
+            apiSchemas = ["PhysicsCollisionAPI", "PhysicsMeshCollisionAPI", "PhysxCollisionAPI", "PhysicsMaterialAPI", "PhysxMaterialAPI"]
+        )
+        {
+            float physics:staticFriction = 2.0
+            float physics:dynamicFriction = 1.6
+            float physics:restitution = 0
+            uniform token physxMaterial:frictionCombineMode = "max"
+            uniform token physxMaterial:restitutionCombineMode = "min"
+            bool physxMaterial:improvePatchFriction = 1
+            float physxCollision:contactOffset = 0.002
+            float physxCollision:restOffset = 0
+
+            token physics:approximation = "convexHull"
+            uniform token purpose = "guide"
+
+            over "silver" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_10_1/VisualMaterials/silver>
+            }
+
+            over "metal_grey" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_10_1/VisualMaterials/metal_grey>
+            }
+
+            over "metal_black" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_10_1/VisualMaterials/metal_black>
+            }
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "silver" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/silver>
+            )
+            {
+            }
+
+            def Material "metal_grey" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/metal_grey>
+            )
+            {
+            }
+
+            def Material "metal_black" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/metal_black>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "mesh_11" (
+        prepend references = @./geometries.usd@</Geometries/mesh_11>
+    )
+    {
+        over "mesh_11"
+        {
+            over "silver" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_11/VisualMaterials/silver>
+            }
+
+            over "rubber_grey" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_11/VisualMaterials/rubber_grey>
+            }
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "silver" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/silver>
+            )
+            {
+            }
+
+            def Material "rubber_grey" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/rubber_grey>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "mesh_11_1" (
+        prepend references = @./geometries.usd@</Geometries/mesh_11>
+    )
+    {
+        over "mesh_11" (
+            apiSchemas = ["PhysicsCollisionAPI", "PhysicsMeshCollisionAPI", "PhysxCollisionAPI", "PhysicsMaterialAPI", "PhysxMaterialAPI"]
+        )
+        {
+            float physics:staticFriction = 2.0
+            float physics:dynamicFriction = 1.6
+            float physics:restitution = 0
+            uniform token physxMaterial:frictionCombineMode = "max"
+            uniform token physxMaterial:restitutionCombineMode = "min"
+            bool physxMaterial:improvePatchFriction = 1
+            float physxCollision:contactOffset = 0.002
+            float physxCollision:restOffset = 0
+
+            token physics:approximation = "convexHull"
+            uniform token purpose = "guide"
+
+            over "silver" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_11_1/VisualMaterials/silver>
+            }
+
+            over "rubber_grey" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh_11_1/VisualMaterials/rubber_grey>
+            }
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "silver" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/silver>
+            )
+            {
+            }
+
+            def Material "rubber_grey" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/rubber_grey>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "mesh_xflip" (
+        prepend references = @./geometries.usd@</Geometries/mesh_xflip>
+    )
+    {
+        over "mesh" (
+            apiSchemas = ["PhysicsCollisionAPI", "PhysicsMeshCollisionAPI", "PhysxCollisionAPI", "PhysicsMaterialAPI", "PhysxMaterialAPI"]
+        )
+        {
+            float physics:staticFriction = 2.0
+            float physics:dynamicFriction = 1.6
+            float physics:restitution = 0
+            uniform token physxMaterial:frictionCombineMode = "max"
+            uniform token physxMaterial:restitutionCombineMode = "min"
+            bool physxMaterial:improvePatchFriction = 1
+            float physxCollision:contactOffset = 0.002
+            float physxCollision:restOffset = 0
+            token physics:approximation = "convexHull"
+            uniform token purpose = "guide"
+        }
+    }
+
+    def Xform "mesh_9_xflip" (
+        prepend references = @./geometries.usd@</Geometries/mesh_9_xflip>
+    )
+    {
+        over "mesh_9" (
+            apiSchemas = ["PhysicsCollisionAPI", "PhysicsMeshCollisionAPI", "PhysxCollisionAPI", "PhysicsMaterialAPI", "PhysxMaterialAPI"]
+        )
+        {
+            float physics:staticFriction = 2.0
+            float physics:dynamicFriction = 1.6
+            float physics:restitution = 0
+            uniform token physxMaterial:frictionCombineMode = "max"
+            uniform token physxMaterial:restitutionCombineMode = "min"
+            bool physxMaterial:improvePatchFriction = 1
+            float physxCollision:contactOffset = 0.002
+            float physxCollision:restOffset = 0
+            token physics:approximation = "convexHull"
+            uniform token purpose = "guide"
+        }
+    }
+
+    def Xform "mesh_10_xflip" (
+        prepend references = @./geometries.usd@</Geometries/mesh_10_xflip>
+    )
+    {
+        over "mesh_10" (
+            apiSchemas = ["PhysicsCollisionAPI", "PhysicsMeshCollisionAPI", "PhysxCollisionAPI", "PhysicsMaterialAPI", "PhysxMaterialAPI"]
+        )
+        {
+            float physics:staticFriction = 2.0
+            float physics:dynamicFriction = 1.6
+            float physics:restitution = 0
+            uniform token physxMaterial:frictionCombineMode = "max"
+            uniform token physxMaterial:restitutionCombineMode = "min"
+            bool physxMaterial:improvePatchFriction = 1
+            float physxCollision:contactOffset = 0.002
+            float physxCollision:restOffset = 0
+            token physics:approximation = "convexHull"
+            uniform token purpose = "guide"
+        }
+    }
+
+    def Xform "mesh_11_xflip" (
+        prepend references = @./geometries.usd@</Geometries/mesh_11_xflip>
+    )
+    {
+        over "mesh_11" (
+            apiSchemas = ["PhysicsCollisionAPI", "PhysicsMeshCollisionAPI", "PhysxCollisionAPI", "PhysicsMaterialAPI", "PhysxMaterialAPI"]
+        )
+        {
+            float physics:staticFriction = 2.0
+            float physics:dynamicFriction = 1.6
+            float physics:restitution = 0
+            uniform token physxMaterial:frictionCombineMode = "max"
+            uniform token physxMaterial:restitutionCombineMode = "min"
+            bool physxMaterial:improvePatchFriction = 1
+            float physxCollision:contactOffset = 0.002
+            float physxCollision:restOffset = 0
+            token physics:approximation = "convexHull"
+            uniform token purpose = "guide"
+        }
+    }
+}

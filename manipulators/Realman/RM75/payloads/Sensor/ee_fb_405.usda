@@ -1,0 +1,34 @@
+#usda 1.0
+(
+    defaultPrim = "RM75"
+    doc = """Payload shared fb_d405 EE kit (adapter + stand + d405). Yaws tcp +90 deg about Z with 0.0735 m offset."""
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "RM75"
+{
+    over "link7"
+    {
+        over "tcp"
+        {
+            quatd xformOp:orient = (0.7071067811865476, 0, 0, 0.7071067811865476)
+            double3 xformOp:translate = (0, 0, 0.0735)
+        }
+
+        over "ee"
+        {
+            def "ee_fb_405" (
+                kind = "component"
+                prepend payload = @../../../components/fb_d405/ee_fb.usd@
+            )
+            {
+                quatf xformOp:orient = (1, 0, 0, 0)
+                double xformOp:rotateX:unitsResolve = 90
+                float3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale", "xformOp:rotateX:unitsResolve"]
+            }
+        }
+    }
+}

@@ -1,0 +1,394 @@
+#usda 1.0
+(
+    customLayerData = {
+        dictionary cameraSettings = {
+            dictionary Front = {
+                double3 position = (5, 0, 0)
+                double radius = 5
+            }
+            dictionary Perspective = {
+                double3 position = (0.5979233620665069, 0.8761666046421297, 0.27834504477750877)
+                double3 target = (0.024265257960828013, -0.7104306074861884, -0.0024753439593301896)
+            }
+            dictionary Right = {
+                double3 position = (0, -5, 0)
+                double radius = 5
+            }
+            dictionary Top = {
+                double3 position = (0, 0, 5)
+                double radius = 5
+            }
+            string boundCamera = "/OmniverseKit_Persp"
+        }
+        dictionary metricsAssembler = {
+            dictionary "/Woosh_AGV/base_footprint/base_link/chassis_camera_link/orbbec_dabai_dw" = {
+            }
+            dictionary "/Woosh_AGV/base_footprint/base_link/chassis_panel/panel" = {
+            }
+            dictionary "/Woosh_AGV/base_footprint/base_link/lidar_link/oradar_ms500" = {
+            }
+            int version = 1
+        }
+        dictionary omni_layer = {
+            string authoring_layer = "./Woosh_AGV.usd"
+            dictionary locked = {
+            }
+            dictionary muteness = {
+            }
+        }
+        dictionary renderSettings = {
+        }
+    }
+    defaultPrim = "Woosh_AGV"
+    doc = """Generated from Composed Stage of root layer /home/fiveages/libraries/FaSim-Isaac/robots/humanoid/Realman_AIDAL/Woosh_AGV/RM_AIDAL_Chassis.usd
+
+
+Generated from Composed Stage of root layer /home/fiveages/libraries/FaSim-Isaac/robots/mobile_base/Woosh/payloads/base.usd
+"""
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+over "Woosh_AGV" (
+    prepend apiSchemas = ["PhysicsArticulationRootAPI"]
+)
+{
+    over "base_footprint" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.031666, -0.012627996, 0.17735401)
+        float3 physics:diagonalInertia = (0.034897197, 0.06619619, 0.09794458)
+        float physics:mass = 2.5521
+        quatf physics:principalAxes = (0.9999843, -0.0027601966, 0.004726556, 0.0011626408)
+    }
+
+    over "caster_1_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.00067987, -0.0050012, -0.013414)
+        float3 physics:diagonalInertia = (0.00003167885, 0.000038102142, 0.00004747901)
+        float physics:mass = 0.088835
+        quatf physics:principalAxes = (0.9813303, 0.19231638, 0.000972849, -0.0020969734)
+    }
+
+    over "joints"
+    {
+        def PhysicsRevoluteJoint "caster_1_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform token physics:axis = "Z"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Woosh_AGV/base_footprint>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Woosh_AGV/caster_1_link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.023422772
+            point3f physics:localPos0 = (0.194004, 0.124000005, 0.0827)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (-0.7071068, 0, 0, 0.7071067)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -inf
+            float physics:upperLimit = inf
+        }
+
+        def PhysicsRevoluteJoint "caster_wheel_1_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform token physics:axis = "X"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Woosh_AGV/caster_1_link>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Woosh_AGV/caster_wheel_1_link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.0005781275
+            point3f physics:localPos0 = (0, -0.022, -0.04516)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -inf
+            float physics:upperLimit = inf
+        }
+
+        def PhysicsRevoluteJoint "caster_2_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform token physics:axis = "Z"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Woosh_AGV/base_footprint>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Woosh_AGV/caster_2_link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.02849547
+            point3f physics:localPos0 = (-0.17842999, -0.12400001, 0.0827)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (-0.7071068, 0, 0, 0.7071067)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -inf
+            float physics:upperLimit = inf
+        }
+
+        def PhysicsRevoluteJoint "caster_wheel_2_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform token physics:axis = "X"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Woosh_AGV/caster_2_link>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Woosh_AGV/caster_wheel_2_link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.0005781048
+            point3f physics:localPos0 = (0, -0.022, -0.04516)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -inf
+            float physics:upperLimit = inf
+        }
+
+        def PhysicsRevoluteJoint "caster_3_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform token physics:axis = "Z"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Woosh_AGV/base_footprint>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Woosh_AGV/caster_3_link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.028393364
+            point3f physics:localPos0 = (-0.17842999, 0.12399998, 0.0827)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (-0.7071068, 0, 0, 0.7071067)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -inf
+            float physics:upperLimit = inf
+        }
+
+        def PhysicsRevoluteJoint "caster_wheel_3_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform token physics:axis = "X"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Woosh_AGV/caster_3_link>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Woosh_AGV/caster_wheel_3_link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.0005781133
+            point3f physics:localPos0 = (0, -0.022, -0.04516)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -inf
+            float physics:upperLimit = inf
+        }
+
+        def PhysicsRevoluteJoint "caster_4_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform token physics:axis = "Z"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Woosh_AGV/base_footprint>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Woosh_AGV/caster_4_link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.02336756
+            point3f physics:localPos0 = (0.194004, -0.12399999, 0.0827)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (-0.7071068, 0, 0, 0.7071067)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -inf
+            float physics:upperLimit = inf
+        }
+
+        def PhysicsRevoluteJoint "caster_wheel_4_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform token physics:axis = "X"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Woosh_AGV/caster_4_link>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Woosh_AGV/caster_wheel_4_link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.00057812204
+            point3f physics:localPos0 = (0, -0.022, -0.04516)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -inf
+            float physics:upperLimit = inf
+        }
+
+        def PhysicsRevoluteJoint "left_wheel_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform token physics:axis = "X"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Woosh_AGV/base_footprint>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Woosh_AGV/left_wheel_link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.08937075
+            point3f physics:localPos0 = (-1.0244548e-8, 0.18299998, 0.08500002)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0.70710677, 0, 0, 0.70710677)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -inf
+            float physics:upperLimit = inf
+        }
+
+        def PhysicsRevoluteJoint "right_wheel_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform token physics:axis = "X"
+            custom rel physics:body0
+            prepend rel physics:body0 = </Woosh_AGV/base_footprint>
+            custom rel physics:body1
+            prepend rel physics:body1 = </Woosh_AGV/right_wheel_link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.08629853
+            point3f physics:localPos0 = (1.21071935e-8, -0.18299998, 0.08500002)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0.70710677, 0, 0, 0.70710677)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -inf
+            float physics:upperLimit = inf
+        }
+    }
+
+    over "caster_wheel_1_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.0010651, 2.2204e-16, 9.4369e-16)
+        float3 physics:diagonalInertia = (0.00011169, 0.000060837025, 0.00006084098)
+        float physics:mass = 0.12664
+        quatf physics:principalAxes = (0.9663781, -0.25712544, 0, 0)
+    }
+
+    over "caster_2_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.00067987, -0.0050012, -0.013414)
+        float3 physics:diagonalInertia = (0.00003167885, 0.000038102142, 0.00004747901)
+        float physics:mass = 0.088835
+        quatf physics:principalAxes = (0.9813303, 0.19231638, 0.000972849, -0.0020969734)
+    }
+
+    over "caster_wheel_2_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.0010651, 6.1062e-16, 7.7716e-16)
+        float3 physics:diagonalInertia = (0.00011169, 0.000060841245, 0.000060836755)
+        float physics:mass = 0.12664
+        quatf physics:principalAxes = (0.96180207, 0.27374583, 0, 0)
+    }
+
+    over "caster_3_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.00067987, -0.0050012, -0.013414)
+        float3 physics:diagonalInertia = (0.00003167885, 0.000038102142, 0.00004747901)
+        float physics:mass = 0.088835
+        quatf physics:principalAxes = (0.9813303, 0.19231638, 0.000972849, -0.0020969734)
+    }
+
+    over "caster_wheel_3_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.0010651, -3.3307e-16, 8.8818e-16)
+        float3 physics:diagonalInertia = (0.00011169, 0.000060836974, 0.000060841026)
+        float physics:mass = 0.12664
+        quatf physics:principalAxes = (0.9992544, 0.03861076, 0, 0)
+    }
+
+    over "caster_4_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.00067987, -0.0050012, -0.0094542)
+        float3 physics:diagonalInertia = (0.00003167885, 0.000038102142, 0.00004747901)
+        float physics:mass = 0.088835
+        quatf physics:principalAxes = (0.9813303, 0.19231638, 0.000972849, -0.0020969734)
+    }
+
+    over "caster_wheel_4_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.0010651, -4.996e-16, 7.494e-16)
+        float3 physics:diagonalInertia = (0.00011169, 0.000060836664, 0.00006084134)
+        float physics:mass = 0.12664
+        quatf physics:principalAxes = (0.99085826, 0.1349077, 0, 0)
+    }
+
+    over "left_wheel_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.025224, -8.8034e-15, 0)
+        float3 physics:diagonalInertia = (0.0033996, 0.0019593, 0.0019593)
+        float physics:mass = 1.0734
+        quatf physics:principalAxes = (1, 0, 0, 0)
+
+        over "collisions" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </Woosh_AGV/Looks/WheelRubber>
+        }
+    }
+
+    over "right_wheel_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (-0.024898, 2.5665e-18, 0)
+        float3 physics:diagonalInertia = (0.0033125, 0.0018066, 0.0018066)
+        float physics:mass = 1.0523
+        quatf physics:principalAxes = (0.92387956, 0.38268343, 0, 0)
+
+        over "collisions" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </Woosh_AGV/Looks/WheelRubber>
+        }
+    }
+
+    over "Looks"
+    {
+        def Material "WheelRubber" (
+            prepend apiSchemas = ["PhysicsMaterialAPI"]
+        )
+        {
+            float physics:dynamicFriction = 1
+            float physics:staticFriction = 1
+        }
+    }
+}
+

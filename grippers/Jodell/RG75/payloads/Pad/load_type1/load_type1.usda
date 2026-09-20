@@ -1,0 +1,112 @@
+#usda 1.0
+(
+    defaultPrim = "RG75"
+    doc = """Pad=load_type1 — type1-like dual-finger mimic tips (legacy PTC CAD).
+
+Left/Right arm Transformer assets share identical pad meshes and pad_ptc blocks;
+only joint naming differs via RG75 side. One shared Pad package (from Left bake).
+"""
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def "RG75"
+{
+    over "Looks"
+    {
+        def Material "PadMaterials" (
+            prepend apiSchemas = ["PhysicsMaterialAPI"]
+        )
+        {
+            float physics:dynamicFriction = 1
+            float physics:staticFriction = 1
+        }
+    }
+
+    over "left_finger"
+    {
+        rel physics:simulationOwner
+
+        over "visuals"
+        {
+            over "finger_support"
+            {
+                token visibility = "invisible"
+            }
+        }
+
+        def "pad" (
+            prepend payload = @./pad_left.usda@
+        )
+        {
+            token visibility = "inherited"
+            double3 xformOp:translate = (0, 0, 0)
+            float3 xformOp:rotateZYX = (-90, 0, 0)
+            float3 xformOp:scale = (1, 1, 1)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateZYX", "xformOp:scale"]
+
+            over "shouzhi0305_001"
+            {
+                over "Mesh_0"
+                {
+                    rel physics:simulationOwner
+                }
+            }
+
+            over "shouzhi0304_000R"
+            {
+                over "Mesh_0_003"
+                {
+                    rel physics:simulationOwner
+                    prepend rel material:binding:physics = </RG75/Looks/PadMaterials>
+                }
+            }
+        }
+    }
+
+    over "right_finger"
+    {
+        rel physics:simulationOwner
+
+        over "visuals"
+        {
+            over "finger_support"
+            {
+                token visibility = "invisible"
+            }
+        }
+
+        def "pad" (
+            prepend payload = @./pad_right.usda@
+        )
+        {
+            token visibility = "inherited"
+            double3 xformOp:translate = (0, 0, 0)
+            float3 xformOp:rotateZYX = (-90, -180, 0)
+            float3 xformOp:scale = (1, 1, 1)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateZYX", "xformOp:scale"]
+
+            over "shouzhi0305_001"
+            {
+                over "Mesh_0"
+                {
+                    rel physics:simulationOwner
+                }
+            }
+
+            over "shouzhi0304_000R"
+            {
+                over "Mesh_0_003"
+                {
+                    rel physics:simulationOwner
+                    prepend rel material:binding:physics = </RG75/Looks/PadMaterials>
+                }
+            }
+        }
+    }
+
+    over "gripper_base"
+    {
+        rel physics:simulationOwner
+    }
+}

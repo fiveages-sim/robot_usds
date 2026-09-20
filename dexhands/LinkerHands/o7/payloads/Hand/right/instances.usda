@@ -1,0 +1,17 @@
+#usda 1.0
+(
+    metersPerUnit = 1
+    upAxis = "Z"
+    doc = "Right instances: shared left + right-only palm PhysX yflip collider (visual: left mesh + scale Y=-1)."
+)
+
+def Scope "Instances" (
+    prepend references = @../left/instances.usda@</Instances>
+)
+{
+    over "mesh_1_1" (
+        prepend references = @./geometries.usd@</Geometries/mesh_1_yflip>
+    )
+    {
+    }
+}

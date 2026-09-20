@@ -1,0 +1,21 @@
+#usda 1.0
+(
+    defaultPrim = "Dual_Stand2"
+    metersPerUnit = 1
+    subLayers = [
+        @./physics.usda@
+    ]
+    upAxis = "Z"
+)
+
+# Station frame only: fixed root + Newton articulation root.
+# Child CR5 arms keep their own Physics (do not bake here).
+over "Dual_Stand2"
+{
+    over "root_joint" (
+        prepend apiSchemas = ["NewtonArticulationRootAPI"]
+    )
+    {
+        bool newton:selfCollisionEnabled = 0
+    }
+}

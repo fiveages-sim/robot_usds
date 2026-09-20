@@ -1,0 +1,197 @@
+#usda 1.0
+(
+    defaultPrim = "Realman_AIDAL"
+    metersPerUnit = 1
+    subLayers = [
+        @./physics.usda@
+    ]
+    upAxis = "Z"
+)
+
+def "Realman_AIDAL" (
+    delete apiSchemas = ["NewtonArticulationRootAPI"]
+)
+{
+    over "base_link" (
+        prepend apiSchemas = ["NewtonArticulationRootAPI"]
+    )
+    {
+        bool newton:selfCollisionEnabled = 0
+    }
+
+    over "joints"
+    {
+        over "lift_joint" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:linear", "PhysicsDriveAPI:linear"]
+        )
+        {
+            float drive:linear:physics:damping = None
+            float drive:linear:physics:maxForce = None
+            float drive:linear:physics:stiffness = None
+            float drive:linear:physics:targetPosition = None
+            uniform token drive:linear:physics:type = None
+            uniform double mjc:armature = 0.01
+            uniform bool mjc:actuatorgravcomp = 1
+            uniform double mjc:damping = 0.1
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -50000
+            uniform double mjc:actuatorfrcrange:max = 50000
+        }
+
+        over "head_joint1" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = None
+            float drive:angular:physics:maxForce = None
+            float drive:angular:physics:stiffness = None
+            float drive:angular:physics:targetPosition = None
+            uniform token drive:angular:physics:type = None
+            uniform double mjc:armature = 0.01
+            uniform bool mjc:actuatorgravcomp = 1
+            uniform double mjc:damping = 0.1
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -2
+            uniform double mjc:actuatorfrcrange:max = 2
+        }
+
+        over "head_joint2" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = None
+            float drive:angular:physics:maxForce = None
+            float drive:angular:physics:stiffness = None
+            float drive:angular:physics:targetPosition = None
+            uniform token drive:angular:physics:type = None
+            uniform double mjc:armature = 0.01
+            uniform bool mjc:actuatorgravcomp = 1
+            uniform double mjc:damping = 0.1
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -2
+            uniform double mjc:actuatorfrcrange:max = 2
+        }
+    }
+
+    over "platform_base_link"
+    {
+        uniform float mjc:gravcomp = 1
+
+        over "left_base_link"
+        {
+            over "RM75_Left" (
+                variants = {
+                    string Physics = "mujoco"
+                }
+            )
+            {
+                over "link7"
+                {
+                    over "tcp"
+                    {
+                        over "Inspire_EG2_4C2" (
+                            variants = {
+                                string Physics = "mujoco"
+                            }
+                        )
+                        {
+                        }
+                    }
+                }
+            }
+        }
+
+        over "right_base_link"
+        {
+            over "RM75_Right" (
+                variants = {
+                    string Physics = "mujoco"
+                }
+            )
+            {
+                over "link7"
+                {
+                    over "tcp"
+                    {
+                        over "Inspire_EG2_4C2" (
+                            variants = {
+                                string Physics = "mujoco"
+                            }
+                        )
+                        {
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    over "head_link1"
+    {
+        uniform float mjc:gravcomp = 1
+    }
+
+    over "head_link2"
+    {
+        uniform float mjc:gravcomp = 1
+    }
+
+    def Scope "actuators"
+    {
+        def MjcActuator "lift_joint"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [600000, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -600000, -60000, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -50000
+            uniform double mjc:forceRange:max = 50000
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = 0
+            uniform double mjc:ctrlRange:max = 1
+            rel mjc:target = </Realman_AIDAL/joints/lift_joint>
+        }
+
+        def MjcActuator "head_joint1"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [600000, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -600000, -60000, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -2
+            uniform double mjc:forceRange:max = 2
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = -71.9635
+            uniform double mjc:ctrlRange:max = 71.9635
+            rel mjc:target = </Realman_AIDAL/joints/head_joint1>
+        }
+
+        def MjcActuator "head_joint2"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [600000, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -600000, -60000, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -2
+            uniform double mjc:forceRange:max = 2
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = -24.00693
+            uniform double mjc:ctrlRange:max = 24.00693
+            rel mjc:target = </Realman_AIDAL/joints/head_joint2>
+        }
+    }
+
+    over "Woosh_AGV" (
+        variants = {
+            string Physics = "mujoco"
+        }
+    )
+    {
+    }
+}

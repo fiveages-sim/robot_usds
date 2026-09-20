@@ -1,0 +1,80 @@
+#usda 1.0
+(
+    defaultPrim = "ysw_e70"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+over "ysw_e70"
+{
+    over "gripper_base" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        float physics:mass = 0.3
+        point3f physics:centerOfMass = (0, 0, 0.04)
+        float3 physics:diagonalInertia = (0.001, 0.001, 0.0005)
+
+        # W2-style convexHull on pump body meshes
+        over "visual"
+        {
+            over "suction_base"
+            {
+                over "suction_body"
+                {
+                    over "_70_1_12_16_ASM_31_ASM_ASM"
+                    {
+                        over "YSW_E70_24V__ASM_1_YSW_E70_24V__ASM_ASM_1_70_1_12_16_ASM_31_ASM_ASM_1_70_2___21_1"
+                        {
+                            over "Mesh_8" (
+                                prepend apiSchemas = ["PhysicsCollisionAPI", "PhysxCollisionAPI", "PhysxConvexHullCollisionAPI", "PhysicsMeshCollisionAPI"]
+                            )
+                            {
+                                uniform token physics:approximation = "convexHull"
+                                bool physics:collisionEnabled = 1
+                            }
+                        }
+                        over "YSW_E70_24V__ASM_1_YSW_E70_24V__ASM_ASM_1_70_1_12_16_ASM_31_ASM_ASM_1_123__1_1"
+                        {
+                            over "Mesh_11" (
+                                prepend apiSchemas = ["PhysicsCollisionAPI", "PhysxCollisionAPI", "PhysxConvexHullCollisionAPI", "PhysicsMeshCollisionAPI"]
+                            )
+                            {
+                                uniform token physics:approximation = "convexHull"
+                                bool physics:collisionEnabled = 1
+                            }
+                        }
+                        over "YSW_E70_24V__ASM_1_YSW_E70_24V__ASM_ASM_1_70_1_12_16_ASM_31_ASM_ASM_1_M3___1_1"
+                        {
+                            over "Mesh_10" (
+                                prepend apiSchemas = ["PhysicsCollisionAPI", "PhysxCollisionAPI", "PhysxConvexHullCollisionAPI", "PhysicsMeshCollisionAPI"]
+                            )
+                            {
+                                uniform token physics:approximation = "convexHull"
+                                bool physics:collisionEnabled = 1
+                            }
+                        }
+                        over "YSW_E70_24V__ASM_1_YSW_E70_24V__ASM_ASM_1_70_1_12_16_ASM_31_ASM_ASM_1_70_1__16_1"
+                        {
+                            over "Mesh_9" (
+                                prepend apiSchemas = ["PhysicsCollisionAPI", "PhysxCollisionAPI", "PhysxConvexHullCollisionAPI", "PhysicsMeshCollisionAPI"]
+                            )
+                            {
+                                uniform token physics:approximation = "convexHull"
+                                bool physics:collisionEnabled = 1
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    # Standalone articulation root (disabled when welded to an arm, like Hook).
+    def PhysicsFixedJoint "root_joint" (
+        prepend apiSchemas = ["PhysicsArticulationRootAPI"]
+    )
+    {
+        rel physics:body1 = </ysw_e70/gripper_base>
+    }
+}

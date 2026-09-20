@@ -1,0 +1,359 @@
+#usda 1.0
+(
+    defaultPrim = "OmniPicker"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def "OmniPicker"
+{
+    over "joints"
+    {
+        over "gripper_joint" (
+            active = false
+        )
+        {
+        }
+
+        def PhysicsRevoluteJoint "left_gripper_joint" (
+            prepend apiSchemas = ["MjcJointAPI", "PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular", "PhysxJointAPI"]
+        )
+        {
+            float drive:angular:physics:damping = 1
+            float drive:angular:physics:maxForce = 50
+            float drive:angular:physics:stiffness = 10
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            uniform double mjc:armature = 0.001
+            uniform double mjc:damping = 0.01
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -50
+            uniform double mjc:actuatorfrcrange:max = 50
+            uniform token physics:axis = "Z"
+            prepend rel physics:body0 = </OmniPicker/gripper_base>
+            prepend rel physics:body1 = </OmniPicker/narrow1_Link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.00036006336
+            point3f physics:localPos0 = (0, -0.0195, 0.0565)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (-0.004648268, -0.70709145, 0.004648268, -0.70709145)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = 0
+            float physics:upperLimit = 57.295776
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "narrow2_joint" (
+            active = false
+        )
+        {
+        }
+
+        def PhysicsRevoluteJoint "left_narrow2_joint" (
+            prepend apiSchemas = ["MjcJointAPI", "PhysicsJointStateAPI:angular", "PhysxJointAPI", "PhysxMimicJointAPI:rotZ", "NewtonMimicAPI"]
+        )
+        {
+            uniform double mjc:armature = 0.001
+            uniform double mjc:damping = 0.01
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -50
+            uniform double mjc:actuatorfrcrange:max = 50
+            uniform token physics:axis = "Z"
+            prepend rel physics:body0 = </OmniPicker/narrow1_Link>
+            prepend rel physics:body1 = </OmniPicker/narrow2_Link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.00010043752
+            point3f physics:localPos0 = (0.030852, 0.018551, 0)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0, 0, 1, 0)
+            quatf physics:localRot1 = (0, 0, 1, 0)
+            float physics:lowerLimit = -0.2291831
+            float physics:upperLimit = 1.3750986
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = -0.02
+            rel newton:mimicJoint = </OmniPicker/joints/left_gripper_joint>
+            float physxMimicJoint:rotZ:dampingRatio = 0
+            float physxMimicJoint:rotZ:gearing = -0.02
+            float physxMimicJoint:rotZ:naturalFrequency = 0
+            float physxMimicJoint:rotZ:offset = 0
+            rel physxMimicJoint:rotZ:referenceJoint = </OmniPicker/joints/left_gripper_joint>
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "narrow3_joint" (
+            active = false
+        )
+        {
+        }
+
+        def PhysicsRevoluteJoint "left_narrow3_joint" (
+            prepend apiSchemas = ["MjcJointAPI", "PhysicsJointStateAPI:angular", "PhysxJointAPI", "PhysxMimicJointAPI:rotZ", "NewtonMimicAPI"]
+        )
+        {
+            uniform double mjc:armature = 0.001
+            uniform double mjc:damping = 0.01
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -50
+            uniform double mjc:actuatorfrcrange:max = 50
+            uniform token physics:axis = "Z"
+            prepend rel physics:body0 = </OmniPicker/narrow2_Link>
+            prepend rel physics:body1 = </OmniPicker/narrow3_Link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 4.0798528e-05
+            point3f physics:localPos0 = (0.018118, -0.01574, 0)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0, 0, 1, 0)
+            quatf physics:localRot1 = (0, 0, 1, 0)
+            float physics:lowerLimit = -4.583662
+            float physics:upperLimit = 27.501972
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = -0.4
+            rel newton:mimicJoint = </OmniPicker/joints/left_gripper_joint>
+            float physxMimicJoint:rotZ:dampingRatio = 0
+            float physxMimicJoint:rotZ:gearing = -0.4
+            float physxMimicJoint:rotZ:naturalFrequency = 0
+            float physxMimicJoint:rotZ:offset = 0
+            rel physxMimicJoint:rotZ:referenceJoint = </OmniPicker/joints/left_gripper_joint>
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "narrow_loop_joint" (
+            active = false
+        )
+        {
+        }
+
+        def PhysicsRevoluteJoint "left_narrow_loop_joint" (
+            prepend apiSchemas = ["MjcJointAPI", "PhysicsJointStateAPI:angular", "PhysxJointAPI", "PhysxMimicJointAPI:rotZ", "NewtonMimicAPI"]
+        )
+        {
+            uniform double mjc:armature = 0.001
+            uniform double mjc:damping = 0.01
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -50
+            uniform double mjc:actuatorfrcrange:max = 50
+            uniform token physics:axis = "Z"
+            prepend rel physics:body0 = </OmniPicker/gripper_base>
+            prepend rel physics:body1 = </OmniPicker/narrow_loop_Link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.0002217832
+            point3f physics:localPos0 = (0, -0.021633, 0.07387)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (-0.004648268, -0.70709145, 0.004648268, -0.70709145)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -17.188732
+            float physics:upperLimit = 103.13239
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = -1.5
+            rel newton:mimicJoint = </OmniPicker/joints/left_gripper_joint>
+            float physxMimicJoint:rotZ:dampingRatio = 0
+            float physxMimicJoint:rotZ:gearing = -1.5
+            float physxMimicJoint:rotZ:naturalFrequency = 0
+            float physxMimicJoint:rotZ:offset = 0
+            rel physxMimicJoint:rotZ:referenceJoint = </OmniPicker/joints/left_gripper_joint>
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "wide1_joint" (
+            active = false
+        )
+        {
+        }
+
+        def PhysicsRevoluteJoint "left_wide1_joint" (
+            prepend apiSchemas = ["MjcJointAPI", "PhysicsJointStateAPI:angular", "PhysxJointAPI", "PhysxMimicJointAPI:rotZ", "NewtonMimicAPI"]
+        )
+        {
+            uniform double mjc:armature = 0.001
+            uniform double mjc:damping = 0.01
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -50
+            uniform double mjc:actuatorfrcrange:max = 50
+            uniform token physics:axis = "Z"
+            prepend rel physics:body0 = </OmniPicker/gripper_base>
+            prepend rel physics:body1 = </OmniPicker/wide1_Link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.0004750468
+            point3f physics:localPos0 = (0, 0.0195, 0.0565)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (-0.004648268, 0.70709145, -0.004648268, -0.70709145)
+            quatf physics:localRot1 = (0, 0, 1, 0)
+            float physics:lowerLimit = -11.459155
+            float physics:upperLimit = 68.75493
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = -1
+            rel newton:mimicJoint = </OmniPicker/joints/left_gripper_joint>
+            float physxMimicJoint:rotZ:dampingRatio = 0
+            float physxMimicJoint:rotZ:gearing = -1
+            float physxMimicJoint:rotZ:naturalFrequency = 0
+            float physxMimicJoint:rotZ:offset = 0
+            rel physxMimicJoint:rotZ:referenceJoint = </OmniPicker/joints/left_gripper_joint>
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "wide2_joint" (
+            active = false
+        )
+        {
+        }
+
+        def PhysicsRevoluteJoint "left_wide2_joint" (
+            prepend apiSchemas = ["MjcJointAPI", "PhysicsJointStateAPI:angular", "PhysxJointAPI", "PhysxMimicJointAPI:rotZ", "NewtonMimicAPI"]
+        )
+        {
+            uniform double mjc:armature = 0.001
+            uniform double mjc:damping = 0.01
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -50
+            uniform double mjc:actuatorfrcrange:max = 50
+            uniform token physics:axis = "Z"
+            prepend rel physics:body0 = </OmniPicker/wide1_Link>
+            prepend rel physics:body1 = </OmniPicker/wide2_Link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.00019795119
+            point3f physics:localPos0 = (0.030852, -0.018551, 0)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -0.2291831
+            float physics:upperLimit = 1.3750986
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = -0.02
+            rel newton:mimicJoint = </OmniPicker/joints/left_gripper_joint>
+            float physxMimicJoint:rotZ:dampingRatio = 0
+            float physxMimicJoint:rotZ:gearing = -0.02
+            float physxMimicJoint:rotZ:naturalFrequency = 0
+            float physxMimicJoint:rotZ:offset = 0
+            rel physxMimicJoint:rotZ:referenceJoint = </OmniPicker/joints/left_gripper_joint>
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "wide3_joint" (
+            active = false
+        )
+        {
+        }
+
+        def PhysicsRevoluteJoint "left_wide3_joint" (
+            prepend apiSchemas = ["MjcJointAPI", "PhysicsJointStateAPI:angular", "PhysxJointAPI", "PhysxMimicJointAPI:rotZ", "NewtonMimicAPI"]
+        )
+        {
+            uniform double mjc:armature = 0.001
+            uniform double mjc:damping = 0.01
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -50
+            uniform double mjc:actuatorfrcrange:max = 50
+            uniform token physics:axis = "Z"
+            prepend rel physics:body0 = </OmniPicker/wide2_Link>
+            prepend rel physics:body1 = </OmniPicker/wide3_Link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 9.805335e-05
+            point3f physics:localPos0 = (0.018118, 0.01574, 0)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -4.583662
+            float physics:upperLimit = 27.501972
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = -0.4
+            rel newton:mimicJoint = </OmniPicker/joints/left_gripper_joint>
+            float physxMimicJoint:rotZ:dampingRatio = 0
+            float physxMimicJoint:rotZ:gearing = -0.4
+            float physxMimicJoint:rotZ:naturalFrequency = 0
+            float physxMimicJoint:rotZ:offset = 0
+            rel physxMimicJoint:rotZ:referenceJoint = </OmniPicker/joints/left_gripper_joint>
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "wide_loop_joint" (
+            active = false
+        )
+        {
+        }
+
+        def PhysicsRevoluteJoint "left_wide_loop_joint" (
+            prepend apiSchemas = ["MjcJointAPI", "PhysicsJointStateAPI:angular", "PhysxJointAPI", "PhysxMimicJointAPI:rotZ", "NewtonMimicAPI"]
+        )
+        {
+            uniform double mjc:armature = 0.001
+            uniform double mjc:damping = 0.01
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -50
+            uniform double mjc:actuatorfrcrange:max = 50
+            uniform token physics:axis = "Z"
+            prepend rel physics:body0 = </OmniPicker/gripper_base>
+            prepend rel physics:body1 = </OmniPicker/wide_loop_Link>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.00024840233
+            point3f physics:localPos0 = (0, 0.021633, 0.07387)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (-0.004648268, 0.70709145, -0.004648268, -0.70709145)
+            quatf physics:localRot1 = (0, 0, 1, 0)
+            float physics:lowerLimit = -17.188732
+            float physics:upperLimit = 103.13239
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = -1.5
+            rel newton:mimicJoint = </OmniPicker/joints/left_gripper_joint>
+            float physxMimicJoint:rotZ:dampingRatio = 0
+            float physxMimicJoint:rotZ:gearing = -1.5
+            float physxMimicJoint:rotZ:naturalFrequency = 0
+            float physxMimicJoint:rotZ:offset = 0
+            rel physxMimicJoint:rotZ:referenceJoint = </OmniPicker/joints/left_gripper_joint>
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+    }
+
+    over "actuators"
+    {
+        over "gripper_joint" (
+            active = false
+        )
+        {
+        }
+
+        over "right_gripper_joint" (
+            active = false
+        )
+        {
+        }
+
+        def MjcActuator "left_gripper_joint"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [10, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -10, -1, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -50
+            uniform double mjc:forceRange:max = 50
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = 0
+            uniform double mjc:ctrlRange:max = 57.295776
+            rel mjc:target = </OmniPicker/joints/left_gripper_joint>
+        }
+    }
+}

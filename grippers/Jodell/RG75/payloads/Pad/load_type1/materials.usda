@@ -1,0 +1,100 @@
+#usda 1.0
+(
+    defaultPrim = "Materials"
+    doc = """PTC pad materials (subset from RG75_PTC_Left)."""
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Scope "Materials"
+{
+    def Material "white_metal"
+    {
+        token outputs:displacement (
+            displayGroup = "Outputs"
+        )
+        token outputs:surface (
+            displayGroup = "Outputs"
+        )
+        prepend token outputs:surface.connect = </Materials/white_metal/__________BSDF.outputs:surface>
+        token outputs:volume (
+            displayGroup = "Outputs"
+        )
+
+        def Shader "__________BSDF" (
+            apiSchemas = ["NodeDefAPI"]
+        )
+        {
+            token info:id = "UsdPreviewSurface"
+            float inputs:clearcoat = 0
+            float inputs:clearcoatRoughness = 0.03
+            color3f inputs:diffuseColor = (0.8, 0.8, 0.8)
+            float inputs:ior = 1.5
+            float inputs:metallic = 1
+            float inputs:opacity = 1
+            float inputs:roughness = 0.5
+            float inputs:specular = 0.5
+            token outputs:surface
+        }
+    }
+
+    def Material "metal"
+    {
+        token outputs:displacement (
+            displayGroup = "Outputs"
+        )
+        token outputs:surface (
+            displayGroup = "Outputs"
+        )
+        prepend token outputs:surface.connect = </Materials/metal/__________BSDF.outputs:surface>
+        token outputs:volume (
+            displayGroup = "Outputs"
+        )
+
+        def Shader "__________BSDF" (
+            apiSchemas = ["NodeDefAPI"]
+        )
+        {
+            token info:id = "UsdPreviewSurface"
+            float inputs:clearcoat = 0
+            float inputs:clearcoatRoughness = 0.03
+            color3f inputs:diffuseColor = (0.7, 0.7, 0.7)
+            float inputs:ior = 1.5
+            float inputs:metallic = 1
+            float inputs:opacity = 1
+            float inputs:roughness = 0.5
+            float inputs:specular = 0.5
+            token outputs:surface
+        }
+    }
+
+    def Material "rubber"
+    {
+        token outputs:displacement (
+            displayGroup = "Outputs"
+        )
+        token outputs:surface (
+            displayGroup = "Outputs"
+        )
+        prepend token outputs:surface.connect = </Materials/rubber/__________BSDF.outputs:surface>
+        token outputs:volume (
+            displayGroup = "Outputs"
+        )
+
+        def Shader "__________BSDF" (
+            apiSchemas = ["NodeDefAPI"]
+        )
+        {
+            token info:id = "UsdPreviewSurface"
+            float inputs:clearcoat = 0
+            float inputs:clearcoatRoughness = 0.03
+            color3f inputs:diffuseColor = (0, 0, 0)
+            float inputs:ior = 1.5
+            float inputs:metallic = 0
+            float inputs:opacity = 1
+            float inputs:roughness = 1
+            float inputs:specular = 0.5
+            token outputs:surface
+        }
+    }
+}
