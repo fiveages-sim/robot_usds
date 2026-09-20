@@ -186,6 +186,14 @@ def Xform "M6_CCS" (
                     )
                     {
                     }
+
+                    over "Xhand1" (
+                        variants = {
+                            string Physics = "physx"
+                        }
+                    )
+                    {
+                    }
                 }
             }
         }
@@ -217,6 +225,14 @@ def Xform "M6_CCS" (
                     }
 
                     over "Wuji_hand2" (
+                        variants = {
+                            string Physics = "mujoco"
+                        }
+                    )
+                    {
+                    }
+
+                    over "Xhand1" (
                         variants = {
                             string Physics = "mujoco"
                         }
@@ -372,6 +388,12 @@ def Xform "M6_CCS" (
         ) {
             prepend rel isaac:physics:robotJoints = </M6_CCS/link7/tcp/Wuji_hand2>
             prepend rel isaac:physics:robotLinks = </M6_CCS/link7/tcp/Wuji_hand2>
+        }
+        "Xhand1" (
+            prepend payload = @./payloads/EE/Xhand1.usda@
+        ) {
+            prepend rel isaac:physics:robotJoints = </M6_CCS/link7/tcp/Xhand1>
+            prepend rel isaac:physics:robotLinks = </M6_CCS/link7/tcp/Xhand1>
         }
     }
 }

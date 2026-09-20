@@ -14,6 +14,8 @@ not drop the Physics variant. Session-layer mujoco still wins over this fallback
 After switching the physics ENGINE mid-session: Stop → Reload Stage
 (or clear hand Physics selection) so Switcher can run again. Manual Physics
 variant switch always works. Physics variantSet is listed before Side.
+Flange: default none; default option = AG2F90 metal + Xhand black print
+(shifted -0.024144 in hand_base Z). M6 EE selects Flange=default.
 """
     metersPerUnit = 1
     upAxis = "Z"
@@ -22,11 +24,12 @@ variant switch always works. Physics variantSet is listed before Side.
 def Xform "Xhand1" (
     prepend references = @./payloads/base.usda@
     variants = {
+        string Flange = "none"
         string Robot = "none"
         string Sensor = "none"
         string Side = "default"
     }
-    prepend variantSets = ["Physics", "Side"]
+    prepend variantSets = ["Physics", "Flange", "Side"]
     append variantSets = ["Robot", "Sensor"]
 )
 {
@@ -186,6 +189,16 @@ def Xform "Xhand1" (
                 </Xhand1/joints/right_hand_thumb_joint2>,
                 </Xhand1/joints/right_hand_thumb_joint3>,
             ]
+        }
+    }
+    variantSet "Flange" = {
+        "default" (
+            prepend payload = @./payloads/Flange/default.usda@
+        ) {
+
+        }
+        "none" {
+
         }
     }
     variantSet "Physics" = {

@@ -1,0 +1,130 @@
+#usda 1.0
+(
+    subLayers = [
+        @./dexhand_self_collision.usda@
+    ]
+    defaultPrim = "M6_CCS"
+    doc = """EE=Xhand1 mount.
+Weld tcp -> hand_base; FixedJoint matches mount xform (T z=0.028644, Rz=+180). Disable hand root_joint.
+Hand Side=left, Flange=default (AG2F90 metal + Xhand print, shifted -0.024144 in hand_base Z).
+Palm sits after the print stack; Rz=+180 vs tcp (not o6's Rz=+90).
+"""
+)
+
+def Xform "M6_CCS"
+{
+    over "link7"
+    {
+        over "tcp"
+        {
+            def "Xhand1" (
+                prepend payload = @../../../../../../../dexhands/RobotEra/Xhand1/Xhand1.usda@
+                variants = {
+                    string Flange = "default"
+                    string Side = "left"
+                }
+            )
+            {
+                quatd xformOp:orient = (0, 0, 0, 1)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0.028644)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+                over "root_joint" (
+                    active = false
+                )
+                {
+                }
+
+                over "hand_base"
+                {
+                    def PhysicsFixedJoint "AssemblerFixedJoint"
+                    {
+                        rel physics:body0 = </M6_CCS/link7/tcp>
+                        rel physics:body1 = </M6_CCS/link7/tcp/Xhand1/hand_base>
+                        point3f physics:localPos0 = (0, 0, 0.028644)
+                        point3f physics:localPos1 = (0, 0, 0)
+                        quatf physics:localRot0 = (0, 0, 0, 1)
+                        quatf physics:localRot1 = (1, 0, 0, 0)
+                    }
+                }
+
+                over "joints"
+                {
+                over "left_hand_index_joint1"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "left_hand_index_joint2"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "left_hand_index_joint3"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "left_hand_middle_joint1"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "left_hand_middle_joint2"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "left_hand_pinky_joint1"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "left_hand_pinky_joint2"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "left_hand_ring_joint1"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "left_hand_ring_joint2"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "left_hand_thumb_joint1"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "left_hand_thumb_joint2"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "left_hand_thumb_joint3"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                }
+            }
+        }
+    }
+}
