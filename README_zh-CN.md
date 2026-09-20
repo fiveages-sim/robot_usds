@@ -145,12 +145,12 @@ git submodule update --init --recursive
     - Angellun_8 / Angellun_10、omnia_150
     - fixed_ee（`Concave_type1`、`Hook_type1`、`Scoop_type1`）
 - **Sensors（传感器）** — `sensors/`
-    - RealSense d405 / d415 / d435
-    - dabai、mid360、oradar_ms500、robosense_airy、linkhou_ds51、sdkeli_ls2
-    - orbbec 305 / 336 / 336L / dabai_dw；`orbbec/` 额外 335Le / 335Lg / 336
+    - RealSense（`realsense/`）：d405 / d415 / d435
+    - Orbbec（`orbbec/`）：305 / 336 / 336L / 335Le / 335Lg / dabai_agilex / dabai_dw / oradar_ms500
+    - mid360、robosense_airy、linkhou_ds51、sdkeli_ls2
     - usb_camera_01 / usb_camera_02
-    - ultrasonic_02 / ultrasonic_03
-    - 6Dof F&T Sensor（KWR75B）、sick（nanoScan3）、sensing（SHW5G、AstraS56、M3A）
+    - ultrasonic（`ultrasonic/`）：ultrasonic_02 / ultrasonic_03
+    - 6Dof F&T Sensor（KWR75B）、sick（`sick/`：nanoScan3）、sensing（`sensing/`：SHW5G、AstraS56、M3A）
 
 ## 4. 文件结构
 
@@ -185,6 +185,9 @@ robots/
     Agilex/{Cobot Magic V1,Cobot Magic V2,Split Aloha}/
   components/
   sensors/
+    realsense/{d405,d415,d435}.usd
+    orbbec/{305,336,336L,335Le,335Lg,dabai_agilex,dabai_dw,oradar_ms500}.usd
+    sensing/  sick/  ultrasonic/
   README.md
   LICENSE
 ```

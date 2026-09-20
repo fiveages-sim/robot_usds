@@ -9,7 +9,7 @@ Composed path (flange.usda alone):
 Under suction flange_type1:
   /root/visual/suction_base/flange/visual/flange_base/camera_stand/orbbec_305
 
-Camera: robots/sensors/orbbec_305.usd
+Camera: robots/sensors/orbbec/305.usd
 TF vs camera_stand: translate=(-0.009, 0.0449, -0.01845), rotate=0.
 """
     metersPerUnit = 1
@@ -25,15 +25,16 @@ def "root"
             over "camera_stand"
             {
                 def "orbbec_305" (
-                    prepend payload = @../../../../../../sensors/orbbec_305.usd@
+                    prepend payload = @../../../../../../sensors/orbbec/305.usd@
                 )
                 {
-                    double3 xformOp:translate = (-0.009, 0.0449, -0.01845)
                     double3 xformOp:rotateZYX = (0, 0, 0)
                     double3 xformOp:scale = (1, 1, 1)
+                    double3 xformOp:translate = (-0.009, 0.0449, -0.01845)
                     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateZYX", "xformOp:scale"]
                 }
             }
         }
     }
 }
+
