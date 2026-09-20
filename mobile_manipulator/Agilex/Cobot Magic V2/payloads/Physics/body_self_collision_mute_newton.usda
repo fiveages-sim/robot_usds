@@ -1,0 +1,52 @@
+#usda 1.0
+(
+    doc = """Cobot Magic V2 Newton body/chassis mute.
+
+WIRE: Cobot_Magic_V2 Physics=mujoco → append references = @this@</Cobot_Magic_V2>
+NOT a mujoco.usda subLayer (too weak). NEVER add Piper arm paths here —
+that races Arm payloads. Arms: Piper arm_self_collision_mute_newton.
+PhysX: CollisionGroup (unchanged). Art root: Tracer.
+Keep wheels enabled for ground contact. Hands not muted.
+"""
+    metersPerUnit = 1
+    defaultPrim = "Cobot_Magic_V2"
+    upAxis = "Z"
+)
+
+over "Cobot_Magic_V2"
+{
+    over "base_footprint"
+    {
+        over "collisions"
+        {
+            over "body" (
+                instanceable = false
+            )
+            {
+                over "mesh"
+                {
+                    bool physics:collisionEnabled = 0
+                }
+            }
+        }
+    }
+
+    over "Tracer"
+    {
+        over "base_footprint"
+        {
+            over "collisions"
+            {
+                over "base" (
+                    instanceable = false
+                )
+                {
+                    over "mesh"
+                    {
+                        bool physics:collisionEnabled = 0
+                    }
+                }
+            }
+        }
+    }
+}

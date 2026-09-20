@@ -17,7 +17,7 @@ def Xform "Split_Aloha"
                     prepend payload = @../../../../../sensors/dabai.usd@
                 )
                 {
-                    quatd xformOp:orient = (1, 0, 0, 0)
+                    quatd xformOp:orient = (0.5, 0.5, -0.5, 0.5)
                     double xformOp:rotateX:unitsResolve = 90
                     double3 xformOp:scale = (1, 1, 1)
                     double3 xformOp:translate = (0, 0, 0)
@@ -43,17 +43,35 @@ def Xform "Split_Aloha"
 
     over "lifting_link"
     {
-        over "top_camera_link"
+        over "top_camera_support"
         {
-            def "d435" (
-                prepend payload = @../../../../../sensors/d435.usd@
-            )
+            over "top_camera_link"
             {
-                quatd xformOp:orient = (1, 0, 0, 0)
-                double xformOp:rotateX:unitsResolve = 90
-                double3 xformOp:scale = (1, 1, 1)
-                double3 xformOp:translate = (0, 0, 0)
-                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale", "xformOp:rotateX:unitsResolve"]
+                def Camera "Camera"
+                {
+                    # RGB 16:9 H86° V55° D93.5°±3°. 4:3 H64° V55° is a horizontal crop.
+                    float2 clippingRange = (0.01, 10000000)
+                    float focalLength = 18.147562
+                    float focusDistance = 400
+                    float horizontalAperture = 33.84575
+                    float verticalAperture = 18.89405
+                    token projection = "perspective"
+                    quatd xformOp:orient = (0, 1, 0, 0)
+                    double3 xformOp:scale = (1, 1, 1)
+                    double3 xformOp:translate = (0, 0, 0)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                }
+
+                def "dabai" (
+                    prepend payload = @../../../../../sensors/dabai.usd@
+                )
+                {
+                    quatd xformOp:orient = (0.5, 0.5, -0.5, 0.5)
+                    double xformOp:rotateX:unitsResolve = 90
+                    double3 xformOp:scale = (1, 1, 1)
+                    double3 xformOp:translate = (0, 0, 0)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale", "xformOp:rotateX:unitsResolve"]
+                }
             }
         }
     }

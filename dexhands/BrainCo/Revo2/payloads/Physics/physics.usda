@@ -4,9 +4,10 @@
     doc = """Revo2 physics layer.
 
 Self-collision FilteredPairs policy:
-- FILTER palm↔non-tip and intra-finger pairs.
+- FILTER palm↔all finger links (proximal + distal) and intra-finger pairs.
 - KEEP thumb_distal ↔ other finger distals (pinch).
 Shared by PhysX and Newton (UsdPhysics filteredPairs).
+Physics is weakly selected by Side payloads so these pairs stay loaded.
 """
     metersPerUnit = 1
     upAxis = "Z"
@@ -21,11 +22,16 @@ over "Revo2"
         float physxRigidBody:maxDepenetrationVelocity = 2.0
         rel physics:filteredPairs = [
             </Revo2/index_proximal_Link>,
+            </Revo2/index_distal_Link>,
             </Revo2/middle_proximal_Link>,
+            </Revo2/middle_distal_Link>,
             </Revo2/pinky_proximal_Link>,
+            </Revo2/pinky_distal_Link>,
             </Revo2/ring_proximal_Link>,
+            </Revo2/ring_distal_Link>,
             </Revo2/thumb_metacarpal_Link>,
-            </Revo2/thumb_proximal_Link>
+            </Revo2/thumb_proximal_Link>,
+            </Revo2/thumb_distal_Link>
         ]
         point3f physics:centerOfMass = (-0.004786706064, 0.001419811277, 0.05052390695)
         float3 physics:diagonalInertia = (2.227812183e-05, 1.57521863e-05, 8.359617823e-06)
@@ -181,6 +187,7 @@ over "Revo2"
             float physxJoint:jointFriction = 0.5
             float physxJoint:armature = 0.001
             float drive:angular:physics:stiffness = 0.1
+            float physxJoint:maxJointVelocity = 500000
             float drive:angular:physics:targetPosition = 0
             uniform token drive:angular:physics:type = "force"
             uniform token physics:axis = "Y"
@@ -228,6 +235,7 @@ over "Revo2"
             float physxJoint:jointFriction = 0.5
             float physxJoint:armature = 0.001
             float drive:angular:physics:stiffness = 0.1
+            float physxJoint:maxJointVelocity = 500000
             float drive:angular:physics:targetPosition = 0
             uniform token drive:angular:physics:type = "force"
             uniform token physics:axis = "Y"
@@ -275,6 +283,7 @@ over "Revo2"
             float physxJoint:jointFriction = 0.5
             float physxJoint:armature = 0.001
             float drive:angular:physics:stiffness = 0.1
+            float physxJoint:maxJointVelocity = 500000
             float drive:angular:physics:targetPosition = 0
             uniform token drive:angular:physics:type = "force"
             uniform token physics:axis = "Y"
@@ -322,6 +331,7 @@ over "Revo2"
             float physxJoint:jointFriction = 0.5
             float physxJoint:armature = 0.001
             float drive:angular:physics:stiffness = 0.1
+            float physxJoint:maxJointVelocity = 500000
             float drive:angular:physics:targetPosition = 0
             uniform token drive:angular:physics:type = "force"
             uniform token physics:axis = "Y"
@@ -369,6 +379,7 @@ over "Revo2"
             float physxJoint:jointFriction = 0.5
             float physxJoint:armature = 0.001
             float drive:angular:physics:stiffness = 0.12
+            float physxJoint:maxJointVelocity = 500000
             float drive:angular:physics:targetPosition = 0
             uniform token drive:angular:physics:type = "force"
             uniform token physics:axis = "Z"
@@ -396,6 +407,7 @@ over "Revo2"
             float physxJoint:jointFriction = 0.5
             float physxJoint:armature = 0.001
             float drive:angular:physics:stiffness = 0.12
+            float physxJoint:maxJointVelocity = 500000
             float drive:angular:physics:targetPosition = 0
             uniform token drive:angular:physics:type = "force"
             uniform token physics:axis = "X"

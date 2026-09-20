@@ -1,0 +1,98 @@
+#usda 1.0
+(
+    defaultPrim = "Piper_X"
+    metersPerUnit = 1
+    subLayers = [
+        @./physics.usda@,
+        @./arm_self_collision_mute.usda@
+    ]
+    upAxis = "Z"
+)
+
+def "Piper_X"
+{
+    over "joints"
+    {
+        over "joint1" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = 286.4788818359375
+        }
+
+        over "joint2" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = 286.4788818359375
+        }
+
+        over "joint3" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = 286.4788818359375
+        }
+
+        over "joint4" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = 286.4788818359375
+        }
+
+        over "joint5" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = 286.4788818359375
+        }
+
+        over "joint6" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = 286.4788818359375
+        }
+
+    }
+
+    over "root_joint" (
+        prepend apiSchemas = ["PhysxArticulationAPI"]
+    )
+    {
+        bool physxArticulation:enabledSelfCollisions = 1
+        int physxArticulation:solverPositionIterationCount = 64
+        int physxArticulation:solverVelocityIterationCount = 4
+    }
+
+    over "link6"
+    {
+        over "tcp"
+        {
+            over "Gripper" (
+                variants = {
+                    string Physics = "physx"
+                }
+            )
+            {
+            }
+
+            over "Revo1" (
+                variants = {
+                    string Physics = "physx"
+                }
+            )
+            {
+            }
+
+            over "Revo2" (
+                variants = {
+                    string Physics = "physx"
+                }
+            )
+            {
+            }
+        }
+    }
+}

@@ -36,6 +36,7 @@ def Xform "Piper" (
         }
         "mujoco" (
             prepend payload = @./payloads/Physics/mujoco.usda@
+            append references = @./payloads/Physics/arm_self_collision_mute_newton.usda@</Piper>
         ) {
 
         }
@@ -64,6 +65,18 @@ def Xform "Piper" (
         ) {
             prepend rel isaac:physics:robotJoints = </Piper/link6/tcp/Gripper>
             prepend rel isaac:physics:robotLinks = </Piper/link6/tcp/Gripper>
+        }
+        "Revo1" (
+            prepend payload = @./payloads/EE/Revo1.usda@
+        ) {
+            prepend rel isaac:physics:robotJoints = </Piper/link6/tcp/Revo1>
+            prepend rel isaac:physics:robotLinks = </Piper/link6/tcp/Revo1>
+        }
+        "Revo2" (
+            prepend payload = @./payloads/EE/Revo2.usda@
+        ) {
+            prepend rel isaac:physics:robotJoints = </Piper/link6/tcp/Revo2>
+            prepend rel isaac:physics:robotLinks = </Piper/link6/tcp/Revo2>
         }
     }
     variantSet "ROS" = {

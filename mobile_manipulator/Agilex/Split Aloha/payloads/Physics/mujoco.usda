@@ -8,10 +8,19 @@
     upAxis = "Z"
 )
 
-over "Split_Aloha" (
-    prepend apiSchemas = ["NewtonArticulationRootAPI"]
-)
+over "Split_Aloha"
 {
+    over "base" (
+        prepend apiSchemas = ["NewtonArticulationRootAPI"]
+    )
+    {
+        # NEWTON: self-col ON. Body/chassis mute via Split_Aloha Physics=mujoco
+        # append-ref body_self_collision_mute_newton (no Piper paths).
+        # Arms: Piper arm_self_collision_mute_newton. Hands not muted.
+        bool newton:selfCollisionEnabled = 1
+        uniform float mjc:gravcomp = 1
+    }
+
     over "joints"
     {
         over "lifting_joint" (
@@ -31,11 +40,6 @@ over "Split_Aloha" (
             uniform double mjc:actuatorfrcrange:min = -1000
             uniform double mjc:actuatorfrcrange:max = 1000
         }
-    }
-
-    over "base"
-    {
-        uniform float mjc:gravcomp = 1
     }
 
     over "lifting_link"
@@ -85,8 +89,8 @@ over "Split_Aloha" (
             uniform double mjc:forceRange:min = -1000
             uniform double mjc:forceRange:max = 1000
             uniform token mjc:ctrlLimited = "true"
-            uniform double mjc:ctrlRange:min = -0.6
-            uniform double mjc:ctrlRange:max = 0
+            uniform double mjc:ctrlRange:min = 0
+            uniform double mjc:ctrlRange:max = 0.8
             rel mjc:target = </Split_Aloha/joints/lifting_joint>
         }
     }

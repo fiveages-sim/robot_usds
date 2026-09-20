@@ -5,7 +5,8 @@
     startTimeCode = -1
     endTimeCode = 0
     subLayers = [
-        @./physics.usda@
+        @./physics.usda@,
+        @./body_self_collision_mute.usda@
     ]
     upAxis = "Z"
 )
@@ -18,6 +19,10 @@ over "Cobot_Magic_V2"
         }
     )
     {
+        # On for any arm/EE mix; NonDexHand (body_self_collision_mute.usda)
+        # mutes body/chassis/arm. Piper EE dexhand_self_collision excludes
+        # Revo1/Revo2 fingers from the nested arm group.
+        bool physxArticulation:enabledSelfCollisions = 1
     }
 
     over "base_footprint"

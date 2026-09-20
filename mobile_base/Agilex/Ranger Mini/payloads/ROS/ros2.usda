@@ -7,6 +7,166 @@
 
 over "Ranger_Mini"
 {
+    def OmniGraph "ROS_Odometry"
+    {
+        token evaluationMode = "Automatic"
+        token evaluator:type = "execution"
+        token fabricCacheBacking = "StageWithoutHistory"
+        int2 fileFormatVersion = (1, 9)
+        token pipelineStage = "pipelineStageSimulation"
+
+        def OmniGraphNode "OnPlaybackTick"
+        {
+            token node:type = "omni.graph.action.OnPlaybackTick"
+            int node:typeVersion = 2
+            custom double outputs:deltaSeconds
+            custom double outputs:frame
+            custom uint outputs:tick (
+                customData = {
+                    bool isExecution = 1
+                }
+            )
+            custom double outputs:time
+        }
+
+        def OmniGraphNode "Context"
+        {
+            custom uchar inputs:domain_id
+            custom bool inputs:useDomainIDEnvVar
+            token node:type = "isaacsim.ros2.bridge.ROS2Context"
+            int node:typeVersion = 2
+            custom uint64 outputs:context
+        }
+
+        def OmniGraphNode "ReadSimTime"
+        {
+            custom uint64 inputs:referenceTimeDenominator
+            custom int64 inputs:referenceTimeNumerator
+            custom bool inputs:resetOnStop = 0
+            token node:type = "isaacsim.core.nodes.IsaacReadSimulationTime"
+            int node:typeVersion = 1
+            custom double outputs:simulationTime
+        }
+
+        def OmniGraphNode "TFWorld2Odom"
+        {
+            custom string inputs:childFrameId = "odom"
+            custom uint64 inputs:context
+            prepend uint64 inputs:context.connect = </Ranger_Mini/ROS_Odometry/Context.outputs:context>
+            custom uint inputs:execIn (
+                customData = {
+                    bool isExecution = 1
+                }
+            )
+            prepend uint inputs:execIn.connect = </Ranger_Mini/ROS_Odometry/OnPlaybackTick.outputs:tick>
+            custom string inputs:nodeNamespace = ""
+            custom string inputs:parentFrameId = "world"
+            custom string inputs:qosProfile
+            custom uint64 inputs:queueSize
+            custom quatd inputs:rotation
+            custom bool inputs:staticPublisher
+            custom double inputs:timeStamp
+            prepend double inputs:timeStamp.connect = </Ranger_Mini/ROS_Odometry/ReadSimTime.outputs:simulationTime>
+            custom string inputs:topicName
+            custom vector3d inputs:translation
+            token node:type = "isaacsim.ros2.bridge.ROS2PublishRawTransformTree"
+            int node:typeVersion = 1
+        }
+
+        def OmniGraphNode "TFOdom2Robot"
+        {
+            custom string inputs:childFrameId = "base_link"
+            custom uint64 inputs:context
+            prepend uint64 inputs:context.connect = </Ranger_Mini/ROS_Odometry/Context.outputs:context>
+            custom uint inputs:execIn (
+                customData = {
+                    bool isExecution = 1
+                }
+            )
+            prepend uint inputs:execIn.connect = </Ranger_Mini/ROS_Odometry/OnPlaybackTick.outputs:tick>
+            custom string inputs:nodeNamespace = ""
+            custom string inputs:parentFrameId = "odom"
+            custom string inputs:qosProfile
+            custom uint64 inputs:queueSize
+            custom quatd inputs:rotation
+            prepend quatd inputs:rotation.connect = </Ranger_Mini/ROS_Odometry/ComputeOdometry.outputs:orientation>
+            custom bool inputs:staticPublisher
+            custom double inputs:timeStamp
+            prepend double inputs:timeStamp.connect = </Ranger_Mini/ROS_Odometry/ReadSimTime.outputs:simulationTime>
+            custom string inputs:topicName
+            custom vector3d inputs:translation
+            prepend vector3d inputs:translation.connect = </Ranger_Mini/ROS_Odometry/ComputeOdometry.outputs:position>
+            token node:type = "isaacsim.ros2.bridge.ROS2PublishRawTransformTree"
+            int node:typeVersion = 1
+        }
+
+        def OmniGraphNode "ComputeOdometry"
+        {
+            custom rel inputs:chassisPrim = </Ranger_Mini/base_link> (
+                customData = {
+                    dictionary omni = {
+                        dictionary graph = {
+                            string relType = "target"
+                        }
+                    }
+                }
+            )
+            custom uint inputs:execIn (
+                customData = {
+                    bool isExecution = 1
+                }
+            )
+            prepend uint inputs:execIn.connect = </Ranger_Mini/ROS_Odometry/OnPlaybackTick.outputs:tick>
+            token node:type = "isaacsim.core.nodes.IsaacComputeOdometry"
+            int node:typeVersion = 1
+            custom vector3d outputs:angularAcceleration
+            custom vector3d outputs:angularVelocity
+            custom uint outputs:execOut (
+                customData = {
+                    bool isExecution = 1
+                }
+            )
+            custom vector3d outputs:globalLinearAcceleration
+            custom vector3d outputs:globalLinearVelocity
+            custom vector3d outputs:linearAcceleration
+            custom vector3d outputs:linearVelocity
+            custom quatd outputs:orientation
+            custom vector3d outputs:position
+        }
+
+        def OmniGraphNode "PublisherOdometry"
+        {
+            custom vector3d inputs:angularVelocity
+            prepend vector3d inputs:angularVelocity.connect = </Ranger_Mini/ROS_Odometry/ComputeOdometry.outputs:angularVelocity>
+            custom string inputs:chassisFrameId = "base_link"
+            custom uint64 inputs:context
+            prepend uint64 inputs:context.connect = </Ranger_Mini/ROS_Odometry/Context.outputs:context>
+            custom uint inputs:execIn (
+                customData = {
+                    bool isExecution = 1
+                }
+            )
+            prepend uint inputs:execIn.connect = </Ranger_Mini/ROS_Odometry/ComputeOdometry.outputs:execOut>
+            custom vector3d inputs:linearVelocity
+            prepend vector3d inputs:linearVelocity.connect = </Ranger_Mini/ROS_Odometry/ComputeOdometry.outputs:linearVelocity>
+            custom string inputs:nodeNamespace = ""
+            custom string inputs:odomFrameId = "odom"
+            custom quatd inputs:orientation
+            prepend quatd inputs:orientation.connect = </Ranger_Mini/ROS_Odometry/ComputeOdometry.outputs:orientation>
+            custom vector3d inputs:position
+            prepend vector3d inputs:position.connect = </Ranger_Mini/ROS_Odometry/ComputeOdometry.outputs:position>
+            custom bool inputs:publishRawVelocities
+            custom string inputs:qosProfile
+            custom uint64 inputs:queueSize
+            custom vector3d inputs:robotFront
+            custom double inputs:timeStamp
+            prepend double inputs:timeStamp.connect = </Ranger_Mini/ROS_Odometry/ReadSimTime.outputs:simulationTime>
+            custom string inputs:topicName = "/odom"
+            token node:type = "isaacsim.ros2.bridge.ROS2PublishOdometry"
+            int node:typeVersion = 1
+        }
+    }
+
     def OmniGraph "steering_wheel_controller"
     {
         token evaluationMode = "Automatic"
@@ -83,6 +243,7 @@ over "Ranger_Mini"
             prepend apiSchemas = ["NodeGraphNodeAPI"]
         )
         {
+            custom double inputs:angularGain = 1.064
             custom double inputs:Desired_Angular_Velocity
             double inputs:Desired_Angular_Velocity.connect = </Ranger_Mini/steering_wheel_controller/break_3_vector.outputs:z>
             custom double inputs:Desired_Linear_Velocity_X
@@ -95,15 +256,25 @@ over "Ranger_Mini"
                 }
             )
             uint inputs:execIn.connect = </Ranger_Mini/steering_wheel_controller/OnPlaybackTick.outputs:tick>
+            custom double inputs:deltaSeconds
+            double inputs:deltaSeconds.connect = </Ranger_Mini/steering_wheel_controller/OnPlaybackTick.outputs:deltaSeconds>
+            custom double inputs:linearGain = 11.262
             custom string inputs:script = """import numpy as np
 
-# Linkhou S2_V1 steer continuity: (theta, v) == (theta+pi, -v); pick smaller steer delta.
+# Match Linkhou S2_V2: acceleration wheel drive + (theta, v) == (theta+pi, -v).
+# Gate wheel speed until all four modules are aligned; vy+yaw otherwise scrubs.
 _WHEEL_RADIUS = 0.09
+_DEFAULT_LINEAR_GAIN = 1.0 / _WHEEL_RADIUS
+_DEFAULT_ANGULAR_GAIN = 1.0
 _DEFAULT_FLIP_VELOCITY_SCALE = 0.35
 _SPEED_EPS = 1e-6
+_STEER_SLEW_RAD_S = np.deg2rad(180.0)
+_ALIGN_FULL_RAD = np.deg2rad(12.0)
+_ALIGN_ZERO_RAD = np.deg2rad(40.0)
 
 _prev_pos_cmd = np.zeros(4)
 _prev_vel_unscaled = np.zeros(4)
+_steer_actual = np.zeros(4)
 _has_prev_steer = False
 
 
@@ -127,31 +298,48 @@ def _pick_steer_and_wheel_speed(raw_angle, speed, ref_angle):
     return a, va
 
 
+def _align_scale(err):
+    a = abs(err)
+    if a <= _ALIGN_FULL_RAD:
+        return 1.0
+    if a >= _ALIGN_ZERO_RAD:
+        return 0.0
+    return (_ALIGN_ZERO_RAD - a) / (_ALIGN_ZERO_RAD - _ALIGN_FULL_RAD)
+
+
 def setup(db):
-    global _prev_pos_cmd, _prev_vel_unscaled, _has_prev_steer
+    global _prev_pos_cmd, _prev_vel_unscaled, _steer_actual, _has_prev_steer
     _prev_pos_cmd = np.zeros(4)
     _prev_vel_unscaled = np.zeros(4)
+    _steer_actual = np.zeros(4)
     _has_prev_steer = False
 
 
 def cleanup(db):
-    global _has_prev_steer, _prev_vel_unscaled
+    global _has_prev_steer, _prev_vel_unscaled, _steer_actual
     _has_prev_steer = False
     _prev_vel_unscaled = np.zeros(4)
+    _steer_actual = np.zeros(4)
 
 
 def compute(db):
-    global _prev_pos_cmd, _prev_vel_unscaled, _has_prev_steer
+    global _prev_pos_cmd, _prev_vel_unscaled, _steer_actual, _has_prev_steer
 
+    linear_gain = float(getattr(db.inputs, \"linearGain\", _DEFAULT_LINEAR_GAIN))
+    angular_gain = float(getattr(db.inputs, \"angularGain\", _DEFAULT_ANGULAR_GAIN))
     flip_vel_scale = float(getattr(db.inputs, \"flipVelocityScale\", _DEFAULT_FLIP_VELOCITY_SCALE))
     flip_vel_scale = max(0.0, min(1.0, flip_vel_scale))
+    dt = float(getattr(db.inputs, \"deltaSeconds\", 0.0) or 0.0)
+    if dt <= 1e-6 or dt > 0.1:
+        dt = 1.0 / 60.0
 
     pos_cmd = np.zeros(4)
     vel_cmd = np.zeros(4)
 
     vx = db.inputs.Desired_Linear_Velocity_X
     vy = db.inputs.Desired_Linear_Velocity_Y
-    omega = db.inputs.Desired_Angular_Velocity
+    omega_cmd = db.inputs.Desired_Angular_Velocity
+    omega = omega_cmd * angular_gain
 
     # Order matches authored jointNames: fl, rl, rr, fr
     wheel_positions = np.array([
@@ -172,7 +360,7 @@ def compute(db):
             pos_cmd[i] = _prev_pos_cmd[i] if _has_prev_steer else 0.0
             vel_cmd[i] = 0.0
         else:
-            ref = _prev_pos_cmd[i] if _has_prev_steer else 0.0
+            ref = _steer_actual[i] if _has_prev_steer else 0.0
             pos_cmd[i], vel_cmd[i] = _pick_steer_and_wheel_speed(angle, speed, ref)
             if _has_prev_steer:
                 pv = _prev_vel_unscaled[i]
@@ -185,13 +373,23 @@ def compute(db):
                 ):
                     vel_cmd[i] *= flip_vel_scale
 
-    vel_cmd[:] /= _WHEEL_RADIUS
-
-    if np.linalg.norm([vx, vy]) < 0.0001 and abs(omega) < 0.0001:
+    if np.linalg.norm([vx, vy]) < 0.0001 and abs(omega_cmd) < 0.0001:
         pos_cmd[:] = 0
         vel_cmd[:] = 0
 
-    _prev_vel_unscaled = vel_cmd * _WHEEL_RADIUS
+    ik_vel = vel_cmd.copy()
+    max_step = _STEER_SLEW_RAD_S * dt
+    aligns = np.ones(4)
+    for i in range(4):
+        err = _angle_diff(pos_cmd[i], _steer_actual[i])
+        _steer_actual[i] = _wrap_to_pi(
+            _steer_actual[i] + np.clip(err, -max_step, max_step)
+        )
+        aligns[i] = _align_scale(_angle_diff(pos_cmd[i], _steer_actual[i]))
+    vel_cmd *= float(np.min(aligns))
+    vel_cmd[:] *= linear_gain
+
+    _prev_vel_unscaled = ik_vel
     _prev_pos_cmd = pos_cmd.copy()
     _has_prev_steer = True
 

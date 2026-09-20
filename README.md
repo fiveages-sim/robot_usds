@@ -78,7 +78,7 @@ The following models are **Git submodules** (vendored repositories, checked in a
     - YSW E70 (`YSW/E70`)
 - **Manipulator** — under `manipulators/` (brand folder → product short name)
     - Agilex (`manipulators/AgileX/`)
-        - Piper
+        - Piper / Piper_H / Piper_X / Piper_L
         - Gripper
     - ARX (`manipulators/ARX/`)
         - X5
@@ -139,9 +139,9 @@ The following models are **Git submodules** (vendored repositories, checked in a
         - RM AIDAL Chassis (`RM_AIDAL_Chassis`)
 - **Mobile Manipulator** — under `mobile_manipulator/`
     - Agilex (`mobile_manipulator/Agilex/`)
-        - Split Aloha
+        - Split Aloha (`Arm_Left` / `Arm_Right`: Piper, Piper_H, Piper_X, Piper_L)
         - Cobot Magic V1
-        - Cobot Magic V2
+        - Cobot Magic V2 (`Arm_Left` / `Arm_Right`: Piper, Piper_H, Piper_X, Piper_L)
     - ARX (`mobile_manipulator/ARX/`)
         - Lift (`Lift`)
         - Lift 2S (`Lift 2S`)
@@ -176,7 +176,7 @@ robots/
   suction_cup/
     YSW/E70/
   manipulators/
-    AgileX/{Piper,Gripper}/
+    AgileX/{Piper,Piper_H,Piper_X,Piper_L,Gripper}/
     ARX/{X5,R5,Gripper_2023,Gripper_2025}/
     Galaxea/{A1,A1X,A1Y,A1Z,G1,G1Z}/
     Dobot/ … Elite/ … Fairino/ … Tianji/ … Rokae/ …

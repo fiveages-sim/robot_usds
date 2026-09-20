@@ -47,10 +47,11 @@ def Xform "Split_Aloha" (
         string Arm_Right = "Piper"
         string Chassis = "Ranger_Mini"
         string Physics = "physx"
+        string ROS = "enable"
         string Robot = "none"
         string Sensor = "sensors"
     }
-    prepend variantSets = ["Physics", "Chassis", "Arm_Left", "Arm_Right"]
+    prepend variantSets = ["Physics", "Chassis", "Arm_Left", "Arm_Right", "ROS"]
     append variantSets = ["Robot", "Sensor"]
 )
 {
@@ -72,6 +73,7 @@ def Xform "Split_Aloha" (
         }
         "mujoco" (
             prepend payload = @./payloads/Physics/mujoco.usda@
+            append references = @./payloads/Physics/body_self_collision_mute_newton.usda@</Split_Aloha>
         ) {
 
         }
@@ -97,6 +99,24 @@ def Xform "Split_Aloha" (
             prepend rel isaac:physics:robotJoints = </Split_Aloha/lifting_link/left_base_link/Piper>
             prepend rel isaac:physics:robotLinks = </Split_Aloha/lifting_link/left_base_link/Piper>
         }
+        "Piper_H" (
+            prepend payload = @./payloads/Arm_Left/piper_h.usda@
+        ) {
+            prepend rel isaac:physics:robotJoints = </Split_Aloha/lifting_link/left_base_link/Piper>
+            prepend rel isaac:physics:robotLinks = </Split_Aloha/lifting_link/left_base_link/Piper>
+        }
+        "Piper_X" (
+            prepend payload = @./payloads/Arm_Left/piper_x.usda@
+        ) {
+            prepend rel isaac:physics:robotJoints = </Split_Aloha/lifting_link/left_base_link/Piper>
+            prepend rel isaac:physics:robotLinks = </Split_Aloha/lifting_link/left_base_link/Piper>
+        }
+        "Piper_L" (
+            prepend payload = @./payloads/Arm_Left/piper_l.usda@
+        ) {
+            prepend rel isaac:physics:robotJoints = </Split_Aloha/lifting_link/left_base_link/Piper>
+            prepend rel isaac:physics:robotLinks = </Split_Aloha/lifting_link/left_base_link/Piper>
+        }
     }
     variantSet "Arm_Right" = {
         "None" {
@@ -107,6 +127,50 @@ def Xform "Split_Aloha" (
         ) {
             prepend rel isaac:physics:robotJoints = </Split_Aloha/lifting_link/right_base_link/Piper>
             prepend rel isaac:physics:robotLinks = </Split_Aloha/lifting_link/right_base_link/Piper>
+        }
+        "Piper_H" (
+            prepend payload = @./payloads/Arm_Right/piper_h.usda@
+        ) {
+            prepend rel isaac:physics:robotJoints = </Split_Aloha/lifting_link/right_base_link/Piper>
+            prepend rel isaac:physics:robotLinks = </Split_Aloha/lifting_link/right_base_link/Piper>
+        }
+        "Piper_X" (
+            prepend payload = @./payloads/Arm_Right/piper_x.usda@
+        ) {
+            prepend rel isaac:physics:robotJoints = </Split_Aloha/lifting_link/right_base_link/Piper>
+            prepend rel isaac:physics:robotLinks = </Split_Aloha/lifting_link/right_base_link/Piper>
+        }
+        "Piper_L" (
+            prepend payload = @./payloads/Arm_Right/piper_l.usda@
+        ) {
+            prepend rel isaac:physics:robotJoints = </Split_Aloha/lifting_link/right_base_link/Piper>
+            prepend rel isaac:physics:robotLinks = </Split_Aloha/lifting_link/right_base_link/Piper>
+        }
+    }
+    variantSet "ROS" = {
+        "enable" (
+            prepend payload = @./payloads/ROS/ros2.usda@
+        ) {
+            over "Ranger_Mini" (
+                variants = {
+                    string ROS = "ros2"
+                }
+            )
+            {
+            }
+
+        }
+        "none" (
+            prepend payload = @./payloads/ROS/none.usda@
+        ) {
+            over "Ranger_Mini" (
+                variants = {
+                    string ROS = "none"
+                }
+            )
+            {
+            }
+
         }
     }
     variantSet "Robot" = {

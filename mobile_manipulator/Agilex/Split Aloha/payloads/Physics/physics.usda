@@ -40,28 +40,26 @@
     upAxis = "Z"
 )
 
-over "Split_Aloha" (
-    prepend apiSchemas = ["PhysicsArticulationRootAPI"]
-)
+over "Split_Aloha"
 {
     over "base" (
-        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "PhysicsArticulationRootAPI"]
     )
     {
-        point3f physics:centerOfMass = (0.109751165, -0.008751071, 0.52669495)
-        float3 physics:diagonalInertia = (1.8256718, 1.7942611, 0.2834658)
+        point3f physics:centerOfMass = (0.04, -0.008742976, 0.30)
+        float3 physics:diagonalInertia = (2.2, 1.3, 0.55)
         float physics:mass = 27.32967
-        quatf physics:principalAxes = (0.99997586, 0.00007558819, -0.006843048, -0.001183554)
+        quatf physics:principalAxes = (0.99997437, 0.00010932492, -0.006871127, -0.0020549116)
     }
 
     over "lifting_link" (
         prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
     )
     {
-        point3f physics:centerOfMass = (0.07456232, 0.00032497518, 0.113800846)
-        float3 physics:diagonalInertia = (0.012005623, 0.0026583795, 0.009991887)
+        point3f physics:centerOfMass = (0.07498326, 0.0007839891, 0.11371314)
+        float3 physics:diagonalInertia = (0.012025181, 0.0026846672, 0.009986227)
         float physics:mass = 0.490713
-        quatf physics:principalAxes = (0.9776867, 0.0003239116, 0.21006799, -0.00024019174)
+        quatf physics:principalAxes = (0.97563195, 0.0033766723, 0.21938574, -0.00091343955)
     }
 
     over "joints"
@@ -82,13 +80,13 @@ over "Split_Aloha" (
             append rel physics:body1 = </Split_Aloha/lifting_link>
             float physics:breakForce = 3.4028235e38
             float physics:breakTorque = 3.4028235e38
-            float physics:JointEquivalentInertia = 1.0482183
-            point3f physics:localPos0 = (0.22448, 0, 1.1147)
+            float physics:JointEquivalentInertia = 0.19214311
+            point3f physics:localPos0 = (0.22448, 0, 0.3147)
             point3f physics:localPos1 = (0, 0, 0)
             quatf physics:localRot0 = (1, 0, 0, 0)
             quatf physics:localRot1 = (1, 0, 0, 0)
-            float physics:lowerLimit = -0.6
-            float physics:upperLimit = 0
+            float physics:lowerLimit = 0
+            float physics:upperLimit = 0.8
             float state:linear:physics:position = 0
             float state:linear:physics:velocity = 0
         }

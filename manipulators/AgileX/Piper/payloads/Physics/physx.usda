@@ -3,7 +3,8 @@
     defaultPrim = "Piper"
     metersPerUnit = 1
     subLayers = [
-        @./physics.usda@
+        @./physics.usda@,
+        @./arm_self_collision_mute.usda@
     ]
     upAxis = "Z"
 )
@@ -59,9 +60,12 @@ def "Piper"
         prepend apiSchemas = ["PhysxArticulationAPI"]
     )
     {
-        bool physxArticulation:enabledSelfCollisions = 0
-        int physxArticulation:solverPositionIterationCount = 32
-        int physxArticulation:solverVelocityIterationCount = 1
+        # Mounted dexhand: self-col on; NonDexHand (arm_self_collision_mute.usda)
+        # mutes arm↔arm. DexHand EE sublayers dexhand_self_collision.usda to
+        # exclude fingers.
+        bool physxArticulation:enabledSelfCollisions = 1
+        int physxArticulation:solverPositionIterationCount = 64
+        int physxArticulation:solverVelocityIterationCount = 4
     }
 
     over "link6"
@@ -69,6 +73,22 @@ def "Piper"
         over "tcp"
         {
             over "Gripper" (
+                variants = {
+                    string Physics = "physx"
+                }
+            )
+            {
+            }
+
+            over "Revo1" (
+                variants = {
+                    string Physics = "physx"
+                }
+            )
+            {
+            }
+
+            over "Revo2" (
                 variants = {
                     string Physics = "physx"
                 }

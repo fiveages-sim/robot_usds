@@ -5,16 +5,26 @@
     startTimeCode = -1
     endTimeCode = 0
     subLayers = [
-        @./physics.usda@
+        @./physics.usda@,
+        @./body_self_collision_mute.usda@
     ]
     upAxis = "Z"
 )
 
-def "Split_Aloha" (
-    prepend apiSchemas = ["PhysxArticulationAPI"]
-)
+def "Split_Aloha"
 {
-    bool physxArticulation:enabledSelfCollisions = 0
+    over "base" (
+        prepend apiSchemas = ["PhysxArticulationAPI"]
+    )
+    {
+        # On for any arm/EE mix; NonDexHand (body_self_collision_mute.usda)
+        # mutes body/chassis/arm. Piper EE dexhand_self_collision excludes
+        # Revo1/Revo2 fingers from the nested arm group.
+        bool physxArticulation:enabledSelfCollisions = 1
+        # Merged Revo fingers use this parent solver (Piper root_joint inactive).
+        int physxArticulation:solverPositionIterationCount = 64
+        int physxArticulation:solverVelocityIterationCount = 4
+    }
 
     over "joints"
     {
@@ -24,13 +34,6 @@ def "Split_Aloha" (
         {
             float physxJoint:maxJointVelocity = 10
         }
-    }
-
-    over "base"
-    {
-        bool physxArticulation:enabledSelfCollisions = 0
-        int physxArticulation:solverPositionIterationCount = 32
-        int physxArticulation:solverVelocityIterationCount = 1
     }
 
     over "Ranger_Mini" (

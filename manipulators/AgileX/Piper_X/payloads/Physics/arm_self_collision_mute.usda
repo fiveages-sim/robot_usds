@@ -1,0 +1,37 @@
+#usda 1.0
+(
+    doc = """Piper NonDexHand mute — subLayer of physx.usda ONLY.
+
+PhysX: CollisionGroup + filteredGroups self-filter for arm links.
+
+Newton: see arm_self_collision_mute_newton.usda — append references on
+Piper Physics=mujoco (not mujoco.usda subLayer). DexHand EE still prepends
+excludes for PhysX group.
+"""
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+over "Piper_X"
+{
+    def Scope "CollisionGroups"
+    {
+        def PhysicsCollisionGroup "NonDexHand" (
+            prepend apiSchemas = ["CollectionAPI:colliders"]
+        )
+        {
+            prepend rel collection:colliders:includes = [
+                </Piper_X/base_link>,
+                </Piper_X/link1>,
+                </Piper_X/link2>,
+                </Piper_X/link3>,
+                </Piper_X/link4>,
+                </Piper_X/link5>,
+                </Piper_X/link6>,
+            ]
+            prepend rel physics:filteredGroups = [
+                </Piper_X/CollisionGroups/NonDexHand>,
+            ]
+        }
+    }
+}

@@ -82,12 +82,28 @@ def Xform "Split_Aloha"
             }
         }
 
+        over "ROS_Odometry"
+        {
+            over "ComputeOdometry"
+            {
+                custom rel inputs:chassisPrim = </Split_Aloha/base> (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
+            }
+        }
+
         over "steering_wheel_controller"
         {
             over "articulation_controller"
             {
                 custom token[] inputs:jointNames = ["fl_steering_joint", "rl_steering_joint", "rr_steering_joint", "fr_steering_joint"]
-                custom rel inputs:targetPrim = </Split_Aloha> (
+                custom rel inputs:targetPrim = </Split_Aloha/base> (
                     customData = {
                         dictionary omni = {
                             dictionary graph = {
@@ -101,7 +117,7 @@ def Xform "Split_Aloha"
             over "articulation_controller_01"
             {
                 custom token[] inputs:jointNames = ["fl_wheel", "rl_wheel", "rr_wheel", "fr_wheel"]
-                custom rel inputs:targetPrim = </Split_Aloha> (
+                custom rel inputs:targetPrim = </Split_Aloha/base> (
                     customData = {
                         dictionary omni = {
                             dictionary graph = {

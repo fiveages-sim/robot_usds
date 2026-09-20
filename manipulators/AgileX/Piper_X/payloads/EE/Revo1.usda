@@ -1,0 +1,164 @@
+#usda 1.0
+(
+    subLayers = [
+        @../Side/payloads/EE/dexhand_self_collision.usda@
+    ]
+    defaultPrim = "Piper_X"
+    doc = """EE=Revo1 mount.
+Weld tcp -> hand_base; FixedJoint matches mount xform
+(T z=0.0105, native-to-Revo2 align then Rz=-90 → Rx=+90).
+Disable hand root_joint. Hand Side=default.
+Revo1 native palm is +Y; Rx(+90) matches Revo2's Rz(-90) mount
+(palm toward tcp -Y on a left Piper).
+Flange visual is a tcp sibling (PiperFlange) so it does not inherit this rotation.
+"""
+)
+
+def Xform "Piper_X"
+{
+    over "link6"
+    {
+        over "tcp"
+        {
+            def Xform "PiperFlange" (
+                prepend references = @../../../Piper/flange.usd@
+            )
+            {
+            }
+
+            def "Revo1" (
+                prepend payload = @../../../../../dexhands/BrainCo/Revo1/Revo1.usda@
+                variants = {
+                    string Side = "default"
+                }
+            )
+            {
+                quatd xformOp:orient = (0.7071067811865476, 0.7071067811865476, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0.0105)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+                over "root_joint" (
+                    active = false
+                )
+                {
+                }
+
+                over "hand_base"
+                {
+                    def PhysicsFixedJoint "AssemblerFixedJoint"
+                    {
+                        rel physics:body0 = </Piper_X/link6/tcp>
+                        rel physics:body1 = </Piper_X/link6/tcp/Revo1/hand_base>
+                        point3f physics:localPos0 = (0, 0, 0.0105)
+                        point3f physics:localPos1 = (0, 0, 0)
+                        quatf physics:localRot0 = (0.70710677, 0.70710677, 0, 0)
+                        quatf physics:localRot1 = (1, 0, 0, 0)
+                    }
+                }
+
+                over "joints"
+                {
+                    over "index_joint"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+
+                    over "index_pip_joint"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+
+                    over "middle_joint"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+
+                    over "middle_pip_joint"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+
+                    over "pinky_joint"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+
+                    over "pinky_pip_joint"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+
+                    over "ring_joint"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+
+                    over "ring_pip_joint"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+
+                    over "thumb_joint2"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+
+                    over "thumb_joint1"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+                }
+            }
+        }
+    }
+
+    over "joints"
+    {
+        over "joint1"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "joint2"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "joint3"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "joint4"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "joint5"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "joint6"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+    }
+}

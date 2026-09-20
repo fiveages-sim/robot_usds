@@ -106,7 +106,7 @@ git submodule update --init --recursive
 - **Suction cup（吸盘）** — `suction_cup/`
     - YSW E70（`YSW/E70`）
 - **Manipulator（机械臂）** — `manipulators/`（品牌目录 → 短产品名）
-    - 松灵（`manipulators/AgileX/`）：Piper、Gripper
+    - 松灵（`manipulators/AgileX/`）：Piper / Piper_H / Piper_X / Piper_L、Gripper
     - 方舟无限（`manipulators/ARX/`）：`X5`、`R5`、`Gripper_2023`、`Gripper_2025`
     - 星海图（`manipulators/Galaxea/`）：`A1` / `A1X` / `A1Y` / `A1Z`、`G1` / `G1Z`
     - 越疆（`manipulators/Dobot/`）：CR5、`CR5_Fa_Station`
@@ -135,7 +135,7 @@ git submodule update --init --recursive
     - Angellun Moz1 Chassis（`Angellun/Moz1_Chassis`）
     - 悟时（`Woosh/`）：`Ai2_Bot2_Chassis`、`RM_AIDAL_Chassis`
 - **Mobile Manipulator（移动机械臂）** — `mobile_manipulator/`
-    - 松灵（`mobile_manipulator/Agilex/`）：Split Aloha、Cobot Magic V1、Cobot Magic V2
+    - 松灵（`mobile_manipulator/Agilex/`）：Split Aloha、Cobot Magic V1、Cobot Magic V2（Split Aloha / V2 的 `Arm_Left` / `Arm_Right`：Piper、Piper_H、Piper_X、Piper_L）
     - 方舟无限（`mobile_manipulator/ARX/`）
         - Lift（`Lift`）
         - Lift 2S（`Lift 2S`）
@@ -167,7 +167,7 @@ robots/
   suction_cup/
     YSW/E70/
   manipulators/
-    AgileX/{Piper,Gripper}/
+    AgileX/{Piper,Piper_H,Piper_X,Piper_L,Gripper}/
     ARX/{X5,R5,Gripper_2023,Gripper_2025}/
     Galaxea/{A1,A1X,A1Y,A1Z,G1,G1Z}/
     Dobot/ … Elite/ … Fairino/ … Tianji/ … Rokae/ …

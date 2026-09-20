@@ -1,0 +1,1848 @@
+#usda 1.0
+(
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Scope "Materials"
+{
+    def Material "grey_metal_001"
+    {
+        token outputs:displacement (
+            displayGroup = "Outputs"
+        )
+        prepend token outputs:mdl:displacement.connect = </Materials/grey_metal_001/grey_metal_001.outputs:out>
+        prepend token outputs:mdl:surface.connect = </Materials/grey_metal_001/grey_metal_001.outputs:out>
+        prepend token outputs:mdl:volume.connect = </Materials/grey_metal_001/grey_metal_001.outputs:out>
+        token outputs:surface (
+            displayGroup = "Outputs"
+        )
+        token outputs:volume (
+            displayGroup = "Outputs"
+        )
+
+        def Shader "grey_metal_001" (
+            apiSchemas = ["NodeDefAPI"]
+        )
+        {
+            token info:implementationSource = "sourceAsset"
+            asset info:mdl:sourceAsset = @../Textures/pbr.mdl@
+            token info:mdl:sourceAsset:subIdentifier = "gltf_material"
+            float inputs:alpha_cutoff = 0 (
+                customData = {
+                    double default = 0.5
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Opacity"
+            )
+            int inputs:alpha_mode = 0 (
+                customData = {
+                    int default = 0
+                    dictionary range = {
+                        int max = 2
+                        int min = 0
+                    }
+                }
+                displayGroup = "Opacity"
+                renderType = "gltf_alpha_mode"
+                sdrMetadata = {
+                    string __SDR__enum_value = "opaque"
+                    string options = "opaque:0|mask:1|blend:2"
+                }
+            )
+            float inputs:base_alpha = 1 (
+                customData = {
+                    double default = 1
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Base Alpha"
+            )
+            color3f inputs:base_color_factor = (0.101349, 0.101349, 0.101349) (
+                customData = {
+                    float3 default = (1, 1, 1)
+                    dictionary range = {
+                        float3 max = (1, 1, 1)
+                        float3 min = (0, 0, 0)
+                    }
+                }
+                displayGroup = "PBR Metallic Roughness"
+            )
+            float inputs:emissive_strength = 10000 (
+                customData = {
+                    double default = 1
+                }
+                displayGroup = "Emission"
+            )
+            float inputs:metallic_factor = 1 (
+                customData = {
+                    double default = 0
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Metallic Roughness"
+            )
+            float inputs:roughness_factor = 0.69008267 (
+                customData = {
+                    double default = 0
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Metallic Roughness"
+            )
+            token outputs:out
+        }
+    }
+
+    def Material "black_metal"
+    {
+        token outputs:displacement (
+            displayGroup = "Outputs"
+        )
+        prepend token outputs:mdl:displacement.connect = </Materials/black_metal/black_metal.outputs:out>
+        prepend token outputs:mdl:surface.connect = </Materials/black_metal/black_metal.outputs:out>
+        prepend token outputs:mdl:volume.connect = </Materials/black_metal/black_metal.outputs:out>
+        token outputs:surface (
+            displayGroup = "Outputs"
+        )
+        token outputs:volume (
+            displayGroup = "Outputs"
+        )
+
+        def Shader "black_metal" (
+            apiSchemas = ["NodeDefAPI"]
+        )
+        {
+            token info:implementationSource = "sourceAsset"
+            asset info:mdl:sourceAsset = @../Textures/pbr.mdl@
+            token info:mdl:sourceAsset:subIdentifier = "gltf_material"
+            float inputs:alpha_cutoff = 0 (
+                customData = {
+                    double default = 0.5
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Opacity"
+            )
+            int inputs:alpha_mode = 0 (
+                customData = {
+                    int default = 0
+                    dictionary range = {
+                        int max = 2
+                        int min = 0
+                    }
+                }
+                displayGroup = "Opacity"
+                renderType = "gltf_alpha_mode"
+                sdrMetadata = {
+                    string __SDR__enum_value = "opaque"
+                    string options = "opaque:0|mask:1|blend:2"
+                }
+            )
+            float inputs:base_alpha = 1 (
+                customData = {
+                    double default = 1
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Base Alpha"
+            )
+            color3f inputs:base_color_factor = (0.041176, 0.041176, 0.041176) (
+                customData = {
+                    float3 default = (1, 1, 1)
+                    dictionary range = {
+                        float3 max = (1, 1, 1)
+                        float3 min = (0, 0, 0)
+                    }
+                }
+                displayGroup = "PBR Metallic Roughness"
+            )
+            float inputs:emissive_strength = 10000 (
+                customData = {
+                    double default = 1
+                }
+                displayGroup = "Emission"
+            )
+            float inputs:metallic_factor = 0.5 (
+                customData = {
+                    double default = 0
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Metallic Roughness"
+            )
+            float inputs:roughness_factor = 0.5 (
+                customData = {
+                    double default = 0
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Metallic Roughness"
+            )
+            float inputs:specular_factor = 0 (
+                customData = {
+                    double default = 1
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Specular"
+            )
+            token outputs:out
+        }
+    }
+
+    def Material "a0000000_0000_0000_0000_000000000000_003"
+    {
+        token outputs:displacement (
+            displayGroup = "Outputs"
+        )
+        prepend token outputs:mdl:displacement.connect = </Materials/a0000000_0000_0000_0000_000000000000_003/a0000000_0000_0000_0000_000000000000_003.outputs:out>
+        prepend token outputs:mdl:surface.connect = </Materials/a0000000_0000_0000_0000_000000000000_003/a0000000_0000_0000_0000_000000000000_003.outputs:out>
+        prepend token outputs:mdl:volume.connect = </Materials/a0000000_0000_0000_0000_000000000000_003/a0000000_0000_0000_0000_000000000000_003.outputs:out>
+        token outputs:surface (
+            displayGroup = "Outputs"
+        )
+        token outputs:volume (
+            displayGroup = "Outputs"
+        )
+
+        def Shader "a0000000_0000_0000_0000_000000000000_003" (
+            apiSchemas = ["NodeDefAPI"]
+        )
+        {
+            token info:implementationSource = "sourceAsset"
+            asset info:mdl:sourceAsset = @../Textures/pbr.mdl@
+            token info:mdl:sourceAsset:subIdentifier = "gltf_material"
+            float inputs:alpha_cutoff = 0 (
+                customData = {
+                    double default = 0.5
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Opacity"
+            )
+            int inputs:alpha_mode = 0 (
+                customData = {
+                    int default = 0
+                    dictionary range = {
+                        int max = 2
+                        int min = 0
+                    }
+                }
+                displayGroup = "Opacity"
+                renderType = "gltf_alpha_mode"
+                sdrMetadata = {
+                    string __SDR__enum_value = "opaque"
+                    string options = "opaque:0|mask:1|blend:2"
+                }
+            )
+            float inputs:base_alpha = 1 (
+                customData = {
+                    double default = 1
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Base Alpha"
+            )
+            color3f inputs:base_color_factor = (0.980392, 0.980392, 0.980392) (
+                customData = {
+                    float3 default = (1, 1, 1)
+                    dictionary range = {
+                        float3 max = (1, 1, 1)
+                        float3 min = (0, 0, 0)
+                    }
+                }
+                displayGroup = "PBR Metallic Roughness"
+            )
+            color3f inputs:emissive_factor = (0.0063109873, 1, 0) (
+                customData = {
+                    float3 default = (0, 0, 0)
+                    dictionary range = {
+                        float3 max = (1, 1, 1)
+                        float3 min = (0, 0, 0)
+                    }
+                }
+                displayGroup = "Emission"
+            )
+            float inputs:emissive_strength = 625 (
+                customData = {
+                    double default = 1
+                }
+                displayGroup = "Emission"
+            )
+            float inputs:ior = 0 (
+                customData = {
+                    double default = 1.5
+                    dictionary range = {
+                        double max = 5
+                        double min = 1
+                    }
+                }
+                displayGroup = "Metallic Roughness"
+            )
+            float inputs:metallic_factor = 1 (
+                customData = {
+                    double default = 0
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Metallic Roughness"
+            )
+            float inputs:roughness_factor = 0.5 (
+                customData = {
+                    double default = 0
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Metallic Roughness"
+            )
+            float inputs:specular_factor = 0 (
+                customData = {
+                    double default = 1
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Specular"
+            )
+            token outputs:out
+        }
+    }
+
+    def Material "Material________051"
+    {
+        token outputs:displacement (
+            displayGroup = "Outputs"
+        )
+        prepend token outputs:mdl:displacement.connect = </Materials/Material________051/Material________051.outputs:out>
+        prepend token outputs:mdl:surface.connect = </Materials/Material________051/Material________051.outputs:out>
+        prepend token outputs:mdl:volume.connect = </Materials/Material________051/Material________051.outputs:out>
+        token outputs:surface (
+            displayGroup = "Outputs"
+        )
+        token outputs:volume (
+            displayGroup = "Outputs"
+        )
+
+        def Shader "Material________051" (
+            apiSchemas = ["NodeDefAPI"]
+        )
+        {
+            token info:implementationSource = "sourceAsset"
+            asset info:mdl:sourceAsset = @../Textures/pbr.mdl@
+            token info:mdl:sourceAsset:subIdentifier = "gltf_material"
+            float inputs:alpha_cutoff = 0 (
+                customData = {
+                    double default = 0.5
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Opacity"
+            )
+            int inputs:alpha_mode = 0 (
+                customData = {
+                    int default = 0
+                    dictionary range = {
+                        int max = 2
+                        int min = 0
+                    }
+                }
+                displayGroup = "Opacity"
+                renderType = "gltf_alpha_mode"
+                sdrMetadata = {
+                    string __SDR__enum_value = "opaque"
+                    string options = "opaque:0|mask:1|blend:2"
+                }
+            )
+            float inputs:base_alpha = 1 (
+                customData = {
+                    double default = 1
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Base Alpha"
+            )
+            color3f inputs:base_color_factor = (0.117647, 0.117647, 0.117647) (
+                customData = {
+                    float3 default = (1, 1, 1)
+                    dictionary range = {
+                        float3 max = (1, 1, 1)
+                        float3 min = (0, 0, 0)
+                    }
+                }
+                displayGroup = "PBR Metallic Roughness"
+            )
+            float inputs:emissive_strength = 10000 (
+                customData = {
+                    double default = 1
+                }
+                displayGroup = "Emission"
+            )
+            float inputs:metallic_factor = 0.48 (
+                customData = {
+                    double default = 0
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Metallic Roughness"
+            )
+            float inputs:roughness_factor = 0.5 (
+                customData = {
+                    double default = 0
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Metallic Roughness"
+            )
+            float inputs:specular_factor = 0 (
+                customData = {
+                    double default = 1
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Specular"
+            )
+            token outputs:out
+        }
+    }
+
+    def Material "Material_________4__008"
+    {
+        token outputs:displacement (
+            displayGroup = "Outputs"
+        )
+        prepend token outputs:mdl:displacement.connect = </Materials/Material_________4__008/Material_________4__008.outputs:out>
+        prepend token outputs:mdl:surface.connect = </Materials/Material_________4__008/Material_________4__008.outputs:out>
+        prepend token outputs:mdl:volume.connect = </Materials/Material_________4__008/Material_________4__008.outputs:out>
+        token outputs:surface (
+            displayGroup = "Outputs"
+        )
+        token outputs:volume (
+            displayGroup = "Outputs"
+        )
+
+        def Shader "Material_________4__008" (
+            apiSchemas = ["NodeDefAPI"]
+        )
+        {
+            token info:implementationSource = "sourceAsset"
+            asset info:mdl:sourceAsset = @../Textures/pbr.mdl@
+            token info:mdl:sourceAsset:subIdentifier = "gltf_material"
+            float inputs:alpha_cutoff = 0 (
+                customData = {
+                    double default = 0.5
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Opacity"
+            )
+            int inputs:alpha_mode = 0 (
+                customData = {
+                    int default = 0
+                    dictionary range = {
+                        int max = 2
+                        int min = 0
+                    }
+                }
+                displayGroup = "Opacity"
+                renderType = "gltf_alpha_mode"
+                sdrMetadata = {
+                    string __SDR__enum_value = "opaque"
+                    string options = "opaque:0|mask:1|blend:2"
+                }
+            )
+            float inputs:base_alpha = 1 (
+                customData = {
+                    double default = 1
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Base Alpha"
+            )
+            color3f inputs:base_color_factor = (0.058824, 0.058824, 0.058824) (
+                customData = {
+                    float3 default = (1, 1, 1)
+                    dictionary range = {
+                        float3 max = (1, 1, 1)
+                        float3 min = (0, 0, 0)
+                    }
+                }
+                displayGroup = "PBR Metallic Roughness"
+            )
+            float inputs:emissive_strength = 10000 (
+                customData = {
+                    double default = 1
+                }
+                displayGroup = "Emission"
+            )
+            float inputs:metallic_factor = 0.5 (
+                customData = {
+                    double default = 0
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Metallic Roughness"
+            )
+            float inputs:roughness_factor = 0.5 (
+                customData = {
+                    double default = 0
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Metallic Roughness"
+            )
+            float inputs:specular_factor = 0 (
+                customData = {
+                    double default = 1
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Specular"
+            )
+            token outputs:out
+        }
+    }
+
+    def Material "Material_________5__022"
+    {
+        token outputs:displacement (
+            displayGroup = "Outputs"
+        )
+        prepend token outputs:mdl:displacement.connect = </Materials/Material_________5__022/Material_________5__022.outputs:out>
+        prepend token outputs:mdl:surface.connect = </Materials/Material_________5__022/Material_________5__022.outputs:out>
+        prepend token outputs:mdl:volume.connect = </Materials/Material_________5__022/Material_________5__022.outputs:out>
+        token outputs:surface (
+            displayGroup = "Outputs"
+        )
+        token outputs:volume (
+            displayGroup = "Outputs"
+        )
+
+        def Shader "Material_________5__022" (
+            apiSchemas = ["NodeDefAPI"]
+        )
+        {
+            token info:implementationSource = "sourceAsset"
+            asset info:mdl:sourceAsset = @../Textures/pbr.mdl@
+            token info:mdl:sourceAsset:subIdentifier = "gltf_material"
+            float inputs:alpha_cutoff = 0 (
+                customData = {
+                    double default = 0.5
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Opacity"
+            )
+            int inputs:alpha_mode = 0 (
+                customData = {
+                    int default = 0
+                    dictionary range = {
+                        int max = 2
+                        int min = 0
+                    }
+                }
+                displayGroup = "Opacity"
+                renderType = "gltf_alpha_mode"
+                sdrMetadata = {
+                    string __SDR__enum_value = "opaque"
+                    string options = "opaque:0|mask:1|blend:2"
+                }
+            )
+            float inputs:base_alpha = 1 (
+                customData = {
+                    double default = 1
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Base Alpha"
+            )
+            color3f inputs:base_color_factor = (0.90196097, 0.90196097, 0.90196097) (
+                customData = {
+                    float3 default = (1, 1, 1)
+                    dictionary range = {
+                        float3 max = (1, 1, 1)
+                        float3 min = (0, 0, 0)
+                    }
+                }
+                displayGroup = "PBR Metallic Roughness"
+            )
+            float inputs:emissive_strength = 10000 (
+                customData = {
+                    double default = 1
+                }
+                displayGroup = "Emission"
+            )
+            float inputs:metallic_factor = 0 (
+                customData = {
+                    double default = 0
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Metallic Roughness"
+            )
+            float inputs:roughness_factor = 0.5 (
+                customData = {
+                    double default = 0
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Metallic Roughness"
+            )
+            float inputs:specular_factor = 0 (
+                customData = {
+                    double default = 1
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Specular"
+            )
+            token outputs:out
+        }
+    }
+
+    def Material "Material_________2__045"
+    {
+        token outputs:displacement (
+            displayGroup = "Outputs"
+        )
+        prepend token outputs:mdl:displacement.connect = </Materials/Material_________2__045/Material_________2__045.outputs:out>
+        prepend token outputs:mdl:surface.connect = </Materials/Material_________2__045/Material_________2__045.outputs:out>
+        prepend token outputs:mdl:volume.connect = </Materials/Material_________2__045/Material_________2__045.outputs:out>
+        token outputs:surface (
+            displayGroup = "Outputs"
+        )
+        token outputs:volume (
+            displayGroup = "Outputs"
+        )
+
+        def Shader "Material_________2__045" (
+            apiSchemas = ["NodeDefAPI"]
+        )
+        {
+            token info:implementationSource = "sourceAsset"
+            asset info:mdl:sourceAsset = @../Textures/pbr.mdl@
+            token info:mdl:sourceAsset:subIdentifier = "gltf_material"
+            float inputs:alpha_cutoff = 0 (
+                customData = {
+                    double default = 0.5
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Opacity"
+            )
+            int inputs:alpha_mode = 0 (
+                customData = {
+                    int default = 0
+                    dictionary range = {
+                        int max = 2
+                        int min = 0
+                    }
+                }
+                displayGroup = "Opacity"
+                renderType = "gltf_alpha_mode"
+                sdrMetadata = {
+                    string __SDR__enum_value = "opaque"
+                    string options = "opaque:0|mask:1|blend:2"
+                }
+            )
+            float inputs:base_alpha = 1 (
+                customData = {
+                    double default = 1
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Base Alpha"
+            )
+            color3f inputs:base_color_factor = (0.85490197, 0.121569, 0.121569) (
+                customData = {
+                    float3 default = (1, 1, 1)
+                    dictionary range = {
+                        float3 max = (1, 1, 1)
+                        float3 min = (0, 0, 0)
+                    }
+                }
+                displayGroup = "PBR Metallic Roughness"
+            )
+            float inputs:emissive_strength = 10000 (
+                customData = {
+                    double default = 1
+                }
+                displayGroup = "Emission"
+            )
+            float inputs:metallic_factor = 0 (
+                customData = {
+                    double default = 0
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Metallic Roughness"
+            )
+            float inputs:roughness_factor = 0.5 (
+                customData = {
+                    double default = 0
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Metallic Roughness"
+            )
+            float inputs:specular_factor = 0 (
+                customData = {
+                    double default = 1
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Specular"
+            )
+            token outputs:out
+        }
+    }
+
+    def Material "Material_________3__073"
+    {
+        token outputs:displacement (
+            displayGroup = "Outputs"
+        )
+        prepend token outputs:mdl:displacement.connect = </Materials/Material_________3__073/Material_________3__073.outputs:out>
+        prepend token outputs:mdl:surface.connect = </Materials/Material_________3__073/Material_________3__073.outputs:out>
+        prepend token outputs:mdl:volume.connect = </Materials/Material_________3__073/Material_________3__073.outputs:out>
+        token outputs:surface (
+            displayGroup = "Outputs"
+        )
+        token outputs:volume (
+            displayGroup = "Outputs"
+        )
+
+        def Shader "Material_________3__073" (
+            apiSchemas = ["NodeDefAPI"]
+        )
+        {
+            token info:implementationSource = "sourceAsset"
+            asset info:mdl:sourceAsset = @../Textures/pbr.mdl@
+            token info:mdl:sourceAsset:subIdentifier = "gltf_material"
+            float inputs:alpha_cutoff = 0 (
+                customData = {
+                    double default = 0.5
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Opacity"
+            )
+            int inputs:alpha_mode = 0 (
+                customData = {
+                    int default = 0
+                    dictionary range = {
+                        int max = 2
+                        int min = 0
+                    }
+                }
+                displayGroup = "Opacity"
+                renderType = "gltf_alpha_mode"
+                sdrMetadata = {
+                    string __SDR__enum_value = "opaque"
+                    string options = "opaque:0|mask:1|blend:2"
+                }
+            )
+            float inputs:base_alpha = 1 (
+                customData = {
+                    double default = 1
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Base Alpha"
+            )
+            color3f inputs:base_color_factor = (0.980392, 0.980392, 0.980392) (
+                customData = {
+                    float3 default = (1, 1, 1)
+                    dictionary range = {
+                        float3 max = (1, 1, 1)
+                        float3 min = (0, 0, 0)
+                    }
+                }
+                displayGroup = "PBR Metallic Roughness"
+            )
+            float inputs:emissive_strength = 10000 (
+                customData = {
+                    double default = 1
+                }
+                displayGroup = "Emission"
+            )
+            float inputs:metallic_factor = 0.42 (
+                customData = {
+                    double default = 0
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Metallic Roughness"
+            )
+            float inputs:roughness_factor = 0.5 (
+                customData = {
+                    double default = 0
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Metallic Roughness"
+            )
+            float inputs:specular_factor = 0 (
+                customData = {
+                    double default = 1
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Specular"
+            )
+            token outputs:out
+        }
+    }
+
+    def Material "Material________056"
+    {
+        token outputs:displacement (
+            displayGroup = "Outputs"
+        )
+        prepend token outputs:mdl:displacement.connect = </Materials/Material________056/Material________056.outputs:out>
+        prepend token outputs:mdl:surface.connect = </Materials/Material________056/Material________056.outputs:out>
+        prepend token outputs:mdl:volume.connect = </Materials/Material________056/Material________056.outputs:out>
+        token outputs:surface (
+            displayGroup = "Outputs"
+        )
+        token outputs:volume (
+            displayGroup = "Outputs"
+        )
+
+        def Shader "Material________056" (
+            apiSchemas = ["NodeDefAPI"]
+        )
+        {
+            token info:implementationSource = "sourceAsset"
+            asset info:mdl:sourceAsset = @../Textures/pbr.mdl@
+            token info:mdl:sourceAsset:subIdentifier = "gltf_material"
+            float inputs:alpha_cutoff = 0 (
+                customData = {
+                    double default = 0.5
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Opacity"
+            )
+            int inputs:alpha_mode = 0 (
+                customData = {
+                    int default = 0
+                    dictionary range = {
+                        int max = 2
+                        int min = 0
+                    }
+                }
+                displayGroup = "Opacity"
+                renderType = "gltf_alpha_mode"
+                sdrMetadata = {
+                    string __SDR__enum_value = "opaque"
+                    string options = "opaque:0|mask:1|blend:2"
+                }
+            )
+            float inputs:base_alpha = 1 (
+                customData = {
+                    double default = 1
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Base Alpha"
+            )
+            color3f inputs:base_color_factor = (0.403922, 0.403922, 0.403922) (
+                customData = {
+                    float3 default = (1, 1, 1)
+                    dictionary range = {
+                        float3 max = (1, 1, 1)
+                        float3 min = (0, 0, 0)
+                    }
+                }
+                displayGroup = "PBR Metallic Roughness"
+            )
+            float inputs:emissive_strength = 10000 (
+                customData = {
+                    double default = 1
+                }
+                displayGroup = "Emission"
+            )
+            float inputs:metallic_factor = 0.53999996 (
+                customData = {
+                    double default = 0
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Metallic Roughness"
+            )
+            float inputs:roughness_factor = 0.5 (
+                customData = {
+                    double default = 0
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Metallic Roughness"
+            )
+            float inputs:specular_factor = 0 (
+                customData = {
+                    double default = 1
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Specular"
+            )
+            token outputs:out
+        }
+    }
+
+    def Material "Material_________6__003"
+    {
+        token outputs:displacement (
+            displayGroup = "Outputs"
+        )
+        prepend token outputs:mdl:displacement.connect = </Materials/Material_________6__003/Material_________6__003.outputs:out>
+        prepend token outputs:mdl:surface.connect = </Materials/Material_________6__003/Material_________6__003.outputs:out>
+        prepend token outputs:mdl:volume.connect = </Materials/Material_________6__003/Material_________6__003.outputs:out>
+        token outputs:surface (
+            displayGroup = "Outputs"
+        )
+        token outputs:volume (
+            displayGroup = "Outputs"
+        )
+
+        def Shader "Material_________6__003" (
+            apiSchemas = ["NodeDefAPI"]
+        )
+        {
+            token info:implementationSource = "sourceAsset"
+            asset info:mdl:sourceAsset = @../Textures/pbr.mdl@
+            token info:mdl:sourceAsset:subIdentifier = "gltf_material"
+            float inputs:alpha_cutoff = 0 (
+                customData = {
+                    double default = 0.5
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Opacity"
+            )
+            int inputs:alpha_mode = 0 (
+                customData = {
+                    int default = 0
+                    dictionary range = {
+                        int max = 2
+                        int min = 0
+                    }
+                }
+                displayGroup = "Opacity"
+                renderType = "gltf_alpha_mode"
+                sdrMetadata = {
+                    string __SDR__enum_value = "opaque"
+                    string options = "opaque:0|mask:1|blend:2"
+                }
+            )
+            float inputs:base_alpha = 1 (
+                customData = {
+                    double default = 1
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Base Alpha"
+            )
+            color3f inputs:base_color_factor = (0.745098, 0.745098, 0.745098) (
+                customData = {
+                    float3 default = (1, 1, 1)
+                    dictionary range = {
+                        float3 max = (1, 1, 1)
+                        float3 min = (0, 0, 0)
+                    }
+                }
+                displayGroup = "PBR Metallic Roughness"
+            )
+            float inputs:emissive_strength = 10000 (
+                customData = {
+                    double default = 1
+                }
+                displayGroup = "Emission"
+            )
+            float inputs:metallic_factor = 0 (
+                customData = {
+                    double default = 0
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Metallic Roughness"
+            )
+            float inputs:roughness_factor = 0.5 (
+                customData = {
+                    double default = 0
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Metallic Roughness"
+            )
+            float inputs:specular_factor = 0 (
+                customData = {
+                    double default = 1
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Specular"
+            )
+            token outputs:out
+        }
+    }
+
+    def Material "Material_________1__050"
+    {
+        token outputs:displacement (
+            displayGroup = "Outputs"
+        )
+        prepend token outputs:mdl:displacement.connect = </Materials/Material_________1__050/Material_________1__050.outputs:out>
+        prepend token outputs:mdl:surface.connect = </Materials/Material_________1__050/Material_________1__050.outputs:out>
+        prepend token outputs:mdl:volume.connect = </Materials/Material_________1__050/Material_________1__050.outputs:out>
+        token outputs:surface (
+            displayGroup = "Outputs"
+        )
+        token outputs:volume (
+            displayGroup = "Outputs"
+        )
+
+        def Shader "Material_________1__050" (
+            apiSchemas = ["NodeDefAPI"]
+        )
+        {
+            token info:implementationSource = "sourceAsset"
+            asset info:mdl:sourceAsset = @../Textures/pbr.mdl@
+            token info:mdl:sourceAsset:subIdentifier = "gltf_material"
+            float inputs:alpha_cutoff = 0 (
+                customData = {
+                    double default = 0.5
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Opacity"
+            )
+            int inputs:alpha_mode = 0 (
+                customData = {
+                    int default = 0
+                    dictionary range = {
+                        int max = 2
+                        int min = 0
+                    }
+                }
+                displayGroup = "Opacity"
+                renderType = "gltf_alpha_mode"
+                sdrMetadata = {
+                    string __SDR__enum_value = "opaque"
+                    string options = "opaque:0|mask:1|blend:2"
+                }
+            )
+            float inputs:base_alpha = 1 (
+                customData = {
+                    double default = 1
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Base Alpha"
+            )
+            color3f inputs:base_color_factor = (0.121569, 0.121569, 0.121569) (
+                customData = {
+                    float3 default = (1, 1, 1)
+                    dictionary range = {
+                        float3 max = (1, 1, 1)
+                        float3 min = (0, 0, 0)
+                    }
+                }
+                displayGroup = "PBR Metallic Roughness"
+            )
+            float inputs:emissive_strength = 10000 (
+                customData = {
+                    double default = 1
+                }
+                displayGroup = "Emission"
+            )
+            float inputs:metallic_factor = 0.47 (
+                customData = {
+                    double default = 0
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Metallic Roughness"
+            )
+            float inputs:roughness_factor = 0.5 (
+                customData = {
+                    double default = 0
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Metallic Roughness"
+            )
+            float inputs:specular_factor = 0 (
+                customData = {
+                    double default = 1
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Specular"
+            )
+            token outputs:out
+        }
+    }
+
+    def Material "a0000000_0000_0000_0000_000000000000_005"
+    {
+        token outputs:displacement (
+            displayGroup = "Outputs"
+        )
+        prepend token outputs:mdl:displacement.connect = </Materials/a0000000_0000_0000_0000_000000000000_005/a0000000_0000_0000_0000_000000000000_005.outputs:out>
+        prepend token outputs:mdl:surface.connect = </Materials/a0000000_0000_0000_0000_000000000000_005/a0000000_0000_0000_0000_000000000000_005.outputs:out>
+        prepend token outputs:mdl:volume.connect = </Materials/a0000000_0000_0000_0000_000000000000_005/a0000000_0000_0000_0000_000000000000_005.outputs:out>
+        token outputs:surface (
+            displayGroup = "Outputs"
+        )
+        token outputs:volume (
+            displayGroup = "Outputs"
+        )
+
+        def Shader "a0000000_0000_0000_0000_000000000000_005" (
+            apiSchemas = ["NodeDefAPI"]
+        )
+        {
+            token info:implementationSource = "sourceAsset"
+            asset info:mdl:sourceAsset = @../Textures/pbr.mdl@
+            token info:mdl:sourceAsset:subIdentifier = "gltf_material"
+            float inputs:alpha_cutoff = 0 (
+                customData = {
+                    double default = 0.5
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Opacity"
+            )
+            int inputs:alpha_mode = 0 (
+                customData = {
+                    int default = 0
+                    dictionary range = {
+                        int max = 2
+                        int min = 0
+                    }
+                }
+                displayGroup = "Opacity"
+                renderType = "gltf_alpha_mode"
+                sdrMetadata = {
+                    string __SDR__enum_value = "opaque"
+                    string options = "opaque:0|mask:1|blend:2"
+                }
+            )
+            float inputs:base_alpha = 1 (
+                customData = {
+                    double default = 1
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Base Alpha"
+            )
+            color3f inputs:base_color_factor = (0.980392, 0.980392, 0.980392) (
+                customData = {
+                    float3 default = (1, 1, 1)
+                    dictionary range = {
+                        float3 max = (1, 1, 1)
+                        float3 min = (0, 0, 0)
+                    }
+                }
+                displayGroup = "PBR Metallic Roughness"
+            )
+            float inputs:emissive_strength = 10000 (
+                customData = {
+                    double default = 1
+                }
+                displayGroup = "Emission"
+            )
+            float inputs:ior = 0 (
+                customData = {
+                    double default = 1.5
+                    dictionary range = {
+                        double max = 5
+                        double min = 1
+                    }
+                }
+                displayGroup = "Metallic Roughness"
+            )
+            float inputs:metallic_factor = 1 (
+                customData = {
+                    double default = 0
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Metallic Roughness"
+            )
+            float inputs:roughness_factor = 0.5 (
+                customData = {
+                    double default = 0
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Metallic Roughness"
+            )
+            float inputs:specular_factor = 0 (
+                customData = {
+                    double default = 1
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Specular"
+            )
+            token outputs:out
+        }
+    }
+
+    def Material "Material_________4__016"
+    {
+        token outputs:displacement (
+            displayGroup = "Outputs"
+        )
+        prepend token outputs:mdl:displacement.connect = </Materials/Material_________4__016/Material_________4__016.outputs:out>
+        prepend token outputs:mdl:surface.connect = </Materials/Material_________4__016/Material_________4__016.outputs:out>
+        prepend token outputs:mdl:volume.connect = </Materials/Material_________4__016/Material_________4__016.outputs:out>
+        token outputs:surface (
+            displayGroup = "Outputs"
+        )
+        token outputs:volume (
+            displayGroup = "Outputs"
+        )
+
+        def Shader "Material_________4__016" (
+            apiSchemas = ["NodeDefAPI"]
+        )
+        {
+            token info:implementationSource = "sourceAsset"
+            asset info:mdl:sourceAsset = @../Textures/pbr.mdl@
+            token info:mdl:sourceAsset:subIdentifier = "gltf_material"
+            float inputs:alpha_cutoff = 0 (
+                customData = {
+                    double default = 0.5
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Opacity"
+            )
+            int inputs:alpha_mode = 0 (
+                customData = {
+                    int default = 0
+                    dictionary range = {
+                        int max = 2
+                        int min = 0
+                    }
+                }
+                displayGroup = "Opacity"
+                renderType = "gltf_alpha_mode"
+                sdrMetadata = {
+                    string __SDR__enum_value = "opaque"
+                    string options = "opaque:0|mask:1|blend:2"
+                }
+            )
+            float inputs:base_alpha = 1 (
+                customData = {
+                    double default = 1
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Base Alpha"
+            )
+            color3f inputs:base_color_factor = (0.058824, 0.058824, 0.058824) (
+                customData = {
+                    float3 default = (1, 1, 1)
+                    dictionary range = {
+                        float3 max = (1, 1, 1)
+                        float3 min = (0, 0, 0)
+                    }
+                }
+                displayGroup = "PBR Metallic Roughness"
+            )
+            float inputs:emissive_strength = 10000 (
+                customData = {
+                    double default = 1
+                }
+                displayGroup = "Emission"
+            )
+            float inputs:metallic_factor = 0.48999998 (
+                customData = {
+                    double default = 0
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Metallic Roughness"
+            )
+            float inputs:roughness_factor = 0.5 (
+                customData = {
+                    double default = 0
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Metallic Roughness"
+            )
+            float inputs:specular_factor = 0 (
+                customData = {
+                    double default = 1
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Specular"
+            )
+            token outputs:out
+        }
+    }
+
+    def Material "Material_________3__144"
+    {
+        token outputs:displacement (
+            displayGroup = "Outputs"
+        )
+        prepend token outputs:mdl:displacement.connect = </Materials/Material_________3__144/Material_________3__144.outputs:out>
+        prepend token outputs:mdl:surface.connect = </Materials/Material_________3__144/Material_________3__144.outputs:out>
+        prepend token outputs:mdl:volume.connect = </Materials/Material_________3__144/Material_________3__144.outputs:out>
+        token outputs:surface (
+            displayGroup = "Outputs"
+        )
+        token outputs:volume (
+            displayGroup = "Outputs"
+        )
+
+        def Shader "Material_________3__144" (
+            apiSchemas = ["NodeDefAPI"]
+        )
+        {
+            token info:implementationSource = "sourceAsset"
+            asset info:mdl:sourceAsset = @../Textures/pbr.mdl@
+            token info:mdl:sourceAsset:subIdentifier = "gltf_material"
+            float inputs:alpha_cutoff = 0 (
+                customData = {
+                    double default = 0.5
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Opacity"
+            )
+            int inputs:alpha_mode = 0 (
+                customData = {
+                    int default = 0
+                    dictionary range = {
+                        int max = 2
+                        int min = 0
+                    }
+                }
+                displayGroup = "Opacity"
+                renderType = "gltf_alpha_mode"
+                sdrMetadata = {
+                    string __SDR__enum_value = "opaque"
+                    string options = "opaque:0|mask:1|blend:2"
+                }
+            )
+            float inputs:base_alpha = 1 (
+                customData = {
+                    double default = 1
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Base Alpha"
+            )
+            color3f inputs:base_color_factor = (0.780392, 0.168627, 0.168627) (
+                customData = {
+                    float3 default = (1, 1, 1)
+                    dictionary range = {
+                        float3 max = (1, 1, 1)
+                        float3 min = (0, 0, 0)
+                    }
+                }
+                displayGroup = "PBR Metallic Roughness"
+            )
+            float inputs:emissive_strength = 10000 (
+                customData = {
+                    double default = 1
+                }
+                displayGroup = "Emission"
+            )
+            float inputs:metallic_factor = 0 (
+                customData = {
+                    double default = 0
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Metallic Roughness"
+            )
+            float inputs:roughness_factor = 0.5 (
+                customData = {
+                    double default = 0
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Metallic Roughness"
+            )
+            float inputs:specular_factor = 0 (
+                customData = {
+                    double default = 1
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Specular"
+            )
+            token outputs:out
+        }
+    }
+
+    def Material "Material________090"
+    {
+        token outputs:displacement (
+            displayGroup = "Outputs"
+        )
+        prepend token outputs:mdl:displacement.connect = </Materials/Material________090/Material________090.outputs:out>
+        prepend token outputs:mdl:surface.connect = </Materials/Material________090/Material________090.outputs:out>
+        prepend token outputs:mdl:volume.connect = </Materials/Material________090/Material________090.outputs:out>
+        token outputs:surface (
+            displayGroup = "Outputs"
+        )
+        token outputs:volume (
+            displayGroup = "Outputs"
+        )
+
+        def Shader "Material________090" (
+            apiSchemas = ["NodeDefAPI"]
+        )
+        {
+            token info:implementationSource = "sourceAsset"
+            asset info:mdl:sourceAsset = @../Textures/pbr.mdl@
+            token info:mdl:sourceAsset:subIdentifier = "gltf_material"
+            float inputs:alpha_cutoff = 0 (
+                customData = {
+                    double default = 0.5
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Opacity"
+            )
+            int inputs:alpha_mode = 0 (
+                customData = {
+                    int default = 0
+                    dictionary range = {
+                        int max = 2
+                        int min = 0
+                    }
+                }
+                displayGroup = "Opacity"
+                renderType = "gltf_alpha_mode"
+                sdrMetadata = {
+                    string __SDR__enum_value = "opaque"
+                    string options = "opaque:0|mask:1|blend:2"
+                }
+            )
+            float inputs:base_alpha = 1 (
+                customData = {
+                    double default = 1
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Base Alpha"
+            )
+            color3f inputs:base_color_factor = (0.4, 0.4, 0.4) (
+                customData = {
+                    float3 default = (1, 1, 1)
+                    dictionary range = {
+                        float3 max = (1, 1, 1)
+                        float3 min = (0, 0, 0)
+                    }
+                }
+                displayGroup = "PBR Metallic Roughness"
+            )
+            float inputs:emissive_strength = 10000 (
+                customData = {
+                    double default = 1
+                }
+                displayGroup = "Emission"
+            )
+            float inputs:metallic_factor = 0.53 (
+                customData = {
+                    double default = 0
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Metallic Roughness"
+            )
+            float inputs:roughness_factor = 0.5 (
+                customData = {
+                    double default = 0
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Metallic Roughness"
+            )
+            float inputs:specular_factor = 0 (
+                customData = {
+                    double default = 1
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Specular"
+            )
+            token outputs:out
+        }
+    }
+
+    def Material "Material________088"
+    {
+        token outputs:displacement (
+            displayGroup = "Outputs"
+        )
+        prepend token outputs:mdl:displacement.connect = </Materials/Material________088/Material________088.outputs:out>
+        prepend token outputs:mdl:surface.connect = </Materials/Material________088/Material________088.outputs:out>
+        prepend token outputs:mdl:volume.connect = </Materials/Material________088/Material________088.outputs:out>
+        token outputs:surface (
+            displayGroup = "Outputs"
+        )
+        token outputs:volume (
+            displayGroup = "Outputs"
+        )
+
+        def Shader "Material________088" (
+            apiSchemas = ["NodeDefAPI"]
+        )
+        {
+            token info:implementationSource = "sourceAsset"
+            asset info:mdl:sourceAsset = @../Textures/pbr.mdl@
+            token info:mdl:sourceAsset:subIdentifier = "gltf_material"
+            float inputs:alpha_cutoff = 0 (
+                customData = {
+                    double default = 0.5
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Opacity"
+            )
+            int inputs:alpha_mode = 0 (
+                customData = {
+                    int default = 0
+                    dictionary range = {
+                        int max = 2
+                        int min = 0
+                    }
+                }
+                displayGroup = "Opacity"
+                renderType = "gltf_alpha_mode"
+                sdrMetadata = {
+                    string __SDR__enum_value = "opaque"
+                    string options = "opaque:0|mask:1|blend:2"
+                }
+            )
+            float inputs:base_alpha = 1 (
+                customData = {
+                    double default = 1
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Base Alpha"
+            )
+            color3f inputs:base_color_factor = (0.117647, 0.117647, 0.117647) (
+                customData = {
+                    float3 default = (1, 1, 1)
+                    dictionary range = {
+                        float3 max = (1, 1, 1)
+                        float3 min = (0, 0, 0)
+                    }
+                }
+                displayGroup = "PBR Metallic Roughness"
+            )
+            float inputs:emissive_strength = 10000 (
+                customData = {
+                    double default = 1
+                }
+                displayGroup = "Emission"
+            )
+            float inputs:metallic_factor = 0.5 (
+                customData = {
+                    double default = 0
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Metallic Roughness"
+            )
+            float inputs:roughness_factor = 0.5 (
+                customData = {
+                    double default = 0
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Metallic Roughness"
+            )
+            float inputs:specular_factor = 0 (
+                customData = {
+                    double default = 1
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Specular"
+            )
+            token outputs:out
+        }
+    }
+
+    def Material "white"
+    {
+        token outputs:displacement (
+            displayGroup = "Outputs"
+        )
+        prepend token outputs:mdl:displacement.connect = </Materials/white/white.outputs:out>
+        prepend token outputs:mdl:surface.connect = </Materials/white/white.outputs:out>
+        prepend token outputs:mdl:volume.connect = </Materials/white/white.outputs:out>
+        token outputs:surface (
+            displayGroup = "Outputs"
+        )
+        token outputs:volume (
+            displayGroup = "Outputs"
+        )
+
+        def Shader "white" (
+            apiSchemas = ["NodeDefAPI"]
+        )
+        {
+            token info:implementationSource = "sourceAsset"
+            asset info:mdl:sourceAsset = @../Textures/pbr.mdl@
+            token info:mdl:sourceAsset:subIdentifier = "gltf_material"
+            float inputs:alpha_cutoff = 0 (
+                customData = {
+                    double default = 0.5
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Opacity"
+            )
+            int inputs:alpha_mode = 0 (
+                customData = {
+                    int default = 0
+                    dictionary range = {
+                        int max = 2
+                        int min = 0
+                    }
+                }
+                displayGroup = "Opacity"
+                renderType = "gltf_alpha_mode"
+                sdrMetadata = {
+                    string __SDR__enum_value = "opaque"
+                    string options = "opaque:0|mask:1|blend:2"
+                }
+            )
+            float inputs:base_alpha = 1 (
+                customData = {
+                    double default = 1
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Base Alpha"
+            )
+            color3f inputs:base_color_factor = (0.980392, 0.980392, 0.980392) (
+                customData = {
+                    float3 default = (1, 1, 1)
+                    dictionary range = {
+                        float3 max = (1, 1, 1)
+                        float3 min = (0, 0, 0)
+                    }
+                }
+                displayGroup = "PBR Metallic Roughness"
+            )
+            float inputs:emissive_strength = 10000 (
+                customData = {
+                    double default = 1
+                }
+                displayGroup = "Emission"
+            )
+            float inputs:metallic_factor = 0 (
+                customData = {
+                    double default = 0
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Metallic Roughness"
+            )
+            float inputs:roughness_factor = 0.5 (
+                customData = {
+                    double default = 0
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Metallic Roughness"
+            )
+            float inputs:specular_factor = 0 (
+                customData = {
+                    double default = 1
+                    dictionary range = {
+                        double max = 1
+                        double min = 0
+                    }
+                }
+                displayGroup = "Specular"
+            )
+            token outputs:out
+        }
+    }
+}
+
