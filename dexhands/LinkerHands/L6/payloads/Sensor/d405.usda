@@ -1,0 +1,140 @@
+#usda 1.0
+(
+    defaultPrim = "L6"
+    doc = """Sensor=d405 — replace AG2F90 metal with CAD flange+brace and mount D405.
+Keeps Flange=default black print. Visual only.
+Brace is Z-up (disk in XY, no Rx90). D405 keeps the session CAD local
+at the cm hole, plus a 180° roll about the look axis so USB/lenses match the pocket.
+CAD brace (unmirrored) is used on Side=right; left is the Y-mirror (scale +1 on camera).
+Side payloads sticky-select mount.
+Optical Camera: left_hand_camera / right_hand_camera (D405 FOV, look along mesh +X). No ROS2 graph.
+"""
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def "L6"
+{
+    over "flange"
+    {
+        over "ag2f90" (
+            active = false
+        )
+        {
+        }
+
+        def Xform "d405_kit" (
+            variants = {
+                string mount = "left"
+            }
+            prepend variantSets = ["mount"]
+        )
+        {
+            quatd xformOp:orient = (1, 0, 0, 0)
+            double3 xformOp:scale = (1, 1, 1)
+            double3 xformOp:translate = (0, 0, -0.024383)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            variantSet "mount" = {
+                "left" {
+                    def Xform "brace_wrap"
+                    {
+                        quatd xformOp:orient = (1, 0, 0, 0)
+                        float3 xformOp:scale = (1, -1, 1)
+                        double3 xformOp:translate = (0, 0, 0)
+                        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+                        def "brace" (
+                            prepend payload = @./d405/brace.usd@
+                        )
+                        {
+                            quatf xformOp:orient = (1, 0, 0, 0)
+                            float3 xformOp:scale = (1, 1, 1)
+                            double3 xformOp:scale:unitsResolve = (0.01, 0.01, 0.01)
+                            double3 xformOp:translate = (0, 0, 0)
+                            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale", "xformOp:scale:unitsResolve"]
+                        }
+                    }
+
+                    def Xform "d405_mount"
+                    {
+                        quatd xformOp:orient = (0.39709536273687, 0.197727417367601, -0.0880338787916553, 0.891890787876469)
+                        double3 xformOp:scale = (1, 1, 1)
+                        double3 xformOp:translate = (0.13168, -0.051437, 0.090824)
+                        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+                        def "d405" (
+                            prepend payload = @../../../../../sensors/realsense/d405.usd@
+                        )
+                        {
+                            quatf xformOp:orient = (1, 0, 0, 0)
+                            double xformOp:rotateX:unitsResolve = 90
+                            float3 xformOp:scale = (1, 1, 1)
+                            double3 xformOp:translate = (0, 0, 0)
+                            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale", "xformOp:rotateX:unitsResolve"]
+                        }
+
+                        def Camera "left_hand_camera"
+                        {
+                            float2 clippingRange = (0.01, 10000000)
+                            float focalLength = 18.147562
+                            float focusDistance = 400
+                            float horizontalAperture = 34.44279
+                            token projection = "perspective"
+                            float verticalAperture = 20.11872
+                            quatd xformOp:orient = (0.5, -0.5, -0.5, 0.5)
+                            double3 xformOp:scale = (1, 1, 1)
+                            double3 xformOp:translate = (0, 0, 0)
+                            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                        }
+                    }
+                }
+                "right" {
+                    def "brace" (
+                        prepend payload = @./d405/brace.usd@
+                    )
+                    {
+                        quatf xformOp:orient = (1, 0, 0, 0)
+                        float3 xformOp:scale = (1, 1, 1)
+                        double3 xformOp:scale:unitsResolve = (0.01, 0.01, 0.01)
+                        double3 xformOp:translate = (0, 0, 0)
+                        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale", "xformOp:scale:unitsResolve"]
+                    }
+
+                    def Xform "d405_mount"
+                    {
+                        quatd xformOp:orient = (0.197727417367601, 0.39709536273687, -0.891890787876469, 0.0880338787916555)
+                        double3 xformOp:scale = (1, 1, 1)
+                        double3 xformOp:translate = (0.13168, 0.051437, 0.090824)
+                        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+                        def "d405" (
+                            prepend payload = @../../../../../sensors/realsense/d405.usd@
+                        )
+                        {
+                            quatf xformOp:orient = (1, 0, 0, 0)
+                            double xformOp:rotateX:unitsResolve = 90
+                            float3 xformOp:scale = (1, 1, 1)
+                            double3 xformOp:translate = (0, 0, 0)
+                            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale", "xformOp:rotateX:unitsResolve"]
+                        }
+
+                        def Camera "right_hand_camera"
+                        {
+                            float2 clippingRange = (0.01, 10000000)
+                            float focalLength = 18.147562
+                            float focusDistance = 400
+                            float horizontalAperture = 34.44279
+                            token projection = "perspective"
+                            float verticalAperture = 20.11872
+                            quatd xformOp:orient = (0.5, 0.5, -0.5, -0.5)
+                            double3 xformOp:scale = (1, 1, 1)
+                            double3 xformOp:translate = (0, 0, 0)
+                            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

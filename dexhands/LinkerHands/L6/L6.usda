@@ -5,13 +5,14 @@
 default: left morphology, unprefixed joints.
 left: left morphology, left_hand_* joints.
 right: right morphology, right_hand_* joints (Y-mirror poses; four-finger meshes unflipped).
-PhysX Drive baseline (G1 hold · fasim-dexhand-asset §0.1): fingers D=0.06 K=0.1 F=30;
-thumb D=0.08 K=0.12 F=50; jointFriction=0.5 armature=0.001; maxJointVelocity=500000;
+PhysX Drive (Xhand1 close speed, F lowered for L6): fingers D=0.18 K=1.2 F=80; thumb D=0.24 K=1.44 F=130;
+jointFriction=0.5 armature=0.001; maxJointVelocity=500000; K raised for snappy tracking (stay below o7 explode ~1.5).
 self-col On + FilteredPairs; collider μs=2.0 μd=1.6 contactOffset=0.002.
 Mimic gearing kept (finger dip -0.9047, thumb dip -1.23); dampingRatio=0 naturalFrequency=0.
 Physics: root has no authored default. Each Side payload weakly selects Physics=physx.
 Look: default = original white shell/finger; dark_gray = satin chrome (rubber/LED/black_metal unchanged).
 Flange: default none; default option = AG2F90 metal + o6 black print (M6 EE selects this).
+Sensor=d405 + Flange=default: hide AG2F90, keep print, CAD flange+brace + D405 (Side sticky-mirrors brace).
 """
     metersPerUnit = 1
     upAxis = "Z"
@@ -34,9 +35,9 @@ def Xform "L6" (
     {
         over "index_joint"
         {
-            float drive:angular:physics:damping = 0.06
-            float drive:angular:physics:maxForce = 30
-            float drive:angular:physics:stiffness = 0.1
+            float drive:angular:physics:damping = 0.18
+            float drive:angular:physics:maxForce = 80
+            float drive:angular:physics:stiffness = 1.2
             float drive:angular:physics:targetPosition = 0
             uniform token drive:angular:physics:type = "force"
             float physxJoint:jointFriction = 0.5
@@ -50,9 +51,9 @@ def Xform "L6" (
         }
         over "middle_joint"
         {
-            float drive:angular:physics:damping = 0.06
-            float drive:angular:physics:maxForce = 30
-            float drive:angular:physics:stiffness = 0.1
+            float drive:angular:physics:damping = 0.18
+            float drive:angular:physics:maxForce = 80
+            float drive:angular:physics:stiffness = 1.2
             float drive:angular:physics:targetPosition = 0
             uniform token drive:angular:physics:type = "force"
             float physxJoint:jointFriction = 0.5
@@ -66,9 +67,9 @@ def Xform "L6" (
         }
         over "pinky_joint"
         {
-            float drive:angular:physics:damping = 0.06
-            float drive:angular:physics:maxForce = 30
-            float drive:angular:physics:stiffness = 0.1
+            float drive:angular:physics:damping = 0.18
+            float drive:angular:physics:maxForce = 80
+            float drive:angular:physics:stiffness = 1.2
             float drive:angular:physics:targetPosition = 0
             uniform token drive:angular:physics:type = "force"
             float physxJoint:jointFriction = 0.5
@@ -82,9 +83,9 @@ def Xform "L6" (
         }
         over "ring_joint"
         {
-            float drive:angular:physics:damping = 0.06
-            float drive:angular:physics:maxForce = 30
-            float drive:angular:physics:stiffness = 0.1
+            float drive:angular:physics:damping = 0.18
+            float drive:angular:physics:maxForce = 80
+            float drive:angular:physics:stiffness = 1.2
             float drive:angular:physics:targetPosition = 0
             uniform token drive:angular:physics:type = "force"
             float physxJoint:jointFriction = 0.5
@@ -98,9 +99,9 @@ def Xform "L6" (
         }
         over "thumb_joint2"
         {
-            float drive:angular:physics:damping = 0.08
-            float drive:angular:physics:maxForce = 50
-            float drive:angular:physics:stiffness = 0.12
+            float drive:angular:physics:damping = 0.24
+            float drive:angular:physics:maxForce = 130
+            float drive:angular:physics:stiffness = 1.44
             float drive:angular:physics:targetPosition = 0
             uniform token drive:angular:physics:type = "force"
             float physxJoint:jointFriction = 0.5
@@ -109,9 +110,9 @@ def Xform "L6" (
         }
         over "thumb_joint1"
         {
-            float drive:angular:physics:damping = 0.08
-            float drive:angular:physics:maxForce = 50
-            float drive:angular:physics:stiffness = 0.12
+            float drive:angular:physics:damping = 0.24
+            float drive:angular:physics:maxForce = 130
+            float drive:angular:physics:stiffness = 1.44
             float drive:angular:physics:targetPosition = 0
             uniform token drive:angular:physics:type = "force"
             float physxJoint:jointFriction = 0.5
@@ -233,6 +234,11 @@ def Xform "L6" (
         }
         "sensors" (
             prepend payload = @./payloads/Sensor/sensors.usda@
+        ) {
+
+        }
+        "d405" (
+            prepend payload = @./payloads/Sensor/d405.usda@
         ) {
 
         }
