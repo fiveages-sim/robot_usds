@@ -5,7 +5,7 @@
 default: left morphology, unprefixed joints.
 left: left morphology, left_hand_* joints (default joints deactivated).
 right: right morphology, right_hand_* joints (Y-mirror poses of palm+thumb+four fingers; four-finger meshes unflipped).
-PhysX Drive baseline (G1 hold · fasim-dexhand-asset §0.1): fingers D=0.06 K=0.1 F=30; thumb D=0.08 K=0.12 F=50; jointFriction=0.5 armature=0.001; maxJointVelocity=500000; self-col On + FilteredPairs; collider μs=2.0 μd=1.6 contactOffset=0.002.
+PhysX Drive (Xhand close speed): fingers D=0.18 K=1.2 F=120; thumb D=0.24 K=1.44 F=200; jointFriction=0.5 armature=0.001; maxJointVelocity=500000; self-col On + FilteredPairs; collider μs=2.0 μd=1.6 contactOffset=0.002. Heavier than Revo2; K raised for snappy tracking (stay below o7 explode ~1.5).
 No mimic joints (12 independent DOFs). MuJoCo/Newton via Physics=mujoco
 (MjcJointAPI + MjcActuator; Side-scoped actuators in Side payloads).
 Physics: root has no authored default (VariantSwitcher can still flip physx↔mujoco).
@@ -37,108 +37,108 @@ def Xform "Xhand1" (
     {
         over "index_joint1"
         {
-            float drive:angular:physics:damping = 0.06
-            float drive:angular:physics:maxForce = 30
-            float drive:angular:physics:stiffness = 0.1
+            float drive:angular:physics:damping = 0.18
+            float drive:angular:physics:maxForce = 120
+            float drive:angular:physics:stiffness = 1.2
             float drive:angular:physics:targetPosition = 0
             uniform token drive:angular:physics:type = "force"
             float physxJoint:maxJointVelocity = 500000
         }
         over "index_joint2"
         {
-            float drive:angular:physics:damping = 0.06
-            float drive:angular:physics:maxForce = 30
-            float drive:angular:physics:stiffness = 0.1
+            float drive:angular:physics:damping = 0.18
+            float drive:angular:physics:maxForce = 120
+            float drive:angular:physics:stiffness = 1.2
             float drive:angular:physics:targetPosition = 0
             uniform token drive:angular:physics:type = "force"
             float physxJoint:maxJointVelocity = 500000
         }
         over "index_joint3"
         {
-            float drive:angular:physics:damping = 0.06
-            float drive:angular:physics:maxForce = 30
-            float drive:angular:physics:stiffness = 0.1
+            float drive:angular:physics:damping = 0.18
+            float drive:angular:physics:maxForce = 120
+            float drive:angular:physics:stiffness = 1.2
             float drive:angular:physics:targetPosition = 0
             uniform token drive:angular:physics:type = "force"
             float physxJoint:maxJointVelocity = 500000
         }
         over "middle_joint1"
         {
-            float drive:angular:physics:damping = 0.06
-            float drive:angular:physics:maxForce = 30
-            float drive:angular:physics:stiffness = 0.1
+            float drive:angular:physics:damping = 0.18
+            float drive:angular:physics:maxForce = 120
+            float drive:angular:physics:stiffness = 1.2
             float drive:angular:physics:targetPosition = 0
             uniform token drive:angular:physics:type = "force"
             float physxJoint:maxJointVelocity = 500000
         }
         over "middle_joint2"
         {
-            float drive:angular:physics:damping = 0.06
-            float drive:angular:physics:maxForce = 30
-            float drive:angular:physics:stiffness = 0.1
+            float drive:angular:physics:damping = 0.18
+            float drive:angular:physics:maxForce = 120
+            float drive:angular:physics:stiffness = 1.2
             float drive:angular:physics:targetPosition = 0
             uniform token drive:angular:physics:type = "force"
             float physxJoint:maxJointVelocity = 500000
         }
         over "pinky_joint1"
         {
-            float drive:angular:physics:damping = 0.06
-            float drive:angular:physics:maxForce = 30
-            float drive:angular:physics:stiffness = 0.1
+            float drive:angular:physics:damping = 0.18
+            float drive:angular:physics:maxForce = 120
+            float drive:angular:physics:stiffness = 1.2
             float drive:angular:physics:targetPosition = 0
             uniform token drive:angular:physics:type = "force"
             float physxJoint:maxJointVelocity = 500000
         }
         over "pinky_joint2"
         {
-            float drive:angular:physics:damping = 0.06
-            float drive:angular:physics:maxForce = 30
-            float drive:angular:physics:stiffness = 0.1
+            float drive:angular:physics:damping = 0.18
+            float drive:angular:physics:maxForce = 120
+            float drive:angular:physics:stiffness = 1.2
             float drive:angular:physics:targetPosition = 0
             uniform token drive:angular:physics:type = "force"
             float physxJoint:maxJointVelocity = 500000
         }
         over "ring_joint1"
         {
-            float drive:angular:physics:damping = 0.06
-            float drive:angular:physics:maxForce = 30
-            float drive:angular:physics:stiffness = 0.1
+            float drive:angular:physics:damping = 0.18
+            float drive:angular:physics:maxForce = 120
+            float drive:angular:physics:stiffness = 1.2
             float drive:angular:physics:targetPosition = 0
             uniform token drive:angular:physics:type = "force"
             float physxJoint:maxJointVelocity = 500000
         }
         over "ring_joint2"
         {
-            float drive:angular:physics:damping = 0.06
-            float drive:angular:physics:maxForce = 30
-            float drive:angular:physics:stiffness = 0.1
+            float drive:angular:physics:damping = 0.18
+            float drive:angular:physics:maxForce = 120
+            float drive:angular:physics:stiffness = 1.2
             float drive:angular:physics:targetPosition = 0
             uniform token drive:angular:physics:type = "force"
             float physxJoint:maxJointVelocity = 500000
         }
         over "thumb_joint1"
         {
-            float drive:angular:physics:damping = 0.08
-            float drive:angular:physics:maxForce = 50
-            float drive:angular:physics:stiffness = 0.12
+            float drive:angular:physics:damping = 0.24
+            float drive:angular:physics:maxForce = 200
+            float drive:angular:physics:stiffness = 1.44
             float drive:angular:physics:targetPosition = 0
             uniform token drive:angular:physics:type = "force"
             float physxJoint:maxJointVelocity = 500000
         }
         over "thumb_joint2"
         {
-            float drive:angular:physics:damping = 0.08
-            float drive:angular:physics:maxForce = 50
-            float drive:angular:physics:stiffness = 0.12
+            float drive:angular:physics:damping = 0.24
+            float drive:angular:physics:maxForce = 200
+            float drive:angular:physics:stiffness = 1.44
             float drive:angular:physics:targetPosition = 0
             uniform token drive:angular:physics:type = "force"
             float physxJoint:maxJointVelocity = 500000
         }
         over "thumb_joint3"
         {
-            float drive:angular:physics:damping = 0.08
-            float drive:angular:physics:maxForce = 50
-            float drive:angular:physics:stiffness = 0.12
+            float drive:angular:physics:damping = 0.24
+            float drive:angular:physics:maxForce = 200
+            float drive:angular:physics:stiffness = 1.44
             float drive:angular:physics:targetPosition = 0
             uniform token drive:angular:physics:type = "force"
             float physxJoint:maxJointVelocity = 500000
