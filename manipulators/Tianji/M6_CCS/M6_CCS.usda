@@ -194,6 +194,14 @@ def Xform "M6_CCS" (
                     )
                     {
                     }
+
+                    over "Marvin_Gripper" (
+                        variants = {
+                            string Physics = "physx"
+                        }
+                    )
+                    {
+                    }
                 }
             }
         }
@@ -233,6 +241,14 @@ def Xform "M6_CCS" (
                     }
 
                     over "Xhand1" (
+                        variants = {
+                            string Physics = "mujoco"
+                        }
+                    )
+                    {
+                    }
+
+                    over "Marvin_Gripper" (
                         variants = {
                             string Physics = "mujoco"
                         }
@@ -394,6 +410,12 @@ def Xform "M6_CCS" (
         ) {
             prepend rel isaac:physics:robotJoints = </M6_CCS/link7/tcp/Xhand1>
             prepend rel isaac:physics:robotLinks = </M6_CCS/link7/tcp/Xhand1>
+        }
+        "Marvin_Gripper" (
+            prepend payload = @./payloads/EE/Marvin_Gripper.usda@
+        ) {
+            prepend rel isaac:physics:robotJoints = </M6_CCS/link7/tcp/Marvin_Gripper>
+            prepend rel isaac:physics:robotLinks = </M6_CCS/link7/tcp/Marvin_Gripper>
         }
     }
 }

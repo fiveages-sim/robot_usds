@@ -1,0 +1,98 @@
+#usda 1.0
+(
+    defaultPrim = "Marvin_Pro"
+)
+
+# Mount M6S_Lite_CCS as right arm (Side=right). No sticky Physics — VariantSwitcher.
+# Shared right_mount stays at Y=-0.026 (M6). Payload T z=0.196 along arm +Z → arm_base Y=-0.222.
+def Xform "Marvin_Pro"
+{
+    over "base_link"
+    {
+        over "arm_base"
+        {
+            over "right_mount"
+            {
+                def "M6S_Lite_CCS" (
+                    prepend payload = @../../../M6S_Lite_CCS/M6S_Lite_CCS.usda@
+                    variants = {
+                        string EE = "Marvin_Gripper"
+                        string Robot = "none"
+                        string Sensor = "none"
+                        string Side = "right"
+                    }
+                )
+                {
+                    quatd xformOp:orient = (1, 0, 0, 0)
+                    double3 xformOp:scale = (1, 1, 1)
+                    double3 xformOp:translate = (0, 0, 0.196)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+                    over "root_joint" (
+                        active = false
+                    )
+                    {
+                    }
+
+                    over "base_link"
+                    {
+                        def PhysicsFixedJoint "AssemblerFixedJoint"
+                        {
+                            rel physics:body0 = </Marvin_Pro/base_link/arm_base>
+                            rel physics:body1 = </Marvin_Pro/base_link/arm_base/right_mount/M6S_Lite_CCS/base_link>
+                            point3f physics:localPos0 = (0, -0.222, 1.121)
+                            point3f physics:localPos1 = (0, 0, 0)
+                            quatf physics:localRot0 = (0.70710677, 0.70710677, 0, 0)
+                            quatf physics:localRot1 = (1, 0, 0, 0)
+                        }
+                    }
+
+                    over "joints"
+                    {
+                        over "right_joint1"
+                        {
+                            float state:angular:physics:position = 0
+                            float state:angular:physics:velocity = 0
+                        }
+
+                        over "right_joint2"
+                        {
+                            float state:angular:physics:position = 0
+                            float state:angular:physics:velocity = 0
+                        }
+
+                        over "right_joint3"
+                        {
+                            float state:angular:physics:position = 0
+                            float state:angular:physics:velocity = 0
+                        }
+
+                        over "right_joint4"
+                        {
+                            float state:angular:physics:position = 0
+                            float state:angular:physics:velocity = 0
+                        }
+
+                        over "right_joint5"
+                        {
+                            float state:angular:physics:position = 0
+                            float state:angular:physics:velocity = 0
+                        }
+
+                        over "right_joint6"
+                        {
+                            float state:angular:physics:position = 0
+                            float state:angular:physics:velocity = 0
+                        }
+
+                        over "right_joint7"
+                        {
+                            float state:angular:physics:position = 0
+                            float state:angular:physics:velocity = 0
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

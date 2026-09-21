@@ -1,0 +1,145 @@
+#usda 1.0
+(
+    defaultPrim = "Marvin"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def "Marvin"
+{
+    delete rel isaac:physics:robotJoints = [
+        </Marvin/joints/gripper_joint>,
+        </Marvin/joints/right_finger_joint>,
+    ]
+    prepend rel isaac:physics:robotJoints = [
+        </Marvin/joints/left_gripper_joint>,
+        </Marvin/joints/left_right_finger_joint>,
+    ]
+
+    over "joints"
+    {
+        over "gripper_joint" (
+            active = false
+        )
+        {
+        }
+
+        def PhysicsPrismaticJoint "left_gripper_joint" (
+            prepend apiSchemas = ["MjcJointAPI", "PhysicsJointStateAPI:linear", "PhysicsDriveAPI:linear", "PhysxJointAPI"]
+        )
+        {
+            float drive:linear:physics:damping = 6000
+            float drive:linear:physics:maxForce = 30
+            float drive:linear:physics:stiffness = 60000
+            float drive:linear:physics:targetPosition = 0
+            uniform token drive:linear:physics:type = "force"
+            uniform double mjc:armature = 0.001
+            uniform double mjc:damping = 0.01
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -30
+            uniform double mjc:actuatorfrcrange:max = 30
+            uniform token physics:axis = "Y"
+            rel physics:body0 = </Marvin/gripper_base>
+            rel physics:body1 = </Marvin/left_finger>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0
+            point3f physics:localPos0 = (0, -0.018345, 0.0595)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (-4.371139e-8, 0, 0, 1)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = 0
+            float physics:upperLimit = 0.05
+            float physxJoint:maxJointVelocity = 1
+        }
+
+        over "right_finger_joint" (
+            active = false
+        )
+        {
+        }
+
+        def PhysicsPrismaticJoint "left_right_finger_joint" (
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI", "PhysicsJointStateAPI:linear", "PhysxJointAPI", "PhysxMimicJointAPI:rotY"]
+        )
+        {
+            uniform double mjc:armature = 0.001
+            uniform double mjc:damping = 0.01
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 1
+            rel newton:mimicJoint = </Marvin/joints/left_gripper_joint>
+            uniform token physics:axis = "Y"
+            rel physics:body0 = </Marvin/gripper_base>
+            rel physics:body1 = </Marvin/right_finger>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0
+            point3f physics:localPos0 = (0, 0.018345, 0.0595)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -0.05
+            float physics:upperLimit = 0.05
+            float physxMimicJoint:rotY:dampingRatio = 0
+            float physxMimicJoint:rotY:gearing = -1
+            float physxMimicJoint:rotY:naturalFrequency = 0
+            float physxMimicJoint:rotY:offset = 0
+            rel physxMimicJoint:rotY:referenceJoint = </Marvin/joints/left_gripper_joint>
+        }
+    }
+
+    over "actuators"
+    {
+        over "gripper_joint" (
+            active = false
+        )
+        {
+        }
+
+        over "right_gripper_joint" (
+            active = false
+        )
+        {
+        }
+
+        def MjcActuator "left_gripper_joint"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [100, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -100, -10, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -30
+            uniform double mjc:forceRange:max = 30
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = 0
+            uniform double mjc:ctrlRange:max = 0.05
+            rel mjc:target = </Marvin/joints/left_gripper_joint>
+        }
+    }
+
+    over "flange"
+    {
+        over "camera"
+        {
+            over "camera" (
+                active = false
+            )
+            {
+            }
+
+            def Camera "left_camera"
+            {
+                float2 clippingRange = (0.01, 10000000)
+                float focalLength = 18.147562
+                float focusDistance = 400
+                token projection = "perspective"
+                quatd xformOp:orient = (0, 1, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+        }
+    }
+}

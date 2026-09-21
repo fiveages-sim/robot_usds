@@ -1,0 +1,31 @@
+#usda 1.0
+(
+    doc = """DexHand EE — carve dexterous-hand colliders out of NonDexHand (PhysX).
+
+Parent articulation enables self-collision. PhysX mute: CollisionGroup
+"NonDexHand" + filteredGroups (AR5 physx subLayer arm_self_collision_mute.usda;
+Inex/G2 body_self_collision_mute.usda).
+
+This EE sublayer ONLY prepends collection:colliders:excludes for dexhand roots
+under tcp. Hands stay ungrouped → finger self-col + FilteredPairs.
+Grippers (RG75, etc.) are intentionally NOT listed.
+
+Current excludes: L6, Xhand1.
+"""
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+over "AR5_CCS_V2"
+{
+    over "CollisionGroups"
+    {
+        over "NonDexHand"
+        {
+            prepend rel collection:colliders:excludes = [
+                </AR5_CCS_V2/link7/tcp/L6>,
+                </AR5_CCS_V2/link7/tcp/Xhand1>,
+            ]
+        }
+    }
+}

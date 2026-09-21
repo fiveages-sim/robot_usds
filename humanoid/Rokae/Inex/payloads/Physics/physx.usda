@@ -1,0 +1,167 @@
+#usda 1.0
+(
+    defaultPrim = "Inex"
+    metersPerUnit = 1
+    subLayers = [
+        @./physics.usda@,
+        @./body_self_collision_mute.usda@
+    ]
+    upAxis = "Z"
+)
+
+def "Inex"
+{
+    over "base_link" (
+        prepend apiSchemas = ["PhysxArticulationAPI"]
+    )
+    {
+        bool physxArticulation:enabledSelfCollisions = 1
+        int physxArticulation:solverPositionIterationCount = 32
+        int physxArticulation:solverVelocityIterationCount = 1
+    }
+
+    over "joints"
+    {
+        over "body_joint1" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = 107.71606
+        }
+
+        over "body_joint2" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = 107.71606
+        }
+
+        over "body_joint3" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = 107.71606
+        }
+
+        over "body_joint4" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = 137.50987
+        }
+
+        over "head_joint1" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = 107.71606
+        }
+
+        over "head_joint2" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = 107.71606
+        }
+    }
+
+    over "Inex_Chassis" (
+        variants = {
+            string Physics = "physx"
+        }
+    )
+    {
+    }
+
+    over "body_link4"
+    {
+        over "Arm_Left" (
+            variants = {
+                string Physics = "physx"
+            }
+        )
+        {
+            # Parent NonDexHand already includes these arm colliders.
+            # Nested AR5 CollisionGroups would double-assign → PhysX
+            # "Collisions are supported currently only in one collision group."
+            over "CollisionGroups" (
+                active = false
+            )
+            {
+            }
+
+            over "link7"
+            {
+                over "tcp"
+                {
+                    over "RG75" (
+                        variants = {
+                            string Physics = "physx"
+                        }
+                    )
+                    {
+                    }
+
+                    over "L6" (
+                        variants = {
+                            string Physics = "physx"
+                        }
+                    )
+                    {
+                    }
+
+                    over "Xhand1" (
+                        variants = {
+                            string Physics = "physx"
+                        }
+                    )
+                    {
+                    }
+                }
+            }
+        }
+
+        over "Arm_Right" (
+            variants = {
+                string Physics = "physx"
+            }
+        )
+        {
+            over "CollisionGroups" (
+                active = false
+            )
+            {
+            }
+
+            over "link7"
+            {
+                over "tcp"
+                {
+                    over "RG75" (
+                        variants = {
+                            string Physics = "physx"
+                        }
+                    )
+                    {
+                    }
+
+                    over "L6" (
+                        variants = {
+                            string Physics = "physx"
+                        }
+                    )
+                    {
+                    }
+
+                    over "Xhand1" (
+                        variants = {
+                            string Physics = "physx"
+                        }
+                    )
+                    {
+                    }
+                }
+            }
+        }
+    }
+}

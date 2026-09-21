@@ -1,0 +1,36 @@
+#usda 1.0
+(
+    doc = """AR5_CCS_V2 NonDexHand mute — subLayer of physx.usda ONLY.
+
+PhysX: CollisionGroup + filteredGroups self-filter for arm links.
+DexHand EE sublayers dexhand_self_collision.usda to exclude fingers.
+Grippers (RG75, AG2F90, …) are intentionally not excluded.
+"""
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+over "AR5_CCS_V2"
+{
+    def Scope "CollisionGroups"
+    {
+        def PhysicsCollisionGroup "NonDexHand" (
+            prepend apiSchemas = ["CollectionAPI:colliders"]
+        )
+        {
+            prepend rel collection:colliders:includes = [
+                </AR5_CCS_V2/base_link>,
+                </AR5_CCS_V2/link1>,
+                </AR5_CCS_V2/link2>,
+                </AR5_CCS_V2/link3>,
+                </AR5_CCS_V2/link4>,
+                </AR5_CCS_V2/link5>,
+                </AR5_CCS_V2/link6>,
+                </AR5_CCS_V2/link7>,
+            ]
+            prepend rel physics:filteredGroups = [
+                </AR5_CCS_V2/CollisionGroups/NonDexHand>,
+            ]
+        }
+    }
+}

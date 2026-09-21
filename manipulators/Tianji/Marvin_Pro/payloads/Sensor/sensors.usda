@@ -1,0 +1,86 @@
+#usda 1.0
+(
+    defaultPrim = "Marvin_Pro"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+# D435: CAD +X → optical +Z via Ry-90.
+# SHW5G: Isaac local Rx+90 (translate 0, scale 1).
+# Optical Camera looks -Z; site +Z → Rx180.
+def Xform "Marvin_Pro"
+{
+    over "base_link"
+    {
+        over "head_realsense"
+        {
+            def "d435" (
+                prepend payload = @../../../../../sensors/realsense/d435.usd@</World/d435>
+            )
+            {
+                double xformOp:rotateY = -90
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateY", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Camera "head_realsense"
+            {
+                float2 clippingRange = (0.01, 10000000)
+                float focalLength = 18.147562
+                float focusDistance = 400
+                float horizontalAperture = 24.95
+                token projection = "perspective"
+                float verticalAperture = 13.936
+                quatd xformOp:orient = (0, 1, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+        }
+
+        over "head_left_camera"
+        {
+            def "SHW5G" (
+                prepend payload = @../../../../../sensors/sensing/SHW5G.usd@
+            )
+            {
+                double xformOp:rotateX = 90
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateX", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Camera "head_left_camera"
+            {
+                float2 clippingRange = (0.01, 10000000)
+                float focalLength = 18.147562
+                float focusDistance = 400
+                token projection = "perspective"
+                quatd xformOp:orient = (0, 1, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+        }
+
+        over "head_right_camera"
+        {
+            def "SHW5G" (
+                prepend payload = @../../../../../sensors/sensing/SHW5G.usd@
+            )
+            {
+                double xformOp:rotateX = 90
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateX", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Camera "head_right_camera"
+            {
+                float2 clippingRange = (0.01, 10000000)
+                float focalLength = 18.147562
+                float focusDistance = 400
+                token projection = "perspective"
+                quatd xformOp:orient = (0, 1, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+        }
+    }
+}

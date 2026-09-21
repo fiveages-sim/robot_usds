@@ -1,0 +1,126 @@
+#usda 1.0
+(
+    defaultPrim = "Marvin"
+    metersPerUnit = 1
+    upAxis = "Z"
+    doc = """45-deg adapter. URDF flange_joint: xyz=0.031795 0 0.037464, rpy=0 -pi/4 0.
+CAD is cm / XY plate at Z=0; scale 0.01 only so mesh matches URDF flange frame.
+"""
+)
+
+def "Marvin"
+{
+    over "flange" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        float physics:mass = 0.18
+
+        def Xform "cad" (
+            prepend payload = @./flange_45.usd@
+        )
+        {
+            quatd xformOp:orient = (1, 0, 0, 0)
+            double3 xformOp:scale = (1, 1, 1)
+            double3 xformOp:translate = (0, 0, 0)
+            double3 xformOp:scale:unitsResolve = (0.01, 0.01, 0.01)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale", "xformOp:scale:unitsResolve"]
+
+            over "base_link_002"
+            {
+                over "base_link_002" (
+                    prepend apiSchemas = ["PhysicsCollisionAPI", "PhysicsMeshCollisionAPI"]
+                )
+                {
+                    token physics:approximation = "convexHull"
+                    bool physics:collisionEnabled = 1
+                }
+            }
+
+            over "base_link_009"
+            {
+                over "base_link_006" (
+                    prepend apiSchemas = ["PhysicsCollisionAPI", "PhysicsMeshCollisionAPI"]
+                )
+                {
+                    token physics:approximation = "convexHull"
+                    bool physics:collisionEnabled = 1
+                }
+            }
+
+            over "base_link_010"
+            {
+                over "base_link_007" (
+                    prepend apiSchemas = ["PhysicsCollisionAPI", "PhysicsMeshCollisionAPI"]
+                )
+                {
+                    token physics:approximation = "convexHull"
+                    bool physics:collisionEnabled = 1
+                }
+            }
+        }
+
+        def Xform "camera"
+        {
+            quatd xformOp:orient = (0.5827452165280511, -0.4005096910359036, -0.4005096910359035, 0.582745216528051)
+            double3 xformOp:scale = (1, 1, 1)
+            double3 xformOp:translate = (0.016215, 0, 0.13026)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            def "SHW5G" (
+                prepend payload = @../../../../../sensors/sensing/SHW5G.usd@
+            )
+            {
+                double xformOp:rotateX = 90
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateX", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Camera "camera"
+            {
+                float2 clippingRange = (0.01, 10000000)
+                float focalLength = 18.147562
+                float focusDistance = 400
+                token projection = "perspective"
+                quatd xformOp:orient = (0, 1, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+        }
+    }
+
+    over "gripper_base"
+    {
+        quatd xformOp:orient = (0.9238795325112867, 0, -0.3826834323650898, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0.031795, 0, 0.037464)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+    }
+
+    over "left_finger"
+    {
+        quatd xformOp:orient = (-4.0384056975770776e-8, -0.3826834323650898, 1.6727624103012053e-8, 0.9238795325112867)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (-0.010277853, -0.018345000222325325, 0.079536854)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+    }
+
+    over "right_finger"
+    {
+        quatd xformOp:orient = (0.9238795325112867, 0, -0.3826834323650898, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (-0.010277853, 0.018345000222325325, 0.079536854)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+    }
+
+    over "joints"
+    {
+        over "flange_to_base"
+        {
+            point3f physics:localPos0 = (0.031795, 0, 0.037464)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0.92387953, 0, -0.38268343, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+        }
+    }
+}

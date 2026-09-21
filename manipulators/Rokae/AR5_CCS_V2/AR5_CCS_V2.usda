@@ -127,12 +127,52 @@ def Xform "AR5_CCS_V2" (
         "physx" (
             prepend payload = @./payloads/Physics/physx.usda@
         ) {
+            over "link7"
+            {
+                over "tcp"
+                {
+                    over "L6" (
+                        variants = {
+                            string Physics = "physx"
+                        }
+                    )
+                    {
+                    }
 
+                    over "Xhand1" (
+                        variants = {
+                            string Physics = "physx"
+                        }
+                    )
+                    {
+                    }
+                }
+            }
         }
         "mujoco" (
             prepend payload = @./payloads/Physics/mujoco.usda@
         ) {
+            over "link7"
+            {
+                over "tcp"
+                {
+                    over "L6" (
+                        variants = {
+                            string Physics = "mujoco"
+                        }
+                    )
+                    {
+                    }
 
+                    over "Xhand1" (
+                        variants = {
+                            string Physics = "mujoco"
+                        }
+                    )
+                    {
+                    }
+                }
+            }
         }
     }
     variantSet "Robot" = {
@@ -225,6 +265,18 @@ def Xform "AR5_CCS_V2" (
         ) {
             prepend rel isaac:physics:robotJoints = </AR5_CCS_V2/link7/tcp/AG2F120S>
             prepend rel isaac:physics:robotLinks = </AR5_CCS_V2/link7/tcp/AG2F120S>
+        }
+        "LinkerHand_L6" (
+            prepend payload = @./payloads/EE/L6.usda@
+        ) {
+            prepend rel isaac:physics:robotJoints = </AR5_CCS_V2/link7/tcp/L6>
+            prepend rel isaac:physics:robotLinks = </AR5_CCS_V2/link7/tcp/L6>
+        }
+        "Xhand1" (
+            prepend payload = @./payloads/EE/Xhand1.usda@
+        ) {
+            prepend rel isaac:physics:robotJoints = </AR5_CCS_V2/link7/tcp/Xhand1>
+            prepend rel isaac:physics:robotLinks = </AR5_CCS_V2/link7/tcp/Xhand1>
         }
     }
 }

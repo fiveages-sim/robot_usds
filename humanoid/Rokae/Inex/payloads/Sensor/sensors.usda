@@ -1,0 +1,28 @@
+#usda 1.0
+(
+    defaultPrim = "Inex"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+# Optical Camera looks -Z; mount rotateXYZ (90, 0, -90) vs head_link2; Camera identity.
+def Xform "Inex"
+{
+    over "head_link2"
+    {
+        over "head_camera"
+        {
+            def Camera "head_camera"
+            {
+                float2 clippingRange = (0.01, 10000000)
+                float focalLength = 18.147562
+                float focusDistance = 400
+                token projection = "perspective"
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+        }
+    }
+}

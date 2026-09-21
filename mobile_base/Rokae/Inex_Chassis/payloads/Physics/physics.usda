@@ -1,0 +1,300 @@
+#usda 1.0
+(
+    defaultPrim = "Inex_Chassis"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+over "Inex_Chassis"
+{
+    over "base_footprint" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "PhysicsArticulationRootAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.000010858248, -8.551237e-8, 0.000018491104)
+        float3 physics:diagonalInertia = (4.054695, 3.972944, 5.8478165)
+        float physics:mass = 95.90383
+        quatf physics:principalAxes = (0.9978699, -0.023785975, 0.0008208653, -0.06073973)
+    }
+
+    over "fl_steer" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        float3 physics:diagonalInertia = (0.002, 0.002, 0.002)
+        float physics:mass = 1.2
+        quatf physics:principalAxes = (1, 0, 0, 0)
+    }
+
+    over "joints"
+    {
+        def PhysicsRevoluteJoint "fl_steer_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = 300
+            float drive:angular:physics:maxForce = 120
+            float drive:angular:physics:stiffness = 1500
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            uniform token physics:axis = "Z"
+            custom rel physics:body0
+            append rel physics:body0 = </Inex_Chassis/base_footprint>
+            custom rel physics:body1
+            append rel physics:body1 = </Inex_Chassis/fl_steer>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.25316224
+            point3f physics:localPos0 = (0.075, 0.21725, -0.0395)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -180
+            float physics:upperLimit = 180
+        }
+
+        def PhysicsRevoluteJoint "fl_wheel_joint" (
+            prepend apiSchemas = ["PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = 100000
+            float drive:angular:physics:maxForce = 3.4028235e38
+            float drive:angular:physics:stiffness = 0
+            float drive:angular:physics:targetPosition = 0
+            float drive:angular:physics:targetVelocity = 0
+            uniform token drive:angular:physics:type = "acceleration"
+            uniform token physics:axis = "Y"
+            custom rel physics:body0
+            append rel physics:body0 = </Inex_Chassis/fl_steer>
+            custom rel physics:body1
+            append rel physics:body1 = </Inex_Chassis/fl_wheel>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.030946972
+            point3f physics:localPos0 = (0, 0.00325, -0.1055)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -inf
+            float physics:upperLimit = inf
+        }
+
+        def PhysicsRevoluteJoint "fr_steer_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = 300
+            float drive:angular:physics:maxForce = 120
+            float drive:angular:physics:stiffness = 1500
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            uniform token physics:axis = "Z"
+            custom rel physics:body0
+            append rel physics:body0 = </Inex_Chassis/base_footprint>
+            custom rel physics:body1
+            append rel physics:body1 = </Inex_Chassis/fr_steer>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.25560895
+            point3f physics:localPos0 = (0.075, -0.21875, -0.0395)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (-4.371139e-8, 0, 0, 1)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -180
+            float physics:upperLimit = 180
+        }
+
+        def PhysicsRevoluteJoint "fr_wheel_joint" (
+            prepend apiSchemas = ["PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = 100000
+            float drive:angular:physics:maxForce = 3.4028235e38
+            float drive:angular:physics:stiffness = 0
+            float drive:angular:physics:targetPosition = 0
+            float drive:angular:physics:targetVelocity = 0
+            uniform token drive:angular:physics:type = "acceleration"
+            uniform token physics:axis = "Y"
+            custom rel physics:body0
+            append rel physics:body0 = </Inex_Chassis/fr_steer>
+            custom rel physics:body1
+            append rel physics:body1 = </Inex_Chassis/fr_wheel>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.030946147
+            point3f physics:localPos0 = (0, 0.00325, -0.1055)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -inf
+            float physics:upperLimit = inf
+        }
+
+        def PhysicsRevoluteJoint "rl_steer_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = 300
+            float drive:angular:physics:maxForce = 120
+            float drive:angular:physics:stiffness = 1500
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            uniform token physics:axis = "Z"
+            custom rel physics:body0
+            append rel physics:body0 = </Inex_Chassis/base_footprint>
+            custom rel physics:body1
+            append rel physics:body1 = </Inex_Chassis/rl_steer>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.6401766
+            point3f physics:localPos0 = (-0.331, 0.21725, -0.0395)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -180
+            float physics:upperLimit = 180
+        }
+
+        def PhysicsRevoluteJoint "rl_wheel_joint" (
+            prepend apiSchemas = ["PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = 100000
+            float drive:angular:physics:maxForce = 3.4028235e38
+            float drive:angular:physics:stiffness = 0
+            float drive:angular:physics:targetPosition = 0
+            float drive:angular:physics:targetVelocity = 0
+            uniform token drive:angular:physics:type = "acceleration"
+            uniform token physics:axis = "Y"
+            custom rel physics:body0
+            append rel physics:body0 = </Inex_Chassis/rl_steer>
+            custom rel physics:body1
+            append rel physics:body1 = </Inex_Chassis/rl_wheel>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.030966716
+            point3f physics:localPos0 = (0, 0.00325, -0.1055)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -inf
+            float physics:upperLimit = inf
+        }
+
+        def PhysicsRevoluteJoint "rr_steer_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = 300
+            float drive:angular:physics:maxForce = 120
+            float drive:angular:physics:stiffness = 1500
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            uniform token physics:axis = "Z"
+            custom rel physics:body0
+            append rel physics:body0 = </Inex_Chassis/base_footprint>
+            custom rel physics:body1
+            append rel physics:body1 = </Inex_Chassis/rr_steer>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.6426284
+            point3f physics:localPos0 = (-0.331, -0.21875, -0.0395)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (-4.371139e-8, 0, 0, 1)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -180
+            float physics:upperLimit = 180
+        }
+
+        def PhysicsRevoluteJoint "rr_wheel_joint" (
+            prepend apiSchemas = ["PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = 100000
+            float drive:angular:physics:maxForce = 3.4028235e38
+            float drive:angular:physics:stiffness = 0
+            float drive:angular:physics:targetPosition = 0
+            float drive:angular:physics:targetVelocity = 0
+            uniform token drive:angular:physics:type = "acceleration"
+            uniform token physics:axis = "Y"
+            custom rel physics:body0
+            append rel physics:body0 = </Inex_Chassis/rr_steer>
+            custom rel physics:body1
+            append rel physics:body1 = </Inex_Chassis/rr_wheel>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0.030966446
+            point3f physics:localPos0 = (0, 0.00325, -0.1055)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -inf
+            float physics:upperLimit = inf
+        }
+    }
+
+    over "fl_wheel" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        float3 physics:diagonalInertia = (0.004, 0.006, 0.004)
+        float physics:mass = 1.5
+        quatf physics:principalAxes = (1, 0, 0, 0)
+    }
+
+    over "fr_steer" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        float3 physics:diagonalInertia = (0.002, 0.002, 0.002)
+        float physics:mass = 1.2
+        quatf physics:principalAxes = (1, 0, 0, 0)
+    }
+
+    over "fr_wheel" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        float3 physics:diagonalInertia = (0.004, 0.006, 0.004)
+        float physics:mass = 1.5
+        quatf physics:principalAxes = (1, 0, 0, 0)
+    }
+
+    over "rl_steer" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        float3 physics:diagonalInertia = (0.002, 0.002, 0.002)
+        float physics:mass = 1.2
+        quatf physics:principalAxes = (1, 0, 0, 0)
+    }
+
+    over "rl_wheel" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        float3 physics:diagonalInertia = (0.004, 0.006, 0.004)
+        float physics:mass = 1.5
+        quatf physics:principalAxes = (1, 0, 0, 0)
+    }
+
+    over "rr_steer" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        float3 physics:diagonalInertia = (0.002, 0.002, 0.002)
+        float physics:mass = 1.2
+        quatf physics:principalAxes = (1, 0, 0, 0)
+    }
+
+    over "rr_wheel" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        float3 physics:diagonalInertia = (0.004, 0.006, 0.004)
+        float physics:mass = 1.5
+        quatf physics:principalAxes = (1, 0, 0, 0)
+    }
+
+}
+

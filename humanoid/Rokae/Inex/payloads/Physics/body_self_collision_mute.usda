@@ -1,0 +1,73 @@
+#usda 1.0
+(
+    doc = """Inex NonDexHand mute — subLayer of payloads/Physics/physx.usda ONLY.
+
+PhysX: CollisionGroup + filteredGroups self-filter. Always composed with
+Physics=physx (any Arm_Left/Arm_Right mix). Same convention as G2:
+parent self-col ON; NonDexHand mutes body/chassis/arm; dexhand EE excludes
+keep fingers ungrouped (finger self-col + FilteredPairs).
+
+Nested AR5 CollisionGroups are deactivated in physx.usda so each collider
+belongs to this single group (PhysX: one collision group per collider).
+
+Arm prims live under body_link4 (not arm_base).
+Grippers (RG75, AG2F90, …) are intentionally not excluded.
+"""
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+over "Inex"
+{
+    def Scope "CollisionGroups"
+    {
+        def PhysicsCollisionGroup "NonDexHand" (
+            prepend apiSchemas = ["CollectionAPI:colliders"]
+        )
+        {
+            prepend rel collection:colliders:includes = [
+                </Inex/base_link>,
+                </Inex/body_link1>,
+                </Inex/body_link2>,
+                </Inex/body_link3>,
+                </Inex/body_link4>,
+                </Inex/head_link1>,
+                </Inex/head_link2>,
+                </Inex/Inex_Chassis/base_footprint>,
+                </Inex/Inex_Chassis/fl_steer>,
+                </Inex/Inex_Chassis/fl_wheel>,
+                </Inex/Inex_Chassis/fr_steer>,
+                </Inex/Inex_Chassis/fr_wheel>,
+                </Inex/Inex_Chassis/rl_steer>,
+                </Inex/Inex_Chassis/rl_wheel>,
+                </Inex/Inex_Chassis/rr_steer>,
+                </Inex/Inex_Chassis/rr_wheel>,
+                </Inex/body_link4/Arm_Left/base_link>,
+                </Inex/body_link4/Arm_Left/link1>,
+                </Inex/body_link4/Arm_Left/link2>,
+                </Inex/body_link4/Arm_Left/link3>,
+                </Inex/body_link4/Arm_Left/link4>,
+                </Inex/body_link4/Arm_Left/link5>,
+                </Inex/body_link4/Arm_Left/link6>,
+                </Inex/body_link4/Arm_Left/link7>,
+                </Inex/body_link4/Arm_Right/base_link>,
+                </Inex/body_link4/Arm_Right/link1>,
+                </Inex/body_link4/Arm_Right/link2>,
+                </Inex/body_link4/Arm_Right/link3>,
+                </Inex/body_link4/Arm_Right/link4>,
+                </Inex/body_link4/Arm_Right/link5>,
+                </Inex/body_link4/Arm_Right/link6>,
+                </Inex/body_link4/Arm_Right/link7>,
+            ]
+            prepend rel collection:colliders:excludes = [
+                </Inex/body_link4/Arm_Left/link7/tcp/L6>,
+                </Inex/body_link4/Arm_Left/link7/tcp/Xhand1>,
+                </Inex/body_link4/Arm_Right/link7/tcp/L6>,
+                </Inex/body_link4/Arm_Right/link7/tcp/Xhand1>,
+            ]
+            prepend rel physics:filteredGroups = [
+                </Inex/CollisionGroups/NonDexHand>,
+            ]
+        }
+    }
+}

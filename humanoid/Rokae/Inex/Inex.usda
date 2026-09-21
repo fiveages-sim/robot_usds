@@ -1,0 +1,107 @@
+#usda 1.0
+(
+    defaultPrim = "Inex"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "Inex" (
+    prepend references = @./payloads/base.usda@
+    variants = {
+        string Arm_Left = "AR5_CCS_V2"
+        string Arm_Right = "AR5_CCS_V2"
+        string Chassis = "Inex_Chassis"
+        string Physics = "physx"
+        string ROS = "enable"
+        string Robot = "none"
+        string Sensor = "sensors"
+    }
+    prepend variantSets = ["Physics", "Chassis", "Arm_Left", "Arm_Right", "ROS"]
+    append variantSets = ["Robot", "Sensor"]
+)
+{
+    variantSet "Physics" = {
+        "none" (
+            prepend payload = @./payloads/Physics/none.usda@
+        ) {
+        }
+        "physics" (
+            prepend payload = @./payloads/Physics/physics.usda@
+        ) {
+        }
+        "physx" (
+            prepend payload = @./payloads/Physics/physx.usda@
+        ) {
+        }
+        "mujoco" (
+            prepend payload = @./payloads/Physics/mujoco.usda@
+        ) {
+        }
+    }
+    variantSet "Chassis" = {
+        "none" (
+            prepend payload = @./payloads/Chassis/none.usda@
+        ) {
+        }
+        "Inex_Chassis" (
+            prepend payload = @./payloads/Chassis/Inex_Chassis.usda@
+        ) {
+            prepend rel isaac:physics:robotJoints = </Inex/Inex_Chassis>
+            prepend rel isaac:physics:robotLinks = </Inex/Inex_Chassis>
+        }
+    }
+    variantSet "Arm_Left" = {
+        "none" (
+            prepend payload = @./payloads/Arm_Left/none.usda@
+        ) {
+        }
+        "AR5_CCS_V2" (
+            prepend payload = @./payloads/Arm_Left/AR5_CCS_V2.usda@
+        ) {
+            prepend rel isaac:physics:robotJoints = </Inex/body_link4/Arm_Left>
+            prepend rel isaac:physics:robotLinks = </Inex/body_link4/Arm_Left>
+        }
+    }
+    variantSet "Arm_Right" = {
+        "none" (
+            prepend payload = @./payloads/Arm_Right/none.usda@
+        ) {
+        }
+        "AR5_CCS_V2" (
+            prepend payload = @./payloads/Arm_Right/AR5_CCS_V2.usda@
+        ) {
+            prepend rel isaac:physics:robotJoints = </Inex/body_link4/Arm_Right>
+            prepend rel isaac:physics:robotLinks = </Inex/body_link4/Arm_Right>
+        }
+    }
+    variantSet "ROS" = {
+        "none" (
+            prepend payload = @./payloads/ROS/none.usda@
+        ) {
+        }
+        "enable" (
+            prepend payload = @./payloads/ROS/ros2.usda@
+        ) {
+        }
+    }
+    variantSet "Robot" = {
+        "none" (
+            prepend payload = @./payloads/Robot/none.usda@
+        ) {
+        }
+        "robot" (
+            prepend payload = @./payloads/Robot/robot.usda@
+        ) {
+        }
+    }
+    variantSet "Sensor" = {
+        "none" (
+            prepend payload = @./payloads/Sensor/none.usda@
+        ) {
+        }
+        "sensors" (
+            prepend payload = @./payloads/Sensor/sensors.usda@
+        ) {
+        }
+    }
+}
