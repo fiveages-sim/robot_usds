@@ -132,19 +132,51 @@ def Xform "Split_Aloha"
             uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
         }
 
-        def Xform "top_camera_support"
+        def Xform "camera_stand"
         {
             quatd xformOp:orient = (1, 0, 0, 0)
             double3 xformOp:scale = (1, 1, 1)
-            double3 xformOp:translate = (0.11048000305891037, 0, 0.29447999596595764)
+            double3 xformOp:translate = (0.08247999846935272, 0, 0.29447999596595764)
             uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
-            def Xform "top_camera_link"
+            def Xform "camera_stand_mesh" (
+                instanceable = true
+                prepend references = @../../Cobot Magic V2/payloads/instances.usda@</Instances/mesh_1_1>
+            )
             {
-                quatd xformOp:orient = (0.4999999701976776, -0.4999999701976776, 0.4999999701976776, -0.4999999701976776)
+                token visibility = "inherited"
+                quatd xformOp:orient = (1, 0, 0, 0)
                 double3 xformOp:scale = (1, 1, 1)
-                double3 xformOp:translate = (0.051580000668764114, 0, 0.0005259999888949096)
+                double3 xformOp:translate = (0, 0, 0)
                 uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Xform "camera_stand2"
+            {
+                double xformOp:rotateY = 0
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0.02800000086426735, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateY", "xformOp:scale"]
+
+                def Xform "camera_stand2_mesh" (
+                    instanceable = true
+                    prepend references = @../../Cobot Magic V2/payloads/instances.usda@</Instances/mesh_2>
+                )
+                {
+                    token visibility = "inherited"
+                    quatd xformOp:orient = (0.7071067691, 0.7071067933, 0, 0)
+                    double3 xformOp:scale = (1, 1, 1)
+                    double3 xformOp:translate = (0, 0, 0)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                }
+
+                def Xform "top_camera_link"
+                {
+                    quatd xformOp:orient = (0.4999999701976776, -0.4999999701976776, 0.4999999701976776, -0.4999999701976776)
+                    double3 xformOp:scale = (1, 1, 1)
+                    double3 xformOp:translate = (0.051580000668764114, 0, 0.0005259999888949096)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                }
             }
         }
 
@@ -158,18 +190,6 @@ def Xform "Split_Aloha"
             )
             {
                 token visibility = "inherited"
-            }
-
-            def Xform "camera_support" (
-                instanceable = true
-                prepend references = @./instances.usda@</Instances/mesh_2>
-            )
-            {
-                token visibility = "inherited"
-                quatd xformOp:orient = (1, 0, 0, 0)
-                double3 xformOp:scale = (1, 1, 1)
-                double3 xformOp:translate = (0.1104800031, 0, 0.294479996)
-                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
             }
         }
 

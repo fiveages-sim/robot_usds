@@ -7,8 +7,8 @@
                 double radius = 5
             }
             dictionary Perspective = {
-                double3 position = (1.3657834337243637, 1.6719633038141963, 1.7024595804186422)
-                double3 target = (-0.1102766619243063, -0.6982744612594471, 0.2589709357982102)
+                double3 position = (1.044538634889638, 0.9768547813944609, 1.399518424882178)
+                double3 target = (0.11427164384428012, -1.854487419963732, -0.053908524582450434)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -76,8 +76,19 @@ def Xform "World"
 
         over "lifting_link"
         {
+            string isaac:nameOverride (
+                displayName = "Name Override"
+            )
+
             over "left_base_link"
             {
+                string isaac:Description (
+                    displayName = "Reference Description"
+                )
+                uniform token isaac:forwardAxis (
+                    displayName = "Forward Axis"
+                )
+
                 over "Piper" (
                     variants = {
                         string EE = "Revo2"
@@ -95,6 +106,43 @@ def Xform "World"
                     }
                 )
                 {
+                }
+            }
+
+            over "camera_stand"
+            {
+                string isaac:Description (
+                    displayName = "Reference Description"
+                )
+                uniform token isaac:forwardAxis (
+                    displayName = "Forward Axis"
+                )
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0.08247999846935272, 0, 0.374969630704308)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+                over "camera_stand2"
+                {
+                    string isaac:Description (
+                        displayName = "Reference Description"
+                    )
+                    uniform token isaac:forwardAxis (
+                        displayName = "Forward Axis"
+                    )
+                    double xformOp:rotateY = 30
+
+                    over "top_camera_link"
+                    {
+                        over "Camera" (
+                            prepend apiSchemas = ["OmniRtxCameraAutoExposureAPI_1", "OmniRtxCameraExposureAPI_1"]
+                        )
+                        {
+                            float exposure:fStop = 5
+                            float exposure:responsivity = 1.1026709
+                            float exposure:time = 0.02
+                        }
+                    }
                 }
             }
         }
@@ -148,7 +196,7 @@ def "Render" (
                 bool omni:rtx:scene:hydra:mdlMaterialWarmup = 1
                 rel orderedVars = </Render/Vars/LdrColor>
                 custom bool overrideClipRange = 0
-                uniform int2 resolution = (949, 577)
+                uniform int2 resolution = (1246, 672)
             }
         }
     }
@@ -198,10 +246,10 @@ over "OmniverseKit_Persp" (
     float exposure:time = 0.02
     float focalLength = 18.147562
     float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -3.143316709479937)
-    float3 xformOp:rotateXYZ = (62.66291, 1.5902774e-14, 148.08751)
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -3.3157721926046873)
+    float3 xformOp:rotateXYZ = (64.00215, -4.293749e-14, 161.81152)
     float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (1.3657834337243637, 1.6719633038141963, 1.7024595804186422)
+    double3 xformOp:translate = (1.044538634889638, 0.9768547813944609, 1.399518424882178)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 
@@ -281,6 +329,7 @@ over "OmniverseKit_Top" (
 }
 
 def PhysicsScene "PhysicsScene" (
+    delete apiSchemas = ["MjcSceneAPI"]
     prepend apiSchemas = ["NewtonSceneAPI", "PhysxSceneAPI"]
 )
 {

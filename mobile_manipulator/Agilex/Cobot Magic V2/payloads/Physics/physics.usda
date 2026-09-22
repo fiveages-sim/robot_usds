@@ -54,10 +54,12 @@ over "Cobot_Magic_V2"
         prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
     )
     {
-        point3f physics:centerOfMass = (0.019512622, -0.027429506, 0.1735275)
-        float3 physics:diagonalInertia = (0.11539601, 0.06665977, 0.08852844)
+        # Upper box + camera stand only (~mesh mass). Keep mass; lower COM z
+        # so arm reach does not pitch the platform (chassis ballast is on Tracer).
+        point3f physics:centerOfMass = (0.02, 0, 0.10)
+        float3 physics:diagonalInertia = (0.11673747, 0.06795954, 0.08867165)
         float physics:mass = 3.8046699
-        quatf physics:principalAxes = (0.9949554, 0.060856603, 0.07957811, -0.0052518356)
+        quatf physics:principalAxes = (1, 0, 0, 0)
 
         over "body_Link"
         {

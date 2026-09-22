@@ -80,18 +80,75 @@ def Xform "Cobot_Magic_V1"
                 double3 xformOp:translate = (0.18000000715255737, 0, 0.6259999871253967)
                 uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
-                def Xform "camera_link1"
+                def Xform "camera_support" (
+                    instanceable = true
+                    prepend references = @./instances.usda@</Instances/mesh_3>
+                )
                 {
-                    quatd xformOp:orient = (0.9909477233886719, 0, 0.13424843549728394, 0)
+                    token visibility = "inherited"
+                    quatd xformOp:orient = (1, 0, 0, 0)
                     double3 xformOp:scale = (1, 1, 1)
-                    double3 xformOp:translate = (0.0711980015039444, 0, 0.10384000092744827)
+                    double3 xformOp:translate = (0, 0, 0)
                     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                }
 
-                    def Xform "camera_link2"
+                def Xform "camera_support_collision" (
+                    instanceable = true
+                    prepend references = @./instances.usda@</Instances/mesh_3_1>
+                )
+                {
+                    uniform token purpose = "guide"
+                    token visibility = "inherited"
+                    quatd xformOp:orient = (1, 0, 0, 0)
+                    double3 xformOp:scale = (1, 1, 1)
+                    double3 xformOp:translate = (0, 0, 0)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                }
+            }
+
+            def Xform "camera_stand2"
+            {
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0.18790100514888763, 0, 1.2630679607391357)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+                def Xform "camera_stand_fixed" (
+                    instanceable = true
+                    prepend references = @./instances.usda@</Instances/mesh_1_1>
+                )
+                {
+                    token visibility = "inherited"
+                    quatd xformOp:orient = (1, 0, 0, 0)
+                    double3 xformOp:scale = (1, 1, 1)
+                    double3 xformOp:translate = (0, 0, 0)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                }
+
+                def Xform "camera_link2"
+                {
+                    double xformOp:rotateY = 15.5
+                    double3 xformOp:scale = (1, 1, 1)
+                    double3 xformOp:translate = (0.013337000273168087, 0, 0)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateY", "xformOp:scale"]
+
+                    def Xform "camera_stand_pitch" (
+                        instanceable = true
+                        prepend references = @./instances.usda@</Instances/mesh_2>
+                    )
                     {
-                        quatd xformOp:orient = (0.9999838471412659, 0, 0.00567896943539381, 0)
+                        token visibility = "inherited"
+                        quatd xformOp:orient = (1, 0, 0, 0)
                         double3 xformOp:scale = (1, 1, 1)
-                        double3 xformOp:translate = (-0.14000000059604645, 0, 0.5)
+                        double3 xformOp:translate = (0, 0, 0)
+                        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                    }
+
+                    def Xform "camera2"
+                    {
+                        quatd xformOp:orient = (0.4999999701976776, -0.4999999701976776, 0.4999999701976776, -0.4999999701976776)
+                        double3 xformOp:scale = (1, 1, 1)
+                        double3 xformOp:translate = (0.049996498972177505, 0, 0)
                         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
                     }
                 }
@@ -137,42 +194,6 @@ def Xform "Cobot_Magic_V1"
                 double3 xformOp:translate = (0, 0, 0.150000006)
                 uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
             }
-
-            def Xform "camera_support" (
-                instanceable = true
-                prepend references = @./instances.usda@</Instances/mesh_1_1>
-            )
-            {
-                token visibility = "inherited"
-                quatd xformOp:orient = (1, 0, 0, 0)
-                double3 xformOp:scale = (1, 1, 1)
-                double3 xformOp:translate = (0.1800000072, 0, 0.7760000229)
-                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
-            }
-
-            def Xform "camera_stand" (
-                instanceable = true
-                prepend references = @./instances.usda@</Instances/mesh_2>
-            )
-            {
-                token visibility = "inherited"
-                quatd xformOp:orient = (0.9909477234, 0, 0.1342483129, 0)
-                double3 xformOp:scale = (1, 1, 1)
-                double3 xformOp:translate = (0.2511979938, 0, 0.8798400164)
-                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
-            }
-
-            def Xform "camera_stand_0" (
-                instanceable = true
-                prepend references = @./instances.usda@</Instances/mesh_2>
-            )
-            {
-                token visibility = "inherited"
-                quatd xformOp:orient = (0.9901692867, 0, 0.1398741707, 0)
-                double3 xformOp:scale = (1, 1, 1)
-                double3 xformOp:translate = (0.2492775172, 0, 1.399066567)
-                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
-            }
         }
 
         def Xform "collisions" (
@@ -191,19 +212,6 @@ def Xform "Cobot_Magic_V1"
                 double3 xformOp:translate = (0, 0, 0.150000006)
                 uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
             }
-
-            def Xform "camera_support" (
-                instanceable = true
-                prepend references = @./instances.usda@</Instances/mesh_1_2>
-            )
-            {
-                uniform token purpose = "guide"
-                token visibility = "inherited"
-                quatd xformOp:orient = (1, 0, 0, 0)
-                double3 xformOp:scale = (1, 1, 1)
-                double3 xformOp:translate = (0.1800000072, 0, 0.7760000229)
-                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
-            }
         }
     }
 
@@ -215,370 +223,7 @@ def Xform "Cobot_Magic_V1"
     {
     }
 
-    over "X5_Right"
-    {
-        string[] isaac:changelog (
-            displayName = "Changelog"
-        )
-        string isaac:description (
-            displayName = "Description"
-        )
-        token isaac:license (
-            displayName = "License"
-        )
-        string isaac:namespace (
-            displayName = "Namespace"
-        )
-        rel isaac:physics:robotJoints (
-            displayName = "Robot Joints"
-        )
-        rel isaac:physics:robotLinks (
-            displayName = "Robot Links"
-        )
-        token isaac:robotType (
-            displayName = "Robot Type"
-        )
-        string isaac:source (
-            displayName = "Source"
-        )
-        string isaac:version (
-            displayName = "Version"
-        )
-
-        over "base_link"
-        {
-        }
-
-        over "link1"
-        {
-        }
-
-        over "link2"
-        {
-        }
-
-        over "link3"
-        {
-        }
-
-        over "link4"
-        {
-        }
-
-        over "link5"
-        {
-        }
-
-        over "ee"
-        {
-        }
-
-        over "Gripper_2025_Right"
-        {
-            string[] isaac:changelog (
-                displayName = "Changelog"
-            )
-            string isaac:description (
-                displayName = "Description"
-            )
-            token isaac:license (
-                displayName = "License"
-            )
-            string isaac:namespace (
-                displayName = "Namespace"
-            )
-            rel isaac:physics:robotJoints (
-                displayName = "Robot Joints"
-            )
-            rel isaac:physics:robotLinks (
-                displayName = "Robot Links"
-            )
-            token isaac:robotType (
-                displayName = "Robot Type"
-            )
-            string isaac:source (
-                displayName = "Source"
-            )
-            string isaac:version (
-                displayName = "Version"
-            )
-
-            over "gripper_base"
-            {
-            }
-
-            over "link7"
-            {
-            }
-
-            over "link8"
-            {
-            }
-
-            over "joints"
-            {
-                over "right_gripper_joint"
-                {
-                    float state:linear:physics:position = 0
-                    float state:linear:physics:velocity = 0
-                }
-
-                over "right_joint8"
-                {
-                    float state:linear:physics:position = 0
-                    float state:linear:physics:velocity = 0
-                }
-            }
-        }
-
-        over "joints"
-        {
-            over "right_joint1"
-            {
-                float state:angular:physics:position = 0
-                float state:angular:physics:velocity = 0
-            }
-
-            over "right_joint2"
-            {
-                float state:angular:physics:position = 0
-                float state:angular:physics:velocity = 0
-            }
-
-            over "right_joint3"
-            {
-                float state:angular:physics:position = 0
-                float state:angular:physics:velocity = 0
-            }
-
-            over "right_joint4"
-            {
-                float state:angular:physics:position = 0
-                float state:angular:physics:velocity = 0
-            }
-
-            over "right_joint5"
-            {
-                float state:angular:physics:position = 0
-                float state:angular:physics:velocity = 0
-            }
-
-            over "right_joint6"
-            {
-                float state:angular:physics:position = 0
-                float state:angular:physics:velocity = 0
-            }
-        }
-
-        over "Gripper_2023_Right"
-        {
-            over "gripper_base"
-            {
-                over "link6"
-                {
-                    over "camera_support"
-                    {
-                        over "stand_d435"
-                        {
-                            token visibility = "inherited"
-                        }
-                    }
-                }
-            }
-
-            over "link7"
-            {
-            }
-
-            over "link8"
-            {
-            }
-
-            over "joints"
-            {
-                over "right_gripper_joint"
-                {
-                    float state:linear:physics:position = 8.216e-12
-                    float state:linear:physics:velocity = -2.0156116e-11
-                }
-
-                over "right_joint8"
-                {
-                    float state:linear:physics:position = 8.216036e-12
-                    float state:linear:physics:velocity = -2.0156116e-11
-                }
-            }
-        }
-    }
-
-    over "X5_Left"
-    {
-        string[] isaac:changelog (
-            displayName = "Changelog"
-        )
-        string isaac:description (
-            displayName = "Description"
-        )
-        token isaac:license (
-            displayName = "License"
-        )
-        string isaac:namespace (
-            displayName = "Namespace"
-        )
-        rel isaac:physics:robotJoints (
-            displayName = "Robot Joints"
-        )
-        rel isaac:physics:robotLinks (
-            displayName = "Robot Links"
-        )
-        token isaac:robotType (
-            displayName = "Robot Type"
-        )
-        string isaac:source (
-            displayName = "Source"
-        )
-        string isaac:version (
-            displayName = "Version"
-        )
-
-        over "Gripper_2023_Left"
-        {
-            string[] isaac:changelog (
-                displayName = "Changelog"
-            )
-            string isaac:description (
-                displayName = "Description"
-            )
-            token isaac:license (
-                displayName = "License"
-            )
-            string isaac:namespace (
-                displayName = "Namespace"
-            )
-            rel isaac:physics:robotJoints (
-                displayName = "Robot Joints"
-            )
-            rel isaac:physics:robotLinks (
-                displayName = "Robot Links"
-            )
-            token isaac:robotType (
-                displayName = "Robot Type"
-            )
-            string isaac:source (
-                displayName = "Source"
-            )
-            string isaac:version (
-                displayName = "Version"
-            )
-
-            over "gripper_base"
-            {
-                over "link6"
-                {
-                    over "camera_support"
-                    {
-                        over "stand_d435"
-                        {
-                            token visibility = "inherited"
-                        }
-                    }
-                }
-            }
-
-            over "link7"
-            {
-            }
-
-            over "link8"
-            {
-            }
-
-            over "joints"
-            {
-                over "left_gripper_joint"
-                {
-                    float state:linear:physics:position = 8.216e-12
-                    float state:linear:physics:velocity = -2.0156116e-11
-                }
-
-                over "left_joint8"
-                {
-                    float state:linear:physics:position = 8.216036e-12
-                    float state:linear:physics:velocity = -2.0156116e-11
-                }
-            }
-        }
-
-        over "base_link"
-        {
-        }
-
-        over "link1"
-        {
-        }
-
-        over "link2"
-        {
-        }
-
-        over "link3"
-        {
-        }
-
-        over "link4"
-        {
-        }
-
-        over "link5"
-        {
-        }
-
-        over "ee"
-        {
-        }
-
-        over "joints"
-        {
-            over "left_joint1"
-            {
-                float state:angular:physics:position = 0
-                float state:angular:physics:velocity = 0
-            }
-
-            over "left_joint2"
-            {
-                float state:angular:physics:position = 0
-                float state:angular:physics:velocity = 0
-            }
-
-            over "left_joint3"
-            {
-                float state:angular:physics:position = 0
-                float state:angular:physics:velocity = 0
-            }
-
-            over "left_joint4"
-            {
-                float state:angular:physics:position = 0
-                float state:angular:physics:velocity = 0
-            }
-
-            over "left_joint5"
-            {
-                float state:angular:physics:position = 0
-                float state:angular:physics:velocity = 0
-            }
-
-            over "left_joint6"
-            {
-                float state:angular:physics:position = 0
-                float state:angular:physics:velocity = 0
-            }
-        }
-    }
-
     def Scope "VisualMaterials"
     {
     }
 }
-

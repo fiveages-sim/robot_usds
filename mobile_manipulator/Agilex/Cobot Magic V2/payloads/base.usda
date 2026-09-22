@@ -66,12 +66,52 @@ def Xform "Cobot_Magic_V2"
             double3 xformOp:translate = (0, 0, 0.1679999977350235)
             uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
-            def Xform "camera_link"
+            def Xform "camera_stand"
             {
-                quatd xformOp:orient = (0.9161214232444763, 0, 0.40090087056159973, 0)
+                quatd xformOp:orient = (1, 0, 0, 0)
                 double3 xformOp:scale = (1, 1, 1)
-                double3 xformOp:translate = (0.24007000029087067, 0, 0.9166100025177002)
+                double3 xformOp:translate = (0.17757000029087067, 0, 0.9545400142669678)
                 uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+                def Xform "camera_stand_mesh" (
+                    instanceable = true
+                    prepend references = @./instances.usda@</Instances/mesh_1_1>
+                )
+                {
+                    token visibility = "inherited"
+                    quatd xformOp:orient = (1, 0, 0, 0)
+                    double3 xformOp:scale = (1, 1, 1)
+                    double3 xformOp:translate = (0, 0, 0)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                }
+
+                def Xform "camera_stand2"
+                {
+                    double xformOp:rotateY = 0
+                    double3 xformOp:scale = (1, 1, 1)
+                    double3 xformOp:translate = (0.02800000086426735, 0, 0)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateY", "xformOp:scale"]
+
+                    def Xform "camera_stand2_mesh" (
+                        instanceable = true
+                        prepend references = @./instances.usda@</Instances/mesh_2>
+                    )
+                    {
+                        token visibility = "inherited"
+                        quatd xformOp:orient = (0.7071067691, 0.7071067933, 0, 0)
+                        double3 xformOp:scale = (1, 1, 1)
+                        double3 xformOp:translate = (0, 0, 0)
+                        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                    }
+
+                    def Xform "camera_link"
+                    {
+                        quatd xformOp:orient = (0.4999999701976776, -0.4999999701976776, 0.4999999701976776, -0.4999999701976776)
+                        double3 xformOp:scale = (1, 1, 1)
+                        double3 xformOp:translate = (0.051580000668764114, 0, 0.0005259999888949096)
+                        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                    }
+                }
             }
 
             def Xform "left_base_link"
@@ -147,4 +187,3 @@ def Xform "Cobot_Magic_V2"
     {
     }
 }
-

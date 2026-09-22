@@ -47,10 +47,11 @@ def Xform "Cobot_Magic_V2" (
         string Chassis = "Tracer_V2"
         string Arm_Left = "Piper"
         string Arm_Right = "Piper"
+        string ROS = "enable"
         string Robot = "none"
         string Sensor = "sensors"
     }
-    prepend variantSets = ["Physics", "Chassis", "Arm_Left", "Arm_Right"]
+    prepend variantSets = ["Physics", "Chassis", "Arm_Left", "Arm_Right", "ROS"]
     append variantSets = ["Robot", "Sensor"]
 )
 {
@@ -150,6 +151,30 @@ def Xform "Cobot_Magic_V2" (
         ) {
             prepend rel isaac:physics:robotJoints = </Cobot_Magic_V2/base_footprint/body_Link/right_base_link/Piper>
             prepend rel isaac:physics:robotLinks = </Cobot_Magic_V2/base_footprint/body_Link/right_base_link/Piper>
+        }
+    }
+    variantSet "ROS" = {
+        "enable" (
+            prepend payload = @./payloads/ROS/ros2.usda@
+        ) {
+            over "Tracer" (
+                variants = {
+                    string ROS = "enable"
+                }
+            )
+            {
+            }
+        }
+        "none" (
+            prepend payload = @./payloads/ROS/none.usda@
+        ) {
+            over "Tracer" (
+                variants = {
+                    string ROS = "none"
+                }
+            )
+            {
+            }
         }
     }
     variantSet "Robot" = {

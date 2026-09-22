@@ -4,11 +4,12 @@
 )
 
 def Xform "Cobot_Magic_V2" (
-    delete apiSchemas = ["PhysicsArticulationRootAPI", "PhysxArticulationAPI", "NewtonArticulationRootAPI"]
+    prepend apiSchemas = ["PhysicsArticulationRootAPI", "PhysxArticulationAPI", "NewtonArticulationRootAPI"]
 )
 {
     def "Tracer" (
         prepend payload = @../../../../../mobile_base/Agilex/Tracer V2/Agilex_Tracer_V2.usda@
+        delete apiSchemas = ["PhysicsArticulationRootAPI", "PhysxArticulationAPI", "NewtonArticulationRootAPI"]
         variants = {
             string ROS = "enable"
         }
@@ -101,7 +102,7 @@ def Xform "Cobot_Magic_V2" (
             {
                 over "ComputeOdometry"
                 {
-                    custom rel inputs:chassisPrim = </Cobot_Magic_V2/Tracer/base_footprint> (
+                    custom rel inputs:chassisPrim = </Cobot_Magic_V2/base_footprint> (
                         customData = {
                             dictionary omni = {
                                 dictionary graph = {
@@ -118,7 +119,7 @@ def Xform "Cobot_Magic_V2" (
                 over "ArticulationController"
                 {
                     custom token[] inputs:jointNames = ["left_joint", "right_joint"]
-                    custom rel inputs:targetPrim = </Cobot_Magic_V2/Tracer> (
+                    custom rel inputs:targetPrim = </Cobot_Magic_V2> (
                         customData = {
                             dictionary omni = {
                                 dictionary graph = {
