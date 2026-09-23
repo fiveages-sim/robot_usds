@@ -1,0 +1,437 @@
+#usda 1.0
+(
+    defaultPrim = "Wuji_hand2"
+    doc = """Sensor=contact_force — PhysX ContactSensor on palm+phalanges + TipPad on tips,
+OmniGraph ROS_Contact_Force (ScriptNode → rclpy MarkerArray/Wrench/Bool).
+Hand-local only (handRoot auto-discovered). Side payloads set tfPrefix/topicPrefix
+(right→wuji_rh/right_hand, left→wuji_lh/left_hand). Works on any arm/stage that mounts this hand.
+"""
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "Wuji_hand2"
+{
+    # --- Contact Report + IsaacContactSensor (relative to this hand) ---
+
+        over "world" (
+            prepend apiSchemas = ["PhysxContactReportAPI"]
+        )
+        {
+            float physxContactReport:threshold = 0
+            def IsaacContactSensor "Contact_Sensor"
+            {
+                bool enabled = 1
+                float2 threshold = (0.0001, 100000)
+                float radius = -1
+                float4 color = (0.15, 0.35, 0.85, 0.15)
+            }
+        }
+
+        over "thumb_proximal" (
+            prepend apiSchemas = ["PhysxContactReportAPI"]
+        )
+        {
+            float physxContactReport:threshold = 0
+            def IsaacContactSensor "Contact_Sensor"
+            {
+                bool enabled = 1
+                float2 threshold = (0.0001, 100000)
+                float radius = -1
+                float4 color = (0.15, 0.35, 0.85, 0.15)
+            }
+        }
+
+        over "thumb_proximal_abd" (
+            prepend apiSchemas = ["PhysxContactReportAPI"]
+        )
+        {
+            float physxContactReport:threshold = 0
+            def IsaacContactSensor "Contact_Sensor"
+            {
+                bool enabled = 1
+                float2 threshold = (0.0001, 100000)
+                float radius = -1
+                float4 color = (0.15, 0.35, 0.85, 0.15)
+            }
+        }
+
+        over "thumb_middle" (
+            prepend apiSchemas = ["PhysxContactReportAPI"]
+        )
+        {
+            float physxContactReport:threshold = 0
+            def IsaacContactSensor "Contact_Sensor"
+            {
+                bool enabled = 1
+                float2 threshold = (0.0001, 100000)
+                float radius = -1
+                float4 color = (0.15, 0.35, 0.85, 0.15)
+            }
+        }
+
+        over "thumb_distal" (
+            prepend apiSchemas = ["PhysxContactReportAPI"]
+        )
+        {
+            float physxContactReport:threshold = 0
+            def IsaacContactSensor "Contact_Sensor"
+            {
+                bool enabled = 1
+                float2 threshold = (0.0001, 100000)
+                float radius = -1
+                float4 color = (0.15, 0.35, 0.85, 0.15)
+            }
+            over "thumb_tip_sensor_frame"
+            {
+                def IsaacContactSensor "TipPad_Sensor"
+                {
+                    bool enabled = 1
+                    float2 threshold = (0.0001, 100000)
+                    float radius = 0.02
+                    float4 color = (0.9, 0.5, 0.1, 0.2)
+                }
+            }
+        }
+
+        over "index_finger_proximal" (
+            prepend apiSchemas = ["PhysxContactReportAPI"]
+        )
+        {
+            float physxContactReport:threshold = 0
+            def IsaacContactSensor "Contact_Sensor"
+            {
+                bool enabled = 1
+                float2 threshold = (0.0001, 100000)
+                float radius = -1
+                float4 color = (0.15, 0.35, 0.85, 0.15)
+            }
+        }
+
+        over "index_finger_proximal_abd" (
+            prepend apiSchemas = ["PhysxContactReportAPI"]
+        )
+        {
+            float physxContactReport:threshold = 0
+            def IsaacContactSensor "Contact_Sensor"
+            {
+                bool enabled = 1
+                float2 threshold = (0.0001, 100000)
+                float radius = -1
+                float4 color = (0.15, 0.35, 0.85, 0.15)
+            }
+        }
+
+        over "index_finger_middle" (
+            prepend apiSchemas = ["PhysxContactReportAPI"]
+        )
+        {
+            float physxContactReport:threshold = 0
+            def IsaacContactSensor "Contact_Sensor"
+            {
+                bool enabled = 1
+                float2 threshold = (0.0001, 100000)
+                float radius = -1
+                float4 color = (0.15, 0.35, 0.85, 0.15)
+            }
+        }
+
+        over "index_finger_distal" (
+            prepend apiSchemas = ["PhysxContactReportAPI"]
+        )
+        {
+            float physxContactReport:threshold = 0
+            def IsaacContactSensor "Contact_Sensor"
+            {
+                bool enabled = 1
+                float2 threshold = (0.0001, 100000)
+                float radius = -1
+                float4 color = (0.15, 0.35, 0.85, 0.15)
+            }
+            over "index_finger_tip_sensor_frame"
+            {
+                def IsaacContactSensor "TipPad_Sensor"
+                {
+                    bool enabled = 1
+                    float2 threshold = (0.0001, 100000)
+                    float radius = 0.02
+                    float4 color = (0.9, 0.5, 0.1, 0.2)
+                }
+            }
+        }
+
+        over "middle_finger_proximal" (
+            prepend apiSchemas = ["PhysxContactReportAPI"]
+        )
+        {
+            float physxContactReport:threshold = 0
+            def IsaacContactSensor "Contact_Sensor"
+            {
+                bool enabled = 1
+                float2 threshold = (0.0001, 100000)
+                float radius = -1
+                float4 color = (0.15, 0.35, 0.85, 0.15)
+            }
+        }
+
+        over "middle_finger_proximal_abd" (
+            prepend apiSchemas = ["PhysxContactReportAPI"]
+        )
+        {
+            float physxContactReport:threshold = 0
+            def IsaacContactSensor "Contact_Sensor"
+            {
+                bool enabled = 1
+                float2 threshold = (0.0001, 100000)
+                float radius = -1
+                float4 color = (0.15, 0.35, 0.85, 0.15)
+            }
+        }
+
+        over "middle_finger_middle" (
+            prepend apiSchemas = ["PhysxContactReportAPI"]
+        )
+        {
+            float physxContactReport:threshold = 0
+            def IsaacContactSensor "Contact_Sensor"
+            {
+                bool enabled = 1
+                float2 threshold = (0.0001, 100000)
+                float radius = -1
+                float4 color = (0.15, 0.35, 0.85, 0.15)
+            }
+        }
+
+        over "middle_finger_distal" (
+            prepend apiSchemas = ["PhysxContactReportAPI"]
+        )
+        {
+            float physxContactReport:threshold = 0
+            def IsaacContactSensor "Contact_Sensor"
+            {
+                bool enabled = 1
+                float2 threshold = (0.0001, 100000)
+                float radius = -1
+                float4 color = (0.15, 0.35, 0.85, 0.15)
+            }
+            over "middle_finger_tip_sensor_frame"
+            {
+                def IsaacContactSensor "TipPad_Sensor"
+                {
+                    bool enabled = 1
+                    float2 threshold = (0.0001, 100000)
+                    float radius = 0.02
+                    float4 color = (0.9, 0.5, 0.1, 0.2)
+                }
+            }
+        }
+
+        over "ring_proximal" (
+            prepend apiSchemas = ["PhysxContactReportAPI"]
+        )
+        {
+            float physxContactReport:threshold = 0
+            def IsaacContactSensor "Contact_Sensor"
+            {
+                bool enabled = 1
+                float2 threshold = (0.0001, 100000)
+                float radius = -1
+                float4 color = (0.15, 0.35, 0.85, 0.15)
+            }
+        }
+
+        over "ring_proximal_abd" (
+            prepend apiSchemas = ["PhysxContactReportAPI"]
+        )
+        {
+            float physxContactReport:threshold = 0
+            def IsaacContactSensor "Contact_Sensor"
+            {
+                bool enabled = 1
+                float2 threshold = (0.0001, 100000)
+                float radius = -1
+                float4 color = (0.15, 0.35, 0.85, 0.15)
+            }
+        }
+
+        over "ring_middle" (
+            prepend apiSchemas = ["PhysxContactReportAPI"]
+        )
+        {
+            float physxContactReport:threshold = 0
+            def IsaacContactSensor "Contact_Sensor"
+            {
+                bool enabled = 1
+                float2 threshold = (0.0001, 100000)
+                float radius = -1
+                float4 color = (0.15, 0.35, 0.85, 0.15)
+            }
+        }
+
+        over "ring_distal" (
+            prepend apiSchemas = ["PhysxContactReportAPI"]
+        )
+        {
+            float physxContactReport:threshold = 0
+            def IsaacContactSensor "Contact_Sensor"
+            {
+                bool enabled = 1
+                float2 threshold = (0.0001, 100000)
+                float radius = -1
+                float4 color = (0.15, 0.35, 0.85, 0.15)
+            }
+            over "ring_tip_sensor_frame"
+            {
+                def IsaacContactSensor "TipPad_Sensor"
+                {
+                    bool enabled = 1
+                    float2 threshold = (0.0001, 100000)
+                    float radius = 0.02
+                    float4 color = (0.9, 0.5, 0.1, 0.2)
+                }
+            }
+        }
+
+        over "pinky_proximal" (
+            prepend apiSchemas = ["PhysxContactReportAPI"]
+        )
+        {
+            float physxContactReport:threshold = 0
+            def IsaacContactSensor "Contact_Sensor"
+            {
+                bool enabled = 1
+                float2 threshold = (0.0001, 100000)
+                float radius = -1
+                float4 color = (0.15, 0.35, 0.85, 0.15)
+            }
+        }
+
+        over "pinky_proximal_abd" (
+            prepend apiSchemas = ["PhysxContactReportAPI"]
+        )
+        {
+            float physxContactReport:threshold = 0
+            def IsaacContactSensor "Contact_Sensor"
+            {
+                bool enabled = 1
+                float2 threshold = (0.0001, 100000)
+                float radius = -1
+                float4 color = (0.15, 0.35, 0.85, 0.15)
+            }
+        }
+
+        over "pinky_middle" (
+            prepend apiSchemas = ["PhysxContactReportAPI"]
+        )
+        {
+            float physxContactReport:threshold = 0
+            def IsaacContactSensor "Contact_Sensor"
+            {
+                bool enabled = 1
+                float2 threshold = (0.0001, 100000)
+                float radius = -1
+                float4 color = (0.15, 0.35, 0.85, 0.15)
+            }
+        }
+
+        over "pinky_distal" (
+            prepend apiSchemas = ["PhysxContactReportAPI"]
+        )
+        {
+            float physxContactReport:threshold = 0
+            def IsaacContactSensor "Contact_Sensor"
+            {
+                bool enabled = 1
+                float2 threshold = (0.0001, 100000)
+                float radius = -1
+                float4 color = (0.15, 0.35, 0.85, 0.15)
+            }
+            over "pinky_tip_sensor_frame"
+            {
+                def IsaacContactSensor "TipPad_Sensor"
+                {
+                    bool enabled = 1
+                    float2 threshold = (0.0001, 100000)
+                    float radius = 0.02
+                    float4 color = (0.9, 0.5, 0.1, 0.2)
+                }
+            }
+        }
+
+    # --- ROS2 publish graph (mirrors sensors/6Dof F&T Sensor/KWR75B) ---
+    def "Graph"
+    {
+        def OmniGraph "ROS_Contact_Force"
+        {
+            token evaluationMode = "OnDemand"
+            token evaluator:type = "push"
+            token fabricCacheBacking = "StageWithoutHistory"
+            int2 fileFormatVersion = (1, 9)
+            token pipelineStage = "pipelineStageOnDemand"
+
+            def OmniGraphNode "OnPhysicsStep"
+            {
+                token node:type = "isaacsim.core.nodes.OnPhysicsStep"
+                int node:typeVersion = 1
+                custom double outputs:deltaSimulationTime
+                custom double outputs:deltaSystemTime
+                custom uint outputs:step (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+            }
+
+            def OmniGraphNode "ReadSimTime" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom uint64 inputs:referenceTimeDenominator
+                custom int64 inputs:referenceTimeNumerator
+                custom bool inputs:resetOnStop = 0
+                token node:type = "isaacsim.core.nodes.IsaacReadSimulationTime"
+                int node:typeVersion = 1
+                custom double outputs:simulationTime
+            }
+
+            def OmniGraphNode "PublishContact" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </Wuji_hand2/Graph/ROS_Contact_Force/OnPhysicsStep.outputs:step>
+                custom double inputs:deltaSimulationTime
+                prepend double inputs:deltaSimulationTime.connect = </Wuji_hand2/Graph/ROS_Contact_Force/OnPhysicsStep.outputs:deltaSimulationTime>
+                # Empty handRoot → script discovers .../Wuji_hand2 from this node path
+                custom string inputs:handRoot = ""
+                custom string inputs:attachMode = "link"
+                custom string inputs:tfPrefix = "right_hand"
+                custom string inputs:topicPrefix = "wuji_rh"
+                # 1=flip impulse→force-on-finger (RH); LH Side sets 0 (mirrored mesh)
+                custom bool inputs:negateForce = 1
+                custom string inputs:markerFrame = "base_link"
+                custom string inputs:robotBasePrim = ""
+                custom bool inputs:publishTf = 0
+                custom string inputs:script = ""
+                custom token inputs:scriptPath = "/home/fiveages/FaSim-Isaac/robots/dexhands/Wuji/Hand2/payloads/Sensor/contact_force_publisher.py"
+                custom double inputs:simulationTime
+                prepend double inputs:simulationTime.connect = </Wuji_hand2/Graph/ROS_Contact_Force/ReadSimTime.outputs:simulationTime>
+                custom bool inputs:usePath = 1
+                token node:type = "omni.graph.scriptnode.ScriptNode"
+                int node:typeVersion = 2
+                custom uint outputs:execOut (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom int outputs:num_active
+                custom bool outputs:valid
+                custom bool state:omni_initialized
+            }
+        }
+    }
+}

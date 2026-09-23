@@ -38,6 +38,7 @@ Physics: no authored default on this root (standalone Switcher can set it).
 When mounted under M6_CCS, arm Physics=physx|mujoco nests hand Physics via
 overs in M6_CCS.usda (hands follow the arm; do not author Physics on EE/env).
 Physics variantSet is listed before Side.
+Sensor: none | sensors (placeholder) | contact_force (PhysX ContactSensor + ROS2 graph; RH defaults).
 """
     metersPerUnit = 1
     upAxis = "Z"
@@ -322,6 +323,11 @@ def Xform "Wuji_hand2" (
         }
         "sensors" (
             prepend payload = @./payloads/Sensor/sensors.usda@
+        ) {
+
+        }
+        "contact_force" (
+            prepend payload = @./payloads/Sensor/contact_force.usda@
         ) {
 
         }
