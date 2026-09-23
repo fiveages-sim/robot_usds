@@ -1,0 +1,20 @@
+#usda 1.0
+(
+    doc = """DexHand EE — excludes Revo1/Revo2 from Nero NonDexHand (PhysX)."""
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+over "Nero"
+{
+    over "CollisionGroups"
+    {
+        over "NonDexHand"
+        {
+            prepend rel collection:colliders:excludes = [
+                </Nero/link7/tcp/Revo1>,
+                </Nero/link7/tcp/Revo2>,
+            ]
+        }
+    }
+}

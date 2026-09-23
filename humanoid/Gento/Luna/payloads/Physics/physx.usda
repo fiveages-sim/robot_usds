@@ -16,7 +16,8 @@ def "Luna"
     )
     {
         # On for any arm mix; NonDexHand (body_self_collision_mute.usda) mutes
-        # torso/chassis/arm self-pairs. Dexhand EE excludes keep fingers free.
+        # torso/chassis/arm. Nested M6S CollisionGroups deactivated there
+        # (one PhysX group per collider). Dexhand EE excludes keep fingers free.
         bool physxArticulation:enabledSelfCollisions = 1
         int physxArticulation:solverPositionIterationCount = 32
         int physxArticulation:solverVelocityIterationCount = 1
@@ -95,6 +96,14 @@ def "Luna"
         }
     )
     {
+        # Parent NonDexHand already includes these arm colliders.
+        # Nested M6S CollisionGroups would double-assign → PhysX
+        # "Collisions are supported currently only in one collision group."
+        over "CollisionGroups" (
+            active = false
+        )
+        {
+        }
     }
 
     over "Right_Arm" (
@@ -103,6 +112,11 @@ def "Luna"
         }
     )
     {
+        over "CollisionGroups" (
+            active = false
+        )
+        {
+        }
     }
 }
 

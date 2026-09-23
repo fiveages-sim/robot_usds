@@ -11,10 +11,11 @@ def Xform "Marvin_Pro" (
         string Arm_Left = "M6_CCS"
         string Arm_Right = "M6_CCS"
         string Physics = "physx"
+        string ROS = "enable"
         string Robot = "none"
         string Sensor = "sensors"
     }
-    prepend variantSets = ["Physics", "Arm_Left", "Arm_Right"]
+    prepend variantSets = ["Physics", "Arm_Left", "Arm_Right", "ROS"]
     append variantSets = ["Robot", "Sensor"]
 )
 {
@@ -93,6 +94,18 @@ def Xform "Marvin_Pro" (
         ) {
             prepend rel isaac:physics:robotJoints = </Marvin_Pro/base_link/arm_base/right_mount/M6S_Lite_CCS>
             prepend rel isaac:physics:robotLinks = </Marvin_Pro/base_link/arm_base/right_mount/M6S_Lite_CCS>
+        }
+    }
+    variantSet "ROS" = {
+        "none" (
+            prepend payload = @./payloads/ROS/none.usda@
+        ) {
+
+        }
+        "enable" (
+            prepend payload = @./payloads/ROS/ros2.usda@
+        ) {
+
         }
     }
     variantSet "Robot" = {
