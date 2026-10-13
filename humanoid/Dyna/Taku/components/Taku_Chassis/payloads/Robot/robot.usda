@@ -1,0 +1,167 @@
+#usda 1.0
+(
+    defaultPrim = "Taku_Chassis"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "Taku_Chassis" (
+    prepend apiSchemas = ["IsaacRobotAPI"]
+)
+{
+    custom string isaac:description = "Dyna Taku 4-module swerve chassis (4 steering + 4 drive joints)"
+    custom string isaac:namespace = ""
+    custom rel isaac:physics:robotJoints
+    prepend rel isaac:physics:robotJoints = [
+        </Taku_Chassis/joints/agv_right_front_steering_joint>,
+        </Taku_Chassis/joints/agv_right_front_rotate_joint>,
+        </Taku_Chassis/joints/agv_right_back_steering_joint>,
+        </Taku_Chassis/joints/agv_right_back_rotate_joint>,
+        </Taku_Chassis/joints/agv_left_front_steering_joint>,
+        </Taku_Chassis/joints/agv_left_front_rotate_joint>,
+        </Taku_Chassis/joints/agv_left_back_steering_joint>,
+        </Taku_Chassis/joints/agv_left_back_rotate_joint>,
+    ]
+    custom rel isaac:physics:robotLinks
+    prepend rel isaac:physics:robotLinks = [
+        </Taku_Chassis/base_link>,
+        </Taku_Chassis/right_wheel_steering>,
+        </Taku_Chassis/right_wheel_steering_2>,
+        </Taku_Chassis/left_wheel_steering>,
+        </Taku_Chassis/left_wheel_steering_2>,
+        </Taku_Chassis/left_wheel_rotate_2>,
+        </Taku_Chassis/left_wheel_rotate>,
+        </Taku_Chassis/right_wheel_rotate_2>,
+        </Taku_Chassis/right_wheel_rotate>,
+    ]
+    custom token isaac:robotType = "Holonomic"
+
+    over "base_link" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+        over "lidar_front_left" (
+            prepend apiSchemas = ["IsaacSiteAPI"]
+        )
+        {
+        }
+
+        over "lidar_front_right" (
+            prepend apiSchemas = ["IsaacSiteAPI"]
+        )
+        {
+        }
+
+        over "lidar_back" (
+            prepend apiSchemas = ["IsaacSiteAPI"]
+        )
+        {
+        }
+
+        over "agv_imu_frame" (
+            prepend apiSchemas = ["IsaacSiteAPI"]
+        )
+        {
+        }
+    }
+
+    over "right_wheel_steering" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+    }
+
+    over "right_wheel_steering_2" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+    }
+
+    over "left_wheel_steering" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+    }
+
+    over "left_wheel_steering_2" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+    }
+
+    over "left_wheel_rotate_2" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+    }
+
+    over "left_wheel_rotate" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+    }
+
+    over "right_wheel_rotate_2" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+    }
+
+    over "right_wheel_rotate" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+    }
+
+    over "joints"
+    {
+        over "agv_right_front_steering_joint" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+        }
+
+        over "agv_right_front_rotate_joint" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+        }
+
+        over "agv_right_back_steering_joint" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+        }
+
+        over "agv_right_back_rotate_joint" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+        }
+
+        over "agv_left_front_steering_joint" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+        }
+
+        over "agv_left_front_rotate_joint" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+        }
+
+        over "agv_left_back_steering_joint" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+        }
+
+        over "agv_left_back_rotate_joint" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+        }
+    }
+}
+

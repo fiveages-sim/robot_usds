@@ -1,0 +1,104 @@
+#usda 1.0
+(
+    defaultPrim = "Taku_Chassis"
+    doc = """Lidar assets: mid360 uses rotateX:unitsResolve=90 (Moz1/R1/Astribot/Cobot Magic).
+airy: orient+unitsResolve from Linkhou S2_V1 (their child translate is 0,0,0). Extra local Z=+0.042 from Taku URDF note "Airy bottom sits on its frame (mesh z min -0.042)" and airy.usd World-frame AABB z_min≈-0.042 after asset orient. Parent poses stay in base.usda."""
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "Taku_Chassis"
+{
+    over "base_link"
+    {
+        over "lidar_back"
+        {
+            def "mid360" (
+                prepend payload = @../../../../../../../sensors/mid360.usd@
+            )
+            {
+                quatf xformOp:orient = (1, 0, 0, 0)
+                double xformOp:rotateX:unitsResolve = 90
+                float3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale", "xformOp:rotateX:unitsResolve"]
+            }
+
+            def OmniLidar "RTX_Lidar" (
+                prepend apiSchemas = ["OmniSensorGenericLidarCoreAPI"]
+            )
+            {
+                float omni:sensor:Core:nearRangeM = 0.1
+                bool omni:sensor:Core:skipDroppingInvalidPoints = 1
+                string omni:sensor:modelName = "Example_Solid_State"
+                token omni:sensor:Core:scanType = "SOLID_STATE"
+                uint omni:sensor:Core:scanRateBaseHz = 10
+                float omni:sensor:tickRate = 10
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+        }
+
+        over "lidar_front_left"
+        {
+            def "airy" (
+                prepend payload = @../../../../../../../sensors/robosense/airy.usd@
+            )
+            {
+                quatf xformOp:orient = (0.5, -0.5, -0.5, -0.5)
+                double xformOp:rotateX:unitsResolve = 90
+                float3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0.042)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale", "xformOp:rotateX:unitsResolve"]
+            }
+
+            def OmniLidar "RTX_Lidar" (
+                prepend apiSchemas = ["OmniSensorGenericLidarCoreAPI"]
+            )
+            {
+                float omni:sensor:Core:nearRangeM = 0.1
+                bool omni:sensor:Core:skipDroppingInvalidPoints = 1
+                string omni:sensor:modelName = "Example_Solid_State"
+                token omni:sensor:Core:scanType = "SOLID_STATE"
+                uint omni:sensor:Core:scanRateBaseHz = 10
+                float omni:sensor:tickRate = 10
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+        }
+
+        over "lidar_front_right"
+        {
+            def "airy" (
+                prepend payload = @../../../../../../../sensors/robosense/airy.usd@
+            )
+            {
+                quatf xformOp:orient = (0.5, -0.5, -0.5, -0.5)
+                double xformOp:rotateX:unitsResolve = 90
+                float3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0.042)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale", "xformOp:rotateX:unitsResolve"]
+            }
+
+            def OmniLidar "RTX_Lidar" (
+                prepend apiSchemas = ["OmniSensorGenericLidarCoreAPI"]
+            )
+            {
+                float omni:sensor:Core:nearRangeM = 0.1
+                bool omni:sensor:Core:skipDroppingInvalidPoints = 1
+                string omni:sensor:modelName = "Example_Solid_State"
+                token omni:sensor:Core:scanType = "SOLID_STATE"
+                uint omni:sensor:Core:scanRateBaseHz = 10
+                float omni:sensor:tickRate = 10
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+        }
+    }
+}

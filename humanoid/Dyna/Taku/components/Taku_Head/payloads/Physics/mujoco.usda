@@ -1,0 +1,61 @@
+#usda 1.0
+(
+    defaultPrim = "Taku_Head"
+    metersPerUnit = 1
+    subLayers = [
+        @./physics.usda@
+    ]
+    upAxis = "Z"
+)
+
+over "Taku_Head"
+{
+    over "joints"
+    {
+        over "head_yaw_joint" (
+            prepend apiSchemas = ["MjcJointAPI"]
+        )
+        {
+            custom double mjc:armature = 0.01
+            custom double mjc:damping = 0.1
+        }
+
+        def MjcActuator "head_yaw_joint_actuator"
+        {
+            custom double mjc:forceRange:max = 20
+            custom double mjc:forceRange:min = -20
+            custom rel mjc:target = </Taku_Head/joints/head_yaw_joint>
+        }
+
+        over "head_pitch_joint" (
+            prepend apiSchemas = ["MjcJointAPI"]
+        )
+        {
+            custom double mjc:armature = 0.01
+            custom double mjc:damping = 0.1
+        }
+
+        def MjcActuator "head_pitch_joint_actuator"
+        {
+            custom double mjc:forceRange:max = 20
+            custom double mjc:forceRange:min = -20
+            custom rel mjc:target = </Taku_Head/joints/head_pitch_joint>
+        }
+
+        over "head_roll_joint" (
+            prepend apiSchemas = ["MjcJointAPI"]
+        )
+        {
+            custom double mjc:armature = 0.01
+            custom double mjc:damping = 0.1
+        }
+
+        def MjcActuator "head_roll_joint_actuator"
+        {
+            custom double mjc:forceRange:max = 20
+            custom double mjc:forceRange:min = -20
+            custom rel mjc:target = </Taku_Head/joints/head_roll_joint>
+        }
+    }
+}
+

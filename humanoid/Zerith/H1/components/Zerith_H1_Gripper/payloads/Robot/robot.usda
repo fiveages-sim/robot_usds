@@ -1,0 +1,111 @@
+#usda 1.0
+(
+    customLayerData = {
+        string creator = "URDF USD Converter v0.3.2"
+    }
+    defaultPrim = "Zerith_H1_Gripper"
+    endTimeCode = 1000000
+    kilogramsPerUnit = 1
+    metersPerUnit = 1
+    startTimeCode = 0
+    upAxis = "Z"
+)
+
+over "Zerith_H1_Gripper" (
+    prepend apiSchemas = ["IsaacRobotAPI"]
+)
+{
+    prepend rel isaac:physics:robotJoints = [
+        </Zerith_H1_Gripper/joints/root_joint>,
+        </Zerith_H1_Gripper/joints/camera_support_joint>,
+        </Zerith_H1_Gripper/joints/gripper_joint>,
+        </Zerith_H1_Gripper/joints/jaw_right_finger_joint>,
+        </Zerith_H1_Gripper/joints/eef_joint>,
+        </Zerith_H1_Gripper/joints/jaw_camera_joint>,
+    ]
+    prepend rel isaac:physics:robotLinks = [
+        </Zerith_H1_Gripper/gripper_base>,
+        </Zerith_H1_Gripper/camera_support>,
+        </Zerith_H1_Gripper/jaw_camera_link>,
+        </Zerith_H1_Gripper/jaw_left_finger_link>,
+        </Zerith_H1_Gripper/jaw_right_finger_link>,
+        </Zerith_H1_Gripper/eef>,
+    ]
+    token isaac:robotType = "End Effector"
+
+    over "joints"
+    {
+        over "root_joint" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+        }
+
+        over "camera_support_joint" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+        }
+
+        over "jaw_camera_joint" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+        }
+
+        over "gripper_joint" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+        }
+
+        over "jaw_right_finger_joint" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+        }
+
+        over "eef_joint" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+        }
+    }
+
+    over "jaw_camera_link" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+    }
+
+    over "jaw_right_finger_link" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+    }
+
+    over "jaw_left_finger_link" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+    }
+
+    over "camera_support" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+    }
+
+    over "eef" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+    }
+
+    over "gripper_base" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+    }
+}
+

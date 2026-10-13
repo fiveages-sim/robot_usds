@@ -1,0 +1,103 @@
+#usda 1.0
+(
+    defaultPrim = "Zerith_H1_Gripper"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+over "Zerith_H1_Gripper"
+{
+    prepend rel isaac:physics:robotJoints = [
+        </Zerith_H1_Gripper/joints/root_joint>,
+        </Zerith_H1_Gripper/joints/camera_support_joint>,
+        </Zerith_H1_Gripper/joints/left_gripper_joint>,
+        </Zerith_H1_Gripper/joints/left_jaw_right_finger_joint>,
+        </Zerith_H1_Gripper/joints/eef_joint>,
+        </Zerith_H1_Gripper/joints/jaw_camera_joint>,
+    ]
+
+    over "joints"
+    {
+        over "gripper_joint" (
+            active = false
+        )
+        {
+        }
+
+        over "jaw_right_finger_joint" (
+            active = false
+        )
+        {
+        }
+
+        def PhysicsPrismaticJoint "left_gripper_joint" (
+            prepend apiSchemas = ["NewtonJointAPI", "PhysicsDriveAPI:linear", "PhysicsJointStateAPI:linear", "PhysxJointAPI"]
+        )
+        {
+            float drive:linear:physics:damping = 1000
+            float drive:linear:physics:maxForce = 120
+            float drive:linear:physics:stiffness = 10000
+            float newton:velocityLimit = 0.25
+            uniform token physics:axis = "Y"
+            rel physics:body0 = </Zerith_H1_Gripper/gripper_base>
+            rel physics:body1 = </Zerith_H1_Gripper/jaw_left_finger_link>
+            point3f physics:localPos0 = (0.056, -0.04, 0)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = 0
+            float physics:upperLimit = 0.04
+        }
+
+        def PhysicsPrismaticJoint "left_jaw_right_finger_joint" (
+            prepend apiSchemas = ["NewtonJointAPI", "NewtonMimicAPI", "PhysicsJointStateAPI:linear", "PhysxJointAPI", "PhysxMimicJointAPI:transY"]
+        )
+        {
+            float newton:mimicCoef1 = -1
+            rel newton:mimicJoint = </Zerith_H1_Gripper/joints/left_gripper_joint>
+            float newton:velocityLimit = 0.25
+            uniform token physics:axis = "Y"
+            rel physics:body0 = </Zerith_H1_Gripper/gripper_base>
+            rel physics:body1 = </Zerith_H1_Gripper/jaw_right_finger_link>
+            point3f physics:localPos0 = (0.056, 0.04, 0)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -0.04
+            float physics:upperLimit = 0
+            float physxMimicJoint:transY:dampingRatio = 0
+            float physxMimicJoint:transY:gearing = -1
+            float physxMimicJoint:transY:naturalFrequency = 0
+            float physxMimicJoint:transY:offset = 0
+            rel physxMimicJoint:transY:referenceJoint = </Zerith_H1_Gripper/joints/left_gripper_joint>
+        }
+    }
+
+    over "jaw_camera_link"
+    {
+        def Camera "left_camera" (
+            displayName = "left camera"
+        )
+        {
+            float2 clippingRange = (0.01, 10000000)
+            float focalLength = 18.147562
+            float focusDistance = 400
+            float horizontalAperture = 34.44279
+            token projection = "perspective"
+            float verticalAperture = 20.11872
+            quatd xformOp:orient = (0, 1, 0, 0)
+            double3 xformOp:scale = (1, 1, 1)
+            double3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+        }
+    }
+
+    over "camera_support"
+    {
+    }
+
+    over "gripper_base"
+    {
+    }
+}
+

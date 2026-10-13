@@ -1,0 +1,123 @@
+#usda 1.0
+(
+    defaultPrim = "Taku_Body"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def "Taku_Body"
+{
+    over "base_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "PhysicsArticulationRootAPI"]
+    )
+    {
+        float3 physics:diagonalInertia = (0.001, 0.001, 0.001)
+        float physics:mass = 0.1
+    }
+
+    over "folding_lower_joint_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.11888, -0.042443, 0.088858)
+        float3 physics:diagonalInertia = (0.014620213, 0.19325134, 0.1967614)
+        float physics:mass = 8.138869
+        quatf physics:principalAxes = (0.70710677, 0, -0.70710677, 0)
+    }
+
+    over "folding_to_waist_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (-0.170796, -0.001667, 0.099736)
+        float3 physics:diagonalInertia = (0.014059828, 0.19805259, 0.20939006)
+        float physics:mass = 11.8125
+        quatf physics:principalAxes = (0.5, -0.5, -0.5, -0.5)
+    }
+
+    over "torso_waist_pitch_link" (
+        delete apiSchemas = ["PhysicsMassAPI"]
+        prepend apiSchemas = ["PhysicsRigidBodyAPI"]
+    )
+    {
+    }
+
+    over "torso_body_link" (
+        delete apiSchemas = ["PhysicsMassAPI"]
+        prepend apiSchemas = ["PhysicsRigidBodyAPI"]
+    )
+    {
+    }
+
+    def "joints"
+    {
+        def PhysicsRevoluteJoint "folding_low_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform token physics:axis = "Y"
+            rel physics:body0 = </Taku_Body/base_link>
+            rel physics:body1 = </Taku_Body/folding_lower_joint_link>
+            point3f physics:localPos0 = (-0.125, -0.000199, 0.17)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -55
+            float physics:upperLimit = 35
+            custom float state:angular:physics:position = 0
+            custom float state:angular:physics:velocity = 0
+        }
+
+        def PhysicsRevoluteJoint "folding_high_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform token physics:axis = "Y"
+            rel physics:body0 = </Taku_Body/folding_lower_joint_link>
+            rel physics:body1 = </Taku_Body/folding_to_waist_link>
+            point3f physics:localPos0 = (0.327498, 0, 0.308618)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -40
+            float physics:upperLimit = 70
+            custom float state:angular:physics:position = 0
+            custom float state:angular:physics:velocity = 0
+        }
+
+        def PhysicsRevoluteJoint "waist_pitch_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform token physics:axis = "Y"
+            rel physics:body0 = </Taku_Body/folding_to_waist_link>
+            rel physics:body1 = </Taku_Body/torso_waist_pitch_link>
+            point3f physics:localPos0 = (-0.401053, 0, 0.204099)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -115
+            float physics:upperLimit = 60
+            custom float state:angular:physics:position = 0
+            custom float state:angular:physics:velocity = 0
+        }
+
+        def PhysicsRevoluteJoint "waist_yaw_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform token physics:axis = "Z"
+            rel physics:body0 = </Taku_Body/torso_waist_pitch_link>
+            rel physics:body1 = </Taku_Body/torso_body_link>
+            point3f physics:localPos0 = (-0.007, 0, 0.172)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -45
+            float physics:upperLimit = 45
+            custom float state:angular:physics:position = 0
+            custom float state:angular:physics:velocity = 0
+        }
+    }
+}
+

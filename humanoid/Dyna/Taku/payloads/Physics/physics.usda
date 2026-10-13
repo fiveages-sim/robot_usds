@@ -1,0 +1,77 @@
+#usda 1.0
+(
+    defaultPrim = "Taku"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+over "Taku"
+{
+    over "base_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "PhysicsArticulationRootAPI"]
+    )
+    {
+        float3 physics:diagonalInertia = (0.001, 0.001, 0.001)
+        float physics:mass = 0.1
+    }
+
+    over "Taku_Chassis" (
+        variants = {
+            string Physics = "physics"
+        }
+    )
+    {
+    }
+
+    over "Taku_Body" (
+        variants = {
+            string Physics = "physics"
+        }
+    )
+    {
+    }
+
+    over "Taku_Head" (
+        variants = {
+            string Physics = "physics"
+        }
+    )
+    {
+    }
+
+    over "Arm_Left" (
+        variants = {
+            string Physics = "physics"
+        }
+    )
+    {
+        over "wrist_roll_link"
+        {
+            over "Taku_Dynaclaw" (
+                variants = {
+                    string Physics = "physics"
+                }
+            )
+            {
+            }
+        }
+    }
+
+    over "Arm_Right" (
+        variants = {
+            string Physics = "physics"
+        }
+    )
+    {
+        over "wrist_roll_link"
+        {
+            over "Taku_Dynaclaw" (
+                variants = {
+                    string Physics = "physics"
+                }
+            )
+            {
+            }
+        }
+    }
+}

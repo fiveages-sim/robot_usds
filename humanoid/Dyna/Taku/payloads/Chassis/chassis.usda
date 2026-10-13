@@ -1,0 +1,163 @@
+#usda 1.0
+(
+    defaultPrim = "Taku"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "Taku"
+{
+    def "Taku_Chassis" (
+        delete apiSchemas = ["PhysicsArticulationRootAPI", "PhysxArticulationAPI", "NewtonArticulationRootAPI"]
+        prepend payload = @../../components/Taku_Chassis/Taku_Chassis.usda@
+        variants = {
+            string Graph = "none"
+            string Sensor = "sensors"
+        }
+    )
+    {
+        quatd xformOp:orient = (1, 0, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "base_link" (
+            delete apiSchemas = ["PhysicsArticulationRootAPI", "PhysxArticulationAPI", "NewtonArticulationRootAPI"]
+        )
+        {
+            def PhysicsFixedJoint "AssemblerFixedJoint"
+            {
+                rel physics:body0 = </Taku/base_link>
+                rel physics:body1 = </Taku/Taku_Chassis/base_link>
+                point3f physics:localPos0 = (0, 0, 0)
+                point3f physics:localPos1 = (0, 0, 0)
+                quatf physics:localRot0 = (1, 0, 0, 0)
+                quatf physics:localRot1 = (1, 0, 0, 0)
+            }
+        }
+
+        over "Graphs"
+        {
+            over "steering_wheel_controller"
+            {
+                over "steer_articulation_controller"
+                {
+                    custom rel inputs:targetPrim = </Taku/base_link> (
+                        customData = {
+                            dictionary omni = {
+                                dictionary graph = {
+                                    string relType = "target"
+                                }
+                            }
+                        }
+                    )
+                }
+
+                over "drive_articulation_controller"
+                {
+                    custom rel inputs:targetPrim = </Taku/base_link> (
+                        customData = {
+                            dictionary omni = {
+                                dictionary graph = {
+                                    string relType = "target"
+                                }
+                            }
+                        }
+                    )
+                }
+
+                over "ros2_subscribe_twist"
+                {
+                    custom string inputs:nodeNamespace = ""
+                    custom string inputs:topicName = "/cmd_vel"
+                }
+            }
+
+            over "ROS_Odometry"
+            {
+                over "ComputeOdometry"
+                {
+                    custom rel inputs:chassisPrim = </Taku/base_link> (
+                        customData = {
+                            dictionary omni = {
+                                dictionary graph = {
+                                    string relType = "target"
+                                }
+                            }
+                        }
+                    )
+                }
+
+                over "TFOdom2Robot"
+                {
+                    custom string inputs:childFrameId = "base_footprint"
+                    custom string inputs:parentFrameId = "odom"
+                }
+
+                over "TFFootprint2BaseLink"
+                {
+                    custom string inputs:childFrameId = "base_link"
+                    custom string inputs:parentFrameId = "base_footprint"
+                    custom bool inputs:staticPublisher = 0
+                    custom quatd inputs:rotation = (1, 0, 0, 0)
+                    custom vector3d inputs:translation = (0, 0, 0)
+                }
+
+                over "PublisherOdometry"
+                {
+                    custom string inputs:chassisFrameId = "base_footprint"
+                    custom string inputs:odomFrameId = "odom"
+                    custom string inputs:topicName = "/odom"
+                }
+            }
+
+            over "ROS_Lidar_mid360"
+            {
+                over "RenderProduct"
+                {
+                    custom rel inputs:cameraPrim = </Taku/Taku_Chassis/base_link/lidar_back/RTX_Lidar> (
+                        customData = {
+                            dictionary omni = {
+                                dictionary graph = {
+                                    string relType = "target"
+                                }
+                            }
+                        }
+                    )
+                }
+            }
+
+            over "ROS_Lidar_airy_left"
+            {
+                over "RenderProduct"
+                {
+                    custom rel inputs:cameraPrim = </Taku/Taku_Chassis/base_link/lidar_front_left/RTX_Lidar> (
+                        customData = {
+                            dictionary omni = {
+                                dictionary graph = {
+                                    string relType = "target"
+                                }
+                            }
+                        }
+                    )
+                }
+            }
+
+            over "ROS_Lidar_airy_right"
+            {
+                over "RenderProduct"
+                {
+                    custom rel inputs:cameraPrim = </Taku/Taku_Chassis/base_link/lidar_front_right/RTX_Lidar> (
+                        customData = {
+                            dictionary omni = {
+                                dictionary graph = {
+                                    string relType = "target"
+                                }
+                            }
+                        }
+                    )
+                }
+            }
+        }
+    }
+}

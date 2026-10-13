@@ -1,0 +1,181 @@
+#usda 1.0
+(
+    defaultPrim = "Taku_Head"
+    metersPerUnit = 1
+    subLayers = [
+        @./robot.usda@
+    ]
+    upAxis = "Z"
+)
+
+def Xform "Taku_Head"
+{
+    quatd xformOp:orient = (1, 0, 0, 0)
+    double3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (0, 0, 0)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+    def Scope "joints"
+    {
+    }
+
+    def Xform "base_link"
+    {
+        quatd xformOp:orient = (1, 0, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def Xform "visuals"
+        {
+        }
+
+        def Xform "collisions"
+        {
+        }
+    }
+
+    def Xform "head_yaw_link"
+    {
+        quatd xformOp:orient = (1, 0, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0, 0, 0.363)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def Xform "visuals"
+        {
+            def Xform "head_yaw_link" (
+                instanceable = true
+                prepend references = @./instances.usda@</Instances/head_yaw_link>
+            )
+            {
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+        }
+
+        def Xform "collisions"
+        {
+            def Xform "head_yaw_link" (
+                instanceable = true
+                prepend references = @./instances.usda@</Instances/head_yaw_link_col>
+            )
+            {
+                uniform token purpose = "guide"
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+        }
+    }
+
+    def Xform "head_pitch_link"
+    {
+        quatd xformOp:orient = (1, 0, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0, 0, 0.40449999999999997)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def Xform "visuals"
+        {
+            def Xform "head_pitch_link" (
+                instanceable = true
+                prepend references = @./instances.usda@</Instances/head_pitch_link>
+            )
+            {
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+        }
+
+        def Xform "collisions"
+        {
+            def Xform "head_pitch_link" (
+                instanceable = true
+                prepend references = @./instances.usda@</Instances/head_pitch_link_col>
+            )
+            {
+                uniform token purpose = "guide"
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+        }
+    }
+
+    def Xform "head_roll_link"
+    {
+        quatd xformOp:orient = (1, 0, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0.002, 0, 0.40449999999999997)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def Xform "visuals"
+        {
+            def Xform "head_roll_link" (
+                instanceable = true
+                prepend references = @./instances.usda@</Instances/head_roll_link>
+            )
+            {
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+        }
+
+        def Xform "collisions"
+        {
+            def Xform "head_roll_link" (
+                instanceable = true
+                prepend references = @./instances.usda@</Instances/head_roll_link_col>
+            )
+            {
+                uniform token purpose = "guide"
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+        }
+
+        def Xform "head_camera_base_frame"
+        {
+            quatd xformOp:orient = (0.4999981633974483, -0.49999999999662686, 0.5000018366025518, -0.49999999999662686)
+            double3 xformOp:scale = (1, 1, 1)
+            double3 xformOp:translate = (0.043, 0.025, 0.04849999999999999)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+        }
+
+        def Xform "head_camera_left_optical_center_frame"
+        {
+            quatd xformOp:orient = (0.4999981633974483, -0.49999999999662686, 0.5000018366025518, -0.49999999999662686)
+            double3 xformOp:scale = (1, 1, 1)
+            double3 xformOp:translate = (0.07620298163352648, 0.02999987803867215, 0.03849987803863841)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+        }
+
+        def Xform "head_camera_right_optical_center_frame"
+        {
+            quatd xformOp:orient = (0.4999981633974483, -0.49999999999662686, 0.5000018366025518, -0.49999999999662686)
+            double3 xformOp:scale = (1, 1, 1)
+            double3 xformOp:translate = (0.07620276124122029, -0.030000121960923075, 0.03849987803863841)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+        }
+
+        def Xform "head_camera_mid_optical_frame"
+        {
+            quatd xformOp:orient = (0.4999981633974483, -0.49999999999662686, 0.5000018366025518, -0.49999999999662686)
+            double3 xformOp:scale = (1, 1, 1)
+            double3 xformOp:translate = (0.07620287143737339, -1.21961125466169e-7, 0.03849987803863841)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+        }
+    }
+}
+

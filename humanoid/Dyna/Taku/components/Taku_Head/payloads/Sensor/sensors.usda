@@ -1,0 +1,43 @@
+#usda 1.0
+(
+    defaultPrim = "Taku_Head"
+    doc = """Head stereo optical Cameras only (no RealSense/d435 mesh). Prim names head_camera_l / head_camera_r follow FiveAges Gen3 / W2-family left-right head naming. Mounted on URDF head_camera_*_optical_center_frame under head_roll_link. Orient (0,1,0,0)=Ry180 matches Gen3 so Isaac Camera looks along -Z of the optical frame."""
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "Taku_Head"
+{
+    over "head_roll_link"
+    {
+        over "head_camera_left_optical_center_frame"
+        {
+            def Camera "head_camera_l"
+            {
+                float2 clippingRange = (0.05, 30)
+                float focalLength = 18.147562
+                float focusDistance = 400
+                token projection = "perspective"
+                quatd xformOp:orient = (0, 1, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+        }
+
+        over "head_camera_right_optical_center_frame"
+        {
+            def Camera "head_camera_r"
+            {
+                float2 clippingRange = (0.05, 30)
+                float focalLength = 18.147562
+                float focusDistance = 400
+                token projection = "perspective"
+                quatd xformOp:orient = (0, 1, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+        }
+    }
+}
