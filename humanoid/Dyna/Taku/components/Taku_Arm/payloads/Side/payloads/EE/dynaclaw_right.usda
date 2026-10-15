@@ -1,0 +1,45 @@
+#usda 1.0
+(
+    defaultPrim = "Taku_Arm"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "Taku_Arm"
+{
+    def "wrist_roll_link"
+    {
+        def "Taku_Dynaclaw" (
+            delete apiSchemas = ["PhysicsArticulationRootAPI", "PhysxArticulationAPI", "NewtonArticulationRootAPI"]
+            prepend payload = @../../../../../Taku_Dynaclaw/Taku_Dynaclaw.usda@
+            variants = {
+                string Physics = "physx"
+                string Robot = "robot"
+                string Sensor = "none"
+                string Side = "right"
+            }
+        )
+        {
+            quatd xformOp:orient = (1, 0, 0, 0)
+            double3 xformOp:scale = (1, 1, 1)
+            double3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            over "base_link" (
+                delete apiSchemas = ["PhysicsArticulationRootAPI", "PhysxArticulationAPI", "NewtonArticulationRootAPI"]
+            )
+            {
+                def PhysicsFixedJoint "AssemblerFixedJoint"
+                {
+                    rel physics:body0 = </Taku_Arm/wrist_roll_link>
+                    rel physics:body1 = </Taku_Arm/wrist_roll_link/Taku_Dynaclaw/base_link>
+                    point3f physics:localPos0 = (0, 0, 0)
+                    point3f physics:localPos1 = (0, 0, 0)
+                    quatf physics:localRot0 = (1, 0, 0, 0)
+                    quatf physics:localRot1 = (1, 0, 0, 0)
+                }
+            }
+        }
+    }
+}
+

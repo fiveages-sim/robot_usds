@@ -7,8 +7,8 @@
                 double radius = 5
             }
             dictionary Perspective = {
-                double3 position = (0.6359704186242473, 0.602640507300411, 1.0024312489761165)
-                double3 target = (-3.7644637194085857, -3.1468351326102115, 0.17614881798587212)
+                double3 position = (0.765400432552497, 1.1212157318983789, 1.538745794131062)
+                double3 target = (-3.567390408937198, -3.0483745104029163, -1.3351636710024606)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -41,7 +41,8 @@
 def Xform "World"
 {
     def "fruits" (
-        prepend payload = @../../../../environment/fiveages_env/tasks/table_optical/fruits.usda@
+        delete payload = @../../../../environment/fiveages_env/tasks/table_optical/fruits.usda@
+        prepend payload = @../../../../../environment/fiveages_env/tasks/table_optical/fruits.usda@
     )
     {
         over "lime" (
@@ -85,6 +86,25 @@ def Xform "World"
             }
         )
         {
+            over "Graph"
+            {
+                over "ROS_Camera"
+                {
+                    over "DepthPublish"
+                    {
+                        custom token inputs:type (
+                            allowedTokens = ["rgb", "rgb_h264", "depth", "depth_pcl", "instance_segmentation", "semantic_segmentation", "bbox_2d_tight", "bbox_2d_loose", "bbox_3d", "rgb_hevc"]
+                        )
+                    }
+
+                    over "RGBPublish"
+                    {
+                        custom token inputs:type (
+                            allowedTokens = ["rgb", "rgb_h264", "depth", "depth_pcl", "instance_segmentation", "semantic_segmentation", "bbox_2d_tight", "bbox_2d_loose", "bbox_3d", "rgb_hevc"]
+                        )
+                    }
+                }
+            }
         }
 
         over "shelf"
@@ -345,7 +365,7 @@ def "Render" (
         )
         {
             def RenderProduct "omni_kit_widget_viewport_ViewportTexture_0" (
-                prepend apiSchemas = ["OmniRtxSettingsCommonAdvancedAPI_1", "OmniRtxSettingsRtAdvancedAPI_1", "OmniRtxSettingsPtAdvancedAPI_1", "OmniRtxPostColorGradingAPI_1", "OmniRtxPostChromaticAberrationAPI_1", "OmniRtxPostBloomPhysicalAPI_1", "OmniRtxPostMatteObjectAPI_1", "OmniRtxPostCompositingAPI_1", "OmniRtxPostDofAPI_1", "OmniRtxPostMotionBlurAPI_1", "OmniRtxPostTvNoiseAPI_1", "OmniRtxPostTonemapIrayReinhardAPI_1", "OmniRtxPostDebugSettingsAPI_1", "OmniRtxDebugSettingsAPI_1"]
+                prepend apiSchemas = ["OmniRtxSettingsCommonAdvancedAPI_1", "OmniRtxSettingsRtAdvancedAPI_1", "OmniRtxSettingsPtAdvancedAPI_1", "OmniRtxPostColorGradingAPI_1", "OmniRtxPostChromaticAberrationAPI_1", "OmniRtxPostBloomPhysicalAPI_1", "OmniRtxPostMatteObjectAPI_1", "OmniRtxPostCompositingAPI_1", "OmniRtxPostDofAPI_1", "OmniRtxPostMotionBlurAPI_1", "OmniRtxPostTvNoiseAPI_1", "OmniRtxPostTonemapIrayReinhardAPI_1", "OmniRtxPostDebugSettingsAPI_1", "OmniRtxDebugSettingsAPI_1", "OmniRtxSettingsParticleFieldAPI_1"]
                 hide_in_stage_window = true
                 no_delete = true
             )
@@ -380,7 +400,7 @@ def "Render" (
                 bool omni:rtx:scene:hydra:mdlMaterialWarmup = 1
                 rel orderedVars = </Render/Vars/LdrColor>
                 custom bool overrideClipRange = 0
-                uniform int2 resolution = (1280, 720)
+                uniform int2 resolution = (1246, 672)
             }
 
             def RenderProduct "Replicator" (
@@ -482,10 +502,10 @@ over "OmniverseKit_Persp" (
     float exposure:time = 0.02
     float focalLength = 18.147562
     float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -5.839959831472391)
-    float3 xformOp:rotateXYZ = (81.86606, 4.4527766e-14, 130.4333)
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -6.664676652214658)
+    float3 xformOp:rotateXYZ = (64.4553, 3.1805547e-15, 133.90036)
     float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (0.6359704186242473, 0.602640507300411, 1.0024312489761165)
+    double3 xformOp:translate = (0.765400432552497, 1.1212157318983789, 1.538745794131062)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 

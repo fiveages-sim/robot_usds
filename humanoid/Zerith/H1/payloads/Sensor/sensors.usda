@@ -1,0 +1,67 @@
+#usda 1.0
+(
+    defaultPrim = "Zerith_H1"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def "Zerith_H1"
+{
+    over "neck_pitch_link"
+    {
+        over "neck_camera_link"
+        {
+            over "head_camera"
+            {
+                def "d435" (
+                    prepend payload = @../../../../../sensors/realsense/d435.usd@
+                )
+                {
+                    double xformOp:rotateX = 90
+                    double xformOp:rotateX:unitsResolve = 90
+                    double xformOp:rotateZ = 90
+                    float3 xformOp:scale = (1, 1, 1)
+                    double3 xformOp:translate = (0, 0, 0)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateX:unitsResolve", "xformOp:rotateZ", "xformOp:rotateX", "xformOp:scale"]
+                }
+
+                def Camera "head_camera"
+                {
+                    float2 clippingRange = (0.01, 10000000)
+                    float focalLength = 18.147562
+                    float focusDistance = 400
+                    float horizontalAperture = 24.95
+                    token projection = "perspective"
+                    float verticalAperture = 13.936
+                    quatd xformOp:orient = (0, 1, 0, 0)
+                    double3 xformOp:scale = (1, 1, 1)
+                    double3 xformOp:translate = (0, 0, 0)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                }
+            }
+        }
+    }
+
+    over "base_link"
+    {
+        def Xform "lidar_link"
+        {
+            quatd xformOp:orient = (1, 0, 0, 0)
+            double3 xformOp:scale = (1, 1, 1)
+            double3 xformOp:translate = (0.305327, 0, 0.016247)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            def "mid360" (
+                prepend payload = @../../../../../sensors/mid360.usd@
+            )
+            {
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double xformOp:rotateX:unitsResolve = 90
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale", "xformOp:rotateX:unitsResolve"]
+            }
+        }
+    }
+}
+

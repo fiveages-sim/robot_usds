@@ -1,0 +1,521 @@
+#usda 1.0
+(
+    defaultPrim = "Inex_Chassis"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+over "Inex_Chassis"
+{
+    def OmniGraph "ROS_Odometry"
+    {
+        token evaluationMode = "Automatic"
+        token evaluator:type = "execution"
+        token fabricCacheBacking = "StageWithoutHistory"
+        int2 fileFormatVersion = (1, 9)
+        token pipelineStage = "pipelineStageSimulation"
+
+        def OmniGraphNode "OnPlaybackTick"
+        {
+            token node:type = "omni.graph.action.OnPlaybackTick"
+            int node:typeVersion = 2
+            custom double outputs:deltaSeconds
+            custom double outputs:frame
+            custom uint outputs:tick (
+                customData = {
+                    bool isExecution = 1
+                }
+            )
+            custom double outputs:time
+        }
+
+        def OmniGraphNode "Context"
+        {
+            custom uchar inputs:domain_id
+            custom bool inputs:useDomainIDEnvVar
+            token node:type = "isaacsim.ros2.bridge.ROS2Context"
+            int node:typeVersion = 2
+            custom uint64 outputs:context
+        }
+
+        def OmniGraphNode "ReadSimTime"
+        {
+            custom uint64 inputs:referenceTimeDenominator
+            custom int64 inputs:referenceTimeNumerator
+            custom bool inputs:resetOnStop = 0
+            token node:type = "isaacsim.core.nodes.IsaacReadSimulationTime"
+            int node:typeVersion = 1
+            custom double outputs:simulationTime
+        }
+
+        def OmniGraphNode "TFWorld2Odom"
+        {
+            custom string inputs:childFrameId = "odom"
+            custom uint64 inputs:context
+            prepend uint64 inputs:context.connect = </Inex_Chassis/ROS_Odometry/Context.outputs:context>
+            custom uint inputs:execIn (
+                customData = {
+                    bool isExecution = 1
+                }
+            )
+            prepend uint inputs:execIn.connect = </Inex_Chassis/ROS_Odometry/OnPlaybackTick.outputs:tick>
+            custom string inputs:nodeNamespace = ""
+            custom string inputs:parentFrameId = "world"
+            custom string inputs:qosProfile
+            custom uint64 inputs:queueSize
+            custom quatd inputs:rotation
+            custom bool inputs:staticPublisher
+            custom double inputs:timeStamp
+            prepend double inputs:timeStamp.connect = </Inex_Chassis/ROS_Odometry/ReadSimTime.outputs:simulationTime>
+            custom string inputs:topicName
+            custom vector3d inputs:translation
+            token node:type = "isaacsim.ros2.bridge.ROS2PublishRawTransformTree"
+            int node:typeVersion = 1
+        }
+
+        def OmniGraphNode "TFOdom2Robot"
+        {
+            custom string inputs:childFrameId = "base_footprint"
+            custom uint64 inputs:context
+            prepend uint64 inputs:context.connect = </Inex_Chassis/ROS_Odometry/Context.outputs:context>
+            custom uint inputs:execIn (
+                customData = {
+                    bool isExecution = 1
+                }
+            )
+            prepend uint inputs:execIn.connect = </Inex_Chassis/ROS_Odometry/OnPlaybackTick.outputs:tick>
+            custom string inputs:nodeNamespace = ""
+            custom string inputs:parentFrameId = "odom"
+            custom string inputs:qosProfile
+            custom uint64 inputs:queueSize
+            custom quatd inputs:rotation
+            prepend quatd inputs:rotation.connect = </Inex_Chassis/ROS_Odometry/ComputeOdometry.outputs:orientation>
+            custom bool inputs:staticPublisher
+            custom double inputs:timeStamp
+            prepend double inputs:timeStamp.connect = </Inex_Chassis/ROS_Odometry/ReadSimTime.outputs:simulationTime>
+            custom string inputs:topicName
+            custom vector3d inputs:translation
+            prepend vector3d inputs:translation.connect = </Inex_Chassis/ROS_Odometry/ComputeOdometry.outputs:position>
+            token node:type = "isaacsim.ros2.bridge.ROS2PublishRawTransformTree"
+            int node:typeVersion = 1
+        }
+
+        def OmniGraphNode "ComputeOdometry"
+        {
+            custom rel inputs:chassisPrim = </Inex_Chassis/base_footprint> (
+                customData = {
+                    dictionary omni = {
+                        dictionary graph = {
+                            string relType = "target"
+                        }
+                    }
+                }
+            )
+            custom uint inputs:execIn (
+                customData = {
+                    bool isExecution = 1
+                }
+            )
+            prepend uint inputs:execIn.connect = </Inex_Chassis/ROS_Odometry/OnPlaybackTick.outputs:tick>
+            token node:type = "isaacsim.core.nodes.IsaacComputeOdometry"
+            int node:typeVersion = 1
+            custom vector3d outputs:angularAcceleration
+            custom vector3d outputs:angularVelocity
+            custom uint outputs:execOut (
+                customData = {
+                    bool isExecution = 1
+                }
+            )
+            custom vector3d outputs:globalLinearAcceleration
+            custom vector3d outputs:globalLinearVelocity
+            custom vector3d outputs:linearAcceleration
+            custom vector3d outputs:linearVelocity
+            custom quatd outputs:orientation
+            custom vector3d outputs:position
+        }
+
+        def OmniGraphNode "PublisherOdometry"
+        {
+            custom vector3d inputs:angularVelocity
+            prepend vector3d inputs:angularVelocity.connect = </Inex_Chassis/ROS_Odometry/ComputeOdometry.outputs:angularVelocity>
+            custom string inputs:chassisFrameId = "base_footprint"
+            custom uint64 inputs:context
+            prepend uint64 inputs:context.connect = </Inex_Chassis/ROS_Odometry/Context.outputs:context>
+            custom uint inputs:execIn (
+                customData = {
+                    bool isExecution = 1
+                }
+            )
+            prepend uint inputs:execIn.connect = </Inex_Chassis/ROS_Odometry/ComputeOdometry.outputs:execOut>
+            custom vector3d inputs:linearVelocity
+            prepend vector3d inputs:linearVelocity.connect = </Inex_Chassis/ROS_Odometry/ComputeOdometry.outputs:linearVelocity>
+            custom string inputs:nodeNamespace = ""
+            custom string inputs:odomFrameId = "odom"
+            custom quatd inputs:orientation
+            prepend quatd inputs:orientation.connect = </Inex_Chassis/ROS_Odometry/ComputeOdometry.outputs:orientation>
+            custom vector3d inputs:position
+            prepend vector3d inputs:position.connect = </Inex_Chassis/ROS_Odometry/ComputeOdometry.outputs:position>
+            custom bool inputs:publishRawVelocities
+            custom string inputs:qosProfile
+            custom uint64 inputs:queueSize
+            custom vector3d inputs:robotFront
+            custom double inputs:timeStamp
+            prepend double inputs:timeStamp.connect = </Inex_Chassis/ROS_Odometry/ReadSimTime.outputs:simulationTime>
+            custom string inputs:topicName = "/odom"
+            token node:type = "isaacsim.ros2.bridge.ROS2PublishOdometry"
+            int node:typeVersion = 1
+        }
+    }
+
+    def OmniGraph "steering_wheel_controller"
+    {
+        token evaluationMode = "Automatic"
+        token evaluator:type = "execution"
+        token fabricCacheBacking = "Shared"
+        int2 fileFormatVersion = (1, 9)
+        token pipelineStage = "pipelineStageSimulation"
+
+        def OmniGraphNode "articulation_controller" (
+            prepend apiSchemas = ["NodeGraphNodeAPI"]
+        )
+        {
+            custom double[] inputs:effortCommand
+            custom uint inputs:execIn (
+                customData = {
+                    bool isExecution = 1
+                }
+            )
+            uint inputs:execIn.connect = </Inex_Chassis/steering_wheel_controller/OnPlaybackTick.outputs:tick>
+            custom int[] inputs:jointIndices
+            custom token[] inputs:jointNames = ["fl_steer_joint", "rl_steer_joint", "rr_steer_joint", "fr_steer_joint"]
+            custom double[] inputs:positionCommand
+            double[] inputs:positionCommand.connect = </Inex_Chassis/steering_wheel_controller/script_node.outputs:Steer_Position_Command>
+            custom string inputs:robotPath
+            custom rel inputs:targetPrim = </Inex_Chassis/base_footprint> (
+                customData = {
+                    dictionary omni = {
+                        dictionary graph = {
+                            string relType = "target"
+                        }
+                    }
+                }
+            )
+            custom double[] inputs:velocityCommand
+            token node:type = "isaacsim.core.nodes.IsaacArticulationController"
+            int node:typeVersion = 1
+            uniform token ui:nodegraph:node:expansionState = "open"
+            uniform float2 ui:nodegraph:node:pos = (811.57446, 217.67787)
+        }
+
+        def OmniGraphNode "articulation_controller_01" (
+            prepend apiSchemas = ["NodeGraphNodeAPI"]
+        )
+        {
+            custom double[] inputs:effortCommand
+            custom uint inputs:execIn (
+                customData = {
+                    bool isExecution = 1
+                }
+            )
+            uint inputs:execIn.connect = </Inex_Chassis/steering_wheel_controller/OnPlaybackTick.outputs:tick>
+            custom int[] inputs:jointIndices
+            custom token[] inputs:jointNames = ["fl_wheel_joint", "rl_wheel_joint", "rr_wheel_joint", "fr_wheel_joint"]
+            custom double[] inputs:positionCommand
+            custom string inputs:robotPath
+            custom rel inputs:targetPrim = </Inex_Chassis/base_footprint> (
+                customData = {
+                    dictionary omni = {
+                        dictionary graph = {
+                            string relType = "target"
+                        }
+                    }
+                }
+            )
+            custom double[] inputs:velocityCommand
+            double[] inputs:velocityCommand.connect = </Inex_Chassis/steering_wheel_controller/script_node.outputs:Wheel_Velocity_Command>
+            token node:type = "isaacsim.core.nodes.IsaacArticulationController"
+            int node:typeVersion = 1
+            uniform token ui:nodegraph:node:expansionState = "open"
+            uniform float2 ui:nodegraph:node:pos = (782.25073, 481.87903)
+        }
+
+        def OmniGraphNode "script_node" (
+            prepend apiSchemas = ["NodeGraphNodeAPI"]
+        )
+        {
+            custom double inputs:angularGain = 1.0
+            custom double inputs:Desired_Angular_Velocity
+            double inputs:Desired_Angular_Velocity.connect = </Inex_Chassis/steering_wheel_controller/break_3_vector.outputs:z>
+            custom double inputs:Desired_Linear_Velocity_X
+            double inputs:Desired_Linear_Velocity_X.connect = </Inex_Chassis/steering_wheel_controller/break_3_vector_01.outputs:x>
+            custom double inputs:Desired_Linear_Velocity_Y
+            double inputs:Desired_Linear_Velocity_Y.connect = </Inex_Chassis/steering_wheel_controller/break_3_vector_01.outputs:y>
+            custom uint inputs:execIn (
+                customData = {
+                    bool isExecution = 1
+                }
+            )
+            uint inputs:execIn.connect = </Inex_Chassis/steering_wheel_controller/OnPlaybackTick.outputs:tick>
+            custom double inputs:deltaSeconds
+            double inputs:deltaSeconds.connect = </Inex_Chassis/steering_wheel_controller/OnPlaybackTick.outputs:deltaSeconds>
+            custom double inputs:linearGain = 13.333
+            custom string inputs:script = """import numpy as np
+
+# Acceleration wheel drive + (theta, v) == (theta+pi, -v).
+# Gate wheel speed until all four modules are aligned; vy+yaw otherwise scrubs.
+# fl, rl rest identity; rr, fr rest yaw 180 -> negate those wheel velocities.
+_WHEEL_RADIUS = 0.075
+_DEFAULT_LINEAR_GAIN = 1.0 / _WHEEL_RADIUS
+_DEFAULT_ANGULAR_GAIN = 1.0
+_DEFAULT_FLIP_VELOCITY_SCALE = 0.35
+_SPEED_EPS = 1e-6
+_STEER_SLEW_RAD_S = np.deg2rad(180.0)
+_ALIGN_FULL_RAD = np.deg2rad(12.0)
+_ALIGN_ZERO_RAD = np.deg2rad(40.0)
+_WHEEL_VEL_SIGN = np.array([1.0, 1.0, -1.0, -1.0])
+
+_prev_pos_cmd = np.zeros(4)
+_prev_vel_unscaled = np.zeros(4)
+_steer_actual = np.zeros(4)
+_has_prev_steer = False
+
+
+def _wrap_to_pi(angle):
+    return (angle + np.pi) % (2 * np.pi) - np.pi
+
+
+def _angle_diff(target, reference):
+    return _wrap_to_pi(target - reference)
+
+
+def _pick_steer_and_wheel_speed(raw_angle, speed, ref_angle):
+    a = _wrap_to_pi(raw_angle)
+    va = speed
+    b = _wrap_to_pi(raw_angle + np.pi)
+    vb = -speed
+    da = abs(_angle_diff(a, ref_angle))
+    db = abs(_angle_diff(b, ref_angle))
+    if db < da:
+        return b, vb
+    return a, va
+
+
+def _align_scale(err):
+    a = abs(err)
+    if a <= _ALIGN_FULL_RAD:
+        return 1.0
+    if a >= _ALIGN_ZERO_RAD:
+        return 0.0
+    return (_ALIGN_ZERO_RAD - a) / (_ALIGN_ZERO_RAD - _ALIGN_FULL_RAD)
+
+
+def setup(db):
+    global _prev_pos_cmd, _prev_vel_unscaled, _steer_actual, _has_prev_steer
+    _prev_pos_cmd = np.zeros(4)
+    _prev_vel_unscaled = np.zeros(4)
+    _steer_actual = np.zeros(4)
+    _has_prev_steer = False
+
+
+def cleanup(db):
+    global _has_prev_steer, _prev_vel_unscaled, _steer_actual
+    _has_prev_steer = False
+    _prev_vel_unscaled = np.zeros(4)
+    _steer_actual = np.zeros(4)
+
+
+def compute(db):
+    global _prev_pos_cmd, _prev_vel_unscaled, _steer_actual, _has_prev_steer
+
+    linear_gain = float(getattr(db.inputs, \"linearGain\", _DEFAULT_LINEAR_GAIN))
+    angular_gain = float(getattr(db.inputs, \"angularGain\", _DEFAULT_ANGULAR_GAIN))
+    flip_vel_scale = float(getattr(db.inputs, \"flipVelocityScale\", _DEFAULT_FLIP_VELOCITY_SCALE))
+    flip_vel_scale = max(0.0, min(1.0, flip_vel_scale))
+    dt = float(getattr(db.inputs, \"deltaSeconds\", 0.0) or 0.0)
+    if dt <= 1e-6 or dt > 0.1:
+        dt = 1.0 / 60.0
+
+    pos_cmd = np.zeros(4)
+    vel_cmd = np.zeros(4)
+
+    vx = db.inputs.Desired_Linear_Velocity_X
+    vy = db.inputs.Desired_Linear_Velocity_Y
+    omega_cmd = db.inputs.Desired_Angular_Velocity
+    omega = omega_cmd * angular_gain
+
+    # Order matches authored jointNames: fl, rl, rr, fr
+    wheel_positions = np.array([
+        [0.075, 0.21725],
+        [-0.331, 0.21725],
+        [-0.331, -0.21875],
+        [0.075, -0.21875],
+    ])
+
+    for i in range(4):
+        x_i, y_i = wheel_positions[i]
+        vx_total = vx - omega * y_i
+        vy_total = vy + omega * x_i
+        angle = np.arctan2(vy_total, vx_total)
+        speed = np.linalg.norm([vx_total, vy_total])
+
+        if speed < _SPEED_EPS:
+            pos_cmd[i] = _prev_pos_cmd[i] if _has_prev_steer else 0.0
+            vel_cmd[i] = 0.0
+        else:
+            ref = _steer_actual[i] if _has_prev_steer else 0.0
+            pos_cmd[i], vel_cmd[i] = _pick_steer_and_wheel_speed(angle, speed, ref)
+            if _has_prev_steer:
+                pv = _prev_vel_unscaled[i]
+                nv = vel_cmd[i]
+                if (
+                    abs(pv) > _SPEED_EPS
+                    and abs(nv) > _SPEED_EPS
+                    and pv * nv < 0
+                    and flip_vel_scale < 1.0
+                ):
+                    vel_cmd[i] *= flip_vel_scale
+
+    if np.linalg.norm([vx, vy]) < 0.0001 and abs(omega_cmd) < 0.0001:
+        pos_cmd[:] = 0
+        vel_cmd[:] = 0
+
+    ik_vel = vel_cmd.copy()
+    max_step = _STEER_SLEW_RAD_S * dt
+    aligns = np.ones(4)
+    for i in range(4):
+        err = _angle_diff(pos_cmd[i], _steer_actual[i])
+        _steer_actual[i] = _wrap_to_pi(
+            _steer_actual[i] + np.clip(err, -max_step, max_step)
+        )
+        aligns[i] = _align_scale(_angle_diff(pos_cmd[i], _steer_actual[i]))
+    vel_cmd *= float(np.min(aligns))
+    vel_cmd[:] *= linear_gain
+    vel_cmd *= _WHEEL_VEL_SIGN
+
+    _prev_vel_unscaled = ik_vel
+    _prev_pos_cmd = pos_cmd.copy()
+    _has_prev_steer = True
+
+    db.outputs.Steer_Position_Command = pos_cmd
+    db.outputs.Wheel_Velocity_Command = vel_cmd
+    return True"""
+            custom bool inputs:usePath = 0
+            token node:type = "omni.graph.scriptnode.ScriptNode"
+            int node:typeVersion = 2
+            custom uint outputs:execOut (
+                customData = {
+                    bool isExecution = 1
+                }
+            )
+            custom double[] outputs:Steer_Position_Command
+            custom double[] outputs:Wheel_Velocity_Command
+            custom bool state:omni_initialized
+            uniform token ui:nodegraph:node:expansionState = "open"
+            uniform float2 ui:nodegraph:node:pos = (436.06595, 321.1863)
+        }
+
+        def OmniGraphNode "Context" (
+            prepend apiSchemas = ["NodeGraphNodeAPI"]
+        )
+        {
+            custom uchar inputs:domain_id
+            custom bool inputs:useDomainIDEnvVar
+            token node:type = "isaacsim.ros2.bridge.ROS2Context"
+            int node:typeVersion = 2
+            custom uint64 outputs:context
+            uniform float2 ui:nodegraph:node:pos = (-578.31665, 230.14069)
+        }
+
+        def OmniGraphNode "OnPlaybackTick" (
+            prepend apiSchemas = ["NodeGraphNodeAPI"]
+        )
+        {
+            token node:type = "omni.graph.action.OnPlaybackTick"
+            int node:typeVersion = 2
+            custom double outputs:deltaSeconds
+            custom double outputs:frame
+            custom uint outputs:tick (
+                customData = {
+                    bool isExecution = 1
+                }
+            )
+            custom double outputs:time
+            uniform float2 ui:nodegraph:node:pos = (-552.17035, 454.69354)
+        }
+
+        def OmniGraphNode "ros2_subscribe_twist" (
+            prepend apiSchemas = ["NodeGraphNodeAPI"]
+        )
+        {
+            custom uint64 inputs:context
+            uint64 inputs:context.connect = </Inex_Chassis/steering_wheel_controller/Context.outputs:context>
+            custom uint inputs:execIn (
+                customData = {
+                    bool isExecution = 1
+                }
+            )
+            uint inputs:execIn.connect = </Inex_Chassis/steering_wheel_controller/OnPlaybackTick.outputs:tick>
+            custom string inputs:nodeNamespace
+            custom string inputs:qosProfile
+            custom uint64 inputs:queueSize
+            custom string inputs:topicName = "cmd_vel"
+            token node:type = "isaacsim.ros2.bridge.ROS2SubscribeTwist"
+            int node:typeVersion = 1
+            custom vector3d outputs:angularVelocity
+            custom uint outputs:execOut (
+                customData = {
+                    bool isExecution = 1
+                }
+            )
+            custom vector3d outputs:linearVelocity
+            uniform token ui:nodegraph:node:expansionState = "open"
+            uniform float2 ui:nodegraph:node:pos = (-313.18753, 307.68027)
+        }
+
+        def OmniGraphNode "scale_to_from_stage_units" (
+            prepend apiSchemas = ["NodeGraphNodeAPI"]
+        )
+        {
+            custom token inputs:conversion (
+                allowedTokens = ["Convert to stage units", "Convert to meters"]
+            )
+            custom token inputs:value
+            token inputs:value.connect = </Inex_Chassis/steering_wheel_controller/ros2_subscribe_twist.outputs:linearVelocity>
+            token node:type = "isaacsim.core.nodes.OgnIsaacScaleToFromStageUnit"
+            int node:typeVersion = 1
+            custom token outputs:result
+            uniform token ui:nodegraph:node:expansionState = "open"
+            uniform float2 ui:nodegraph:node:pos = (-62.87071, 473.76718)
+        }
+
+        def OmniGraphNode "break_3_vector" (
+            prepend apiSchemas = ["NodeGraphNodeAPI"]
+        )
+        {
+            custom token inputs:tuple
+            token inputs:tuple.connect = </Inex_Chassis/steering_wheel_controller/ros2_subscribe_twist.outputs:angularVelocity>
+            token node:type = "omni.graph.nodes.BreakVector3"
+            int node:typeVersion = 1
+            custom token outputs:x
+            custom token outputs:y
+            custom token outputs:z
+            uniform token ui:nodegraph:node:expansionState = "open"
+            uniform float2 ui:nodegraph:node:pos = (-10.477634, 237.99794)
+        }
+
+        def OmniGraphNode "break_3_vector_01" (
+            prepend apiSchemas = ["NodeGraphNodeAPI"]
+        )
+        {
+            custom token inputs:tuple
+            token inputs:tuple.connect = </Inex_Chassis/steering_wheel_controller/scale_to_from_stage_units.outputs:result>
+            token node:type = "omni.graph.nodes.BreakVector3"
+            int node:typeVersion = 1
+            custom token outputs:x
+            custom token outputs:y
+            custom token outputs:z
+            uniform token ui:nodegraph:node:expansionState = "open"
+            uniform float2 ui:nodegraph:node:pos = (156.13281, 577.50555)
+        }
+    }
+}

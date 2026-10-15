@@ -1,0 +1,97 @@
+#usda 1.0
+(
+    defaultPrim = "Taku_Head"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "Taku_Head" (
+    prepend apiSchemas = ["IsaacRobotAPI"]
+)
+{
+    custom string isaac:description = "Dyna Taku 3-DoF head (yaw/pitch/roll)"
+    custom string isaac:namespace = ""
+    custom rel isaac:physics:robotJoints
+    prepend rel isaac:physics:robotJoints = [
+        </Taku_Head/joints/head_yaw_joint>,
+        </Taku_Head/joints/head_pitch_joint>,
+        </Taku_Head/joints/head_roll_joint>,
+    ]
+    custom rel isaac:physics:robotLinks
+    prepend rel isaac:physics:robotLinks = [
+        </Taku_Head/base_link>,
+        </Taku_Head/head_yaw_link>,
+        </Taku_Head/head_pitch_link>,
+        </Taku_Head/head_roll_link>,
+    ]
+    custom token isaac:robotType = "Default"
+
+    over "base_link" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+    }
+
+    over "head_yaw_link" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+    }
+
+    over "head_pitch_link" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+    }
+
+    over "head_roll_link" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+        over "head_camera_base_frame" (
+            prepend apiSchemas = ["IsaacSiteAPI"]
+        )
+        {
+        }
+
+        over "head_camera_left_optical_center_frame" (
+            prepend apiSchemas = ["IsaacSiteAPI"]
+        )
+        {
+        }
+
+        over "head_camera_right_optical_center_frame" (
+            prepend apiSchemas = ["IsaacSiteAPI"]
+        )
+        {
+        }
+
+        over "head_camera_mid_optical_frame" (
+            prepend apiSchemas = ["IsaacSiteAPI"]
+        )
+        {
+        }
+    }
+
+    over "joints"
+    {
+        over "head_yaw_joint" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+        }
+
+        over "head_pitch_joint" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+        }
+
+        over "head_roll_joint" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+        }
+    }
+}
+

@@ -1,0 +1,240 @@
+#usda 1.0
+(
+    defaultPrim = "Taku"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "Taku" (
+    prepend references = @./payloads/base.usda@
+    variants = {
+        string Arm_Left = "arm"
+        string Arm_Right = "arm"
+        string Body = "body"
+        string Chassis = "chassis"
+        string Head = "head"
+        string Physics = "physx"
+        string ROS = "none"
+        string Robot = "robot"
+        string Sensor = "none"
+    }
+    prepend variantSets = ["Physics", "ROS", "Sensor", "Chassis", "Body", "Head", "Arm_Left", "Arm_Right"]
+    append variantSets = ["Robot"]
+)
+{
+    variantSet "Physics" = {
+        "mujoco" (
+            prepend payload = @./payloads/Physics/mujoco.usda@
+        ) {
+
+        }
+        "none" (
+            prepend payload = @./payloads/Physics/none.usda@
+        ) {
+
+        }
+        "physics" (
+            prepend payload = @./payloads/Physics/physics.usda@
+        ) {
+
+        }
+        "physx" (
+            prepend payload = @./payloads/Physics/physx.usda@
+        ) {
+
+        }
+    }
+    variantSet "Chassis" = {
+        "None" {
+
+        }
+        "chassis" (
+            prepend payload = @./payloads/Chassis/chassis.usda@
+        ) {
+            custom rel isaac:physics:robotJoints
+            prepend rel isaac:physics:robotJoints = </Taku/Taku_Chassis>
+            custom rel isaac:physics:robotLinks
+            prepend rel isaac:physics:robotLinks = </Taku/Taku_Chassis>
+
+        }
+    }
+    variantSet "Body" = {
+        "None" {
+
+        }
+        "body" (
+            prepend payload = @./payloads/Body/body.usda@
+        ) {
+            custom rel isaac:physics:robotJoints
+            prepend rel isaac:physics:robotJoints = </Taku/Taku_Body>
+            custom rel isaac:physics:robotLinks
+            prepend rel isaac:physics:robotLinks = </Taku/Taku_Body>
+
+        }
+    }
+    variantSet "Head" = {
+        "None" {
+
+        }
+        "head" (
+            prepend payload = @./payloads/Head/head.usda@
+        ) {
+            custom rel isaac:physics:robotJoints
+            prepend rel isaac:physics:robotJoints = </Taku/Taku_Head>
+            custom rel isaac:physics:robotLinks
+            prepend rel isaac:physics:robotLinks = </Taku/Taku_Head>
+
+        }
+    }
+    variantSet "Arm_Left" = {
+        "None" {
+
+        }
+        "arm" (
+            prepend payload = @./payloads/Arm_Left/arm.usda@
+        ) {
+            custom rel isaac:physics:robotJoints
+            prepend rel isaac:physics:robotJoints = </Taku/Arm_Left>
+            custom rel isaac:physics:robotLinks
+            prepend rel isaac:physics:robotLinks = </Taku/Arm_Left>
+
+        }
+    }
+    variantSet "Arm_Right" = {
+        "None" {
+
+        }
+        "arm" (
+            prepend payload = @./payloads/Arm_Right/arm.usda@
+        ) {
+            custom rel isaac:physics:robotJoints
+            prepend rel isaac:physics:robotJoints = </Taku/Arm_Right>
+            custom rel isaac:physics:robotLinks
+            prepend rel isaac:physics:robotLinks = </Taku/Arm_Right>
+
+        }
+    }
+    variantSet "ROS" = {
+        "none" (
+            prepend payload = @./payloads/ROS/none.usda@
+        ) {
+            over "Taku_Chassis" (
+                variants = {
+                    string Graph = "none"
+                    string ROS = "none"
+                }
+            )
+            {
+            }
+        }
+        "enable" (
+            prepend payload = @./payloads/ROS/enable.usda@
+        ) {
+            over "Taku_Chassis" (
+                variants = {
+                    string Graph = "none"
+                    string ROS = "enable"
+                }
+            )
+            {
+            }
+        }
+        "full" (
+            prepend payload = @./payloads/ROS/full.usda@
+        ) {
+            over "Taku_Chassis" (
+                variants = {
+                    string Graph = "none"
+                    string ROS = "full"
+                }
+            )
+            {
+            }
+        }
+    }
+    variantSet "Robot" = {
+        "none" (
+            prepend payload = @./payloads/Robot/none.usda@
+        ) {
+
+        }
+        "robot" (
+            prepend payload = @./payloads/Robot/robot.usda@
+        ) {
+
+        }
+    }
+    variantSet "Sensor" = {
+        "none" (
+            prepend payload = @./payloads/Sensor/none.usda@
+        ) {
+            over "Taku_Chassis" (
+                variants = {
+                    string Sensor = "none"
+                }
+            )
+            {
+            }
+            over "Taku_Head" (
+                variants = {
+                    string Sensor = "none"
+                }
+            )
+            {
+            }
+            over "Taku_Body" (
+                variants = {
+                    string Sensor = "none"
+                }
+            )
+            {
+            }
+            over "Arm_Left" (
+                variants = {
+                    string Sensor = "none"
+                }
+            )
+            {
+            }
+            over "Arm_Right" (
+                variants = {
+                    string Sensor = "none"
+                }
+            )
+            {
+            }
+        }
+        "sensors" (
+            prepend payload = @./payloads/Sensor/sensors.usda@
+        ) {
+            over "Taku_Chassis" (
+                variants = {
+                    string Sensor = "sensors"
+                }
+            )
+            {
+            }
+            over "Taku_Head" (
+                variants = {
+                    string Sensor = "sensors"
+                }
+            )
+            {
+            }
+            over "Arm_Left" (
+                variants = {
+                    string Sensor = "sensors"
+                }
+            )
+            {
+            }
+            over "Arm_Right" (
+                variants = {
+                    string Sensor = "sensors"
+                }
+            )
+            {
+            }
+        }
+    }
+}

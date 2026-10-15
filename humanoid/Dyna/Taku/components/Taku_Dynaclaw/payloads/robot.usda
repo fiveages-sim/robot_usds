@@ -1,0 +1,70 @@
+#usda 1.0
+(
+    defaultPrim = "Taku_Dynaclaw"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+over "Taku_Dynaclaw" (
+    prepend apiSchemas = ["IsaacRobotAPI"]
+)
+{
+    custom string isaac:description = "Dyna Taku Dynaclaw two-jaw gripper (one actuated jaw + mimic jaw)"
+    custom string isaac:namespace = ""
+    custom rel isaac:physics:robotJoints
+    prepend rel isaac:physics:robotJoints = [
+        </Taku_Dynaclaw/joints/gripper_joint>,
+        </Taku_Dynaclaw/joints/gripper_mimic_joint>,
+    ]
+    custom rel isaac:physics:robotLinks
+    prepend rel isaac:physics:robotLinks = [
+        </Taku_Dynaclaw/base_link>,
+        </Taku_Dynaclaw/gripperb_link>,
+        </Taku_Dynaclaw/grippera_link>,
+    ]
+    custom token isaac:robotType = "End Effector"
+
+    over "base_link" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+    }
+
+    over "gripperb_link" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+        over "gripper_tip_B" (
+            prepend apiSchemas = ["IsaacSiteAPI"]
+        )
+        {
+        }
+    }
+
+    over "grippera_link" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+        over "gripper_tip_A" (
+            prepend apiSchemas = ["IsaacSiteAPI"]
+        )
+        {
+        }
+    }
+
+    over "joints"
+    {
+        over "gripper_joint" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+        }
+
+        over "gripper_mimic_joint" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+        }
+    }
+}
+

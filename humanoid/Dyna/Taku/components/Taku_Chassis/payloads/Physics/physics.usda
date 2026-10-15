@@ -1,0 +1,224 @@
+#usda 1.0
+(
+    defaultPrim = "Taku_Chassis"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def "Taku_Chassis"
+{
+    over "base_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "PhysicsArticulationRootAPI"]
+    )
+    {
+        # Ballast vs CAD estimate: Ranger-class base ~42kg; raise mass + drop COM z to cut pitch/shake.
+        point3f physics:centerOfMass = (-0.014461, 0.000836, 0.10)
+        float3 physics:diagonalInertia = (0.465, 0.831, 1.060)
+        float physics:mass = 28.0
+        quatf physics:principalAxes = (1, 0, 0, 0)
+    }
+
+    over "right_wheel_steering" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (-0.003817, -0.000364, -0.085299)
+        float3 physics:diagonalInertia = (0.018403104, 0.01840455, 0.03026931)
+        float physics:mass = 1.891289
+        quatf physics:principalAxes = (1, 0, 0, 0)
+    }
+
+    over "right_wheel_steering_2" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (-0.003817, -0.000364, -0.085299)
+        float3 physics:diagonalInertia = (0.018403104, 0.01840455, 0.03026931)
+        float physics:mass = 1.891289
+        quatf physics:principalAxes = (1, 0, 0, 0)
+    }
+
+    over "left_wheel_steering" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (-0.003817, -0.000364, -0.085299)
+        float3 physics:diagonalInertia = (0.018403104, 0.01840455, 0.03026931)
+        float physics:mass = 1.891289
+        quatf physics:principalAxes = (1, 0, 0, 0)
+    }
+
+    over "left_wheel_steering_2" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (-0.003817, -0.000364, -0.085299)
+        float3 physics:diagonalInertia = (0.018403104, 0.01840455, 0.03026931)
+        float physics:mass = 1.891289
+        quatf physics:principalAxes = (1, 0, 0, 0)
+    }
+
+    over "left_wheel_rotate_2" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.000114, 0.00344, -0.000229)
+        float3 physics:diagonalInertia = (0.00078453386, 0.00078453386, 0.0012417634)
+        float physics:mass = 1.130281
+        quatf physics:principalAxes = (1, 0, 0, 0)
+    }
+
+    over "left_wheel_rotate" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (-0.000114, 0.00344, 0.000229)
+        float3 physics:diagonalInertia = (0.00078453386, 0.00078453386, 0.0012417634)
+        float physics:mass = 1.130281
+        quatf physics:principalAxes = (1, 0, 0, 0)
+    }
+
+    over "right_wheel_rotate_2" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.000114, 0.00344, -0.000229)
+        float3 physics:diagonalInertia = (0.00078453386, 0.00078453386, 0.0012417634)
+        float physics:mass = 1.130281
+        quatf physics:principalAxes = (1, 0, 0, 0)
+    }
+
+    over "right_wheel_rotate" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.000114, 0.00344, -0.000229)
+        float3 physics:diagonalInertia = (0.00078453386, 0.00078453386, 0.0012417634)
+        float physics:mass = 1.130281
+        quatf physics:principalAxes = (1, 0, 0, 0)
+    }
+
+    def "joints"
+    {
+        def PhysicsRevoluteJoint "agv_right_front_steering_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform token physics:axis = "Z"
+            rel physics:body0 = </Taku_Chassis/base_link>
+            rel physics:body1 = </Taku_Chassis/right_wheel_steering>
+            point3f physics:localPos0 = (0.2745, -0.2045, 0.2109)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            custom float state:angular:physics:position = 0
+            custom float state:angular:physics:velocity = 0
+        }
+
+        def PhysicsRevoluteJoint "agv_right_front_rotate_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform token physics:axis = "Y"
+            rel physics:body0 = </Taku_Chassis/right_wheel_steering>
+            rel physics:body1 = </Taku_Chassis/right_wheel_rotate>
+            point3f physics:localPos0 = (-0.015, 0, -0.1484)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            custom float state:angular:physics:position = 0
+            custom float state:angular:physics:velocity = 0
+        }
+
+        def PhysicsRevoluteJoint "agv_right_back_steering_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform token physics:axis = "Z"
+            rel physics:body0 = </Taku_Chassis/base_link>
+            rel physics:body1 = </Taku_Chassis/right_wheel_steering_2>
+            point3f physics:localPos0 = (-0.2745, -0.2045, 0.2109)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            custom float state:angular:physics:position = 0
+            custom float state:angular:physics:velocity = 0
+        }
+
+        def PhysicsRevoluteJoint "agv_right_back_rotate_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform token physics:axis = "Y"
+            rel physics:body0 = </Taku_Chassis/right_wheel_steering_2>
+            rel physics:body1 = </Taku_Chassis/right_wheel_rotate_2>
+            point3f physics:localPos0 = (-0.015, 0, -0.1484)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            custom float state:angular:physics:position = 0
+            custom float state:angular:physics:velocity = 0
+        }
+
+        def PhysicsRevoluteJoint "agv_left_front_steering_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform token physics:axis = "Z"
+            rel physics:body0 = </Taku_Chassis/base_link>
+            rel physics:body1 = </Taku_Chassis/left_wheel_steering>
+            point3f physics:localPos0 = (0.2745, 0.2045, 0.2109)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            custom float state:angular:physics:position = 0
+            custom float state:angular:physics:velocity = 0
+        }
+
+        def PhysicsRevoluteJoint "agv_left_front_rotate_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform token physics:axis = "Y"
+            rel physics:body0 = </Taku_Chassis/left_wheel_steering>
+            rel physics:body1 = </Taku_Chassis/left_wheel_rotate>
+            point3f physics:localPos0 = (-0.015, 0, -0.1484)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            custom float state:angular:physics:position = 0
+            custom float state:angular:physics:velocity = 0
+        }
+
+        def PhysicsRevoluteJoint "agv_left_back_steering_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform token physics:axis = "Z"
+            rel physics:body0 = </Taku_Chassis/base_link>
+            rel physics:body1 = </Taku_Chassis/left_wheel_steering_2>
+            point3f physics:localPos0 = (-0.2745, 0.2045, 0.2109)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            custom float state:angular:physics:position = 0
+            custom float state:angular:physics:velocity = 0
+        }
+
+        def PhysicsRevoluteJoint "agv_left_back_rotate_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform token physics:axis = "Y"
+            rel physics:body0 = </Taku_Chassis/left_wheel_steering_2>
+            rel physics:body1 = </Taku_Chassis/left_wheel_rotate_2>
+            point3f physics:localPos0 = (-0.015, 0, -0.1484)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            custom float state:angular:physics:position = 0
+            custom float state:angular:physics:velocity = 0
+        }
+    }
+}
+

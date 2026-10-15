@@ -1,0 +1,210 @@
+#usda 1.0
+(
+    defaultPrim = "Taku_Arm"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def "Taku_Arm"
+{
+    over "base_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "PhysicsArticulationRootAPI"]
+    )
+    {
+        float3 physics:diagonalInertia = (0.001, 0.001, 0.001)
+        float physics:mass = 0.1
+    }
+
+    over "shoulder_pitch_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (-0.000981, 0.075822, 0.005254)
+        float3 physics:diagonalInertia = (0.0033141773, 0.0041525075, 0.0051115314)
+        float physics:mass = 2.320819
+        quatf physics:principalAxes = (0.70710677, 0, -0.70710677, 0)
+    }
+
+    over "shoulder_roll_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.002703, 0.004865, -0.055426)
+        float3 physics:diagonalInertia = (0.00348631, 0.0053947642, 0.0056502265)
+        float physics:mass = 1.410554
+        quatf physics:principalAxes = (0.5, -0.5, -0.5, -0.5)
+    }
+
+    over "shoulder_yaw_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.003237, 0.000051, -0.062399)
+        float3 physics:diagonalInertia = (0.0002207697, 0.0014425179, 0.0014602196)
+        float physics:mass = 0.556169
+        quatf physics:principalAxes = (0.70710677, 0, -0.70710677, 0)
+    }
+
+    over "elbow_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (-0.006362, -0.000276, -0.029897)
+        float3 physics:diagonalInertia = (0.00037578781, 0.00057493284, 0.0007009455)
+        float physics:mass = 0.681433
+        quatf physics:principalAxes = (0.70710677, 0, -0.70710677, 0)
+    }
+
+    over "wrist_yaw_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.009133, 0.000721, -0.088197)
+        float3 physics:diagonalInertia = (0.0008348289, 0.0010899155, 0.0011466014)
+        float physics:mass = 1.086427
+        quatf physics:principalAxes = (0.5, -0.5, -0.5, -0.5)
+    }
+
+    over "wrist_pitch_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (-0.001473, -0.007185, 0.007067)
+        float3 physics:diagonalInertia = (0.000036258014, 0.000039807746, 0.00004031485)
+        float physics:mass = 0.208601
+        quatf physics:principalAxes = (1, 0, 0, 0)
+    }
+
+    over "wrist_roll_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.013861, -0.000003, -0.098012)
+        float3 physics:diagonalInertia = (0.0044196444, 0.0064227, 0.008257757)
+        float physics:mass = 2.163728
+        quatf physics:principalAxes = (0.70710677, 0, -0.70710677, 0)
+    }
+
+    def "joints"
+    {
+        def PhysicsRevoluteJoint "shoulder_pitch_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform token physics:axis = "Y"
+            rel physics:body0 = </Taku_Arm/base_link>
+            rel physics:body1 = </Taku_Arm/shoulder_pitch_link>
+            point3f physics:localPos0 = (0, 0, 0)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -150
+            float physics:upperLimit = 90
+            custom float state:angular:physics:position = 0
+            custom float state:angular:physics:velocity = 0
+        }
+
+        def PhysicsRevoluteJoint "shoulder_roll_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform token physics:axis = "X"
+            rel physics:body0 = </Taku_Arm/shoulder_pitch_link>
+            rel physics:body1 = </Taku_Arm/shoulder_roll_link>
+            point3f physics:localPos0 = (0, 0.085, 0)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0.70710677, 0.70710677, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -95
+            float physics:upperLimit = 0
+            custom float state:angular:physics:position = 0
+            custom float state:angular:physics:velocity = 0
+        }
+
+        def PhysicsRevoluteJoint "shoulder_yaw_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform token physics:axis = "Z"
+            rel physics:body0 = </Taku_Arm/shoulder_roll_link>
+            rel physics:body1 = </Taku_Arm/shoulder_yaw_link>
+            point3f physics:localPos0 = (0, 0, -0.125)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0.70710677, 0, 0, 0.70710677)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -180
+            float physics:upperLimit = 180
+            custom float state:angular:physics:position = 0
+            custom float state:angular:physics:velocity = 0
+        }
+
+        def PhysicsRevoluteJoint "elbow_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform token physics:axis = "Y"
+            rel physics:body0 = </Taku_Arm/shoulder_yaw_link>
+            rel physics:body1 = </Taku_Arm/elbow_link>
+            point3f physics:localPos0 = (0.015, -0, -0.125)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -100
+            float physics:upperLimit = 20
+            custom float state:angular:physics:position = 0
+            custom float state:angular:physics:velocity = 0
+        }
+
+        def PhysicsRevoluteJoint "wrist_yaw_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform token physics:axis = "Z"
+            rel physics:body0 = </Taku_Arm/elbow_link>
+            rel physics:body1 = </Taku_Arm/wrist_yaw_link>
+            point3f physics:localPos0 = (-0.01, 8.6566e-35, -0.1025)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -90
+            float physics:upperLimit = 90
+            custom float state:angular:physics:position = 0
+            custom float state:angular:physics:velocity = 0
+        }
+
+        def PhysicsRevoluteJoint "wrist_pitch_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform token physics:axis = "Y"
+            rel physics:body0 = </Taku_Arm/wrist_yaw_link>
+            rel physics:body1 = </Taku_Arm/wrist_pitch_link>
+            point3f physics:localPos0 = (0, -2.0858687e-35, -0.1525)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -60
+            float physics:upperLimit = 60
+            custom float state:angular:physics:position = 0
+            custom float state:angular:physics:velocity = 0
+        }
+
+        def PhysicsRevoluteJoint "wrist_roll_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform token physics:axis = "X"
+            rel physics:body0 = </Taku_Arm/wrist_pitch_link>
+            rel physics:body1 = </Taku_Arm/wrist_roll_link>
+            point3f physics:localPos0 = (0.0285, -2.1300613e-35, 0)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -90
+            float physics:upperLimit = 90
+            custom float state:angular:physics:position = 0
+            custom float state:angular:physics:velocity = 0
+        }
+    }
+}
+

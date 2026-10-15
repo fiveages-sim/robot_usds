@@ -1,0 +1,136 @@
+#usda 1.0
+(
+    defaultPrim = "Taku_Chassis"
+    metersPerUnit = 1
+    subLayers = [
+        @./physics.usda@
+    ]
+    upAxis = "Z"
+)
+
+over "Taku_Chassis"
+{
+    over "joints"
+    {
+        over "agv_right_front_steering_joint" (
+            prepend apiSchemas = ["MjcJointAPI"]
+        )
+        {
+            custom double mjc:armature = 0.01
+            custom double mjc:damping = 0.1
+        }
+
+        def MjcActuator "agv_right_front_steering_joint_actuator"
+        {
+            custom double mjc:forceRange:max = 20
+            custom double mjc:forceRange:min = -20
+            custom rel mjc:target = </Taku_Chassis/joints/agv_right_front_steering_joint>
+        }
+
+        over "agv_right_front_rotate_joint" (
+            prepend apiSchemas = ["MjcJointAPI"]
+        )
+        {
+            custom double mjc:armature = 0.01
+            custom double mjc:damping = 0.1
+        }
+
+        def MjcActuator "agv_right_front_rotate_joint_actuator"
+        {
+            custom double mjc:forceRange:max = 20
+            custom double mjc:forceRange:min = -20
+            custom rel mjc:target = </Taku_Chassis/joints/agv_right_front_rotate_joint>
+        }
+
+        over "agv_right_back_steering_joint" (
+            prepend apiSchemas = ["MjcJointAPI"]
+        )
+        {
+            custom double mjc:armature = 0.01
+            custom double mjc:damping = 0.1
+        }
+
+        def MjcActuator "agv_right_back_steering_joint_actuator"
+        {
+            custom double mjc:forceRange:max = 20
+            custom double mjc:forceRange:min = -20
+            custom rel mjc:target = </Taku_Chassis/joints/agv_right_back_steering_joint>
+        }
+
+        over "agv_right_back_rotate_joint" (
+            prepend apiSchemas = ["MjcJointAPI"]
+        )
+        {
+            custom double mjc:armature = 0.01
+            custom double mjc:damping = 0.1
+        }
+
+        def MjcActuator "agv_right_back_rotate_joint_actuator"
+        {
+            custom double mjc:forceRange:max = 20
+            custom double mjc:forceRange:min = -20
+            custom rel mjc:target = </Taku_Chassis/joints/agv_right_back_rotate_joint>
+        }
+
+        over "agv_left_front_steering_joint" (
+            prepend apiSchemas = ["MjcJointAPI"]
+        )
+        {
+            custom double mjc:armature = 0.01
+            custom double mjc:damping = 0.1
+        }
+
+        def MjcActuator "agv_left_front_steering_joint_actuator"
+        {
+            custom double mjc:forceRange:max = 20
+            custom double mjc:forceRange:min = -20
+            custom rel mjc:target = </Taku_Chassis/joints/agv_left_front_steering_joint>
+        }
+
+        over "agv_left_front_rotate_joint" (
+            prepend apiSchemas = ["MjcJointAPI"]
+        )
+        {
+            custom double mjc:armature = 0.01
+            custom double mjc:damping = 0.1
+        }
+
+        def MjcActuator "agv_left_front_rotate_joint_actuator"
+        {
+            custom double mjc:forceRange:max = 20
+            custom double mjc:forceRange:min = -20
+            custom rel mjc:target = </Taku_Chassis/joints/agv_left_front_rotate_joint>
+        }
+
+        over "agv_left_back_steering_joint" (
+            prepend apiSchemas = ["MjcJointAPI"]
+        )
+        {
+            custom double mjc:armature = 0.01
+            custom double mjc:damping = 0.1
+        }
+
+        def MjcActuator "agv_left_back_steering_joint_actuator"
+        {
+            custom double mjc:forceRange:max = 20
+            custom double mjc:forceRange:min = -20
+            custom rel mjc:target = </Taku_Chassis/joints/agv_left_back_steering_joint>
+        }
+
+        over "agv_left_back_rotate_joint" (
+            prepend apiSchemas = ["MjcJointAPI"]
+        )
+        {
+            custom double mjc:armature = 0.01
+            custom double mjc:damping = 0.1
+        }
+
+        def MjcActuator "agv_left_back_rotate_joint_actuator"
+        {
+            custom double mjc:forceRange:max = 20
+            custom double mjc:forceRange:min = -20
+            custom rel mjc:target = </Taku_Chassis/joints/agv_left_back_rotate_joint>
+        }
+    }
+}
+
