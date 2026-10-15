@@ -166,13 +166,12 @@ def "Taku"
             def OmniGraphNode "ArticulationController"
             {
                 custom double[] inputs:effortCommand
-                prepend double[] inputs:effortCommand.connect = </Taku/Graph/ROS_JointStates/SubscriberJointState.outputs:effortCommand>
                 custom uint inputs:execIn (
                     customData = {
                         bool isExecution = 1
                     }
                 )
-                prepend uint inputs:execIn.connect = </Taku/Graph/ROS_JointStates/OnPlaybackTick.outputs:tick>
+                prepend uint inputs:execIn.connect = </Taku/Graph/ROS_JointStates/SubscriberJointState.outputs:execOut>
                 custom int[] inputs:jointIndices
                 custom token[] inputs:jointNames
                 prepend token[] inputs:jointNames.connect = </Taku/Graph/ROS_JointStates/SubscriberJointState.outputs:jointNames>
@@ -189,7 +188,6 @@ def "Taku"
                     }
                 )
                 custom double[] inputs:velocityCommand
-                prepend double[] inputs:velocityCommand.connect = </Taku/Graph/ROS_JointStates/SubscriberJointState.outputs:velocityCommand>
                 token node:type = "isaacsim.core.nodes.IsaacArticulationController"
                 int node:typeVersion = 1
             }
