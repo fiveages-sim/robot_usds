@@ -28,7 +28,19 @@ def Xform "M6S_Lite_CCS" (
             prepend payload = @./payloads/Physics/mujoco.usda@
             append references = @./payloads/Physics/arm_self_collision_mute_newton.usda@</M6S_Lite_CCS>
         ) {
-
+            over "link7"
+            {
+                over "tcp"
+                {
+                    over "Marvin_Gripper" (
+                        variants = {
+                            string Physics = "mujoco"
+                        }
+                    )
+                    {
+                    }
+                }
+            }
         }
         "none" (
             prepend payload = @./payloads/Physics/none.usda@
@@ -43,7 +55,19 @@ def Xform "M6S_Lite_CCS" (
         "physx" (
             prepend payload = @./payloads/Physics/physx.usda@
         ) {
-
+            over "link7"
+            {
+                over "tcp"
+                {
+                    over "Marvin_Gripper" (
+                        variants = {
+                            string Physics = "physx"
+                        }
+                    )
+                    {
+                    }
+                }
+            }
         }
     }
     variantSet "Side" = {
@@ -88,6 +112,12 @@ def Xform "M6S_Lite_CCS" (
         ) {
             prepend rel isaac:physics:robotJoints = </M6S_Lite_CCS/link7/tcp/Xhand1>
             prepend rel isaac:physics:robotLinks = </M6S_Lite_CCS/link7/tcp/Xhand1>
+        }
+        "Marvin_Gripper" (
+            prepend payload = @./payloads/EE/Marvin_Gripper.usda@
+        ) {
+            prepend rel isaac:physics:robotJoints = </M6S_Lite_CCS/link7/tcp/Marvin_Gripper>
+            prepend rel isaac:physics:robotLinks = </M6S_Lite_CCS/link7/tcp/Marvin_Gripper>
         }
     }
     variantSet "Robot" = {

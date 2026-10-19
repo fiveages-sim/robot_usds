@@ -1,0 +1,182 @@
+#usda 1.0
+(
+    subLayers = [
+        @../Side/payloads/EE/dexhand_self_collision.usda@
+    ]
+    defaultPrim = "AR5_CCS_V2"
+    doc = """EE=wuji_hand2 mount.
+Weld tcp -> Wuji_hand2/world (palm; Hand2 has no flange prim).
+FixedJoint MUST match mount xform (T z=-0.0067, Rx=180°) so PhysX does not snap on Play.
+AR5 plate sits on tcp (M6 plate is +0.0045); M6 Wuji T z=-0.0022 and Rz(+90)∘Rx(180)
+becomes T z=-0.0067, Rx(180). Same TF for default/left/right (X-mirror).
+Hand Side=default; unprefixed joints.
+root_joint inactive → fingers join parent AR5 articulation.
+Physics left unset on the hand — AR5_CCS_V2 Physics=physx|mujoco nests
+hand Physics (see AR5_CCS_V2.usda). Do NOT author Physics on this EE mount.
+"""
+)
+
+def Xform "AR5_CCS_V2"
+{
+    over "link7"
+    {
+        over "tcp"
+        {
+            def "Wuji_hand2" (
+                prepend payload = @../../../../../dexhands/Wuji/Hand2/Wuji_hand2.usda@
+                variants = {
+                    string Side = "default"
+                }
+            )
+            {
+                quatd xformOp:orient = (0, 1, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, -0.0067)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+                over "root_joint" (
+                    active = false
+                )
+                {
+                }
+
+                over "world"
+                {
+                    def PhysicsFixedJoint "AssemblerFixedJoint"
+                    {
+                        rel physics:body0 = </AR5_CCS_V2/link7/tcp>
+                        rel physics:body1 = </AR5_CCS_V2/link7/tcp/Wuji_hand2/world>
+                        point3f physics:localPos0 = (0, 0, -0.0067)
+                        point3f physics:localPos1 = (0, 0, 0)
+                        quatf physics:localRot0 = (0, 1, 0, 0)
+                        quatf physics:localRot1 = (1, 0, 0, 0)
+                    }
+                }
+
+                over "joints"
+                {
+                over "index_finger_mcp_flex"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "index_finger_mcp_abd"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "index_finger_pip"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "index_finger_dip"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "middle_finger_mcp_flex"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "middle_finger_mcp_abd"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "middle_finger_pip"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "middle_finger_dip"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "pinky_mcp_flex"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "pinky_mcp_abd"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "pinky_pip"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "pinky_dip"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "ring_mcp_flex"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "ring_mcp_abd"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "ring_pip"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "ring_dip"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "thumb_cmc_flex"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "thumb_cmc_abd"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "thumb_mcp"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "thumb_ip"
+                {
+                    float state:angular:physics:position = 0
+                    float state:angular:physics:velocity = 0
+                }
+
+                }
+            }
+        }
+    }
+}

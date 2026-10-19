@@ -1,0 +1,132 @@
+#usda 1.0
+(
+    defaultPrim = "Taku_Arm"
+    metersPerUnit = 1
+    subLayers = [
+        @./physics.usda@
+    ]
+    upAxis = "Z"
+)
+
+over "Taku_Arm"
+{
+    over "joints"
+    {
+        over "shoulder_pitch_joint" (
+            prepend apiSchemas = ["MjcJointAPI"]
+        )
+        {
+            custom double mjc:armature = 0.01
+            custom double mjc:damping = 0.1
+        }
+
+        def MjcActuator "shoulder_pitch_joint_actuator"
+        {
+            custom double mjc:forceRange:max = 40
+            custom double mjc:forceRange:min = -40
+            custom rel mjc:target = </Taku_Arm/joints/shoulder_pitch_joint>
+        }
+
+        over "shoulder_roll_joint" (
+            prepend apiSchemas = ["MjcJointAPI"]
+        )
+        {
+            custom double mjc:armature = 0.01
+            custom double mjc:damping = 0.1
+        }
+
+        def MjcActuator "shoulder_roll_joint_actuator"
+        {
+            custom double mjc:forceRange:max = 40
+            custom double mjc:forceRange:min = -40
+            custom rel mjc:target = </Taku_Arm/joints/shoulder_roll_joint>
+        }
+
+        over "shoulder_yaw_joint" (
+            prepend apiSchemas = ["MjcJointAPI"]
+        )
+        {
+            custom double mjc:armature = 0.01
+            custom double mjc:damping = 0.1
+        }
+
+        def MjcActuator "shoulder_yaw_joint_actuator"
+        {
+            custom double mjc:forceRange:max = 27
+            custom double mjc:forceRange:min = -27
+            custom rel mjc:target = </Taku_Arm/joints/shoulder_yaw_joint>
+        }
+
+        over "elbow_joint" (
+            prepend apiSchemas = ["MjcJointAPI"]
+        )
+        {
+            custom double mjc:armature = 0.01
+            custom double mjc:damping = 0.1
+        }
+
+        def MjcActuator "elbow_joint_actuator"
+        {
+            custom double mjc:forceRange:max = 27
+            custom double mjc:forceRange:min = -27
+            custom rel mjc:target = </Taku_Arm/joints/elbow_joint>
+        }
+
+        over "wrist_yaw_joint" (
+            prepend apiSchemas = ["MjcJointAPI"]
+        )
+        {
+            custom double mjc:armature = 0.01
+            custom double mjc:damping = 0.1
+        }
+
+        def MjcActuator "wrist_yaw_joint_actuator"
+        {
+            custom double mjc:forceRange:max = 7
+            custom double mjc:forceRange:min = -7
+            custom rel mjc:target = </Taku_Arm/joints/wrist_yaw_joint>
+        }
+
+        over "wrist_pitch_joint" (
+            prepend apiSchemas = ["MjcJointAPI"]
+        )
+        {
+            custom double mjc:armature = 0.01
+            custom double mjc:damping = 0.1
+        }
+
+        def MjcActuator "wrist_pitch_joint_actuator"
+        {
+            custom double mjc:forceRange:max = 7
+            custom double mjc:forceRange:min = -7
+            custom rel mjc:target = </Taku_Arm/joints/wrist_pitch_joint>
+        }
+
+        over "wrist_roll_joint" (
+            prepend apiSchemas = ["MjcJointAPI"]
+        )
+        {
+            custom double mjc:armature = 0.01
+            custom double mjc:damping = 0.1
+        }
+
+        def MjcActuator "wrist_roll_joint_actuator"
+        {
+            custom double mjc:forceRange:max = 7
+            custom double mjc:forceRange:min = -7
+            custom rel mjc:target = </Taku_Arm/joints/wrist_roll_joint>
+        }
+    }
+
+    over "wrist_roll_link"
+    {
+        over "Taku_Dynaclaw" (
+            variants = {
+                string Physics = "mujoco"
+            }
+        )
+        {
+        }
+    }
+}
+

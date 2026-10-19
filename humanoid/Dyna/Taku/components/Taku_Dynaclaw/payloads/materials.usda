@@ -1,0 +1,53 @@
+#usda 1.0
+(
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Scope "Materials"
+{
+    def Material "photo_black"
+    {
+        token outputs:mdl:displacement.connect = </Materials/photo_black/photo_black.outputs:out>
+        token outputs:mdl:surface.connect = </Materials/photo_black/photo_black.outputs:out>
+        token outputs:mdl:volume.connect = </Materials/photo_black/photo_black.outputs:out>
+
+        def Shader "photo_black"
+        {
+            uniform token info:implementationSource = "sourceAsset"
+            uniform asset info:mdl:sourceAsset = @../Textures/pbr.mdl@
+            uniform token info:mdl:sourceAsset:subIdentifier = "gltf_material"
+            float inputs:alpha_cutoff = 0
+            int inputs:alpha_mode = 0
+            float inputs:base_alpha = 1
+            color3f inputs:base_color_factor = (0.015686275, 0.015686275, 0.015686275)
+            float inputs:emissive_strength = 10000
+            float inputs:metallic_factor = 0
+            float inputs:roughness_factor = 0.6
+            token outputs:out
+        }
+    }
+
+    def Material "photo_green"
+    {
+        token outputs:mdl:displacement.connect = </Materials/photo_green/photo_green.outputs:out>
+        token outputs:mdl:surface.connect = </Materials/photo_green/photo_green.outputs:out>
+        token outputs:mdl:volume.connect = </Materials/photo_green/photo_green.outputs:out>
+
+        def Shader "photo_green"
+        {
+            uniform token info:implementationSource = "sourceAsset"
+            uniform asset info:mdl:sourceAsset = @../Textures/pbr.mdl@
+            uniform token info:mdl:sourceAsset:subIdentifier = "gltf_material"
+            float inputs:alpha_cutoff = 0
+            int inputs:alpha_mode = 0
+            float inputs:base_alpha = 1
+            color3f inputs:base_color_factor = (0.2, 0.61960787, 0.29803923)
+            float inputs:emissive_strength = 10000
+            float inputs:metallic_factor = 0
+            float inputs:roughness_factor = 0.6
+            token outputs:out
+        }
+    }
+}
+

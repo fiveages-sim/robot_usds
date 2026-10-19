@@ -1,0 +1,313 @@
+#usda 1.0
+(
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Scope "Instances"
+{
+    def Xform "folding_lower_joint_link" (
+        prepend references = @./geometries.usd@</Geometries/folding_lower_joint_link>
+    )
+    {
+        def Scope "VisualMaterials"
+        {
+            def Material "photo_gray" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/photo_gray>
+            )
+            {
+            }
+
+            def Material "default" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/default>
+            )
+            {
+            }
+        }
+
+        over "mesh"
+        {
+            over "photo_gray" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Instances/folding_lower_joint_link/VisualMaterials/photo_gray>
+            }
+
+            over "default" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Instances/folding_lower_joint_link/VisualMaterials/default>
+            }
+        }
+    }
+
+    def Xform "folding_lower_joint_link_col" (
+        prepend references = @./geometries.usd@</Geometries/folding_lower_joint_link>
+    )
+    {
+        over "mesh" (
+            prepend apiSchemas = ["PhysicsCollisionAPI", "PhysicsMeshCollisionAPI"]
+        )
+        {
+            uniform token physics:approximation = "convexHull"
+            uniform token purpose = "guide"
+
+            over "photo_gray" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Instances/folding_lower_joint_link_col/VisualMaterials/photo_gray>
+            }
+
+            over "default" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Instances/folding_lower_joint_link_col/VisualMaterials/default>
+            }
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "photo_gray" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/photo_gray>
+            )
+            {
+            }
+
+            def Material "default" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/default>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "folding_to_waist_link" (
+        prepend references = @./geometries.usd@</Geometries/folding_to_waist_link>
+    )
+    {
+        def Scope "VisualMaterials"
+        {
+            def Material "default" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/default>
+            )
+            {
+            }
+        }
+
+        over "mesh"
+        {
+            over "default" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Instances/folding_to_waist_link/VisualMaterials/default>
+            }
+        }
+    }
+
+    def Xform "folding_to_waist_link_col" (
+        prepend references = @./geometries.usd@</Geometries/folding_to_waist_link>
+    )
+    {
+        over "mesh" (
+            prepend apiSchemas = ["PhysicsCollisionAPI", "PhysicsMeshCollisionAPI"]
+        )
+        {
+            uniform token physics:approximation = "convexHull"
+            uniform token purpose = "guide"
+
+            over "default" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Instances/folding_to_waist_link_col/VisualMaterials/default>
+            }
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "default" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/default>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "torso_waist_pitch_link" (
+        prepend references = @./geometries.usd@</Geometries/torso_waist_pitch_link>
+    )
+    {
+        def Scope "VisualMaterials"
+        {
+            def Material "default" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/default>
+            )
+            {
+            }
+
+            def Material "photo_gray" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/photo_gray>
+            )
+            {
+            }
+        }
+
+        over "mesh"
+        {
+            over "default" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Instances/torso_waist_pitch_link/VisualMaterials/default>
+            }
+
+            over "photo_gray" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Instances/torso_waist_pitch_link/VisualMaterials/photo_gray>
+            }
+        }
+    }
+
+    def Xform "torso_waist_pitch_link_col" (
+        prepend references = @./geometries.usd@</Geometries/torso_waist_pitch_link>
+    )
+    {
+        over "mesh" (
+            prepend apiSchemas = ["PhysicsCollisionAPI", "PhysicsMeshCollisionAPI"]
+        )
+        {
+            uniform token physics:approximation = "convexHull"
+            uniform token purpose = "guide"
+
+            over "default" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Instances/torso_waist_pitch_link_col/VisualMaterials/default>
+            }
+
+            over "photo_gray" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Instances/torso_waist_pitch_link_col/VisualMaterials/photo_gray>
+            }
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "default" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/default>
+            )
+            {
+            }
+
+            def Material "photo_gray" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/photo_gray>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "torso_body_link" (
+        prepend references = @./geometries.usd@</Geometries/torso_body_link>
+    )
+    {
+        def Scope "VisualMaterials"
+        {
+            def Material "photo_gray" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/photo_gray>
+            )
+            {
+            }
+
+            def Material "default" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/default>
+            )
+            {
+            }
+        }
+
+        over "mesh"
+        {
+            over "photo_gray" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Instances/torso_body_link/VisualMaterials/photo_gray>
+            }
+
+            over "default" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Instances/torso_body_link/VisualMaterials/default>
+            }
+        }
+    }
+
+    def Xform "torso_body_link_col" (
+        prepend references = @./geometries.usd@</Geometries/torso_body_link>
+    )
+    {
+        over "mesh" (
+            prepend apiSchemas = ["PhysicsCollisionAPI", "PhysicsMeshCollisionAPI"]
+        )
+        {
+            uniform token physics:approximation = "convexHull"
+            uniform token purpose = "guide"
+
+            over "photo_gray" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Instances/torso_body_link_col/VisualMaterials/photo_gray>
+            }
+
+            over "default" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Instances/torso_body_link_col/VisualMaterials/default>
+            }
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "photo_gray" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/photo_gray>
+            )
+            {
+            }
+
+            def Material "default" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/default>
+            )
+            {
+            }
+        }
+    }
+}
+

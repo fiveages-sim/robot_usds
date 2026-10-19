@@ -1,0 +1,105 @@
+#usda 1.0
+(
+    defaultPrim = "Marvin"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+over "Marvin"
+{
+    over "flange" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        float physics:mass = 0.01
+    }
+
+    over "gripper_base" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0, 0, 0.0297)
+        float3 physics:diagonalInertia = (0.001738, 0.000538, 0.001893)
+        float physics:mass = 0.65
+        quatf physics:principalAxes = (1, 0, 0, 0)
+    }
+
+    over "left_finger" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0, -0.0028108, 0.0127051)
+        float3 physics:diagonalInertia = (0.000011840055, 0.0000045599454, 0.0000102)
+        float physics:mass = 0.031395
+        quatf physics:principalAxes = (0.995835, 0, 0, -0.09117358)
+    }
+
+    over "joints"
+    {
+        def PhysicsFixedJoint "flange_to_base"
+        {
+            rel physics:body0 = </Marvin/flange>
+            rel physics:body1 = </Marvin/gripper_base>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+        }
+
+        def PhysicsPrismaticJoint "gripper_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:linear", "PhysicsDriveAPI:linear"]
+        )
+        {
+            float drive:linear:physics:damping = 6000
+            float drive:linear:physics:maxForce = 30
+            float drive:linear:physics:stiffness = 60000
+            float drive:linear:physics:targetPosition = 0
+            uniform token drive:linear:physics:type = "force"
+            uniform token physics:axis = "Y"
+            rel physics:body0 = </Marvin/gripper_base>
+            rel physics:body1 = </Marvin/left_finger>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0
+            point3f physics:localPos0 = (0, -0.018345, 0.0595)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (-4.371139e-8, 0, 0, 1)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = 0
+            float physics:upperLimit = 0.05
+        }
+
+        def PhysicsPrismaticJoint "right_finger_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:linear"]
+        )
+        {
+            uniform token physics:axis = "Y"
+            rel physics:body0 = </Marvin/gripper_base>
+            rel physics:body1 = </Marvin/right_finger>
+            float physics:breakForce = 3.4028235e38
+            float physics:breakTorque = 3.4028235e38
+            float physics:JointEquivalentInertia = 0
+            point3f physics:localPos0 = (0, 0.018345, 0.0595)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -0.05
+            float physics:upperLimit = 0.05
+        }
+    }
+
+    over "right_finger" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0, -0.0028108, 0.0127051)
+        float3 physics:diagonalInertia = (0.000011840055, 0.0000045599454, 0.0000102)
+        float physics:mass = 0.031395
+        quatf physics:principalAxes = (0.995835, 0, 0, -0.09117358)
+    }
+
+    def PhysicsFixedJoint "root_joint" (
+        prepend apiSchemas = ["PhysicsArticulationRootAPI"]
+    )
+    {
+        rel physics:body1 = </Marvin/flange>
+    }
+}

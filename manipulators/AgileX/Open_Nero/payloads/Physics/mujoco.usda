@@ -1,0 +1,46 @@
+#usda 1.0
+(
+    defaultPrim = "Open_Nero"
+    metersPerUnit = 1
+    subLayers = [
+        @./physics.usda@
+    ]
+    upAxis = "Z"
+)
+
+# Body frame only. Child arms keep their own Physics; parent overs push Physics=mujoco.
+# Do not list Nero paths in a parent newton mute.
+over "Open_Nero"
+{
+    over "root_joint" (
+        prepend apiSchemas = ["NewtonArticulationRootAPI"]
+    )
+    {
+        bool newton:selfCollisionEnabled = 0
+    }
+
+    over "base_link"
+    {
+        over "left_base_link"
+        {
+            over "Nero" (
+                variants = {
+                    string Physics = "mujoco"
+                }
+            )
+            {
+            }
+        }
+
+        over "right_base_link"
+        {
+            over "Nero" (
+                variants = {
+                    string Physics = "mujoco"
+                }
+            )
+            {
+            }
+        }
+    }
+}

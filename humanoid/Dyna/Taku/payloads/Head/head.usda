@@ -1,0 +1,39 @@
+#usda 1.0
+(
+    defaultPrim = "Taku"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "Taku"
+{
+    def "Taku_Head" (
+        delete apiSchemas = ["PhysicsArticulationRootAPI", "PhysxArticulationAPI", "NewtonArticulationRootAPI"]
+        prepend payload = @../../components/Taku_Head/Taku_Head.usda@
+        variants = {
+            string Sensor = "sensors"
+        }
+    )
+    {
+        quatd xformOp:orient = (1, 0, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (-0.205555, -0.000199, 0.854717)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "base_link" (
+            delete apiSchemas = ["PhysicsArticulationRootAPI", "PhysxArticulationAPI", "NewtonArticulationRootAPI"]
+        )
+        {
+            def PhysicsFixedJoint "AssemblerFixedJoint"
+            {
+                rel physics:body0 = </Taku/Taku_Body/torso_body_link>
+                rel physics:body1 = </Taku/Taku_Head/base_link>
+                point3f physics:localPos0 = (0, 0, 0)
+                point3f physics:localPos1 = (0, 0, 0)
+                quatf physics:localRot0 = (1, 0, 0, 0)
+                quatf physics:localRot1 = (1, 0, 0, 0)
+            }
+        }
+    }
+}
+

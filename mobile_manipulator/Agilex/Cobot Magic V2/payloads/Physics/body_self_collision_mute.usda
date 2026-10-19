@@ -3,12 +3,16 @@
     doc = """Cobot Magic V2 NonDexHand mute — subLayer of payloads/Physics/physx.usda ONLY.
 
 PhysX: CollisionGroup + filteredGroups self-filter. Always composed with
-Physics=physx (any Arm_Left/Arm_Right / EE mix). Same convention as Split Aloha:
+Physics=physx (any Arm_Left/Arm_Right / EE mix). Same convention as W2/Inex:
 parent self-col ON; NonDexHand mutes body/chassis/arm; dexhand EE excludes
 keep fingers ungrouped (finger self-col + FilteredPairs).
 
-Nested Piper has its own CollisionGroups/NonDexHand. Parent and child groups
-must filter each other or arm convex hulls vs box chatter (EE=Gripper/None).
+Nested Piper also authors CollisionGroups/NonDexHand on the same arm links.
+A collider may belong to only ONE PhysX group — dual membership spams
+  [omni.physx.plugin] Collisions are supported currently only in one collision group
+especially for gripper/EE colliders (not in the dexhand excludes). Deactivate
+the nested arm groups so body/chassis/arm/gripper live only in this parent
+group. Dexhand roots stay excluded (ungrouped finger self-col).
 
 Keep hand prim names in sync with Piper EE dexhand_self_collision.usda
 (Revo1 / Revo2 under link6/tcp). Grippers are intentionally not excluded.
@@ -40,8 +44,6 @@ over "Cobot_Magic_V2"
             ]
             prepend rel physics:filteredGroups = [
                 </Cobot_Magic_V2/CollisionGroups/NonDexHand>,
-                </Cobot_Magic_V2/base_footprint/body_Link/left_base_link/Piper/CollisionGroups/NonDexHand>,
-                </Cobot_Magic_V2/base_footprint/body_Link/right_base_link/Piper/CollisionGroups/NonDexHand>,
             ]
         }
     }
@@ -56,11 +58,10 @@ over "Cobot_Magic_V2"
                 {
                     over "CollisionGroups"
                     {
-                        over "NonDexHand"
+                        over "NonDexHand" (
+                            active = false
+                        )
                         {
-                            prepend rel physics:filteredGroups = [
-                                </Cobot_Magic_V2/CollisionGroups/NonDexHand>,
-                            ]
                         }
                     }
                 }
@@ -72,11 +73,10 @@ over "Cobot_Magic_V2"
                 {
                     over "CollisionGroups"
                     {
-                        over "NonDexHand"
+                        over "NonDexHand" (
+                            active = false
+                        )
                         {
-                            prepend rel physics:filteredGroups = [
-                                </Cobot_Magic_V2/CollisionGroups/NonDexHand>,
-                            ]
                         }
                     }
                 }

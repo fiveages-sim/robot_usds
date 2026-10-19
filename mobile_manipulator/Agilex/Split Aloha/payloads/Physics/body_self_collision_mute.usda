@@ -3,14 +3,16 @@
     doc = """Split Aloha NonDexHand mute — subLayer of payloads/Physics/physx.usda ONLY.
 
 PhysX: CollisionGroup + filteredGroups self-filter. Always composed with
-Physics=physx (any Arm_Left/Arm_Right / EE mix). Same convention as Luna/W2:
+Physics=physx (any Arm_Left/Arm_Right / EE mix). Same convention as V2/W2:
 parent self-col ON; NonDexHand mutes body/chassis/arm; dexhand EE excludes
 keep fingers ungrouped (finger self-col + FilteredPairs).
 
-Nested Piper has its own CollisionGroups/NonDexHand. Parent and child groups
-must filter each other or arm convex hulls vs box chatter (EE=Gripper/None).
-Include whole lifting_link / Ranger_Mini / Piper subtrees so tcp/chassis
-colliders are not left ungrouped.
+Nested Piper also authors CollisionGroups/NonDexHand on the same arm links.
+A collider may belong to only ONE PhysX group — dual membership spams
+  [omni.physx.plugin] Collisions are supported currently only in one collision group
+especially for gripper/EE colliders (not in the dexhand excludes). Deactivate
+the nested arm groups so body/chassis/arm/gripper live only in this parent
+group. Dexhand roots stay excluded (ungrouped finger self-col).
 
 Keep hand prim names in sync with Piper EE dexhand_self_collision.usda
 (Revo1 / Revo2 under link6/tcp). Grippers are intentionally not excluded.
@@ -43,8 +45,6 @@ over "Split_Aloha"
             ]
             prepend rel physics:filteredGroups = [
                 </Split_Aloha/CollisionGroups/NonDexHand>,
-                </Split_Aloha/lifting_link/left_base_link/Piper/CollisionGroups/NonDexHand>,
-                </Split_Aloha/lifting_link/right_base_link/Piper/CollisionGroups/NonDexHand>,
             ]
         }
     }
@@ -57,11 +57,10 @@ over "Split_Aloha"
             {
                 over "CollisionGroups"
                 {
-                    over "NonDexHand"
+                    over "NonDexHand" (
+                        active = false
+                    )
                     {
-                        prepend rel physics:filteredGroups = [
-                            </Split_Aloha/CollisionGroups/NonDexHand>,
-                        ]
                     }
                 }
             }
@@ -73,11 +72,10 @@ over "Split_Aloha"
             {
                 over "CollisionGroups"
                 {
-                    over "NonDexHand"
+                    over "NonDexHand" (
+                        active = false
+                    )
                     {
-                        prepend rel physics:filteredGroups = [
-                            </Split_Aloha/CollisionGroups/NonDexHand>,
-                        ]
                     }
                 }
             }

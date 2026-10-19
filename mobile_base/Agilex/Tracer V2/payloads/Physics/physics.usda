@@ -39,10 +39,12 @@ over "Tracer_V2" (
         prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
     )
     {
-        point3f physics:centerOfMass = (-0.037979424, -0.0031447825, 0.124080114)
-        float3 physics:diagonalInertia = (0.06917098, 0.058867343, 0.12513365)
-        float physics:mass = 2.4239552
-        quatf physics:principalAxes = (0.9997843, -0.0019121949, -0.0017462131, 0.020612)
+        # Mesh-autocompute was ~2.4 kg; real Tracer curb weight is 28–30 kg.
+        # Without ballast dual Piper (~9.6 kg) tips the merged Cobot Magic V2.
+        point3f physics:centerOfMass = (-0.02, 0, 0.07)
+        float3 physics:diagonalInertia = (0.8275559, 0.704284, 1.4970887)
+        float physics:mass = 29
+        quatf physics:principalAxes = (1, 0, 0, 0)
     }
 
     over "left_front_link" (

@@ -1,0 +1,93 @@
+#usda 1.0
+(
+    defaultPrim = "Taku_Head"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def "Taku_Head"
+{
+    over "base_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "PhysicsArticulationRootAPI"]
+    )
+    {
+        float3 physics:diagonalInertia = (0.001, 0.001, 0.001)
+        float physics:mass = 0.1
+    }
+
+    over "head_yaw_link" (
+        delete apiSchemas = ["PhysicsMassAPI"]
+        prepend apiSchemas = ["PhysicsRigidBodyAPI"]
+    )
+    {
+    }
+
+    over "head_pitch_link" (
+        delete apiSchemas = ["PhysicsMassAPI"]
+        prepend apiSchemas = ["PhysicsRigidBodyAPI"]
+    )
+    {
+    }
+
+    over "head_roll_link" (
+        delete apiSchemas = ["PhysicsMassAPI"]
+        prepend apiSchemas = ["PhysicsRigidBodyAPI"]
+    )
+    {
+    }
+
+    def "joints"
+    {
+        def PhysicsRevoluteJoint "head_yaw_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform token physics:axis = "Z"
+            rel physics:body0 = </Taku_Head/base_link>
+            rel physics:body1 = </Taku_Head/head_yaw_link>
+            point3f physics:localPos0 = (0, 0, 0.363)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -90
+            float physics:upperLimit = 90
+            custom float state:angular:physics:position = 0
+            custom float state:angular:physics:velocity = 0
+        }
+
+        def PhysicsRevoluteJoint "head_pitch_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform token physics:axis = "Y"
+            rel physics:body0 = </Taku_Head/head_yaw_link>
+            rel physics:body1 = </Taku_Head/head_pitch_link>
+            point3f physics:localPos0 = (0, 0, 0.0415)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -20
+            float physics:upperLimit = 20
+            custom float state:angular:physics:position = 0
+            custom float state:angular:physics:velocity = 0
+        }
+
+        def PhysicsRevoluteJoint "head_roll_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform token physics:axis = "X"
+            rel physics:body0 = </Taku_Head/head_pitch_link>
+            rel physics:body1 = </Taku_Head/head_roll_link>
+            point3f physics:localPos0 = (0.002, 0, 0)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -15
+            float physics:upperLimit = 15
+            custom float state:angular:physics:position = 0
+            custom float state:angular:physics:velocity = 0
+        }
+    }
+}
+

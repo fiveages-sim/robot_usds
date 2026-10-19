@@ -1,0 +1,230 @@
+#usda 1.0
+(
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Scope "Instances"
+{
+    def Xform "head_yaw_link" (
+        prepend references = @./geometries.usd@</Geometries/head_yaw_link>
+    )
+    {
+        def Scope "VisualMaterials"
+        {
+            def Material "urdf_7" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/urdf_7>
+            )
+            {
+            }
+
+            def Material "photo_black" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/photo_black>
+            )
+            {
+            }
+        }
+
+        over "mesh"
+        {
+            over "urdf_7" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Instances/head_yaw_link/VisualMaterials/urdf_7>
+            }
+
+            over "photo_black" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Instances/head_yaw_link/VisualMaterials/photo_black>
+            }
+        }
+    }
+
+    def Xform "head_yaw_link_col" (
+        prepend references = @./geometries.usd@</Geometries/head_yaw_link>
+    )
+    {
+        over "mesh" (
+            prepend apiSchemas = ["PhysicsCollisionAPI", "PhysicsMeshCollisionAPI"]
+        )
+        {
+            uniform token physics:approximation = "convexHull"
+            uniform token purpose = "guide"
+
+            over "urdf_7" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Instances/head_yaw_link_col/VisualMaterials/urdf_7>
+            }
+
+            over "photo_black" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Instances/head_yaw_link_col/VisualMaterials/photo_black>
+            }
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "urdf_7" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/urdf_7>
+            )
+            {
+            }
+
+            def Material "photo_black" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/photo_black>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "head_pitch_link" (
+        prepend references = @./geometries.usd@</Geometries/head_pitch_link>
+    )
+    {
+        def Scope "VisualMaterials"
+        {
+            def Material "urdf_8" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/urdf_8>
+            )
+            {
+            }
+        }
+
+        over "mesh"
+        {
+            over "urdf_8" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Instances/head_pitch_link/VisualMaterials/urdf_8>
+            }
+        }
+    }
+
+    def Xform "head_pitch_link_col" (
+        prepend references = @./geometries.usd@</Geometries/head_pitch_link>
+    )
+    {
+        over "mesh" (
+            prepend apiSchemas = ["PhysicsCollisionAPI", "PhysicsMeshCollisionAPI"]
+        )
+        {
+            uniform token physics:approximation = "convexHull"
+            uniform token purpose = "guide"
+
+            over "urdf_8" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Instances/head_pitch_link_col/VisualMaterials/urdf_8>
+            }
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "urdf_8" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/urdf_8>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "head_roll_link" (
+        prepend references = @./geometries.usd@</Geometries/head_roll_link>
+    )
+    {
+        def Scope "VisualMaterials"
+        {
+            def Material "camera" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/camera>
+            )
+            {
+            }
+
+            def Material "default" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/default>
+            )
+            {
+            }
+        }
+
+        over "mesh"
+        {
+            over "camera" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Instances/head_roll_link/VisualMaterials/camera>
+            }
+
+            over "default" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Instances/head_roll_link/VisualMaterials/default>
+            }
+        }
+    }
+
+    def Xform "head_roll_link_col" (
+        prepend references = @./geometries.usd@</Geometries/head_roll_link>
+    )
+    {
+        over "mesh" (
+            prepend apiSchemas = ["PhysicsCollisionAPI", "PhysicsMeshCollisionAPI"]
+        )
+        {
+            uniform token physics:approximation = "convexHull"
+            uniform token purpose = "guide"
+
+            over "camera" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Instances/head_roll_link_col/VisualMaterials/camera>
+            }
+
+            over "default" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Instances/head_roll_link_col/VisualMaterials/default>
+            }
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "camera" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/camera>
+            )
+            {
+            }
+
+            def Material "default" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/default>
+            )
+            {
+            }
+        }
+    }
+}
+

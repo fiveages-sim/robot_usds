@@ -1,0 +1,84 @@
+#usda 1.0
+(
+    defaultPrim = "Taku"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "Taku" (
+    prepend apiSchemas = ["IsaacRobotAPI"]
+)
+{
+    custom string isaac:description = "Dyna Taku wheeled dual-arm humanoid"
+    custom string isaac:namespace = ""
+    custom rel isaac:physics:robotLinks
+    prepend rel isaac:physics:robotLinks = </Taku/base_link>
+    custom token isaac:robotType = "Mobile Manipulators"
+
+    over "base_link" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+    }
+
+    over "Taku_Chassis" (
+        variants = {
+            string Robot = "robot"
+        }
+    )
+    {
+    }
+
+    over "Taku_Body" (
+        variants = {
+            string Robot = "robot"
+        }
+    )
+    {
+    }
+
+    over "Taku_Head" (
+        variants = {
+            string Robot = "robot"
+        }
+    )
+    {
+    }
+
+    over "Arm_Left" (
+        variants = {
+            string Robot = "robot"
+        }
+    )
+    {
+        over "wrist_roll_link"
+        {
+            over "Taku_Dynaclaw" (
+                variants = {
+                    string Robot = "robot"
+                }
+            )
+            {
+            }
+        }
+    }
+
+    over "Arm_Right" (
+        variants = {
+            string Robot = "robot"
+        }
+    )
+    {
+        over "wrist_roll_link"
+        {
+            over "Taku_Dynaclaw" (
+                variants = {
+                    string Robot = "robot"
+                }
+            )
+            {
+            }
+        }
+    }
+}
+

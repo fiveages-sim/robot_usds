@@ -1,0 +1,76 @@
+#usda 1.0
+(
+    defaultPrim = "Taku_Body"
+    metersPerUnit = 1
+    subLayers = [
+        @./physics.usda@
+    ]
+    upAxis = "Z"
+)
+
+over "Taku_Body"
+{
+    over "joints"
+    {
+        over "folding_low_joint" (
+            prepend apiSchemas = ["MjcJointAPI"]
+        )
+        {
+            custom double mjc:armature = 0.01
+            custom double mjc:damping = 0.1
+        }
+
+        def MjcActuator "folding_low_joint_actuator"
+        {
+            custom double mjc:forceRange:max = 100
+            custom double mjc:forceRange:min = -100
+            custom rel mjc:target = </Taku_Body/joints/folding_low_joint>
+        }
+
+        over "folding_high_joint" (
+            prepend apiSchemas = ["MjcJointAPI"]
+        )
+        {
+            custom double mjc:armature = 0.01
+            custom double mjc:damping = 0.1
+        }
+
+        def MjcActuator "folding_high_joint_actuator"
+        {
+            custom double mjc:forceRange:max = 100
+            custom double mjc:forceRange:min = -100
+            custom rel mjc:target = </Taku_Body/joints/folding_high_joint>
+        }
+
+        over "waist_pitch_joint" (
+            prepend apiSchemas = ["MjcJointAPI"]
+        )
+        {
+            custom double mjc:armature = 0.01
+            custom double mjc:damping = 0.1
+        }
+
+        def MjcActuator "waist_pitch_joint_actuator"
+        {
+            custom double mjc:forceRange:max = 100
+            custom double mjc:forceRange:min = -100
+            custom rel mjc:target = </Taku_Body/joints/waist_pitch_joint>
+        }
+
+        over "waist_yaw_joint" (
+            prepend apiSchemas = ["MjcJointAPI"]
+        )
+        {
+            custom double mjc:armature = 0.01
+            custom double mjc:damping = 0.1
+        }
+
+        def MjcActuator "waist_yaw_joint_actuator"
+        {
+            custom double mjc:forceRange:max = 100
+            custom double mjc:forceRange:min = -100
+            custom rel mjc:target = </Taku_Body/joints/waist_yaw_joint>
+        }
+    }
+}
+
