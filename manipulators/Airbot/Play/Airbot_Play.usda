@@ -1,0 +1,95 @@
+#usda 1.0
+(
+    defaultPrim = "Airbot_Play"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "Airbot_Play" (
+    prepend references = @./payloads/base.usda@
+    variants = {
+        string Physics = "physx"
+        string ROS = "none"
+        string Robot = "none"
+        string Sensor = "none"
+        string EE = "gripper"
+    }
+    prepend variantSets = ["Physics", "ROS", "Sensor", "EE"]
+    append variantSets = ["Robot"]
+)
+{
+    variantSet "Physics" = {
+        "none" (
+            prepend payload = @./payloads/Physics/none.usda@
+        ) {
+        }
+        "physics" (
+            prepend payload = @./payloads/Physics/physics.usda@
+        ) {
+        }
+        "physx" (
+            prepend payload = @./payloads/Physics/physx.usda@
+        ) {
+        }
+        "mujoco" (
+            prepend payload = @./payloads/Physics/mujoco.usda@
+        ) {
+        }
+    }
+    variantSet "ROS" = {
+        "none" (
+            prepend payload = @./payloads/ROS/none.usda@
+        ) {
+        }
+        "enable" (
+            prepend payload = @./payloads/ROS/enable.usda@
+        ) {
+        }
+    }
+    variantSet "Sensor" = {
+        "none" (
+            prepend payload = @./payloads/Sensor/none.usda@
+        ) {
+        }
+        "sensors" (
+            prepend payload = @./payloads/Sensor/sensors.usda@
+        ) {
+        }
+    }
+    variantSet "EE" = {
+        "none" (
+            prepend payload = @./payloads/EE/none.usda@
+        ) {
+        }
+        "gripper" (
+            prepend payload = @./payloads/EE/gripper.usda@
+        ) {
+            prepend rel isaac:physics:robotJoints = [
+                </Airbot_Play/joints/gripper_base_joint>,
+                </Airbot_Play/joints/gripper_joint>,
+                </Airbot_Play/joints/gripper_joint1>,
+            ]
+            prepend rel isaac:physics:robotLinks = [
+                </Airbot_Play/gripper_base>,
+                </Airbot_Play/left>,
+                </Airbot_Play/right>,
+            ]
+        }
+        "xhand1" (
+            prepend payload = @./payloads/EE/xhand1.usda@
+        ) {
+            prepend rel isaac:physics:robotJoints = </Airbot_Play/link6/tcp/Xhand1>
+            prepend rel isaac:physics:robotLinks = </Airbot_Play/link6/tcp/Xhand1>
+        }
+    }
+    variantSet "Robot" = {
+        "none" (
+            prepend payload = @./payloads/Robot/none.usda@
+        ) {
+        }
+        "robot" (
+            prepend payload = @./payloads/Robot/robot.usda@
+        ) {
+        }
+    }
+}

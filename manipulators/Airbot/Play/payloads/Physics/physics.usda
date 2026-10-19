@@ -1,0 +1,213 @@
+#usda 1.0
+(
+    defaultPrim = "Airbot_Play"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+over "Airbot_Play"
+{
+    over "base_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsArticulationRootAPI", "PhysicsMassAPI"]
+    )
+    {
+        float physics:mass = 0.7770500183105469
+        point3f physics:centerOfMass = (-0.010728999972343445, -0.0001701500004855916, 0.04171200096607208)
+        float3 physics:diagonalInertia = (0.0008441872196272016, 0.0011815325124189258, 0.0012460803845897317)
+        quatf physics:principalAxes = (0.9982056617736816, 0.05310920625925064, 0.02607077732682228, 0.009228916838765144)
+    }
+
+    over "link1" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        float physics:mass = 0.5463899970054626
+        point3f physics:centerOfMass = (7.912600267445669e-05, -0.002526999916881323, -0.004135900177061558)
+        float3 physics:diagonalInertia = (0.000286269118078053, 0.000325436529237777, 0.0003462943423073739)
+        quatf physics:principalAxes = (0.47575846314430237, 0.5234324336051941, 0.50954669713974, 0.48993316292762756)
+    }
+
+    over "link2" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        float physics:mass = 0.6462100148200989
+        point3f physics:centerOfMass = (0.22493000328540802, 0.004772100131958723, 0.008023000322282314)
+        float3 physics:diagonalInertia = (0.00041862609214149415, 0.005050423555076122, 0.0051653506234288216)
+        quatf physics:principalAxes = (0.9376084804534912, 0.3421909213066101, -0.04315652325749397, -0.04396876320242882)
+    }
+
+    over "link3" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        float physics:mass = 0.2682900130748749
+        point3f physics:centerOfMass = (0.16812999546527863, -5.557600161409937e-05, 0.0031183999963104725)
+        float3 physics:diagonalInertia = (0.00023940304527059197, 0.0030950966756790876, 0.0031527001410722733)
+        quatf physics:principalAxes = (0.7074387073516846, 0.706427812576294, -0.01561812311410904, 0.015693826600909233)
+    }
+
+    over "link4" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        float physics:mass = 0.3487600088119507
+        point3f physics:centerOfMass = (5.243599844106939e-06, 0.0004041199863422662, -0.032280001789331436)
+        float3 physics:diagonalInertia = (0.00012682550004683435, 0.0004120000230614096, 0.0004235744709149003)
+        quatf physics:principalAxes = (-0.7014840245246887, 0.0001729414361761883, 0.7126851677894592, -7.420901965815574e-05)
+    }
+
+    over "link5" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        float physics:mass = 0.36131998896598816
+        point3f physics:centerOfMass = (8.332799552590586e-06, 0.026148000732064247, 0.002524999901652336)
+        float3 physics:diagonalInertia = (0.00017817766638472676, 0.0004329223302192986, 0.00046770001063123345)
+        quatf physics:principalAxes = (0.7055990695953369, 0.7055990695953369, -0.046151820570230484, 0.046151820570230484)
+    }
+
+    over "link6" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        float physics:mass = 0.05000000074505806
+        point3f physics:centerOfMass = (0.0, 0.0, 0.0)
+        float3 physics:diagonalInertia = (9.999999747378752e-06, 9.999999747378752e-06, 9.999999747378752e-06)
+        quatf physics:principalAxes = (1.0, 0.0, 0.0, 0.0)
+    }
+
+    def Scope "joints"
+    {
+        def PhysicsFixedJoint "root_joint"
+        {
+            rel physics:body0 = </Airbot_Play>
+            rel physics:body1 = </Airbot_Play/base_link>
+            point3f physics:localPos0 = (0.0, 0.0, 0.0)
+            point3f physics:localPos1 = (0.0, 0.0, 0.0)
+            quatf physics:localRot0 = (1.0, 0.0, 0.0, 0.0)
+            quatf physics:localRot1 = (1.0, 0.0, 0.0, 0.0)
+        }
+
+        def PhysicsRevoluteJoint "joint1" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            rel physics:body0 = </Airbot_Play/base_link>
+            rel physics:body1 = </Airbot_Play/link1>
+            point3f physics:localPos0 = (0.0, 0.0, 0.11720000207424164)
+            point3f physics:localPos1 = (0.0, 0.0, 0.0)
+            quatf physics:localRot0 = (1.0, 0.0, 0.0, 0.0)
+            quatf physics:localRot1 = (1.0, 0.0, 0.0, 0.0)
+            uniform token physics:axis = "Z"
+            float physics:lowerLimit = -179.90875244140625
+            float physics:upperLimit = 119.74817657470703
+            uniform token drive:angular:physics:type = "force"
+            float drive:angular:physics:stiffness = 60000
+            float drive:angular:physics:damping = 6000
+            float drive:angular:physics:maxForce = 300
+            float drive:angular:physics:targetPosition = 0
+        }
+
+        def PhysicsRevoluteJoint "joint2" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            rel physics:body0 = </Airbot_Play/link1>
+            rel physics:body1 = </Airbot_Play/link2>
+            point3f physics:localPos0 = (0.0, 0.0, 0.0)
+            point3f physics:localPos1 = (0.0, 0.0, 0.0)
+            quatf physics:localRot0 = (0.13586628437042236, 0.13586628437042236, -0.6939311027526855, 0.6939311027526855)
+            quatf physics:localRot1 = (1.0, 0.0, 0.0, 0.0)
+            uniform token physics:axis = "Z"
+            float physics:lowerLimit = -169.5955047607422
+            float physics:upperLimit = 9.74028205871582
+            uniform token drive:angular:physics:type = "force"
+            float drive:angular:physics:stiffness = 60000
+            float drive:angular:physics:damping = 6000
+            float drive:angular:physics:maxForce = 300
+            float drive:angular:physics:targetPosition = 0
+        }
+
+        def PhysicsRevoluteJoint "joint3" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            rel physics:body0 = </Airbot_Play/link2>
+            rel physics:body1 = </Airbot_Play/link3>
+            point3f physics:localPos0 = (0.2700900137424469, -1.3877787807814457e-17, 7.754818242684634e-26)
+            point3f physics:localPos1 = (0.0, 0.0, 0.0)
+            quatf physics:localRot0 = (0.19214393198490143, 6.576994444981398e-17, 1.6653345369377348e-16, -0.981366753578186)
+            quatf physics:localRot1 = (1.0, 0.0, 0.0, 0.0)
+            uniform token physics:axis = "Z"
+            float physics:lowerLimit = -4.984732627868652
+            float physics:upperLimit = 179.90875244140625
+            uniform token drive:angular:physics:type = "force"
+            float drive:angular:physics:stiffness = 60000
+            float drive:angular:physics:damping = 6000
+            float drive:angular:physics:maxForce = 300
+            float drive:angular:physics:targetPosition = 0
+        }
+
+        def PhysicsRevoluteJoint "joint4" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            rel physics:body0 = </Airbot_Play/link3>
+            rel physics:body1 = </Airbot_Play/link4>
+            point3f physics:localPos0 = (0.290149986743927, -2.7755575615628914e-17, -5.169878828456423e-26)
+            point3f physics:localPos1 = (0.0, 0.0, 0.0)
+            quatf physics:localRot0 = (0.0, -0.7071067690849304, 2.7755575615628914e-16, -0.7071067690849304)
+            quatf physics:localRot1 = (1.0, 0.0, 0.0, 0.0)
+            uniform token physics:axis = "Z"
+            float physics:lowerLimit = -169.5955047607422
+            float physics:upperLimit = 169.5955047607422
+            uniform token drive:angular:physics:type = "force"
+            float drive:angular:physics:stiffness = 60000
+            float drive:angular:physics:damping = 6000
+            float drive:angular:physics:maxForce = 300
+            float drive:angular:physics:targetPosition = 0
+        }
+
+        def PhysicsRevoluteJoint "joint5" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            rel physics:body0 = </Airbot_Play/link4>
+            rel physics:body1 = </Airbot_Play/link5>
+            point3f physics:localPos0 = (0.0, 0.0, 0.0)
+            point3f physics:localPos1 = (0.0, 0.0, 0.0)
+            quatf physics:localRot0 = (-0.7071067690849304, -0.7071067690849304, 1.6653345369377348e-16, -1.5693543220085939e-16)
+            quatf physics:localRot1 = (1.0, 0.0, 0.0, 0.0)
+            uniform token physics:axis = "Z"
+            float physics:lowerLimit = -99.69465637207031
+            float physics:upperLimit = 99.69465637207031
+            uniform token drive:angular:physics:type = "force"
+            float drive:angular:physics:stiffness = 60000
+            float drive:angular:physics:damping = 6000
+            float drive:angular:physics:maxForce = 300
+            float drive:angular:physics:targetPosition = 0
+        }
+
+        def PhysicsRevoluteJoint "joint6" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            rel physics:body0 = </Airbot_Play/link5>
+            rel physics:body1 = </Airbot_Play/link6>
+            point3f physics:localPos0 = (1.0339757656912846e-25, 0.08649999648332596, 0.0)
+            point3f physics:localPos1 = (0.0, 0.0, 0.0)
+            quatf physics:localRot0 = (-0.5, 0.5, -0.5, -0.5)
+            quatf physics:localRot1 = (1.0, 0.0, 0.0, 0.0)
+            uniform token physics:axis = "Z"
+            float physics:lowerLimit = -179.90875244140625
+            float physics:upperLimit = 179.90875244140625
+            uniform token drive:angular:physics:type = "force"
+            float drive:angular:physics:stiffness = 60000
+            float drive:angular:physics:damping = 6000
+            float drive:angular:physics:maxForce = 300
+            float drive:angular:physics:targetPosition = 0
+        }
+
+    }
+}

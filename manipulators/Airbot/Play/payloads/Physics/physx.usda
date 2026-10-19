@@ -1,0 +1,89 @@
+#usda 1.0
+(
+    defaultPrim = "Airbot_Play"
+    metersPerUnit = 1
+    subLayers = [
+        @./physics.usda@
+    ]
+    upAxis = "Z"
+)
+
+def "Airbot_Play"
+{
+    over "base_link" (
+        prepend apiSchemas = ["PhysxArticulationAPI"]
+    )
+    {
+        bool physxArticulation:enabledSelfCollisions = 0
+        int physxArticulation:solverPositionIterationCount = 32
+        int physxArticulation:solverVelocityIterationCount = 1
+    }
+
+    over "joints"
+    {
+        over "joint1" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = 179.90875
+        }
+
+        over "joint2" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = 179.90875
+        }
+
+        over "joint3" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = 179.90875
+        }
+
+        over "joint4" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = 359.8175
+        }
+
+        over "joint5" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = 359.8175
+        }
+
+        over "joint6" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = 359.8175
+        }
+
+    }
+
+    over "link6"
+    {
+        over "tcp"
+        {
+            over "Xhand1" (
+                variants = {
+                    string Physics = "physx"
+                }
+            )
+            {
+            }
+
+            over "Gripper" (
+                variants = {
+                    string Physics = "physx"
+                }
+            )
+            {
+            }
+        }
+    }
+}

@@ -1,0 +1,255 @@
+#usda 1.0
+(
+    defaultPrim = "Airbot_Play"
+    metersPerUnit = 1
+    subLayers = [
+        @./physics.usda@
+    ]
+    upAxis = "Z"
+)
+
+over "Airbot_Play"
+{
+    over "base_link" (
+        prepend apiSchemas = ["NewtonArticulationRootAPI"]
+    )
+    {
+        bool newton:selfCollisionEnabled = 0
+        uniform float mjc:gravcomp = 1
+    }
+
+    over "joints"
+    {
+        over "joint1" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = None
+            float drive:angular:physics:maxForce = None
+            float drive:angular:physics:stiffness = None
+            float drive:angular:physics:targetPosition = None
+            uniform token drive:angular:physics:type = None
+            uniform double mjc:armature = 0.1
+            uniform bool mjc:actuatorgravcomp = 1
+            uniform double mjc:damping = 1.0
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -100
+            uniform double mjc:actuatorfrcrange:max = 100
+        }
+
+        over "joint2" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = None
+            float drive:angular:physics:maxForce = None
+            float drive:angular:physics:stiffness = None
+            float drive:angular:physics:targetPosition = None
+            uniform token drive:angular:physics:type = None
+            uniform double mjc:armature = 0.1
+            uniform bool mjc:actuatorgravcomp = 1
+            uniform double mjc:damping = 1.0
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -100
+            uniform double mjc:actuatorfrcrange:max = 100
+        }
+
+        over "joint3" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = None
+            float drive:angular:physics:maxForce = None
+            float drive:angular:physics:stiffness = None
+            float drive:angular:physics:targetPosition = None
+            uniform token drive:angular:physics:type = None
+            uniform double mjc:armature = 0.1
+            uniform bool mjc:actuatorgravcomp = 1
+            uniform double mjc:damping = 1.0
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -100
+            uniform double mjc:actuatorfrcrange:max = 100
+        }
+
+        over "joint4" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = None
+            float drive:angular:physics:maxForce = None
+            float drive:angular:physics:stiffness = None
+            float drive:angular:physics:targetPosition = None
+            uniform token drive:angular:physics:type = None
+            uniform double mjc:armature = 0.1
+            uniform bool mjc:actuatorgravcomp = 1
+            uniform double mjc:damping = 1.0
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -50
+            uniform double mjc:actuatorfrcrange:max = 50
+        }
+
+        over "joint5" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = None
+            float drive:angular:physics:maxForce = None
+            float drive:angular:physics:stiffness = None
+            float drive:angular:physics:targetPosition = None
+            uniform token drive:angular:physics:type = None
+            uniform double mjc:armature = 0.05
+            uniform bool mjc:actuatorgravcomp = 1
+            uniform double mjc:damping = 1.0
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -20
+            uniform double mjc:actuatorfrcrange:max = 20
+        }
+
+        over "joint6" (
+            prepend apiSchemas = ["MjcJointAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = None
+            float drive:angular:physics:maxForce = None
+            float drive:angular:physics:stiffness = None
+            float drive:angular:physics:targetPosition = None
+            uniform token drive:angular:physics:type = None
+            uniform double mjc:armature = 0.05
+            uniform bool mjc:actuatorgravcomp = 1
+            uniform double mjc:damping = 1.0
+            uniform token mjc:actuatorfrclimited = "auto"
+            uniform double mjc:actuatorfrcrange:min = -20
+            uniform double mjc:actuatorfrcrange:max = 20
+        }
+
+    }
+
+    over "link1"
+    {
+        uniform float mjc:gravcomp = 1
+    }
+
+    over "link2"
+    {
+        uniform float mjc:gravcomp = 1
+    }
+
+    over "link3"
+    {
+        uniform float mjc:gravcomp = 1
+    }
+
+    over "link4"
+    {
+        uniform float mjc:gravcomp = 1
+    }
+
+    over "link5"
+    {
+        uniform float mjc:gravcomp = 1
+    }
+
+    over "link6"
+    {
+        uniform float mjc:gravcomp = 1
+
+        over "tcp"
+        {
+            over "Xhand1" (
+                variants = {
+                    string Physics = "mujoco"
+                }
+            )
+            {
+            }
+        }
+    }
+
+    def Scope "actuators"
+    {
+        def MjcActuator "joint1"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [800, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -800, -50, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -100
+            uniform double mjc:forceRange:max = 100
+            uniform token mjc:ctrlLimited = "false"
+            rel mjc:target = </Airbot_Play/joints/joint1>
+        }
+
+        def MjcActuator "joint2"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [800, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -800, -50, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -100
+            uniform double mjc:forceRange:max = 100
+            uniform token mjc:ctrlLimited = "false"
+            rel mjc:target = </Airbot_Play/joints/joint2>
+        }
+
+        def MjcActuator "joint3"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [800, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -800, -50, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -100
+            uniform double mjc:forceRange:max = 100
+            uniform token mjc:ctrlLimited = "false"
+            rel mjc:target = </Airbot_Play/joints/joint3>
+        }
+
+        def MjcActuator "joint4"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [800, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -800, -50, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -50
+            uniform double mjc:forceRange:max = 50
+            uniform token mjc:ctrlLimited = "false"
+            rel mjc:target = </Airbot_Play/joints/joint4>
+        }
+
+        def MjcActuator "joint5"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [800, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -800, -50, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -20
+            uniform double mjc:forceRange:max = 20
+            uniform token mjc:ctrlLimited = "false"
+            rel mjc:target = </Airbot_Play/joints/joint5>
+        }
+
+        def MjcActuator "joint6"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [800, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -800, -50, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -20
+            uniform double mjc:forceRange:max = 20
+            uniform token mjc:ctrlLimited = "false"
+            rel mjc:target = </Airbot_Play/joints/joint6>
+        }
+
+    }
+}

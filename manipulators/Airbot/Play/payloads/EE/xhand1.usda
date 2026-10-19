@@ -1,0 +1,52 @@
+#usda 1.0
+(
+    defaultPrim = "Airbot_Play"
+    metersPerUnit = 1
+    upAxis = "Z"
+    doc = """EE=xhand1. Xacro mount on link6: T z=0.014, identity, use_flange=false → Flange=none.
+AssemblerFixedJoint matches mount TF. root_joint inactive.
+"""
+)
+
+def Xform "Airbot_Play"
+{
+    over "link6"
+    {
+        over "tcp"
+        {
+            def "Xhand1" (
+                prepend payload = @../../../../../dexhands/RobotEra/Xhand1/Xhand1.usda@
+                variants = {
+                    string Flange = "none"
+                    string Side = "default"
+                    string Robot = "none"
+                }
+            )
+            {
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0.014)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+                over "root_joint" (
+                    active = false
+                )
+                {
+                }
+
+                over "hand_base"
+                {
+                    def PhysicsFixedJoint "AssemblerFixedJoint"
+                    {
+                        rel physics:body0 = </Airbot_Play/link6/tcp>
+                        rel physics:body1 = </Airbot_Play/link6/tcp/Xhand1/hand_base>
+                        point3f physics:localPos0 = (0, 0, 0.014)
+                        point3f physics:localPos1 = (0, 0, 0)
+                        quatf physics:localRot0 = (1, 0, 0, 0)
+                        quatf physics:localRot1 = (1, 0, 0, 0)
+                    }
+                }
+            }
+        }
+    }
+}
