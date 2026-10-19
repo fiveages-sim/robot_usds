@@ -8,7 +8,7 @@
 over "OpenArm_HT"
 {
     over "world" (
-        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "PhysicsArticulationRootAPI"]
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
     )
     {
         point3f physics:centerOfMass = (0.000011884581, 0, 0.15568368)
@@ -640,9 +640,10 @@ over "OpenArm_HT"
         quatf physics:principalAxes = (0.9990655, -0.03733199, -0.002547078, -0.02163154)
     }
 
-    # Fixed weld only. Articulation root lives on world (W2 base_link pattern)
-    # so PhysX tensors / IsaacReadJointState see arm DOFs under the root link.
-    def PhysicsFixedJoint "root_joint"
+    # Fixed-base articulation (Panthera pattern): ArticulationRoot on FixedJoint.
+    def PhysicsFixedJoint "root_joint" (
+        prepend apiSchemas = ["PhysicsArticulationRootAPI"]
+    )
     {
         rel physics:body1 = </OpenArm_HT/world>
     }

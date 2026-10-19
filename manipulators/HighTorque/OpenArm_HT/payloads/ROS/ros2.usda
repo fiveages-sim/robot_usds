@@ -143,8 +143,8 @@ def "OpenArm_HT"
                 custom double[] inputs:positionCommand
                 prepend double[] inputs:positionCommand.connect = </OpenArm_HT/Graph/ROS_JointStates/SubscriberJointState.outputs:positionCommand>
                 custom string inputs:robotPath
-                # Dual-arm shares one articulation rooted on world (root rigid body).
-                custom rel inputs:targetPrim = </OpenArm_HT/world> (
+                # Fixed-base articulation root is root_joint (PhysicsFixedJoint).
+                custom rel inputs:targetPrim = </OpenArm_HT/root_joint> (
                     customData = {
                         dictionary omni = {
                             dictionary graph = {
@@ -192,7 +192,7 @@ def "OpenArm_HT"
                     }
                 )
                 prepend uint inputs:execIn.connect = </OpenArm_HT/Graph/ROS_JointStates/OnPlaybackTick.outputs:tick>
-                custom rel inputs:prim = </OpenArm_HT/world> (
+                custom rel inputs:prim = </OpenArm_HT/root_joint> (
                     customData = {
                         dictionary omni = {
                             dictionary graph = {

@@ -7,8 +7,8 @@
                 double radius = 5
             }
             dictionary Perspective = {
-                double3 position = (0.6359704186242473, 0.602640507300411, 1.0024312489761165)
-                double3 target = (-3.7644637194085857, -3.1468351326102115, 0.17614881798587212)
+                double3 position = (0.3431240114234779, 1.0419134515951962, 1.1200624733760818)
+                double3 target = (-3.3230077712340345, -2.9521348512201318, -1.7557373373456335)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -40,75 +40,6 @@
 
 def Xform "World"
 {
-    def "fruits" (
-        prepend payload = @../../../../environment/fiveages_env/tasks/table_optical/fruits.usda@
-    )
-    {
-        over "lime" (
-            active = true
-        )
-        {
-            over "Geometry"
-            {
-                over "lime_01_obj_00"
-                {
-                }
-            }
-        }
-
-        over "apple" (
-            active = true
-        )
-        {
-            over "Geometry"
-            {
-                over "model_normalized_0_vis_obj" (
-                    prepend apiSchemas = ["PhysxRigidBodyAPI"]
-                )
-                {
-                    over "model_normalized_0_vis_mesh"
-                    {
-                        over "model_normalized_0_vis_mesh" (
-                            prepend apiSchemas = ["PhysxSDFMeshCollisionAPI", "PhysxConvexHullCollisionAPI"]
-                        )
-                        {
-                            uniform token physics:approximation = "sdf"
-                        }
-                    }
-                }
-            }
-        }
-
-        over "empty" (
-            variants = {
-                string ROS_Camera = "enable"
-            }
-        )
-        {
-        }
-
-        over "shelf"
-        {
-            quatf xformOp:orient = (0.70710677, 0.70710677, 0, 0)
-            float3 xformOp:scale = (1, 1, 1)
-            double3 xformOp:translate = (0.25, -0.3514014829647969, 0.9316625759687558)
-            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale", "xformOp:rotateX:unitsResolve"]
-
-            over "shelf8" (
-                delete apiSchemas = ["PhysicsRigidBodyAPI", "PhysxRigidBodyAPI"]
-            )
-            {
-                over "mesh"
-                {
-                    quatf xformOp:orient = (1, 0, 0, 0)
-                    float3 xformOp:scale = (1, 1, 1)
-                    double3 xformOp:translate = (0, 0, -4.1300296516055823e-14)
-                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
-                }
-            }
-        }
-    }
-
     def "Panthera_HT" (
         prepend payload = @../Panthera_HT.usda@
         variants = {
@@ -302,6 +233,34 @@ def Xform "World"
             }
         }
     }
+
+    def "fruits" (
+        prepend payload = @../../../../../environment/fiveages_env/tasks/table_optical/fruits.usda@
+    )
+    {
+        over "empty"
+        {
+            over "Graph"
+            {
+                over "ROS_Camera"
+                {
+                    over "RGBPublish"
+                    {
+                        custom token inputs:type (
+                            allowedTokens = ["rgb", "rgb_h264", "depth", "depth_pcl", "instance_segmentation", "semantic_segmentation", "bbox_2d_tight", "bbox_2d_loose", "bbox_3d", "rgb_hevc"]
+                        )
+                    }
+
+                    over "DepthPublish"
+                    {
+                        custom token inputs:type (
+                            allowedTokens = ["rgb", "rgb_h264", "depth", "depth_pcl", "instance_segmentation", "semantic_segmentation", "bbox_2d_tight", "bbox_2d_loose", "bbox_3d", "rgb_hevc"]
+                        )
+                    }
+                }
+            }
+        }
+    }
 }
 
 def Xform "Environment"
@@ -345,7 +304,7 @@ def "Render" (
         )
         {
             def RenderProduct "omni_kit_widget_viewport_ViewportTexture_0" (
-                prepend apiSchemas = ["OmniRtxSettingsCommonAdvancedAPI_1", "OmniRtxSettingsRtAdvancedAPI_1", "OmniRtxSettingsPtAdvancedAPI_1", "OmniRtxPostColorGradingAPI_1", "OmniRtxPostChromaticAberrationAPI_1", "OmniRtxPostBloomPhysicalAPI_1", "OmniRtxPostMatteObjectAPI_1", "OmniRtxPostCompositingAPI_1", "OmniRtxPostDofAPI_1", "OmniRtxPostMotionBlurAPI_1", "OmniRtxPostTvNoiseAPI_1", "OmniRtxPostTonemapIrayReinhardAPI_1", "OmniRtxPostDebugSettingsAPI_1", "OmniRtxDebugSettingsAPI_1"]
+                prepend apiSchemas = ["OmniRtxSettingsCommonAdvancedAPI_1", "OmniRtxSettingsRtAdvancedAPI_1", "OmniRtxSettingsPtAdvancedAPI_1", "OmniRtxPostColorGradingAPI_1", "OmniRtxPostChromaticAberrationAPI_1", "OmniRtxPostBloomPhysicalAPI_1", "OmniRtxPostMatteObjectAPI_1", "OmniRtxPostCompositingAPI_1", "OmniRtxPostDofAPI_1", "OmniRtxPostMotionBlurAPI_1", "OmniRtxPostTvNoiseAPI_1", "OmniRtxPostTonemapIrayReinhardAPI_1", "OmniRtxPostDebugSettingsAPI_1", "OmniRtxDebugSettingsAPI_1", "OmniRtxSettingsParticleFieldAPI_1"]
                 hide_in_stage_window = true
                 no_delete = true
             )
@@ -380,7 +339,7 @@ def "Render" (
                 bool omni:rtx:scene:hydra:mdlMaterialWarmup = 1
                 rel orderedVars = </Render/Vars/LdrColor>
                 custom bool overrideClipRange = 0
-                uniform int2 resolution = (1280, 720)
+                uniform int2 resolution = (949, 577)
             }
 
             def RenderProduct "Replicator" (
@@ -482,10 +441,10 @@ over "OmniverseKit_Persp" (
     float exposure:time = 0.02
     float focalLength = 18.147562
     float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -5.839959831472391)
-    float3 xformOp:rotateXYZ = (81.86606, 4.4527766e-14, 130.4333)
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -6.137032560153205)
+    float3 xformOp:rotateXYZ = (62.056686, 3.4986103e-14, 137.45122)
     float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (0.6359704186242473, 0.602640507300411, 1.0024312489761165)
+    double3 xformOp:translate = (0.3431240114234779, 1.0419134515951962, 1.1200624733760818)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 
