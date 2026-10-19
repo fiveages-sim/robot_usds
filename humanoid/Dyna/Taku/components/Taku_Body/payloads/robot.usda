@@ -1,0 +1,93 @@
+#usda 1.0
+(
+    defaultPrim = "Taku_Body"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+over "Taku_Body" (
+    prepend apiSchemas = ["IsaacRobotAPI"]
+)
+{
+    custom string isaac:description = "Dyna Taku folding lift + waist (4 DoF)"
+    custom string isaac:namespace = ""
+    custom rel isaac:physics:robotJoints
+    prepend rel isaac:physics:robotJoints = [
+        </Taku_Body/joints/folding_low_joint>,
+        </Taku_Body/joints/folding_high_joint>,
+        </Taku_Body/joints/waist_pitch_joint>,
+        </Taku_Body/joints/waist_yaw_joint>,
+    ]
+    custom rel isaac:physics:robotLinks
+    prepend rel isaac:physics:robotLinks = [
+        </Taku_Body/base_link>,
+        </Taku_Body/folding_lower_joint_link>,
+        </Taku_Body/folding_to_waist_link>,
+        </Taku_Body/torso_waist_pitch_link>,
+        </Taku_Body/torso_body_link>,
+    ]
+    custom token isaac:robotType = "Manipulator"
+
+    over "base_link" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+    }
+
+    over "folding_lower_joint_link" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+    }
+
+    over "folding_to_waist_link" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+    }
+
+    over "torso_waist_pitch_link" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+    }
+
+    over "torso_body_link" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+        over "torso_tracking_frame" (
+            prepend apiSchemas = ["IsaacSiteAPI"]
+        )
+        {
+        }
+    }
+
+    over "joints"
+    {
+        over "folding_low_joint" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+        }
+
+        over "folding_high_joint" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+        }
+
+        over "waist_pitch_joint" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+        }
+
+        over "waist_yaw_joint" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+        }
+    }
+}
+

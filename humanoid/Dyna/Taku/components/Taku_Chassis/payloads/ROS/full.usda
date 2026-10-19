@@ -1,0 +1,355 @@
+#usda 1.0
+(
+    defaultPrim = "Taku_Chassis"
+    doc = "Chassis ROS=full: enable (drive + odom/TF) PLUS mid360 + airy_left + airy_right point_cloud publish. Requires Sensor=sensors (RTX_Lidar prims)."
+    metersPerUnit = 1
+    subLayers = [
+        @./enable.usda@
+    ]
+    upAxis = "Z"
+)
+
+over "Taku_Chassis"
+{
+    over "Graphs"
+    {
+        def OmniGraph "ROS_Lidar_mid360"
+        {
+            token evaluationMode = "Automatic"
+            token evaluator:type = "execution"
+            token fabricCacheBacking = "StageWithoutHistory"
+            int2 fileFormatVersion = (1, 9)
+            token pipelineStage = "pipelineStageSimulation"
+
+            def OmniGraphNode "OnPlaybackTick"
+            {
+                token node:type = "omni.graph.action.OnPlaybackTick"
+                int node:typeVersion = 2
+                custom double outputs:deltaSeconds
+                custom double outputs:frame
+                custom uint outputs:tick (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom double outputs:time
+            }
+
+            def OmniGraphNode "RunOnce"
+            {
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </Taku_Chassis/Graphs/ROS_Lidar_mid360/OnPlaybackTick.outputs:tick>
+                token node:type = "isaacsim.core.nodes.OgnIsaacRunOneSimulationFrame"
+                int node:typeVersion = 1
+                custom uint outputs:step (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+            }
+
+            def OmniGraphNode "RenderProduct"
+            {
+                custom rel inputs:cameraPrim = </Taku_Chassis/base_link/lidar_back/RTX_Lidar> (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
+                custom bool inputs:enabled
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </Taku_Chassis/Graphs/ROS_Lidar_mid360/RunOnce.outputs:step>
+                custom uint inputs:height
+                custom uint inputs:width
+                token node:type = "isaacsim.core.nodes.IsaacCreateRenderProduct"
+                int node:typeVersion = 2
+                custom uint outputs:execOut (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom token outputs:renderProductPath
+            }
+
+            def OmniGraphNode "Context"
+            {
+                custom uchar inputs:domain_id
+                custom bool inputs:useDomainIDEnvVar
+                token node:type = "isaacsim.ros2.bridge.ROS2Context"
+                int node:typeVersion = 2
+                custom uint64 outputs:context
+            }
+
+            def OmniGraphNode "PointCloudPublish"
+            {
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </Taku_Chassis/Graphs/ROS_Lidar_mid360/Context.outputs:context>
+                custom bool inputs:enabled
+                custom bool inputs:enableObjectIdMap
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </Taku_Chassis/Graphs/ROS_Lidar_mid360/RenderProduct.outputs:execOut>
+                custom string inputs:frameId = "lidar_back"
+                custom uint inputs:frameSkipCount
+                custom bool inputs:fullScan
+                custom string inputs:nodeNamespace = ""
+                custom string inputs:objectIdMapTopicName
+                custom string inputs:qosProfile
+                custom uint64 inputs:queueSize
+                custom token inputs:renderProductPath
+                prepend token inputs:renderProductPath.connect = </Taku_Chassis/Graphs/ROS_Lidar_mid360/RenderProduct.outputs:renderProductPath>
+                custom bool inputs:resetSimulationTimeOnStop
+                custom token[] inputs:selectedMetadata
+                custom bool inputs:showDebugView
+                custom string inputs:topicName = "/mid360/point_cloud"
+                custom token inputs:type = "point_cloud" (
+                    allowedTokens = ["laser_scan", "point_cloud"]
+                )
+                custom bool inputs:useSystemTime
+                token node:type = "isaacsim.ros2.bridge.ROS2RtxLidarHelper"
+                int node:typeVersion = 2
+            }
+        }
+
+
+        def OmniGraph "ROS_Lidar_airy_left"
+        {
+            token evaluationMode = "Automatic"
+            token evaluator:type = "execution"
+            token fabricCacheBacking = "StageWithoutHistory"
+            int2 fileFormatVersion = (1, 9)
+            token pipelineStage = "pipelineStageSimulation"
+
+            def OmniGraphNode "OnPlaybackTick"
+            {
+                token node:type = "omni.graph.action.OnPlaybackTick"
+                int node:typeVersion = 2
+                custom double outputs:deltaSeconds
+                custom double outputs:frame
+                custom uint outputs:tick (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom double outputs:time
+            }
+
+            def OmniGraphNode "RunOnce"
+            {
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </Taku_Chassis/Graphs/ROS_Lidar_airy_left/OnPlaybackTick.outputs:tick>
+                token node:type = "isaacsim.core.nodes.OgnIsaacRunOneSimulationFrame"
+                int node:typeVersion = 1
+                custom uint outputs:step (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+            }
+
+            def OmniGraphNode "RenderProduct"
+            {
+                custom rel inputs:cameraPrim = </Taku_Chassis/base_link/lidar_front_left/RTX_Lidar> (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
+                custom bool inputs:enabled
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </Taku_Chassis/Graphs/ROS_Lidar_airy_left/RunOnce.outputs:step>
+                custom uint inputs:height
+                custom uint inputs:width
+                token node:type = "isaacsim.core.nodes.IsaacCreateRenderProduct"
+                int node:typeVersion = 2
+                custom uint outputs:execOut (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom token outputs:renderProductPath
+            }
+
+            def OmniGraphNode "Context"
+            {
+                custom uchar inputs:domain_id
+                custom bool inputs:useDomainIDEnvVar
+                token node:type = "isaacsim.ros2.bridge.ROS2Context"
+                int node:typeVersion = 2
+                custom uint64 outputs:context
+            }
+
+            def OmniGraphNode "PointCloudPublish"
+            {
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </Taku_Chassis/Graphs/ROS_Lidar_airy_left/Context.outputs:context>
+                custom bool inputs:enabled
+                custom bool inputs:enableObjectIdMap
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </Taku_Chassis/Graphs/ROS_Lidar_airy_left/RenderProduct.outputs:execOut>
+                custom string inputs:frameId = "lidar_front_left"
+                custom uint inputs:frameSkipCount
+                custom bool inputs:fullScan
+                custom string inputs:nodeNamespace = ""
+                custom string inputs:objectIdMapTopicName
+                custom string inputs:qosProfile
+                custom uint64 inputs:queueSize
+                custom token inputs:renderProductPath
+                prepend token inputs:renderProductPath.connect = </Taku_Chassis/Graphs/ROS_Lidar_airy_left/RenderProduct.outputs:renderProductPath>
+                custom bool inputs:resetSimulationTimeOnStop
+                custom token[] inputs:selectedMetadata
+                custom bool inputs:showDebugView
+                custom string inputs:topicName = "/airy_left/point_cloud"
+                custom token inputs:type = "point_cloud" (
+                    allowedTokens = ["laser_scan", "point_cloud"]
+                )
+                custom bool inputs:useSystemTime
+                token node:type = "isaacsim.ros2.bridge.ROS2RtxLidarHelper"
+                int node:typeVersion = 2
+            }
+        }
+
+
+        def OmniGraph "ROS_Lidar_airy_right"
+        {
+            token evaluationMode = "Automatic"
+            token evaluator:type = "execution"
+            token fabricCacheBacking = "StageWithoutHistory"
+            int2 fileFormatVersion = (1, 9)
+            token pipelineStage = "pipelineStageSimulation"
+
+            def OmniGraphNode "OnPlaybackTick"
+            {
+                token node:type = "omni.graph.action.OnPlaybackTick"
+                int node:typeVersion = 2
+                custom double outputs:deltaSeconds
+                custom double outputs:frame
+                custom uint outputs:tick (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom double outputs:time
+            }
+
+            def OmniGraphNode "RunOnce"
+            {
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </Taku_Chassis/Graphs/ROS_Lidar_airy_right/OnPlaybackTick.outputs:tick>
+                token node:type = "isaacsim.core.nodes.OgnIsaacRunOneSimulationFrame"
+                int node:typeVersion = 1
+                custom uint outputs:step (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+            }
+
+            def OmniGraphNode "RenderProduct"
+            {
+                custom rel inputs:cameraPrim = </Taku_Chassis/base_link/lidar_front_right/RTX_Lidar> (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
+                custom bool inputs:enabled
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </Taku_Chassis/Graphs/ROS_Lidar_airy_right/RunOnce.outputs:step>
+                custom uint inputs:height
+                custom uint inputs:width
+                token node:type = "isaacsim.core.nodes.IsaacCreateRenderProduct"
+                int node:typeVersion = 2
+                custom uint outputs:execOut (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom token outputs:renderProductPath
+            }
+
+            def OmniGraphNode "Context"
+            {
+                custom uchar inputs:domain_id
+                custom bool inputs:useDomainIDEnvVar
+                token node:type = "isaacsim.ros2.bridge.ROS2Context"
+                int node:typeVersion = 2
+                custom uint64 outputs:context
+            }
+
+            def OmniGraphNode "PointCloudPublish"
+            {
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </Taku_Chassis/Graphs/ROS_Lidar_airy_right/Context.outputs:context>
+                custom bool inputs:enabled
+                custom bool inputs:enableObjectIdMap
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </Taku_Chassis/Graphs/ROS_Lidar_airy_right/RenderProduct.outputs:execOut>
+                custom string inputs:frameId = "lidar_front_right"
+                custom uint inputs:frameSkipCount
+                custom bool inputs:fullScan
+                custom string inputs:nodeNamespace = ""
+                custom string inputs:objectIdMapTopicName
+                custom string inputs:qosProfile
+                custom uint64 inputs:queueSize
+                custom token inputs:renderProductPath
+                prepend token inputs:renderProductPath.connect = </Taku_Chassis/Graphs/ROS_Lidar_airy_right/RenderProduct.outputs:renderProductPath>
+                custom bool inputs:resetSimulationTimeOnStop
+                custom token[] inputs:selectedMetadata
+                custom bool inputs:showDebugView
+                custom string inputs:topicName = "/airy_right/point_cloud"
+                custom token inputs:type = "point_cloud" (
+                    allowedTokens = ["laser_scan", "point_cloud"]
+                )
+                custom bool inputs:useSystemTime
+                token node:type = "isaacsim.ros2.bridge.ROS2RtxLidarHelper"
+                int node:typeVersion = 2
+            }
+        }
+
+    }
+}

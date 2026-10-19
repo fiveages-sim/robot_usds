@@ -1367,5 +1367,19 @@ def "Wuji_hand2"
 
     }
 
-}
+    # When Sensor=contact_force is selected, pin RH topic/TF prefixes (overs no-op if Graph absent).
+    over "Graph"
+    {
+        over "ROS_Contact_Force"
+        {
+            over "PublishContact"
+            {
+                custom string inputs:tfPrefix = "right_hand"
+                custom string inputs:topicPrefix = "wuji_rh"
+                custom string inputs:attachMode = "link"
+                custom bool inputs:negateForce = 1
+            }
+        }
+    }
 
+}

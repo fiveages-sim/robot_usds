@@ -1,0 +1,176 @@
+#usda 1.0
+(
+    customLayerData = {
+        string creator = "URDF USD Converter v0.3.2"
+    }
+    defaultPrim = "Zerith_H1_Gripper"
+    endTimeCode = 1000000
+    kilogramsPerUnit = 1
+    metersPerUnit = 1
+    startTimeCode = 0
+    upAxis = "Z"
+)
+
+over "Zerith_H1_Gripper"
+{
+    over "joints"
+    {
+        def PhysicsPrismaticJoint "gripper_joint" (
+            prepend apiSchemas = ["NewtonJointAPI", "PhysicsDriveAPI:linear", "PhysicsJointStateAPI:linear"]
+        )
+        {
+            float drive:linear:physics:maxForce = 120
+            float newton:velocityLimit = 0.25
+            uniform token physics:axis = "Y"
+            custom rel physics:body0
+            append rel physics:body0 = </Zerith_H1_Gripper/gripper_base>
+            custom rel physics:body1
+            append rel physics:body1 = </Zerith_H1_Gripper/jaw_left_finger_link>
+            point3f physics:localPos0 = (0.056, -0.04, 0)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = 0
+            float physics:upperLimit = 0.04
+            custom float urdf:limit:effort = 120
+        }
+
+        def PhysicsPrismaticJoint "jaw_right_finger_joint" (
+            prepend apiSchemas = ["NewtonJointAPI", "NewtonMimicAPI", "PhysicsDriveAPI:linear", "PhysicsJointStateAPI:linear"]
+        )
+        {
+            float drive:linear:physics:maxForce = 120
+            float newton:mimicCoef1 = -1
+            rel newton:mimicJoint = </Zerith_H1_Gripper/joints/gripper_joint>
+            float newton:velocityLimit = 0.25
+            uniform token physics:axis = "Y"
+            custom rel physics:body0
+            append rel physics:body0 = </Zerith_H1_Gripper/gripper_base>
+            custom rel physics:body1
+            append rel physics:body1 = </Zerith_H1_Gripper/jaw_right_finger_link>
+            point3f physics:localPos0 = (0.056, 0.04, 0)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -0.04
+            float physics:upperLimit = 0
+            custom float urdf:limit:effort = 120
+        }
+
+        def PhysicsFixedJoint "root_joint"
+        {
+            custom rel physics:body0
+            append rel physics:body0 = </Zerith_H1_Gripper>
+            custom rel physics:body1
+            append rel physics:body1 = </Zerith_H1_Gripper/gripper_base>
+            point3f physics:localPos0 = (0, 0, 0)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+        }
+
+        def PhysicsFixedJoint "camera_support_joint"
+        {
+            custom rel physics:body0
+            append rel physics:body0 = </Zerith_H1_Gripper/gripper_base>
+            custom rel physics:body1
+            append rel physics:body1 = </Zerith_H1_Gripper/camera_support>
+            point3f physics:localPos0 = (0, 0, 0)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+        }
+
+        def PhysicsFixedJoint "jaw_camera_joint"
+        {
+            custom rel physics:body0
+            append rel physics:body0 = </Zerith_H1_Gripper/camera_support>
+            custom rel physics:body1
+            append rel physics:body1 = </Zerith_H1_Gripper/jaw_camera_link>
+            point3f physics:localPos0 = (0.07675, 0, 0.05878)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0.37993604, -0.5963613, 0.5963635, -0.37993744)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+        }
+
+        def PhysicsFixedJoint "eef_joint"
+        {
+            custom rel physics:body0
+            append rel physics:body0 = </Zerith_H1_Gripper/gripper_base>
+            custom rel physics:body1
+            append rel physics:body1 = </Zerith_H1_Gripper/eef>
+            point3f physics:localPos0 = (0.0975, 0, 0)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+        }
+    }
+
+    over "jaw_camera_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "NewtonMassAPI"]
+    )
+    {
+        double[] newton:inertia = [0.00001081, 0.0000108, 0.00001658, 0, 0, 0]
+        point3f physics:centerOfMass = (0, 0.005, -0.01561719)
+        float3 physics:diagonalInertia = (0.0000108, 0.00001081, 0.00001658)
+        float physics:mass = 0.05789
+        quatf physics:principalAxes = (6.123234e-17, 0.70710677, 0.70710677, 0)
+    }
+
+    over "jaw_right_finger_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "NewtonMassAPI"]
+    )
+    {
+        double[] newton:inertia = [0.00001518, 0.00002561, 0.00001872, -0.00000371, 0.00000114, 3.1e-7]
+        point3f physics:centerOfMass = (0.02884254, -0.05065805, -0.00142222)
+        float3 physics:diagonalInertia = (0.000013716547, 0.000018998093, 0.000026795358)
+        float physics:mass = 0.057987
+        quatf physics:principalAxes = (0.70885074, 0.67914444, 0.18848474, 0.027693806)
+    }
+
+    over "jaw_left_finger_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "NewtonMassAPI"]
+    )
+    {
+        double[] newton:inertia = [0.00001643, 0.00002627, 0.0000205, 0.00000246, 0.00000189, 4.7e-7]
+        point3f physics:centerOfMass = (0.02875166, 0.04972677, -0.00087113)
+        float3 physics:diagonalInertia = (0.000015268588, 0.000020952644, 0.000026978769)
+        float physics:mass = 0.057096
+        quatf physics:principalAxes = (0.6274911, 0.7551803, 0.027487265, -0.18762213)
+    }
+
+    over "camera_support" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "NewtonMassAPI"]
+    )
+    {
+        double[] newton:inertia = [0.000001, 0.000001, 0.000001, 0, 0, 0]
+        point3f physics:centerOfMass = (0, 0, 0)
+        float3 physics:diagonalInertia = (0.000001, 0.000001, 0.000001)
+        float physics:mass = 0.02
+        quatf physics:principalAxes = (1, 0, 0, 0)
+    }
+
+    over "eef" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "NewtonMassAPI"]
+    )
+    {
+        double[] newton:inertia = [0.000012345, 6.5495e-8, 0.00001232, -7.5727e-14, 2.3275e-11, -8.2193e-15]
+        point3f physics:centerOfMass = (-0.027172, -5.6108e-9, 0.0000012941)
+        float3 physics:diagonalInertia = (6.5495e-8, 0.00001232, 0.000012345)
+        float physics:mass = 0.0066601
+        quatf physics:principalAxes = (0.5002327, 0.49976718, 0.49976718, 0.5002327)
+    }
+
+    over "gripper_base" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsArticulationRootAPI", "NewtonArticulationRootAPI", "PhysicsMassAPI", "NewtonMassAPI"]
+    )
+    {
+        double[] newton:inertia = [0.00046134, 0.00044669, 0.00060413, 0.00004762, -0.00001314, -5.2e-7]
+        bool newton:selfCollisionEnabled = 0
+        point3f physics:centerOfMass = (0.03225733, 0.00143511, 0.00315751)
+        float3 physics:diagonalInertia = (0.00040549773, 0.00050116936, 0.0006054929)
+        float physics:mass = 0.5139
+        quatf physics:principalAxes = (0.039362848, 0.41411456, 0.9086394, 0.036526844)
+    }
+}
+

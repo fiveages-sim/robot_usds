@@ -1,0 +1,230 @@
+#usda 1.0
+(
+    defaultPrim = "Taku_Chassis"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def "Taku_Chassis"
+{
+    def "Graphs"
+    {
+        def OmniGraph "steering_wheel_controller"
+        {
+            token evaluationMode = "Automatic"
+            token evaluator:type = "execution"
+            token fabricCacheBacking = "StageWithoutHistory"
+            int2 fileFormatVersion = (1, 9)
+            token pipelineStage = "pipelineStageSimulation"
+            token ui:displayName = "steering_wheel_controller"
+
+            def OmniGraphNode "OnPlaybackTick"
+            {
+                token node:type = "omni.graph.action.OnPlaybackTick"
+                int node:typeVersion = 2
+                custom double outputs:deltaSeconds
+                custom double outputs:frame
+                custom uint outputs:tick (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom double outputs:time
+            }
+
+            def OmniGraphNode "ReadSimTime"
+            {
+                custom uint64 inputs:referenceTimeDenominator
+                custom int64 inputs:referenceTimeNumerator
+                custom bool inputs:resetOnStop = 0
+                token node:type = "isaacsim.core.nodes.IsaacReadSimulationTime"
+                int node:typeVersion = 1
+                custom double outputs:simulationTime
+            }
+
+            def OmniGraphNode "Context"
+            {
+                custom uchar inputs:domain_id
+                custom bool inputs:useDomainIDEnvVar
+                token node:type = "isaacsim.ros2.bridge.ROS2Context"
+                int node:typeVersion = 2
+                custom uint64 outputs:context
+            }
+
+            def OmniGraphNode "ros2_subscribe_twist"
+            {
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </Taku_Chassis/Graphs/steering_wheel_controller/Context.outputs:context>
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </Taku_Chassis/Graphs/steering_wheel_controller/OnPlaybackTick.outputs:tick>
+                custom string inputs:nodeNamespace = ""
+                custom string inputs:qosProfile
+                custom uint64 inputs:queueSize
+                custom string inputs:topicName = "/cmd_vel"
+                token node:type = "isaacsim.ros2.bridge.ROS2SubscribeTwist"
+                int node:typeVersion = 1
+                custom vector3d outputs:angularVelocity
+                custom uint outputs:execOut (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom vector3d outputs:linearVelocity
+            }
+
+            def OmniGraphNode "cmd_msg_counter"
+            {
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </Taku_Chassis/Graphs/steering_wheel_controller/ros2_subscribe_twist.outputs:execOut>
+                custom uint inputs:reset (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                token node:type = "omni.graph.action.Counter"
+                int node:typeVersion = 2
+                custom int outputs:count
+                custom uint outputs:execOut (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom int state:count
+            }
+
+            def OmniGraphNode "scale_to_from_stage_units"
+            {
+                custom token inputs:conversion = "Convert to meters" (
+                    allowedTokens = ["Convert to stage units", "Convert to meters"]
+                )
+                custom vector3d inputs:value
+                prepend vector3d inputs:value.connect = </Taku_Chassis/Graphs/steering_wheel_controller/ros2_subscribe_twist.outputs:linearVelocity>
+                token node:type = "isaacsim.core.nodes.OgnIsaacScaleToFromStageUnit"
+                int node:typeVersion = 1
+                custom vector3d outputs:result
+            }
+
+            def OmniGraphNode "break_angular"
+            {
+                custom vector3d inputs:tuple
+                prepend vector3d inputs:tuple.connect = </Taku_Chassis/Graphs/steering_wheel_controller/ros2_subscribe_twist.outputs:angularVelocity>
+                token node:type = "omni.graph.nodes.BreakVector3"
+                int node:typeVersion = 1
+                custom double outputs:x
+                custom double outputs:y
+                custom double outputs:z
+            }
+
+            def OmniGraphNode "break_linear"
+            {
+                custom vector3d inputs:tuple
+                prepend vector3d inputs:tuple.connect = </Taku_Chassis/Graphs/steering_wheel_controller/scale_to_from_stage_units.outputs:result>
+                token node:type = "omni.graph.nodes.BreakVector3"
+                int node:typeVersion = 1
+                custom double outputs:x
+                custom double outputs:y
+                custom double outputs:z
+            }
+
+            def OmniGraphNode "script_node"
+            {
+                custom double inputs:angularGain = 1
+                custom double inputs:deltaSeconds
+                prepend double inputs:deltaSeconds.connect = </Taku_Chassis/Graphs/steering_wheel_controller/OnPlaybackTick.outputs:deltaSeconds>
+                custom double inputs:Desired_Angular_Velocity
+                prepend double inputs:Desired_Angular_Velocity.connect = </Taku_Chassis/Graphs/steering_wheel_controller/break_angular.outputs:z>
+                custom double inputs:Desired_Linear_Velocity_X
+                prepend double inputs:Desired_Linear_Velocity_X.connect = </Taku_Chassis/Graphs/steering_wheel_controller/break_linear.outputs:x>
+                custom double inputs:Desired_Linear_Velocity_Y
+                prepend double inputs:Desired_Linear_Velocity_Y.connect = </Taku_Chassis/Graphs/steering_wheel_controller/break_linear.outputs:y>
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </Taku_Chassis/Graphs/steering_wheel_controller/OnPlaybackTick.outputs:tick>
+                custom double inputs:flipVelocityScale = 0.15
+                custom double inputs:linearGain = 16
+                custom int inputs:msgCount
+                prepend int inputs:msgCount.connect = </Taku_Chassis/Graphs/steering_wheel_controller/cmd_msg_counter.outputs:count>
+                custom double inputs:simTime
+                prepend double inputs:simTime.connect = </Taku_Chassis/Graphs/steering_wheel_controller/ReadSimTime.outputs:simulationTime>
+                token node:type = "fasim.steering.nodes.SwerveController"
+                int node:typeVersion = 1
+                custom token inputs:profile = "taku"
+                custom uint outputs:execOut (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom double[] outputs:Steer_Position_Command
+                custom double[] outputs:Wheel_Velocity_Command
+            }
+
+            def OmniGraphNode "steer_articulation_controller"
+            {
+                custom double[] inputs:effortCommand
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </Taku_Chassis/Graphs/steering_wheel_controller/OnPlaybackTick.outputs:tick>
+                custom int[] inputs:jointIndices
+                custom token[] inputs:jointNames = ["agv_left_front_steering_joint", "agv_left_back_steering_joint", "agv_right_back_steering_joint", "agv_right_front_steering_joint"]
+                custom double[] inputs:positionCommand
+                prepend double[] inputs:positionCommand.connect = </Taku_Chassis/Graphs/steering_wheel_controller/script_node.outputs:Steer_Position_Command>
+                custom string inputs:robotPath
+                custom rel inputs:targetPrim = </Taku_Chassis/base_link> (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
+                custom double[] inputs:velocityCommand
+                token node:type = "isaacsim.core.nodes.IsaacArticulationController"
+                int node:typeVersion = 1
+            }
+
+            def OmniGraphNode "drive_articulation_controller"
+            {
+                custom double[] inputs:effortCommand
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </Taku_Chassis/Graphs/steering_wheel_controller/OnPlaybackTick.outputs:tick>
+                custom int[] inputs:jointIndices
+                custom token[] inputs:jointNames = ["agv_left_front_rotate_joint", "agv_left_back_rotate_joint", "agv_right_back_rotate_joint", "agv_right_front_rotate_joint"]
+                custom double[] inputs:positionCommand
+                custom string inputs:robotPath
+                custom rel inputs:targetPrim = </Taku_Chassis/base_link> (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
+                custom double[] inputs:velocityCommand
+                prepend double[] inputs:velocityCommand.connect = </Taku_Chassis/Graphs/steering_wheel_controller/script_node.outputs:Wheel_Velocity_Command>
+                token node:type = "isaacsim.core.nodes.IsaacArticulationController"
+                int node:typeVersion = 1
+            }
+        }
+    }
+}
+

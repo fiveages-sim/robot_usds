@@ -7,10 +7,12 @@ Physics=physx (any Arm_Left/Arm_Right mix). Same convention as W2:
 parent self-col ON; NonDexHand mutes body/chassis/arm; dexhand EE excludes
 keep fingers ungrouped (finger self-col + FilteredPairs).
 
-M6S_Lite nested arm has its own CollisionGroups/NonDexHand. Parent and child
-groups must filter each other or arm convex hulls vs torso chatter (EE=None).
-Include whole Left_Arm/Right_Arm/Linkhou_S2 subtrees so tcp/arm_base/extra
-chassis colliders are not left ungrouped.
+M6S_Lite nested arm also authors CollisionGroups/NonDexHand on the same links.
+A collider may belong to only ONE PhysX group — dual membership spams
+  [omni.physx.plugin] Collisions are supported currently only in one collision group
+especially for gripper colliders (Marvin_Gripper is not in the dexhand excludes).
+Deactivate the nested arm groups so body/chassis/arm/gripper live only in this
+parent group. Dexhand roots stay excluded (ungrouped finger self-col).
 
 Keep hand prim names in sync with M6S_Lite_CCS EE dexhand_self_collision.usda.
 Grippers are intentionally not excluded.
@@ -54,8 +56,6 @@ over "Luna"
             ]
             prepend rel physics:filteredGroups = [
                 </Luna/CollisionGroups/NonDexHand>,
-                </Luna/Left_Arm/CollisionGroups/NonDexHand>,
-                </Luna/Right_Arm/CollisionGroups/NonDexHand>,
             ]
         }
     }
@@ -64,11 +64,10 @@ over "Luna"
     {
         over "CollisionGroups"
         {
-            over "NonDexHand"
+            over "NonDexHand" (
+                active = false
+            )
             {
-                prepend rel physics:filteredGroups = [
-                    </Luna/CollisionGroups/NonDexHand>,
-                ]
             }
         }
     }
@@ -77,11 +76,10 @@ over "Luna"
     {
         over "CollisionGroups"
         {
-            over "NonDexHand"
+            over "NonDexHand" (
+                active = false
+            )
             {
-                prepend rel physics:filteredGroups = [
-                    </Luna/CollisionGroups/NonDexHand>,
-                ]
             }
         }
     }

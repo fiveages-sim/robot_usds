@@ -25,6 +25,8 @@
 | **银河通用 S1** | **银河通用 G1** | **智元 G2** |
 | <img src=".images/gento%20luna.png" alt="天机 Gento Luna" width="300"> | <img src=".images/gento%20skye.png" alt="天机 Gento Skye" width="300"> | <img src=".images/spiritai_moz1.png" alt="千寻 MOZ1" width="300"> |
 | **天机 Gento Luna** | **天机 Gento Skye** | **千寻 MOZ1** |
+| <img src=".images/dyna%20taku.png" alt="Dyna Taku" width="300"> | <img src=".images/rokae%20inex.png" alt="珞石 Inex" width="300"> | <img src=".images/zerith%20h1.png" alt="零次方 H1" width="300"> |
+| **Dyna Taku** | **珞石 Inex** | **零次方 H1** |
 
 </div>
 
@@ -91,6 +93,8 @@ git submodule update --init --recursive
 | 速腾 | RoboSense |
 | 悟时 | Woosh |
 | 千寻 | Spirit AI |
+| Dyna | Dyna、Taku |
+| 零次方 | Zerith、H1 |
 | 易三伍 | YSW |
 | 奥比中光 | Orbbec |
 | 西克 | sick |
@@ -164,6 +168,8 @@ git submodule update --init --recursive
     - 星尘智能（`humanoid/Astribot/`）
         - S1（`S1`）
         - Gripper（`Gripper`）
+    - Dyna（`humanoid/Dyna/`）
+        - Taku（`Taku`）
     - 中科第五纪（`humanoid/FiveAges/`，子模块）
         - W1 / Gen1（`Gen1`）
         - W2 / S2 / Gen2（`Gen2`）
@@ -182,6 +188,8 @@ git submodule update --init --recursive
         - MOZ1（`MOZ1`）
     - 优必选（`humanoid/Ubtech` 子模块）
         - Cruzr S2（`Ubtech_CruzrS2`）
+    - 零次方（`humanoid/Zerith/`）
+        - H1（`H1`）
 - **Mobile Base（移动底盘）** — `mobile_base/`
     - 松灵（`mobile_base/Agilex/`）
         - Ranger Mini
@@ -262,8 +270,8 @@ robots/
     Galaxea/{R1,R1_Lite}/
     Galbot/  Agibot/{G1,G2}/
     Gento/{Luna,Skye}/          # 天机子品牌
-    Astribot/{S1,Gripper}/  Spirit AI/MOZ1/
-    Realman/AIDAL/  Ubtech/Ubtech_CruzrS2/
+    Astribot/{S1,Gripper}/  Dyna/Taku/  Spirit AI/MOZ1/
+    Realman/AIDAL/  Ubtech/Ubtech_CruzrS2/  Zerith/H1/
   mobile_base/
     Agilex/{Ranger Mini,Tracer V1,Tracer V2}/
     Linkhou/{Q1,S2_V1,S2_V2,G2_Chassis}/

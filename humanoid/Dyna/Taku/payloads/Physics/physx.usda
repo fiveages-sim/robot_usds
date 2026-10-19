@@ -1,0 +1,83 @@
+#usda 1.0
+(
+    defaultPrim = "Taku"
+    metersPerUnit = 1
+    subLayers = [
+        @./physics.usda@
+    ]
+    upAxis = "Z"
+)
+
+def "Taku"
+{
+    over "base_link" (
+        prepend apiSchemas = ["PhysxArticulationAPI"]
+    )
+    {
+        bool physxArticulation:enabledSelfCollisions = 0
+        float physxArticulation:sleepThreshold = 0.00005
+        int physxArticulation:solverPositionIterationCount = 64
+        int physxArticulation:solverVelocityIterationCount = 4
+        float physxArticulation:stabilizationThreshold = 0.00001
+    }
+
+    over "Taku_Chassis" (
+        variants = {
+            string Physics = "physx"
+        }
+    )
+    {
+    }
+
+    over "Taku_Body" (
+        variants = {
+            string Physics = "physx"
+        }
+    )
+    {
+    }
+
+    over "Taku_Head" (
+        variants = {
+            string Physics = "physx"
+        }
+    )
+    {
+    }
+
+    over "Arm_Left" (
+        variants = {
+            string Physics = "physx"
+        }
+    )
+    {
+        over "wrist_roll_link"
+        {
+            over "Taku_Dynaclaw" (
+                variants = {
+                    string Physics = "physx"
+                }
+            )
+            {
+            }
+        }
+    }
+
+    over "Arm_Right" (
+        variants = {
+            string Physics = "physx"
+        }
+    )
+    {
+        over "wrist_roll_link"
+        {
+            over "Taku_Dynaclaw" (
+                variants = {
+                    string Physics = "physx"
+                }
+            )
+            {
+            }
+        }
+    }
+}

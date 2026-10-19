@@ -1,0 +1,32 @@
+#usda 1.0
+(
+    doc = """Nero NonDexHand mute — subLayer of physx.usda ONLY.
+"""
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+over "Nero"
+{
+    def Scope "CollisionGroups"
+    {
+        def PhysicsCollisionGroup "NonDexHand" (
+            prepend apiSchemas = ["CollectionAPI:colliders"]
+        )
+        {
+            prepend rel collection:colliders:includes = [
+                </Nero/base_link>,
+                </Nero/link1>,
+                </Nero/link2>,
+                </Nero/link3>,
+                </Nero/link4>,
+                </Nero/link5>,
+                </Nero/link6>,
+                </Nero/link7>,
+            ]
+            prepend rel physics:filteredGroups = [
+                </Nero/CollisionGroups/NonDexHand>,
+            ]
+        }
+    }
+}

@@ -3,7 +3,8 @@
     defaultPrim = "AR5_CCS_V2"
     metersPerUnit = 1
     subLayers = [
-        @./physics.usda@
+        @./physics.usda@,
+        @./arm_self_collision_mute.usda@
     ]
     upAxis = "Z"
 )
@@ -66,7 +67,10 @@ def "AR5_CCS_V2"
         prepend apiSchemas = ["PhysxArticulationAPI"]
     )
     {
-        bool physxArticulation:enabledSelfCollisions = 0
+        # Mounted dexhand: self-col on; NonDexHand (arm_self_collision_mute.usda)
+        # mutes arm↔arm. DexHand EE sublayers dexhand_self_collision.usda to
+        # exclude fingers.
+        bool physxArticulation:enabledSelfCollisions = 1
         int physxArticulation:solverPositionIterationCount = 32
         int physxArticulation:solverVelocityIterationCount = 1
     }

@@ -24,6 +24,8 @@ Robot USD model files for ROS2 Control simulation.
 | **Galbot S1** | **Galbot G1** | **Agibot G2** |
 | <img src=".images/gento%20luna.png" alt="Tianji Gento Luna" width="300"> | <img src=".images/gento%20skye.png" alt="Tianji Gento Skye" width="300"> | <img src=".images/spiritai_moz1.png" alt="Spirit AI MOZ1" width="300"> |
 | **Tianji Gento Luna** | **Tianji Gento Skye** | **Spirit AI MOZ1** |
+| <img src=".images/dyna%20taku.png" alt="Dyna Taku" width="300"> | <img src=".images/rokae%20inex.png" alt="Rokae Inex" width="300"> | <img src=".images/zerith%20h1.png" alt="Zerith H1" width="300"> |
+| **Dyna Taku** | **Rokae Inex** | **Zerith H1** |
 
 </div>
 
@@ -124,6 +126,8 @@ The following models are **Git submodules** (vendored repositories, checked in a
     - Astribot (`humanoid/Astribot/`)
         - S1 (`S1`)
         - Gripper (`Gripper`)
+    - Dyna (`humanoid/Dyna/`)
+        - Taku (`Taku`)
     - FiveAges (`humanoid/FiveAges/`, submodules)
         - W1 / Gen1 (`Gen1`)
         - W2 / S2 / Gen2 (`Gen2`)
@@ -142,6 +146,8 @@ The following models are **Git submodules** (vendored repositories, checked in a
         - MOZ1 (`MOZ1`)
     - Ubtech (`humanoid/Ubtech` submodule)
         - Cruzr S2 (`Ubtech_CruzrS2`)
+    - Zerith (`humanoid/Zerith/`)
+        - H1 (`H1`)
 - **Mobile Base** — under `mobile_base/`
     - Agilex (`mobile_base/Agilex/`)
         - Ranger Mini
@@ -222,8 +228,8 @@ robots/
     Galaxea/{R1,R1_Lite}/
     Galbot/  Agibot/{G1,G2}/
     Gento/{Luna,Skye}/          # Tianji sub-brand
-    Astribot/{S1,Gripper}/  Spirit AI/MOZ1/
-    Realman/AIDAL/  Ubtech/Ubtech_CruzrS2/
+    Astribot/{S1,Gripper}/  Dyna/Taku/  Spirit AI/MOZ1/
+    Realman/AIDAL/  Ubtech/Ubtech_CruzrS2/  Zerith/H1/
   mobile_base/
     Agilex/{Ranger Mini,Tracer V1,Tracer V2}/
     Linkhou/{Q1,S2_V1,S2_V2,G2_Chassis}/
@@ -271,3 +277,13 @@ After cloning, your directory layout should look like:
 ```
 
 With this layout, scenes that depend on environment assets can correctly reference content from `environment/fiveages_env`.
+
+### ArtVIP kitchen (Isaac Sim 6.2 / Newton)
+
+The interactive kitchen is not vendored. `tools/artvip_kitchen.py` points Hugging Face at `https://hf-mirror.com` unless `HF_ENDPOINT` is already set, downloads the official dataset into `environment/ArtVIP/`, and writes a payload-ready scene component to `environment/ArtVIP-fasim/kitchen/kitchen.usda`. Both directories are gitignored. `robots/humanoid/Dyna/Taku/env/artvip_kitchen.usda` payloads that component next to the Taku robot.
+
+The Hugging Face dataset is the Isaac Sim 5.0 release (dataset card: compatible with Isaac Sim 5.0, currently v1.3). Convert from that download. On that kitchen the articulation roots are still present, so the 4.5 orphan-joint edits do not apply. Convert also rewrites the 5.0 behavior scripts for 6.2: `BehaviorScript` comes from `omni.behavior.scripting.core`, and the single-prim articulation and xform wrappers do not reset `xformOp`. Each world-fixed joint is excluded from its articulation and welded to its own kinematic anchor, so the anchor follows the kitchen while the original dynamic root stays where PhysX and the behavior scripts look for it. Wall, floor, and window-frame colliders on the room shell use bounding-cube approximation. The two sliding door leaves do too; the door frame stays a mesh so the opening is not filled in. Convex colliders that fill a pot or a stacked plate are switched to SDF so those props do not start inside each other. Pot lids stay on convex decomposition and start 1 cm above the rim. Rigid-body scale that PhysX reports as a scale orientation is rewritten to a pure rotation, and any non-uniform or reflected scale is moved onto the child mesh.
+
+```bash
+python tools/artvip_kitchen.py all
+```

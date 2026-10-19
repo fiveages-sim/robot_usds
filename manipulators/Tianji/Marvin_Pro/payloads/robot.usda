@@ -1,0 +1,67 @@
+#usda 1.0
+(
+    defaultPrim = "Marvin_Pro"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+over "Marvin_Pro" (
+    prepend apiSchemas = ["IsaacRobotAPI"]
+)
+{
+    string isaac:description
+    string isaac:namespace
+    prepend rel isaac:physics:robotJoints = </Marvin_Pro/root_joint>
+    prepend rel isaac:physics:robotLinks = [
+        </Marvin_Pro/base_link>,
+        </Marvin_Pro/base_link/arm_base>,
+        </Marvin_Pro/base_link/head_left_camera>,
+        </Marvin_Pro/base_link/head_realsense>,
+        </Marvin_Pro/base_link/head_right_camera>,
+        </Marvin_Pro/base_link/tracking_base_link>,
+    ]
+
+    over "base_link" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+        string isaac:nameOverride
+
+        over "arm_base" (
+            prepend apiSchemas = ["IsaacSiteAPI"]
+        )
+        {
+        }
+
+        over "head_left_camera" (
+            prepend apiSchemas = ["IsaacSiteAPI"]
+        )
+        {
+        }
+
+        over "head_realsense" (
+            prepend apiSchemas = ["IsaacSiteAPI"]
+        )
+        {
+        }
+
+        over "head_right_camera" (
+            prepend apiSchemas = ["IsaacSiteAPI"]
+        )
+        {
+        }
+
+        over "tracking_base_link" (
+            prepend apiSchemas = ["IsaacSiteAPI"]
+        )
+        {
+        }
+    }
+
+    over "root_joint" (
+        prepend apiSchemas = ["IsaacJointAPI"]
+    )
+    {
+    }
+}
+

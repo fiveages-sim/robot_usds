@@ -1,0 +1,147 @@
+#usda 1.0
+(
+    defaultPrim = "Taku_Arm"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "Taku_Arm" (
+    prepend apiSchemas = ["IsaacRobotAPI"]
+)
+{
+    custom string isaac:description = "Dyna Taku 7-DoF arm (Side left/right; EE variant Dynaclaw)"
+    custom string isaac:namespace = ""
+    custom rel isaac:physics:robotJoints
+    prepend rel isaac:physics:robotJoints = [
+        </Taku_Arm/joints/shoulder_pitch_joint>,
+        </Taku_Arm/joints/shoulder_roll_joint>,
+        </Taku_Arm/joints/shoulder_yaw_joint>,
+        </Taku_Arm/joints/elbow_joint>,
+        </Taku_Arm/joints/wrist_yaw_joint>,
+        </Taku_Arm/joints/wrist_pitch_joint>,
+        </Taku_Arm/joints/wrist_roll_joint>,
+    ]
+    custom rel isaac:physics:robotLinks
+    prepend rel isaac:physics:robotLinks = [
+        </Taku_Arm/base_link>,
+        </Taku_Arm/shoulder_pitch_link>,
+        </Taku_Arm/shoulder_roll_link>,
+        </Taku_Arm/shoulder_yaw_link>,
+        </Taku_Arm/elbow_link>,
+        </Taku_Arm/wrist_yaw_link>,
+        </Taku_Arm/wrist_pitch_link>,
+        </Taku_Arm/wrist_roll_link>,
+    ]
+    custom token isaac:robotType = "Manipulator"
+
+    over "base_link" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+    }
+
+    over "shoulder_pitch_link" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+    }
+
+    over "shoulder_roll_link" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+    }
+
+    over "shoulder_yaw_link" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+    }
+
+    over "elbow_link" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+    }
+
+    over "wrist_yaw_link" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+    }
+
+    over "wrist_pitch_link" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+    }
+
+    over "wrist_roll_link" (
+        prepend apiSchemas = ["IsaacLinkAPI"]
+    )
+    {
+        over "ee_fk_target_frame" (
+            prepend apiSchemas = ["IsaacSiteAPI"]
+        )
+        {
+        }
+
+        over "gripper_camera" (
+            prepend apiSchemas = ["IsaacSiteAPI"]
+        )
+        {
+        }
+
+        over "tcp" (
+            prepend apiSchemas = ["IsaacSiteAPI"]
+        )
+        {
+        }
+    }
+
+    over "joints"
+    {
+        over "shoulder_pitch_joint" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+        }
+
+        over "shoulder_roll_joint" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+        }
+
+        over "shoulder_yaw_joint" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+        }
+
+        over "elbow_joint" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+        }
+
+        over "wrist_yaw_joint" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+        }
+
+        over "wrist_pitch_joint" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+        }
+
+        over "wrist_roll_joint" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+        }
+    }
+}
+

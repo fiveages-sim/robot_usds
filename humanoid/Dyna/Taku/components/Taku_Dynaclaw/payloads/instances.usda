@@ -1,0 +1,92 @@
+#usda 1.0
+(
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Scope "Instances"
+{
+    def Xform "grippera_link" (
+        prepend references = @./geometries.usd@</Geometries/grippera_link>
+    )
+    {
+        def Scope "VisualMaterials"
+        {
+            def Material "photo_black" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/photo_black>
+            )
+            {
+            }
+
+            def Material "photo_green" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/photo_green>
+            )
+            {
+            }
+        }
+
+        over "mesh"
+        {
+            over "photo_black" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Instances/grippera_link/VisualMaterials/photo_black>
+            }
+
+            over "photo_green" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Instances/grippera_link/VisualMaterials/photo_green>
+            }
+        }
+    }
+
+    def Xform "grippera_link_col" (
+        prepend references = @./geometries.usd@</Geometries/grippera_link>
+    )
+    {
+        over "mesh" (
+            prepend apiSchemas = ["PhysicsCollisionAPI", "PhysicsMeshCollisionAPI"]
+        )
+        {
+            uniform token physics:approximation = "convexHull"
+            uniform token purpose = "guide"
+
+            over "photo_black" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Instances/grippera_link_col/VisualMaterials/photo_black>
+            }
+
+            over "photo_green" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Instances/grippera_link_col/VisualMaterials/photo_green>
+            }
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "photo_black" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/photo_black>
+            )
+            {
+            }
+
+            def Material "photo_green" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/photo_green>
+            )
+            {
+            }
+        }
+    }
+}
+

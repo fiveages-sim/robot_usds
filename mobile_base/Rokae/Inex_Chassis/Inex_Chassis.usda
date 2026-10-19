@@ -1,0 +1,68 @@
+#usda 1.0
+(
+    defaultPrim = "Inex_Chassis"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "Inex_Chassis" (
+    prepend references = @./payloads/base.usda@
+    variants = {
+        string Physics = "physx"
+        string ROS = "none"
+        string Robot = "none"
+        string Sensor = "sensors"
+    }
+    prepend variantSets = ["Physics", "ROS"]
+    append variantSets = ["Robot", "Sensor"]
+)
+{
+    variantSet "Physics" = {
+        "none" (
+            prepend payload = @./payloads/Physics/none.usda@
+        ) {
+        }
+        "physics" (
+            prepend payload = @./payloads/Physics/physics.usda@
+        ) {
+        }
+        "physx" (
+            prepend payload = @./payloads/Physics/physx.usda@
+        ) {
+        }
+        "mujoco" (
+            prepend payload = @./payloads/Physics/mujoco.usda@
+        ) {
+        }
+    }
+    variantSet "ROS" = {
+        "none" (
+            prepend payload = @./payloads/ROS/none.usda@
+        ) {
+        }
+        "ros2" (
+            prepend payload = @./payloads/ROS/ros2.usda@
+        ) {
+        }
+    }
+    variantSet "Robot" = {
+        "none" (
+            prepend payload = @./payloads/Robot/none.usda@
+        ) {
+        }
+        "robot" (
+            prepend payload = @./payloads/Robot/robot.usda@
+        ) {
+        }
+    }
+    variantSet "Sensor" = {
+        "none" (
+            prepend payload = @./payloads/Sensor/none.usda@
+        ) {
+        }
+        "sensors" (
+            prepend payload = @./payloads/Sensor/sensors.usda@
+        ) {
+        }
+    }
+}

@@ -1,0 +1,162 @@
+#usda 1.0
+(
+    defaultPrim = "Inex_Chassis"
+    metersPerUnit = 1
+    subLayers = [
+        @./physics.usda@
+    ]
+    upAxis = "Z"
+)
+
+def "Inex_Chassis"
+{
+    over "base_footprint" (
+        prepend apiSchemas = ["PhysxArticulationAPI"]
+    )
+    {
+        bool physxArticulation:enabledSelfCollisions = 0
+        int physxArticulation:solverPositionIterationCount = 32
+        int physxArticulation:solverVelocityIterationCount = 1
+    }
+
+    over "joints"
+    {
+        over "fl_steer_joint" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = 180
+        }
+
+        over "fl_wheel_joint" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = inf
+        }
+
+        over "fr_steer_joint" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = 180
+        }
+
+        over "fr_wheel_joint" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = inf
+        }
+
+        over "rl_steer_joint" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = 180
+        }
+
+        over "rl_wheel_joint" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = inf
+        }
+
+        over "rr_steer_joint" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = 180
+        }
+
+        over "rr_wheel_joint" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = inf
+        }
+    }
+
+    # Tire grip for whole-robot mass (S2/W2: μ≈3.5; combine max so grid default μ cannot ice the contact).
+    over "fl_wheel"
+    {
+        over "collisions"
+        {
+            over "mesh_0"
+            {
+                over "cylinder" (
+                    prepend apiSchemas = ["PhysicsMaterialAPI", "PhysxMaterialAPI"]
+                )
+                {
+                    float physics:dynamicFriction = 3.2
+                    float physics:restitution = 0
+                    float physics:staticFriction = 3.5
+                    uniform token physxMaterial:frictionCombineMode = "max"
+                    bool physxMaterial:improvePatchFriction = 1
+                }
+            }
+        }
+    }
+
+    over "fr_wheel"
+    {
+        over "collisions"
+        {
+            over "mesh_0"
+            {
+                over "cylinder" (
+                    prepend apiSchemas = ["PhysicsMaterialAPI", "PhysxMaterialAPI"]
+                )
+                {
+                    float physics:dynamicFriction = 3.2
+                    float physics:restitution = 0
+                    float physics:staticFriction = 3.5
+                    uniform token physxMaterial:frictionCombineMode = "max"
+                    bool physxMaterial:improvePatchFriction = 1
+                }
+            }
+        }
+    }
+
+    over "rl_wheel"
+    {
+        over "collisions"
+        {
+            over "mesh_0"
+            {
+                over "cylinder" (
+                    prepend apiSchemas = ["PhysicsMaterialAPI", "PhysxMaterialAPI"]
+                )
+                {
+                    float physics:dynamicFriction = 3.2
+                    float physics:restitution = 0
+                    float physics:staticFriction = 3.5
+                    uniform token physxMaterial:frictionCombineMode = "max"
+                    bool physxMaterial:improvePatchFriction = 1
+                }
+            }
+        }
+    }
+
+    over "rr_wheel"
+    {
+        over "collisions"
+        {
+            over "mesh_0"
+            {
+                over "cylinder" (
+                    prepend apiSchemas = ["PhysicsMaterialAPI", "PhysxMaterialAPI"]
+                )
+                {
+                    float physics:dynamicFriction = 3.2
+                    float physics:restitution = 0
+                    float physics:staticFriction = 3.5
+                    uniform token physxMaterial:frictionCombineMode = "max"
+                    bool physxMaterial:improvePatchFriction = 1
+                }
+            }
+        }
+    }
+}
+

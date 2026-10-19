@@ -5,23 +5,47 @@
     upAxis = "Z"
 )
 
+# Optical Camera looks -Z; camera_link looks +Z → Camera Rx180.
+# Sibling of dabai mesh — not under dabai’s compensate xform.
+# dabai RGB 16:9 H86° V55° (same as Split Aloha lift): aperture = 2 f tan(fov/2).
 def Xform "Cobot_Magic_V2"
 {
     over "base_footprint"
     {
         over "body_Link"
         {
-            over "camera_link"
+            over "camera_stand"
             {
-                def "dabai" (
-                    prepend payload = @../../../../../sensors/orbbec/dabai_agilex.usd@
-                )
+                over "camera_stand2"
                 {
-                    quatd xformOp:orient = (1, 0, 0, 0)
-                    double xformOp:rotateX:unitsResolve = 90
-                    double3 xformOp:scale = (1, 1, 1)
-                    double3 xformOp:translate = (0, 0, 0)
-                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale", "xformOp:rotateX:unitsResolve"]
+                    over "camera_link"
+                    {
+                        def Camera "head_camera"
+                        {
+                            float2 clippingRange = (0.01, 10000000)
+                            float focalLength = 18.147562
+                            float focusDistance = 400
+                            float horizontalAperture = 33.84575
+                            token projection = "perspective"
+                            float verticalAperture = 18.89405
+                            quatd xformOp:orient = (0, 1, 0, 0)
+                            double3 xformOp:scale = (1, 1, 1)
+                            double3 xformOp:translate = (0, 0, 0)
+                            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                        }
+
+                        def "dabai" (
+                            prepend payload = @../../../../../sensors/orbbec/dabai_agilex.usd@
+                        )
+                        {
+                            double xformOp:rotateX = 90
+                            double xformOp:rotateX:unitsResolve = 90
+                            double xformOp:rotateZ = 90
+                            double3 xformOp:scale = (1, 1, 1)
+                            double3 xformOp:translate = (0, 0, 0)
+                            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateX:unitsResolve", "xformOp:rotateZ", "xformOp:rotateX", "xformOp:scale"]
+                        }
+                    }
                 }
             }
 
@@ -41,4 +65,3 @@ def Xform "Cobot_Magic_V2"
         }
     }
 }
-

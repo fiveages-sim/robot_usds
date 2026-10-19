@@ -1,0 +1,89 @@
+#usda 1.0
+(
+    defaultPrim = "Zerith_H1"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def "Zerith_H1"
+{
+    over "left_wrist_pitch_link"
+    {
+        over "left_tcp"
+        {
+            def "Revo2" (
+                prepend payload = @../../../../../dexhands/BrainCo/Revo2/Revo2.usda@
+                variants = {
+                    string Robot = "none"
+                    string Side = "default"
+                }
+            )
+            {
+                quatd xformOp:orient = (0.5, -0.5, 0.5, -0.5)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0.02, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+                over "root_joint" (
+                    active = false
+                )
+                {
+                }
+
+                over "hand_base"
+                {
+                    def PhysicsFixedJoint "AssemblerFixedJoint"
+                    {
+                        rel physics:body0 = </Zerith_H1/left_wrist_pitch_link/left_tcp>
+                        rel physics:body1 = </Zerith_H1/left_wrist_pitch_link/left_tcp/Revo2/hand_base>
+                        point3f physics:localPos0 = (0.02, 0, 0)
+                        point3f physics:localPos1 = (0, 0, 0)
+                        quatf physics:localRot0 = (0.5, -0.5, 0.5, -0.5)
+                        quatf physics:localRot1 = (1, 0, 0, 0)
+                    }
+                }
+            }
+        }
+    }
+
+    over "left_wrist_yaw_link"
+    {
+    }
+
+    over "left_wrist_roll_link"
+    {
+    }
+
+    over "left_elbow_link"
+    {
+    }
+
+    over "left_shoulder_yaw_link"
+    {
+    }
+
+    over "left_shoulder_roll_link"
+    {
+    }
+
+    over "left_shoulder_pitch_link"
+    {
+    }
+
+    over "body_yaw_link"
+    {
+    }
+
+    over "body_pitch_link"
+    {
+    }
+
+    over "body_link1"
+    {
+    }
+
+    over "base_link"
+    {
+    }
+}
+
