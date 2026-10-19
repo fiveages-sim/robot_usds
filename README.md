@@ -278,12 +278,10 @@ After cloning, your directory layout should look like:
 
 With this layout, scenes that depend on environment assets can correctly reference content from `environment/fiveages_env`.
 
-### ArtVIP kitchen (Isaac Sim 6.2 / Newton)
+### ArtVIP scenes
 
-The interactive kitchen is not vendored. `tools/artvip_kitchen.py` points Hugging Face at `https://hf-mirror.com` unless `HF_ENDPOINT` is already set, downloads the official dataset into `environment/ArtVIP/`, and writes a payload-ready scene component to `environment/ArtVIP-fasim/kitchen/kitchen.usda`. Both directories are gitignored. `robots/humanoid/Dyna/Taku/env/artvip_kitchen.usda` payloads that component next to the Taku robot.
-
-The Hugging Face dataset is the Isaac Sim 5.0 release (dataset card: compatible with Isaac Sim 5.0, currently v1.3). Convert from that download. On that kitchen the articulation roots are still present, so the 4.5 orphan-joint edits do not apply. Convert also rewrites the 5.0 behavior scripts for 6.2: `BehaviorScript` comes from `omni.behavior.scripting.core`, and the single-prim articulation and xform wrappers do not reset `xformOp`. Each world-fixed joint is excluded from its articulation and welded to its own kinematic anchor, so the anchor follows the kitchen while the original dynamic root stays where PhysX and the behavior scripts look for it. Wall, floor, and window-frame colliders on the room shell use bounding-cube approximation. The two sliding door leaves do too; the door frame stays a mesh so the opening is not filled in. Convex colliders that fill a pot or a stacked plate are switched to SDF so those props do not start inside each other. Pot lids stay on convex decomposition and start 1 cm above the rim. Rigid-body scale that PhysX reports as a scale orientation is rewritten to a pure rotation, and any non-uniform or reflected scale is moved onto the child mesh.
+Official ArtVIP meshes stay in `environment/ArtVIP/` (gitignored). `tools/artvip_kitchen.py download` fetches them. Scene components live in `environment/artvip-usd`; robot `env/artvip/*.usda` files payload `environment/artvip-usd/scenes/<scene>.usda`. Kitchen interaction (door, lights, drives) is authored on those object USDA files. See `environment/artvip-usd/README.md`.
 
 ```bash
-python tools/artvip_kitchen.py all
+python tools/artvip_kitchen.py download
 ```

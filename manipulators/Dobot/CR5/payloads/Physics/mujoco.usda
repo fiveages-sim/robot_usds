@@ -12,7 +12,9 @@ over "CR5"
 {
     over "joints"
     {
-        # PhysX DriveAPI (kp=60000, kd=6000, maxForce=100) -> MjcActuator position PD
+        # M6_CCS Newton recipe: strip PhysX Drive, MjcJoint + position PD.
+        # kp/kd = 800/50, mjc:damping = 1.0. Armature raised vs M6 for CR5+AG2F90
+        # (low distal I + ±100 force was bang-bang at high kp). PhysX Drive unchanged.
         # F = kp*(ctrl - q) - kd*qdot
         over "joint1" (
             prepend apiSchemas = ["MjcJointAPI"]
@@ -24,9 +26,9 @@ over "CR5"
             float drive:angular:physics:stiffness = None
             float drive:angular:physics:targetPosition = None
             uniform token drive:angular:physics:type = None
-            uniform double mjc:armature = 0.01
+            uniform double mjc:armature = 0.1
             uniform bool mjc:actuatorgravcomp = 1
-            uniform double mjc:damping = 0.1
+            uniform double mjc:damping = 1.0
             uniform token mjc:actuatorfrclimited = "auto"
             uniform double mjc:actuatorfrcrange:min = -100
             uniform double mjc:actuatorfrcrange:max = 100
@@ -42,9 +44,9 @@ over "CR5"
             float drive:angular:physics:stiffness = None
             float drive:angular:physics:targetPosition = None
             uniform token drive:angular:physics:type = None
-            uniform double mjc:armature = 0.01
+            uniform double mjc:armature = 0.1
             uniform bool mjc:actuatorgravcomp = 1
-            uniform double mjc:damping = 0.1
+            uniform double mjc:damping = 1.0
             uniform token mjc:actuatorfrclimited = "auto"
             uniform double mjc:actuatorfrcrange:min = -100
             uniform double mjc:actuatorfrcrange:max = 100
@@ -60,9 +62,9 @@ over "CR5"
             float drive:angular:physics:stiffness = None
             float drive:angular:physics:targetPosition = None
             uniform token drive:angular:physics:type = None
-            uniform double mjc:armature = 0.01
+            uniform double mjc:armature = 0.1
             uniform bool mjc:actuatorgravcomp = 1
-            uniform double mjc:damping = 0.1
+            uniform double mjc:damping = 1.0
             uniform token mjc:actuatorfrclimited = "auto"
             uniform double mjc:actuatorfrcrange:min = -100
             uniform double mjc:actuatorfrcrange:max = 100
@@ -78,12 +80,12 @@ over "CR5"
             float drive:angular:physics:stiffness = None
             float drive:angular:physics:targetPosition = None
             uniform token drive:angular:physics:type = None
-            uniform double mjc:armature = 0.01
+            uniform double mjc:armature = 0.1
             uniform bool mjc:actuatorgravcomp = 1
-            uniform double mjc:damping = 0.1
+            uniform double mjc:damping = 1.0
             uniform token mjc:actuatorfrclimited = "auto"
-            uniform double mjc:actuatorfrcrange:min = -100
-            uniform double mjc:actuatorfrcrange:max = 100
+            uniform double mjc:actuatorfrcrange:min = -50
+            uniform double mjc:actuatorfrcrange:max = 50
         }
 
         over "joint5" (
@@ -96,12 +98,12 @@ over "CR5"
             float drive:angular:physics:stiffness = None
             float drive:angular:physics:targetPosition = None
             uniform token drive:angular:physics:type = None
-            uniform double mjc:armature = 0.01
+            uniform double mjc:armature = 0.05
             uniform bool mjc:actuatorgravcomp = 1
-            uniform double mjc:damping = 0.1
+            uniform double mjc:damping = 1.0
             uniform token mjc:actuatorfrclimited = "auto"
-            uniform double mjc:actuatorfrcrange:min = -100
-            uniform double mjc:actuatorfrcrange:max = 100
+            uniform double mjc:actuatorfrcrange:min = -20
+            uniform double mjc:actuatorfrcrange:max = 20
         }
 
         over "joint6" (
@@ -114,12 +116,12 @@ over "CR5"
             float drive:angular:physics:stiffness = None
             float drive:angular:physics:targetPosition = None
             uniform token drive:angular:physics:type = None
-            uniform double mjc:armature = 0.01
+            uniform double mjc:armature = 0.05
             uniform bool mjc:actuatorgravcomp = 1
-            uniform double mjc:damping = 0.1
+            uniform double mjc:damping = 1.0
             uniform token mjc:actuatorfrclimited = "auto"
-            uniform double mjc:actuatorfrcrange:min = -100
-            uniform double mjc:actuatorfrcrange:max = 100
+            uniform double mjc:actuatorfrcrange:min = -20
+            uniform double mjc:actuatorfrcrange:max = 20
         }
     }
 
@@ -162,12 +164,13 @@ over "CR5"
 
     def Scope "actuators"
     {
+        # Same PD as M6_CCS (800/50). Distal forceRange tiered like M6 wrist.
         def MjcActuator "joint1"
         {
             uniform token mjc:gainType = "fixed"
             uniform token mjc:biasType = "affine"
-            uniform double[] mjc:gainPrm = [60000, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-            uniform double[] mjc:biasPrm = [0, -60000, -6000, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:gainPrm = [800, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -800, -50, 0, 0, 0, 0, 0, 0, 0]
             uniform token mjc:forceLimited = "true"
             uniform double mjc:forceRange:min = -100
             uniform double mjc:forceRange:max = 100
@@ -181,8 +184,8 @@ over "CR5"
         {
             uniform token mjc:gainType = "fixed"
             uniform token mjc:biasType = "affine"
-            uniform double[] mjc:gainPrm = [60000, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-            uniform double[] mjc:biasPrm = [0, -60000, -6000, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:gainPrm = [800, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -800, -50, 0, 0, 0, 0, 0, 0, 0]
             uniform token mjc:forceLimited = "true"
             uniform double mjc:forceRange:min = -100
             uniform double mjc:forceRange:max = 100
@@ -196,8 +199,8 @@ over "CR5"
         {
             uniform token mjc:gainType = "fixed"
             uniform token mjc:biasType = "affine"
-            uniform double[] mjc:gainPrm = [60000, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-            uniform double[] mjc:biasPrm = [0, -60000, -6000, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:gainPrm = [800, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -800, -50, 0, 0, 0, 0, 0, 0, 0]
             uniform token mjc:forceLimited = "true"
             uniform double mjc:forceRange:min = -100
             uniform double mjc:forceRange:max = 100
@@ -211,11 +214,11 @@ over "CR5"
         {
             uniform token mjc:gainType = "fixed"
             uniform token mjc:biasType = "affine"
-            uniform double[] mjc:gainPrm = [60000, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-            uniform double[] mjc:biasPrm = [0, -60000, -6000, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:gainPrm = [800, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -800, -50, 0, 0, 0, 0, 0, 0, 0]
             uniform token mjc:forceLimited = "true"
-            uniform double mjc:forceRange:min = -100
-            uniform double mjc:forceRange:max = 100
+            uniform double mjc:forceRange:min = -50
+            uniform double mjc:forceRange:max = 50
             uniform token mjc:ctrlLimited = "true"
             uniform double mjc:ctrlRange:min = -360
             uniform double mjc:ctrlRange:max = 360
@@ -226,11 +229,11 @@ over "CR5"
         {
             uniform token mjc:gainType = "fixed"
             uniform token mjc:biasType = "affine"
-            uniform double[] mjc:gainPrm = [60000, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-            uniform double[] mjc:biasPrm = [0, -60000, -6000, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:gainPrm = [800, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -800, -50, 0, 0, 0, 0, 0, 0, 0]
             uniform token mjc:forceLimited = "true"
-            uniform double mjc:forceRange:min = -100
-            uniform double mjc:forceRange:max = 100
+            uniform double mjc:forceRange:min = -20
+            uniform double mjc:forceRange:max = 20
             uniform token mjc:ctrlLimited = "true"
             uniform double mjc:ctrlRange:min = -360
             uniform double mjc:ctrlRange:max = 360
@@ -241,11 +244,11 @@ over "CR5"
         {
             uniform token mjc:gainType = "fixed"
             uniform token mjc:biasType = "affine"
-            uniform double[] mjc:gainPrm = [60000, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-            uniform double[] mjc:biasPrm = [0, -60000, -6000, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:gainPrm = [800, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -800, -50, 0, 0, 0, 0, 0, 0, 0]
             uniform token mjc:forceLimited = "true"
-            uniform double mjc:forceRange:min = -100
-            uniform double mjc:forceRange:max = 100
+            uniform double mjc:forceRange:min = -20
+            uniform double mjc:forceRange:max = 20
             uniform token mjc:ctrlLimited = "true"
             uniform double mjc:ctrlRange:min = -360
             uniform double mjc:ctrlRange:max = 360

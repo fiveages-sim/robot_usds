@@ -17,120 +17,133 @@ over "AG2F90"
             delete apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
         )
         {
+            # Must block residual PhysX drive attrs (same pattern as AG2F120S).
+            float drive:angular:physics:damping = None
+            float drive:angular:physics:maxForce = None
+            float drive:angular:physics:stiffness = None
+            float drive:angular:physics:targetPosition = None
+            uniform token drive:angular:physics:type = None
             uniform double mjc:armature = 0.001
+            uniform bool mjc:actuatorgravcomp = 1
             uniform double mjc:damping = 0.01
             uniform token mjc:actuatorfrclimited = "auto"
             uniform double mjc:actuatorfrcrange:min = -5
             uniform double mjc:actuatorfrcrange:max = 5
         }
-over "left_in_Joint" (
-    prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI"]
-    delete apiSchemas = ["PhysicsJointStateAPI:angular"]
-)
-{
-    uniform double mjc:armature = 0.001
-    uniform double mjc:damping = 0.01
-    bool newton:mimicEnabled = 1
-    float newton:mimicCoef0 = 0
-    float newton:mimicCoef1 = 0.1
-    rel newton:mimicJoint = </AG2F90/joints/gripper_joint>
-}
-over "left_up_Joint" (
-    prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI"]
-    delete apiSchemas = ["PhysicsJointStateAPI:angular"]
-)
-{
-    uniform double mjc:armature = 0.001
-    uniform double mjc:damping = 0.01
-    bool newton:mimicEnabled = 1
-    float newton:mimicCoef0 = 0
-    float newton:mimicCoef1 = 1
-    rel newton:mimicJoint = </AG2F90/joints/gripper_joint>
-}
-over "left_2_Joint" (
-    prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI"]
-    delete apiSchemas = ["PhysicsJointStateAPI:angular"]
-)
-{
-    uniform double mjc:armature = 0.001
-    uniform double mjc:damping = 0.01
-    bool newton:mimicEnabled = 1
-    float newton:mimicCoef0 = 0
-    float newton:mimicCoef1 = 1
-    rel newton:mimicJoint = </AG2F90/joints/gripper_joint>
-}
-over "right_1_Joint" (
-    prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI"]
-    delete apiSchemas = ["PhysicsJointStateAPI:angular"]
-)
-{
-    uniform double mjc:armature = 0.001
-    uniform double mjc:damping = 0.01
-    bool newton:mimicEnabled = 1
-    float newton:mimicCoef0 = 0
-    float newton:mimicCoef1 = 1
-    rel newton:mimicJoint = </AG2F90/joints/gripper_joint>
-}
-over "right_in_Joint" (
-    prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI"]
-    delete apiSchemas = ["PhysicsJointStateAPI:angular"]
-)
-{
-    uniform double mjc:armature = 0.001
-    uniform double mjc:damping = 0.01
-    bool newton:mimicEnabled = 1
-    float newton:mimicCoef0 = 0
-    float newton:mimicCoef1 = 0.1
-    rel newton:mimicJoint = </AG2F90/joints/gripper_joint>
-}
-over "right_up_Joint" (
-    prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI"]
-    delete apiSchemas = ["PhysicsJointStateAPI:angular"]
-)
-{
-    uniform double mjc:armature = 0.001
-    uniform double mjc:damping = 0.01
-    bool newton:mimicEnabled = 1
-    float newton:mimicCoef0 = 0
-    float newton:mimicCoef1 = 1
-    rel newton:mimicJoint = </AG2F90/joints/gripper_joint>
-}
-over "right_2_Joint" (
-    prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI"]
-    delete apiSchemas = ["PhysicsJointStateAPI:angular"]
-)
-{
-    uniform double mjc:armature = 0.001
-    uniform double mjc:damping = 0.01
-    bool newton:mimicEnabled = 1
-    float newton:mimicCoef0 = 0
-    float newton:mimicCoef1 = 1
-    rel newton:mimicJoint = </AG2F90/joints/gripper_joint>
-}
-}
-
-over "root_joint" (
-    prepend apiSchemas = ["NewtonArticulationRootAPI"]
-)
-{
-    bool newton:selfCollisionEnabled = 0
-}
-
-def Scope "actuators"
-{
-def MjcActuator "gripper_joint"
-{
-    uniform token mjc:gainType = "fixed"
-    uniform token mjc:biasType = "affine"
-    uniform double[] mjc:gainPrm = [1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-    uniform double[] mjc:biasPrm = [0, -1, -0.2, 0, 0, 0, 0, 0, 0, 0]
-    uniform token mjc:forceLimited = "true"
-    uniform double mjc:forceRange:min = -5
-    uniform double mjc:forceRange:max = 5
-    uniform token mjc:ctrlLimited = "true"
-    uniform double mjc:ctrlRange:min = 0
-    uniform double mjc:ctrlRange:max = 57.295776
-    rel mjc:target = </AG2F90/joints/gripper_joint>
-}
+        over "left_in_Joint" (
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.001
+            uniform double mjc:damping = 0.01
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 0.1
+            rel newton:mimicJoint = </AG2F90/joints/gripper_joint>
+        }
+        over "left_up_Joint" (
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.001
+            uniform double mjc:damping = 0.01
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 1
+            rel newton:mimicJoint = </AG2F90/joints/gripper_joint>
+        }
+        over "left_2_Joint" (
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.001
+            uniform double mjc:damping = 0.01
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 1
+            rel newton:mimicJoint = </AG2F90/joints/gripper_joint>
+        }
+        over "right_1_Joint" (
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.001
+            uniform double mjc:damping = 0.01
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 1
+            rel newton:mimicJoint = </AG2F90/joints/gripper_joint>
+        }
+        over "right_in_Joint" (
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.001
+            uniform double mjc:damping = 0.01
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 0.1
+            rel newton:mimicJoint = </AG2F90/joints/gripper_joint>
+        }
+        over "right_up_Joint" (
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.001
+            uniform double mjc:damping = 0.01
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 1
+            rel newton:mimicJoint = </AG2F90/joints/gripper_joint>
+        }
+        over "right_2_Joint" (
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI"]
+            delete apiSchemas = ["PhysicsJointStateAPI:angular"]
+        )
+        {
+            uniform double mjc:armature = 0.001
+            uniform double mjc:damping = 0.01
+            bool newton:mimicEnabled = 1
+            float newton:mimicCoef0 = 0
+            float newton:mimicCoef1 = 1
+            rel newton:mimicJoint = </AG2F90/joints/gripper_joint>
         }
     }
+
+    over "root_joint" (
+        prepend apiSchemas = ["NewtonArticulationRootAPI"]
+    )
+    {
+        bool newton:selfCollisionEnabled = 0
+    }
+
+    # Parent arm Link* gravcomp does not cover EE. Base only (fingers stay off).
+    over "gripper_base"
+    {
+        uniform float mjc:gravcomp = 1
+    }
+
+    def Scope "actuators"
+    {
+        def MjcActuator "gripper_joint"
+        {
+            uniform token mjc:gainType = "fixed"
+            uniform token mjc:biasType = "affine"
+            uniform double[] mjc:gainPrm = [1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            uniform double[] mjc:biasPrm = [0, -1, -0.2, 0, 0, 0, 0, 0, 0, 0]
+            uniform token mjc:forceLimited = "true"
+            uniform double mjc:forceRange:min = -5
+            uniform double mjc:forceRange:max = 5
+            uniform token mjc:ctrlLimited = "true"
+            uniform double mjc:ctrlRange:min = 0
+            uniform double mjc:ctrlRange:max = 57.295776
+            rel mjc:target = </AG2F90/joints/gripper_joint>
+        }
+    }
+}
