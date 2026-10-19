@@ -416,11 +416,61 @@ def Xform "Wuji_hand2"
                 custom string inputs:markerFrame = "base_link"
                 custom string inputs:robotBasePrim = ""
                 custom bool inputs:publishTf = 0
-                custom string inputs:script = ""
-                custom token inputs:scriptPath = "/home/fiveages/FaSim-Isaac/robots/dexhands/Wuji/Hand2/payloads/Sensor/contact_force_publisher.py"
+                # Load contact_force_publisher.py beside this layer.
+                # ScriptNode resolves inputs:scriptPath against the opened stage
+                # (edit target), so an absolute /home/<user>/... path breaks on
+                # other machines, and "./contact_force_publisher.py" looks next
+                # to the env USDA instead of this payload.
+                custom string inputs:script = """
+_NS = None
+
+def _publisher_path():
+    import os
+    stage = omni.usd.get_context().get_stage()
+    suffix = "payloads/Sensor/contact_force.usda"
+    for layer in stage.GetUsedLayers():
+        for candidate in (layer.realPath, layer.identifier):
+            if not candidate or str(candidate).startswith("anon:"):
+                continue
+            path = str(candidate).replace("\\\\", "/")
+            if path.startswith("file://"):
+                path = path[7:]
+            if path.endswith(suffix):
+                py_path = os.path.join(os.path.dirname(path), "contact_force_publisher.py")
+                if os.path.isfile(py_path):
+                    return py_path
+    raise RuntimeError(
+        "contact_force_publisher.py not found beside contact_force.usda"
+    )
+
+def _load_publisher():
+    py_path = _publisher_path()
+    ns = {"__file__": py_path}
+    with open(py_path, encoding="utf-8") as handle:
+        exec(compile(handle.read(), py_path, "exec"), ns)
+    return ns
+
+def setup(db):
+    global _NS
+    _NS = _load_publisher()
+    _NS["setup"](db)
+
+def cleanup(db):
+    global _NS
+    if _NS is not None and "cleanup" in _NS:
+        _NS["cleanup"](db)
+    _NS = None
+
+def compute(db):
+    global _NS
+    if _NS is None:
+        setup(db)
+    return _NS["compute"](db)
+"""
+                custom token inputs:scriptPath = "./contact_force_publisher.py"
                 custom double inputs:simulationTime
                 prepend double inputs:simulationTime.connect = </Wuji_hand2/Graph/ROS_Contact_Force/ReadSimTime.outputs:simulationTime>
-                custom bool inputs:usePath = 1
+                custom bool inputs:usePath = 0
                 token node:type = "omni.graph.scriptnode.ScriptNode"
                 int node:typeVersion = 2
                 custom uint outputs:execOut (

@@ -12,6 +12,8 @@ Side/right.usda  → tfPrefix=right_hand  topicPrefix=wuji_rh
 Side/left.usda   → tfPrefix=left_hand   topicPrefix=wuji_lh
 ```
 
+`contact_force_publisher.py` 必须和 `contact_force.usda` 放在同一目录。节点按该 USDA 图层的位置加载脚本，不要把 `inputs:scriptPath` 写成 `/home/<用户名>/...`。ScriptNode 自己的相对路径是相对「当前打开的舞台」，打开 env 时对不上这个 payload。
+
 ## 怎么开
 
 | | 设置 |
