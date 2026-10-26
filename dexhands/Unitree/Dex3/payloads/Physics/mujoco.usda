@@ -1,0 +1,127 @@
+#usda 1.0
+(
+    customLayerData = {
+        string creator = "URDF USD Converter v0.3.2"
+    }
+    defaultPrim = "Dex3"
+    endTimeCode = 1000000
+    kilogramsPerUnit = 1
+    metersPerUnit = 1
+    startTimeCode = 0
+    subLayers = [
+        @./physics.usda@
+    ]
+    upAxis = "Z"
+)
+
+over "Dex3"
+{
+    over "Physics"
+    {
+        over "hand_index_0_joint" (
+            delete apiSchemas = ["PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular"]
+            prepend apiSchemas = ["MjcJointAPI"]
+        )
+        {
+        }
+
+        over "hand_index_1_joint" (
+            delete apiSchemas = ["PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular"]
+            prepend apiSchemas = ["MjcJointAPI"]
+        )
+        {
+        }
+
+        over "hand_middle_0_joint" (
+            delete apiSchemas = ["PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular"]
+            prepend apiSchemas = ["MjcJointAPI"]
+        )
+        {
+        }
+
+        over "hand_middle_1_joint" (
+            delete apiSchemas = ["PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular"]
+            prepend apiSchemas = ["MjcJointAPI"]
+        )
+        {
+        }
+
+        over "hand_thumb_0_joint" (
+            delete apiSchemas = ["PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular"]
+            prepend apiSchemas = ["MjcJointAPI"]
+        )
+        {
+        }
+
+        over "hand_thumb_1_joint" (
+            delete apiSchemas = ["PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular"]
+            prepend apiSchemas = ["MjcJointAPI"]
+        )
+        {
+        }
+
+        over "hand_thumb_2_joint" (
+            delete apiSchemas = ["PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular"]
+            prepend apiSchemas = ["MjcJointAPI"]
+        )
+        {
+        }
+
+        def MjcActuator "hand_index_0_joint_actuator"
+        {
+            uniform double mjc:forceRange:max = 1.399999976158142
+            uniform double mjc:forceRange:min = -1.399999976158142
+            custom rel mjc:target
+            append rel mjc:target = </Dex3/Physics/hand_index_0_joint>
+        }
+
+        def MjcActuator "hand_index_1_joint_actuator"
+        {
+            uniform double mjc:forceRange:max = 1.399999976158142
+            uniform double mjc:forceRange:min = -1.399999976158142
+            custom rel mjc:target
+            append rel mjc:target = </Dex3/Physics/hand_index_1_joint>
+        }
+
+        def MjcActuator "hand_middle_0_joint_actuator"
+        {
+            uniform double mjc:forceRange:max = 1.399999976158142
+            uniform double mjc:forceRange:min = -1.399999976158142
+            custom rel mjc:target
+            append rel mjc:target = </Dex3/Physics/hand_middle_0_joint>
+        }
+
+        def MjcActuator "hand_middle_1_joint_actuator"
+        {
+            uniform double mjc:forceRange:max = 1.399999976158142
+            uniform double mjc:forceRange:min = -1.399999976158142
+            custom rel mjc:target
+            append rel mjc:target = </Dex3/Physics/hand_middle_1_joint>
+        }
+
+        def MjcActuator "hand_thumb_0_joint_actuator"
+        {
+            uniform double mjc:forceRange:max = 2.450000047683716
+            uniform double mjc:forceRange:min = -2.450000047683716
+            custom rel mjc:target
+            append rel mjc:target = </Dex3/Physics/hand_thumb_0_joint>
+        }
+
+        def MjcActuator "hand_thumb_1_joint_actuator"
+        {
+            uniform double mjc:forceRange:max = 1.399999976158142
+            uniform double mjc:forceRange:min = -1.399999976158142
+            custom rel mjc:target
+            append rel mjc:target = </Dex3/Physics/hand_thumb_1_joint>
+        }
+
+        def MjcActuator "hand_thumb_2_joint_actuator"
+        {
+            uniform double mjc:forceRange:max = 1.399999976158142
+            uniform double mjc:forceRange:min = -1.399999976158142
+            custom rel mjc:target
+            append rel mjc:target = </Dex3/Physics/hand_thumb_2_joint>
+        }
+    }
+}
+

@@ -1,0 +1,78 @@
+#usda 1.0
+(
+    defaultPrim = "G1"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "G1" (
+    prepend references = @./payloads/base.usda@
+    variants = {
+        string Physics = "physx"
+        string ROS = "none"
+        string Robot = "none"
+        string Sensor = "none"
+        string Lower = "lower"
+        string BodyHead = "bodyhead"
+        string Arms = "arms"
+        string EE_Left = "rubber_hand"
+        string EE_Right = "rubber_hand"
+    }
+    prepend variantSets = ["Physics", "ROS", "Sensor", "Lower", "BodyHead", "Arms", "EE_Left", "EE_Right"]
+    append variantSets = ["Robot"]
+)
+{
+    variantSet "Physics" = {
+        "none" ( prepend payload = @./payloads/Physics/none.usda@ ) { }
+        "physics" ( prepend payload = @./payloads/Physics/physics.usda@ ) { }
+        "physx" ( prepend payload = @./payloads/Physics/physx.usda@ ) { }
+        "mujoco" ( prepend payload = @./payloads/Physics/mujoco.usda@ ) { }
+    }
+    variantSet "ROS" = {
+        "none" ( prepend payload = @./payloads/ROS/none.usda@ ) { }
+        "enable" ( prepend payload = @./payloads/ROS/enable.usda@ ) { }
+    }
+    variantSet "Sensor" = {
+        "none" ( prepend payload = @./payloads/Sensor/none.usda@ ) { }
+        "sensors" ( prepend payload = @./payloads/Sensor/sensors.usda@ ) { }
+    }
+    variantSet "Lower" = {
+        "None" ( prepend payload = @./payloads/Lower/none.usda@ ) { }
+        "lower" ( prepend payload = @./payloads/Lower/lower.usda@ ) {
+            prepend rel isaac:physics:robotJoints = </G1/G1_Lower>
+            prepend rel isaac:physics:robotLinks = </G1/G1_Lower>
+        }
+    }
+    variantSet "BodyHead" = {
+        "None" ( prepend payload = @./payloads/BodyHead/none.usda@ ) { }
+        "bodyhead" ( prepend payload = @./payloads/BodyHead/bodyhead.usda@ ) {
+            prepend rel isaac:physics:robotJoints = </G1/G1_Body>
+            prepend rel isaac:physics:robotLinks = </G1/G1_Body>
+        }
+    }
+    variantSet "Arms" = {
+        "None" ( prepend payload = @./payloads/Arms/none.usda@ ) { }
+        "arms" ( prepend payload = @./payloads/Arms/arms.usda@ ) {
+            prepend rel isaac:physics:robotJoints = </G1/G1_Arms>
+            prepend rel isaac:physics:robotLinks = </G1/G1_Arms>
+        }
+    }
+    variantSet "EE_Left" = {
+        "none" ( prepend payload = @./payloads/EE_Left/none.usda@ ) { }
+        "rubber_hand" ( prepend payload = @./payloads/EE_Left/rubber_hand.usda@ ) { }
+        "revo2" ( prepend payload = @./payloads/EE_Left/revo2.usda@ ) { }
+        "dex3" ( prepend payload = @./payloads/EE_Left/dex3.usda@ ) { }
+        "dex1" ( prepend payload = @./payloads/EE_Left/dex1.usda@ ) { }
+    }
+    variantSet "EE_Right" = {
+        "none" ( prepend payload = @./payloads/EE_Right/none.usda@ ) { }
+        "rubber_hand" ( prepend payload = @./payloads/EE_Right/rubber_hand.usda@ ) { }
+        "revo2" ( prepend payload = @./payloads/EE_Right/revo2.usda@ ) { }
+        "dex3" ( prepend payload = @./payloads/EE_Right/dex3.usda@ ) { }
+        "dex1" ( prepend payload = @./payloads/EE_Right/dex1.usda@ ) { }
+    }
+    variantSet "Robot" = {
+        "none" ( prepend payload = @./payloads/Robot/none.usda@ ) { }
+        "robot" ( prepend payload = @./payloads/Robot/robot.usda@ ) { }
+    }
+}

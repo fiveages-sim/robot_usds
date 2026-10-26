@@ -1,0 +1,526 @@
+#usda 1.0
+(
+    defaultPrim = "G1D_Chassis"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+over "G1D_Chassis"
+{
+    over "AGV_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        float physics:mass = 37.0
+        point3f physics:centerOfMass = (-inf, -inf, -inf)
+        float3 physics:diagonalInertia = (0.08106833696365356, 0.09116943925619125, 0.15805087983608246)
+        quatf physics:principalAxes = (-0.0012481983285397291, 0.7039169073104858, 0.7102808952331543, -0.0007107118144631386)
+    }
+
+    over "fl_caster_mount" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        float physics:mass = 0.05000000074505806
+        point3f physics:centerOfMass = (0.0, 0.0, 0.0)
+        float3 physics:diagonalInertia = (9.999999747378752e-06, 9.999999747378752e-06, 9.999999747378752e-06)
+        quatf physics:principalAxes = (1.0, 0.0, 0.0, 0.0)
+    }
+
+    over "fl_caster_swivel" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        float physics:mass = 0.07999999821186066
+        point3f physics:centerOfMass = (0.0, 0.0, 0.0)
+        float3 physics:diagonalInertia = (1.9999999494757503e-05, 1.9999999494757503e-05, 1.9999999494757503e-05)
+        quatf physics:principalAxes = (1.0, 0.0, 0.0, 0.0)
+    }
+
+    over "fl_caster_wheel" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        double3 xformOp:translate = (0.139931, 0.172542, 0.029900)  # caster gap +0.1 mm (drive preload)
+        over "collisions"
+        {
+            over "sphere" (
+                prepend apiSchemas = ["PhysicsMaterialAPI", "PhysxMaterialAPI"]
+            )
+            {
+                float physics:dynamicFriction = 0.5
+                float physics:restitution = 0
+                float physics:staticFriction = 0.5
+                uniform token physxMaterial:frictionCombineMode = "average"
+                bool physxMaterial:improvePatchFriction = 1
+            }
+        }
+
+        float physics:mass = 0.11999999731779099
+        point3f physics:centerOfMass = (0.0, 0.0, 0.0)
+        float3 physics:diagonalInertia = (4.999999873689376e-05, 4.999999873689376e-05, 7.999999797903001e-05)
+        quatf physics:principalAxes = (-0.7071067690849304, 0.7071067690849304, 0.0, 0.0)
+    }
+
+    over "fr_caster_mount" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        float physics:mass = 0.05000000074505806
+        point3f physics:centerOfMass = (0.0, 0.0, 0.0)
+        float3 physics:diagonalInertia = (9.999999747378752e-06, 9.999999747378752e-06, 9.999999747378752e-06)
+        quatf physics:principalAxes = (1.0, 0.0, 0.0, 0.0)
+    }
+
+    over "fr_caster_swivel" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        float physics:mass = 0.07999999821186066
+        point3f physics:centerOfMass = (0.0, 0.0, 0.0)
+        float3 physics:diagonalInertia = (1.9999999494757503e-05, 1.9999999494757503e-05, 1.9999999494757503e-05)
+        quatf physics:principalAxes = (1.0, 0.0, 0.0, 0.0)
+    }
+
+    over "fr_caster_wheel" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        double3 xformOp:translate = (0.140594, -0.169457, 0.029900)  # caster gap +0.1 mm (drive preload)
+        over "collisions"
+        {
+            over "sphere" (
+                prepend apiSchemas = ["PhysicsMaterialAPI", "PhysxMaterialAPI"]
+            )
+            {
+                float physics:dynamicFriction = 0.5
+                float physics:restitution = 0
+                float physics:staticFriction = 0.5
+                uniform token physxMaterial:frictionCombineMode = "average"
+                bool physxMaterial:improvePatchFriction = 1
+            }
+        }
+
+        float physics:mass = 0.11999999731779099
+        point3f physics:centerOfMass = (0.0, 0.0, 0.0)
+        float3 physics:diagonalInertia = (4.999999873689376e-05, 4.999999873689376e-05, 7.999999797903001e-05)
+        quatf physics:principalAxes = (-0.7071067690849304, 0.7071067690849304, 0.0, 0.0)
+    }
+
+    over "rl_caster_mount" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        float physics:mass = 0.05000000074505806
+        point3f physics:centerOfMass = (0.0, 0.0, 0.0)
+        float3 physics:diagonalInertia = (9.999999747378752e-06, 9.999999747378752e-06, 9.999999747378752e-06)
+        quatf physics:principalAxes = (1.0, 0.0, 0.0, 0.0)
+    }
+
+    over "rl_caster_swivel" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        float physics:mass = 0.07999999821186066
+        point3f physics:centerOfMass = (0.0, 0.0, 0.0)
+        float3 physics:diagonalInertia = (1.9999999494757503e-05, 1.9999999494757503e-05, 1.9999999494757503e-05)
+        quatf physics:principalAxes = (1.0, 0.0, 0.0, 0.0)
+    }
+
+    over "rl_caster_wheel" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        double3 xformOp:translate = (-0.194068, 0.171865, 0.029900)  # caster gap +0.1 mm (drive preload)
+        over "collisions"
+        {
+            over "sphere" (
+                prepend apiSchemas = ["PhysicsMaterialAPI", "PhysxMaterialAPI"]
+            )
+            {
+                float physics:dynamicFriction = 0.5
+                float physics:restitution = 0
+                float physics:staticFriction = 0.5
+                uniform token physxMaterial:frictionCombineMode = "average"
+                bool physxMaterial:improvePatchFriction = 1
+            }
+        }
+
+        float physics:mass = 0.11999999731779099
+        point3f physics:centerOfMass = (0.0, 0.0, 0.0)
+        float3 physics:diagonalInertia = (4.999999873689376e-05, 4.999999873689376e-05, 7.999999797903001e-05)
+        quatf physics:principalAxes = (-0.7071067690849304, 0.7071067690849304, 0.0, 0.0)
+    }
+
+    over "rr_caster_mount" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        float physics:mass = 0.05000000074505806
+        point3f physics:centerOfMass = (0.0, 0.0, 0.0)
+        float3 physics:diagonalInertia = (9.999999747378752e-06, 9.999999747378752e-06, 9.999999747378752e-06)
+        quatf physics:principalAxes = (1.0, 0.0, 0.0, 0.0)
+    }
+
+    over "rr_caster_swivel" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        float physics:mass = 0.07999999821186066
+        point3f physics:centerOfMass = (0.0, 0.0, 0.0)
+        float3 physics:diagonalInertia = (1.9999999494757503e-05, 1.9999999494757503e-05, 1.9999999494757503e-05)
+        quatf physics:principalAxes = (1.0, 0.0, 0.0, 0.0)
+    }
+
+    over "rr_caster_wheel" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        double3 xformOp:translate = (-0.193375, -0.170134, 0.029900)  # caster gap +0.1 mm (drive preload)
+        over "collisions"
+        {
+            over "sphere" (
+                prepend apiSchemas = ["PhysicsMaterialAPI", "PhysxMaterialAPI"]
+            )
+            {
+                float physics:dynamicFriction = 0.5
+                float physics:restitution = 0
+                float physics:staticFriction = 0.5
+                uniform token physxMaterial:frictionCombineMode = "average"
+                bool physxMaterial:improvePatchFriction = 1
+            }
+        }
+
+        float physics:mass = 0.11999999731779099
+        point3f physics:centerOfMass = (0.0, 0.0, 0.0)
+        float3 physics:diagonalInertia = (4.999999873689376e-05, 4.999999873689376e-05, 7.999999797903001e-05)
+        quatf physics:principalAxes = (-0.7071067690849304, 0.7071067690849304, 0.0, 0.0)
+    }
+
+    over "Left_Wheel_Link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        over "collisions"
+        {
+            over "cylinder" (
+                prepend apiSchemas = ["PhysicsMaterialAPI", "PhysxMaterialAPI"]
+            )
+            {
+                float physics:dynamicFriction = 1
+                float physics:restitution = 0
+                float physics:staticFriction = 1
+                uniform token physxMaterial:frictionCombineMode = "average"
+                bool physxMaterial:improvePatchFriction = 1
+            }
+        }
+
+        float physics:mass = 1.5
+        point3f physics:centerOfMass = (-3.000000106112566e-06, -0.00030899999546818435, -1.9999999949504854e-06)
+        float3 physics:diagonalInertia = (0.0015416411915794015, 0.00154174177441746, 0.00276372698135674)
+        quatf physics:principalAxes = (0.6885165572166443, 0.6885092854499817, 0.16109909117221832, -0.16108058393001556)
+    }
+
+    over "Right_Wheel_Link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        over "collisions"
+        {
+            over "cylinder" (
+                prepend apiSchemas = ["PhysicsMaterialAPI", "PhysxMaterialAPI"]
+            )
+            {
+                float physics:dynamicFriction = 1
+                float physics:restitution = 0
+                float physics:staticFriction = 1
+                uniform token physxMaterial:frictionCombineMode = "average"
+                bool physxMaterial:improvePatchFriction = 1
+            }
+        }
+
+        float physics:mass = 1.5
+        point3f physics:centerOfMass = (3.000000106112566e-06, 0.00030899999546818435, -1.9999999949504854e-06)
+        float3 physics:diagonalInertia = (0.0015416607493534684, 0.001541722216643393, 0.00276372698135674)
+        quatf physics:principalAxes = (0.7067293524742126, 0.7067328691482544, -0.0230372603982687, 0.02305682934820652)
+    }
+
+    over "base_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsArticulationRootAPI", "PhysxArticulationAPI", "PhysicsMassAPI"]
+    )
+    {
+        float physics:mass = 1
+        bool physxArticulation:enabledSelfCollisions = 0
+        int physxArticulation:solverPositionIterationCount = 64
+        int physxArticulation:solverVelocityIterationCount = 4
+        float physxArticulation:sleepThreshold = 0.00005
+        float physxArticulation:stabilizationThreshold = 0.00001
+    }
+
+    def Scope "joints"
+    {
+        def PhysicsFixedJoint "AGV_joint"
+        {
+            rel physics:body0 = </G1D_Chassis/base_link>
+            rel physics:body1 = </G1D_Chassis/AGV_link>
+            bool physics:collisionEnabled = false
+            bool physics:excludeFromArticulation = false
+            bool physics:jointEnabled = true
+            point3f physics:localPos0 = (0.0, 0.0, 0.0)
+            point3f physics:localPos1 = (0.0, 0.0, 0.0)
+            quatf physics:localRot0 = (1.0, 0.0, 0.0, 0.0)
+            quatf physics:localRot1 = (1.0, 0.0, 0.0, 0.0)
+        }
+
+        def PhysicsFixedJoint "fl_caster_mount_joint"
+        {
+            rel physics:body0 = </G1D_Chassis/AGV_link>
+            rel physics:body1 = </G1D_Chassis/fl_caster_mount>
+            bool physics:collisionEnabled = false
+            bool physics:excludeFromArticulation = false
+            bool physics:jointEnabled = true
+            point3f physics:localPos0 = (0.16654999554157257, 0.172542005777359, -0.022350000217556953)
+            point3f physics:localPos1 = (0.0, 0.0, 0.0)
+            quatf physics:localRot0 = (1.0, 0.0, 0.0, 0.0)
+            quatf physics:localRot1 = (1.0, 0.0, 0.0, 0.0)
+        }
+
+        def PhysicsRevoluteJoint "fl_caster_swivel_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = inf
+            rel physics:body0 = </G1D_Chassis/fl_caster_mount>
+            rel physics:body1 = </G1D_Chassis/fl_caster_swivel>
+            uniform token physics:axis = "Z"
+            bool physics:collisionEnabled = false
+            bool physics:excludeFromArticulation = false
+            bool physics:jointEnabled = true
+            point3f physics:localPos0 = (0.0, 0.0, 0.0)
+            point3f physics:localPos1 = (0.0, 0.0, 0.0)
+            quatf physics:localRot0 = (1.0, 0.0, 0.0, 0.0)
+            quatf physics:localRot1 = (1.0, 0.0, 0.0, 0.0)
+            float physics:lowerLimit = -inf
+            float physics:upperLimit = inf
+        }
+
+        def PhysicsRevoluteJoint "fl_caster_wheel_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = inf
+            rel physics:body0 = </G1D_Chassis/fl_caster_swivel>
+            rel physics:body1 = </G1D_Chassis/fl_caster_wheel>
+            uniform token physics:axis = "Y"
+            bool physics:collisionEnabled = false
+            bool physics:excludeFromArticulation = false
+            bool physics:jointEnabled = true
+            point3f physics:localPos0 = (-0.026619000360369682, 0.0, -0.059150)
+            point3f physics:localPos1 = (0.0, 0.0, 0.0)
+            quatf physics:localRot0 = (1.0, 0.0, 0.0, 0.0)
+            quatf physics:localRot1 = (1.0, 0.0, 0.0, 0.0)
+            float physics:lowerLimit = -inf
+            float physics:upperLimit = inf
+        }
+
+        def PhysicsFixedJoint "fr_caster_mount_joint"
+        {
+            rel physics:body0 = </G1D_Chassis/AGV_link>
+            rel physics:body1 = </G1D_Chassis/fr_caster_mount>
+            bool physics:collisionEnabled = false
+            bool physics:excludeFromArticulation = false
+            bool physics:jointEnabled = true
+            point3f physics:localPos0 = (0.16721299290657043, -0.16945700347423553, -0.022350000217556953)
+            point3f physics:localPos1 = (0.0, 0.0, 0.0)
+            quatf physics:localRot0 = (1.0, 0.0, 0.0, 0.0)
+            quatf physics:localRot1 = (1.0, 0.0, 0.0, 0.0)
+        }
+
+        def PhysicsRevoluteJoint "fr_caster_swivel_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = inf
+            rel physics:body0 = </G1D_Chassis/fr_caster_mount>
+            rel physics:body1 = </G1D_Chassis/fr_caster_swivel>
+            uniform token physics:axis = "Z"
+            bool physics:collisionEnabled = false
+            bool physics:excludeFromArticulation = false
+            bool physics:jointEnabled = true
+            point3f physics:localPos0 = (0.0, 0.0, 0.0)
+            point3f physics:localPos1 = (0.0, 0.0, 0.0)
+            quatf physics:localRot0 = (1.0, 0.0, 0.0, 0.0)
+            quatf physics:localRot1 = (1.0, 0.0, 0.0, 0.0)
+            float physics:lowerLimit = -inf
+            float physics:upperLimit = inf
+        }
+
+        def PhysicsRevoluteJoint "fr_caster_wheel_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = inf
+            rel physics:body0 = </G1D_Chassis/fr_caster_swivel>
+            rel physics:body1 = </G1D_Chassis/fr_caster_wheel>
+            uniform token physics:axis = "Y"
+            bool physics:collisionEnabled = false
+            bool physics:excludeFromArticulation = false
+            bool physics:jointEnabled = true
+            point3f physics:localPos0 = (-0.026619000360369682, 0.0, -0.059150)
+            point3f physics:localPos1 = (0.0, 0.0, 0.0)
+            quatf physics:localRot0 = (1.0, 0.0, 0.0, 0.0)
+            quatf physics:localRot1 = (1.0, 0.0, 0.0, 0.0)
+            float physics:lowerLimit = -inf
+            float physics:upperLimit = inf
+        }
+
+        def PhysicsFixedJoint "rl_caster_mount_joint"
+        {
+            rel physics:body0 = </G1D_Chassis/AGV_link>
+            rel physics:body1 = </G1D_Chassis/rl_caster_mount>
+            bool physics:collisionEnabled = false
+            bool physics:excludeFromArticulation = false
+            bool physics:jointEnabled = true
+            point3f physics:localPos0 = (-0.1674489974975586, 0.17186500132083893, -0.022350000217556953)
+            point3f physics:localPos1 = (0.0, 0.0, 0.0)
+            quatf physics:localRot0 = (1.0, 0.0, 0.0, 0.0)
+            quatf physics:localRot1 = (1.0, 0.0, 0.0, 0.0)
+        }
+
+        def PhysicsRevoluteJoint "rl_caster_swivel_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = inf
+            rel physics:body0 = </G1D_Chassis/rl_caster_mount>
+            rel physics:body1 = </G1D_Chassis/rl_caster_swivel>
+            uniform token physics:axis = "Z"
+            bool physics:collisionEnabled = false
+            bool physics:excludeFromArticulation = false
+            bool physics:jointEnabled = true
+            point3f physics:localPos0 = (0.0, 0.0, 0.0)
+            point3f physics:localPos1 = (0.0, 0.0, 0.0)
+            quatf physics:localRot0 = (1.0, 0.0, 0.0, 0.0)
+            quatf physics:localRot1 = (1.0, 0.0, 0.0, 0.0)
+            float physics:lowerLimit = -inf
+            float physics:upperLimit = inf
+        }
+
+        def PhysicsRevoluteJoint "rl_caster_wheel_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = inf
+            rel physics:body0 = </G1D_Chassis/rl_caster_swivel>
+            rel physics:body1 = </G1D_Chassis/rl_caster_wheel>
+            uniform token physics:axis = "Y"
+            bool physics:collisionEnabled = false
+            bool physics:excludeFromArticulation = false
+            bool physics:jointEnabled = true
+            point3f physics:localPos0 = (-0.026619000360369682, 0.0, -0.059150)
+            point3f physics:localPos1 = (0.0, 0.0, 0.0)
+            quatf physics:localRot0 = (1.0, 0.0, 0.0, 0.0)
+            quatf physics:localRot1 = (1.0, 0.0, 0.0, 0.0)
+            float physics:lowerLimit = -inf
+            float physics:upperLimit = inf
+        }
+
+        def PhysicsFixedJoint "rr_caster_mount_joint"
+        {
+            rel physics:body0 = </G1D_Chassis/AGV_link>
+            rel physics:body1 = </G1D_Chassis/rr_caster_mount>
+            bool physics:collisionEnabled = false
+            bool physics:excludeFromArticulation = false
+            bool physics:jointEnabled = true
+            point3f physics:localPos0 = (-0.16675600409507751, -0.17013399302959442, -0.022350000217556953)
+            point3f physics:localPos1 = (0.0, 0.0, 0.0)
+            quatf physics:localRot0 = (1.0, 0.0, 0.0, 0.0)
+            quatf physics:localRot1 = (1.0, 0.0, 0.0, 0.0)
+        }
+
+        def PhysicsRevoluteJoint "rr_caster_swivel_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = inf
+            rel physics:body0 = </G1D_Chassis/rr_caster_mount>
+            rel physics:body1 = </G1D_Chassis/rr_caster_swivel>
+            uniform token physics:axis = "Z"
+            bool physics:collisionEnabled = false
+            bool physics:excludeFromArticulation = false
+            bool physics:jointEnabled = true
+            point3f physics:localPos0 = (0.0, 0.0, 0.0)
+            point3f physics:localPos1 = (0.0, 0.0, 0.0)
+            quatf physics:localRot0 = (1.0, 0.0, 0.0, 0.0)
+            quatf physics:localRot1 = (1.0, 0.0, 0.0, 0.0)
+            float physics:lowerLimit = -inf
+            float physics:upperLimit = inf
+        }
+
+        def PhysicsRevoluteJoint "rr_caster_wheel_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = inf
+            rel physics:body0 = </G1D_Chassis/rr_caster_swivel>
+            rel physics:body1 = </G1D_Chassis/rr_caster_wheel>
+            uniform token physics:axis = "Y"
+            bool physics:collisionEnabled = false
+            bool physics:excludeFromArticulation = false
+            bool physics:jointEnabled = true
+            point3f physics:localPos0 = (-0.026619000360369682, 0.0, -0.059150)
+            point3f physics:localPos1 = (0.0, 0.0, 0.0)
+            quatf physics:localRot0 = (1.0, 0.0, 0.0, 0.0)
+            quatf physics:localRot1 = (1.0, 0.0, 0.0, 0.0)
+            float physics:lowerLimit = -inf
+            float physics:upperLimit = inf
+        }
+
+        def PhysicsRevoluteJoint "Left_Wheel_Joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular", "PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = 500000
+            rel physics:body0 = </G1D_Chassis/AGV_link>
+            rel physics:body1 = </G1D_Chassis/Left_Wheel_Link>
+            uniform token physics:axis = "Y"
+            bool physics:collisionEnabled = false
+            bool physics:excludeFromArticulation = false
+            bool physics:jointEnabled = true
+            point3f physics:localPos0 = (0.00022503006039187312, 0.20309999585151672, -0.026499999687075615)
+            point3f physics:localPos1 = (0.0, 0.0, 0.0)
+            quatf physics:localRot0 = (1.0, 0.0, 0.0, 0.0)
+            quatf physics:localRot1 = (1.0, 0.0, 0.0, 0.0)
+            float physics:lowerLimit = -inf
+            float physics:upperLimit = inf
+            uniform token drive:angular:physics:type = "acceleration"
+            float drive:angular:physics:stiffness = 0
+            float drive:angular:physics:damping = 1000000
+            float drive:angular:physics:maxForce = 3.4028235e38
+        }
+
+        def PhysicsRevoluteJoint "Right_Wheel_Joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular", "PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = 500000
+            rel physics:body0 = </G1D_Chassis/AGV_link>
+            rel physics:body1 = </G1D_Chassis/Right_Wheel_Link>
+            uniform token physics:axis = "Y"
+            bool physics:collisionEnabled = false
+            bool physics:excludeFromArticulation = false
+            bool physics:jointEnabled = true
+            point3f physics:localPos0 = (0.00022503006039187312, -0.20309999585151672, -0.026499999687075615)
+            point3f physics:localPos1 = (0.0, 0.0, 0.0)
+            quatf physics:localRot0 = (1.0, 0.0, 0.0, 0.0)
+            quatf physics:localRot1 = (1.0, 0.0, 0.0, 0.0)
+            float physics:lowerLimit = -inf
+            float physics:upperLimit = inf
+            uniform token drive:angular:physics:type = "acceleration"
+            float drive:angular:physics:stiffness = 0
+            float drive:angular:physics:damping = 1000000
+            float drive:angular:physics:maxForce = 3.4028235e38
+        }
+
+    }
+}

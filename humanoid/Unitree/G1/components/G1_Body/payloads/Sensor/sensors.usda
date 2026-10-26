@@ -1,0 +1,30 @@
+#usda 1.0
+(
+    defaultPrim = "G1_Body"
+    metersPerUnit = 1
+    upAxis = "Z"
+    doc = """Optical Camera only on URDF d435_link (ROS optical +Z forward). Ry180 maps Isaac look −Z to optical +Z. No RealSense mesh."""
+)
+
+over "G1_Body"
+{
+    over "torso_link"
+    {
+        over "d435_link"
+        {
+            def Camera "head_camera"
+            {
+                float2 clippingRange = (0.01, 10000000)
+                float focalLength = 18.147562
+                float focusDistance = 400
+                float horizontalAperture = 24.95
+                token projection = "perspective"
+                float verticalAperture = 13.936
+                quatd xformOp:orient = (0, 1, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+        }
+    }
+}

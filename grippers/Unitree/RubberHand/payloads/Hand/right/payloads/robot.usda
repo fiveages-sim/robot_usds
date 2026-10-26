@@ -1,0 +1,40 @@
+#usda 1.0
+(
+    customLayerData = {
+        string creator = "URDF USD Converter v0.3.2"
+    }
+    defaultPrim = "RubberHand"
+    endTimeCode = 1000000
+    kilogramsPerUnit = 1
+    metersPerUnit = 1
+    startTimeCode = 0
+    upAxis = "Z"
+)
+
+over "RubberHand" (
+    prepend apiSchemas = ["IsaacRobotAPI"]
+)
+{
+    prepend rel isaac:physics:robotJoints = </RubberHand/Physics/root_joint>
+    prepend rel isaac:physics:robotLinks = </RubberHand/Geometry/hand_base>
+    token isaac:robotType = "Manipulator"
+
+    over "Geometry"
+    {
+        over "hand_base" (
+            prepend apiSchemas = ["IsaacLinkAPI"]
+        )
+        {
+        }
+    }
+
+    over "Physics"
+    {
+        over "root_joint" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+        }
+    }
+}
+

@@ -1,0 +1,71 @@
+#usda 1.0
+(
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Scope "Materials"
+{
+    def Material "black_plastic"
+    {
+        token outputs:mdl:displacement.connect = </Materials/black_plastic/black_plastic.outputs:out>
+        token outputs:mdl:surface.connect = </Materials/black_plastic/black_plastic.outputs:out>
+        token outputs:mdl:volume.connect = </Materials/black_plastic/black_plastic.outputs:out>
+
+        def Shader "black_plastic"
+        {
+            uniform token info:implementationSource = "sourceAsset"
+            uniform asset info:mdl:sourceAsset = @../../Textures/pbr.mdl@
+            uniform token info:mdl:sourceAsset:subIdentifier = "gltf_material"
+            float inputs:alpha_cutoff = 0
+            int inputs:alpha_mode = 0
+            float inputs:base_alpha = 1
+            color3f inputs:base_color_factor = (0, 0, 0)
+            float inputs:metallic_factor = 0.2
+            float inputs:roughness_factor = 0.5
+            token outputs:out
+        }
+    }
+
+    def Material "black_metal"
+    {
+        token outputs:mdl:displacement.connect = </Materials/black_metal/black_metal.outputs:out>
+        token outputs:mdl:surface.connect = </Materials/black_metal/black_metal.outputs:out>
+        token outputs:mdl:volume.connect = </Materials/black_metal/black_metal.outputs:out>
+
+        def Shader "black_metal"
+        {
+            uniform token info:implementationSource = "sourceAsset"
+            uniform asset info:mdl:sourceAsset = @../../Textures/pbr.mdl@
+            uniform token info:mdl:sourceAsset:subIdentifier = "gltf_material"
+            float inputs:alpha_cutoff = 0
+            int inputs:alpha_mode = 0
+            float inputs:base_alpha = 1
+            color3f inputs:base_color_factor = (0, 0, 0)
+            float inputs:metallic_factor = 0
+            float inputs:roughness_factor = 0.5
+            token outputs:out
+        }
+    }
+
+    def Material "sensor"
+    {
+        token outputs:mdl:displacement.connect = </Materials/sensor/sensor.outputs:out>
+        token outputs:mdl:surface.connect = </Materials/sensor/sensor.outputs:out>
+        token outputs:mdl:volume.connect = </Materials/sensor/sensor.outputs:out>
+
+        def Shader "sensor"
+        {
+            uniform token info:implementationSource = "sourceAsset"
+            uniform asset info:mdl:sourceAsset = @../../Textures/pbr.mdl@
+            uniform token info:mdl:sourceAsset:subIdentifier = "gltf_material"
+            float inputs:alpha_cutoff = 0
+            int inputs:alpha_mode = 0
+            float inputs:base_alpha = 1
+            color3f inputs:base_color_factor = (0, 0, 0)
+            float inputs:metallic_factor = 0
+            float inputs:roughness_factor = 0.1
+            token outputs:out
+        }
+    }
+}

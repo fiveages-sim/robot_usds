@@ -1,0 +1,35 @@
+#usda 1.0
+(
+    defaultPrim = "Dex1"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+over "Dex1"
+{
+    over "Geometry"
+    {
+        over "dex1_base_link"
+        {
+            over "dex1_camera_link"
+            {
+                over "dex1_camera_optical_frame"
+                {
+                    def Camera "dex1_camera"
+                    {
+                        float2 clippingRange = (0.01, 10000000)
+                        float focalLength = 18.147562
+                        float focusDistance = 400
+                        float horizontalAperture = 20.955
+                        float verticalAperture = 15.716
+                        token projection = "perspective"
+                        # look −Z local → optical +Z out
+                        quatd xformOp:orient = (0, 1, 0, 0)
+                        double3 xformOp:scale = (1, 1, 1)
+                        double3 xformOp:translate = (0, 0, 0)
+                        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                    }
+                }
+            }
+        }
+    }
+}

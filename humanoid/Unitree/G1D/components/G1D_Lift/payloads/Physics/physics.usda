@@ -1,0 +1,166 @@
+#usda 1.0
+(
+    defaultPrim = "G1D_Lift"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+over "G1D_Lift"
+{
+    over "LZ_ot_Link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsArticulationRootAPI", "PhysxArticulationAPI", "PhysicsMassAPI"]
+    )
+    {
+        float physics:mass = 3.299999952316284
+        bool physxArticulation:enabledSelfCollisions = 0
+        int physxArticulation:solverPositionIterationCount = 64
+        int physxArticulation:solverVelocityIterationCount = 4
+        float physxArticulation:sleepThreshold = 0.00005
+        float physxArticulation:stabilizationThreshold = 0.00001
+        point3f physics:centerOfMass = (0.000375000003259629, 2.499999936844688e-05, -0.0002496519882697612)
+        float3 physics:diagonalInertia = (0.01493746880441904, 0.07181944698095322, 0.07182176411151886)
+        quatf physics:principalAxes = (0.6049336194992065, -0.3662351369857788, -0.6047433018684387, -0.3663504421710968)
+    }
+
+    over "LZ_mt_Link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        float physics:mass = 3.299999952316284
+        point3f physics:centerOfMass = (0.0004939999780617654, -6.199999916134402e-05, 0.2160159945487976)
+        float3 physics:diagonalInertia = (0.012847336009144783, 0.057352662086486816, 0.05735287070274353)
+        quatf physics:principalAxes = (-0.5, 0.5, 0.5, 0.5)
+    }
+
+    over "LZ_it_Link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        float physics:mass = 3.4000000953674316
+        point3f physics:centerOfMass = (-0.0015660000499337912, -0.00019200000679120421, -0.19915899634361267)
+        float3 physics:diagonalInertia = (0.010583891533315182, 0.06818282604217529, 0.06821013242006302)
+        quatf physics:principalAxes = (-0.7059625387191772, 0.020074943080544472, 0.707680881023407, 0.02004300430417061)
+    }
+
+    over "waist_mount_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        float physics:mass = 1.8890000581741333
+        point3f physics:centerOfMass = (0.04054399952292442, -0.0037700000684708357, 0.05172799900174141)
+        float3 physics:diagonalInertia = (0.0025371515657752752, 0.004839773289859295, 0.004887850489467382)
+        quatf physics:principalAxes = (0.8846797943115234, 0.307756245136261, -0.341299444437027, 0.078373983502388)
+    }
+
+    over "waist_pitch_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        float physics:mass = 1.1440000534057617
+        point3f physics:centerOfMass = (7.400000322377309e-05, -0.0006200000061653554, 0.0712210014462471)
+        float3 physics:diagonalInertia = (0.001226593041792512, 0.00220470386557281, 0.002602469176054001)
+        quatf physics:principalAxes = (0.707090437412262, -0.01632089354097843, -0.7067685127258301, 0.015329308807849884)
+    }
+
+    def Scope "joints"
+    {
+        def PhysicsFixedJoint "LZ_ot_Joint"
+        {
+            rel physics:body0 = </G1D_Lift/AGV_link>
+            rel physics:body1 = </G1D_Lift/LZ_ot_Link>
+            bool physics:collisionEnabled = false
+            bool physics:excludeFromArticulation = false
+            bool physics:jointEnabled = true
+            point3f physics:localPos0 = (-0.00016263987345155329, 0.0, 0.5274999737739563)
+            point3f physics:localPos1 = (0.0, 0.0, 0.0)
+            quatf physics:localRot0 = (1.0, 0.0, 0.0, 0.0)
+            quatf physics:localRot1 = (1.0, 0.0, 0.0, 0.0)
+        }
+
+        def PhysicsPrismaticJoint "LZ_mt_Joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:linear", "PhysicsDriveAPI:linear"]
+        )
+        {
+            rel physics:body0 = </G1D_Lift/LZ_ot_Link>
+            rel physics:body1 = </G1D_Lift/LZ_mt_Link>
+            uniform token physics:axis = "Z"
+            bool physics:collisionEnabled = false
+            bool physics:excludeFromArticulation = false
+            bool physics:jointEnabled = true
+            point3f physics:localPos0 = (0.00038766994839534163, 0.0, 0.009999999776482582)
+            point3f physics:localPos1 = (0.0, 0.0, 0.0)
+            quatf physics:localRot0 = (1.0, 0.0, 0.0, 0.0)
+            quatf physics:localRot1 = (1.0, 0.0, 0.0, 0.0)
+            float physics:lowerLimit = 0.0
+            float physics:upperLimit = 0.20999999344348907
+            uniform token drive:linear:physics:type = "force"
+            float drive:linear:physics:stiffness = 60000
+            float drive:linear:physics:damping = 6000
+            float drive:linear:physics:maxForce = 5000
+            float state:linear:physics:position = 0
+            float state:linear:physics:velocity = 0
+        }
+
+        def PhysicsPrismaticJoint "LZ_it_Joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:linear", "PhysicsDriveAPI:linear"]
+        )
+        {
+            rel physics:body0 = </G1D_Lift/LZ_mt_Link>
+            rel physics:body1 = </G1D_Lift/LZ_it_Link>
+            uniform token physics:axis = "Z"
+            bool physics:collisionEnabled = false
+            bool physics:excludeFromArticulation = false
+            bool physics:jointEnabled = true
+            point3f physics:localPos0 = (0.0013627000153064728, 0.00020167000184301287, 0.017999999225139618)
+            point3f physics:localPos1 = (0.0, 0.0, 0.0)
+            quatf physics:localRot0 = (1.0, 0.0, 0.0, 0.0)
+            quatf physics:localRot1 = (1.0, 0.0, 0.0, 0.0)
+            float physics:lowerLimit = 0.0
+            float physics:upperLimit = 0.20999999344348907
+            uniform token drive:linear:physics:type = "force"
+            float drive:linear:physics:stiffness = 60000
+            float drive:linear:physics:damping = 6000
+            float drive:linear:physics:maxForce = 5000
+            float state:linear:physics:position = 0
+            float state:linear:physics:velocity = 0
+        }
+
+        def PhysicsFixedJoint "waist_mount_joint"
+        {
+            rel physics:body0 = </G1D_Lift/LZ_it_Link>
+            rel physics:body1 = </G1D_Lift/waist_mount_link>
+            bool physics:collisionEnabled = false
+            bool physics:excludeFromArticulation = false
+            bool physics:jointEnabled = true
+            point3f physics:localPos0 = (-0.0013627000153064728, -0.00020167000184301287, 0.00800000037997961)
+            point3f physics:localPos1 = (0.0, 0.0, 0.0)
+            quatf physics:localRot0 = (1.0, 0.0, 0.0, 0.0)
+            quatf physics:localRot1 = (1.0, 0.0, 0.0, 0.0)
+        }
+
+        def PhysicsRevoluteJoint "waist_pitch_joint" (
+            prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
+        )
+        {
+            rel physics:body0 = </G1D_Lift/waist_mount_link>
+            rel physics:body1 = </G1D_Lift/waist_pitch_link>
+            uniform token physics:axis = "Y"
+            bool physics:collisionEnabled = false
+            bool physics:excludeFromArticulation = false
+            bool physics:jointEnabled = true
+            point3f physics:localPos0 = (0.05550000071525574, 0.0002165000041713938, 0.06599999964237213)
+            point3f physics:localPos1 = (0.0, 0.0, 0.0)
+            quatf physics:localRot0 = (1.0, 0.0, 0.0, 0.0)
+            quatf physics:localRot1 = (1.0, 0.0, 0.0, 0.0)
+            float physics:lowerLimit = -2.499814748764038
+            float physics:upperLimit = 135.0003204345703
+            uniform token drive:angular:physics:type = "force"
+            float drive:angular:physics:stiffness = 60000
+            float drive:angular:physics:damping = 6000
+            float drive:angular:physics:maxForce = 5000
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+    }
+}

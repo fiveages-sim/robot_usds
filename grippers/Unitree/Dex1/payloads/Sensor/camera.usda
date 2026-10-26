@@ -1,0 +1,51 @@
+#usda 1.0
+(
+    defaultPrim = "Dex1"
+    metersPerUnit = 1
+    upAxis = "Z"
+    doc = """Dex1 wrist camera (unitree_dex camera:=true).
+camera_link = identity on dex1_base_link (camera.glb/obj shell).
+optical_frame TF: xyz=(0.05382, 0, 0.06201) rpy=(-2.1817, 0, -1.5708).
++Z is the lens outward normal (toward the fingers, slightly down).
+Camera is a child of the optical frame; Rx(180) so USD look −Z aligns with optical +Z.
+Side=left|right renames it dex1_left_camera|dex1_right_camera (same pattern as chassis_*_camera)."""
+)
+
+over "Dex1"
+{
+    over "Geometry"
+    {
+        over "dex1_base_link"
+        {
+            def Xform "dex1_camera_link"
+            {
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+                # Shell mesh (visual only; no collision — URDF has no camera collision)
+                def Xform "camera" (
+                    prepend references = @../../meshes/camera/camera.usda@
+                )
+                {
+                    quatd xformOp:orient = (1, 0, 0, 0)
+                    double3 xformOp:scale = (1, 1, 1)
+                    double3 xformOp:translate = (0, 0, 0)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                }
+
+                def Xform "dex1_camera_optical_frame"
+                {
+                    # URDF optical joint
+                    quatd xformOp:orient = (0.32649292248547546, -0.6272164976818942, 0.6272188015809659, -0.3264941217631471)
+                    double3 xformOp:scale = (1, 1, 1)
+                    double3 xformOp:translate = (0.05382, 0, 0.06201)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+                    # Camera prim is authored by Side (dex1_camera / dex1_left_camera / dex1_right_camera).
+                }
+            }
+        }
+    }
+}

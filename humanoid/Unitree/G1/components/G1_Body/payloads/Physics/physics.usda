@@ -1,0 +1,74 @@
+#usda 1.0
+(
+    defaultPrim = "G1_Body"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+over "G1_Body"
+{
+    over "torso_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsArticulationRootAPI", "PhysxArticulationAPI", "PhysicsMassAPI"]
+    )
+    {
+        float physics:mass = 6.78000020980835
+        bool physxArticulation:enabledSelfCollisions = 0
+        int physxArticulation:solverPositionIterationCount = 64
+        int physxArticulation:solverVelocityIterationCount = 4
+        float physxArticulation:sleepThreshold = 0.00005
+        float physxArticulation:stabilizationThreshold = 0.00001
+        point3f physics:centerOfMass = (0.0009309999877586961, 0.0003459999861661345, 0.15082000195980072)
+        float3 physics:diagonalInertia = (0.02555827982723713, 0.04701392352581024, 0.0591438002884388)
+        quatf physics:principalAxes = (0.7255404591560364, 0.0006994607974775136, -0.6881778836250305, 0.0013253786601126194)
+    }
+
+    over "logo_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        float physics:mass = 0.0010000000474974513
+        point3f physics:centerOfMass = (-inf, -inf, -inf)
+        float3 physics:diagonalInertia = (1.0000000116860974e-07, 1.0000000116860974e-07, 1.0000000116860974e-07)
+        quatf physics:principalAxes = (1.0, 0.0, 0.0, 0.0)
+    }
+
+    over "head_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        float physics:mass = 1.0360000133514404
+        point3f physics:centerOfMass = (0.005266999825835228, 0.000299000006634742, 0.4498690068721771)
+        float3 physics:diagonalInertia = (0.0018057884881272912, 0.004087107256054878, 0.004185277968645096)
+        quatf physics:principalAxes = (0.5134103298187256, -0.5016372203826904, -0.4987800121307373, -0.48578640818595886)
+    }
+
+    def Scope "joints"
+    {
+        def PhysicsFixedJoint "logo_joint"
+        {
+            rel physics:body0 = </G1_Body/torso_link>
+            rel physics:body1 = </G1_Body/logo_link>
+            bool physics:collisionEnabled = false
+            bool physics:excludeFromArticulation = false
+            bool physics:jointEnabled = true
+            point3f physics:localPos0 = (0.003963499795645475, 0.0, -0.04399999976158142)
+            point3f physics:localPos1 = (0.0, 0.0, 0.0)
+            quatf physics:localRot0 = (1.0, 0.0, 0.0, 0.0)
+            quatf physics:localRot1 = (1.0, 0.0, 0.0, 0.0)
+        }
+
+        def PhysicsFixedJoint "head_joint"
+        {
+            rel physics:body0 = </G1_Body/torso_link>
+            rel physics:body1 = </G1_Body/head_link>
+            bool physics:collisionEnabled = false
+            bool physics:excludeFromArticulation = false
+            bool physics:jointEnabled = true
+            point3f physics:localPos0 = (0.003963499795645475, 0.0, -0.04399999976158142)
+            point3f physics:localPos1 = (0.0, 0.0, 0.0)
+            quatf physics:localRot0 = (1.0, 0.0, 0.0, 0.0)
+            quatf physics:localRot1 = (1.0, 0.0, 0.0, 0.0)
+        }
+
+    }
+}

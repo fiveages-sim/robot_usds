@@ -1,0 +1,42 @@
+#usda 1.0
+(
+    defaultPrim = "G1D"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+over "G1D"
+{
+    def "G1D_Chassis" (
+        prepend payload = @../../../../../mobile_base/Slamtec/G1D_Chassis/G1D_Chassis.usda@
+        delete apiSchemas = ["PhysicsArticulationRootAPI", "PhysxArticulationAPI", "NewtonArticulationRootAPI"]
+        variants = {
+            string Physics = "physx"
+            string ROS = "none"
+        }
+    )
+    {
+        quatd xformOp:orient = (1, 0, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "base_link" (
+            delete apiSchemas = ["PhysicsArticulationRootAPI", "PhysxArticulationAPI", "NewtonArticulationRootAPI"]
+        )
+        {
+            def PhysicsFixedJoint "AssemblerFixedJoint"
+            {
+                # Chassis base_link / AGV_link sit at z=0.1114 in the component; G1D/base_link
+                # is at the world origin. localPos must match that mount or Play snaps the
+                # deck down ~111 mm → wheels penetrate ground and bounce.
+                rel physics:body0 = </G1D/base_link>
+                rel physics:body1 = </G1D/G1D_Chassis/base_link>
+                point3f physics:localPos0 = (0, 0, 0.1114)
+                point3f physics:localPos1 = (0, 0, 0)
+                quatf physics:localRot0 = (1, 0, 0, 0)
+                quatf physics:localRot1 = (1, 0, 0, 0)
+            }
+        }
+    }
+}

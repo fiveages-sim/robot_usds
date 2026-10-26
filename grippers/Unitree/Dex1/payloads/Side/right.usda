@@ -1,0 +1,84 @@
+#usda 1.0
+(
+    defaultPrim = "Dex1"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+over "Dex1"
+{
+    over "Physics"
+    {
+        over "gripper_joint" ( active = false ) {}
+        over "gripper_joint1" ( active = false ) {}
+
+        def PhysicsPrismaticJoint "right_gripper_joint" (
+            prepend apiSchemas = ["NewtonJointAPI", "PhysicsDriveAPI:linear", "PhysicsJointStateAPI:linear", "PhysxJointAPI"]
+        )
+        {
+            float drive:linear:physics:damping = 1000
+            float drive:linear:physics:stiffness = 10000
+            float drive:linear:physics:maxForce = 20
+            float drive:linear:physics:targetPosition = 0
+            uniform token drive:linear:physics:type = "force"
+            uniform token physics:axis = "Y"
+            rel physics:body0 = </Dex1/Geometry/dex1_base_link>
+            rel physics:body1 = </Dex1/Geometry/dex1_base_link/dex1_finger_link_1>
+            point3f physics:localPos0 = (0, 0, 0)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0, -1, 0, 0)
+            quatf physics:localRot1 = (0, -1, 0, 0)
+            float physics:lowerLimit = -0.02
+            float physics:upperLimit = 0.0245
+        }
+
+        def PhysicsPrismaticJoint "right_gripper_joint1" (
+            prepend apiSchemas = ["NewtonJointAPI", "NewtonMimicAPI", "PhysicsJointStateAPI:linear", "PhysxJointAPI", "PhysxMimicJointAPI:transY"]
+        )
+        {
+            float newton:mimicCoef1 = 1
+            rel newton:mimicJoint = </Dex1/Physics/right_gripper_joint>
+            uniform token physics:axis = "Y"
+            rel physics:body0 = </Dex1/Geometry/dex1_base_link>
+            rel physics:body1 = </Dex1/Geometry/dex1_base_link/dex1_finger_link_2>
+            point3f physics:localPos0 = (0, 0, 0)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -0.02
+            float physics:upperLimit = 0.0245
+            float physxMimicJoint:transY:dampingRatio = 0
+            float physxMimicJoint:transY:gearing = 1
+            float physxMimicJoint:transY:naturalFrequency = 0
+            float physxMimicJoint:transY:offset = 0
+            rel physxMimicJoint:transY:referenceJoint = </Dex1/Physics/right_gripper_joint>
+        }
+    }
+
+    # Same pattern as chassis_right_camera: side in the Camera prim name.
+    over "Geometry"
+    {
+        over "dex1_base_link"
+        {
+            over "dex1_camera_link"
+            {
+                over "dex1_camera_optical_frame"
+                {
+                    def Camera "dex1_right_camera"
+                    {
+                        float2 clippingRange = (0.01, 10000000)
+                        float focalLength = 18.147562
+                        float focusDistance = 400
+                        float horizontalAperture = 20.955
+                        float verticalAperture = 15.716
+                        token projection = "perspective"
+                        quatd xformOp:orient = (0, 1, 0, 0)
+                        double3 xformOp:scale = (1, 1, 1)
+                        double3 xformOp:translate = (0, 0, 0)
+                        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                    }
+                }
+            }
+        }
+    }
+}

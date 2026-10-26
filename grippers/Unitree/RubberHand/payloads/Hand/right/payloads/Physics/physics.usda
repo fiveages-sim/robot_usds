@@ -1,0 +1,55 @@
+#usda 1.0
+(
+    customLayerData = {
+        string creator = "URDF USD Converter v0.3.2"
+    }
+    defaultPrim = "RubberHand"
+    endTimeCode = 1000000
+    kilogramsPerUnit = 1
+    metersPerUnit = 1
+    startTimeCode = 0
+    upAxis = "Z"
+)
+
+over "RubberHand" (
+    prepend apiSchemas = ["PhysicsArticulationRootAPI", "NewtonArticulationRootAPI"]
+)
+{
+    bool newton:selfCollisionEnabled = 0
+
+    over "Geometry"
+    {
+        over "hand_base" (
+            prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "NewtonMassAPI"]
+        )
+        {
+            double[] newton:inertia = [0.00010099485234748, 0.00028135871571621, 0.00021894770413514, -0.00003618590790516, -7.4301518642e-7, 0.00000330189743286]
+            point3f physics:centerOfMass = (0.053613108, 0.0029590523, 0.002154131)
+            float3 physics:diagonalInertia = (0.000094005714, 0.00021878329, 0.00028851227)
+            float physics:mass = 0.17
+            quatf physics:principalAxes = (0.68655604, 0.72081137, 0.0686805, 0.06599072)
+
+            over "box" (
+                prepend apiSchemas = ["NewtonCollisionAPI"]
+            )
+            {
+            }
+        }
+    }
+
+    over "Physics"
+    {
+        def PhysicsFixedJoint "root_joint"
+        {
+            custom rel physics:body0
+            append rel physics:body0 = </RubberHand>
+            custom rel physics:body1
+            append rel physics:body1 = </RubberHand/Geometry/hand_base>
+            point3f physics:localPos0 = (0, 0, 0)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+        }
+    }
+}
+

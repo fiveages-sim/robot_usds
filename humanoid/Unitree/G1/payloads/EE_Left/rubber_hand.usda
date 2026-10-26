@@ -1,0 +1,59 @@
+#usda 1.0
+(
+    defaultPrim = "G1"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def "G1"
+{
+    over "G1_Arms"
+    {
+        over "left_wrist_yaw_link"
+        {
+            over "left_tcp"
+            {
+            def "RubberHand" (
+                prepend payload = @../../../../../grippers/Unitree/RubberHand/RubberHand.usda@
+                variants = {
+                    string Physics = "physx"
+                    string Robot = "none"
+                    string Side = "left"
+                }
+            )
+            {
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0.0, 0.003, 0.0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+                over "Physics"
+                {
+                    over "root_joint" ( active = false )
+                    {
+                    }
+                }
+
+                over "Geometry"
+                {
+                    over "hand_base" (
+                        delete apiSchemas = ["PhysicsArticulationRootAPI", "NewtonArticulationRootAPI"]
+                    )
+                    {
+                        def PhysicsFixedJoint "AssemblerFixedJoint"
+                        {
+                            rel physics:body0 = </G1/G1_Arms/left_wrist_yaw_link/left_tcp>
+                            rel physics:body1 = </G1/G1_Arms/left_wrist_yaw_link/left_tcp/RubberHand/Geometry/hand_base>
+                            point3f physics:localPos0 = (0.0, 0.003, 0.0)
+                            point3f physics:localPos1 = (0, 0, 0)
+                            quatf physics:localRot0 = (1, 0, 0, 0)
+                            quatf physics:localRot1 = (1, 0, 0, 0)
+                        }
+                    }
+                }
+            }
+            }
+        }
+    }
+}
+

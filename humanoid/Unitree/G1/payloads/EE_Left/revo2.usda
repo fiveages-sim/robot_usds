@@ -1,0 +1,69 @@
+#usda 1.0
+(
+    defaultPrim = "G1"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def "G1"
+{
+    over "G1_Arms"
+    {
+        over "left_wrist_yaw_link"
+        {
+            over "left_tcp"
+            {
+            # BrainCo flange visual (tcp sibling — does not inherit hand rotation).
+            # Official G1 xacro: tcp --identity--> left_flange; flange.glb X=[0,0.0176].
+            def Xform "Revo2Flange" (
+                prepend references = @../../../../../dexhands/BrainCo/Revo2/payloads/Flange/flange.usd@
+            )
+            {
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def "Revo2" (
+                prepend payload = @../../../../../dexhands/BrainCo/Revo2/Revo2.usda@
+                variants = {
+                    string Physics = "physx"
+                    string Robot = "none"
+                    string Side = "left"
+                }
+            )
+            {
+                # flange.glb ends at X=0.0176; hand weld = flange→hand (G1 eefs + revo2.xacro).
+                quatd xformOp:orient = (0.5, -0.5, 0.5, -0.5)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0.0176, 0.0, 0.0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+                over "root_joint" (
+                    active = false
+                    delete apiSchemas = ["PhysicsArticulationRootAPI", "NewtonArticulationRootAPI"]
+                )
+                {
+                }
+
+                over "hand_base" (
+                    delete apiSchemas = ["PhysicsArticulationRootAPI", "NewtonArticulationRootAPI"]
+                )
+                {
+                    def PhysicsFixedJoint "AssemblerFixedJoint"
+                    {
+                        rel physics:body0 = </G1/G1_Arms/left_wrist_yaw_link/left_tcp>
+                        rel physics:body1 = </G1/G1_Arms/left_wrist_yaw_link/left_tcp/Revo2/hand_base>
+                        point3f physics:localPos0 = (0.0176, 0.0, 0.0)
+                        point3f physics:localPos1 = (0, 0, 0)
+                        quatf physics:localRot0 = (0.5, -0.5, 0.5, -0.5)
+                        quatf physics:localRot1 = (1, 0, 0, 0)
+                    }
+                }
+            }
+            }
+        }
+    }
+}
+

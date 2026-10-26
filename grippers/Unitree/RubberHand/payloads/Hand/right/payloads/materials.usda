@@ -1,0 +1,48 @@
+#usda 1.0
+(
+    customLayerData = {
+        string creator = "URDF USD Converter v0.3.2"
+    }
+    endTimeCode = 1000000
+    kilogramsPerUnit = 1
+    metersPerUnit = 1
+    startTimeCode = 0
+    upAxis = "Z"
+)
+
+def Scope "Materials"
+{
+    def Material "dark"
+    {
+        color3f inputs:diffuseColor = (0.03310476, 0.033104762, 0.03310476)
+        float inputs:ior = 1.5
+        float inputs:metallic = 0
+        float inputs:opacity = 1
+        float inputs:roughness = 0.5
+        token inputs:wrapMode = "repeat"
+        token outputs:displacement (
+            displayGroup = "Outputs"
+        )
+        token outputs:surface (
+            displayGroup = "Outputs"
+        )
+        prepend token outputs:surface.connect = </Materials/dark/PreviewSurface.outputs:surface>
+        token outputs:volume (
+            displayGroup = "Outputs"
+        )
+
+        def Shader "PreviewSurface" (
+            apiSchemas = ["NodeDefAPI"]
+        )
+        {
+            token info:id = "UsdPreviewSurface"
+            prepend color3f inputs:diffuseColor.connect = </Materials/dark.inputs:diffuseColor>
+            prepend float inputs:ior.connect = </Materials/dark.inputs:ior>
+            prepend float inputs:metallic.connect = </Materials/dark.inputs:metallic>
+            prepend float inputs:opacity.connect = </Materials/dark.inputs:opacity>
+            prepend float inputs:roughness.connect = </Materials/dark.inputs:roughness>
+            token outputs:surface
+        }
+    }
+}
+

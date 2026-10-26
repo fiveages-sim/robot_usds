@@ -1,0 +1,58 @@
+#usda 1.0
+(
+    defaultPrim = "G1D"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+over "G1D"
+{
+    # G1 torso+head (shared). G1D-only waist_yaw mounts it on the lift pitch stage.
+    def "G1_Body" (
+        delete apiSchemas = ["PhysicsArticulationRootAPI", "PhysxArticulationAPI", "NewtonArticulationRootAPI"]
+        prepend payload = @../../../G1/components/G1_Body/G1_Body.usda@
+        variants = {
+            string Physics = "physx"
+            string ROS = "none"
+            string Sensor = "none"
+            string Robot = "none"
+        }
+    )
+    {
+        # Rest pose = waist_pitch world × waist_yaw origin (xacro). Joint keeps the constraint.
+        quatd xformOp:orient = (1, 0, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0.053371430065905015, 0.000167718, 0.8351085659999999)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "torso_link" (
+            delete apiSchemas = ["PhysicsArticulationRootAPI", "PhysxArticulationAPI", "NewtonArticulationRootAPI"]
+        )
+        {
+            def PhysicsRevoluteJoint "waist_yaw_joint" (
+                prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular", "PhysxJointAPI"]
+            )
+            {
+                float physxJoint:maxJointVelocity = 500000
+                rel physics:body0 = </G1D/G1D_Lift/waist_pitch_link>
+                rel physics:body1 = </G1D/G1_Body/torso_link>
+                uniform token physics:axis = "Z"
+                bool physics:collisionEnabled = false
+                bool physics:excludeFromArticulation = false
+                bool physics:jointEnabled = true
+                point3f physics:localPos0 = (-0.0023536, -0.000048782, 0.094208566)
+                point3f physics:localPos1 = (0, 0, 0)
+                quatf physics:localRot0 = (1, 0, 0, 0)
+                quatf physics:localRot1 = (1, 0, 0, 0)
+                float physics:lowerLimit = -155.00227
+                float physics:upperLimit = 155.00227
+                uniform token drive:angular:physics:type = "force"
+                float drive:angular:physics:stiffness = 60000
+                float drive:angular:physics:damping = 6000
+                float drive:angular:physics:maxForce = 5000
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+        }
+    }
+}

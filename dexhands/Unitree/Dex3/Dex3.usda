@@ -1,0 +1,39 @@
+#usda 1.0
+(
+    defaultPrim = "Dex3"
+    metersPerUnit = 1
+    upAxis = "Z"
+    doc = "Unitree Dex3. Side=right switches Hand/right morphology + Physics."
+)
+
+def Xform "Dex3" (
+    prepend references = @./payloads/base.usda@
+    variants = {
+        string Physics = "physx"
+        string Robot = "none"
+        string Side = "default"
+    }
+    prepend variantSets = ["Physics", "Side"]
+    append variantSets = ["Robot"]
+)
+{
+    variantSet "Physics" = {
+        "mujoco" ( prepend payload = @./payloads/Physics/mujoco.usda@ ) {}
+        "none" ( prepend payload = @./payloads/Physics/none.usda@ ) {}
+        "physics" ( prepend payload = @./payloads/Physics/physics.usda@ ) {}
+        "physx" ( prepend payload = @./payloads/Physics/physx.usda@ ) {}
+    }
+    variantSet "Side" = {
+        "default" ( prepend payload = @./payloads/Side/default.usda@ ) {}
+        "left" ( prepend payload = @./payloads/Side/left.usda@ ) {}
+        "right" (
+            delete references = @./payloads/base.usda@
+            prepend references = @./payloads/Hand/right/payloads/base.usda@
+            prepend payload = @./payloads/Hand/right/payloads/Physics/physx.usda@
+            prepend payload = @./payloads/Side/right.usda@
+        ) {}
+    }
+    variantSet "Robot" = {
+        "none" ( prepend payload = @./payloads/Robot/none.usda@ ) {}
+    }
+}

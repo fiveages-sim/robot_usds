@@ -1,0 +1,106 @@
+#usda 1.0
+(
+    defaultPrim = "G1D_Chassis"
+    metersPerUnit = 1
+    upAxis = "Z"
+    doc = "Chassis sensors. Mount by URDF TF (AGV_link/chassis_*). Nuwa L/R and ultrasonic L/R follow TF, not GLB node names."
+)
+
+over "G1D_Chassis"
+{
+    over "AGV_link"
+    {
+        over "chassis_lidar"
+        {
+            def "rplidar_s2" (
+                prepend payload = @../../../../../sensors/slamtec/rplidar_s2.usd@
+            )
+            {
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+        }
+
+        over "chassis_left_camera"
+        {
+            def "nuwa_xb40" (
+                prepend payload = @../../../../../sensors/angstrong/nuwa-xb40.usd@
+            )
+            {
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+                def Camera "chassis_left_camera"
+                {
+                    float2 clippingRange = (0.01, 10000000)
+                    float focalLength = 18.147562
+                    float focusDistance = 400
+                    float horizontalAperture = 20.955
+                    float verticalAperture = 15.716
+                    token projection = "perspective"
+                    quatd xformOp:orient = (0, 1, 0, 0)
+                    double3 xformOp:scale = (1, 1, 1)
+                    double3 xformOp:translate = (0, 0, 0)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                }
+        }
+
+        over "chassis_right_camera"
+        {
+            def "nuwa_xb40" (
+                prepend payload = @../../../../../sensors/angstrong/nuwa-xb40.usd@
+            )
+            {
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+                def Camera "chassis_right_camera"
+                {
+                    float2 clippingRange = (0.01, 10000000)
+                    float focalLength = 18.147562
+                    float focusDistance = 400
+                    float horizontalAperture = 20.955
+                    float verticalAperture = 15.716
+                    token projection = "perspective"
+                    quatd xformOp:orient = (0, 1, 0, 0)
+                    double3 xformOp:scale = (1, 1, 1)
+                    double3 xformOp:translate = (0, 0, 0)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                }
+        }
+
+        over "chassis_left_ultrasonic"
+        {
+            def "ultrasonic_04" (
+                prepend payload = @../../../../../sensors/ultrasonic/ultrasonic_04.usd@
+            )
+            {
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+        }
+
+        over "chassis_right_ultrasonic"
+        {
+            def "ultrasonic_04" (
+                prepend payload = @../../../../../sensors/ultrasonic/ultrasonic_04.usd@
+            )
+            {
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+        }
+    }
+}

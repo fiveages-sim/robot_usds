@@ -1,0 +1,60 @@
+#usda 1.0
+(
+    defaultPrim = "G1D"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def "G1D"
+{
+    over "G1_Arms"
+    {
+        over "left_wrist_yaw_link"
+        {
+            over "left_tcp"
+            {
+            def "Dex1" (
+                prepend payload = @../../../../../grippers/Unitree/Dex1/Dex1.usda@
+                variants = {
+                    string Physics = "physx"
+                    string Robot = "none"
+                    string Sensor = "camera"
+                    string Side = "left"
+                }
+            )
+            {
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0.0, 0.0, 0.0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+                over "Physics"
+                {
+                    over "root_joint" ( active = false )
+                    {
+                    }
+                }
+
+                over "Geometry"
+                {
+                    over "dex1_base_link" (
+                        delete apiSchemas = ["PhysicsArticulationRootAPI", "NewtonArticulationRootAPI"]
+                    )
+                    {
+                        def PhysicsFixedJoint "AssemblerFixedJoint"
+                        {
+                            rel physics:body0 = </G1D/G1_Arms/left_wrist_yaw_link/left_tcp>
+                            rel physics:body1 = </G1D/G1_Arms/left_wrist_yaw_link/left_tcp/Dex1/Geometry/dex1_base_link>
+                            point3f physics:localPos0 = (0.0, 0.0, 0.0)
+                            point3f physics:localPos1 = (0, 0, 0)
+                            quatf physics:localRot0 = (1, 0, 0, 0)
+                            quatf physics:localRot1 = (1, 0, 0, 0)
+                        }
+                    }
+                }
+            }
+            }
+        }
+    }
+}
+
