@@ -17,6 +17,11 @@ variant switch always works. Physics variantSet is listed before Side.
 Flange: default none; default option = AG2F90 metal + Xhand black print
 (shifted -0.024144 in hand_base Z). M6 EE selects Flange=default.
 Sensor=d405 + Flange=default: hide AG2F90, keep print, CAD flange+brace + D405 (Side sticky-mirrors brace).
+ROS: none (default) | enable. enable publishes the D405 optical camera
+(rgb / depth / camera_info) via OmniGraph. Side overlays namespace, frame, and
+camera prim: default|left → /left_hand_camera/*, right → /right_hand_camera/*.
+Requires Sensor=d405. ROS is listed after Side so the overlay wins. none keeps
+the hand free of render products and does not change joints, drives, or physics.
 """
     metersPerUnit = 1
     upAxis = "Z"
@@ -27,11 +32,12 @@ def Xform "Xhand1" (
     variants = {
         string Flange = "none"
         string Robot = "none"
+        string ROS = "none"
         string Sensor = "none"
         string Side = "default"
     }
     prepend variantSets = ["Physics", "Flange", "Side"]
-    append variantSets = ["Robot", "Sensor"]
+    append variantSets = ["Robot", "Sensor", "ROS"]
 )
 {
     over "joints"
@@ -249,6 +255,16 @@ def Xform "Xhand1" (
         }
         "d405" (
             prepend payload = @./payloads/Sensor/d405.usda@
+        ) {
+
+        }
+    }
+    variantSet "ROS" = {
+        "none" {
+
+        }
+        "enable" (
+            prepend payload = @./payloads/ROS/ros2.usda@
         ) {
 
         }

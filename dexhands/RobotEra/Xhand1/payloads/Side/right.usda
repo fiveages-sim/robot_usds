@@ -777,4 +777,42 @@ def "Xhand1" (
             rel mjc:target = </Xhand1/joints/right_hand_thumb_joint3>
         }
     }
+
+    # ROS=enable only. Over does not create the graph when ROS=none.
+    over "Graph"
+    {
+        over "ROS_XhandCamera"
+        {
+            over "RenderProduct"
+            {
+                custom rel inputs:cameraPrim = </Xhand1/hand_base/d405_kit/d405_mount/right_hand_camera> (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
+            }
+
+            over "CameraInfoPublish"
+            {
+                custom string inputs:frameId = "right_hand_camera"
+                custom string inputs:nodeNamespace = "right_hand_camera"
+            }
+
+            over "RGBPublish"
+            {
+                custom string inputs:frameId = "right_hand_camera"
+                custom string inputs:nodeNamespace = "right_hand_camera"
+            }
+
+            over "DepthPublish"
+            {
+                custom string inputs:frameId = "right_hand_camera"
+                custom string inputs:nodeNamespace = "right_hand_camera"
+            }
+        }
+    }
 }

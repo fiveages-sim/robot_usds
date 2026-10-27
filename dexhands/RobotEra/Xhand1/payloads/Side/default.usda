@@ -21,4 +21,42 @@ def "Xhand1" (
         {
         }
     }
+
+    # ROS=enable only. Over does not create the graph when ROS=none.
+    over "Graph"
+    {
+        over "ROS_XhandCamera"
+        {
+            over "RenderProduct"
+            {
+                custom rel inputs:cameraPrim = </Xhand1/hand_base/d405_kit/d405_mount/left_hand_camera> (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
+            }
+
+            over "CameraInfoPublish"
+            {
+                custom string inputs:frameId = "left_hand_camera"
+                custom string inputs:nodeNamespace = "left_hand_camera"
+            }
+
+            over "RGBPublish"
+            {
+                custom string inputs:frameId = "left_hand_camera"
+                custom string inputs:nodeNamespace = "left_hand_camera"
+            }
+
+            over "DepthPublish"
+            {
+                custom string inputs:frameId = "left_hand_camera"
+                custom string inputs:nodeNamespace = "left_hand_camera"
+            }
+        }
+    }
 }
