@@ -40,8 +40,16 @@
 
 def "AG2F90"
 {
+    # M6/W2 tcp mount offset for default Aubo flange stack.
+    double3 xformOp:translate = (0, 0, 0.024)
+
     over "gripper_base"
     {
+        over "AssemblerFixedJoint"
+        {
+            point3f physics:localPos0 = (0, 0, 0.024)
+        }
+
         def "flange" (
             prepend payload = @../../../AG2F120S/payloads/Flange/flange.usd@
         )

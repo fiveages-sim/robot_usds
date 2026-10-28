@@ -3,6 +3,14 @@
     defaultPrim = "G1D"
     metersPerUnit = 1
     upAxis = "Z"
+    doc = """Dex1 left EE.
+
+Dex1 ArtRoot lives on Physics/root_joint (AG2F90-style). Mount disables
+root_joint so there is no nested ArticulationRoot under /G1D; fingers
+merge via AssemblerFixedJoint into the parent art (Mimic stays valid).
+
+Weld body0 = wrist RB (tcp is Xform-only) at tcp offset 0.0415.
+"""
 )
 
 def "G1D"
@@ -37,15 +45,15 @@ def "G1D"
 
                 over "Geometry"
                 {
-                    over "dex1_base_link" (
-                        delete apiSchemas = ["PhysicsArticulationRootAPI", "NewtonArticulationRootAPI"]
-                    )
+                    over "dex1_base_link"
                     {
                         def PhysicsFixedJoint "AssemblerFixedJoint"
                         {
-                            rel physics:body0 = </G1D/G1_Arms/left_wrist_yaw_link/left_tcp>
+                            rel physics:body0 = </G1D/G1_Arms/left_wrist_yaw_link>
                             rel physics:body1 = </G1D/G1_Arms/left_wrist_yaw_link/left_tcp/Dex1/Geometry/dex1_base_link>
-                            point3f physics:localPos0 = (0.0, 0.0, 0.0)
+                            bool physics:excludeFromArticulation = false
+                            bool physics:jointEnabled = true
+                            point3f physics:localPos0 = (0.0415, 0, 0)
                             point3f physics:localPos1 = (0, 0, 0)
                             quatf physics:localRot0 = (1, 0, 0, 0)
                             quatf physics:localRot1 = (1, 0, 0, 0)
@@ -57,4 +65,3 @@ def "G1D"
         }
     }
 }
-

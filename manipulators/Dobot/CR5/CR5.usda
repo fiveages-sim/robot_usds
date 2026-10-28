@@ -39,7 +39,7 @@ Generated from Composed Stage of root layer /home/fiveages/Documents/FaSim-Isaac
 def Xform "CR5" (
     prepend references = @./payloads/base.usda@
     variants = {
-        string EE = "None"
+        string EE = "none"
         string Physics = "physx"
         string ROS = "ros2"
         string Robot = "none"
@@ -196,11 +196,12 @@ def Xform "CR5" (
 
         }
     }
+    # EE variant names == robot_common_launch ``type`` keys (no Isaac→ROS remap).
     variantSet "EE" = {
-        "None" {
+        "none" {
 
         }
-        "AG2F90" (
+        "AG2F90-C" (
             prepend payload = @./payloads/EE/AG2F90.usda@
         ) {
             prepend rel isaac:physics:robotJoints = </CR5/Link6/tcp/EE>
@@ -223,6 +224,11 @@ def Xform "CR5" (
             }
             delete payload = @/home/fiveages/Documents/FaSim-Isaac/robots/manipulators/Dobot/CR5/payloads/ROS/ros2.usda@
             prepend payload = @./payloads/ROS/ros2.usda@
+        ) {
+
+        }
+        "fiveages" (
+            prepend payload = @./payloads/ROS/fiveages.usda@
         ) {
 
         }

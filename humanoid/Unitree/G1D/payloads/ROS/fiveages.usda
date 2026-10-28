@@ -1,0 +1,409 @@
+#usda 1.0
+(
+    defaultPrim = "G1D"
+    metersPerUnit = 1
+    upAxis = "Z"
+    doc = """In-process ros2_control via fasim.ros2.nodes.ROS2ControlLaunch.
+
+No topic JointState bridge (CM owns body/arms/hands). Chassis matches ROS=enable:
+DifferentialController on /cmd_vel + odom TF (world→odom→base_footprint→base_link),
+required by ocs2_wbc mobile_base_tcp (BASE_UNLOCK publishes /cmd_vel).
+
+ArticulationRoot / IsaacSimSystem / DiffDrive targetPrim = /G1D (ArtRoot on robot Xform — tensors).
+Odometry chassisPrim = /G1D/base_link (floating hub / Assembler). Stable across Chassis=*.
+
+robot=unitree_g1d, default mode=full_body. EE_Left / EE_Right → left_type / right_type
+(revo2 | dex1 | dex3 | rubber_hand | none).
+"""
+)
+
+over "G1D"
+{
+    def Scope "Graph"
+    {
+        def OmniGraph "ROS_Control"
+        {
+            token evaluationMode = "Automatic"
+            token evaluator:type = "execution"
+            token fabricCacheBacking = "StageWithoutHistory"
+            int2 fileFormatVersion = (1, 9)
+            token pipelineStage = "pipelineStageSimulation"
+
+            def OmniGraphNode "OnPlaybackTick"
+            {
+                token node:type = "omni.graph.action.OnPlaybackTick"
+                int node:typeVersion = 2
+                custom double outputs:deltaSeconds
+                custom double outputs:frame
+                custom uint outputs:tick (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom double outputs:time
+            }
+
+            def OmniGraphNode "Context"
+            {
+                custom uchar inputs:domain_id
+                custom bool inputs:useDomainIDEnvVar
+                token node:type = "isaacsim.ros2.bridge.ROS2Context"
+                int node:typeVersion = 2
+                custom uint64 outputs:context
+            }
+
+            def OmniGraphNode "ReadSimTime"
+            {
+                custom bool inputs:resetOnStop = 0
+                token node:type = "isaacsim.core.nodes.IsaacReadSimulationTime"
+                int node:typeVersion = 1
+                custom double outputs:simulationTime
+            }
+
+            def OmniGraphNode "PublishClock"
+            {
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </G1D/Graph/ROS_Control/Context.outputs:context>
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </G1D/Graph/ROS_Control/OnPlaybackTick.outputs:tick>
+                custom double inputs:timeStamp
+                prepend double inputs:timeStamp.connect = </G1D/Graph/ROS_Control/ReadSimTime.outputs:simulationTime>
+                token node:type = "isaacsim.ros2.bridge.ROS2PublishClock"
+                int node:typeVersion = 1
+            }
+
+            def OmniGraphNode "ROS2ControlLaunch"
+            {
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </G1D/Graph/ROS_Control/OnPlaybackTick.outputs:tick>
+                custom rel inputs:targetPrim = </G1D> (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
+                custom string inputs:robot = "unitree_g1d"
+                custom string inputs:type = ""
+                custom token inputs:mode = "full_body"
+                custom string inputs:profile = ""
+                custom string inputs:namespace = ""
+                custom bool inputs:enableGripper = 1
+                custom string inputs:rosSetup = ""
+                custom bool inputs:publishRobotDescription = 1
+                custom bool inputs:useSimTime = 1
+                custom bool inputs:enableArmsTargetManager = 1
+                token node:type = "fasim.ros2.nodes.ROS2ControlLaunch"
+                int node:typeVersion = 1
+                custom uint outputs:execOut (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+            }
+        }
+
+        def OmniGraph "ROS_Odometry"
+        {
+            token evaluationMode = "Automatic"
+            token evaluator:type = "execution"
+            token fabricCacheBacking = "StageWithoutHistory"
+            int2 fileFormatVersion = (1, 9)
+            token pipelineStage = "pipelineStageSimulation"
+
+            def OmniGraphNode "OnPlaybackTick"
+            {
+                token node:type = "omni.graph.action.OnPlaybackTick"
+                int node:typeVersion = 2
+                custom uint outputs:tick (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+            }
+
+            def OmniGraphNode "Context"
+            {
+                token node:type = "isaacsim.ros2.bridge.ROS2Context"
+                int node:typeVersion = 2
+                custom uint64 outputs:context
+            }
+
+            def OmniGraphNode "ReadSimTime"
+            {
+                custom bool inputs:resetOnStop = 0
+                token node:type = "isaacsim.core.nodes.IsaacReadSimulationTime"
+                int node:typeVersion = 1
+                custom double outputs:simulationTime
+            }
+
+            def OmniGraphNode "ComputeOdometry"
+            {
+                # Art root = /G1D; odom tracks floating hub /G1D/base_link.
+                custom rel inputs:chassisPrim = </G1D/base_link>
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </G1D/Graph/ROS_Odometry/OnPlaybackTick.outputs:tick>
+                token node:type = "isaacsim.core.nodes.IsaacComputeOdometry"
+                int node:typeVersion = 1
+                custom vector3d outputs:angularVelocity
+                custom uint outputs:execOut (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom vector3d outputs:linearVelocity
+                custom quatd outputs:orientation
+                custom vector3d outputs:position
+            }
+
+            def OmniGraphNode "PublisherOdometry"
+            {
+                custom vector3d inputs:angularVelocity
+                prepend vector3d inputs:angularVelocity.connect = </G1D/Graph/ROS_Odometry/ComputeOdometry.outputs:angularVelocity>
+                custom string inputs:chassisFrameId = "base_footprint"
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </G1D/Graph/ROS_Odometry/Context.outputs:context>
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </G1D/Graph/ROS_Odometry/ComputeOdometry.outputs:execOut>
+                custom vector3d inputs:linearVelocity
+                prepend vector3d inputs:linearVelocity.connect = </G1D/Graph/ROS_Odometry/ComputeOdometry.outputs:linearVelocity>
+                custom string inputs:odomFrameId = "odom"
+                custom quatd inputs:orientation
+                prepend quatd inputs:orientation.connect = </G1D/Graph/ROS_Odometry/ComputeOdometry.outputs:orientation>
+                custom vector3d inputs:position
+                prepend vector3d inputs:position.connect = </G1D/Graph/ROS_Odometry/ComputeOdometry.outputs:position>
+                custom double inputs:timeStamp
+                prepend double inputs:timeStamp.connect = </G1D/Graph/ROS_Odometry/ReadSimTime.outputs:simulationTime>
+                custom string inputs:topicName = "/odom"
+                token node:type = "isaacsim.ros2.bridge.ROS2PublishOdometry"
+                int node:typeVersion = 1
+            }
+
+            def OmniGraphNode "TFWorld2Odom"
+            {
+                custom string inputs:childFrameId = "odom"
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </G1D/Graph/ROS_Odometry/Context.outputs:context>
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </G1D/Graph/ROS_Odometry/OnPlaybackTick.outputs:tick>
+                custom string inputs:parentFrameId = "world"
+                custom bool inputs:staticPublisher = 0
+                custom double inputs:timeStamp
+                prepend double inputs:timeStamp.connect = </G1D/Graph/ROS_Odometry/ReadSimTime.outputs:simulationTime>
+                token node:type = "isaacsim.ros2.bridge.ROS2PublishRawTransformTree"
+                int node:typeVersion = 1
+            }
+
+            def OmniGraphNode "TFOdom2Footprint"
+            {
+                custom string inputs:childFrameId = "base_footprint"
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </G1D/Graph/ROS_Odometry/Context.outputs:context>
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </G1D/Graph/ROS_Odometry/OnPlaybackTick.outputs:tick>
+                custom string inputs:parentFrameId = "odom"
+                custom quatd inputs:rotation
+                prepend quatd inputs:rotation.connect = </G1D/Graph/ROS_Odometry/ComputeOdometry.outputs:orientation>
+                custom bool inputs:staticPublisher = 0
+                custom double inputs:timeStamp
+                prepend double inputs:timeStamp.connect = </G1D/Graph/ROS_Odometry/ReadSimTime.outputs:simulationTime>
+                custom vector3d inputs:translation
+                prepend vector3d inputs:translation.connect = </G1D/Graph/ROS_Odometry/ComputeOdometry.outputs:position>
+                token node:type = "isaacsim.ros2.bridge.ROS2PublishRawTransformTree"
+                int node:typeVersion = 1
+            }
+
+            def OmniGraphNode "TFFootprint2Base"
+            {
+                custom string inputs:childFrameId = "base_link"
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </G1D/Graph/ROS_Odometry/Context.outputs:context>
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </G1D/Graph/ROS_Odometry/OnPlaybackTick.outputs:tick>
+                custom string inputs:parentFrameId = "base_footprint"
+                custom bool inputs:staticPublisher = 0
+                custom double inputs:timeStamp
+                prepend double inputs:timeStamp.connect = </G1D/Graph/ROS_Odometry/ReadSimTime.outputs:simulationTime>
+                # xacro base_height: base_footprint on ground → base_link/AGV at +0.1114
+                custom vector3d inputs:translation = (0, 0, 0.1114)
+                token node:type = "isaacsim.ros2.bridge.ROS2PublishRawTransformTree"
+                int node:typeVersion = 1
+            }
+        }
+
+        def OmniGraph "ROS_Differential_Controller"
+        {
+            token evaluationMode = "Automatic"
+            token evaluator:type = "execution"
+            token fabricCacheBacking = "StageWithoutHistory"
+            int2 fileFormatVersion = (1, 9)
+            token pipelineStage = "pipelineStageSimulation"
+
+            def OmniGraphNode "OnPlaybackTick"
+            {
+                token node:type = "omni.graph.action.OnPlaybackTick"
+                int node:typeVersion = 2
+                custom double outputs:deltaSeconds
+                custom double outputs:frame
+                custom uint outputs:tick (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom double outputs:time
+            }
+
+            def OmniGraphNode "Context"
+            {
+                custom uchar inputs:domain_id
+                custom bool inputs:useDomainIDEnvVar = 1
+                token node:type = "isaacsim.ros2.bridge.ROS2Context"
+                int node:typeVersion = 2
+                custom uint64 outputs:context
+            }
+
+            def OmniGraphNode "ros2_subscribe_twist"
+            {
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </G1D/Graph/ROS_Differential_Controller/Context.outputs:context>
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </G1D/Graph/ROS_Differential_Controller/OnPlaybackTick.outputs:tick>
+                custom string inputs:nodeNamespace
+                custom string inputs:qosProfile
+                custom uint64 inputs:queueSize
+                custom string inputs:topicName = "/cmd_vel"
+                token node:type = "isaacsim.ros2.bridge.ROS2SubscribeTwist"
+                int node:typeVersion = 1
+                custom vector3d outputs:angularVelocity
+                custom uint outputs:execOut (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom vector3d outputs:linearVelocity
+            }
+
+            def OmniGraphNode "scale_to_from_stage_units"
+            {
+                custom token inputs:conversion = "Convert to stage units"
+                custom token inputs:value
+                prepend token inputs:value.connect = </G1D/Graph/ROS_Differential_Controller/ros2_subscribe_twist.outputs:linearVelocity>
+                token node:type = "isaacsim.core.nodes.OgnIsaacScaleToFromStageUnit"
+                int node:typeVersion = 1
+                custom token outputs:result
+            }
+
+            def OmniGraphNode "break_angular"
+            {
+                custom token inputs:tuple
+                prepend token inputs:tuple.connect = </G1D/Graph/ROS_Differential_Controller/ros2_subscribe_twist.outputs:angularVelocity>
+                token node:type = "omni.graph.nodes.BreakVector3"
+                int node:typeVersion = 1
+                custom token outputs:x
+                custom token outputs:y
+                custom token outputs:z
+            }
+
+            def OmniGraphNode "break_linear"
+            {
+                custom token inputs:tuple
+                prepend token inputs:tuple.connect = </G1D/Graph/ROS_Differential_Controller/scale_to_from_stage_units.outputs:result>
+                token node:type = "omni.graph.nodes.BreakVector3"
+                int node:typeVersion = 1
+                custom token outputs:x
+                custom token outputs:y
+                custom token outputs:z
+            }
+
+            def OmniGraphNode "DifferentialController"
+            {
+                custom double inputs:angularVelocity
+                prepend double inputs:angularVelocity.connect = </G1D/Graph/ROS_Differential_Controller/break_angular.outputs:z>
+                custom double inputs:dt
+                prepend double inputs:dt.connect = </G1D/Graph/ROS_Differential_Controller/OnPlaybackTick.outputs:deltaSeconds>
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </G1D/Graph/ROS_Differential_Controller/OnPlaybackTick.outputs:tick>
+                custom double inputs:linearVelocity
+                prepend double inputs:linearVelocity.connect = </G1D/Graph/ROS_Differential_Controller/break_linear.outputs:x>
+                custom double inputs:maxAcceleration = 0
+                custom double inputs:maxAngularAcceleration = 0
+                custom double inputs:maxAngularSpeed = 0
+                custom double inputs:maxDeceleration = 0
+                custom double inputs:maxLinearSpeed = 0
+                custom double inputs:maxWheelSpeed = 0
+                custom double inputs:wheelDistance = 0.4062
+                custom double inputs:wheelRadius = 0.0849
+                token node:type = "isaacsim.robot.wheeled_robots.DifferentialController"
+                int node:typeVersion = 1
+                custom double[] outputs:velocityCommand
+            }
+
+            def OmniGraphNode "ArticulationController"
+            {
+                custom double[] inputs:effortCommand
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </G1D/Graph/ROS_Differential_Controller/OnPlaybackTick.outputs:tick>
+                custom int[] inputs:jointIndices
+                custom token[] inputs:jointNames = ["Left_Wheel_Joint", "Right_Wheel_Joint"]
+                custom double[] inputs:positionCommand
+                custom string inputs:robotPath
+                # createArticulationView must match ArticulationRoot prim (/G1D).
+                custom rel inputs:targetPrim = </G1D> (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
+                custom double[] inputs:velocityCommand
+                prepend double[] inputs:velocityCommand.connect = </G1D/Graph/ROS_Differential_Controller/DifferentialController.outputs:velocityCommand>
+                token node:type = "isaacsim.core.nodes.IsaacArticulationController"
+                int node:typeVersion = 1
+            }
+        }
+    }
+}

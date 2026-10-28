@@ -56,7 +56,13 @@ over "Dex1"
             custom float urdf:limit:effort = 20
         }
 
-        def PhysicsFixedJoint "root_joint"
+        # ArtRoot on root_joint (AG2F90 pattern). Mounts set active=false so the
+        # child has no live ArtRoot and AssemblerFixedJoint merges into the parent.
+        # Do NOT put ArtRoot on dex1_base_link — nested roots under a parent robot
+        # are rejected (UsdPhysics: Nested articulation roots are not allowed).
+        def PhysicsFixedJoint "root_joint" (
+            prepend apiSchemas = ["PhysicsArticulationRootAPI", "NewtonArticulationRootAPI"]
+        )
         {
             custom rel physics:body0
             append rel physics:body0 = </Dex1>
@@ -72,7 +78,7 @@ over "Dex1"
     over "Geometry"
     {
         over "dex1_base_link" (
-            prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsArticulationRootAPI", "NewtonArticulationRootAPI", "PhysicsMassAPI", "NewtonMassAPI"]
+            prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "NewtonMassAPI"]
         )
         {
             double[] newton:inertia = [0.000074842, 0.00005861, 0.000039364, 1.6252e-7, -8.0516e-9, -3.5931e-8]

@@ -42,6 +42,10 @@ def Xform "Zerith_H1" (
             prepend payload = @./payloads/ROS/enable.usda@
         ) {
         }
+        "fiveages" (
+            prepend payload = @./payloads/ROS/fiveages.usda@
+        ) {
+        }
     }
     variantSet "Sensor" = {
         "none" (
@@ -53,6 +57,9 @@ def Xform "Zerith_H1" (
         ) {
         }
     }
+    # EE_Left / EE_Right names == robot_common_launch left_type / right_type
+    # (gripper | revo1 | revo2 | none). robotJoints on the selection body
+    # (same pattern as CR5 EE), not inside the EE payload def.
     variantSet "EE_Left" = {
         "none" (
             prepend payload = @./payloads/EE_Left/none.usda@
@@ -61,14 +68,20 @@ def Xform "Zerith_H1" (
         "gripper" (
             prepend payload = @./payloads/EE_Left/gripper.usda@
         ) {
+            prepend rel isaac:physics:robotJoints = </Zerith_H1/left_wrist_pitch_link/left_tcp/Zerith_H1_Gripper>
+            prepend rel isaac:physics:robotLinks = </Zerith_H1/left_wrist_pitch_link/left_tcp/Zerith_H1_Gripper>
         }
         "revo1" (
             prepend payload = @./payloads/EE_Left/revo1.usda@
         ) {
+            prepend rel isaac:physics:robotJoints = </Zerith_H1/left_wrist_pitch_link/left_tcp/Revo1>
+            prepend rel isaac:physics:robotLinks = </Zerith_H1/left_wrist_pitch_link/left_tcp/Revo1>
         }
         "revo2" (
             prepend payload = @./payloads/EE_Left/revo2.usda@
         ) {
+            prepend rel isaac:physics:robotJoints = </Zerith_H1/left_wrist_pitch_link/left_tcp/Revo2>
+            prepend rel isaac:physics:robotLinks = </Zerith_H1/left_wrist_pitch_link/left_tcp/Revo2>
         }
     }
     variantSet "EE_Right" = {
@@ -79,14 +92,20 @@ def Xform "Zerith_H1" (
         "gripper" (
             prepend payload = @./payloads/EE_Right/gripper.usda@
         ) {
+            prepend rel isaac:physics:robotJoints = </Zerith_H1/right_wrist_pitch_link/right_tcp/Zerith_H1_Gripper>
+            prepend rel isaac:physics:robotLinks = </Zerith_H1/right_wrist_pitch_link/right_tcp/Zerith_H1_Gripper>
         }
         "revo1" (
             prepend payload = @./payloads/EE_Right/revo1.usda@
         ) {
+            prepend rel isaac:physics:robotJoints = </Zerith_H1/right_wrist_pitch_link/right_tcp/Revo1>
+            prepend rel isaac:physics:robotLinks = </Zerith_H1/right_wrist_pitch_link/right_tcp/Revo1>
         }
         "revo2" (
             prepend payload = @./payloads/EE_Right/revo2.usda@
         ) {
+            prepend rel isaac:physics:robotJoints = </Zerith_H1/right_wrist_pitch_link/right_tcp/Revo2>
+            prepend rel isaac:physics:robotLinks = </Zerith_H1/right_wrist_pitch_link/right_tcp/Revo2>
         }
     }
     variantSet "Robot" = {

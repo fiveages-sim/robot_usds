@@ -43,7 +43,26 @@ def Scope "Instances"
     {
         token visibility = "inherited"
 
-        over "mesh"
+        over "base_link"
+        {
+            over "black_metal" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh/VisualMaterials/black_metal>
+            }
+
+            over "white" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh/VisualMaterials/white>
+            }
+        }
+
+        over "base_link_001"
         {
             over "black_metal" (
                 apiSchemas = ["MaterialBindingAPI"]
@@ -70,6 +89,25 @@ def Scope "Instances"
             }
         }
 
+        over "base_link_002"
+        {
+            over "black_metal" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh/VisualMaterials/black_metal>
+            }
+
+            over "silver" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/mesh/VisualMaterials/silver>
+            }
+        }
+
         def Scope "VisualMaterials"
         {
             def Material "black_metal" (
@@ -89,6 +127,49 @@ def Scope "Instances"
             def Material "white" (
                 instanceable = true
                 prepend references = @./materials.usda@</Materials/white>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "connector" (
+        prepend references = @./geometries.usd@</Geometries/connector>
+    )
+    {
+        token visibility = "inherited"
+
+        over "base_link_003"
+        {
+            over "black_metal" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/connector/VisualMaterials/black_metal>
+            }
+
+            over "silver" (
+                apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                custom rel material:binding
+                prepend rel material:binding = </Instances/connector/VisualMaterials/silver>
+            }
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "black_metal" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/black_metal>
+            )
+            {
+            }
+
+            def Material "silver" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/silver>
             )
             {
             }

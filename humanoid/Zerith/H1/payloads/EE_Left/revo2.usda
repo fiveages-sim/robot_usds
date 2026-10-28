@@ -11,11 +11,22 @@ def "Zerith_H1"
     {
         over "left_tcp"
         {
+            # BrainCo flange visual (tcp sibling — does not inherit hand rotation).
+            def Xform "Revo2Flange" (
+                prepend references = @../../../../../dexhands/BrainCo/Revo2/payloads/Flange/flange.usd@
+            )
+            {
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
             def "Revo2" (
                 prepend payload = @../../../../../dexhands/BrainCo/Revo2/Revo2.usda@
                 variants = {
                     string Robot = "none"
-                    string Side = "default"
+                    string Side = "left"
                 }
             )
             {
@@ -26,6 +37,7 @@ def "Zerith_H1"
 
                 over "root_joint" (
                     active = false
+                    delete apiSchemas = ["PhysicsArticulationRootAPI", "NewtonArticulationRootAPI", "PhysxArticulationAPI"]
                 )
                 {
                 }

@@ -55,6 +55,8 @@ def Xform "World"
         variants = {
             string EE_Left = "dex1"
             string EE_Right = "dex1"
+            string Physics = "physx"
+            string ROS = "fiveages"
             string Robot = "robot"
             string Sensor = "sensors"
         }
@@ -192,6 +194,31 @@ def Xform "World"
                     )
                 }
             }
+
+            over "ROS_Control"
+            {
+                over "PublishClock"
+                {
+                    custom string inputs:nodeNamespace
+                    custom string inputs:qosProfile
+                    custom uint64 inputs:queueSize
+                    custom string inputs:topicName
+                }
+
+                over "ReadSimTime"
+                {
+                    custom uint64 inputs:referenceTimeDenominator
+                    custom int64 inputs:referenceTimeNumerator
+                }
+
+                over "ROS2ControlLaunch"
+                {
+                    custom token inputs:mode (
+                        allowedTokens = ["demo", "split_body", "full_body"]
+                    )
+                    custom bool state:configured
+                }
+            }
         }
     }
 }
@@ -243,7 +270,7 @@ def "Render" (
                 bool omni:rtx:scene:hydra:mdlMaterialWarmup = 1
                 rel orderedVars = </Render/Vars/LdrColor>
                 custom bool overrideClipRange = 0
-                uniform int2 resolution = (1240, 727)
+                uniform int2 resolution = (949, 577)
             }
         }
     }
@@ -376,7 +403,7 @@ over "OmniverseKit_Top" (
 }
 
 def PhysicsScene "PhysicsScene" (
-    delete apiSchemas = ["MjcSceneAPI"]
+    delete apiSchemas = ["MjcSceneAPI", "PhysxSceneAPI"]
     prepend apiSchemas = ["NewtonSceneAPI", "PhysxSceneAPI"]
 )
 {

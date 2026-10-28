@@ -202,8 +202,21 @@ def Xform "AG2F90" (
         ) {
 
         }
-        "none" {
+        "micro-i" (
+            prepend payload = @./payloads/Flange/micro-i.usda@
+        ) {
 
+        }
+        "none" {
+            double3 xformOp:translate = (0, 0, 0.024)
+
+            over "gripper_base"
+            {
+                over "AssemblerFixedJoint"
+                {
+                    point3f physics:localPos0 = (0, 0, 0.024)
+                }
+            }
         }
     }
     variantSet "Pad" = {
@@ -222,7 +235,9 @@ def Xform "AG2F90" (
         }
     }
     variantSet "Side" = {
-        "default" {
+        "default" (
+            prepend payload = @./payloads/Side/default.usda@
+        ) {
 
         }
         "left" (

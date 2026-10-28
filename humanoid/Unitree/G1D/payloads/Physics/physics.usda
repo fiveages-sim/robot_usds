@@ -3,15 +3,27 @@
     defaultPrim = "G1D"
     metersPerUnit = 1
     upAxis = "Z"
+    doc = """Generic Physics.
+
+ArticulationRoot on robot Xform /G1D (PhysX tensors require this for the
+composite stub hub). /G1D/base_link = floating-base RigidBody + Assembler
+hub (W2 chassis-weld contract). Do NOT put ArtRoot on base_link — tensors
+createArticulationView("/…/base_link") matches nothing on this asset.
+"""
 )
 
-over "G1D"
+over "G1D" (
+    prepend apiSchemas = ["PhysicsArticulationRootAPI"]
+)
 {
     over "base_link" (
-        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsArticulationRootAPI", "PhysicsMassAPI"]
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
     )
     {
-        float physics:mass = 1
+        float physics:mass = 8
+        float3 physics:diagonalInertia = (0.8, 0.8, 1.2)
+        point3f physics:centerOfMass = (0, 0, 0.05)
+        quatf physics:principalAxes = (1, 0, 0, 0)
     }
 
     over "G1D_Chassis" (

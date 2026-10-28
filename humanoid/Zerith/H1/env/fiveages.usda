@@ -1,0 +1,92 @@
+#usda 1.0
+(
+    customLayerData = {
+        dictionary cameraSettings = {
+            dictionary Front = {
+                double3 position = (5, 0, 0)
+                double radius = 5
+            }
+            dictionary Perspective = {
+                double3 position = (2.2, 1.6, 1.8)
+                double3 target = (0.0, 0.0, 0.7)
+            }
+            dictionary Right = {
+                double3 position = (0, -5, 0)
+                double radius = 5
+            }
+            dictionary Top = {
+                double3 position = (0, 0, 5)
+                double radius = 5
+            }
+            string boundCamera = "/OmniverseKit_Persp"
+        }
+        dictionary omni_layer = {
+            string authoring_layer = "./fiveages.usda"
+        }
+        dictionary renderSettings = {
+        }
+    }
+    defaultPrim = "World"
+    doc = "Zerith H1 in-process ros2_control (ROS=fiveages, Physics=physx, dual gripper, full_body)."
+    endTimeCode = 1000000
+    metersPerUnit = 1
+    startTimeCode = 0
+    timeCodesPerSecond = 60
+    upAxis = "Z"
+)
+
+def Xform "World"
+{
+    def "Zerith_H1" (
+        prepend payload = @../Zerith_H1.usda@
+        variants = {
+            string EE_Left = "gripper"
+            string EE_Right = "gripper"
+            string Physics = "physx"
+            string ROS = "fiveages"
+            string Robot = "robot"
+            string Sensor = "none"
+        }
+    )
+    {
+        quatd xformOp:orient = (1, 0, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0, 0, 0.19166658006766402)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "Graph"
+        {
+            over "ROS_Control"
+            {
+                over "ROS2ControlLaunch"
+                {
+                    custom token inputs:mode (
+                        allowedTokens = ["demo", "split_body", "full_body"]
+                    )
+                    custom rel inputs:targetPrim = </World/Zerith_H1>
+                    custom bool state:configured
+                }
+
+                over "ReadSimTime"
+                {
+                    custom uint64 inputs:referenceTimeDenominator
+                    custom int64 inputs:referenceTimeNumerator
+                }
+
+                over "PublishClock"
+                {
+                    custom string inputs:nodeNamespace
+                    custom string inputs:qosProfile
+                    custom uint64 inputs:queueSize
+                    custom string inputs:topicName
+                }
+            }
+        }
+    }
+
+    def "default_environment" (
+        prepend payload = @../../../../../environment/fiveages_env/background/Grid/default_environment.usd@
+    )
+    {
+    }
+}

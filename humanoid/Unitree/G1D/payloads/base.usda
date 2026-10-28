@@ -3,6 +3,7 @@
     defaultPrim = "G1D"
     metersPerUnit = 1
     upAxis = "Z"
+    doc = "Skeleton: /G1D/base_link = TF + Assembler hub. Physics=* adds RigidBody on base_link; ArtRoot on /G1D."
 )
 
 def Xform "G1D"
@@ -12,6 +13,7 @@ def Xform "G1D"
     double3 xformOp:translate = (0, 0, 0)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
+    # Floating-base Assembler hub. Physics=* adds RigidBody here; ArtRoot lives on /G1D.
     def Xform "base_link"
     {
         quatd xformOp:orient = (1, 0, 0, 0)

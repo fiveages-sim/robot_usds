@@ -23,14 +23,14 @@ over "G1"
         double3 xformOp:translate = (-0.0039635, 0, 0.044)
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
-        over "torso_link" (
+        over "arms_torso_link" (
             delete apiSchemas = ["PhysicsArticulationRootAPI", "PhysxArticulationAPI", "NewtonArticulationRootAPI"]
         )
         {
             def PhysicsFixedJoint "AssemblerFixedJoint"
             {
                 rel physics:body0 = </G1/G1_Body/torso_link>
-                rel physics:body1 = </G1/G1_Arms/torso_link>
+                rel physics:body1 = </G1/G1_Arms/arms_torso_link>
                 point3f physics:localPos0 = (0, 0, 0)
                 point3f physics:localPos1 = (0, 0, 0)
                 quatf physics:localRot0 = (1, 0, 0, 0)

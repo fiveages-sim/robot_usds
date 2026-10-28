@@ -15,7 +15,7 @@ def "Zerith_H1"
                 prepend payload = @../../../../../dexhands/BrainCo/Revo1/Revo1.usda@
                 variants = {
                     string Robot = "none"
-                    string Side = "default"
+                    string Side = "left"
                 }
             )
             {
@@ -24,8 +24,10 @@ def "Zerith_H1"
                 double3 xformOp:translate = (0, 0, 0)
                 uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
+                # Merge into /Zerith_H1 for Isaac ros2_control (one ArticulationRoot).
                 over "root_joint" (
                     active = false
+                    delete apiSchemas = ["PhysicsArticulationRootAPI", "NewtonArticulationRootAPI", "PhysxArticulationAPI"]
                 )
                 {
                 }

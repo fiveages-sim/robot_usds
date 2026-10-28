@@ -17,9 +17,11 @@ def Xform "M6_CCS"
                 }
             )
             {
+                # Mount Z + AssemblerFixedJoint localPos0 come from AG2F90 Flange payloads
+                # (default/none=0.024, micro-i=0.0065). Do not author them here — same-named
+                # Flange variantSet on the mount does not compose over the gripper payload.
                 quatd xformOp:orient = (1, 0, 0, 0)
                 double3 xformOp:scale = (1, 1, 1)
-                double3 xformOp:translate = (0, 0, 0.024)
                 uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
                 over "root_joint" (
@@ -34,7 +36,6 @@ def Xform "M6_CCS"
                     {
                         rel physics:body0 = </M6_CCS/link7/tcp>
                         rel physics:body1 = </M6_CCS/link7/tcp/AG2F90/gripper_base>
-                        point3f physics:localPos0 = (0, 0, 0.024)
                         point3f physics:localPos1 = (0, 0, 0)
                         quatf physics:localRot0 = (1, 0, 0, 0)
                         quatf physics:localRot1 = (1, 0, 0, 0)

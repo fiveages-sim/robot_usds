@@ -68,9 +68,11 @@ over "AG2F120S"
             prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
         )
         {
-            float drive:angular:physics:damping = 50
+            # Match AG2F90 / Side left|right hold gains — stiff K=625 + soft
+            # mimic previously made followers lag and the linkage scatter.
+            float drive:angular:physics:damping = 1
             float drive:angular:physics:maxForce = 40
-            float drive:angular:physics:stiffness = 625
+            float drive:angular:physics:stiffness = 10
             float drive:angular:physics:targetPosition = 0
             uniform token drive:angular:physics:type = "force"
             bool[] isaac:actuator (

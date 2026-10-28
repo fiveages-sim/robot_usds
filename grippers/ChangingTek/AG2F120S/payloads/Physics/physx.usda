@@ -12,6 +12,7 @@ def "AG2F120S"
 {
     over "joints"
     {
+        # Rated open/close is fast; keep a generous PhysX velocity cap.
         over "gripper_joint" (
             prepend apiSchemas = ["PhysxJointAPI"]
         )
@@ -19,13 +20,18 @@ def "AG2F120S"
             float physxJoint:maxJointVelocity = 240
         }
 
+        # Align with AG2F90 / Side left|right: hard PhysX mimic
+        # (naturalFrequency=0, dampingRatio=0). Soft NF=25/DR=0.005 lets
+        # followers lag under gravity and the finger linkage falls apart.
+        # gearing=-1 matches URDF multiplier=1 under PhysX's sign convention
+        # (same as AG2F90; Newton uses mimicCoef1=+1).
         over "left_support_joint" (
             prepend apiSchemas = ["PhysxJointAPI", "PhysxMimicJointAPI:rotZ"]
         )
         {
-            float physxMimicJoint:rotZ:dampingRatio = 0.005
+            float physxMimicJoint:rotZ:dampingRatio = 0
             float physxMimicJoint:rotZ:gearing = -1
-            float physxMimicJoint:rotZ:naturalFrequency = 25
+            float physxMimicJoint:rotZ:naturalFrequency = 0
             float physxMimicJoint:rotZ:offset = 0
             rel physxMimicJoint:rotZ:referenceJoint = </AG2F120S/joints/gripper_joint>
         }
@@ -34,9 +40,9 @@ def "AG2F120S"
             prepend apiSchemas = ["PhysxJointAPI", "PhysxMimicJointAPI:rotZ"]
         )
         {
-            float physxMimicJoint:rotZ:dampingRatio = 0.005
+            float physxMimicJoint:rotZ:dampingRatio = 0
             float physxMimicJoint:rotZ:gearing = -1
-            float physxMimicJoint:rotZ:naturalFrequency = 25
+            float physxMimicJoint:rotZ:naturalFrequency = 0
             float physxMimicJoint:rotZ:offset = 0
             rel physxMimicJoint:rotZ:referenceJoint = </AG2F120S/joints/gripper_joint>
         }
@@ -45,9 +51,9 @@ def "AG2F120S"
             prepend apiSchemas = ["PhysxJointAPI", "PhysxMimicJointAPI:rotZ"]
         )
         {
-            float physxMimicJoint:rotZ:dampingRatio = 0.005
+            float physxMimicJoint:rotZ:dampingRatio = 0
             float physxMimicJoint:rotZ:gearing = -1
-            float physxMimicJoint:rotZ:naturalFrequency = 25
+            float physxMimicJoint:rotZ:naturalFrequency = 0
             float physxMimicJoint:rotZ:offset = 0
             rel physxMimicJoint:rotZ:referenceJoint = </AG2F120S/joints/gripper_joint>
         }
@@ -56,9 +62,9 @@ def "AG2F120S"
             prepend apiSchemas = ["PhysxJointAPI", "PhysxMimicJointAPI:rotZ"]
         )
         {
-            float physxMimicJoint:rotZ:dampingRatio = 0.005
+            float physxMimicJoint:rotZ:dampingRatio = 0
             float physxMimicJoint:rotZ:gearing = -1
-            float physxMimicJoint:rotZ:naturalFrequency = 25
+            float physxMimicJoint:rotZ:naturalFrequency = 0
             float physxMimicJoint:rotZ:offset = 0
             rel physxMimicJoint:rotZ:referenceJoint = </AG2F120S/joints/gripper_joint>
         }
@@ -67,9 +73,9 @@ def "AG2F120S"
             prepend apiSchemas = ["PhysxJointAPI", "PhysxMimicJointAPI:rotZ"]
         )
         {
-            float physxMimicJoint:rotZ:dampingRatio = 0.005
+            float physxMimicJoint:rotZ:dampingRatio = 0
             float physxMimicJoint:rotZ:gearing = -1
-            float physxMimicJoint:rotZ:naturalFrequency = 25
+            float physxMimicJoint:rotZ:naturalFrequency = 0
             float physxMimicJoint:rotZ:offset = 0
             rel physxMimicJoint:rotZ:referenceJoint = </AG2F120S/joints/gripper_joint>
         }
@@ -84,4 +90,3 @@ def "AG2F120S"
         int physxArticulation:solverVelocityIterationCount = 1
     }
 }
-

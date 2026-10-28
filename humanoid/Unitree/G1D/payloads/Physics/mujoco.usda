@@ -3,10 +3,23 @@
     defaultPrim = "G1D"
     metersPerUnit = 1
     upAxis = "Z"
+    doc = "Newton/MuJoCo: ArtRoot on /G1D (same tensors path as physx); base_link = floating hub."
 )
 
-over "G1D"
+over "G1D" (
+    prepend apiSchemas = ["PhysicsArticulationRootAPI", "NewtonArticulationRootAPI"]
+)
 {
+    over "base_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "NewtonMassAPI"]
+    )
+    {
+        float physics:mass = 8
+        float3 physics:diagonalInertia = (0.8, 0.8, 1.2)
+        point3f physics:centerOfMass = (0, 0, 0.05)
+        quatf physics:principalAxes = (1, 0, 0, 0)
+    }
+
     over "G1D_Chassis" (
         variants = {
             string Physics = "mujoco"

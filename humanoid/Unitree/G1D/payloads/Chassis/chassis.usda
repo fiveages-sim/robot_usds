@@ -3,6 +3,13 @@
     defaultPrim = "G1D"
     metersPerUnit = 1
     upAxis = "Z"
+    doc = """Slamtec G1D_Chassis mount (W2 Chassis-adapter pattern).
+
+Strip importer ArticulationRoot; weld to /G1D/base_link (Assembler hub).
+Sole whole-robot ArtRoot stays on /G1D (tensors). Chassis base_link sits at
+z=0.1114 — Assembler localPos0 must match that (disjointed → snap).
+Also clear caster/wheel ±inf limits so PhysX can parse the articulation.
+"""
 )
 
 over "G1D"
@@ -27,15 +34,78 @@ over "G1D"
         {
             def PhysicsFixedJoint "AssemblerFixedJoint"
             {
-                # Chassis base_link / AGV_link sit at z=0.1114 in the component; G1D/base_link
-                # is at the world origin. localPos must match that mount or Play snaps the
-                # deck down ~111 mm → wheels penetrate ground and bounce.
                 rel physics:body0 = </G1D/base_link>
                 rel physics:body1 = </G1D/G1D_Chassis/base_link>
+                # Chassis base_link xform is at z=0.1114 (same deck height as AGV).
+                # localPos0 must match or PhysX reports disjointed body transforms and snaps.
                 point3f physics:localPos0 = (0, 0, 0.1114)
                 point3f physics:localPos1 = (0, 0, 0)
                 quatf physics:localRot0 = (1, 0, 0, 0)
                 quatf physics:localRot1 = (1, 0, 0, 0)
+            }
+        }
+
+        # Continuous caster/drive joints: importer wrote ±inf which breaks
+        # PhysX articulation parse / tensors. Clear limits (= continuous).
+        over "joints"
+        {
+            over "fl_caster_swivel_joint" ( prepend apiSchemas = ["PhysxJointAPI"] )
+            {
+                float physics:lowerLimit = -3.4028235e38
+                float physics:upperLimit = 3.4028235e38
+                float physxJoint:maxJointVelocity = 500000
+            }
+            over "fl_caster_wheel_joint" ( prepend apiSchemas = ["PhysxJointAPI"] )
+            {
+                float physics:lowerLimit = -3.4028235e38
+                float physics:upperLimit = 3.4028235e38
+                float physxJoint:maxJointVelocity = 500000
+            }
+            over "fr_caster_swivel_joint" ( prepend apiSchemas = ["PhysxJointAPI"] )
+            {
+                float physics:lowerLimit = -3.4028235e38
+                float physics:upperLimit = 3.4028235e38
+                float physxJoint:maxJointVelocity = 500000
+            }
+            over "fr_caster_wheel_joint" ( prepend apiSchemas = ["PhysxJointAPI"] )
+            {
+                float physics:lowerLimit = -3.4028235e38
+                float physics:upperLimit = 3.4028235e38
+                float physxJoint:maxJointVelocity = 500000
+            }
+            over "rl_caster_swivel_joint" ( prepend apiSchemas = ["PhysxJointAPI"] )
+            {
+                float physics:lowerLimit = -3.4028235e38
+                float physics:upperLimit = 3.4028235e38
+                float physxJoint:maxJointVelocity = 500000
+            }
+            over "rl_caster_wheel_joint" ( prepend apiSchemas = ["PhysxJointAPI"] )
+            {
+                float physics:lowerLimit = -3.4028235e38
+                float physics:upperLimit = 3.4028235e38
+                float physxJoint:maxJointVelocity = 500000
+            }
+            over "rr_caster_swivel_joint" ( prepend apiSchemas = ["PhysxJointAPI"] )
+            {
+                float physics:lowerLimit = -3.4028235e38
+                float physics:upperLimit = 3.4028235e38
+                float physxJoint:maxJointVelocity = 500000
+            }
+            over "rr_caster_wheel_joint" ( prepend apiSchemas = ["PhysxJointAPI"] )
+            {
+                float physics:lowerLimit = -3.4028235e38
+                float physics:upperLimit = 3.4028235e38
+                float physxJoint:maxJointVelocity = 500000
+            }
+            over "Left_Wheel_Joint"
+            {
+                float physics:lowerLimit = -3.4028235e38
+                float physics:upperLimit = 3.4028235e38
+            }
+            over "Right_Wheel_Joint"
+            {
+                float physics:lowerLimit = -3.4028235e38
+                float physics:upperLimit = 3.4028235e38
             }
         }
     }

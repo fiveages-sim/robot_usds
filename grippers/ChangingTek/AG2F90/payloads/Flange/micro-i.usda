@@ -1,0 +1,100 @@
+#usda 1.0
+(
+    defaultPrim = "AG2F90"
+    doc = """Flange=micro-i. Registers Sensor=G305 only while this flange is selected."""
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def "AG2F90" (
+    prepend variantSets = ["Sensor"]
+)
+{
+    # M6/W2 tcp mount: thinner micro-i stack → Z=0.0065 (default flange uses 0.024).
+    double3 xformOp:translate = (0, 0, 0.0065)
+
+    over "gripper_base"
+    {
+        over "AssemblerFixedJoint"
+        {
+            point3f physics:localPos0 = (0, 0, 0.0065)
+        }
+
+        over "visuals"
+        {
+            over "connector"
+            {
+                token visibility = "invisible"
+            }
+        }
+
+        def "flange" (
+            prepend payload = @./micro-i.usdc@
+        )
+        {
+            float3 xformOp:rotateXYZ = (-90, 0, 90)
+            float3 xformOp:scale = (1, 1, 1)
+            double3 xformOp:translate = (0, 0, -0.002)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+
+            def Scope "Looks"
+            {
+                def Material "black_plastic"
+                {
+                    token outputs:displacement
+                    prepend token outputs:mdl:displacement.connect = </AG2F90/gripper_base/flange/Looks/black_plastic/black_plastic.outputs:out>
+                    prepend token outputs:mdl:surface.connect = </AG2F90/gripper_base/flange/Looks/black_plastic/black_plastic.outputs:out>
+                    prepend token outputs:mdl:volume.connect = </AG2F90/gripper_base/flange/Looks/black_plastic/black_plastic.outputs:out>
+                    token outputs:surface
+                    token outputs:volume
+
+                    def Shader "black_plastic" (
+                        apiSchemas = ["NodeDefAPI"]
+                    )
+                    {
+                        token info:implementationSource = "sourceAsset"
+                        asset info:mdl:sourceAsset = @../../Textures/pbr.mdl@
+                        token info:mdl:sourceAsset:subIdentifier = "gltf_material"
+                        float inputs:alpha_cutoff = 0
+                        int inputs:alpha_mode = 0
+                        float inputs:base_alpha = 1
+                        color3f inputs:base_color_factor = (0.01, 0.01, 0.01)
+                        float inputs:emissive_strength = 10000
+                        float inputs:metallic_factor = 0.05
+                        float inputs:roughness_factor = 1
+                        token outputs:out
+                    }
+                }
+            }
+
+            over "camera_flange"
+            {
+                over "相机安装组件2026_1027___相机法兰_1" (
+                    apiSchemas = ["MaterialBindingAPI"]
+                )
+                {
+                    rel material:binding = </AG2F90/gripper_base/flange/Looks/black_plastic>
+                }
+            }
+
+            over "camera_stand"
+            {
+                over "相机安装组件2026_1027___相机转接板3_75长70度_改窄_1" (
+                    apiSchemas = ["MaterialBindingAPI"]
+                )
+                {
+                    rel material:binding = </AG2F90/gripper_base/flange/Looks/black_plastic>
+                }
+            }
+        }
+    }
+
+    # Only composed when Flange=micro-i — root Sensor stays none|sensors otherwise.
+    variantSet "Sensor" = {
+        "G305" (
+            prepend payload = @../Sensor/G305.usda@
+        ) {
+
+        }
+    }
+}

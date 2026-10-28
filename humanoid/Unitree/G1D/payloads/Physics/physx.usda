@@ -3,20 +3,33 @@
     defaultPrim = "G1D"
     metersPerUnit = 1
     upAxis = "Z"
+    doc = """G1D PhysX.
+
+ArtRoot + PhysxArticulationAPI on /G1D (tensors / IsaacSimSystem targetPrim).
+base_link = floating-base link + Chassis Assembler hub (W2 weld contract).
+Chassis/Lift/Body/Arms strip child ArtRoots. Caster ±inf sanitized in
+Chassis adapter so PhysX can parse the articulation.
+"""
 )
 
-over "G1D"
+over "G1D" (
+    prepend apiSchemas = ["PhysicsArticulationRootAPI", "PhysxArticulationAPI"]
+)
 {
+    bool physxArticulation:enabledSelfCollisions = 0
+    int physxArticulation:solverPositionIterationCount = 32
+    int physxArticulation:solverVelocityIterationCount = 1
+    float physxArticulation:sleepThreshold = 0.00005
+    float physxArticulation:stabilizationThreshold = 0.00001
+
     over "base_link" (
-        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsArticulationRootAPI", "PhysxArticulationAPI", "PhysicsMassAPI"]
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
     )
     {
-        float physics:mass = 1
-        bool physxArticulation:enabledSelfCollisions = 0
-        int physxArticulation:solverPositionIterationCount = 64
-        int physxArticulation:solverVelocityIterationCount = 4
-        float physxArticulation:sleepThreshold = 0.00005
-        float physxArticulation:stabilizationThreshold = 0.00001
+        float physics:mass = 8
+        float3 physics:diagonalInertia = (0.8, 0.8, 1.2)
+        point3f physics:centerOfMass = (0, 0, 0.05)
+        quatf physics:principalAxes = (1, 0, 0, 0)
     }
 
     over "G1D_Chassis" (

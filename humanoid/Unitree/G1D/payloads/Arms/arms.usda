@@ -7,7 +7,7 @@
 
 over "G1D"
 {
-    # Dual-arm asset (left_* + right_*). Mount stub torso_link welded to G1_Body torso.
+    # Dual-arm asset. Strip importer ArticulationRoot; arms_torso_link → G1_Body torso.
     def "G1_Arms" (
         delete apiSchemas = ["PhysicsArticulationRootAPI", "PhysxArticulationAPI", "NewtonArticulationRootAPI"]
         prepend payload = @../../../G1/components/G1_Arms/G1_Arms.usda@
@@ -25,14 +25,14 @@ over "G1D"
         double3 xformOp:translate = (0.053371430065905015, 0.000167718, 0.8351085659999999)
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
-        over "torso_link" (
+        over "arms_torso_link" (
             delete apiSchemas = ["PhysicsArticulationRootAPI", "PhysxArticulationAPI", "NewtonArticulationRootAPI"]
         )
         {
             def PhysicsFixedJoint "AssemblerFixedJoint"
             {
                 rel physics:body0 = </G1D/G1_Body/torso_link>
-                rel physics:body1 = </G1D/G1_Arms/torso_link>
+                rel physics:body1 = </G1D/G1_Arms/arms_torso_link>
                 point3f physics:localPos0 = (0, 0, 0)
                 point3f physics:localPos1 = (0, 0, 0)
                 quatf physics:localRot0 = (1, 0, 0, 0)

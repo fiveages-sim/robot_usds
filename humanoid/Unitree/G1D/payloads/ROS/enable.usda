@@ -3,7 +3,11 @@
     defaultPrim = "G1D"
     metersPerUnit = 1
     upAxis = "Z"
-    doc = "DiffDrive from Woosh Ai2_Bot2_Chassis; Odometry+JointStates from Zerith H1 ROS/enable (JointStates AC position-only to protect DiffDrive)."
+    doc = """DiffDrive + odom + JointStates (position-only AC to protect DiffDrive).
+
+ArticulationRoot / DiffDrive / JointState targetPrim = /G1D (ArtRoot on robot Xform).
+Odometry chassisPrim = /G1D/base_link (floating hub). Stable across Chassis=* swaps.
+"""
 )
 
 over "G1D"
@@ -223,7 +227,7 @@ over "G1D"
                 custom token[] inputs:jointNames = ["Left_Wheel_Joint", "Right_Wheel_Joint"]
                 custom double[] inputs:positionCommand
                 custom string inputs:robotPath
-                custom rel inputs:targetPrim = </G1D/base_link> (
+                custom rel inputs:targetPrim = </G1D> (
                     customData = {
                         dictionary omni = {
                             dictionary graph = {
@@ -386,7 +390,7 @@ over "G1D"
                     }
                 )
                 prepend uint inputs:execIn.connect = </G1D/Graph/ROS_JointStates/OnPlaybackTick.outputs:tick>
-                custom rel inputs:prim = </G1D/base_link> (
+                custom rel inputs:prim = </G1D> (
                     customData = {
                         dictionary omni = {
                             dictionary graph = {
@@ -481,7 +485,7 @@ over "G1D"
                 prepend token[] inputs:jointNames.connect = </G1D/Graph/ROS_JointStates/SubscriberJointState.outputs:jointNames>
                 custom double[] inputs:positionCommand
                 prepend double[] inputs:positionCommand.connect = </G1D/Graph/ROS_JointStates/SubscriberJointState.outputs:positionCommand>
-                custom rel inputs:targetPrim = </G1D/base_link> (
+                custom rel inputs:targetPrim = </G1D> (
                     customData = {
                         dictionary omni = {
                             dictionary graph = {

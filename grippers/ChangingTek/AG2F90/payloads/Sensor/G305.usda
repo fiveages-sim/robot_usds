@@ -1,0 +1,100 @@
+#usda 1.0
+(
+    defaultPrim = "AG2F90"
+    doc = """Sensor=G305 — Orbbec Gemini 305 on micro-i flange + Isaac optical Camera.
+
+Only registered under Flange=micro-i (nested Sensor variant). Requires that flange.
+TF vs flange: translate=(-0.009, -0.13224, -0.08179), rotateXYZ=(70, 0, 0).
+305.usd is Y-up → unitsResolve on mesh only. After Rx90, mesh +Y = mount +Z (stand normal / fingers).
+Camera is a sibling of the mesh. Right/default: identity (look mount -Z). Left: Ry180 —
+W2 Left_Arm wrist is 180°-opposed to Right_Arm, so the same local look faces into the housing.
+
+Optical Camera names (Side sticky-selects camera=):
+  default → hand_camera
+  left    → left_hand_camera
+  right   → right_hand_camera
+Gemini 305 RGB ~H90°×V65°. No ROS2 graph.
+"""
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def "AG2F90"
+{
+    over "gripper_base"
+    {
+        over "flange"
+        {
+            def Xform "g305_mount" (
+                prepend variantSets = ["camera"]
+            )
+            {
+                float3 xformOp:rotateXYZ = (70, 0, 0)
+                float3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (-0.009, -0.13224, -0.08179)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+
+                def "orbbec_305" (
+                    prepend payload = @../../../../../sensors/orbbec/305.usd@
+                )
+                {
+                    quatf xformOp:orient = (1, 0, 0, 0)
+                    double xformOp:rotateX:unitsResolve = 90
+                    float3 xformOp:scale = (1, 1, 1)
+                    double3 xformOp:translate = (0, 0, 0)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale", "xformOp:rotateX:unitsResolve"]
+                }
+
+                variantSet "camera" = {
+                    "default" {
+                        def Camera "hand_camera"
+                        {
+                            float2 clippingRange = (0.01, 10000000)
+                            float focalLength = 18.147562
+                            float focusDistance = 400
+                            float horizontalAperture = 36.295124
+                            float verticalAperture = 23.122544
+                            token projection = "perspective"
+                            # Look along mount -Z (USD Camera default; was Ry180 / +Z — 180° flip).
+                            quatd xformOp:orient = (1, 0, 0, 0)
+                            double3 xformOp:scale = (1, 1, 1)
+                            double3 xformOp:translate = (0, 0, 0)
+                            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                        }
+                    }
+                    "left" {
+                        def Camera "left_hand_camera"
+                        {
+                            float2 clippingRange = (0.01, 10000000)
+                            float focalLength = 18.147562
+                            float focusDistance = 400
+                            float horizontalAperture = 36.295124
+                            float verticalAperture = 23.122544
+                            token projection = "perspective"
+                            # Ry180 vs right — Left_Arm wrist frame is opposed.
+                            quatd xformOp:orient = (0, 0, 1, 0)
+                            double3 xformOp:scale = (1, 1, 1)
+                            double3 xformOp:translate = (0, 0, 0)
+                            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                        }
+                    }
+                    "right" {
+                        def Camera "right_hand_camera"
+                        {
+                            float2 clippingRange = (0.01, 10000000)
+                            float focalLength = 18.147562
+                            float focusDistance = 400
+                            float horizontalAperture = 36.295124
+                            float verticalAperture = 23.122544
+                            token projection = "perspective"
+                            quatd xformOp:orient = (1, 0, 0, 0)
+                            double3 xformOp:scale = (1, 1, 1)
+                            double3 xformOp:translate = (0, 0, 0)
+                            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

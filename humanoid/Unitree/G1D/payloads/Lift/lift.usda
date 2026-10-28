@@ -3,6 +3,13 @@
     defaultPrim = "G1D"
     metersPerUnit = 1
     upAxis = "Z"
+    doc = """G1D_Lift mount — weld to Chassis AGV (serial stack, xacro-faithful).
+
+W2 puts column joints under base_link; G1D keeps Lift as a component and
+welds LZ_ot → Chassis AGV_link. Strip Lift ArticulationRoot so the sole
+root stays /G1D/base_link. Chassis=* swap: expose AGV_link or retarget
+this AssemblerFixedJoint.
+"""
 )
 
 over "G1D"
@@ -23,7 +30,7 @@ over "G1D"
         double3 xformOp:translate = (0, 0, 0)
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
-        # Component LZ_ot_Joint expected AGV_link inside Lift — use Assembler weld instead.
+        # Component LZ_ot_Joint expected AGV_link inside Lift — Assembler weld instead.
         over "joints"
         {
             over "LZ_ot_Joint" (

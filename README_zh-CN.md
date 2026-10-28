@@ -306,7 +306,7 @@ mkdir -p environment
 cd environment
 
 # 克隆环境资源仓库
-git clone git@github.com:fiveages-sim/fiveages-env-usds.git fiveages_env
+git clone git@github.com:fiveages-sim/fiveages-scene-usds.git fiveages_env
 ```
 
 完成后目录结构应类似：

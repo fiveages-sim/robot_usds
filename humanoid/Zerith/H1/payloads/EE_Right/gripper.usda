@@ -26,6 +26,8 @@ def "Zerith_H1"
                 double3 xformOp:translate = (0, 0, 0)
                 uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
+                # Merge EE into /Zerith_H1 articulation for Isaac ros2_control
+                # (multiple ArticulationRoot under one targetPrim is unsupported).
                 over "joints"
                 {
                     over "root_joint" (
@@ -36,7 +38,7 @@ def "Zerith_H1"
                 }
 
                 over "gripper_base" (
-                    delete apiSchemas = ["PhysicsArticulationRootAPI", "NewtonArticulationRootAPI"]
+                    delete apiSchemas = ["PhysicsArticulationRootAPI", "NewtonArticulationRootAPI", "PhysxArticulationAPI"]
                 )
                 {
                     def PhysicsFixedJoint "AssemblerFixedJoint"

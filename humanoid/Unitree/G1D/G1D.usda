@@ -3,6 +3,20 @@
     defaultPrim = "G1D"
     metersPerUnit = 1
     upAxis = "Z"
+    doc = """Unitree G1D composite (Chassis + Lift + Body + Arms + EE).
+
+Articulation / chassis-swap policy (W2 weld contract + tensors-safe ArtRoot):
+- Sole PhysicsArticulationRootAPI on /G1D (robot Xform). PhysX tensors /
+  createArticulationView need this path — ArtRoot on stub /G1D/base_link
+  matches no articulation (unlike W2, whose base_link hosts native body joints).
+- /G1D/base_link = floating-base RigidBody + Assembler hub (W2 chassis weld
+  target). Keep real mass/inertia. Component importer roots deleted in adapters.
+- Chassis=* welds to /G1D/base_link; Chassis base_link is at z=0.1114 so
+  Assembler localPos0=(0,0,0.1114) (mismatch → disjointed snap).
+- Lift welds to Chassis AGV_link (serial stack). New Chassis=* must expose
+  AGV_link or retarget Lift/lift.usda AssemblerFixedJoint.
+- ROS DiffDrive / IsaacSimSystem / JointState targetPrim = /G1D.
+"""
 )
 
 def Xform "G1D" (
@@ -32,6 +46,7 @@ def Xform "G1D" (
     variantSet "ROS" = {
         "none" ( prepend payload = @./payloads/ROS/none.usda@ ) { }
         "enable" ( prepend payload = @./payloads/ROS/enable.usda@ ) { }
+        "fiveages" ( prepend payload = @./payloads/ROS/fiveages.usda@ ) { }
     }
     variantSet "Sensor" = {
         "none" ( prepend payload = @./payloads/Sensor/none.usda@ ) { }
@@ -65,19 +80,62 @@ def Xform "G1D" (
             prepend rel isaac:physics:robotLinks = </G1D/G1_Arms>
         }
     }
+    # EE_Left / EE_Right names == robot_common_launch left_type / right_type
+    # (revo2 | dex1 | dex3 | rubber_hand | none). robotJoints on selection body
+    # for Isaac in-process CM (same pattern as Zerith H1).
     variantSet "EE_Left" = {
         "none" ( prepend payload = @./payloads/EE_Left/none.usda@ ) { }
-        "rubber_hand" ( prepend payload = @./payloads/EE_Left/rubber_hand.usda@ ) { }
-        "revo2" ( prepend payload = @./payloads/EE_Left/revo2.usda@ ) { }
-        "dex3" ( prepend payload = @./payloads/EE_Left/dex3.usda@ ) { }
-        "dex1" ( prepend payload = @./payloads/EE_Left/dex1.usda@ ) { }
+        "rubber_hand" (
+            prepend payload = @./payloads/EE_Left/rubber_hand.usda@
+        ) {
+            prepend rel isaac:physics:robotJoints = </G1D/G1_Arms/left_wrist_yaw_link/left_tcp/RubberHand>
+            prepend rel isaac:physics:robotLinks = </G1D/G1_Arms/left_wrist_yaw_link/left_tcp/RubberHand>
+        }
+        "revo2" (
+            prepend payload = @./payloads/EE_Left/revo2.usda@
+        ) {
+            prepend rel isaac:physics:robotJoints = </G1D/G1_Arms/left_wrist_yaw_link/left_tcp/Revo2>
+            prepend rel isaac:physics:robotLinks = </G1D/G1_Arms/left_wrist_yaw_link/left_tcp/Revo2>
+        }
+        "dex3" (
+            prepend payload = @./payloads/EE_Left/dex3.usda@
+        ) {
+            prepend rel isaac:physics:robotJoints = </G1D/G1_Arms/left_wrist_yaw_link/left_tcp/Dex3>
+            prepend rel isaac:physics:robotLinks = </G1D/G1_Arms/left_wrist_yaw_link/left_tcp/Dex3>
+        }
+        "dex1" (
+            prepend payload = @./payloads/EE_Left/dex1.usda@
+        ) {
+            prepend rel isaac:physics:robotJoints = </G1D/G1_Arms/left_wrist_yaw_link/left_tcp/Dex1>
+            prepend rel isaac:physics:robotLinks = </G1D/G1_Arms/left_wrist_yaw_link/left_tcp/Dex1>
+        }
     }
     variantSet "EE_Right" = {
         "none" ( prepend payload = @./payloads/EE_Right/none.usda@ ) { }
-        "rubber_hand" ( prepend payload = @./payloads/EE_Right/rubber_hand.usda@ ) { }
-        "revo2" ( prepend payload = @./payloads/EE_Right/revo2.usda@ ) { }
-        "dex3" ( prepend payload = @./payloads/EE_Right/dex3.usda@ ) { }
-        "dex1" ( prepend payload = @./payloads/EE_Right/dex1.usda@ ) { }
+        "rubber_hand" (
+            prepend payload = @./payloads/EE_Right/rubber_hand.usda@
+        ) {
+            prepend rel isaac:physics:robotJoints = </G1D/G1_Arms/right_wrist_yaw_link/right_tcp/RubberHand>
+            prepend rel isaac:physics:robotLinks = </G1D/G1_Arms/right_wrist_yaw_link/right_tcp/RubberHand>
+        }
+        "revo2" (
+            prepend payload = @./payloads/EE_Right/revo2.usda@
+        ) {
+            prepend rel isaac:physics:robotJoints = </G1D/G1_Arms/right_wrist_yaw_link/right_tcp/Revo2>
+            prepend rel isaac:physics:robotLinks = </G1D/G1_Arms/right_wrist_yaw_link/right_tcp/Revo2>
+        }
+        "dex3" (
+            prepend payload = @./payloads/EE_Right/dex3.usda@
+        ) {
+            prepend rel isaac:physics:robotJoints = </G1D/G1_Arms/right_wrist_yaw_link/right_tcp/Dex3>
+            prepend rel isaac:physics:robotLinks = </G1D/G1_Arms/right_wrist_yaw_link/right_tcp/Dex3>
+        }
+        "dex1" (
+            prepend payload = @./payloads/EE_Right/dex1.usda@
+        ) {
+            prepend rel isaac:physics:robotJoints = </G1D/G1_Arms/right_wrist_yaw_link/right_tcp/Dex1>
+            prepend rel isaac:physics:robotLinks = </G1D/G1_Arms/right_wrist_yaw_link/right_tcp/Dex1>
+        }
     }
     variantSet "Robot" = {
         "none" ( prepend payload = @./payloads/Robot/none.usda@ ) { }

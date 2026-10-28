@@ -18,8 +18,12 @@ def Xform "CR5"
                 double3 xformOp:translate = (0, 0, 0.019500038)
                 uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
+                # Drop EE ArticulationRoot so joints merge into /CR5 for Isaac
+                # ros2_control URDF synth (active=false alone still leaves PrimRange
+                # joints without kinematic export → "gripper_joint not found in URDF").
                 over "root_joint" (
                     active = false
+                    delete apiSchemas = ["PhysicsArticulationRootAPI", "NewtonArticulationRootAPI", "PhysxArticulationAPI"]
                 )
                 {
                 }

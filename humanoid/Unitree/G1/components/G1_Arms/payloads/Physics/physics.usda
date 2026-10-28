@@ -7,7 +7,7 @@
 
 over "G1_Arms"
 {
-    over "torso_link" (
+    over "arms_torso_link" (
         prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsArticulationRootAPI", "PhysxArticulationAPI", "PhysicsMassAPI"]
     )
     {
@@ -17,7 +17,7 @@ over "G1_Arms"
         int physxArticulation:solverVelocityIterationCount = 4
         float physxArticulation:sleepThreshold = 0.00005
         float physxArticulation:stabilizationThreshold = 0.00001
-        point3f physics:centerOfMass = (-inf, -inf, -inf)
+        point3f physics:centerOfMass = (0, 0, 0)
         float3 physics:diagonalInertia = (1.0000000116860974e-07, 1.0000000116860974e-07, 1.0000000116860974e-07)
         quatf physics:principalAxes = (1.0, 0.0, 0.0, 0.0)
     }
@@ -169,7 +169,7 @@ over "G1_Arms"
         )
         {
             float physxJoint:maxJointVelocity = 500000
-            rel physics:body0 = </G1_Arms/torso_link>
+            rel physics:body0 = </G1_Arms/arms_torso_link>
             rel physics:body1 = </G1_Arms/left_shoulder_pitch_link>
             uniform token physics:axis = "Y"
             bool physics:collisionEnabled = false
@@ -344,7 +344,7 @@ over "G1_Arms"
         )
         {
             float physxJoint:maxJointVelocity = 500000
-            rel physics:body0 = </G1_Arms/torso_link>
+            rel physics:body0 = </G1_Arms/arms_torso_link>
             rel physics:body1 = </G1_Arms/right_shoulder_pitch_link>
             uniform token physics:axis = "Y"
             bool physics:collisionEnabled = false

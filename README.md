@@ -264,7 +264,7 @@ mkdir -p environment
 cd environment
 
 # Clone the environment assets repository
-git clone git@github.com:fiveages-sim/fiveages-env-usds.git fiveages_env
+git clone git@github.com:fiveages-sim/fiveages-scene-usds.git fiveages_env
 ```
 
 After cloning, your directory layout should look like:
@@ -280,8 +280,8 @@ With this layout, scenes that depend on environment assets can correctly referen
 
 ### ArtVIP scenes
 
-Official ArtVIP meshes stay in `environment/ArtVIP/` (gitignored). `tools/artvip_kitchen.py download` fetches them. Scene components live in `environment/artvip-usd`; robot `env/artvip/*.usda` files payload `environment/artvip-usd/scenes/<scene>.usda`. Kitchen interaction (door, lights, drives) is authored on those object USDA files. See `environment/artvip-usd/README.md`.
+Official ArtVIP meshes stay in `environment/artvip-usd/ArtVIP/` (gitignored). `environment/artvip-usd/tools/download.py download` fetches them. Scene components live in `environment/artvip-usd`; robot `env/artvip/*.usda` files payload `environment/artvip-usd/scenes/<scene>.usda`. Kitchen interaction (door, lights, drives) is authored on those object USDA files. See `environment/artvip-usd/README.md`.
 
 ```bash
-python tools/artvip_kitchen.py download
+python environment/artvip-usd/tools/download.py download
 ```
