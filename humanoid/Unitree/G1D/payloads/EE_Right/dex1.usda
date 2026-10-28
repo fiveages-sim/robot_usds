@@ -3,13 +3,14 @@
     defaultPrim = "G1D"
     metersPerUnit = 1
     upAxis = "Z"
-    doc = """Dex1 right EE.
+    doc = """Dex1 right EE (G1D).
 
-Dex1 ArtRoot lives on Physics/root_joint (AG2F90-style). Mount disables
-root_joint so there is no nested ArticulationRoot under /G1D; fingers
-merge via AssemblerFixedJoint into the parent art (Mimic stays valid).
-
-Weld body0 = wrist RB (tcp is Xform-only) at tcp offset 0.0415.
+Match working Revo2 / CR5 AG2F90 / G1 Dex1 mount:
+- root_joint active=false + delete ArtRoot schemas (active alone can leave a
+  nested root that PhysX rejects → Mimic 'not part of an articulation' →
+  tensors invalidate → arms scatter).
+- AssemblerFixedJoint body0 = right_tcp (same as Revo2/G1); tcp already sits
+  at 0.0415 on the wrist, Dex1 translate is 0 → localPos0 = 0.
 """
 )
 
@@ -38,7 +39,10 @@ def "G1D"
 
                 over "Physics"
                 {
-                    over "root_joint" ( active = false )
+                    over "root_joint" (
+                        active = false
+                        delete apiSchemas = ["PhysicsArticulationRootAPI", "NewtonArticulationRootAPI"]
+                    )
                     {
                     }
                 }
@@ -49,11 +53,11 @@ def "G1D"
                     {
                         def PhysicsFixedJoint "AssemblerFixedJoint"
                         {
-                            rel physics:body0 = </G1D/G1_Arms/right_wrist_yaw_link>
+                            rel physics:body0 = </G1D/G1_Arms/right_wrist_yaw_link/right_tcp>
                             rel physics:body1 = </G1D/G1_Arms/right_wrist_yaw_link/right_tcp/Dex1/Geometry/dex1_base_link>
                             bool physics:excludeFromArticulation = false
                             bool physics:jointEnabled = true
-                            point3f physics:localPos0 = (0.0415, 0, 0)
+                            point3f physics:localPos0 = (0, 0, 0)
                             point3f physics:localPos1 = (0, 0, 0)
                             quatf physics:localRot0 = (1, 0, 0, 0)
                             quatf physics:localRot1 = (1, 0, 0, 0)

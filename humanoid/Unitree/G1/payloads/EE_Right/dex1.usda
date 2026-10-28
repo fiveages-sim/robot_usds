@@ -30,21 +30,23 @@ def "G1"
 
                 over "Physics"
                 {
-                    over "root_joint" ( active = false )
+                    over "root_joint" (
+                        active = false
+                        delete apiSchemas = ["PhysicsArticulationRootAPI", "NewtonArticulationRootAPI"]
+                    )
                     {
                     }
                 }
 
                 over "Geometry"
                 {
-                    over "dex1_base_link" (
-                        delete apiSchemas = ["PhysicsArticulationRootAPI", "NewtonArticulationRootAPI"]
-                    )
+                    over "dex1_base_link"
                     {
                         def PhysicsFixedJoint "AssemblerFixedJoint"
                         {
                             rel physics:body0 = </G1/G1_Arms/right_wrist_yaw_link/right_tcp>
                             rel physics:body1 = </G1/G1_Arms/right_wrist_yaw_link/right_tcp/Dex1/Geometry/dex1_base_link>
+                            bool physics:excludeFromArticulation = false
                             point3f physics:localPos0 = (0.0, 0.0, 0.0)
                             point3f physics:localPos1 = (0, 0, 0)
                             quatf physics:localRot0 = (1, 0, 0, 0)

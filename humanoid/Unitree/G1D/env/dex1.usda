@@ -403,10 +403,13 @@ over "OmniverseKit_Top" (
 }
 
 def PhysicsScene "PhysicsScene" (
-    delete apiSchemas = ["MjcSceneAPI", "PhysxSceneAPI"]
-    prepend apiSchemas = ["NewtonSceneAPI", "PhysxSceneAPI"]
+    delete apiSchemas = ["MjcSceneAPI", "NewtonSceneAPI"]
+    prepend apiSchemas = ["PhysxSceneAPI"]
 )
 {
+    # PhysX-only: dual NewtonSceneAPI+PhysxSceneAPI can tear instanceable
+    # Lift collision proxies (yaw_link_1) on Play → tensors invalidate →
+    # Mimic/arms scatter cascade.
     uniform token physxScene:broadphaseType = "SAP"
     bool physxScene:enableGPUDynamics = 0
     uint physxScene:timeStepsPerSecond = 200
