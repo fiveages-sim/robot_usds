@@ -3,5 +3,180 @@
     defaultPrim = "Dex3"
     metersPerUnit = 1
     upAxis = "Z"
+    doc = """Side=left: rename finger DOFs to left_hand_* (unitree_dex / CM).
+Unprefixed hand_* joints stay inactive so dual mounts do not collide."""
 )
-over "Dex3" {}
+
+over "Dex3"
+{
+    prepend rel isaac:physics:robotJoints = [
+        </Dex3/Physics/root_joint>,
+        </Dex3/Physics/left_hand_index_0_joint>,
+        </Dex3/Physics/left_hand_index_1_joint>,
+        </Dex3/Physics/left_hand_middle_0_joint>,
+        </Dex3/Physics/left_hand_middle_1_joint>,
+        </Dex3/Physics/left_hand_thumb_0_joint>,
+        </Dex3/Physics/left_hand_thumb_1_joint>,
+        </Dex3/Physics/left_hand_thumb_2_joint>,
+    ]
+
+    over "Physics"
+    {
+        over "hand_index_0_joint" ( active = false ) {}
+        over "hand_index_1_joint" ( active = false ) {}
+        over "hand_middle_0_joint" ( active = false ) {}
+        over "hand_middle_1_joint" ( active = false ) {}
+        over "hand_thumb_0_joint" ( active = false ) {}
+        over "hand_thumb_1_joint" ( active = false ) {}
+        over "hand_thumb_2_joint" ( active = false ) {}
+
+        def PhysicsRevoluteJoint "left_hand_index_0_joint" (
+            prepend apiSchemas = ["NewtonJointAPI", "PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular", "PhysxJointAPI"]
+        )
+        {
+            float drive:angular:physics:damping = 0.06
+            float drive:angular:physics:stiffness = 0.1
+            float drive:angular:physics:maxForce = 1.4
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:maxJointVelocity = 500000
+            float physxJoint:jointFriction = 0.5
+            uniform token physics:axis = "Z"
+            rel physics:body0 = </Dex3/Geometry/hand_palm_link>
+            rel physics:body1 = </Dex3/Geometry/hand_palm_link/hand_index_0_link>
+            point3f physics:localPos0 = (0.0777, 0.0016, 0.0285)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -90
+            float physics:upperLimit = 0
+        }
+
+        def PhysicsRevoluteJoint "left_hand_index_1_joint" (
+            prepend apiSchemas = ["NewtonJointAPI", "PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular", "PhysxJointAPI"]
+        )
+        {
+            float drive:angular:physics:damping = 0.06
+            float drive:angular:physics:stiffness = 0.1
+            float drive:angular:physics:maxForce = 1.4
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:maxJointVelocity = 500000
+            uniform token physics:axis = "Z"
+            rel physics:body0 = </Dex3/Geometry/hand_palm_link/hand_index_0_link>
+            rel physics:body1 = </Dex3/Geometry/hand_palm_link/hand_index_0_link/hand_index_1_link>
+            point3f physics:localPos0 = (0.0458, 0, 0)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -100
+            float physics:upperLimit = 0
+        }
+
+        def PhysicsRevoluteJoint "left_hand_middle_0_joint" (
+            prepend apiSchemas = ["NewtonJointAPI", "PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular", "PhysxJointAPI"]
+        )
+        {
+            float drive:angular:physics:damping = 0.06
+            float drive:angular:physics:stiffness = 0.1
+            float drive:angular:physics:maxForce = 1.4
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:maxJointVelocity = 500000
+            uniform token physics:axis = "Z"
+            rel physics:body0 = </Dex3/Geometry/hand_palm_link>
+            rel physics:body1 = </Dex3/Geometry/hand_palm_link/hand_middle_0_link>
+            point3f physics:localPos0 = (0.0777, 0.0016, -0.0285)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -90
+            float physics:upperLimit = 0
+        }
+
+        def PhysicsRevoluteJoint "left_hand_middle_1_joint" (
+            prepend apiSchemas = ["NewtonJointAPI", "PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular", "PhysxJointAPI"]
+        )
+        {
+            float drive:angular:physics:damping = 0.06
+            float drive:angular:physics:stiffness = 0.1
+            float drive:angular:physics:maxForce = 1.4
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:maxJointVelocity = 500000
+            uniform token physics:axis = "Z"
+            rel physics:body0 = </Dex3/Geometry/hand_palm_link/hand_middle_0_link>
+            rel physics:body1 = </Dex3/Geometry/hand_palm_link/hand_middle_0_link/hand_middle_1_link>
+            point3f physics:localPos0 = (0.0458, 0, 0)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -100
+            float physics:upperLimit = 0
+        }
+
+        def PhysicsRevoluteJoint "left_hand_thumb_0_joint" (
+            prepend apiSchemas = ["NewtonJointAPI", "PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular", "PhysxJointAPI"]
+        )
+        {
+            float drive:angular:physics:damping = 0.08
+            float drive:angular:physics:stiffness = 0.12
+            float drive:angular:physics:maxForce = 2.45
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:maxJointVelocity = 500000
+            float physxJoint:jointFriction = 0.5
+            uniform token physics:axis = "Y"
+            rel physics:body0 = </Dex3/Geometry/hand_palm_link>
+            rel physics:body1 = </Dex3/Geometry/hand_palm_link/hand_thumb_0_link>
+            point3f physics:localPos0 = (0.0255, 0, 0)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -60
+            float physics:upperLimit = 60
+        }
+
+        def PhysicsRevoluteJoint "left_hand_thumb_1_joint" (
+            prepend apiSchemas = ["NewtonJointAPI", "PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular", "PhysxJointAPI"]
+        )
+        {
+            float drive:angular:physics:damping = 0.06
+            float drive:angular:physics:stiffness = 0.1
+            float drive:angular:physics:maxForce = 1.4
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:maxJointVelocity = 500000
+            uniform token physics:axis = "Z"
+            rel physics:body0 = </Dex3/Geometry/hand_palm_link/hand_thumb_0_link>
+            rel physics:body1 = </Dex3/Geometry/hand_palm_link/hand_thumb_0_link/hand_thumb_1_link>
+            point3f physics:localPos0 = (-0.0025, -0.0193, 0)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -41.5
+            float physics:upperLimit = 60
+        }
+
+        def PhysicsRevoluteJoint "left_hand_thumb_2_joint" (
+            prepend apiSchemas = ["NewtonJointAPI", "PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular", "PhysxJointAPI"]
+        )
+        {
+            float drive:angular:physics:damping = 0.06
+            float drive:angular:physics:stiffness = 0.1
+            float drive:angular:physics:maxForce = 1.4
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:maxJointVelocity = 500000
+            uniform token physics:axis = "Z"
+            rel physics:body0 = </Dex3/Geometry/hand_palm_link/hand_thumb_0_link/hand_thumb_1_link>
+            rel physics:body1 = </Dex3/Geometry/hand_palm_link/hand_thumb_0_link/hand_thumb_1_link/hand_thumb_2_link>
+            point3f physics:localPos0 = (0, -0.0458, 0)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = 0
+            float physics:upperLimit = 100
+        }
+    }
+}

@@ -1,0 +1,492 @@
+#usda 1.0
+(
+    defaultPrim = "Zerith_H1"
+    metersPerUnit = 1
+    upAxis = "Z"
+    doc = """Chassis odom TF + DiffDrive for Zerith H1.
+
+TF: world→odom→base_footprint→base_link (aligns mobile_base_tcp baseFrame).
+
+base_footprint = ground SE(2) frame; base_link = deck.
+URDF base_height 0.18 (drive axle -0.0965 + r 0.0835). Isaac must match:
+  - LatchWorld2Odom footprintZ = 0.18 (latch base_link, subtract → odom on ground)
+  - TFFootprint2Base translation = (0, 0, 0.18)
+so lookup(world, base_link) matches stage and Pinocchio FK (deck +0.18)
+matches OCS2 world EE targets. Identity footprint≡base caused a fixed
+~0.18 m Z offset (task.info SE2 at z=0 vs Isaac deck at z≈0.18).
+
+Relative odom: IsaacComputeOdometry on base_link; BASE_UNLOCK → DiffDrive.
+Shared by ROS=enable and ROS=fiveages — do not duplicate in fiveages.usda.
+Env dual: only over nodeNamespace + chassisPrim/targetPrims.
+"""
+)
+
+def "Zerith_H1"
+{
+    def "Graph"
+    {
+        def OmniGraph "ROS_Odometry"
+        {
+            token evaluationMode = "Automatic"
+            token evaluator:type = "execution"
+            token fabricCacheBacking = "StageWithoutHistory"
+            int2 fileFormatVersion = (1, 9)
+            token pipelineStage = "pipelineStageSimulation"
+
+            def OmniGraphNode "OnPlaybackTick"
+            {
+                token node:type = "omni.graph.action.OnPlaybackTick"
+                int node:typeVersion = 2
+                # LatchWorld2Odom needs frame to detect Stop→Play.
+                custom double outputs:deltaSeconds
+                custom double outputs:frame
+                custom uint outputs:tick (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom double outputs:time
+            }
+
+            def OmniGraphNode "Context"
+            {
+                token node:type = "isaacsim.ros2.bridge.ROS2Context"
+                int node:typeVersion = 2
+                custom uint64 outputs:context
+            }
+
+            def OmniGraphNode "ReadSimTime"
+            {
+                # Must reset on Stop so LatchWorld2Odom can detect Play restart.
+                custom bool inputs:resetOnStop = 1
+                token node:type = "isaacsim.core.nodes.IsaacReadSimulationTime"
+                int node:typeVersion = 1
+                custom double outputs:simulationTime
+            }
+
+            def OmniGraphNode "ComputeOdometry"
+            {
+                custom rel inputs:chassisPrim = </Zerith_H1/base_link>
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </Zerith_H1/Graph/ROS_Odometry/OnPlaybackTick.outputs:tick>
+                token node:type = "isaacsim.core.nodes.IsaacComputeOdometry"
+                int node:typeVersion = 1
+                custom vector3d outputs:angularVelocity
+                custom uint outputs:execOut (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom vector3d outputs:linearVelocity
+                custom quatd outputs:orientation
+                custom vector3d outputs:position
+            }
+
+            def OmniGraphNode "PublisherOdometry"
+            {
+                custom vector3d inputs:angularVelocity
+                prepend vector3d inputs:angularVelocity.connect = </Zerith_H1/Graph/ROS_Odometry/ComputeOdometry.outputs:angularVelocity>
+                custom string inputs:chassisFrameId = "base_footprint"
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </Zerith_H1/Graph/ROS_Odometry/Context.outputs:context>
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </Zerith_H1/Graph/ROS_Odometry/ComputeOdometry.outputs:execOut>
+                custom vector3d inputs:linearVelocity
+                prepend vector3d inputs:linearVelocity.connect = </Zerith_H1/Graph/ROS_Odometry/ComputeOdometry.outputs:linearVelocity>
+                custom string inputs:odomFrameId = "odom"
+                custom quatd inputs:orientation
+                prepend quatd inputs:orientation.connect = </Zerith_H1/Graph/ROS_Odometry/ComputeOdometry.outputs:orientation>
+                custom vector3d inputs:position
+                prepend vector3d inputs:position.connect = </Zerith_H1/Graph/ROS_Odometry/ComputeOdometry.outputs:position>
+                custom double inputs:timeStamp
+                prepend double inputs:timeStamp.connect = </Zerith_H1/Graph/ROS_Odometry/ReadSimTime.outputs:simulationTime>
+                # +X forward in base_footprint (= base_link). Env must not over this to 0.
+                custom vector3d inputs:robotFront = (1, 0, 0)
+                # Relative: with nodeNamespace → /<ns>/odom (multi-robot).
+                custom string inputs:topicName = "odom"
+                token node:type = "isaacsim.ros2.bridge.ROS2PublishOdometry"
+                int node:typeVersion = 1
+            }
+
+            # world→odom: Play-first latch of base_link, minus base_height 0.18.
+            def OmniGraphNode "ComputeWorldChassis"
+            {
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </Zerith_H1/Graph/ROS_Odometry/OnPlaybackTick.outputs:tick>
+                custom rel inputs:targetPrims = </Zerith_H1/base_link> (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
+                token node:type = "isaacsim.core.nodes.IsaacComputeTransformTree"
+                int node:typeVersion = 1
+                custom token[] outputs:childFrames
+                custom uint outputs:execOut (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom double4[] outputs:orientations
+                custom token[] outputs:parentFrames
+                custom double3[] outputs:translations
+            }
+
+            def OmniGraphNode "ChassisWorldTranslation"
+            {
+                custom double3[] inputs:array
+                prepend double3[] inputs:array.connect = </Zerith_H1/Graph/ROS_Odometry/ComputeWorldChassis.outputs:translations>
+                custom int inputs:index = 0
+                token node:type = "omni.graph.nodes.ArrayIndex"
+                int node:typeVersion = 1
+                custom double3 outputs:value
+            }
+
+            def OmniGraphNode "ChassisWorldOrientation"
+            {
+                custom double4[] inputs:array
+                prepend double4[] inputs:array.connect = </Zerith_H1/Graph/ROS_Odometry/ComputeWorldChassis.outputs:orientations>
+                custom int inputs:index = 0
+                token node:type = "omni.graph.nodes.ArrayIndex"
+                int node:typeVersion = 1
+                custom double4 outputs:value
+            }
+
+            def OmniGraphNode "LatchWorld2Odom"
+            {
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </Zerith_H1/Graph/ROS_Odometry/ComputeWorldChassis.outputs:execOut>
+                custom double3 inputs:translationIn
+                prepend double3 inputs:translationIn.connect = </Zerith_H1/Graph/ROS_Odometry/ChassisWorldTranslation.outputs:value>
+                custom double4 inputs:orientationIn
+                prepend double4 inputs:orientationIn.connect = </Zerith_H1/Graph/ROS_Odometry/ChassisWorldOrientation.outputs:value>
+                custom vector3d inputs:odomTranslation
+                prepend vector3d inputs:odomTranslation.connect = </Zerith_H1/Graph/ROS_Odometry/ComputeOdometry.outputs:position>
+                custom double inputs:simTime
+                prepend double inputs:simTime.connect = </Zerith_H1/Graph/ROS_Odometry/ReadSimTime.outputs:simulationTime>
+                custom double inputs:frame
+                prepend double inputs:frame.connect = </Zerith_H1/Graph/ROS_Odometry/OnPlaybackTick.outputs:frame>
+                # URDF base_height: ground footprint → deck base_link.
+                custom double inputs:footprintZ = 0.18
+                custom bool inputs:usePath = 0
+                custom string inputs:script = """
+def setup(db):
+    db.state.latched = False
+    db.state.lastSimTime = -1.0
+    db.state.lastFrame = -1.0
+    db.state.settle = 0
+
+def cleanup(db):
+    db.state.latched = False
+    db.state.lastSimTime = -1.0
+    db.state.lastFrame = -1.0
+    db.state.settle = 0
+
+def _sample(db):
+    t = db.inputs.translationIn
+    q = db.inputs.orientationIn
+    db.state.tx = float(t[0])
+    db.state.ty = float(t[1])
+    db.state.tz = float(t[2])
+    # CTT orientations are (x, y, z, w); OG/RawTransform quatd is IJKR.
+    db.state.qx = float(q[0])
+    db.state.qy = float(q[1])
+    db.state.qz = float(q[2])
+    db.state.qw = float(q[3])
+    db.state.latched = True
+
+def compute(db):
+    sim_t = float(db.inputs.simTime)
+    frame = float(db.inputs.frame)
+    last_t = float(db.state.lastSimTime)
+    last_f = float(db.state.lastFrame)
+    t = db.inputs.translationIn
+    odom = db.inputs.odomTranslation
+    ox = float(odom[0]); oy = float(odom[1]); oz = float(odom[2])
+    restart = (
+        (not db.state.latched)
+        or (last_t < 0.0)
+        or (sim_t + 1e-9 < last_t)
+        or (last_f >= 0.0 and frame + 0.5 < last_f)
+    )
+    if db.state.latched and (ox * ox + oy * oy + oz * oz) < 1e-4:
+        dx = float(t[0]) - float(db.state.tx)
+        dy = float(t[1]) - float(db.state.ty)
+        if (dx * dx + dy * dy) > 0.01:
+            restart = True
+    if restart:
+        # ~0.5s @60Hz: wait PhysX settle before freezing world→odom.
+        db.state.settle = 30
+    if (not db.state.latched) or int(db.state.settle) > 0:
+        _sample(db)
+        if int(db.state.settle) > 0:
+            db.state.settle = int(db.state.settle) - 1
+    db.state.lastSimTime = sim_t
+    db.state.lastFrame = frame
+    z = float(db.inputs.footprintZ)
+    # Subtract base_height so odom sits on ground (baseFrame); deck is +z on TFFootprint2Base.
+    db.outputs.translation = (db.state.tx, db.state.ty, db.state.tz - z)
+    db.outputs.rotation = (db.state.qx, db.state.qy, db.state.qz, db.state.qw)
+    return True
+"""
+                token node:type = "omni.graph.scriptnode.ScriptNode"
+                int node:typeVersion = 2
+                custom uint outputs:execOut (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom vector3d outputs:translation
+                custom quatd outputs:rotation
+                custom bool state:latched = 0
+                custom double state:lastSimTime = -1
+                custom double state:lastFrame = -1
+                custom int state:settle = 0
+                custom double state:tx = 0
+                custom double state:ty = 0
+                custom double state:tz = 0
+                custom double state:qx = 0
+                custom double state:qy = 0
+                custom double state:qz = 0
+                custom double state:qw = 1
+                custom bool state:omni_initialized
+            }
+
+            def OmniGraphNode "TFWorld2Odom"
+            {
+                custom string inputs:childFrameId = "odom"
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </Zerith_H1/Graph/ROS_Odometry/Context.outputs:context>
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </Zerith_H1/Graph/ROS_Odometry/LatchWorld2Odom.outputs:execOut>
+                # Env dual overs set nodeNamespace (zerith_h1 / zerith_h1_01).
+                custom string inputs:nodeNamespace
+                custom string inputs:parentFrameId = "world"
+                custom quatd inputs:rotation
+                prepend quatd inputs:rotation.connect = </Zerith_H1/Graph/ROS_Odometry/LatchWorld2Odom.outputs:rotation>
+                custom bool inputs:staticPublisher = 0
+                custom double inputs:timeStamp
+                prepend double inputs:timeStamp.connect = </Zerith_H1/Graph/ROS_Odometry/ReadSimTime.outputs:simulationTime>
+                custom vector3d inputs:translation
+                prepend vector3d inputs:translation.connect = </Zerith_H1/Graph/ROS_Odometry/LatchWorld2Odom.outputs:translation>
+                token node:type = "isaacsim.ros2.bridge.ROS2PublishRawTransformTree"
+                int node:typeVersion = 1
+            }
+
+            def OmniGraphNode "TFOdom2Footprint"
+            {
+                custom string inputs:childFrameId = "base_footprint"
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </Zerith_H1/Graph/ROS_Odometry/Context.outputs:context>
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </Zerith_H1/Graph/ROS_Odometry/OnPlaybackTick.outputs:tick>
+                custom string inputs:nodeNamespace
+                custom string inputs:parentFrameId = "odom"
+                custom quatd inputs:rotation
+                prepend quatd inputs:rotation.connect = </Zerith_H1/Graph/ROS_Odometry/ComputeOdometry.outputs:orientation>
+                custom bool inputs:staticPublisher = 0
+                custom double inputs:timeStamp
+                prepend double inputs:timeStamp.connect = </Zerith_H1/Graph/ROS_Odometry/ReadSimTime.outputs:simulationTime>
+                custom vector3d inputs:translation
+                prepend vector3d inputs:translation.connect = </Zerith_H1/Graph/ROS_Odometry/ComputeOdometry.outputs:position>
+                token node:type = "isaacsim.ros2.bridge.ROS2PublishRawTransformTree"
+                int node:typeVersion = 1
+            }
+
+            def OmniGraphNode "TFFootprint2Base"
+            {
+                custom string inputs:childFrameId = "base_link"
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </Zerith_H1/Graph/ROS_Odometry/Context.outputs:context>
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </Zerith_H1/Graph/ROS_Odometry/OnPlaybackTick.outputs:tick>
+                custom string inputs:nodeNamespace
+                custom string inputs:parentFrameId = "base_footprint"
+                custom bool inputs:staticPublisher = 0
+                custom double inputs:timeStamp
+                prepend double inputs:timeStamp.connect = </Zerith_H1/Graph/ROS_Odometry/ReadSimTime.outputs:simulationTime>
+                # URDF base_height 0.18: base_footprint on ground → base_link deck.
+                custom vector3d inputs:translation = (0, 0, 0.18)
+                token node:type = "isaacsim.ros2.bridge.ROS2PublishRawTransformTree"
+                int node:typeVersion = 1
+            }
+        }
+
+        def OmniGraph "ROS_Differential_Controller"
+        {
+            token evaluationMode = "Automatic"
+            token evaluator:type = "execution"
+            token fabricCacheBacking = "StageWithoutHistory"
+            int2 fileFormatVersion = (1, 9)
+            token pipelineStage = "pipelineStageSimulation"
+
+            def OmniGraphNode "OnPlaybackTick"
+            {
+                token node:type = "omni.graph.action.OnPlaybackTick"
+                int node:typeVersion = 2
+                custom double outputs:deltaSeconds
+                custom double outputs:frame
+                custom uint outputs:tick (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom double outputs:time
+            }
+
+            def OmniGraphNode "Context"
+            {
+                custom uchar inputs:domain_id
+                custom bool inputs:useDomainIDEnvVar
+                token node:type = "isaacsim.ros2.bridge.ROS2Context"
+                int node:typeVersion = 2
+                custom uint64 outputs:context
+            }
+
+            def OmniGraphNode "ros2_subscribe_twist"
+            {
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </Zerith_H1/Graph/ROS_Differential_Controller/Context.outputs:context>
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </Zerith_H1/Graph/ROS_Differential_Controller/OnPlaybackTick.outputs:tick>
+                custom string inputs:nodeNamespace
+                custom string inputs:qosProfile
+                custom uint64 inputs:queueSize
+                custom string inputs:topicName = "cmd_vel"
+                token node:type = "isaacsim.ros2.bridge.ROS2SubscribeTwist"
+                int node:typeVersion = 1
+                custom vector3d outputs:angularVelocity
+                custom uint outputs:execOut (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom vector3d outputs:linearVelocity
+            }
+
+            def OmniGraphNode "scale_to_from_stage_units"
+            {
+                custom token inputs:conversion (
+                    allowedTokens = ["Convert to stage units", "Convert to meters"]
+                )
+                custom token inputs:value
+                prepend token inputs:value.connect = </Zerith_H1/Graph/ROS_Differential_Controller/ros2_subscribe_twist.outputs:linearVelocity>
+                token node:type = "isaacsim.core.nodes.OgnIsaacScaleToFromStageUnit"
+                int node:typeVersion = 1
+                custom token outputs:result
+            }
+
+            def OmniGraphNode "break_angular"
+            {
+                custom token inputs:tuple
+                prepend token inputs:tuple.connect = </Zerith_H1/Graph/ROS_Differential_Controller/ros2_subscribe_twist.outputs:angularVelocity>
+                token node:type = "omni.graph.nodes.BreakVector3"
+                int node:typeVersion = 1
+                custom token outputs:x
+                custom token outputs:y
+                custom token outputs:z
+            }
+
+            def OmniGraphNode "break_linear"
+            {
+                custom token inputs:tuple
+                prepend token inputs:tuple.connect = </Zerith_H1/Graph/ROS_Differential_Controller/scale_to_from_stage_units.outputs:result>
+                token node:type = "omni.graph.nodes.BreakVector3"
+                int node:typeVersion = 1
+                custom token outputs:x
+                custom token outputs:y
+                custom token outputs:z
+            }
+
+            def OmniGraphNode "DifferentialController"
+            {
+                custom double inputs:angularVelocity
+                prepend double inputs:angularVelocity.connect = </Zerith_H1/Graph/ROS_Differential_Controller/break_angular.outputs:z>
+                custom double inputs:dt
+                prepend double inputs:dt.connect = </Zerith_H1/Graph/ROS_Differential_Controller/OnPlaybackTick.outputs:deltaSeconds>
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </Zerith_H1/Graph/ROS_Differential_Controller/OnPlaybackTick.outputs:tick>
+                custom double inputs:linearVelocity
+                prepend double inputs:linearVelocity.connect = </Zerith_H1/Graph/ROS_Differential_Controller/break_linear.outputs:x>
+                custom double inputs:maxAcceleration = 0
+                custom double inputs:maxAngularAcceleration = 0
+                custom double inputs:maxAngularSpeed = 1.0
+                custom double inputs:maxDeceleration = 0
+                custom double inputs:maxLinearSpeed = 1.0
+                custom double inputs:maxWheelSpeed = 0
+                custom double inputs:wheelDistance = 0.379
+                custom double inputs:wheelRadius = 0.0835
+                token node:type = "isaacsim.robot.wheeled_robots.DifferentialController"
+                int node:typeVersion = 1
+                custom double[] outputs:velocityCommand
+            }
+
+            def OmniGraphNode "ArticulationController"
+            {
+                custom double[] inputs:effortCommand
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </Zerith_H1/Graph/ROS_Differential_Controller/OnPlaybackTick.outputs:tick>
+                custom int[] inputs:jointIndices
+                custom token[] inputs:jointNames = ["left_wheel_joint", "right_wheel_joint"]
+                custom double[] inputs:positionCommand
+                custom string inputs:robotPath
+                custom rel inputs:targetPrim = </Zerith_H1/base_link> (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
+                custom double[] inputs:velocityCommand
+                prepend double[] inputs:velocityCommand.connect = </Zerith_H1/Graph/ROS_Differential_Controller/DifferentialController.outputs:velocityCommand>
+                token node:type = "isaacsim.core.nodes.IsaacArticulationController"
+                int node:typeVersion = 1
+            }
+        }
+    }
+}

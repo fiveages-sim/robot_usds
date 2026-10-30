@@ -3,7 +3,12 @@
     defaultPrim = "Dex3"
     metersPerUnit = 1
     upAxis = "Z"
-    doc = "Unitree Dex3. Side=right switches Hand/right morphology + Physics."
+    doc = """Unitree Dex3. Side=left|right renames finger DOFs to left_hand_* /
+right_hand_* (matches unitree_dex_description / ros2_control). Side=right also
+switches Hand/right morphology (Y-mirror placement + mesh Rx180). Joint limits
+and angle semantics are identical L/R — same home/command vector (no limit
+mirror). Dual mounts require Side prefixes or HW interfaces collide
+(hand_index_0_joint ×2)."""
 )
 
 def Xform "Dex3" (
@@ -26,11 +31,14 @@ def Xform "Dex3" (
     variantSet "Side" = {
         "default" ( prepend payload = @./payloads/Side/default.usda@ ) {}
         "left" ( prepend payload = @./payloads/Side/left.usda@ ) {}
+        # Match Revo2: swap Hand/right base + Side rename only.
+        # Do NOT also payload Hand/right Physics — Physics=physx already owns
+        # joints/ArtRoot; a second physx payload re-applies nested ArtRoot and
+        # duplicate hand_* defs → tensors invalidate → parent arms scatter.
         "right" (
+            prepend payload = @./payloads/Side/right.usda@
             delete references = @./payloads/base.usda@
             prepend references = @./payloads/Hand/right/payloads/base.usda@
-            prepend payload = @./payloads/Hand/right/payloads/Physics/physx.usda@
-            prepend payload = @./payloads/Side/right.usda@
         ) {}
     }
     variantSet "Robot" = {

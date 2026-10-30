@@ -3,6 +3,7 @@
     defaultPrim = "G1"
     metersPerUnit = 1
     upAxis = "Z"
+    doc = """Dex3 left EE (G1). Same mount contract as G1D Dex3 / Dex1."""
 )
 
 def "G1"
@@ -29,7 +30,10 @@ def "G1"
 
                 over "Physics"
                 {
-                    over "root_joint" ( active = false )
+                    over "root_joint" (
+                        active = false
+                        delete apiSchemas = ["PhysicsArticulationRootAPI", "NewtonArticulationRootAPI"]
+                    )
                     {
                     }
                 }
@@ -44,6 +48,8 @@ def "G1"
                         {
                             rel physics:body0 = </G1/G1_Arms/left_wrist_yaw_link/left_tcp>
                             rel physics:body1 = </G1/G1_Arms/left_wrist_yaw_link/left_tcp/Dex3/Geometry/hand_palm_link>
+                            bool physics:excludeFromArticulation = false
+                            bool physics:jointEnabled = true
                             point3f physics:localPos0 = (0.0, 0.003, 0.0)
                             point3f physics:localPos1 = (0, 0, 0)
                             quatf physics:localRot0 = (1, 0, 0, 0)
@@ -56,4 +62,3 @@ def "G1"
         }
     }
 }
-

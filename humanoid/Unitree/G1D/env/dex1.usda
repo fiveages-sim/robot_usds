@@ -55,7 +55,6 @@ def Xform "World"
         variants = {
             string EE_Left = "dex1"
             string EE_Right = "dex1"
-            string Physics = "physx"
             string ROS = "fiveages"
             string Robot = "robot"
             string Sensor = "sensors"
@@ -403,13 +402,12 @@ over "OmniverseKit_Top" (
 }
 
 def PhysicsScene "PhysicsScene" (
-    delete apiSchemas = ["MjcSceneAPI", "NewtonSceneAPI"]
-    prepend apiSchemas = ["PhysxSceneAPI"]
+    prepend apiSchemas = ["NewtonSceneAPI", "PhysxSceneAPI"]
 )
 {
-    # PhysX-only: dual NewtonSceneAPI+PhysxSceneAPI can tear instanceable
-    # Lift collision proxies (yaw_link_1) on Play → tensors invalidate →
-    # Mimic/arms scatter cascade.
+    # Both scene APIs: backend switch is orthogonal to ROS=fiveages.
+    # If Lift instanceable proxies tear under PhysX, fix the Lift asset —
+    # do not delete NewtonSceneAPI to "protect" CM.
     uniform token physxScene:broadphaseType = "SAP"
     bool physxScene:enableGPUDynamics = 0
     uint physxScene:timeStepsPerSecond = 200

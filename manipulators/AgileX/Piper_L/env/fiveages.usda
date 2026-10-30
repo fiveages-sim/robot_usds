@@ -1,0 +1,58 @@
+#usda 1.0
+(
+    defaultPrim = "World"
+    doc = "Minimal Piper_L scene for in-process ros2_control (ROS=fiveages, Physics=physx, EE=Gripper)."
+    endTimeCode = 1000000
+    metersPerUnit = 1
+    startTimeCode = 0
+    timeCodesPerSecond = 60
+    upAxis = "Z"
+)
+
+def Xform "World"
+{
+    def "Piper_L" (
+        prepend payload = @../Piper_L.usda@
+        variants = {
+            string EE = "Gripper"
+            string Physics = "physx"
+            string ROS = "fiveages"
+            string Robot = "none"
+            string Sensor = "none"
+            string Side = "default"
+        }
+    )
+    {
+        quatd xformOp:orient = (1, 0, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "Graph"
+        {
+            over "ROS_Control"
+            {
+                over "ROS2ControlLaunch"
+                {
+                    custom token inputs:mode (
+                        allowedTokens = ["demo", "split_body", "full_body"]
+                    )
+                    custom rel inputs:targetPrim = </World/Piper_L>
+                    custom bool state:configured
+                }
+            }
+        }
+    }
+
+    def "default_environment" (
+        prepend payload = @../../../../../environment/fiveages_env/background/Grid/default_environment.usd@
+    )
+    {
+    }
+}
+
+def PhysicsScene "PhysicsScene" (
+    prepend apiSchemas = ["PhysxSceneAPI"]
+)
+{
+}

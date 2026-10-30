@@ -222,59 +222,7 @@ def Xform "World"
                     custom int64 inputs:referenceTimeNumerator
                 }
 
-                over "TFOdom2Footprint"
-                {
-                    custom string inputs:nodeNamespace
-                    custom string inputs:qosProfile
-                    custom uint64 inputs:queueSize
-                    custom string inputs:topicName
-                }
-
-                over "ComputeOdometry"
-                {
-                    custom rel inputs:chassisPrim (
-                        customData = {
-                            dictionary omni = {
-                                dictionary graph = {
-                                    string relType = "target"
-                                }
-                            }
-                        }
-                    )
-                    custom vector3d outputs:angularAcceleration
-                    custom vector3d outputs:globalLinearAcceleration
-                    custom vector3d outputs:globalLinearVelocity
-                    custom vector3d outputs:linearAcceleration
-                }
-
-                over "TFFootprint2Base"
-                {
-                    custom string inputs:nodeNamespace
-                    custom string inputs:qosProfile
-                    custom uint64 inputs:queueSize
-                    custom quatd inputs:rotation
-                    custom string inputs:topicName
-                    custom vector3d inputs:translation
-                }
-
-                over "TFWorld2Odom"
-                {
-                    custom string inputs:nodeNamespace
-                    custom string inputs:qosProfile
-                    custom uint64 inputs:queueSize
-                    custom quatd inputs:rotation
-                    custom string inputs:topicName
-                    custom vector3d inputs:translation
-                }
-
-                over "PublisherOdometry"
-                {
-                    custom string inputs:nodeNamespace
-                    custom bool inputs:publishRawVelocities
-                    custom string inputs:qosProfile
-                    custom uint64 inputs:queueSize
-                    custom vector3d inputs:robotFront
-                }
+                # Keep payload Latch/odom connects — do not over translation/rotation/robotFront.
             }
         }
     }

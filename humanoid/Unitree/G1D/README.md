@@ -37,7 +37,7 @@
 
 **Dex1 自身**另有 `Sensor=none|camera`（腕部外壳+Camera）。G1D `EE=dex1` 默认把子资产设为 `Sensor=camera`。
 
-推荐整机：`Physics=physx`，`Chassis/Lift/BodyHead/Arms=chassis|lift|bodyhead|arms`，`ROS=enable`，按需 `Sensor`/`EE`。`Arms=arms` 需同时 `BodyHead=bodyhead`（肩经 `G1_Arms/torso_link` 焊到 `G1_Body/torso_link`）。
+推荐整机：`Chassis/Lift/BodyHead/Arms=chassis|lift|bodyhead|arms`，`ROS=enable`，按需 `Sensor`/`EE`。资产根默认 `Physics=physx`（否则无 ArtRoot，双臂会从肩散架）；**env/mount 不要 sticky Physics**，子件由父 `payloads/Physics/*` push。Newton 时改选 `mujoco` / Reload。`Arms=arms` 需同时 `BodyHead=bodyhead`。
 
 ## ROS 话题（`ROS=enable`）
 
@@ -56,7 +56,7 @@ TF：`odom` → 底盘（odom-only，无 map）。
 env/empty.usda
 ```
 
-打开后默认：整机部件开、`EE=none`、`Sensor=sensors`、`ROS=enable`、`Physics=physx`，地面用 `environment/.../Grid/default_environment.usd`。
+打开后默认：整机部件开、`EE=none`、`Sensor=sensors`、`ROS=enable`；`Physics` 跟当前仿真引擎（无 authored 默认），地面用 `environment/.../Grid/default_environment.usd`。
 
 ## 相关
 

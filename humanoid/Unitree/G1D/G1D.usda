@@ -16,6 +16,11 @@ Articulation / chassis-swap policy (W2 weld contract + tensors-safe ArtRoot):
 - Lift welds to Chassis AGV_link (serial stack). New Chassis=* must expose
   AGV_link or retarget Lift/lift.usda AssemblerFixedJoint.
 - ROS DiffDrive / IsaacSimSystem / JointState targetPrim = /G1D.
+- Default Physics=physx on the asset root so ArtRoot exists before Play (empty
+  selection → no ArtRoot → Assembler arms scatter). Mounts/env must NOT sticky
+  Physics; children are pushed by payloads/Physics/{physx,mujoco}.usda.
+  IsaacSimSystem supports PhysX+Newton — set Physics=mujoco (or let Switcher
+  after clearing the default) for Newton; Reload Stage if stuck.
 """
 )
 

@@ -6,8 +6,17 @@
     doc = """In-process ros2_control via fasim.ros2.nodes.ROS2ControlLaunch.
 
 No topic JointState bridge (CM owns body/arms/hands). Chassis matches ROS=enable:
-DifferentialController on /cmd_vel + odom TF (world→odom→base_footprint→base_link),
-required by ocs2_wbc mobile_base_tcp (BASE_UNLOCK publishes /cmd_vel).
+DifferentialController on relative cmd_vel + odom TF (world→odom→base_footprint→base_link),
+required by ocs2_wbc mobile_base_tcp (BASE_UNLOCK publishes cmd_vel under ns).
+world→odom = Play latch of hub /G1D/base_link world pose (hub sits at
+footprint height via Assembler localPos0 z=0.1114 to chassis deck — do NOT
+subtract base_height again). Latch must re-sample on Stop→Play (simTime/
+frame restart, or odom≈0 + hub jumped) — ScriptNode setup() does not
+re-run; settle a few ticks so PhysX/USD pose is current. odom→base_footprint
+= IsaacComputeOdometry relative displacement; base_footprint→base_link =
++0.1114 (xacro base_height).
+BASE_UNLOCK note: ocs2_wbc must command arms at *current* TF time (not a future
+knot that assumes planned base motion) — otherwise arms yank while DiffDrive/TF lag.
 
 ArticulationRoot / IsaacSimSystem / DiffDrive targetPrim = /G1D (ArtRoot on robot Xform — tensors).
 Odometry chassisPrim = /G1D/base_link (floating hub / Assembler). Stable across Chassis=*.
@@ -125,11 +134,15 @@ over "G1D"
             {
                 token node:type = "omni.graph.action.OnPlaybackTick"
                 int node:typeVersion = 2
+                # LatchWorld2Odom needs frame to detect Stop→Play (setup() does not re-run).
+                custom double outputs:deltaSeconds
+                custom double outputs:frame
                 custom uint outputs:tick (
                     customData = {
                         bool isExecution = 1
                     }
                 )
+                custom double outputs:time
             }
 
             def OmniGraphNode "Context"
@@ -141,7 +154,9 @@ over "G1D"
 
             def OmniGraphNode "ReadSimTime"
             {
-                custom bool inputs:resetOnStop = 0
+                # Must reset on Stop so LatchWorld2Odom can detect Play restart
+                # (ScriptNode setup() does not re-run across Stop→Play).
+                custom bool inputs:resetOnStop = 1
                 token node:type = "isaacsim.core.nodes.IsaacReadSimulationTime"
                 int node:typeVersion = 1
                 custom double outputs:simulationTime
@@ -159,12 +174,12 @@ over "G1D"
                 prepend uint inputs:execIn.connect = </G1D/Graph/ROS_Odometry/OnPlaybackTick.outputs:tick>
                 token node:type = "isaacsim.core.nodes.IsaacComputeOdometry"
                 int node:typeVersion = 1
-                custom vector3d outputs:angularVelocity
                 custom uint outputs:execOut (
                     customData = {
                         bool isExecution = 1
                     }
                 )
+                custom vector3d outputs:angularVelocity
                 custom vector3d outputs:linearVelocity
                 custom quatd outputs:orientation
                 custom vector3d outputs:position
@@ -192,9 +207,179 @@ over "G1D"
                 prepend vector3d inputs:position.connect = </G1D/Graph/ROS_Odometry/ComputeOdometry.outputs:position>
                 custom double inputs:timeStamp
                 prepend double inputs:timeStamp.connect = </G1D/Graph/ROS_Odometry/ReadSimTime.outputs:simulationTime>
-                custom string inputs:topicName = "/odom"
+                # Relative: with nodeNamespace → /<ns>/odom (multi-robot).
+                custom string inputs:topicName = "odom"
                 token node:type = "isaacsim.ros2.bridge.ROS2PublishOdometry"
                 int node:typeVersion = 1
+            }
+
+            # world→odom: Play-first latch of hub world pose. Hub = footprint height
+            # (Assembler localPos0 z=0.1114 welds chassis deck onto hub+0.1114).
+            # Subtracting base_height here would push TF base_link down by 0.1114 vs AGV.
+            # Relative odom stays on ComputeOdometry. Spawn with wheel bottom at z=0.
+            def OmniGraphNode "ComputeWorldChassis"
+            {
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </G1D/Graph/ROS_Odometry/OnPlaybackTick.outputs:tick>
+                # Empty parentPrim → transforms relative to World.
+                custom rel inputs:targetPrims = </G1D/base_link> (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
+                token node:type = "isaacsim.core.nodes.IsaacComputeTransformTree"
+                int node:typeVersion = 1
+                custom token[] outputs:childFrames
+                custom uint outputs:execOut (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom double4[] outputs:orientations
+                custom token[] outputs:parentFrames
+                custom double3[] outputs:translations
+            }
+
+            def OmniGraphNode "ChassisWorldTranslation"
+            {
+                custom double3[] inputs:array
+                prepend double3[] inputs:array.connect = </G1D/Graph/ROS_Odometry/ComputeWorldChassis.outputs:translations>
+                custom int inputs:index = 0
+                token node:type = "omni.graph.nodes.ArrayIndex"
+                int node:typeVersion = 1
+                custom double3 outputs:value
+            }
+
+            def OmniGraphNode "ChassisWorldOrientation"
+            {
+                custom double4[] inputs:array
+                prepend double4[] inputs:array.connect = </G1D/Graph/ROS_Odometry/ComputeWorldChassis.outputs:orientations>
+                custom int inputs:index = 0
+                token node:type = "omni.graph.nodes.ArrayIndex"
+                int node:typeVersion = 1
+                custom double4 outputs:value
+            }
+
+            def OmniGraphNode "LatchWorld2Odom"
+            {
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </G1D/Graph/ROS_Odometry/ComputeWorldChassis.outputs:execOut>
+                custom double3 inputs:translationIn
+                prepend double3 inputs:translationIn.connect = </G1D/Graph/ROS_Odometry/ChassisWorldTranslation.outputs:value>
+                custom double4 inputs:orientationIn
+                prepend double4 inputs:orientationIn.connect = </G1D/Graph/ROS_Odometry/ChassisWorldOrientation.outputs:value>
+                # Relative odom from IsaacComputeOdometry — near-zero after Play reset.
+                custom vector3d inputs:odomTranslation
+                prepend vector3d inputs:odomTranslation.connect = </G1D/Graph/ROS_Odometry/ComputeOdometry.outputs:position>
+                # Detect Stop→Play: ScriptNode setup()/cleanup() do NOT re-run on
+                # timeline restart, so state:latched would otherwise keep the first
+                # Play pose forever (TF stuck at file spawn after user moves while Stopped).
+                custom double inputs:simTime
+                prepend double inputs:simTime.connect = </G1D/Graph/ROS_Odometry/ReadSimTime.outputs:simulationTime>
+                custom double inputs:frame
+                prepend double inputs:frame.connect = </G1D/Graph/ROS_Odometry/OnPlaybackTick.outputs:frame>
+                # Hub prim is already at footprint height — keep 0. Do not use
+                # xacro base_height 0.1114 here (that offset belongs only on
+                # TFFootprint2Base → URDF base_link / AGV deck).
+                custom double inputs:footprintZ = 0
+                custom bool inputs:usePath = 0
+                custom string inputs:script = """
+def setup(db):
+    db.state.latched = False
+    db.state.lastSimTime = -1.0
+    db.state.lastFrame = -1.0
+    db.state.settle = 0
+
+def cleanup(db):
+    db.state.latched = False
+    db.state.lastSimTime = -1.0
+    db.state.lastFrame = -1.0
+    db.state.settle = 0
+
+def _sample(db):
+    t = db.inputs.translationIn
+    q = db.inputs.orientationIn
+    db.state.tx = float(t[0])
+    db.state.ty = float(t[1])
+    db.state.tz = float(t[2])
+    # CTT orientations are (x, y, z, w); OG/RawTransform quatd is IJKR.
+    db.state.qx = float(q[0])
+    db.state.qy = float(q[1])
+    db.state.qz = float(q[2])
+    db.state.qw = float(q[3])
+    db.state.latched = True
+
+def compute(db):
+    sim_t = float(db.inputs.simTime)
+    frame = float(db.inputs.frame)
+    last_t = float(db.state.lastSimTime)
+    last_f = float(db.state.lastFrame)
+    t = db.inputs.translationIn
+    odom = db.inputs.odomTranslation
+    ox = float(odom[0]); oy = float(odom[1]); oz = float(odom[2])
+    # Re-latch on Play restart: simTime rewind (resetOnStop) and/or frame drop.
+    # setup() alone is not enough — it does not re-run across Stop→Play.
+    restart = (
+        (not db.state.latched)
+        or (last_t < 0.0)
+        or (sim_t + 1e-9 < last_t)
+        or (last_f >= 0.0 and frame + 0.5 < last_f)
+    )
+    # Sticky escape when clock/frame signals miss: relative odom ~0 (fresh Play)
+    # but hub world pose already differs from the latched world→odom.
+    if db.state.latched and (ox * ox + oy * oy + oz * oz) < 1e-4:
+        dx = float(t[0]) - float(db.state.tx)
+        dy = float(t[1]) - float(db.state.ty)
+        if (dx * dx + dy * dy) > 0.01:
+            restart = True
+    if restart:
+        # Re-sample for a few ticks — first tick can still see pre-PhysX pose.
+        db.state.settle = 5
+    if (not db.state.latched) or int(db.state.settle) > 0:
+        _sample(db)
+        if int(db.state.settle) > 0:
+            db.state.settle = int(db.state.settle) - 1
+    db.state.lastSimTime = sim_t
+    db.state.lastFrame = frame
+    z = float(db.inputs.footprintZ)
+    # ScriptNode dynamic quatd/vector3d need plain tuples, not Gf.* objects.
+    db.outputs.translation = (db.state.tx, db.state.ty, db.state.tz - z)
+    db.outputs.rotation = (db.state.qx, db.state.qy, db.state.qz, db.state.qw)
+    return True
+"""
+                token node:type = "omni.graph.scriptnode.ScriptNode"
+                int node:typeVersion = 2
+                custom uint outputs:execOut (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom vector3d outputs:translation
+                custom quatd outputs:rotation
+                custom bool state:latched = 0
+                custom double state:lastSimTime = -1
+                custom double state:lastFrame = -1
+                custom int state:settle = 0
+                custom double state:tx = 0
+                custom double state:ty = 0
+                custom double state:tz = 0
+                custom double state:qx = 0
+                custom double state:qy = 0
+                custom double state:qz = 0
+                custom double state:qw = 1
+                custom bool state:omni_initialized
             }
 
             def OmniGraphNode "TFWorld2Odom"
@@ -207,11 +392,15 @@ over "G1D"
                         bool isExecution = 1
                     }
                 )
-                prepend uint inputs:execIn.connect = </G1D/Graph/ROS_Odometry/OnPlaybackTick.outputs:tick>
+                prepend uint inputs:execIn.connect = </G1D/Graph/ROS_Odometry/LatchWorld2Odom.outputs:execOut>
                 custom string inputs:parentFrameId = "world"
+                custom quatd inputs:rotation
+                prepend quatd inputs:rotation.connect = </G1D/Graph/ROS_Odometry/LatchWorld2Odom.outputs:rotation>
                 custom bool inputs:staticPublisher = 0
                 custom double inputs:timeStamp
                 prepend double inputs:timeStamp.connect = </G1D/Graph/ROS_Odometry/ReadSimTime.outputs:simulationTime>
+                custom vector3d inputs:translation
+                prepend vector3d inputs:translation.connect = </G1D/Graph/ROS_Odometry/LatchWorld2Odom.outputs:translation>
                 token node:type = "isaacsim.ros2.bridge.ROS2PublishRawTransformTree"
                 int node:typeVersion = 1
             }
@@ -305,7 +494,8 @@ over "G1D"
                 custom string inputs:nodeNamespace
                 custom string inputs:qosProfile
                 custom uint64 inputs:queueSize
-                custom string inputs:topicName = "/cmd_vel"
+                # Relative: with nodeNamespace → /<ns>/cmd_vel (multi-robot).
+                custom string inputs:topicName = "cmd_vel"
                 token node:type = "isaacsim.ros2.bridge.ROS2SubscribeTwist"
                 int node:typeVersion = 1
                 custom vector3d outputs:angularVelocity
@@ -365,9 +555,9 @@ over "G1D"
                 prepend double inputs:linearVelocity.connect = </G1D/Graph/ROS_Differential_Controller/break_linear.outputs:x>
                 custom double inputs:maxAcceleration = 0
                 custom double inputs:maxAngularAcceleration = 0
-                custom double inputs:maxAngularSpeed = 0
+                custom double inputs:maxAngularSpeed = 1.0
                 custom double inputs:maxDeceleration = 0
-                custom double inputs:maxLinearSpeed = 0
+                custom double inputs:maxLinearSpeed = 1.0
                 custom double inputs:maxWheelSpeed = 0
                 custom double inputs:wheelDistance = 0.4062
                 custom double inputs:wheelRadius = 0.0849
