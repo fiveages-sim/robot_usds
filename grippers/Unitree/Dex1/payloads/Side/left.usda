@@ -39,17 +39,9 @@ over "Dex1"
         }
 
         def PhysicsPrismaticJoint "left_gripper_joint1" (
-            # IsaacSimSystem (isaacsim.ros2.control) tracks the leader through a
-            # position drive on the mimic joint; without it startup logs
-            # "mimic joint ... has no position drive (stiffness=0)".
-            prepend apiSchemas = ["NewtonJointAPI", "NewtonMimicAPI", "PhysicsDriveAPI:linear", "PhysicsJointStateAPI:linear", "PhysxJointAPI", "PhysxMimicJointAPI:transY"]
+            prepend apiSchemas = ["NewtonJointAPI", "NewtonMimicAPI", "PhysicsJointStateAPI:linear", "PhysxJointAPI", "PhysxMimicJointAPI:transY"]
         )
         {
-            float drive:linear:physics:damping = 1000
-            float drive:linear:physics:maxForce = 20
-            float drive:linear:physics:stiffness = 10000
-            float drive:linear:physics:targetPosition = 0
-            uniform token drive:linear:physics:type = "force"
             float newton:mimicCoef1 = 1
             rel newton:mimicJoint = </Dex1/Physics/left_gripper_joint>
             uniform token physics:axis = "Y"

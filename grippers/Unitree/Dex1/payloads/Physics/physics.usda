@@ -19,13 +19,7 @@ over "Dex1"
             prepend apiSchemas = ["NewtonJointAPI", "NewtonMimicAPI", "PhysicsDriveAPI:linear", "PhysicsJointStateAPI:linear"]
         )
         {
-            # stiffness must be non-zero: IsaacSimSystem otherwise reports
-            # "mimic joint ... has no position drive (stiffness=0)".
-            float drive:linear:physics:damping = 1000
             float drive:linear:physics:maxForce = 20
-            float drive:linear:physics:stiffness = 10000
-            float drive:linear:physics:targetPosition = 0
-            uniform token drive:linear:physics:type = "force"
             rel newton:mimicJoint = </Dex1/Physics/gripper_joint>
             float newton:velocityLimit = 0.2
             uniform token physics:axis = "Y"
