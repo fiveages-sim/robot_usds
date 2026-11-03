@@ -54,9 +54,14 @@ def "Galaxea_G1Z"
         }
 
         def PhysicsPrismaticJoint "left_gripper_joint2" (
-            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI", "PhysicsJointStateAPI:linear", "PhysxMimicJointAPI:rotY"]
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI", "PhysicsDriveAPI:linear", "PhysicsJointStateAPI:linear", "PhysxMimicJointAPI:rotY"]
         )
         {
+            float drive:linear:physics:damping = 1
+            float drive:linear:physics:maxForce = 10
+            float drive:linear:physics:stiffness = 10
+            float drive:linear:physics:targetPosition = 0
+            uniform token drive:linear:physics:type = "force"
             uniform double mjc:armature = 0.001
             uniform double mjc:damping = 0.01
             bool newton:mimicEnabled = 1

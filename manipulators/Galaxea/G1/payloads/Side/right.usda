@@ -68,9 +68,14 @@ def "Galaxea_G1"
         }
 
         def PhysicsPrismaticJoint "right_gripper_joint2" (
-            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI", "PhysicsJointStateAPI:linear"]
+            prepend apiSchemas = ["MjcJointAPI", "NewtonMimicAPI", "PhysicsDriveAPI:linear", "PhysicsJointStateAPI:linear"]
         )
         {
+            float drive:linear:physics:damping = 1
+            float drive:linear:physics:maxForce = 10
+            float drive:linear:physics:stiffness = 10
+            float drive:linear:physics:targetPosition = 0
+            uniform token drive:linear:physics:type = "force"
             bool[] isaac:actuator (
                 displayName = "Actuator"
             )
