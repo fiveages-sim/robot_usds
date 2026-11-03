@@ -7,6 +7,8 @@
 
 No topic JointState bridge (CM owns arm/body/head). Chassis odom / DiffDrive
 come from payloads/ROS/chassis_odom.usda (Play-latch world→odom + cmd_vel).
+TFFootprint2Base is inactive here: robot_state_publisher owns
+base_footprint→base_link. ROS=enable keeps that node in chassis_odom.usda.
 Default mode=full_body. EE_Left / EE_Right select AdaptiveGripper / Revo hands.
 """
 )
@@ -106,6 +108,15 @@ def "Zerith_H1" (
                         bool isExecution = 1
                     }
                 )
+            }
+        }
+
+        over "ROS_Odometry"
+        {
+            over "TFFootprint2Base" (
+                active = false
+            )
+            {
             }
         }
     }

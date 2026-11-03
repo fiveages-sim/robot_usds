@@ -5,16 +5,17 @@
     upAxis = "Z"
     doc = """In-process ros2_control via fasim.ros2.nodes.ROS2ControlLaunch.
 
-No topic JointState bridge (CM owns body/arms/hands). Chassis matches ROS=enable:
-DifferentialController on relative cmd_vel + odom TF (world→odom→base_footprint→base_link),
-required by ocs2_wbc mobile_base_tcp (BASE_UNLOCK publishes cmd_vel under ns).
+No topic JointState bridge (CM owns body/arms/hands). Chassis matches ROS=enable
+for cmd_vel, required by ocs2_wbc mobile_base_tcp (BASE_UNLOCK publishes cmd_vel under ns).
+Isaac TF stops at base_footprint (world→odom→base_footprint).
+robot_state_publisher publishes base_footprint→base_link and the arm/eef tree.
 world→odom = Play latch of hub /G1D/base_link world pose (hub sits at
 footprint height via Assembler localPos0 z=0.1114 to chassis deck — do NOT
 subtract base_height again). Latch must re-sample on Stop→Play (simTime/
 frame restart, or odom≈0 + hub jumped) — ScriptNode setup() does not
 re-run; settle a few ticks so PhysX/USD pose is current. odom→base_footprint
-= IsaacComputeOdometry relative displacement; base_footprint→base_link =
-+0.1114 (xacro base_height).
+= IsaacComputeOdometry relative displacement. base_footprint→base_link
+(+0.1114, xacro base_height) is not published here.
 BASE_UNLOCK note: ocs2_wbc must command arms at *current* TF time (not a future
 knot that assumes planned base motion) — otherwise arms yank while DiffDrive/TF lag.
 
@@ -119,6 +120,37 @@ over "G1D"
                         bool isExecution = 1
                     }
                 )
+            }
+
+            # Expose /get_prim_attribute so grasp_id can read USD-local grasp frames
+            # (same pattern as FiveAges_W2 / Dobot CR5). Needed once in the robot ROS graph;
+            # not available from isaacsim.ros2.sim_control alone.
+            def OmniGraphNode "ros2_service_prim" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </G1D/Graph/ROS_Control/Context.outputs:context>
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </G1D/Graph/ROS_Control/OnPlaybackTick.outputs:tick>
+                custom string inputs:getAttributeServiceName
+                custom string inputs:getAttributesServiceName
+                custom string inputs:nodeNamespace
+                custom string inputs:primsServiceName
+                custom string inputs:qosProfile
+                custom string inputs:setAttributeServiceName
+                token node:type = "isaacsim.ros2.bridge.ROS2ServicePrim"
+                int node:typeVersion = 1
+                custom uint outputs:execOut (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                uniform token ui:nodegraph:node:expansionState = "open"
             }
         }
 
@@ -428,7 +460,10 @@ def compute(db):
                 int node:typeVersion = 1
             }
 
-            def OmniGraphNode "TFFootprint2Base"
+            # RSP owns base_footprint→base_link. Kept inactive so env overs still resolve.
+            def OmniGraphNode "TFFootprint2Base" (
+                active = false
+            )
             {
                 custom string inputs:childFrameId = "base_link"
                 custom uint64 inputs:context
