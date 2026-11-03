@@ -1,0 +1,27 @@
+#usda 1.0
+(
+    defaultPrim = "A2"
+    metersPerUnit = 1
+    upAxis = "Z"
+    doc = "head_lidar mid360: URDF rpy=PI 0 0 on frame; mid360.usd needs rotateX:unitsResolve=90 (Y-up)."
+)
+
+def "A2"
+{
+    over "head_link01"
+    {
+        over "head_lidar"
+        {
+            def "mid360" (
+                prepend payload = @../../../../../sensors/mid360.usd@
+            )
+            {
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double xformOp:rotateX:unitsResolve = 90
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale", "xformOp:rotateX:unitsResolve"]
+            }
+        }
+    }
+}
