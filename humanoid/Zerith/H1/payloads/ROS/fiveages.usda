@@ -52,7 +52,10 @@ def "Zerith_H1" (
 
             def OmniGraphNode "ReadSimTime"
             {
-                custom bool inputs:resetOnStop = 0
+                # In-process ros2_control (ROS=fiveages): controller_manager and
+                # /tf consumers run on sim time, so /clock must restart from 0 on
+                # Stop. Topic-bridge variant (payloads/ROS/enable.usda) keeps 0.
+                custom bool inputs:resetOnStop = 1
                 token node:type = "isaacsim.core.nodes.IsaacReadSimulationTime"
                 int node:typeVersion = 1
                 custom double outputs:simulationTime

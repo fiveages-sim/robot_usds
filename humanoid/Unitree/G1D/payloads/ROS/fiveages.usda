@@ -64,7 +64,10 @@ over "G1D"
 
             def OmniGraphNode "ReadSimTime"
             {
-                custom bool inputs:resetOnStop = 0
+                # In-process ros2_control (ROS=fiveages): controller_manager and
+                # /tf consumers run on sim time, so /clock must restart from 0 on
+                # Stop. Topic-bridge variant (payloads/ROS/enable.usda) keeps 0.
+                custom bool inputs:resetOnStop = 1
                 token node:type = "isaacsim.core.nodes.IsaacReadSimulationTime"
                 int node:typeVersion = 1
                 custom double outputs:simulationTime
@@ -257,7 +260,18 @@ over "G1D"
                     }
                 )
                 prepend uint inputs:execIn.connect = </G1D/Graph/ROS_Odometry/OnPlaybackTick.outputs:tick>
-                # Empty parentPrim → transforms relative to World.
+                # Empty parentPrim -> transforms relative to World. The (empty)
+                # rel must still be authored, otherwise omni.fabric logs
+                # "attribute inputs:parentPrim not found".
+                custom rel inputs:parentPrim (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
                 custom rel inputs:targetPrims = </G1D/base_link> (
                     customData = {
                         dictionary omni = {

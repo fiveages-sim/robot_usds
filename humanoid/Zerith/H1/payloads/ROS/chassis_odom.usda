@@ -125,6 +125,17 @@ def "Zerith_H1"
                     }
                 )
                 prepend uint inputs:execIn.connect = </Zerith_H1/Graph/ROS_Odometry/OnPlaybackTick.outputs:tick>
+                # Empty parentPrim -> transforms relative to World; authoring
+                # the (empty) rel avoids omni.fabric "attribute not found".
+                custom rel inputs:parentPrim (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
                 custom rel inputs:targetPrims = </Zerith_H1/base_link> (
                     customData = {
                         dictionary omni = {
