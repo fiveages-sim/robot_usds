@@ -13,8 +13,9 @@ def Xform "Dex1" (
         string Robot = "none"
         string Sensor = "none"
         string Side = "default"
+        string ROS = "none"
     }
-    prepend variantSets = ["Physics", "Sensor", "Side"]
+    prepend variantSets = ["Physics", "Sensor", "Side", "ROS"]
     append variantSets = ["Robot"]
 )
 {
@@ -32,6 +33,13 @@ def Xform "Dex1" (
         "default" ( prepend payload = @./payloads/Side/default.usda@ ) {}
         "left" ( prepend payload = @./payloads/Side/left.usda@ ) {}
         "right" ( prepend payload = @./payloads/Side/right.usda@ ) {}
+    }
+    # ROS=enable publishes the wrist camera (rgb / depth / camera_info).
+    # Requires Sensor=camera (the Camera prim lives there). Side=left|right
+    # remaps nodeNamespace + cameraPrim via payloads/Side/*.usda overlays.
+    variantSet "ROS" = {
+        "none" ( prepend payload = @./payloads/ROS/none.usda@ ) {}
+        "enable" ( prepend payload = @./payloads/ROS/enable.usda@ ) {}
     }
     variantSet "Robot" = {
         "none" {}

@@ -29,6 +29,7 @@ def Xform "G1D" (
     variants = {
         string Physics = "physx"
         string ROS = "enable"
+        string Camera = "none"
         string Robot = "none"
         string Sensor = "none"
         string Chassis = "chassis"
@@ -38,7 +39,7 @@ def Xform "G1D" (
         string EE_Left = "none"
         string EE_Right = "none"
     }
-    prepend variantSets = ["Physics", "ROS", "Sensor", "Chassis", "Lift", "BodyHead", "Arms", "EE_Left", "EE_Right"]
+    prepend variantSets = ["Physics", "ROS", "Camera", "Sensor", "Chassis", "Lift", "BodyHead", "Arms", "EE_Left", "EE_Right"]
     append variantSets = ["Robot"]
 )
 {
@@ -52,6 +53,21 @@ def Xform "G1D" (
         "none" ( prepend payload = @./payloads/ROS/none.usda@ ) { }
         "enable" ( prepend payload = @./payloads/ROS/enable.usda@ ) { }
         "fiveages" ( prepend payload = @./payloads/ROS/fiveages.usda@ ) { }
+    }
+    # Camera variant: publishes head_camera + both wrist cameras as ROS topics.
+    # Independent of ROS=* so you can run motion control (ROS=fiveages) and
+    # camera topics (Camera=enable) at the same time, or cameras alone.
+    # Requires Sensor=sensors (Camera prims) and EE_*=dex1 (wrist Camera prims);
+    # with Sensor=none the render-product targets are unresolved and the graphs
+    # are no-ops.
+    #
+    # Topics (relative -> follow a robot namespace):
+    #   /head_camera/{rgb,depth,camera_info}
+    #   /left_hand_camera/{rgb,depth,camera_info}
+    #   /right_hand_camera/{rgb,depth,camera_info}
+    variantSet "Camera" = {
+        "none" ( prepend payload = @./payloads/Camera/none.usda@ ) { }
+        "enable" ( prepend payload = @./payloads/Camera/enable.usda@ ) { }
     }
     variantSet "Sensor" = {
         "none" ( prepend payload = @./payloads/Sensor/none.usda@ ) { }

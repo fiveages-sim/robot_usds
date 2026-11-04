@@ -88,4 +88,44 @@ over "Dex1"
             }
         }
     }
+
+    # ROS=enable overlay for Side=right: repoint the camera publisher graph at the
+    # right-prefixed Camera prim and retarget the topics to /right_hand_camera/*.
+    # Stronger than payloads/ROS/enable.usda (Side loads after ROS).
+    over "Graph"
+    {
+        over "ROS_Dex1Camera"
+        {
+            over "RenderProduct"
+            {
+                custom rel inputs:cameraPrim = </Dex1/Geometry/dex1_base_link/dex1_camera_link/dex1_camera_optical_frame/dex1_right_camera> (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
+            }
+
+            over "CameraInfoPublish"
+            {
+                custom string inputs:frameId = "right_hand_camera"
+                custom string inputs:nodeNamespace = "right_hand_camera"
+            }
+
+            over "RGBPublish"
+            {
+                custom string inputs:frameId = "right_hand_camera"
+                custom string inputs:nodeNamespace = "right_hand_camera"
+            }
+
+            over "DepthPublish"
+            {
+                custom string inputs:frameId = "right_hand_camera"
+                custom string inputs:nodeNamespace = "right_hand_camera"
+            }
+        }
+    }
 }

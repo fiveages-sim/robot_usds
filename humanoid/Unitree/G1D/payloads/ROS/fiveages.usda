@@ -116,6 +116,12 @@ over "G1D"
                 custom bool inputs:publishRobotDescription = 1
                 custom bool inputs:useSimTime = 1
                 custom bool inputs:enableArmsTargetManager = 1
+                # Full-body WBC: 用固定基座 OCS2 配置，关掉虚拟底盘自由度。
+                # mobile_base_tcp.info（manipulatorModelType 1）会让 WBC 规划 vx/omega，
+                # 底盘因此漂移，采集的关节角与底盘位置耦合，DOF 回放效果差。
+                # fixed_base_tcp.info（modelType 0）只规划 body+双臂，底盘锁定。
+                # 需要底盘移动时把它改回 ""（默认 mobile_base_tcp）。
+                custom string inputs:infoFile = "fixed_base_tcp"
                 token node:type = "fasim.ros2.nodes.ROS2ControlLaunch"
                 int node:typeVersion = 1
                 custom uint outputs:execOut (
