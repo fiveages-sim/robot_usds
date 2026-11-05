@@ -28,11 +28,13 @@ def "S2_V2"
             float physxJoint:maxJointVelocity = 359.81747
         }
 
+        # 车轮：与运控侧 URDF 对齐（velocity limit = 10 rad/s → 572.9578 deg/s）。
+        # 原来是 inf，相当于不限制，和规划器/底盘控制器的假设不一致。
         over "fl_wheel_joint" (
             prepend apiSchemas = ["PhysxJointAPI"]
         )
         {
-            float physxJoint:maxJointVelocity = inf
+            float physxJoint:maxJointVelocity = 572.9578
         }
 
         over "fr_steer_joint" (
@@ -46,7 +48,7 @@ def "S2_V2"
             prepend apiSchemas = ["PhysxJointAPI"]
         )
         {
-            float physxJoint:maxJointVelocity = inf
+            float physxJoint:maxJointVelocity = 572.9578
         }
 
         over "rl_steer_joint" (
@@ -60,7 +62,7 @@ def "S2_V2"
             prepend apiSchemas = ["PhysxJointAPI"]
         )
         {
-            float physxJoint:maxJointVelocity = inf
+            float physxJoint:maxJointVelocity = 572.9578
         }
 
         over "rr_steer_joint" (
@@ -74,7 +76,7 @@ def "S2_V2"
             prepend apiSchemas = ["PhysxJointAPI"]
         )
         {
-            float physxJoint:maxJointVelocity = inf
+            float physxJoint:maxJointVelocity = 572.9578
         }
     }
 }
