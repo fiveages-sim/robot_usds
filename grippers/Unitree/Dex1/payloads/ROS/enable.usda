@@ -1,0 +1,239 @@
+#usda 1.0
+(
+    defaultPrim = "Dex1"
+    metersPerUnit = 1
+    upAxis = "Z"
+    doc = """Dex1 ROS=enable: publish the wrist camera (rgb / depth / camera_info).
+
+The Camera prim itself lives on Sensor=camera (payloads/Sensor/camera.usda);
+this layer only adds the OmniGraph publishers, so switching ROS never changes
+geometry or physics.
+
+Requires Sensor=camera. With Sensor=none the cameraPrim target is unresolved and
+the graph is a no-op (Isaac logs a missing-target warning) — set ROS=none in that
+case.
+
+Topic layout (relative to nodeNamespace, so it follows a robot namespace):
+  default Side -> /dex1_camera/{rgb,depth,camera_info}
+  Side=left    -> /left_hand_camera/{rgb,depth,camera_info}
+  Side=right   -> /right_hand_camera/{rgb,depth,camera_info}
+
+The Side payloads overlay nodeNamespace / frameId / cameraPrim; this file always
+targets the `default` Side camera name. Do not hardcode a side here.
+
+Intrinsics come from the optical Camera (focalLength 18.147562,
+horizontalAperture 20.955, verticalAperture 15.716). Render size 640x480 keeps
+pixels close to square at that aperture.
+"""
+)
+
+def Xform "Dex1"
+{
+    def "Graph"
+    {
+        def OmniGraph "ROS_Dex1Camera"
+        {
+            token evaluationMode = "Automatic"
+            token evaluator:type = "execution"
+            token fabricCacheBacking = "StageWithoutHistory"
+            int2 fileFormatVersion = (1, 9)
+            token pipelineStage = "pipelineStageSimulation"
+
+            def OmniGraphNode "OnPlaybackTick"
+            {
+                token node:type = "omni.graph.action.OnPlaybackTick"
+                int node:typeVersion = 2
+                custom double outputs:deltaSeconds
+                custom double outputs:frame
+                custom uint outputs:tick (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom double outputs:time
+            }
+
+            def OmniGraphNode "RunOnce"
+            {
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = [
+                    </Dex1/Graph/ROS_Dex1Camera/OnPlaybackTick.outputs:tick>
+                ]
+                token node:type = "isaacsim.core.nodes.OgnIsaacRunOneSimulationFrame"
+                int node:typeVersion = 1
+                custom uint outputs:step (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+            }
+
+            def OmniGraphNode "Context"
+            {
+                custom uchar inputs:domain_id
+                custom bool inputs:useDomainIDEnvVar
+                token node:type = "isaacsim.ros2.bridge.ROS2Context"
+                int node:typeVersion = 2
+                custom uint64 outputs:context
+            }
+
+            def OmniGraphNode "RenderProduct"
+            {
+                # Targets the Side=default camera name. Side=left|right payloads
+                # override this rel (and nodeNamespace / frameId).
+                custom rel inputs:cameraPrim = </Dex1/Geometry/dex1_base_link/dex1_camera_link/dex1_camera_optical_frame/dex1_camera> (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
+                custom bool inputs:enabled
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = [
+                    </Dex1/Graph/ROS_Dex1Camera/RunOnce.outputs:step>
+                ]
+                # 640 x 480 — near-square pixels for the 20.955 x 15.716 aperture.
+                custom uint inputs:height = 480
+                custom rel inputs:renderProductPrim (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
+                custom uint inputs:width = 640
+                token node:type = "isaacsim.core.nodes.IsaacCreateRenderProduct"
+                int node:typeVersion = 2
+                custom uint outputs:execOut (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom token outputs:renderProductPath
+            }
+
+            def OmniGraphNode "CameraInfoPublish"
+            {
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = [
+                    </Dex1/Graph/ROS_Dex1Camera/Context.outputs:context>
+                ]
+                custom bool inputs:enabled
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = [
+                    </Dex1/Graph/ROS_Dex1Camera/RenderProduct.outputs:execOut>
+                ]
+                custom string inputs:frameId = "dex1_camera"
+                custom string inputs:frameIdRight
+                custom uint inputs:frameSkipCount
+                custom string inputs:nodeNamespace = "dex1_camera"
+                custom string inputs:qosProfile
+                custom uint64 inputs:queueSize
+                custom token inputs:renderProductPath
+                prepend token inputs:renderProductPath.connect = [
+                    </Dex1/Graph/ROS_Dex1Camera/RenderProduct.outputs:renderProductPath>
+                ]
+                custom token inputs:renderProductPathRight
+                custom bool inputs:resetSimulationTimeOnStop = 1
+                custom string inputs:topicName = "camera_info"
+                custom string inputs:topicNameRight
+                custom bool inputs:useSystemTime
+                token node:type = "isaacsim.ros2.bridge.ROS2CameraInfoHelper"
+                int node:typeVersion = 1
+            }
+
+            def OmniGraphNode "RGBPublish"
+            {
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = [
+                    </Dex1/Graph/ROS_Dex1Camera/Context.outputs:context>
+                ]
+                custom bool inputs:enabled
+                custom bool inputs:enableSemanticLabels
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = [
+                    </Dex1/Graph/ROS_Dex1Camera/RenderProduct.outputs:execOut>
+                ]
+                custom string inputs:frameId = "dex1_camera"
+                custom uint inputs:frameSkipCount
+                custom string inputs:nodeNamespace = "dex1_camera"
+                custom string inputs:qosProfile
+                custom uint64 inputs:queueSize
+                custom token inputs:renderProductPath
+                prepend token inputs:renderProductPath.connect = [
+                    </Dex1/Graph/ROS_Dex1Camera/RenderProduct.outputs:renderProductPath>
+                ]
+                custom bool inputs:resetSimulationTimeOnStop = 1
+                custom string inputs:semanticLabelsTopicName
+                custom string inputs:srtxCompressionType
+                custom float2 inputs:stereoOffset
+                custom string inputs:topicName = "rgb"
+                custom token inputs:type = "rgb" (
+                    allowedTokens = ["rgb", "rgb_h264", "depth", "depth_pcl", "instance_segmentation", "semantic_segmentation", "bbox_2d_tight", "bbox_2d_loose", "bbox_3d", "rgb_hevc"]
+                )
+                custom bool inputs:useSystemTime
+                token node:type = "isaacsim.ros2.bridge.ROS2CameraHelper"
+                int node:typeVersion = 2
+            }
+
+            def OmniGraphNode "DepthPublish"
+            {
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = [
+                    </Dex1/Graph/ROS_Dex1Camera/Context.outputs:context>
+                ]
+                custom bool inputs:enabled
+                custom bool inputs:enableSemanticLabels
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = [
+                    </Dex1/Graph/ROS_Dex1Camera/RenderProduct.outputs:execOut>
+                ]
+                custom string inputs:frameId = "dex1_camera"
+                custom uint inputs:frameSkipCount
+                custom string inputs:nodeNamespace = "dex1_camera"
+                custom string inputs:qosProfile
+                custom uint64 inputs:queueSize
+                custom token inputs:renderProductPath
+                prepend token inputs:renderProductPath.connect = [
+                    </Dex1/Graph/ROS_Dex1Camera/RenderProduct.outputs:renderProductPath>
+                ]
+                custom bool inputs:resetSimulationTimeOnStop = 1
+                custom string inputs:semanticLabelsTopicName
+                custom string inputs:srtxCompressionType
+                custom float2 inputs:stereoOffset
+                custom string inputs:topicName = "depth"
+                custom token inputs:type = "depth" (
+                    allowedTokens = ["rgb", "rgb_h264", "depth", "depth_pcl", "instance_segmentation", "semantic_segmentation", "bbox_2d_tight", "bbox_2d_loose", "bbox_3d", "rgb_hevc"]
+                )
+                custom bool inputs:useSystemTime
+                token node:type = "isaacsim.ros2.bridge.ROS2CameraHelper"
+                int node:typeVersion = 2
+            }
+        }
+    }
+}

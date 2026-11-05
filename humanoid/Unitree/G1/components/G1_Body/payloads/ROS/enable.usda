@@ -3,8 +3,229 @@
     defaultPrim = "G1_Body"
     metersPerUnit = 1
     upAxis = "Z"
+    doc = """G1_Body ROS=enable: publish head_camera rgb / depth / camera_info.
+
+The Camera prim lives on Sensor=sensors (payloads/Sensor/sensors.usda, mounted on
+torso_link/d435_link/head_camera). This layer only adds the OmniGraph publishers,
+so switching ROS never changes geometry or physics.
+
+Requires Sensor=sensors. With Sensor=none the cameraPrim target is unresolved and
+the graph is a no-op — set ROS=none in that case.
+
+Topics (relative, so they follow a robot namespace):
+  /head_camera/{rgb,depth,camera_info}
+
+Intrinsics come from the optical Camera (focalLength 18.147562,
+horizontalAperture 24.95, verticalAperture 13.936). Render size 640x480; the
+aperture is 16:9-ish so 1280x720 also works if you prefer native aspect.
+"""
 )
 
-over "G1_Body"
+def Xform "G1_Body"
 {
+    def "Graph"
+    {
+        def OmniGraph "ROS_G1BodyCamera"
+        {
+            token evaluationMode = "Automatic"
+            token evaluator:type = "execution"
+            token fabricCacheBacking = "StageWithoutHistory"
+            int2 fileFormatVersion = (1, 9)
+            token pipelineStage = "pipelineStageSimulation"
+
+            def OmniGraphNode "OnPlaybackTick"
+            {
+                token node:type = "omni.graph.action.OnPlaybackTick"
+                int node:typeVersion = 2
+                custom double outputs:deltaSeconds
+                custom double outputs:frame
+                custom uint outputs:tick (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom double outputs:time
+            }
+
+            def OmniGraphNode "RunOnce"
+            {
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = [
+                    </G1_Body/Graph/ROS_G1BodyCamera/OnPlaybackTick.outputs:tick>
+                ]
+                token node:type = "isaacsim.core.nodes.OgnIsaacRunOneSimulationFrame"
+                int node:typeVersion = 1
+                custom uint outputs:step (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+            }
+
+            def OmniGraphNode "Context"
+            {
+                custom uchar inputs:domain_id
+                custom bool inputs:useDomainIDEnvVar
+                token node:type = "isaacsim.ros2.bridge.ROS2Context"
+                int node:typeVersion = 2
+                custom uint64 outputs:context
+            }
+
+            def OmniGraphNode "RenderProduct"
+            {
+                custom rel inputs:cameraPrim = </G1_Body/torso_link/d435_link/head_camera> (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
+                custom bool inputs:enabled
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = [
+                    </G1_Body/Graph/ROS_G1BodyCamera/RunOnce.outputs:step>
+                ]
+                # 1280 x round(1280 * 13.936 / 24.95) = 715 -> use 720 (native-ish).
+                custom uint inputs:height = 720
+                custom rel inputs:renderProductPrim (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
+                custom uint inputs:width = 1280
+                token node:type = "isaacsim.core.nodes.IsaacCreateRenderProduct"
+                int node:typeVersion = 2
+                custom uint outputs:execOut (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom token outputs:renderProductPath
+            }
+
+            def OmniGraphNode "CameraInfoPublish"
+            {
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = [
+                    </G1_Body/Graph/ROS_G1BodyCamera/Context.outputs:context>
+                ]
+                custom bool inputs:enabled
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = [
+                    </G1_Body/Graph/ROS_G1BodyCamera/RenderProduct.outputs:execOut>
+                ]
+                custom string inputs:frameId = "head_camera"
+                custom string inputs:frameIdRight
+                custom uint inputs:frameSkipCount
+                custom string inputs:nodeNamespace = "head_camera"
+                custom string inputs:qosProfile
+                custom uint64 inputs:queueSize
+                custom token inputs:renderProductPath
+                prepend token inputs:renderProductPath.connect = [
+                    </G1_Body/Graph/ROS_G1BodyCamera/RenderProduct.outputs:renderProductPath>
+                ]
+                custom token inputs:renderProductPathRight
+                custom bool inputs:resetSimulationTimeOnStop = 1
+                custom string inputs:topicName = "camera_info"
+                custom string inputs:topicNameRight
+                custom bool inputs:useSystemTime
+                token node:type = "isaacsim.ros2.bridge.ROS2CameraInfoHelper"
+                int node:typeVersion = 1
+            }
+
+            def OmniGraphNode "RGBPublish"
+            {
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = [
+                    </G1_Body/Graph/ROS_G1BodyCamera/Context.outputs:context>
+                ]
+                custom bool inputs:enabled
+                custom bool inputs:enableSemanticLabels
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = [
+                    </G1_Body/Graph/ROS_G1BodyCamera/RenderProduct.outputs:execOut>
+                ]
+                custom string inputs:frameId = "head_camera"
+                custom uint inputs:frameSkipCount
+                custom string inputs:nodeNamespace = "head_camera"
+                custom string inputs:qosProfile
+                custom uint64 inputs:queueSize
+                custom token inputs:renderProductPath
+                prepend token inputs:renderProductPath.connect = [
+                    </G1_Body/Graph/ROS_G1BodyCamera/RenderProduct.outputs:renderProductPath>
+                ]
+                custom bool inputs:resetSimulationTimeOnStop = 1
+                custom string inputs:semanticLabelsTopicName
+                custom string inputs:srtxCompressionType
+                custom float2 inputs:stereoOffset
+                custom string inputs:topicName = "rgb"
+                custom token inputs:type = "rgb" (
+                    allowedTokens = ["rgb", "rgb_h264", "depth", "depth_pcl", "instance_segmentation", "semantic_segmentation", "bbox_2d_tight", "bbox_2d_loose", "bbox_3d", "rgb_hevc"]
+                )
+                custom bool inputs:useSystemTime
+                token node:type = "isaacsim.ros2.bridge.ROS2CameraHelper"
+                int node:typeVersion = 2
+            }
+
+            def OmniGraphNode "DepthPublish"
+            {
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = [
+                    </G1_Body/Graph/ROS_G1BodyCamera/Context.outputs:context>
+                ]
+                custom bool inputs:enabled
+                custom bool inputs:enableSemanticLabels
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = [
+                    </G1_Body/Graph/ROS_G1BodyCamera/RenderProduct.outputs:execOut>
+                ]
+                custom string inputs:frameId = "head_camera"
+                custom uint inputs:frameSkipCount
+                custom string inputs:nodeNamespace = "head_camera"
+                custom string inputs:qosProfile
+                custom uint64 inputs:queueSize
+                custom token inputs:renderProductPath
+                prepend token inputs:renderProductPath.connect = [
+                    </G1_Body/Graph/ROS_G1BodyCamera/RenderProduct.outputs:renderProductPath>
+                ]
+                custom bool inputs:resetSimulationTimeOnStop = 1
+                custom string inputs:semanticLabelsTopicName
+                custom string inputs:srtxCompressionType
+                custom float2 inputs:stereoOffset
+                custom string inputs:topicName = "depth"
+                custom token inputs:type = "depth" (
+                    allowedTokens = ["rgb", "rgb_h264", "depth", "depth_pcl", "instance_segmentation", "semantic_segmentation", "bbox_2d_tight", "bbox_2d_loose", "bbox_3d", "rgb_hevc"]
+                )
+                custom bool inputs:useSystemTime
+                token node:type = "isaacsim.ros2.bridge.ROS2CameraHelper"
+                int node:typeVersion = 2
+            }
+        }
+    }
 }

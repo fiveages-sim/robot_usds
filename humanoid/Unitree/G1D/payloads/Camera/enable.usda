@@ -1,0 +1,66 @@
+#usda 1.0
+(
+    defaultPrim = "G1D"
+    metersPerUnit = 1
+    upAxis = "Z"
+    doc = """G1D Camera=enable: turn on the camera publisher graphs.
+
+This layer carries **no OmniGraph of its own**. It only switches the child
+components' ROS variant to `enable`, and each component owns its publisher graph:
+
+  G1_Body  -> /head_camera/{rgb,depth,camera_info}
+              (graph in G1_Body/payloads/ROS/enable.usda)
+  Dex1 (L) -> /left_hand_camera/{rgb,depth,camera_info}
+              (graph in Dex1/payloads/ROS/enable.usda, Side=left overlay)
+  Dex1 (R) -> /right_hand_camera/{rgb,depth,camera_info}
+              (graph in Dex1/payloads/ROS/enable.usda, Side=right overlay)
+
+Keeping the graphs in the source assets means every robot that mounts G1_Body or
+Dex1 gets the same behaviour, and this file stays a pure switch.
+
+Requires Sensor=sensors and EE_*=dex1 so the Camera prims exist. With
+Sensor=none the render-product targets are unresolved and the graphs do nothing.
+"""
+)
+
+over "G1D"
+{
+    over "G1_Body" (
+        variants = {
+            string ROS = "enable"
+        }
+    )
+    {
+    }
+
+    over "G1_Arms"
+    {
+        over "left_wrist_yaw_link"
+        {
+            over "left_tcp"
+            {
+                over "Dex1" (
+                    variants = {
+                        string ROS = "enable"
+                    }
+                )
+                {
+                }
+            }
+        }
+
+        over "right_wrist_yaw_link"
+        {
+            over "right_tcp"
+            {
+                over "Dex1" (
+                    variants = {
+                        string ROS = "enable"
+                    }
+                )
+                {
+                }
+            }
+        }
+    }
+}
