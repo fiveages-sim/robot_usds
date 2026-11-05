@@ -116,19 +116,17 @@ over "G1D"
                 custom bool inputs:publishRobotDescription = 1
                 custom bool inputs:useSimTime = 1
                 custom bool inputs:enableArmsTargetManager = 1
-                # OCS2 .info 覆盖入口（空 = 用机器人描述默认值，G1D 默认 mobile_base_tcp）。
+                # OCS2 .info 覆盖入口（空 = 用机器人描述默认值 mobile_base_tcp）。
                 #
-                # 用途：让 full_body WBC 走另一份 config/ocs2/<name>.info。例如
-                #   "fixed_base_tcp"  → manipulatorModelType 0，规划里没有虚拟底盘，
-                #                        /cmd_vel 不发布，base 不参与优化。
-                # 注意：切换 info 会改变 MPC 的自由度构成，必须整份 .info 自洽
-                #       （removeJoints / inputCost / jointVelocityLimits / bimanualCoupling
-                #        等都要匹配），不能只改 manipulatorModelType。
-                # 目前 G1D 的 fixed_base_tcp.info 直接复用了 mobile_base 的
-                # bimanualCoupling 权重（50/25）。固定基座下底盘无法吸收双臂耦合误差，
-                # 只能靠关节速度，arm enable hold 的 maxVel 会超过
-                # kArmPolicyReleaseVelocityTolerance(0.1)，导致 LEFT/RIGHT_ARM_ENABLE 永不确认。
-                # 需要底盘锁定时，优先用运行时模式命令 BASE_LOCK，不要切 info。
+                # 【重要】这里留空即可，不要填 fixed_base_tcp：
+                #   fixed_base_tcp 是 manipulatorModelType 0（真·固定基座），规划里
+                #   没有虚拟底盘自由度。在它上面发 BASE_LOCK 没有意义（basePlan=0），
+                #   且缺少 mobile base 的输入维度，MPC 会持续输出无法收敛的关节速度
+                #   （实测 maxVel 卡在 0.195 rad/s，阈值 0.1），导致
+                #   LEFT/RIGHT_ARM_ENABLE 永远停在 WAITING_FOR_ENABLE_POLICY。
+                #
+                #   需要底盘不动时用运行时命令 BASE_LOCK（在 mobile_base_tcp 上
+                #   它会调用 stopBase() 并把 u_base 约束为 0），而不是切 info。
                 custom string inputs:infoFile = ""
                 token node:type = "fasim.ros2.nodes.ROS2ControlLaunch"
                 int node:typeVersion = 1
