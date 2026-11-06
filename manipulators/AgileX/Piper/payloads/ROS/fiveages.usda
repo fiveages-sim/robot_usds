@@ -41,32 +41,7 @@ def "Piper"
                 custom uint64 outputs:context
             }
 
-            def OmniGraphNode "ReadSimTime"
-            {
-                # In-process ros2_control (ROS=fiveages): controller_manager and
-                # /tf consumers run on sim time, so /clock must restart from 0 on
-                # Stop. Topic-bridge variant (payloads/ROS/enable.usda) keeps 0.
-                custom bool inputs:resetOnStop = 1
-                token node:type = "isaacsim.core.nodes.IsaacReadSimulationTime"
-                int node:typeVersion = 1
-                custom double outputs:simulationTime
-            }
 
-            def OmniGraphNode "PublishClock"
-            {
-                custom uint64 inputs:context
-                prepend uint64 inputs:context.connect = </Piper/Graph/ROS_Control/Context.outputs:context>
-                custom uint inputs:execIn (
-                    customData = {
-                        bool isExecution = 1
-                    }
-                )
-                prepend uint inputs:execIn.connect = </Piper/Graph/ROS_Control/OnPlaybackTick.outputs:tick>
-                custom double inputs:timeStamp
-                prepend double inputs:timeStamp.connect = </Piper/Graph/ROS_Control/ReadSimTime.outputs:simulationTime>
-                token node:type = "isaacsim.ros2.bridge.ROS2PublishClock"
-                int node:typeVersion = 1
-            }
 
             def OmniGraphNode "ROS2ControlLaunch"
             {
@@ -105,5 +80,73 @@ def "Piper"
                 )
             }
         }
+        # /clock on the physics step, in its own on-demand graph. OnPhysicsStep only
+        # fires in an on-demand (push) graph, so it cannot live in the Automatic
+        # ROS_Control graph. Publishing per physics step keeps /clock advancing one
+        # physics dt at a time; the render-frame OnPlaybackTick made it jump
+        # 0/3/4 physics steps per CM update, which is what made controller period
+        # jitter 0/0.015/0.020s instead of a steady 1/update_rate.
+        def OmniGraph "ROS_Clock"
+        {
+            token evaluationMode = "OnDemand"
+            token evaluator:type = "push"
+            token fabricCacheBacking = "StageWithoutHistory"
+            int2 fileFormatVersion = (1, 9)
+            token pipelineStage = "pipelineStageOnDemand"
+
+            def OmniGraphNode "Context" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom uchar inputs:domain_id
+                custom bool inputs:useDomainIDEnvVar
+                token node:type = "isaacsim.ros2.bridge.ROS2Context"
+                int node:typeVersion = 2
+                custom uint64 outputs:context
+            }
+
+            def OmniGraphNode "OnPhysicsStep" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                token node:type = "isaacsim.core.nodes.OnPhysicsStep"
+                int node:typeVersion = 1
+                custom double outputs:deltaSimulationTime
+                custom uint outputs:step (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+            }
+
+            def OmniGraphNode "ReadSimTime" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom bool inputs:resetOnStop = 1
+                token node:type = "isaacsim.core.nodes.IsaacReadSimulationTime"
+                int node:typeVersion = 1
+                custom double outputs:simulationTime
+            }
+
+            def OmniGraphNode "PublishClock" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </Piper/Graph/ROS_Clock/Context.outputs:context>
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </Piper/Graph/ROS_Clock/OnPhysicsStep.outputs:step>
+                custom double inputs:timeStamp
+                prepend double inputs:timeStamp.connect = </Piper/Graph/ROS_Clock/ReadSimTime.outputs:simulationTime>
+                token node:type = "isaacsim.ros2.bridge.ROS2PublishClock"
+                int node:typeVersion = 1
+            }
+        }
+
     }
 }
