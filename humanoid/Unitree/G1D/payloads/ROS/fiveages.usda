@@ -242,6 +242,17 @@ over "G1D"
                 custom uint64 outputs:context
             }
 
+            # Sim time for odom/TF stamps. OnPlaybackTick-driven (Automatic graph)
+            # but returns the true physics sim time; resetOnStop=1 matches ROS_Clock
+            # so /odom and /clock share one timeline. (Accidentally dropped once by
+            # an over-broad edit that only meant to relocate the /clock ReadSimTime.)
+            def OmniGraphNode "ReadSimTime"
+            {
+                custom bool inputs:resetOnStop = 1
+                token node:type = "isaacsim.core.nodes.IsaacReadSimulationTime"
+                int node:typeVersion = 1
+                custom double outputs:simulationTime
+            }
 
             def OmniGraphNode "ComputeOdometry"
             {
