@@ -139,6 +139,13 @@ def "RG75"
                                 uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
                             }
                         }
+
+                        # 左臂镜像：tip 与接触面同侧（X 取反）；5° 斜面也要反号，否则 tip 相对 Cube_02 偏 10°。
+                        over "pad_tcp"
+                        {
+                            double3 xformOp:translate = (0.08891501807609735, -0.010151291483851575, 0.07627577316617615)
+                            quatd xformOp:orient = (6.123233995736766e-17, -0.04361938736533589, -0.9990482215818578, -6.11740603377039e-17)
+                        }
                     }
                     "right" (
                         prepend payload = @./lower.usdc@
@@ -291,6 +298,12 @@ def "RG75"
                                 double3 xformOp:scale = (0.0826423046, 0.06600956694, 0.023)
                                 uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
                             }
+                        }
+
+                        # 左臂镜像：tip X 取反（与 upper canonical 对称）
+                        over "pad_tcp"
+                        {
+                            double3 xformOp:translate = (-0.09729051328036062, -0.00979405478733151, -0.05327087281722902)
                         }
                     }
                     "right" (
