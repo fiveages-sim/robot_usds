@@ -1,0 +1,315 @@
+#usda 1.0
+(
+    customLayerData = {
+        string creator = "URDF USD Converter v0.3.2"
+    }
+    endTimeCode = 1000000
+    kilogramsPerUnit = 1
+    metersPerUnit = 1
+    startTimeCode = 0
+    upAxis = "Z"
+)
+
+def Scope "Instances"
+{
+    def Xform "hip_roll_link" (
+        prepend references = @./geometries.usd@</Geometries/hip_roll_link>
+    )
+    {
+        over "hip_roll_link" (
+            apiSchemas = ["MaterialBindingAPI", "PhysicsCollisionAPI", "PhysicsMeshCollisionAPI"]
+        )
+        {
+            custom rel material:binding
+            prepend rel material:binding = </Instances/hip_roll_link/VisualMaterials/black_shell>
+            token physics:approximation = "convexHull"
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "black_shell" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/black_shell>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "hip_yaw_link" (
+        prepend references = @./geometries.usd@</Geometries/hip_yaw_link>
+    )
+    {
+        over "hip_yaw_link" (
+            apiSchemas = ["MaterialBindingAPI", "PhysicsCollisionAPI", "PhysicsMeshCollisionAPI"]
+        )
+        {
+            custom rel material:binding
+            prepend rel material:binding = </Instances/hip_yaw_link/VisualMaterials/silver>
+            token physics:approximation = "convexHull"
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "silver" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/silver>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "hip_pitch_link" (
+        prepend references = @./geometries.usd@</Geometries/hip_pitch_link>
+    )
+    {
+        over "hip_pitch_link" (
+            apiSchemas = ["MaterialBindingAPI", "PhysicsCollisionAPI", "PhysicsMeshCollisionAPI"]
+        )
+        {
+            custom rel material:binding
+            prepend rel material:binding = </Instances/hip_pitch_link/VisualMaterials/white_shell>
+            token physics:approximation = "convexHull"
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "white_shell" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/white_shell>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "hip_pitch_link_1" (
+        prepend references = @./geometries.usd@</Geometries/hip_pitch_link>
+    )
+    {
+        over "hip_pitch_link" (
+            apiSchemas = ["PhysicsCollisionAPI", "NewtonCollisionAPI", "PhysicsMeshCollisionAPI", "NewtonMeshCollisionAPI"]
+        )
+        {
+            token physics:approximation = "convexHull"
+            bool physics:collisionEnabled = 1
+            uniform token purpose = "guide"
+        }
+    }
+
+    def Xform "hip_pitch_link_1_1" (
+        prepend references = @./geometries.usd@</Geometries/hip_pitch_link_1>
+    )
+    {
+        over "hip_pitch_link_1" (
+            apiSchemas = ["MaterialBindingAPI", "PhysicsCollisionAPI", "PhysicsMeshCollisionAPI"]
+        )
+        {
+            custom rel material:binding
+            prepend rel material:binding = </Instances/hip_pitch_link_1_1/VisualMaterials/silver_1>
+            token physics:approximation = "convexHull"
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "silver_1" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/silver>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "hip_pitch_link_1_2" (
+        prepend references = @./geometries.usd@</Geometries/hip_pitch_link_1>
+    )
+    {
+        over "hip_pitch_link_1" (
+            apiSchemas = ["PhysicsCollisionAPI", "NewtonCollisionAPI", "PhysicsMeshCollisionAPI", "NewtonMeshCollisionAPI"]
+        )
+        {
+            token physics:approximation = "convexHull"
+            bool physics:collisionEnabled = 1
+            uniform token purpose = "guide"
+        }
+    }
+
+    def Xform "knee_link" (
+        prepend references = @./geometries.usd@</Geometries/knee_link>
+    )
+    {
+        over "knee_link" (
+            apiSchemas = ["MaterialBindingAPI", "PhysicsCollisionAPI", "PhysicsMeshCollisionAPI"]
+        )
+        {
+            custom rel material:binding
+            prepend rel material:binding = </Instances/knee_link/VisualMaterials/silver_2>
+            token physics:approximation = "convexHull"
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "silver_2" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/silver>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "knee_link_1" (
+        prepend references = @./geometries.usd@</Geometries/knee_link>
+    )
+    {
+        over "knee_link" (
+            apiSchemas = ["PhysicsCollisionAPI", "NewtonCollisionAPI", "PhysicsMeshCollisionAPI", "NewtonMeshCollisionAPI"]
+        )
+        {
+            token physics:approximation = "convexHull"
+            bool physics:collisionEnabled = 1
+            uniform token purpose = "guide"
+        }
+    }
+
+    def Xform "knee_link_1_1" (
+        prepend references = @./geometries.usd@</Geometries/knee_link_1>
+    )
+    {
+        over "knee_link_1" (
+            apiSchemas = ["MaterialBindingAPI", "PhysicsCollisionAPI", "PhysicsMeshCollisionAPI"]
+        )
+        {
+            custom rel material:binding
+            prepend rel material:binding = </Instances/knee_link_1_1/VisualMaterials/black_shell_1>
+            token physics:approximation = "convexHull"
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "black_shell_1" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/black_shell>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "knee_link_1_2" (
+        prepend references = @./geometries.usd@</Geometries/knee_link_1>
+    )
+    {
+        over "knee_link_1" (
+            apiSchemas = ["PhysicsCollisionAPI", "NewtonCollisionAPI", "PhysicsMeshCollisionAPI", "NewtonMeshCollisionAPI"]
+        )
+        {
+            token physics:approximation = "convexHull"
+            bool physics:collisionEnabled = 1
+            uniform token purpose = "guide"
+        }
+    }
+
+    def Xform "ankle_pitch_link" (
+        prepend references = @./geometries.usd@</Geometries/ankle_pitch_link>
+    )
+    {
+        over "ankle_pitch_link" (
+            apiSchemas = ["MaterialBindingAPI", "PhysicsCollisionAPI", "PhysicsMeshCollisionAPI"]
+        )
+        {
+            custom rel material:binding
+            prepend rel material:binding = </Instances/ankle_pitch_link/VisualMaterials/black_shell_2>
+            token physics:approximation = "convexHull"
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "black_shell_2" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/black_shell>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "tn__ankle_roll_link001_qR" (
+        prepend references = @./geometries.usd@</Geometries/tn__ankle_roll_link001_qR>
+    )
+    {
+        over "tn__ankle_roll_link001_qR" (
+            apiSchemas = ["MaterialBindingAPI", "PhysicsCollisionAPI", "PhysicsMeshCollisionAPI"]
+        )
+        {
+            custom rel material:binding
+            prepend rel material:binding = </Instances/tn__ankle_roll_link001_qR/VisualMaterials/white_shell_1>
+            token physics:approximation = "convexHull"
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "white_shell_1" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/white_shell>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "tn__ankle_roll_link001_qR_1" (
+        prepend references = @./geometries.usd@</Geometries/tn__ankle_roll_link001_qR>
+    )
+    {
+        over "tn__ankle_roll_link001_qR" (
+            apiSchemas = ["PhysicsCollisionAPI", "NewtonCollisionAPI", "PhysicsMeshCollisionAPI", "NewtonMeshCollisionAPI"]
+        )
+        {
+            token physics:approximation = "convexHull"
+            bool physics:collisionEnabled = 1
+            uniform token purpose = "guide"
+        }
+    }
+
+    def Xform "ankle_roll_link" (
+        prepend references = @./geometries.usd@</Geometries/ankle_roll_link>
+    )
+    {
+        over "ankle_roll_link" (
+            apiSchemas = ["MaterialBindingAPI", "PhysicsCollisionAPI", "PhysicsMeshCollisionAPI"]
+        )
+        {
+            custom rel material:binding
+            prepend rel material:binding = </Instances/ankle_roll_link/VisualMaterials/black_shell_3>
+            token physics:approximation = "convexHull"
+        }
+
+        def Scope "VisualMaterials"
+        {
+            def Material "black_shell_3" (
+                instanceable = true
+                prepend references = @./materials.usda@</Materials/black_shell>
+            )
+            {
+            }
+        }
+    }
+
+    def Xform "ankle_roll_link_1" (
+        prepend references = @./geometries.usd@</Geometries/ankle_roll_link>
+    )
+    {
+        over "ankle_roll_link" (
+            apiSchemas = ["PhysicsCollisionAPI", "NewtonCollisionAPI", "PhysicsMeshCollisionAPI", "NewtonMeshCollisionAPI"]
+        )
+        {
+            token physics:approximation = "convexHull"
+            bool physics:collisionEnabled = 1
+            uniform token purpose = "guide"
+        }
+    }
+}
+

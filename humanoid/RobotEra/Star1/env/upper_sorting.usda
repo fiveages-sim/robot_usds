@@ -1,0 +1,30 @@
+#usda 1.0
+(
+    defaultPrim = "World"
+    metersPerUnit = 1
+    upAxis = "Z"
+    doc = "STAR1 upper-body only (Lower=none) + dual Xhand1 — sorting demo starter."
+)
+
+def Xform "World"
+{
+    def "Star1" (
+        prepend payload = @../Star1.usda@
+        variants = {
+            string Physics = "physx"
+            string ROS = "fiveages"
+            string Robot = "robot"
+            string Sensor = "sensors"
+            string Upper = "upper"
+            string Lower = "none"
+            string EE_Left = "xhand1"
+            string EE_Right = "xhand1"
+        }
+    )
+    {
+        quatd xformOp:orient = (1, 0, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+    }
+}

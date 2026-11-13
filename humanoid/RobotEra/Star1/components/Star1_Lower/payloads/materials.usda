@@ -1,0 +1,102 @@
+#usda 1.0
+(
+    defaultPrim = "Materials"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Scope "Materials"
+{
+    def Material "black_shell"
+    {
+        token outputs:displacement
+        prepend token outputs:mdl:displacement.connect = </Materials/black_shell/black_shell.outputs:out>
+        prepend token outputs:mdl:surface.connect = </Materials/black_shell/black_shell.outputs:out>
+        prepend token outputs:mdl:volume.connect = </Materials/black_shell/black_shell.outputs:out>
+        token outputs:surface
+        token outputs:volume
+
+        def Shader "black_shell" (
+            apiSchemas = ["NodeDefAPI"]
+        )
+        {
+            token info:implementationSource = "sourceAsset"
+            asset info:mdl:sourceAsset = @../Textures/pbr.mdl@
+            token info:mdl:sourceAsset:subIdentifier = "gltf_material"
+            # GLB black_shell baseColorFactor=(0,0,0); do not lift to XbotL's 0.10 grey.
+            color3f inputs:base_color_factor = (0, 0, 0)
+            float inputs:base_alpha = 1
+            float inputs:metallic_factor = 0.5
+            float inputs:roughness_factor = 0.5
+            float inputs:specular_factor = 1.0
+            color3f inputs:specular_color_factor = (1, 1, 1)
+            float inputs:emissive_strength = 0
+            color3f inputs:emissive_factor = (0, 0, 0)
+            int inputs:alpha_mode = 0
+            float inputs:alpha_cutoff = 0
+            token outputs:out
+        }
+    }
+
+    def Material "silver"
+    {
+        token outputs:displacement
+        prepend token outputs:mdl:displacement.connect = </Materials/silver/silver.outputs:out>
+        prepend token outputs:mdl:surface.connect = </Materials/silver/silver.outputs:out>
+        prepend token outputs:mdl:volume.connect = </Materials/silver/silver.outputs:out>
+        token outputs:surface
+        token outputs:volume
+
+        def Shader "silver" (
+            apiSchemas = ["NodeDefAPI"]
+        )
+        {
+            token info:implementationSource = "sourceAsset"
+            asset info:mdl:sourceAsset = @../Textures/pbr.mdl@
+            token info:mdl:sourceAsset:subIdentifier = "gltf_material"
+            # GLB silver: base≈0.45, metallic default 1.0, roughness 0.5 — was crushed to plastic 0.25 metal.
+            color3f inputs:base_color_factor = (0.55, 0.55, 0.58)
+            float inputs:base_alpha = 1
+            float inputs:metallic_factor = 1.0
+            float inputs:roughness_factor = 0.28
+            float inputs:specular_factor = 1.0
+            color3f inputs:specular_color_factor = (1, 1, 1)
+            float inputs:emissive_strength = 0
+            color3f inputs:emissive_factor = (0, 0, 0)
+            int inputs:alpha_mode = 0
+            float inputs:alpha_cutoff = 0
+            token outputs:out
+        }
+    }
+
+    def Material "white_shell"
+    {
+        token outputs:displacement
+        prepend token outputs:mdl:displacement.connect = </Materials/white_shell/white_shell.outputs:out>
+        prepend token outputs:mdl:surface.connect = </Materials/white_shell/white_shell.outputs:out>
+        prepend token outputs:mdl:volume.connect = </Materials/white_shell/white_shell.outputs:out>
+        token outputs:surface
+        token outputs:volume
+
+        def Shader "white_shell" (
+            apiSchemas = ["NodeDefAPI"]
+        )
+        {
+            token info:implementationSource = "sourceAsset"
+            asset info:mdl:sourceAsset = @../Textures/pbr.mdl@
+            token info:mdl:sourceAsset:subIdentifier = "gltf_material"
+            color3f inputs:base_color_factor = (0.8, 0.8, 0.8)
+            float inputs:base_alpha = 1
+            float inputs:metallic_factor = 0.5
+            float inputs:roughness_factor = 0.5
+            float inputs:specular_factor = 1.0
+            color3f inputs:specular_color_factor = (1, 1, 1)
+            float inputs:emissive_strength = 0
+            color3f inputs:emissive_factor = (0, 0, 0)
+            int inputs:alpha_mode = 0
+            float inputs:alpha_cutoff = 0
+            token outputs:out
+        }
+    }
+
+}

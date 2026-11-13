@@ -1,0 +1,69 @@
+#usda 1.0
+(
+    defaultPrim = "XbotL"
+    metersPerUnit = 1
+    upAxis = "Z"
+    doc = """Legs mount: FixedJoint Upper.waist_roll_link ↔ Lower.waist_roll_link; Lower ArtRoot deleted.
+Also releases Upper floating_base (world-fixed for upper-only sorting) so full robot is free-floating."""
+)
+
+over "XbotL"
+{
+    # Upper-only demos pin ArtRoot via floating_base → non-rigid /base.
+    # With legs attached deactivate it so the humanoid is free-floating.
+    # (active=false beats Physics payload opinions; jointEnabled alone does not.)
+    over "XbotL_Upper"
+    {
+        over "joints"
+        {
+            over "floating_base" (
+                active = false
+            )
+            {
+            }
+
+            over "root_joint" (
+                active = false
+            )
+            {
+            }
+        }
+    }
+
+    def "XbotL_Lower" (
+        delete apiSchemas = ["PhysicsArticulationRootAPI", "PhysxArticulationAPI", "NewtonArticulationRootAPI"]
+        prepend payload = @../../components/XbotL_Lower/XbotL_Lower.usda@
+        variants = {
+            string Physics = "physx"
+            string ROS = "none"
+            string Sensor = "none"
+            string Robot = "none"
+        }
+    )
+    {
+        # Match Upper waist_roll_link (URDF waist_roll_fixed_joint rpy=π/2 0 π/2)
+        # so legs sit correctly before PhysX FixedJoint resolves.
+        quatd xformOp:orient = (0.5, 0.5, 0.5, 0.5)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "waist_roll_link" (
+            delete apiSchemas = ["PhysicsArticulationRootAPI", "PhysxArticulationAPI", "NewtonArticulationRootAPI"]
+        )
+        {
+            def PhysicsFixedJoint "AssemblerFixedJoint"
+            {
+                rel physics:body0 = </XbotL/XbotL_Upper/waist_roll_link>
+                rel physics:body1 = </XbotL/XbotL_Lower/waist_roll_link>
+                bool physics:collisionEnabled = 0
+                bool physics:excludeFromArticulation = 0
+                bool physics:jointEnabled = 1
+                point3f physics:localPos0 = (0, 0, 0)
+                point3f physics:localPos1 = (0, 0, 0)
+                quatf physics:localRot0 = (1, 0, 0, 0)
+                quatf physics:localRot1 = (1, 0, 0, 0)
+            }
+        }
+    }
+}

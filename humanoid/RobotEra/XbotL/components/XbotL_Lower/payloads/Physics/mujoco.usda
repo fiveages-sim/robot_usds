@@ -1,0 +1,20 @@
+#usda 1.0
+(
+    defaultPrim = "XbotL_Lower"
+    metersPerUnit = 1
+    subLayers = [
+        @./physics.usda@
+    ]
+    upAxis = "Z"
+)
+
+over "XbotL_Lower"
+{
+    over "waist_roll_link" (
+        prepend apiSchemas = ["NewtonArticulationRootAPI"]
+    )
+    {
+        bool newton:selfCollisionEnabled = 0
+        uniform float mjc:gravcomp = 1
+    }
+}

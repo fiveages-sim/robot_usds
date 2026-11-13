@@ -1,0 +1,77 @@
+#usda 1.0
+(
+    defaultPrim = "Star1"
+    metersPerUnit = 1
+    upAxis = "Z"
+    doc = """RobotEra STAR1 — G1-style 2-part (Upper + Lower) + EE Xhand1 payload.
+Import: no hands / no URDF D455 mesh (isaac:=true type:=none); Sensor=sensors mounts library d455 + optical Camera;
+EE=xhand1 mounts robots/dexhands/RobotEra/Xhand1 on wrist_roll_link.
+Default Lower=none for upper-body sorting demos.
+Collision = visual GLB/OBJ hulls (convex), not simplified boxes."""
+)
+
+def Xform "Star1" (
+    prepend references = @./payloads/base.usda@
+    variants = {
+        string Physics = "physx"
+        string ROS = "none"
+        string Robot = "none"
+        string Sensor = "none"
+        string Upper = "upper"
+        string Lower = "none"
+        string EE_Left = "none"
+        string EE_Right = "none"
+    }
+    prepend variantSets = ["Physics", "ROS", "Sensor", "Upper", "Lower", "EE_Left", "EE_Right"]
+    append variantSets = ["Robot"]
+)
+{
+    variantSet "Physics" = {
+        "none" ( prepend payload = @./payloads/Physics/none.usda@ ) { }
+        "physics" ( prepend payload = @./payloads/Physics/physics.usda@ ) { }
+        "physx" ( prepend payload = @./payloads/Physics/physx.usda@ ) { }
+        "mujoco" ( prepend payload = @./payloads/Physics/mujoco.usda@ ) { }
+    }
+    variantSet "ROS" = {
+        "none" ( prepend payload = @./payloads/ROS/none.usda@ ) { }
+        "enable" ( prepend payload = @./payloads/ROS/enable.usda@ ) { }
+        "fiveages" ( prepend payload = @./payloads/ROS/fiveages.usda@ ) { }
+    }
+    variantSet "Sensor" = {
+        "none" ( prepend payload = @./payloads/Sensor/none.usda@ ) { }
+        "sensors" ( prepend payload = @./payloads/Sensor/sensors.usda@ ) { }
+    }
+    variantSet "Upper" = {
+        "None" ( prepend payload = @./payloads/Upper/none.usda@ ) { }
+        "upper" ( prepend payload = @./payloads/Upper/upper.usda@ ) {
+            prepend rel isaac:physics:robotJoints = </Star1/Star1_Upper>
+            prepend rel isaac:physics:robotLinks = </Star1/Star1_Upper>
+        }
+    }
+    variantSet "Lower" = {
+        "None" ( prepend payload = @./payloads/Lower/none.usda@ ) { }
+        "none" ( prepend payload = @./payloads/Lower/none.usda@ ) { }
+        "lower" ( prepend payload = @./payloads/Lower/lower.usda@ ) {
+            prepend rel isaac:physics:robotJoints = </Star1/Star1_Lower>
+            prepend rel isaac:physics:robotLinks = </Star1/Star1_Lower>
+        }
+    }
+    variantSet "EE_Left" = {
+        "none" ( prepend payload = @./payloads/EE_Left/none.usda@ ) { }
+        "xhand1" ( prepend payload = @./payloads/EE_Left/xhand1.usda@ ) {
+            prepend rel isaac:physics:robotJoints = </Star1/Star1_Upper/left_wrist_roll_link/Xhand1>
+            prepend rel isaac:physics:robotLinks = </Star1/Star1_Upper/left_wrist_roll_link/Xhand1>
+        }
+    }
+    variantSet "EE_Right" = {
+        "none" ( prepend payload = @./payloads/EE_Right/none.usda@ ) { }
+        "xhand1" ( prepend payload = @./payloads/EE_Right/xhand1.usda@ ) {
+            prepend rel isaac:physics:robotJoints = </Star1/Star1_Upper/right_wrist_roll_link/Xhand1>
+            prepend rel isaac:physics:robotLinks = </Star1/Star1_Upper/right_wrist_roll_link/Xhand1>
+        }
+    }
+    variantSet "Robot" = {
+        "none" ( prepend payload = @./payloads/Robot/none.usda@ ) { }
+        "robot" ( prepend payload = @./payloads/Robot/robot.usda@ ) { }
+    }
+}

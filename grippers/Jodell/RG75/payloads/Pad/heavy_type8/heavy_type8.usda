@@ -1,0 +1,407 @@
+#usda 1.0
+(
+    defaultPrim = "RG75"
+    doc = """Pad=heavy_type8 — Track C + nested arm.
+
+Two tip USDC (right-arm canonical; Cube collision authored in GUI):
+  lower.usdc → left_finger  (pad_left)
+  upper.usdc → right_finger (pad_right)
+
+Mapping (TF aligned to heavy_type7):
+  arm=right:
+    left_finger  → lower.usdc + mount rotateXYZ=(-90, 0, 0)
+    right_finger → upper.usdc + mount rotateXYZ=(90, 180, 0)
+
+  arm=left:
+    left_finger  → lower.usdc + same mount + visual Sx=-1 + X-mirrored cubes
+    right_finger → upper.usdc + same mount + visual Sx=-1 + X-mirrored cubes
+
+Side sticky: pad_left / pad_right (existing nested-arm overs; no Side edit).
+Visual mesh collision OFF; cubes only. type1-like (both tips on fingers).
+"""
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def "RG75"
+{
+    over "Looks"
+    {
+        def Material "PadMaterials" (
+            prepend apiSchemas = ["PhysicsMaterialAPI"]
+        )
+        {
+            float physics:dynamicFriction = 1
+            float physics:staticFriction = 1
+        }
+    }
+
+    over "left_finger"
+    {
+        rel physics:simulationOwner
+
+        over "visuals"
+        {
+            over "finger_support"
+            {
+                token visibility = "inherited"
+            }
+        }
+
+        over "left_finger_pad"
+        {
+            def "pad_left" (
+                prepend variantSets = ["arm"]
+                variants = {
+                    string arm = "left"
+                }
+            )
+            {
+                variantSet "arm" = {
+                    "left" (
+                        prepend payload = @./lower.usdc@
+                    ) {
+                        token visibility = "inherited"
+                        double3 xformOp:translate = (0, 0, 0)
+                        double3 xformOp:rotateXYZ = (-90, 0, 0)
+                        double3 xformOp:scale = (1, 1, 1)
+                        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+
+                        over "visual"
+                        {
+                            double3 xformOp:translate = (0, 0, 0)
+                            double3 xformOp:rotateXYZ = (0, 0, 0)
+                            double3 xformOp:scale = (-1, 1, 1)
+                            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+
+                            over "Mesh_0" (
+                                delete apiSchemas = [
+                                    "PhysicsCollisionAPI",
+                                    "PhysxCollisionAPI",
+                                    "PhysicsMeshCollisionAPI",
+                                    "PhysxConvexDecompositionCollisionAPI",
+                                    "PhysxConvexHullCollisionAPI"
+                                ]
+                            )
+                            {
+                                bool physics:collisionEnabled = 0
+                            }
+                        }
+
+                        over "collision"
+                        {
+                            token visibility = "invisible"
+
+                            over "Cube"
+                            {
+                                rel physics:simulationOwner
+                                prepend rel material:binding:physics = </RG75/Looks/PadMaterials>
+                                bool physics:collisionEnabled = 1
+                                double3 xformOp:translate = (0.04678105769, -0.03316445117, 0.04079322788)
+                                quatd xformOp:orient = (1, 0, 0, 0)
+                                double3 xformOp:scale = (0.0160248536, 0.11, 0.1)
+                                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                            }
+
+                            over "Cube_01"
+                            {
+                                rel physics:simulationOwner
+                                prepend rel material:binding:physics = </RG75/Looks/PadMaterials>
+                                bool physics:collisionEnabled = 1
+                                double3 xformOp:translate = (0.05914209385, -0.03316445117, 0.07860452779)
+                                quatd xformOp:orient = (0.9990482216, 0, 0, -0.04361938737)
+                                double3 xformOp:scale = (0.02039604621, 0.11, 0.02423741024)
+                                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                            }
+
+                            over "Cube_02"
+                            {
+                                rel physics:simulationOwner
+                                prepend rel material:binding:physics = </RG75/Looks/PadMaterials>
+                                bool physics:collisionEnabled = 1
+                                double3 xformOp:translate = (0.09294367791, -0.03316445117, 0.07860452779)
+                                quatd xformOp:orient = (0.9990482216, 0, 0, -0.04361938737)
+                                double3 xformOp:scale = (0.005, 0.11, 0.02423741024)
+                                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                            }
+
+                            over "Cube_03"
+                            {
+                                rel physics:simulationOwner
+                                prepend rel material:binding:physics = </RG75/Looks/PadMaterials>
+                                bool physics:collisionEnabled = 1
+                                double3 xformOp:translate = (0.08821727414, -0.03316445117, 0.08054619465)
+                                quatd xformOp:orient = (0.9990482216, 0, 0, -0.04361938737)
+                                double3 xformOp:scale = (0.005, 0.11, 0.0208447156)
+                                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                            }
+
+                            over "Cube_04"
+                            {
+                                rel physics:simulationOwner
+                                prepend rel material:binding:physics = </RG75/Looks/PadMaterials>
+                                bool physics:collisionEnabled = 1
+                                double3 xformOp:translate = (0.07742680498, -0.03316445117, 0.08425520755)
+                                quatd xformOp:orient = (0.9990482216, 0, 0, -0.04361938737)
+                                double3 xformOp:scale = (0.0160757833, 0.11, 0.01335648964)
+                                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                            }
+
+                            over "Cube_05"
+                            {
+                                rel physics:simulationOwner
+                                prepend rel material:binding:physics = </RG75/Looks/PadMaterials>
+                                bool physics:collisionEnabled = 1
+                                double3 xformOp:translate = (0.08965295503, -0.03316445117, 0.06996867975)
+                                quatd xformOp:orient = (0.92222315, -0.01677408939, -0.3841898108, -0.0402651323)
+                                double3 xformOp:scale = (0.005, 0.11, 0.004786787205)
+                                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                            }
+
+                            over "Cube_06"
+                            {
+                                rel physics:simulationOwner
+                                prepend rel material:binding:physics = </RG75/Looks/PadMaterials>
+                                bool physics:collisionEnabled = 1
+                                double3 xformOp:translate = (0.02192434185, -0.0439640755, 0.04415602436)
+                                quatd xformOp:orient = (0.9663760793, 0, 0.2571327932, 0)
+                                double3 xformOp:scale = (0.0160248536, 0.017, 0.098)
+                                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                            }
+
+                            over "Cube_07"
+                            {
+                                rel physics:simulationOwner
+                                prepend rel material:binding:physics = </RG75/Looks/PadMaterials>
+                                bool physics:collisionEnabled = 1
+                                double3 xformOp:translate = (0.02192434185, 0.01342425447, 0.04415602436)
+                                quatd xformOp:orient = (0.9663760793, 0, 0.2571327932, 0)
+                                double3 xformOp:scale = (0.0160248536, 0.017, 0.098)
+                                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                            }
+                        }
+                    }
+                    "right" (
+                        prepend payload = @./lower.usdc@
+                    ) {
+                        token visibility = "inherited"
+                        double3 xformOp:translate = (0, 0, 0)
+                        double3 xformOp:rotateXYZ = (-90, 0, 0)
+                        double3 xformOp:scale = (1, 1, 1)
+                        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+
+                        over "visual"
+                        {
+                            over "Mesh_0" (
+                                delete apiSchemas = [
+                                    "PhysicsCollisionAPI",
+                                    "PhysxCollisionAPI",
+                                    "PhysicsMeshCollisionAPI",
+                                    "PhysxConvexDecompositionCollisionAPI",
+                                    "PhysxConvexHullCollisionAPI"
+                                ]
+                            )
+                            {
+                                bool physics:collisionEnabled = 0
+                            }
+                        }
+
+                        over "collision"
+                        {
+                            token visibility = "invisible"
+
+                            over "Cube"
+                            {
+                                rel physics:simulationOwner
+                                prepend rel material:binding:physics = </RG75/Looks/PadMaterials>
+                                bool physics:collisionEnabled = 1
+                            }
+
+                            over "Cube_01"
+                            {
+                                rel physics:simulationOwner
+                                prepend rel material:binding:physics = </RG75/Looks/PadMaterials>
+                                bool physics:collisionEnabled = 1
+                            }
+
+                            over "Cube_02"
+                            {
+                                rel physics:simulationOwner
+                                prepend rel material:binding:physics = </RG75/Looks/PadMaterials>
+                                bool physics:collisionEnabled = 1
+                            }
+
+                            over "Cube_03"
+                            {
+                                rel physics:simulationOwner
+                                prepend rel material:binding:physics = </RG75/Looks/PadMaterials>
+                                bool physics:collisionEnabled = 1
+                            }
+
+                            over "Cube_04"
+                            {
+                                rel physics:simulationOwner
+                                prepend rel material:binding:physics = </RG75/Looks/PadMaterials>
+                                bool physics:collisionEnabled = 1
+                            }
+
+                            over "Cube_05"
+                            {
+                                rel physics:simulationOwner
+                                prepend rel material:binding:physics = </RG75/Looks/PadMaterials>
+                                bool physics:collisionEnabled = 1
+                            }
+
+                            over "Cube_06"
+                            {
+                                rel physics:simulationOwner
+                                prepend rel material:binding:physics = </RG75/Looks/PadMaterials>
+                                bool physics:collisionEnabled = 1
+                            }
+
+                            over "Cube_07"
+                            {
+                                rel physics:simulationOwner
+                                prepend rel material:binding:physics = </RG75/Looks/PadMaterials>
+                                bool physics:collisionEnabled = 1
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    over "right_finger"
+    {
+        rel physics:simulationOwner
+
+        over "visuals"
+        {
+            over "finger_support"
+            {
+                token visibility = "inherited"
+            }
+        }
+
+        over "right_finger_pad"
+        {
+            def "pad_right" (
+                prepend variantSets = ["arm"]
+                variants = {
+                    string arm = "left"
+                }
+            )
+            {
+                variantSet "arm" = {
+                    "left" (
+                        prepend payload = @./upper.usdc@
+                    ) {
+                        token visibility = "inherited"
+                        double3 xformOp:translate = (0, 0, 0)
+                        double3 xformOp:rotateXYZ = (90, 180, 0)
+                        double3 xformOp:scale = (1, 1, 1)
+                        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+
+                        over "visual"
+                        {
+                            double3 xformOp:translate = (0, 0, 0)
+                            double3 xformOp:rotateXYZ = (-180, 0, 0)
+                            double3 xformOp:scale = (-1, 1, 1)
+                            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+
+                            over "Mesh_1" (
+                                delete apiSchemas = [
+                                    "PhysicsCollisionAPI",
+                                    "PhysxCollisionAPI",
+                                    "PhysicsMeshCollisionAPI",
+                                    "PhysxConvexDecompositionCollisionAPI",
+                                    "PhysxConvexHullCollisionAPI"
+                                ]
+                            )
+                            {
+                                bool physics:collisionEnabled = 0
+                            }
+                        }
+
+                        over "collision"
+                        {
+                            token visibility = "invisible"
+
+                            over "Cube"
+                            {
+                                rel physics:simulationOwner
+                                prepend rel material:binding:physics = </RG75/Looks/PadMaterials>
+                                bool physics:collisionEnabled = 1
+                                double3 xformOp:translate = (-0.09126755326, -0.03237449841, -0.02748630935)
+                                quatd xformOp:orient = (0.9990482216, 0, 0, 0.04361938737)
+                                double3 xformOp:scale = (0.02476806794, 0.1106267522, 0.07)
+                                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                            }
+
+                            over "Cube_01"
+                            {
+                                rel physics:simulationOwner
+                                prepend rel material:binding:physics = </RG75/Looks/PadMaterials>
+                                bool physics:collisionEnabled = 1
+                                double3 xformOp:translate = (-0.04739012744, -0.03237449841, -0.004829672018)
+                                quatd xformOp:orient = (1, 0, 0, 0)
+                                double3 xformOp:scale = (0.07516289965, 0.1106267522, 0.022)
+                                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                            }
+                        }
+                    }
+                    "right" (
+                        prepend payload = @./upper.usdc@
+                    ) {
+                        token visibility = "inherited"
+                        double3 xformOp:translate = (0, 0, 0)
+                        double3 xformOp:rotateXYZ = (90, 180, 0)
+                        double3 xformOp:scale = (1, 1, 1)
+                        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+
+                        over "visual"
+                        {
+                            over "Mesh_1" (
+                                delete apiSchemas = [
+                                    "PhysicsCollisionAPI",
+                                    "PhysxCollisionAPI",
+                                    "PhysicsMeshCollisionAPI",
+                                    "PhysxConvexDecompositionCollisionAPI",
+                                    "PhysxConvexHullCollisionAPI"
+                                ]
+                            )
+                            {
+                                bool physics:collisionEnabled = 0
+                            }
+                        }
+
+                        over "collision"
+                        {
+                            token visibility = "invisible"
+
+                            over "Cube"
+                            {
+                                rel physics:simulationOwner
+                                prepend rel material:binding:physics = </RG75/Looks/PadMaterials>
+                                bool physics:collisionEnabled = 1
+                            }
+
+                            over "Cube_01"
+                            {
+                                rel physics:simulationOwner
+                                prepend rel material:binding:physics = </RG75/Looks/PadMaterials>
+                                bool physics:collisionEnabled = 1
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    over "gripper_base"
+    {
+        rel physics:simulationOwner
+    }
+}

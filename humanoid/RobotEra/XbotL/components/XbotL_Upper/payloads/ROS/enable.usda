@@ -1,0 +1,122 @@
+#usda 1.0
+(
+    defaultPrim = "XbotL_Upper"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def "XbotL_Upper"
+{
+    def "Graph"
+    {
+        def OmniGraph "ROS_JointStates"
+        {
+            token evaluationMode = "Automatic"
+            token evaluator:type = "execution"
+            token pipelineStage = "pipelineStageSimulation"
+
+            def OmniGraphNode "OnPlaybackTick"
+            {
+                token node:type = "omni.graph.action.OnPlaybackTick"
+                int node:typeVersion = 2
+                custom uint outputs:tick (
+                    customData = { bool isExecution = 1 }
+                )
+            }
+
+            def OmniGraphNode "Context"
+            {
+                token node:type = "isaacsim.ros2.bridge.ROS2Context"
+                int node:typeVersion = 2
+                custom uint64 outputs:context
+            }
+
+            def OmniGraphNode "ReadSimTime"
+            {
+                token node:type = "isaacsim.core.nodes.IsaacReadSimulationTime"
+                int node:typeVersion = 1
+                custom double outputs:simulationTime
+            }
+
+            def OmniGraphNode "isaac_read_joint_state_node"
+            {
+                custom uint inputs:execIn (
+                    customData = { bool isExecution = 1 }
+                )
+                prepend uint inputs:execIn.connect = </XbotL_Upper/Graph/ROS_JointStates/OnPlaybackTick.outputs:tick>
+                custom rel inputs:prim = </XbotL_Upper/base_link>
+                token node:type = "isaacsim.sensors.physics.IsaacReadJointState"
+                int node:typeVersion = 1
+                custom uint outputs:execOut (
+                    customData = { bool isExecution = 1 }
+                )
+                custom token[] outputs:jointNames
+                custom double[] outputs:jointPositions
+                custom double[] outputs:jointVelocities
+                custom double[] outputs:jointEfforts
+            }
+
+            def OmniGraphNode "PublisherJointState"
+            {
+                custom uint inputs:execIn (
+                    customData = { bool isExecution = 1 }
+                )
+                prepend uint inputs:execIn.connect = </XbotL_Upper/Graph/ROS_JointStates/isaac_read_joint_state_node.outputs:execOut>
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </XbotL_Upper/Graph/ROS_JointStates/Context.outputs:context>
+                custom double inputs:timeStamp
+                prepend double inputs:timeStamp.connect = </XbotL_Upper/Graph/ROS_JointStates/ReadSimTime.outputs:simulationTime>
+                custom token[] inputs:jointNames
+                prepend token[] inputs:jointNames.connect = </XbotL_Upper/Graph/ROS_JointStates/isaac_read_joint_state_node.outputs:jointNames>
+                custom double[] inputs:position
+                prepend double[] inputs:position.connect = </XbotL_Upper/Graph/ROS_JointStates/isaac_read_joint_state_node.outputs:jointPositions>
+                custom double[] inputs:velocity
+                prepend double[] inputs:velocity.connect = </XbotL_Upper/Graph/ROS_JointStates/isaac_read_joint_state_node.outputs:jointVelocities>
+                custom double[] inputs:effort
+                prepend double[] inputs:effort.connect = </XbotL_Upper/Graph/ROS_JointStates/isaac_read_joint_state_node.outputs:jointEfforts>
+                custom string inputs:topicName = "/isaac/joint_states"
+                token node:type = "isaacsim.ros2.bridge.ROS2PublishJointState"
+                int node:typeVersion = 1
+            }
+
+            def OmniGraphNode "SubscriberJointState"
+            {
+                custom uint inputs:execIn (
+                    customData = { bool isExecution = 1 }
+                )
+                prepend uint inputs:execIn.connect = </XbotL_Upper/Graph/ROS_JointStates/OnPlaybackTick.outputs:tick>
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </XbotL_Upper/Graph/ROS_JointStates/Context.outputs:context>
+                custom string inputs:topicName = "/isaac/joint_command"
+                token node:type = "isaacsim.ros2.bridge.ROS2SubscribeJointState"
+                int node:typeVersion = 1
+                custom uint outputs:execOut (
+                    customData = { bool isExecution = 1 }
+                )
+                custom token[] outputs:jointNames
+                custom double[] outputs:positionCommand
+                custom double[] outputs:velocityCommand
+                custom double[] outputs:effortCommand
+            }
+
+            def OmniGraphNode "ArticulationController"
+            {
+                custom uint inputs:execIn (
+                    customData = { bool isExecution = 1 }
+                )
+                prepend uint inputs:execIn.connect = </XbotL_Upper/Graph/ROS_JointStates/SubscriberJointState.outputs:execOut>
+                custom rel inputs:targetPrim = </XbotL_Upper/base_link>
+                custom token[] inputs:jointNames
+                prepend token[] inputs:jointNames.connect = </XbotL_Upper/Graph/ROS_JointStates/SubscriberJointState.outputs:jointNames>
+                custom double[] inputs:positionCommand
+                prepend double[] inputs:positionCommand.connect = </XbotL_Upper/Graph/ROS_JointStates/SubscriberJointState.outputs:positionCommand>
+                custom double[] inputs:velocityCommand
+                prepend double[] inputs:velocityCommand.connect = </XbotL_Upper/Graph/ROS_JointStates/SubscriberJointState.outputs:velocityCommand>
+                custom double[] inputs:effortCommand
+                prepend double[] inputs:effortCommand.connect = </XbotL_Upper/Graph/ROS_JointStates/SubscriberJointState.outputs:effortCommand>
+                token node:type = "isaacsim.core.nodes.IsaacArticulationController"
+                int node:typeVersion = 1
+            }
+        }
+    }
+}

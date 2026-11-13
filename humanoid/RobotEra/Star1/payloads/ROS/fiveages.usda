@@ -1,0 +1,192 @@
+#usda 1.0
+(
+    defaultPrim = "Star1"
+    metersPerUnit = 1
+    upAxis = "Z"
+    doc = """In-process ros2_control via fasim.ros2.nodes.ROS2ControlLaunch.
+
+No topic JointState bridge (CM owns waist/arms/neck/hands only — not legs).
+info_file=fixed_base_tcp from robotera_star1 ros2_controllers.yaml (19 DOF upper).
+
+Lower=lower is OK for visuals: Star1 Lower payload keeps floating_base so the
+pelvis stays world-fixed (matches fixed_base_tcp + RSP/ATM frames). Leg DOFs
+stay on PhysX drives, outside ros2_control interfaces.
+
+ArticulationRoot / targetPrim = /Star1/Star1_Upper/base_link.
+robot=robotera_star1, mode=full_body. EE_Left / EE_Right → left_type / right_type
+(xhand1 | none). Keep child Upper/Lower ROS=none so CM is sole joint owner.
+"""
+)
+
+over "Star1"
+{
+    over "Star1_Upper" (
+        variants = {
+            string ROS = "none"
+        }
+    )
+    {
+    }
+
+    def Scope "Graph"
+    {
+        def OmniGraph "ROS_Control"
+        {
+            token evaluationMode = "Automatic"
+            token evaluator:type = "execution"
+            token fabricCacheBacking = "StageWithoutHistory"
+            int2 fileFormatVersion = (1, 9)
+            token pipelineStage = "pipelineStageSimulation"
+
+            def OmniGraphNode "OnPlaybackTick"
+            {
+                token node:type = "omni.graph.action.OnPlaybackTick"
+                int node:typeVersion = 2
+                custom double outputs:deltaSeconds
+                custom double outputs:frame
+                custom uint outputs:tick (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom double outputs:time
+            }
+
+            def OmniGraphNode "Context"
+            {
+                custom uchar inputs:domain_id
+                custom bool inputs:useDomainIDEnvVar
+                token node:type = "isaacsim.ros2.bridge.ROS2Context"
+                int node:typeVersion = 2
+                custom uint64 outputs:context
+            }
+
+            def OmniGraphNode "ROS2ControlLaunch"
+            {
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </Star1/Graph/ROS_Control/OnPlaybackTick.outputs:tick>
+                custom rel inputs:targetPrim = </Star1/Star1_Upper/base_link> (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
+                custom string inputs:robot = "robotera_star1"
+                custom string inputs:type = ""
+                custom token inputs:mode = "full_body"
+                custom string inputs:profile = ""
+                custom string inputs:namespace = ""
+                custom bool inputs:enableGripper = 1
+                custom string inputs:rosSetup = ""
+                custom bool inputs:publishRobotDescription = 1
+                custom bool inputs:useSimTime = 1
+                custom bool inputs:enableArmsTargetManager = 1
+                custom string inputs:infoFile = ""
+                token node:type = "fasim.ros2.nodes.ROS2ControlLaunch"
+                int node:typeVersion = 1
+                custom uint outputs:execOut (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+            }
+
+            def OmniGraphNode "ros2_service_prim" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </Star1/Graph/ROS_Control/Context.outputs:context>
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </Star1/Graph/ROS_Control/OnPlaybackTick.outputs:tick>
+                custom string inputs:getAttributeServiceName
+                custom string inputs:getAttributesServiceName
+                custom string inputs:nodeNamespace
+                custom string inputs:primsServiceName
+                custom string inputs:qosProfile
+                custom string inputs:setAttributeServiceName
+                token node:type = "isaacsim.ros2.bridge.ROS2ServicePrim"
+                int node:typeVersion = 1
+                custom uint outputs:execOut (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                uniform token ui:nodegraph:node:expansionState = "open"
+            }
+        }
+
+        def OmniGraph "ROS_Clock"
+        {
+            token evaluationMode = "OnDemand"
+            token evaluator:type = "push"
+            token fabricCacheBacking = "StageWithoutHistory"
+            int2 fileFormatVersion = (1, 9)
+            token pipelineStage = "pipelineStageOnDemand"
+
+            def OmniGraphNode "Context" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom uchar inputs:domain_id
+                custom bool inputs:useDomainIDEnvVar
+                token node:type = "isaacsim.ros2.bridge.ROS2Context"
+                int node:typeVersion = 2
+                custom uint64 outputs:context
+            }
+
+            def OmniGraphNode "OnPhysicsStep" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                token node:type = "isaacsim.core.nodes.OnPhysicsStep"
+                int node:typeVersion = 1
+                custom double outputs:deltaSimulationTime
+                custom uint outputs:step (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+            }
+
+            def OmniGraphNode "ReadSimTime" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom bool inputs:resetOnStop = 1
+                token node:type = "isaacsim.core.nodes.IsaacReadSimulationTime"
+                int node:typeVersion = 1
+                custom double outputs:simulationTime
+            }
+
+            def OmniGraphNode "PublishClock" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </Star1/Graph/ROS_Clock/Context.outputs:context>
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </Star1/Graph/ROS_Clock/OnPhysicsStep.outputs:step>
+                custom double inputs:timeStamp
+                prepend double inputs:timeStamp.connect = </Star1/Graph/ROS_Clock/ReadSimTime.outputs:simulationTime>
+                token node:type = "isaacsim.ros2.bridge.ROS2PublishClock"
+                int node:typeVersion = 1
+            }
+        }
+    }
+}

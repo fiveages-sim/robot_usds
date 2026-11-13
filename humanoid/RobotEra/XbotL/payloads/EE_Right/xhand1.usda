@@ -1,0 +1,60 @@
+#usda 1.0
+(
+    defaultPrim = "XbotL"
+    metersPerUnit = 1
+    upAxis = "Z"
+    doc = "Xhand1 on right_arm_flange_link (URDF hand rpy about distal Z; no flange plate)."
+)
+
+over "XbotL"
+{
+    over "XbotL_Upper"
+    {
+        over "right_wrist_yaw_link"
+        {
+            over "right_arm_flange_link"
+            {
+                def "Xhand1" (
+                    prepend payload = @../../../../../dexhands/RobotEra/Xhand1/Xhand1.usda@
+                    variants = {
+                        string Physics = "physx"
+                        string Flange = "none"
+                        string Side = "right"
+                        string Sensor = "none"
+                        string Robot = "none"
+                        string ROS = "none"
+                    }
+                )
+                {
+                    quatd xformOp:orient = (0.7071067811865476, 0, 0, -0.7071067811865476)
+                    double3 xformOp:scale = (1, 1, 1)
+                    double3 xformOp:translate = (0, 0, 0)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+                    over "root_joint" (
+                        active = false
+                        delete apiSchemas = ["PhysicsArticulationRootAPI", "NewtonArticulationRootAPI"]
+                    )
+                    {
+                    }
+
+                    over "hand_base"
+                    {
+                        def PhysicsFixedJoint "AssemblerFixedJoint"
+                        {
+                            # URDF right_hand_base_joint: rpy="0 0 -1.5708" on flange (after +Z 0.1135).
+                            # localRot0 must match Xhand1 xformOp:orient or Play snaps to identity.
+                            rel physics:body0 = </XbotL/XbotL_Upper/right_wrist_yaw_link/right_arm_flange_link>
+                            rel physics:body1 = </XbotL/XbotL_Upper/right_wrist_yaw_link/right_arm_flange_link/Xhand1/hand_base>
+                            bool physics:excludeFromArticulation = 0
+                            point3f physics:localPos0 = (0, 0, 0)
+                            point3f physics:localPos1 = (0, 0, 0)
+                            quatf physics:localRot0 = (0.7071067811865476, 0, 0, -0.7071067811865476)
+                            quatf physics:localRot1 = (1, 0, 0, 0)
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,25 @@
+#usda 1.0
+(
+    defaultPrim = "XbotL"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+over "XbotL"
+{
+    def "XbotL_Upper" (
+        prepend payload = @../../components/XbotL_Upper/XbotL_Upper.usda@
+        variants = {
+            string Physics = "physx"
+            string ROS = "none"
+            string Sensor = "none"
+            string Robot = "none"
+        }
+    )
+    {
+        quatd xformOp:orient = (1, 0, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+    }
+}

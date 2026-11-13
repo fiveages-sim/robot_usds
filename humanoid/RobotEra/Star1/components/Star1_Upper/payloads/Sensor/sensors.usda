@@ -1,0 +1,46 @@
+#usda 1.0
+(
+    defaultPrim = "Star1_Upper"
+    metersPerUnit = 1
+    upAxis = "Z"
+    doc = """Head RealSense D455 on empty realsense_link (isaac:=true URDF has no camera mesh).
+
+d455.usd from sensors/realsense (same frame as realsense_link / ROS optical).
+Optical Camera sibling on realsense_optical_frame (ROS +Z → Camera -Z via 180° Y).
+Neck mesh still has a glass window; d455 is the sensor body under it.
+"""
+)
+
+def "Star1_Upper"
+{
+    over "realsense_link"
+    {
+        def "d455" (
+            prepend payload = @../../../../../../../sensors/realsense/d455.usd@
+        )
+        {
+            quatd xformOp:orient = (1, 0, 0, 0)
+            double3 xformOp:scale = (1, 1, 1)
+            double3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+        }
+
+        over "realsense_optical_frame"
+        {
+            def Camera "head_camera"
+            {
+                float2 clippingRange = (0.01, 10000000)
+                float focalLength = 1.93
+                float focusDistance = 400
+                float horizontalAperture = 3.896
+                float verticalAperture = 2.453
+                token projection = "perspective"
+                # Look along ROS optical +Z (USD Camera default -Z → 180° about Y)
+                quatd xformOp:orient = (0, 1, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+        }
+    }
+}

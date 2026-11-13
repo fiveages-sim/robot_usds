@@ -1,0 +1,66 @@
+#usda 1.0
+(
+    defaultPrim = "Star1"
+    metersPerUnit = 1
+    upAxis = "Z"
+    doc = """Legs mount: FixedJoint Upper.base_link ↔ Lower.base_link (pelvis); Lower ArtRoot deleted.
+
+Keep Upper floating_base ACTIVE so pelvis stays world-fixed. robotera_star1 OCS2 is
+fixed_base_tcp (upper-only); releasing floating_base with legs attached made the
+base free-float → RSP/OCS2/ATM frames and fiveages display break. Leg DOFs are NOT
+in ros2_control / OCS2 — PhysX joint drives hold the standing pose under the fixed
+pelvis. For a free-floating full humanoid later, add a separate Lower option that
+deactivates floating_base (loco stack), not fiveages fixed_base_tcp.
+"""
+)
+
+over "Star1"
+{
+    over "Star1_Upper"
+    {
+        over "joints"
+        {
+            # Keep floating_base enabled (pins base_link → non-RB /base ≈ world).
+            over "root_joint" (
+                active = false
+            )
+            {
+            }
+        }
+    }
+
+    def "Star1_Lower" (
+        delete apiSchemas = ["PhysicsArticulationRootAPI", "PhysxArticulationAPI", "NewtonArticulationRootAPI"]
+        prepend payload = @../../components/Star1_Lower/Star1_Lower.usda@
+        variants = {
+            string Physics = "physx"
+            string ROS = "none"
+            string Sensor = "none"
+            string Robot = "none"
+        }
+    )
+    {
+        quatd xformOp:orient = (1, 0, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "base_link" (
+            delete apiSchemas = ["PhysicsArticulationRootAPI", "PhysxArticulationAPI", "NewtonArticulationRootAPI"]
+        )
+        {
+            def PhysicsFixedJoint "AssemblerFixedJoint"
+            {
+                rel physics:body0 = </Star1/Star1_Upper/base_link>
+                rel physics:body1 = </Star1/Star1_Lower/base_link>
+                bool physics:collisionEnabled = 0
+                bool physics:excludeFromArticulation = 0
+                bool physics:jointEnabled = 1
+                point3f physics:localPos0 = (0, 0, 0)
+                point3f physics:localPos1 = (0, 0, 0)
+                quatf physics:localRot0 = (1, 0, 0, 0)
+                quatf physics:localRot1 = (1, 0, 0, 0)
+            }
+        }
+    }
+}

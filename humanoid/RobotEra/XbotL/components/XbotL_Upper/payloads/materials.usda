@@ -1,0 +1,180 @@
+#usda 1.0
+(
+    defaultPrim = "Materials"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Scope "Materials"
+{
+    def Material "black_shell"
+    {
+        token outputs:displacement
+        prepend token outputs:mdl:displacement.connect = </Materials/black_shell/black_shell.outputs:out>
+        prepend token outputs:mdl:surface.connect = </Materials/black_shell/black_shell.outputs:out>
+        prepend token outputs:mdl:volume.connect = </Materials/black_shell/black_shell.outputs:out>
+        token outputs:surface
+        token outputs:volume
+
+        def Shader "black_shell" (
+            apiSchemas = ["NodeDefAPI"]
+        )
+        {
+            token info:implementationSource = "sourceAsset"
+            asset info:mdl:sourceAsset = @../Textures/pbr.mdl@
+            token info:mdl:sourceAsset:subIdentifier = "gltf_material"
+            color3f inputs:base_color_factor = (0.10196, 0.10196, 0.10196)
+            float inputs:base_alpha = 1
+            float inputs:metallic_factor = 0.35
+            float inputs:roughness_factor = 0.2
+            float inputs:specular_factor = 1.0
+            color3f inputs:specular_color_factor = (1.5, 1.5, 1.5)
+            float inputs:emissive_strength = 0
+            color3f inputs:emissive_factor = (0, 0, 0)
+            int inputs:alpha_mode = 0
+            float inputs:alpha_cutoff = 0
+            token outputs:out
+        }
+    }
+
+    def Material "tn__XYKkpHvh5"
+    {
+        # Chest logo: OmniPBR + alpha cutout (white baked to transparent in logo.png).
+        asset inputs:ColorTexture = @../Textures/logo.png@
+        float inputs:ior = 1.5
+        float inputs:metallic = 0.25
+        float inputs:opacity = 1
+        float inputs:roughness = 0.35
+        token inputs:wrapMode = "clamp"
+        token outputs:displacement
+        prepend token outputs:mdl:displacement.connect = </Materials/tn__XYKkpHvh5/Shader.outputs:out>
+        prepend token outputs:mdl:surface.connect = </Materials/tn__XYKkpHvh5/Shader.outputs:out>
+        prepend token outputs:mdl:volume.connect = </Materials/tn__XYKkpHvh5/Shader.outputs:out>
+        token outputs:surface
+        prepend token outputs:surface.connect = </Materials/tn__XYKkpHvh5/PreviewSurface.outputs:surface>
+        token outputs:volume
+
+        def Shader "Shader" (
+            apiSchemas = ["NodeDefAPI"]
+        )
+        {
+            token info:implementationSource = "sourceAsset"
+            asset info:mdl:sourceAsset = @OmniPBR.mdl@
+            token info:mdl:sourceAsset:subIdentifier = "OmniPBR"
+            color3f inputs:diffuse_color_constant = (1, 1, 1)
+            asset inputs:diffuse_texture = @../Textures/logo.png@ (
+                colorSpace = "sRGB"
+            )
+            float inputs:metallic_constant = 0.25
+            float inputs:reflection_roughness_constant = 0.35
+            float inputs:specular_level = 0.8
+            bool inputs:enable_opacity = 1
+            bool inputs:enable_opacity_texture = 1
+            asset inputs:opacity_texture = @../Textures/logo.png@
+            int inputs:opacity_mode = 0
+            float inputs:opacity_threshold = 0.15
+            token outputs:out
+        }
+
+        def Shader "PreviewSurface" (
+            apiSchemas = ["NodeDefAPI"]
+        )
+        {
+            token info:id = "UsdPreviewSurface"
+            prepend color3f inputs:diffuseColor.connect = </Materials/tn__XYKkpHvh5/ColorTexture.outputs:rgb>
+            prepend float inputs:ior.connect = </Materials/tn__XYKkpHvh5.inputs:ior>
+            prepend float inputs:metallic.connect = </Materials/tn__XYKkpHvh5.inputs:metallic>
+            prepend float inputs:opacity.connect = </Materials/tn__XYKkpHvh5/ColorTexture.outputs:a>
+            prepend float inputs:roughness.connect = </Materials/tn__XYKkpHvh5.inputs:roughness>
+            float inputs:opacityThreshold = 0.15
+            token outputs:surface
+        }
+
+        def Shader "ColorTexture" (
+            apiSchemas = ["NodeDefAPI"]
+        )
+        {
+            token info:id = "UsdUVTexture"
+            float4 inputs:fallback = (0, 0, 0, 0)
+            prepend asset inputs:file.connect = </Materials/tn__XYKkpHvh5.inputs:ColorTexture>
+            token inputs:sourceColorSpace = "sRGB"
+            prepend float2 inputs:st.connect = </Materials/tn__XYKkpHvh5/Primvar_st_float2.outputs:result>
+            token inputs:wrapS = "clamp"
+            prepend token inputs:wrapS.connect = </Materials/tn__XYKkpHvh5.inputs:wrapMode>
+            token inputs:wrapT = "clamp"
+            prepend token inputs:wrapT.connect = </Materials/tn__XYKkpHvh5.inputs:wrapMode>
+            float3 outputs:rgb
+            float outputs:a
+        }
+
+        def Shader "Primvar_st_float2" (
+            apiSchemas = ["NodeDefAPI"]
+        )
+        {
+            token info:id = "UsdPrimvarReader_float2"
+            string inputs:varname = "st"
+            float2 outputs:result
+        }
+    }
+
+    def Material "white_shell_001"
+    {
+        token outputs:displacement
+        prepend token outputs:mdl:displacement.connect = </Materials/white_shell_001/white_shell_001.outputs:out>
+        prepend token outputs:mdl:surface.connect = </Materials/white_shell_001/white_shell_001.outputs:out>
+        prepend token outputs:mdl:volume.connect = </Materials/white_shell_001/white_shell_001.outputs:out>
+        token outputs:surface
+        token outputs:volume
+
+        def Shader "white_shell_001" (
+            apiSchemas = ["NodeDefAPI"]
+        )
+        {
+            token info:implementationSource = "sourceAsset"
+            asset info:mdl:sourceAsset = @../Textures/pbr.mdl@
+            token info:mdl:sourceAsset:subIdentifier = "gltf_material"
+            color3f inputs:base_color_factor = (0.8, 0.8, 0.8)
+            float inputs:base_alpha = 1
+            float inputs:metallic_factor = 0.25
+            float inputs:roughness_factor = 0.28
+            float inputs:specular_factor = 1.0
+            color3f inputs:specular_color_factor = (1.5, 1.5, 1.5)
+            float inputs:emissive_strength = 0
+            color3f inputs:emissive_factor = (0, 0, 0)
+            int inputs:alpha_mode = 0
+            float inputs:alpha_cutoff = 0
+            token outputs:out
+        }
+    }
+
+    def Material "screen"
+    {
+        token outputs:displacement
+        prepend token outputs:mdl:displacement.connect = </Materials/screen/screen.outputs:out>
+        prepend token outputs:mdl:surface.connect = </Materials/screen/screen.outputs:out>
+        prepend token outputs:mdl:volume.connect = </Materials/screen/screen.outputs:out>
+        token outputs:surface
+        token outputs:volume
+
+        def Shader "screen" (
+            apiSchemas = ["NodeDefAPI"]
+        )
+        {
+            token info:implementationSource = "sourceAsset"
+            asset info:mdl:sourceAsset = @../Textures/pbr.mdl@
+            token info:mdl:sourceAsset:subIdentifier = "gltf_material"
+            color3f inputs:base_color_factor = (0.02, 0.02, 0.02)
+            float inputs:base_alpha = 1
+            float inputs:metallic_factor = 0.6
+            float inputs:roughness_factor = 0.15
+            float inputs:specular_factor = 1.0
+            color3f inputs:specular_color_factor = (1.2, 1.2, 1.2)
+            float inputs:emissive_strength = 0
+            color3f inputs:emissive_factor = (0, 0, 0)
+            int inputs:alpha_mode = 0
+            float inputs:alpha_cutoff = 0
+            token outputs:out
+        }
+    }
+
+}
