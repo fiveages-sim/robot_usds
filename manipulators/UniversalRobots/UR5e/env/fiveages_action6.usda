@@ -1,0 +1,229 @@
+#usda 1.0
+(
+    defaultPrim = "World"
+    doc = """UR5e + Robotiq 2F-85 Sensor=action6 on the table_optical fruits scene.
+
+ROS=fiveages, Physics=physx, EE=robotiq85. Camera default: Lens=fov_boost.
+Joints spawn at ocs2 home_1 (RoboAPI Home). OCS2 infoFile=flange (eeFrame=flange).
+Scene global_camera + ROS_Camera graph deactivated (wrist camera only). Same
+fruits payload / apple·lime PhysX overs as CR5 env/fruits.usda. Open
+env/fiveages.usda for the gripper-only Grid scene.
+"""
+    endTimeCode = 1000000
+    metersPerUnit = 1
+    startTimeCode = 0
+    timeCodesPerSecond = 60
+    upAxis = "Z"
+    customLayerData = {
+        dictionary cameraSettings = {
+            dictionary Front = {
+                double3 position = (5, 0, 0)
+                double radius = 5
+            }
+            dictionary Perspective = {
+                double3 position = (1.25, 0.44, 1.25)
+                double3 target = (-0.2, -0.2, 0.85)
+            }
+            dictionary Right = {
+                double3 position = (0, -5, 0)
+                double radius = 5
+            }
+            dictionary Top = {
+                double3 position = (0, 0, 5)
+                double radius = 5
+            }
+            string boundCamera = "/OmniverseKit_Persp"
+        }
+        dictionary omni_layer = {
+            string authoring_layer = "./fiveages_action6.usda"
+        }
+    }
+)
+
+def Xform "World"
+{
+    def "UR5e" (
+        prepend references = @../UR5e.usda@
+        customData = {
+            string fasim_asset_root_rel_path = "Isaac/Robots_Multiphysics/UniversalRobots/ur5e/ur5e.usda"
+            string fasim_initial_joint_pose = "home_1"
+        }
+        variants = {
+            string EE = "robotiq85"
+            string Gripper = "none"
+            string Physics = "physx"
+            string ROS = "fiveages"
+            string Robot = "none"
+            string Sensor = "none"
+        }
+    )
+    {
+        # Same table-side pose as CR5 env/fruits.usda.
+        quatd xformOp:orient = (6.123233995736766e-17, 0, 0, 1)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (-0.4, 0, 0.8)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        # ocs2_arm_controller home_1 / RoboAPI Home (rad→deg).
+        # [1.0128, -1.6481, 1.6395, -1.5622, -1.5708, -0.5580]
+        over "joints"
+        {
+            over "shoulder_pan_joint"
+            {
+                float drive:angular:physics:targetPosition = 58.029165
+                float state:angular:physics:position = 58.029165
+                float state:angular:physics:velocity = 0
+            }
+
+            over "shoulder_lift_joint"
+            {
+                float drive:angular:physics:targetPosition = -94.429174
+                float state:angular:physics:position = -94.429174
+                float state:angular:physics:velocity = 0
+            }
+
+            over "elbow_joint"
+            {
+                float drive:angular:physics:targetPosition = 93.936431
+                float state:angular:physics:position = 93.936431
+                float state:angular:physics:velocity = 0
+            }
+
+            over "wrist_1_joint"
+            {
+                float drive:angular:physics:targetPosition = -89.507467
+                float state:angular:physics:position = -89.507467
+                float state:angular:physics:velocity = 0
+            }
+
+            over "wrist_2_joint"
+            {
+                float drive:angular:physics:targetPosition = -90.00021
+                float state:angular:physics:position = -90.00021
+                float state:angular:physics:velocity = 0
+            }
+
+            over "wrist_3_joint"
+            {
+                float drive:angular:physics:targetPosition = -31.971045
+                float state:angular:physics:position = -31.971045
+                float state:angular:physics:velocity = 0
+            }
+        }
+
+        over "wrist_3_link"
+        {
+            over "flange"
+            {
+                over "tool0"
+                {
+                    over "EE" (
+                        variants = {
+                            string Sensor = "action6"
+                        }
+                    )
+                    {
+                        quatd xformOp:orient = (0.707106781186, 0, 0, 0.707106781186)
+                        double3 xformOp:translate = (0, 0, 0.007598894)
+
+                        over "base_link"
+                        {
+                            over "AssemblerFixedJoint"
+                            {
+                                point3f physics:localPos0 = (0, 0, 0.007598894)
+                                quatf physics:localRot0 = (0.707106781186, 0, 0, 0.707106781186)
+                            }
+                        }
+
+                        over "wrist_camera" (
+                            variants = {
+                                string Lens = "fov_boost"
+                                string ROS = "enable"
+                            }
+                        )
+                        {
+                        }
+                    }
+                }
+            }
+        }
+
+        over "Graph"
+        {
+            over "ROS_Control"
+            {
+                over "ROS2ControlLaunch"
+                {
+                    # ur5e_description/config/ocs2/flange.info — EE track ROS-Industrial flange.
+                    custom string inputs:infoFile = "flange"
+                    custom token inputs:mode (
+                        allowedTokens = ["demo", "split_body", "full_body"]
+                    )
+                    custom rel inputs:targetPrim = </World/UR5e/root_joint>
+                    custom bool state:configured
+                }
+            }
+        }
+    }
+
+    def "scene" (
+        prepend payload = @../../../../../environment/fiveages_env/tasks/table_optical/fruits.usda@
+    )
+    {
+        # Disable optical-table global_camera + its ROS publish graph; use wrist camera only.
+        over "empty"
+        {
+            over "global_camera" (
+                active = false
+            )
+            {
+            }
+
+            over "Graph"
+            {
+                over "ROS_Camera" (
+                    active = false
+                )
+                {
+                }
+            }
+        }
+
+        over "apple"
+        {
+            over "Geometry"
+            {
+                over "model_normalized_0_vis_obj" (
+                    prepend apiSchemas = ["PhysxRigidBodyAPI"]
+                )
+                {
+                }
+            }
+        }
+
+        over "lime"
+        {
+            over "Geometry"
+            {
+                over "lime_01_obj_00" (
+                    prepend apiSchemas = ["PhysxRigidBodyAPI"]
+                )
+                {
+                    def Xform "center"
+                    {
+                        quatd xformOp:orient = (1, 0, 0, 0)
+                        double3 xformOp:scale = (1, 1, 1)
+                        double3 xformOp:translate = (0, 0, 0.027)
+                        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                    }
+                }
+            }
+        }
+    }
+}
+
+def PhysicsScene "PhysicsScene" (
+    prepend apiSchemas = ["NewtonSceneAPI", "PhysxSceneAPI"]
+)
+{
+}

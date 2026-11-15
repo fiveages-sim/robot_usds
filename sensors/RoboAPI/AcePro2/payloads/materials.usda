@@ -1,0 +1,400 @@
+#usda 1.0
+(
+    defaultPrim = "AcePro2"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "AcePro2"
+{
+    def Scope "Looks"
+    {
+        def Material "ace_body"
+        {
+            token outputs:mdl:displacement.connect = </AcePro2/Looks/ace_body/OmniPBR.outputs:out>
+            token outputs:mdl:surface.connect = </AcePro2/Looks/ace_body/OmniPBR.outputs:out>
+            token outputs:mdl:volume.connect = </AcePro2/Looks/ace_body/OmniPBR.outputs:out>
+            token outputs:surface.connect = </AcePro2/Looks/ace_body/PreviewSurface.outputs:surface>
+
+            def Shader "PreviewSurface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.02121901, 0.024157632, 0.02842604)
+                float inputs:metallic = 0.1
+                float inputs:roughness = 0.64
+                token outputs:surface
+            }
+
+            def Shader "OmniPBR"
+            {
+                uniform token info:implementationSource = "sourceAsset"
+                uniform asset info:mdl:sourceAsset = @OmniPBR.mdl@
+                uniform token info:mdl:sourceAsset:subIdentifier = "OmniPBR"
+                color3f inputs:diffuse_color_constant = (0.02121901, 0.024157632, 0.02842604)
+                bool inputs:enable_opacity = 0
+                float inputs:metallic_constant = 0.1
+                float inputs:reflection_roughness_constant = 0.64
+                token outputs:out
+            }
+        }
+
+        def Material "ace_bezel"
+        {
+            token outputs:mdl:displacement.connect = </AcePro2/Looks/ace_bezel/OmniPBR.outputs:out>
+            token outputs:mdl:surface.connect = </AcePro2/Looks/ace_bezel/OmniPBR.outputs:out>
+            token outputs:mdl:volume.connect = </AcePro2/Looks/ace_bezel/OmniPBR.outputs:out>
+            token outputs:surface.connect = </AcePro2/Looks/ace_bezel/PreviewSurface.outputs:surface>
+
+            def Shader "PreviewSurface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.008023193, 0.009721218, 0.012286488)
+                float inputs:metallic = 0.25
+                float inputs:roughness = 0.42
+                token outputs:surface
+            }
+
+            def Shader "OmniPBR"
+            {
+                uniform token info:implementationSource = "sourceAsset"
+                uniform asset info:mdl:sourceAsset = @OmniPBR.mdl@
+                uniform token info:mdl:sourceAsset:subIdentifier = "OmniPBR"
+                color3f inputs:diffuse_color_constant = (0.008023193, 0.009721218, 0.012286488)
+                bool inputs:enable_opacity = 0
+                float inputs:metallic_constant = 0.25
+                float inputs:reflection_roughness_constant = 0.42
+                token outputs:out
+            }
+        }
+
+        def Material "ace_edge"
+        {
+            token outputs:mdl:displacement.connect = </AcePro2/Looks/ace_edge/OmniPBR.outputs:out>
+            token outputs:mdl:surface.connect = </AcePro2/Looks/ace_edge/OmniPBR.outputs:out>
+            token outputs:mdl:volume.connect = </AcePro2/Looks/ace_edge/OmniPBR.outputs:out>
+            token outputs:surface.connect = </AcePro2/Looks/ace_edge/PreviewSurface.outputs:surface>
+
+            def Shader "PreviewSurface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.09084171, 0.11193243, 0.13013647)
+                float inputs:metallic = 0.65
+                float inputs:roughness = 0.32
+                token outputs:surface
+            }
+
+            def Shader "OmniPBR"
+            {
+                uniform token info:implementationSource = "sourceAsset"
+                uniform asset info:mdl:sourceAsset = @OmniPBR.mdl@
+                uniform token info:mdl:sourceAsset:subIdentifier = "OmniPBR"
+                color3f inputs:diffuse_color_constant = (0.09084171, 0.11193243, 0.13013647)
+                bool inputs:enable_opacity = 0
+                float inputs:metallic_constant = 0.65
+                float inputs:reflection_roughness_constant = 0.32
+                token outputs:out
+            }
+        }
+
+        def Material "ace_red"
+        {
+            token outputs:mdl:displacement.connect = </AcePro2/Looks/ace_red/OmniPBR.outputs:out>
+            token outputs:mdl:surface.connect = </AcePro2/Looks/ace_red/OmniPBR.outputs:out>
+            token outputs:mdl:volume.connect = </AcePro2/Looks/ace_red/OmniPBR.outputs:out>
+            token outputs:surface.connect = </AcePro2/Looks/ace_red/PreviewSurface.outputs:surface>
+
+            def Shader "PreviewSurface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.7011019, 0.034339808, 0.045186203)
+                float inputs:metallic = 0.18
+                float inputs:roughness = 0.38
+                token outputs:surface
+            }
+
+            def Shader "OmniPBR"
+            {
+                uniform token info:implementationSource = "sourceAsset"
+                uniform asset info:mdl:sourceAsset = @OmniPBR.mdl@
+                uniform token info:mdl:sourceAsset:subIdentifier = "OmniPBR"
+                color3f inputs:diffuse_color_constant = (0.7011019, 0.034339808, 0.045186203)
+                bool inputs:enable_opacity = 0
+                float inputs:metallic_constant = 0.18
+                float inputs:reflection_roughness_constant = 0.38
+                token outputs:out
+            }
+        }
+
+        def Material "ace_black"
+        {
+            token outputs:mdl:displacement.connect = </AcePro2/Looks/ace_black/OmniPBR.outputs:out>
+            token outputs:mdl:surface.connect = </AcePro2/Looks/ace_black/OmniPBR.outputs:out>
+            token outputs:mdl:volume.connect = </AcePro2/Looks/ace_black/OmniPBR.outputs:out>
+            token outputs:surface.connect = </AcePro2/Looks/ace_black/PreviewSurface.outputs:surface>
+
+            def Shader "PreviewSurface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.001517635, 0.002428216, 0.0036765074)
+                float inputs:metallic = 0.1
+                float inputs:roughness = 0.7
+                token outputs:surface
+            }
+
+            def Shader "OmniPBR"
+            {
+                uniform token info:implementationSource = "sourceAsset"
+                uniform asset info:mdl:sourceAsset = @OmniPBR.mdl@
+                uniform token info:mdl:sourceAsset:subIdentifier = "OmniPBR"
+                color3f inputs:diffuse_color_constant = (0.001517635, 0.002428216, 0.0036765074)
+                bool inputs:enable_opacity = 0
+                float inputs:metallic_constant = 0.1
+                float inputs:reflection_roughness_constant = 0.7
+                token outputs:out
+            }
+        }
+
+        def Material "ace_glass"
+        {
+            token outputs:mdl:displacement.connect = </AcePro2/Looks/ace_glass/OmniPBR.outputs:out>
+            token outputs:mdl:surface.connect = </AcePro2/Looks/ace_glass/OmniPBR.outputs:out>
+            token outputs:mdl:volume.connect = </AcePro2/Looks/ace_glass/OmniPBR.outputs:out>
+            token outputs:surface.connect = </AcePro2/Looks/ace_glass/PreviewSurface.outputs:surface>
+
+            def Shader "PreviewSurface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.0027317428, 0.008023193, 0.012286488)
+                float inputs:ior = 1.5
+                float inputs:metallic = 0.5
+                float inputs:opacity = 0.35
+                float inputs:roughness = 0.15
+                token outputs:surface
+            }
+
+            def Shader "OmniPBR"
+            {
+                uniform token info:implementationSource = "sourceAsset"
+                uniform asset info:mdl:sourceAsset = @OmniPBR.mdl@
+                uniform token info:mdl:sourceAsset:subIdentifier = "OmniPBR"
+                color3f inputs:diffuse_color_constant = (0.0027317428, 0.008023193, 0.012286488)
+                bool inputs:enable_opacity = 1
+                float inputs:metallic_constant = 0.5
+                float inputs:opacity_constant = 0.35
+                float inputs:reflection_roughness_constant = 0.15
+                token outputs:out
+            }
+        }
+
+        def Material "ace_optical"
+        {
+            token outputs:mdl:displacement.connect = </AcePro2/Looks/ace_optical/OmniPBR.outputs:out>
+            token outputs:mdl:surface.connect = </AcePro2/Looks/ace_optical/OmniPBR.outputs:out>
+            token outputs:mdl:volume.connect = </AcePro2/Looks/ace_optical/OmniPBR.outputs:out>
+            token outputs:surface.connect = </AcePro2/Looks/ace_optical/PreviewSurface.outputs:surface>
+
+            def Shader "PreviewSurface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.009134059, 0.049706567, 0.05612849)
+                float inputs:ior = 1.5
+                float inputs:metallic = 0.55
+                float inputs:opacity = 0.35
+                float inputs:roughness = 0.19
+                token outputs:surface
+            }
+
+            def Shader "OmniPBR"
+            {
+                uniform token info:implementationSource = "sourceAsset"
+                uniform asset info:mdl:sourceAsset = @OmniPBR.mdl@
+                uniform token info:mdl:sourceAsset:subIdentifier = "OmniPBR"
+                color3f inputs:diffuse_color_constant = (0.009134059, 0.049706567, 0.05612849)
+                bool inputs:enable_opacity = 1
+                float inputs:metallic_constant = 0.55
+                float inputs:opacity_constant = 0.35
+                float inputs:reflection_roughness_constant = 0.19
+                token outputs:out
+            }
+        }
+
+        def Material "ace_display"
+        {
+            token outputs:mdl:displacement.connect = </AcePro2/Looks/ace_display/OmniPBR.outputs:out>
+            token outputs:mdl:surface.connect = </AcePro2/Looks/ace_display/OmniPBR.outputs:out>
+            token outputs:mdl:volume.connect = </AcePro2/Looks/ace_display/OmniPBR.outputs:out>
+            token outputs:surface.connect = </AcePro2/Looks/ace_display/PreviewSurface.outputs:surface>
+
+            def Shader "PreviewSurface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.008023193, 0.015208514, 0.02121901)
+                float inputs:metallic = 0.22
+                float inputs:roughness = 0.28
+                token outputs:surface
+            }
+
+            def Shader "OmniPBR"
+            {
+                uniform token info:implementationSource = "sourceAsset"
+                uniform asset info:mdl:sourceAsset = @OmniPBR.mdl@
+                uniform token info:mdl:sourceAsset:subIdentifier = "OmniPBR"
+                color3f inputs:diffuse_color_constant = (0.008023193, 0.015208514, 0.02121901)
+                bool inputs:enable_opacity = 0
+                float inputs:metallic_constant = 0.22
+                float inputs:reflection_roughness_constant = 0.28
+                token outputs:out
+            }
+        }
+
+        def Material "ace_markings"
+        {
+            token outputs:mdl:displacement.connect = </AcePro2/Looks/ace_markings/OmniPBR.outputs:out>
+            token outputs:mdl:surface.connect = </AcePro2/Looks/ace_markings/OmniPBR.outputs:out>
+            token outputs:mdl:volume.connect = </AcePro2/Looks/ace_markings/OmniPBR.outputs:out>
+            token outputs:surface.connect = </AcePro2/Looks/ace_markings/PreviewSurface.outputs:surface>
+
+            def Shader "PreviewSurface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.5149177, 0.5647115, 0.58407843)
+                float inputs:metallic = 0.1
+                float inputs:roughness = 0.58
+                token outputs:surface
+            }
+
+            def Shader "OmniPBR"
+            {
+                uniform token info:implementationSource = "sourceAsset"
+                uniform asset info:mdl:sourceAsset = @OmniPBR.mdl@
+                uniform token info:mdl:sourceAsset:subIdentifier = "OmniPBR"
+                color3f inputs:diffuse_color_constant = (0.5149177, 0.5647115, 0.58407843)
+                bool inputs:enable_opacity = 0
+                float inputs:metallic_constant = 0.1
+                float inputs:reflection_roughness_constant = 0.58
+                token outputs:out
+            }
+        }
+
+        def Material "ace_cage"
+        {
+            token outputs:mdl:displacement.connect = </AcePro2/Looks/ace_cage/OmniPBR.outputs:out>
+            token outputs:mdl:surface.connect = </AcePro2/Looks/ace_cage/OmniPBR.outputs:out>
+            token outputs:mdl:volume.connect = </AcePro2/Looks/ace_cage/OmniPBR.outputs:out>
+            token outputs:surface.connect = </AcePro2/Looks/ace_cage/PreviewSurface.outputs:surface>
+
+            def Shader "PreviewSurface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.03688945, 0.04373503, 0.051269457)
+                float inputs:metallic = 0.65
+                float inputs:roughness = 0.38
+                token outputs:surface
+            }
+
+            def Shader "OmniPBR"
+            {
+                uniform token info:implementationSource = "sourceAsset"
+                uniform asset info:mdl:sourceAsset = @OmniPBR.mdl@
+                uniform token info:mdl:sourceAsset:subIdentifier = "OmniPBR"
+                color3f inputs:diffuse_color_constant = (0.03688945, 0.04373503, 0.051269457)
+                bool inputs:enable_opacity = 0
+                float inputs:metallic_constant = 0.65
+                float inputs:reflection_roughness_constant = 0.38
+                token outputs:out
+            }
+        }
+
+        def Material "wide_lens_barrel"
+        {
+            token outputs:mdl:displacement.connect = </AcePro2/Looks/wide_lens_barrel/OmniPBR.outputs:out>
+            token outputs:mdl:surface.connect = </AcePro2/Looks/wide_lens_barrel/OmniPBR.outputs:out>
+            token outputs:mdl:volume.connect = </AcePro2/Looks/wide_lens_barrel/OmniPBR.outputs:out>
+            token outputs:surface.connect = </AcePro2/Looks/wide_lens_barrel/PreviewSurface.outputs:surface>
+
+            def Shader "PreviewSurface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.0185002201, 0.0241576324, 0.0295568344)
+                float inputs:metallic = 0.5
+                float inputs:roughness = 0.42
+                token outputs:surface
+            }
+
+            def Shader "OmniPBR"
+            {
+                uniform token info:implementationSource = "sourceAsset"
+                uniform asset info:mdl:sourceAsset = @OmniPBR.mdl@
+                uniform token info:mdl:sourceAsset:subIdentifier = "OmniPBR"
+                color3f inputs:diffuse_color_constant = (0.0185002201, 0.0241576324, 0.0295568344)
+                bool inputs:enable_opacity = 0
+                float inputs:metallic_constant = 0.5
+                float inputs:reflection_roughness_constant = 0.42
+                token outputs:out
+            }
+        }
+        def Material "wide_lens_rim"
+        {
+            token outputs:mdl:displacement.connect = </AcePro2/Looks/wide_lens_rim/OmniPBR.outputs:out>
+            token outputs:mdl:surface.connect = </AcePro2/Looks/wide_lens_rim/OmniPBR.outputs:out>
+            token outputs:mdl:volume.connect = </AcePro2/Looks/wide_lens_rim/OmniPBR.outputs:out>
+            token outputs:surface.connect = </AcePro2/Looks/wide_lens_rim/PreviewSurface.outputs:surface>
+
+            def Shader "PreviewSurface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.13563333, 0.162029376, 0.191201683)
+                float inputs:metallic = 0.7
+                float inputs:roughness = 0.3
+                token outputs:surface
+            }
+
+            def Shader "OmniPBR"
+            {
+                uniform token info:implementationSource = "sourceAsset"
+                uniform asset info:mdl:sourceAsset = @OmniPBR.mdl@
+                uniform token info:mdl:sourceAsset:subIdentifier = "OmniPBR"
+                color3f inputs:diffuse_color_constant = (0.13563333, 0.162029376, 0.191201683)
+                bool inputs:enable_opacity = 0
+                float inputs:metallic_constant = 0.7
+                float inputs:reflection_roughness_constant = 0.3
+                token outputs:out
+            }
+        }
+        def Material "wide_lens_glass"
+        {
+            token outputs:mdl:displacement.connect = </AcePro2/Looks/wide_lens_glass/OmniPBR.outputs:out>
+            token outputs:mdl:surface.connect = </AcePro2/Looks/wide_lens_glass/OmniPBR.outputs:out>
+            token outputs:mdl:volume.connect = </AcePro2/Looks/wide_lens_glass/OmniPBR.outputs:out>
+            token outputs:surface.connect = </AcePro2/Looks/wide_lens_glass/PreviewSurface.outputs:surface>
+
+            def Shader "PreviewSurface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor.connect = </AcePro2/Looks/wide_lens_glass/PrimvarDisplayColor.outputs:result
+                float inputs:metallic = 0.25
+                float inputs:roughness = 0.12
+                token outputs:surface
+            }
+
+            def Shader "PrimvarDisplayColor"
+            {
+                uniform token info:id = "UsdPrimvarReader_float3"
+                token inputs:varname = "displayColor"
+                float3 outputs:result
+            }
+
+            def Shader "OmniPBR"
+            {
+                uniform token info:implementationSource = "sourceAsset"
+                uniform asset info:mdl:sourceAsset = @OmniPBR.mdl@
+                uniform token info:mdl:sourceAsset:subIdentifier = "OmniPBR"
+                color3f inputs:diffuse_color_constant = (0.0123850436, 0.0449403791, 0.0350883743)
+                bool inputs:enable_opacity = 0
+                float inputs:metallic_constant = 0.25
+                float inputs:reflection_roughness_constant = 0.12
+                token outputs:out
+            }
+        }
+    }
+}

@@ -1,0 +1,200 @@
+#usda 1.0
+(
+    defaultPrim = "AcePro2"
+    doc = """RoboAPI / Insta360 Ace Pro 2 wrist camera (sensor library). Identity frame = Robotiq 2F-85 gripper face (hang identity under the library gripper). Lens variant (on the camera, not the gripper Sensor option name) switches the official removable lens-guard visibility and the OpenCV fisheye FOV: native = 157 deg (standard Leica lens, guard visible); ultrawide (default, RoboAPI recommended) = advertised 189 deg Ultra Wide (sim fills 16:9 at 179 deg), official wide-lens mesh shown, standard guard hidden. Frame variant shows/hides the official Utility Frame (ace-cage prim); visual only, default utility. Colors from official GLB baseColorFactor. See README.md."""
+    metersPerUnit = 1
+    subLayers = [
+        @./payloads/bindings.usda@,
+        @./payloads/materials.usda@
+    ]
+    upAxis = "Z"
+)
+
+def Xform "AcePro2" (
+    variants = {
+        string Lens = "ultrawide"
+        string Frame = "utility"
+        string ROS = "none"
+    }
+    prepend variantSets = ["Lens", "Frame", "ROS"]
+)
+{
+    def Xform "body" (
+        prepend references = @./payloads/geometries.usdc@</Geometries/body>
+    )
+    {
+    }
+
+    def Xform "lens_guard" (
+        prepend references = @./payloads/geometries.usdc@</Geometries/lens_guard>
+    )
+    {
+    }
+
+    def Xform "utility_frame" (
+        prepend references = @./payloads/geometries.usdc@</Geometries/utility_frame>
+    )
+    {
+    }
+
+    def Xform "optical_frame"
+    {
+        double3 xformOp:translate = (-0.092972511609, -0.003600000000, 0.043941224812)
+        quatd xformOp:orient = (0.183012701892, -0.683012701892, -0.683012701892, 0.183012701892)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient"]
+
+        def Camera "Camera" (
+            prepend apiSchemas = ["OmniLensDistortionOpenCvFisheyeAPI"]
+        )
+        {
+            # Imaging (OpenCV fisheye fx / FOV) is authored only in the Lens variant.
+            # Local opinions in this block would otherwise win over the variant.
+            # USD Camera looks down optical_frame -Z with +Y as image up.
+            # Official RoboAPI reference views are 180 deg about that optical axis
+            # from the identity camera (image would otherwise be upside down).
+            quatd xformOp:orient = (0, 0, 0, 1)
+            double3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient"]
+        }
+
+        def Xform "wide_lens" (
+            prepend references = @./payloads/geometries_wide_lens.usda@</Geometries>
+        )
+        {
+            # Official assembly-viewer parents wide-lens to lensMount at identity
+            # when assembled. USD Camera looks down optical_frame -Z; the official
+            # mesh optical axis is +Z, so rotate 180 deg about X to match.
+            quatd xformOp:orient = (0, 1, 0, 0)
+            double3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient"]
+        }
+    }
+
+    variantSet "Lens" = {
+        "native" {
+            over "lens_guard"
+            {
+                token visibility = "inherited"
+            }
+            over "optical_frame"
+            {
+                over "wide_lens"
+                {
+                    token visibility = "invisible"
+                }
+
+                over "Camera"
+                {
+                # Near plane sits just past the official wide-lens / lens-guard
+                # (Ace 22 mm, Action 17.64 mm) so the wrist camera is not blocked
+                # by its own lens mesh. Far plane unchanged.
+                float2 clippingRange = (0.03, 100)
+                token projection = "perspective"
+                float focalLength = 8.774161
+                float focusDistance = 400
+                float horizontalAperture = 20.955
+                float verticalAperture = 11.787
+                # OpenCV fisheye (equidistant approximation from advertised diagonal FOV).
+                # Official calibration (fx, fy, cx, cy, k1-k4) is not published; k1-k4 stay 0.
+                # advertisedDiagonalFovDeg = 157.0
+                # intendedFps = 30 (RoboAPI USB MJPG 1280x720)
+                # distortionModel = opencvFisheye_equidistant_approx
+                #   Insta360 Ace Pro 2 standard / Leica lens, advertised 157 deg diagonal FOV.
+                #   OpenCV fisheye, equidistant fx=fy from 1280x720 image diagonal; principal point at center.
+                #   k1-k4 = 0 because official OpenCV calibration is not published. Approximation only.
+                #   Visual: official GLB 'Ace Pro 2 removable lens guard' is shown (standard guard).
+                #   USB MJPG 1280x720 @ 30 FPS (RoboAPI hardware.md).
+                float omni:lensdistortion:opencvFisheye:cx = 640.0
+                float omni:lensdistortion:opencvFisheye:cy = 360.0
+                float omni:lensdistortion:opencvFisheye:fx = 535.954495
+                float omni:lensdistortion:opencvFisheye:fy = 535.954495
+                float omni:lensdistortion:opencvFisheye:k1 = 0
+                float omni:lensdistortion:opencvFisheye:k2 = 0
+                float omni:lensdistortion:opencvFisheye:k3 = 0
+                float omni:lensdistortion:opencvFisheye:k4 = 0
+                int2 omni:lensdistortion:opencvFisheye:imageSize = (1280, 720)
+                token omni:lensdistortion:model = "opencvFisheye"
+
+                }
+            }
+        }
+        "ultrawide" {
+            over "lens_guard"
+            {
+                token visibility = "invisible"
+            }
+            over "optical_frame"
+            {
+                over "wide_lens"
+                {
+                    token visibility = "inherited"
+                }
+
+                over "Camera"
+                {
+                # Near plane sits just past the official wide-lens / lens-guard
+                # (Ace 22 mm, Action 17.64 mm) so the wrist camera is not blocked
+                # by its own lens mesh. Far plane unchanged.
+                float2 clippingRange = (0.03, 100)
+                token projection = "perspective"
+                float focalLength = 7.695773
+                float focusDistance = 400
+                float horizontalAperture = 20.955
+                float verticalAperture = 11.787
+                # OpenCV fisheye (equidistant approximation from advertised diagonal FOV).
+                # Official calibration (fx, fy, cx, cy, k1-k4) is not published; k1-k4 stay 0.
+                # advertisedDiagonalFovDeg = 189.0 (optical-design max; sim fills 16:9 at 179 deg)
+                # intendedFps = 30 (RoboAPI USB MJPG 1280x720)
+                # distortionModel = opencvFisheye_equidistant_approx
+                #   Insta360 Ace Pro 2 Ultra Wide Lens, advertised 189 deg optical-design max FOV
+                #   (Insta360 store: actual results may vary with settings).
+                #   Isaac cannot image rays beyond 180 deg, so a 189 deg diagonal left blank
+                #   corners on 1280x720. Equidistant fx=fy is set for 179 deg at the corners
+                #   so the frame fills; principal point at center. k1-k4 stay 0.
+                #   k1-k4 = 0 because official OpenCV calibration is not published. Approximation only.
+                #   Visual: official assembly-viewer wide-lens mesh (Ultra Wide Lens) is shown;
+                #   the official removable lens guard is hidden.
+                #   USB MJPG 1280x720 @ 30 FPS (RoboAPI hardware.md).
+                float omni:lensdistortion:opencvFisheye:cx = 640.0
+                float omni:lensdistortion:opencvFisheye:cy = 360.0
+                float omni:lensdistortion:opencvFisheye:fx = 470.082993
+                float omni:lensdistortion:opencvFisheye:fy = 470.082993
+                float omni:lensdistortion:opencvFisheye:k1 = 0
+                float omni:lensdistortion:opencvFisheye:k2 = 0
+                float omni:lensdistortion:opencvFisheye:k3 = 0
+                float omni:lensdistortion:opencvFisheye:k4 = 0
+                int2 omni:lensdistortion:opencvFisheye:imageSize = (1280, 720)
+                token omni:lensdistortion:model = "opencvFisheye"
+
+                }
+            }
+        }
+    }
+
+    variantSet "Frame" = {
+        "none" {
+            over "utility_frame"
+            {
+                token visibility = "invisible"
+            }
+        }
+        "utility" {
+            over "utility_frame"
+            {
+                token visibility = "inherited"
+            }
+        }
+    }
+
+    # ROS=enable publishes rgb + camera_info from optical_frame/Camera (1280x720).
+    variantSet "ROS" = {
+        "none" (
+            prepend payload = @./payloads/ROS/none.usda@
+        ) {
+        }
+        "enable" (
+            prepend payload = @./payloads/ROS/enable.usda@
+        ) {
+        }
+    }
+}

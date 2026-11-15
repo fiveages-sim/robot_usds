@@ -1,0 +1,54 @@
+#usda 1.0
+(
+    defaultPrim = "Robotiq_2F_85"
+    doc = """Sensor=acepro2. Integrated RoboAPI Ace Pro 2 kit: wrist-camera bracket + fasteners, official coupling (adapter ring + gripper communication cable), and robots/sensors/RoboAPI/AcePro2 hung identity on the library gripper face.
+
+Applies the official coupling offset: translate the gripper (and this bracket/coupling/camera) by (0, 0, 0.007598894) along tool0 Z so the mounting face sits 7.5989 mm past the UR flange (same thickness on Action 6).
+
+Meshes and colors come from the official developers.pokebot.com assembly GLB. Official UR wrist and official gripper body/fingers are omitted so they do not duplicate the Isaac UR5e wrist or the library Robotiq 2F-85. Camera Lens / Frame variants live on wrist_camera, not on this Sensor option name.
+
+When composed under UR5e payloads/EE/robotiq85.usda, that file pins EE translate and AssemblerFixedJoint to identity — camera-kit envs (env/fiveages_acepro2.usda) re-apply the same offset so the joint and xform stay consistent.
+"""
+    metersPerUnit = 1
+    subLayers = [
+        @./bindings_acepro2.usda@,
+        @./materials_acepro2.usda@
+    ]
+    upAxis = "Z"
+)
+
+def Xform "Robotiq_2F_85"
+{
+    double3 xformOp:translate = (0, 0, 0.007598894)
+
+    over "base_link"
+    {
+        over "AssemblerFixedJoint"
+        {
+            point3f physics:localPos0 = (0, 0, 0.007598894)
+        }
+    }
+
+    def Xform "bracket" (
+        prepend references = @./geometries_acepro2.usdc@</Geometries>
+    )
+    {
+    }
+
+    def Xform "coupling" (
+        prepend references = @./geometries_coupling.usdc@</Geometries>
+    )
+    {
+    }
+
+    def Xform "wrist_camera" (
+        prepend payload = @../../../../../sensors/RoboAPI/AcePro2/AcePro2.usda@
+    )
+    {
+        # Default Lens=ultrawide, Frame=utility (RoboAPI recommended).
+        quatd xformOp:orient = (1, 0, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+    }
+}

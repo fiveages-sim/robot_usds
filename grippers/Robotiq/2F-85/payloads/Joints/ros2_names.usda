@@ -1,0 +1,138 @@
+#usda 1.0
+(
+    defaultPrim = "Robotiq_2F_85"
+    metersPerUnit = 1
+    upAxis = "Z"
+    doc = """Rename official Multiphy joint prims to robotiq_gripper_description names.
+
+IsaacSimSystem matches DOFs by USD joint prim name. Official asset uses
+finger_joint / *_inner_finger_knuckle_joint; ros2_ws uses gripper_joint /
+*_inner_knuckle_joint. Same pattern as Dex1 Side: deactivate official joints,
+author ros2-named copies, retarget PhysX mimic referenceJoint.
+"""
+)
+
+over "Robotiq_2F_85"
+{
+    rel isaac:physics:robotJoints = [
+        </Robotiq_2F_85/Joints/gripper_joint>,
+        </Robotiq_2F_85/Joints/right_outer_knuckle_joint>,
+        </Robotiq_2F_85/Joints/right_inner_finger_joint>,
+        </Robotiq_2F_85/Joints/right_inner_knuckle_joint>,
+        </Robotiq_2F_85/Joints/left_inner_knuckle_joint>,
+        </Robotiq_2F_85/Joints/left_inner_finger_joint>,
+    ]
+
+    over "Joints"
+    {
+        over "finger_joint" (
+            active = false
+        )
+        {
+        }
+
+        over "left_inner_finger_knuckle_joint" (
+            active = false
+        )
+        {
+        }
+
+        over "right_inner_finger_knuckle_joint" (
+            active = false
+        )
+        {
+        }
+
+        # Was finger_joint (driven leader).
+        def PhysicsRevoluteJoint "gripper_joint" (
+            prepend apiSchemas = ["IsaacJointAPI", "PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular", "PhysxJointAPI"]
+        )
+        {
+            float drive:angular:physics:damping = 0.0002
+            float drive:angular:physics:maxForce = 26
+            float drive:angular:physics:stiffness = 3
+            float drive:angular:physics:targetPosition = 0
+            float drive:angular:physics:targetVelocity = 0
+            uniform token physics:axis = "Z"
+            rel physics:body0 = </Robotiq_2F_85/base_link>
+            rel physics:body1 = </Robotiq_2F_85/left_outer_knuckle>
+            point3f physics:localPos0 = (0, -0.0306, 0.05466)
+            point3f physics:localPos1 = (0, -0.0306, 0.05466)
+            quatf physics:localRot0 = (0.5, 0.5, -0.5, -0.5)
+            quatf physics:localRot1 = (0.5, 0.5, -0.5, -0.5)
+            float physics:lowerLimit = 0
+            float physics:upperLimit = 47
+            float physxJoint:armature = 0.0001
+            float physxJoint:maxJointVelocity = 146.46
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        # Was left_inner_finger_knuckle_joint.
+        def PhysicsRevoluteJoint "left_inner_knuckle_joint" (
+            prepend apiSchemas = ["IsaacJointAPI", "PhysicsJointStateAPI:angular", "PhysxJointAPI", "PhysxMimicJointAPI:rotX"]
+        )
+        {
+            float drive:angular:physics:damping = 0
+            float drive:angular:physics:stiffness = 0
+            uniform token physics:axis = "Z"
+            rel physics:body0 = </Robotiq_2F_85/left_inner_finger>
+            rel physics:body1 = </Robotiq_2F_85/left_inner_knuckle>
+            point3f physics:localPos0 = (0, -0.04986, 0.1046)
+            point3f physics:localPos1 = (0, -0.04986, 0.1046)
+            quatf physics:localRot0 = (0.5, 0.5, 0.5, 0.5)
+            quatf physics:localRot1 = (0.5, 0.5, 0.5, 0.5)
+            float physics:lowerLimit = -180
+            float physics:upperLimit = 180
+            float physxJoint:maxJointVelocity = 10000
+            float physxMimicJoint:rotX:dampingRatio = 0
+            float physxMimicJoint:rotX:gearing = 1
+            float physxMimicJoint:rotX:naturalFrequency = 0
+            rel physxMimicJoint:rotX:referenceJoint = </Robotiq_2F_85/Joints/gripper_joint>
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        # Was right_inner_finger_knuckle_joint.
+        def PhysicsRevoluteJoint "right_inner_knuckle_joint" (
+            prepend apiSchemas = ["IsaacJointAPI", "PhysicsJointStateAPI:angular", "PhysxJointAPI", "PhysxMimicJointAPI:rotX"]
+        )
+        {
+            float drive:angular:physics:damping = 0
+            float drive:angular:physics:stiffness = 0
+            float drive:angular:physics:targetPosition = 0
+            uniform token physics:axis = "Z"
+            rel physics:body0 = </Robotiq_2F_85/right_inner_finger>
+            rel physics:body1 = </Robotiq_2F_85/right_inner_knuckle>
+            point3f physics:localPos0 = (0, 0.04986, 0.1046)
+            point3f physics:localPos1 = (0, 0.04986, 0.1046)
+            quatf physics:localRot0 = (0.5, 0.5, -0.5, -0.5)
+            quatf physics:localRot1 = (0.5, 0.5, -0.5, -0.5)
+            float physics:lowerLimit = -180
+            float physics:upperLimit = 180
+            float physxJoint:maxJointVelocity = 10000
+            float physxMimicJoint:rotX:dampingRatio = 0
+            float physxMimicJoint:rotX:gearing = 1
+            float physxMimicJoint:rotX:naturalFrequency = 0
+            rel physxMimicJoint:rotX:referenceJoint = </Robotiq_2F_85/Joints/gripper_joint>
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        # Surviving official joints: retarget mimic leader to gripper_joint.
+        over "right_outer_knuckle_joint"
+        {
+            rel physxMimicJoint:rotZ:referenceJoint = </Robotiq_2F_85/Joints/gripper_joint>
+        }
+
+        over "right_inner_finger_joint"
+        {
+            rel physxMimicJoint:rotX:referenceJoint = </Robotiq_2F_85/Joints/gripper_joint>
+        }
+
+        over "left_inner_finger_joint"
+        {
+            rel physxMimicJoint:rotX:referenceJoint = </Robotiq_2F_85/Joints/gripper_joint>
+        }
+    }
+}

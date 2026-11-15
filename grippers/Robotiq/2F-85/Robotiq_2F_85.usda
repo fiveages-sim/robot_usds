@@ -1,0 +1,68 @@
+#usda 1.0
+(
+    defaultPrim = "Robotiq_2F_85"
+    doc = """FaSim wrapper around the official Isaac 6.2 Robotiq 2F-85 (China asset root).
+
+Official gripper is mounted at stage-open by mount_asset_root.py via
+get_assets_root_path() (ISAACSIM_ASSET_REGION_PROFILE / ISAACSIM_ASSET_ROOT).
+Do not hardcode S3 URLs here, and do not copy official meshes into this repo.
+
+Relative path: Isaac/Robots_Multiphysics/Robotiq/2F-85/Robotiq_2F_85.usda
+Default Physics=Physx_Mimic. ArticulationRoot is stripped so a host arm
+can merge these joints into its own articulation (same pattern as CR5 EE).
+Hang identity on a Z-out tool frame (UR tool0). Do not enable the official
+UR5e Gripper variant: it attaches along flange and is 90 degrees off tool0.
+
+Joint prim names are renamed to robotiq_gripper_description / ur5e_description
+keys via subLayer payloads/Joints/ros2_names.usda (finger_joint→gripper_joint,
+etc.) so IsaacSimSystem DOFs match ros2_control HW. Sublayer = local opinions
+that win over the official mount payload (do not use a sibling payload for this).
+
+Sensor is a local variant set (default none).
+Sensor=acepro2|action6 is an integrated kit: official RoboAPI wrist-camera
+bracket + coupling + robots/sensors/RoboAPI/{AcePro2,Action6}, and applies
+the measured coupling offset translate (0, 0, 0.007598894) along the gripper Z
+(tool0 when hung identity). Camera Lens / Frame variants live on the camera
+prim (wrist_camera), not on the Sensor option name.
+"""
+    metersPerUnit = 1
+    upAxis = "Z"
+    subLayers = [
+        @./payloads/Joints/ros2_names.usda@
+    ]
+)
+
+def Xform "Robotiq_2F_85" (
+    prepend apiSchemas = ["OmniScriptingAPI"]
+    delete apiSchemas = ["PhysicsArticulationRootAPI", "NewtonArticulationRootAPI", "PhysxArticulationAPI"]
+    customData = {
+        string fasim_asset_root_rel_path = "Isaac/Robots_Multiphysics/Robotiq/2F-85/Robotiq_2F_85.usda"
+    }
+    variants = {
+        string Physics = "Physx_Mimic"
+        string Sensor = "none"
+    }
+    prepend variantSets = ["Sensor"]
+)
+{
+    uniform asset[] omni:scripting:scripts = [@./mount_asset_root.py@]
+    quatd xformOp:orient = (1, 0, 0, 0)
+    double3 xformOp:scale = (1, 1, 1)
+    # translate is authored by Sensor payloads (none=0, acepro2/action6=coupling offset).
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+    variantSet "Sensor" = {
+        "none" (
+            prepend payload = @./payloads/Sensor/none.usda@
+        ) {
+        }
+        "acepro2" (
+            prepend payload = @./payloads/Sensor/acepro2.usda@
+        ) {
+        }
+        "action6" (
+            prepend payload = @./payloads/Sensor/action6.usda@
+        ) {
+        }
+    }
+}

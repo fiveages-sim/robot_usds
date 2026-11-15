@@ -1,0 +1,147 @@
+#usda 1.0
+(
+    defaultPrim = "UR5e"
+    metersPerUnit = 1
+    upAxis = "Z"
+    doc = "In-process ros2_control via fasim.ros2.nodes.ROS2ControlLaunch (no topic JointState bridge)."
+)
+
+def "UR5e"
+{
+    def "Graph"
+    {
+        def OmniGraph "ROS_Control"
+        {
+            token evaluationMode = "Automatic"
+            token evaluator:type = "execution"
+            token fabricCacheBacking = "StageWithoutHistory"
+            int2 fileFormatVersion = (1, 9)
+            token pipelineStage = "pipelineStageSimulation"
+
+            def OmniGraphNode "OnPlaybackTick"
+            {
+                token node:type = "omni.graph.action.OnPlaybackTick"
+                int node:typeVersion = 2
+                custom double outputs:deltaSeconds
+                custom double outputs:frame
+                custom uint outputs:tick (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom double outputs:time
+            }
+
+            def OmniGraphNode "Context"
+            {
+                custom uchar inputs:domain_id
+                custom bool inputs:useDomainIDEnvVar
+                token node:type = "isaacsim.ros2.bridge.ROS2Context"
+                int node:typeVersion = 2
+                custom uint64 outputs:context
+            }
+
+            def OmniGraphNode "ROS2ControlLaunch"
+            {
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </UR5e/Graph/ROS_Control/OnPlaybackTick.outputs:tick>
+                custom rel inputs:targetPrim = </UR5e/root_joint> (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
+                custom string inputs:robot = "ur5e"
+                custom string inputs:type = ""
+                custom token inputs:mode = "demo"
+                custom string inputs:profile = ""
+                custom string inputs:namespace = ""
+                custom bool inputs:enableGripper = 1
+                custom string inputs:rosSetup = ""
+                custom bool inputs:publishRobotDescription = 1
+                custom bool inputs:useSimTime = 1
+                token node:type = "fasim.ros2.nodes.ROS2ControlLaunch"
+                int node:typeVersion = 1
+                custom uint outputs:execOut (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+            }
+        }
+        # /clock on the physics step, in its own on-demand graph. OnPhysicsStep only
+        # fires in an on-demand (push) graph, so it cannot live in the Automatic
+        # ROS_Control graph. Publishing per physics step keeps /clock advancing one
+        # physics dt at a time; the render-frame OnPlaybackTick made it jump
+        # 0/3/4 physics steps per CM update, which is what made controller period
+        # jitter 0/0.015/0.020s instead of a steady 1/update_rate.
+        def OmniGraph "ROS_Clock"
+        {
+            token evaluationMode = "OnDemand"
+            token evaluator:type = "push"
+            token fabricCacheBacking = "StageWithoutHistory"
+            int2 fileFormatVersion = (1, 9)
+            token pipelineStage = "pipelineStageOnDemand"
+
+            def OmniGraphNode "Context" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom uchar inputs:domain_id
+                custom bool inputs:useDomainIDEnvVar
+                token node:type = "isaacsim.ros2.bridge.ROS2Context"
+                int node:typeVersion = 2
+                custom uint64 outputs:context
+            }
+
+            def OmniGraphNode "OnPhysicsStep" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                token node:type = "isaacsim.core.nodes.OnPhysicsStep"
+                int node:typeVersion = 1
+                custom double outputs:deltaSimulationTime
+                custom uint outputs:step (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+            }
+
+            def OmniGraphNode "ReadSimTime" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom bool inputs:resetOnStop = 1
+                token node:type = "isaacsim.core.nodes.IsaacReadSimulationTime"
+                int node:typeVersion = 1
+                custom double outputs:simulationTime
+            }
+
+            def OmniGraphNode "PublishClock" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </UR5e/Graph/ROS_Clock/Context.outputs:context>
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </UR5e/Graph/ROS_Clock/OnPhysicsStep.outputs:step>
+                custom double inputs:timeStamp
+                prepend double inputs:timeStamp.connect = </UR5e/Graph/ROS_Clock/ReadSimTime.outputs:simulationTime>
+                token node:type = "isaacsim.ros2.bridge.ROS2PublishClock"
+                int node:typeVersion = 1
+            }
+        }
+    }
+}

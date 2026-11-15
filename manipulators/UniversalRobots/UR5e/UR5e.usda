@@ -1,0 +1,237 @@
+#usda 1.0
+(
+    defaultPrim = "UR5e"
+    doc = """FaSim wrapper around the official Isaac 6.2 UR5e (China asset root).
+
+Official robot is mounted at stage-open by mount_asset_root.py via
+get_assets_root_path() (ISAACSIM_ASSET_REGION_PROFILE / ISAACSIM_ASSET_ROOT).
+Do not hardcode S3 URLs here.
+
+Relative path: Isaac/Robots_Multiphysics/UniversalRobots/ur5e/ur5e.usda
+The official asset already has Physics (none/physics/physx/mujoco), Sensor,
+and Gripper variants. Keep official Gripper=none; EE=robotiq85 mounts the
+library Robotiq 2F-85 (robots/grippers/Robotiq/2F-85) on tool0 (Z-forward). The official Gripper variant
+attaches along flange and is 90° off tool0.
+"""
+    metersPerUnit = 1
+    upAxis = "Z"
+    customLayerData = {
+        dictionary cameraSettings = {
+            dictionary Front = {
+                double3 position = (5, 0, 0)
+                double radius = 5
+            }
+            dictionary Perspective = {
+                double3 position = (1.2, 1.0, 0.8)
+                double3 target = (0.4, 0.1, 0.2)
+            }
+            dictionary Right = {
+                double3 position = (0, -5, 0)
+                double radius = 5
+            }
+            dictionary Top = {
+                double3 position = (0, 0, 5)
+                double radius = 5
+            }
+            string boundCamera = "/OmniverseKit_Persp"
+        }
+    }
+)
+
+def Xform "UR5e" (
+    prepend apiSchemas = ["OmniScriptingAPI"]
+    customData = {
+        string fasim_asset_root_rel_path = "Isaac/Robots_Multiphysics/UniversalRobots/ur5e/ur5e.usda"
+    }
+    variants = {
+        string EE = "none"
+        string Gripper = "none"
+        string Physics = "physx"
+        string ROS = "none"
+        string Robot = "none"
+        string Sensor = "none"
+    }
+    prepend variantSets = ["Physics", "ROS", "EE"]
+    append variantSets = ["Robot", "Sensor"]
+)
+{
+    uniform asset[] omni:scripting:scripts = [@./mount_asset_root.py@]
+
+    # Official Multiphy UR5e has flange and ft_frame but no tool0.
+    # ROS-Industrial tool0 is the all-zeros tool frame (Z out). Relative to
+    # flange it is rpy(pi/2, 0, pi/2); composed with wrist_3-flange this is
+    # identity versus wrist_3_link.
+    over "wrist_3_link"
+    {
+        over "flange"
+        {
+            def Xform "tool0"
+            {
+                quatd xformOp:orient = (0.5, 0.5, 0.5, 0.5)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+        }
+    }
+
+    # Official PhysicsArticulationRootAPI is on root_joint, not on /UR5e.
+    # IsaacSimSystem / createArticulationView must target this prim
+    # (/World/UR5e/root_joint in the env). Official mujoco variant does not
+    # add NewtonArticulationRootAPI; author it here so Newton can see the arm.
+    # PhysxArticulationAPI + solver/sleep match CR5 (official Multiphy defaults
+    # are too soft for FiveAges K/D drives + Robotiq EE).
+    over "root_joint" (
+        prepend apiSchemas = ["NewtonArticulationRootAPI", "PhysxArticulationAPI"]
+    )
+    {
+        bool physxArticulation:enabledSelfCollisions = 0
+        float physxArticulation:sleepThreshold = 0.00005
+        int physxArticulation:solverPositionIterationCount = 64
+        int physxArticulation:solverVelocityIterationCount = 4
+        float physxArticulation:stabilizationThreshold = 0.00001
+    }
+
+    # Official physics authors robot_gripper_joint for the official Gripper
+    # variant. Leave it disabled so EE=robotiq85 can weld on tool0 instead.
+    # Arm joints: zero pose + FiveAges PhysX Drive (same K/D as CR5 / Piper).
+    # Official Multiphy defaults are ~K=1e4 with near-zero D → laggy / jittery.
+    # maxJointVelocity 180 deg/s = UR5e e-Series rated speed (all six axes).
+    over "joints"
+    {
+        over "robot_gripper_joint"
+        {
+            bool physics:jointEnabled = 0
+        }
+
+        over "shoulder_pan_joint" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float drive:angular:physics:damping = 6000
+            float drive:angular:physics:maxForce = 100
+            float drive:angular:physics:stiffness = 60000
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:maxJointVelocity = 180
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "shoulder_lift_joint" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float drive:angular:physics:damping = 6000
+            float drive:angular:physics:maxForce = 100
+            float drive:angular:physics:stiffness = 60000
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:maxJointVelocity = 180
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "elbow_joint" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float drive:angular:physics:damping = 6000
+            float drive:angular:physics:maxForce = 100
+            float drive:angular:physics:stiffness = 60000
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:maxJointVelocity = 180
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "wrist_1_joint" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float drive:angular:physics:damping = 6000
+            float drive:angular:physics:maxForce = 100
+            float drive:angular:physics:stiffness = 60000
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:maxJointVelocity = 180
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "wrist_2_joint" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float drive:angular:physics:damping = 6000
+            float drive:angular:physics:maxForce = 100
+            float drive:angular:physics:stiffness = 60000
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:maxJointVelocity = 180
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "wrist_3_joint" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float drive:angular:physics:damping = 6000
+            float drive:angular:physics:maxForce = 100
+            float drive:angular:physics:stiffness = 60000
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:maxJointVelocity = 180
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+    }
+
+    # Official Physics / Sensor / Gripper variantSets come from the mounted
+    # asset. Do not redeclare them. EE names == robot_common_launch type keys.
+    variantSet "EE" = {
+        "none" {
+        }
+        "robotiq85" (
+            prepend payload = @./payloads/EE/robotiq85.usda@
+        ) {
+            prepend rel isaac:physics:robotJoints = </UR5e/wrist_3_link/flange/tool0/EE>
+            prepend rel isaac:physics:robotLinks = </UR5e/wrist_3_link/flange/tool0/EE>
+            over "wrist_3_link"
+            {
+                over "flange"
+                {
+                    over "tool0"
+                    {
+                        over "EE" (
+                            delete apiSchemas = ["PhysicsArticulationRootAPI", "NewtonArticulationRootAPI", "PhysxArticulationAPI"]
+                        )
+                        {
+                        }
+                    }
+                }
+            }
+        }
+    }
+    variantSet "ROS" = {
+        "none" {
+        }
+        "fiveages" (
+            prepend payload = @./payloads/ROS/fiveages.usda@
+        ) {
+        }
+    }
+    variantSet "Robot" = {
+        "none" {
+        }
+    }
+}
+
+def PhysicsScene "PhysicsScene" (
+    delete apiSchemas = ["MjcSceneAPI", "NewtonXpbdSceneAPI"]
+    prepend apiSchemas = ["NewtonSceneAPI", "PhysxSceneAPI"]
+)
+{
+}
