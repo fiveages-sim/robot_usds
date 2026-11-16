@@ -1,0 +1,159 @@
+#usda 1.0
+(
+    defaultPrim = "M6_CCS"
+    metersPerUnit = 1
+    upAxis = "Z"
+    doc = "Library Robotiq 2F-85 on M6_CCS tcp (Side=left). tcp is already Z-out (IsaacSite). Rz(pi) on tcp — M6 flange yaw for Multiphy 2F-85 (UR tool0 uses +pi/2; M6 needs 180). Sensor=none stays on the mount face. Sensor=acepro2|action6 shifts out by 0.0115 m on this flange (gripper payload's 0.00745 m stays the UR/CR5 kit offset)."
+)
+
+def Xform "M6_CCS"
+{
+    over "link7"
+    {
+        over "tcp"
+        {
+            def "robotiq85" (
+                prepend payload = @../../../../../../../grippers/Robotiq/2F-85/Robotiq_2F_85.usda@
+                delete apiSchemas = ["PhysicsArticulationRootAPI", "NewtonArticulationRootAPI", "PhysxArticulationAPI"]
+                prepend variantSets = ["Sensor"]
+                variants = {
+                    string Side = "left"
+                    string Sensor = "none"
+                }
+            )
+            {
+                # Identity on tcp (AG2F90/RG75). Camera-kit Z is on this Sensor
+                # variant so it wins over the gripper payload's 0.00745 m.
+                quatd xformOp:orient = (0, 0, 0, 1)
+                double3 xformOp:scale = (1, 1, 1)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+                variantSet "Sensor" = {
+                    "none" {
+                        double3 xformOp:translate = (0, 0, 0)
+                        over "base_link" {
+                            over "AssemblerFixedJoint" {
+                                point3f physics:localPos0 = (0, 0, 0)
+                            }
+                        }
+                    }
+                    "acepro2" {
+                        double3 xformOp:translate = (0, 0, 0.0115)
+                        over "base_link" {
+                            over "AssemblerFixedJoint" {
+                                point3f physics:localPos0 = (0, 0, 0.0115)
+                            }
+                        }
+                    }
+                    "action6" {
+                        double3 xformOp:translate = (0, 0, 0.0115)
+                        over "base_link" {
+                            over "AssemblerFixedJoint" {
+                                point3f physics:localPos0 = (0, 0, 0.0115)
+                            }
+                        }
+                    }
+                }
+
+                over "base_link"
+                {
+                    def PhysicsFixedJoint "AssemblerFixedJoint"
+                    {
+                        # tcp is an IsaacSite (AG2F90/RG75 weld body0=tcp). localRot0 matches
+                        # the EE yaw on tcp; localPos0 comes from the Sensor variant.
+                        rel physics:body0 = </M6_CCS/link7/tcp>
+                        rel physics:body1 = </M6_CCS/link7/tcp/robotiq85/base_link>
+                        point3f physics:localPos1 = (0, 0, 0)
+                        quatf physics:localRot0 = (0, 0, 0, 1)
+                        quatf physics:localRot1 = (1, 0, 0, 0)
+                        bool physics:excludeFromArticulation = 0
+                    }
+                }
+
+                over "Joints"
+                {
+                    over "left_gripper_joint"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+
+                    over "left_right_outer_knuckle_joint"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+
+                    over "left_right_inner_finger_joint"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+
+                    over "left_right_inner_knuckle_joint"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+
+                    over "left_left_inner_knuckle_joint"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+
+                    over "left_left_inner_finger_joint"
+                    {
+                        float state:angular:physics:position = 0
+                        float state:angular:physics:velocity = 0
+                    }
+                }
+            }
+        }
+    }
+
+    over "joints"
+    {
+        over "joint1"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "joint2"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "joint3"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "joint4"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "joint5"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "joint6"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "joint7"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+    }
+}

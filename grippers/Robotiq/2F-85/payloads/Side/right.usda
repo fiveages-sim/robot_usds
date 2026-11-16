@@ -1,0 +1,293 @@
+#usda 1.0
+(
+    defaultPrim = "Robotiq_2F_85"
+    metersPerUnit = 1
+    upAxis = "Z"
+    doc = """Side=right: prefix ros2 joint prims with right_ for dual-arm (W2/M6). Same Dex1/AG2F90 pattern — deactivate default names, author side-prefixed copies, retarget PhysX mimic to right_gripper_joint. Sensor kit Camera → right_hand_camera + ROS namespace."""
+)
+
+over "Robotiq_2F_85"
+{
+    rel isaac:physics:robotJoints = [
+        </Robotiq_2F_85/Joints/right_gripper_joint>,
+        </Robotiq_2F_85/Joints/right_right_outer_knuckle_joint>,
+        </Robotiq_2F_85/Joints/right_right_inner_finger_joint>,
+        </Robotiq_2F_85/Joints/right_right_inner_knuckle_joint>,
+        </Robotiq_2F_85/Joints/right_left_inner_knuckle_joint>,
+        </Robotiq_2F_85/Joints/right_left_inner_finger_joint>
+    ]
+
+    over "Joints"
+    {
+        over "finger_joint" (
+            active = false
+        )
+        {
+        }
+
+        over "left_inner_finger_knuckle_joint" (
+            active = false
+        )
+        {
+        }
+
+        over "right_inner_finger_knuckle_joint" (
+            active = false
+        )
+        {
+        }
+
+        over "gripper_joint" (
+            active = false
+        )
+        {
+        }
+
+        over "right_outer_knuckle_joint" (
+            active = false
+        )
+        {
+        }
+
+        over "right_inner_finger_joint" (
+            active = false
+        )
+        {
+        }
+
+        over "right_inner_knuckle_joint" (
+            active = false
+        )
+        {
+        }
+
+        over "left_inner_knuckle_joint" (
+            active = false
+        )
+        {
+        }
+
+        over "left_inner_finger_joint" (
+            active = false
+        )
+        {
+        }
+
+        def PhysicsRevoluteJoint "right_gripper_joint" (
+            prepend apiSchemas = ["IsaacJointAPI", "PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular", "PhysxJointAPI"]
+        )
+        {
+            float drive:angular:physics:damping = 0.0002
+            float drive:angular:physics:maxForce = 26
+            float drive:angular:physics:stiffness = 3
+            float drive:angular:physics:targetPosition = 0
+            float drive:angular:physics:targetVelocity = 0
+            uniform token physics:axis = "Z"
+            rel physics:body0 = </Robotiq_2F_85/base_link>
+            rel physics:body1 = </Robotiq_2F_85/left_outer_knuckle>
+            point3f physics:localPos0 = (0, -0.0306, 0.05466)
+            point3f physics:localPos1 = (0, -0.0306, 0.05466)
+            quatf physics:localRot0 = (0.5, 0.5, -0.5, -0.5)
+            quatf physics:localRot1 = (0.5, 0.5, -0.5, -0.5)
+            float physics:lowerLimit = 0
+            float physics:upperLimit = 47
+            float physxJoint:armature = 0.0001
+            float physxJoint:maxJointVelocity = 146.46
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        def PhysicsRevoluteJoint "right_right_outer_knuckle_joint" (
+            prepend apiSchemas = ["IsaacJointAPI", "PhysicsJointStateAPI:angular", "PhysxJointAPI", "PhysxMimicJointAPI:rotZ"]
+        )
+        {
+            float drive:angular:physics:damping = 0
+            float drive:angular:physics:stiffness = 0
+            uniform token physics:axis = "Z"
+            rel physics:body0 = </Robotiq_2F_85/base_link>
+            rel physics:body1 = </Robotiq_2F_85/right_outer_knuckle>
+            point3f physics:localPos0 = (0, 0.0306, 0.05466)
+            point3f physics:localPos1 = (0, 0.0306, 0.05466)
+            quatf physics:localRot0 = (0.5, -0.5, 0.5, -0.5)
+            quatf physics:localRot1 = (0.5, -0.5, 0.5, -0.5)
+            float physics:lowerLimit = 0
+            float physics:upperLimit = 47
+            float physxJoint:armature = 0.0001
+            float physxJoint:maxJointVelocity = 10000
+            float physxMimicJoint:rotZ:dampingRatio = 0
+            float physxMimicJoint:rotZ:gearing = -1
+            float physxMimicJoint:rotZ:naturalFrequency = 0
+            rel physxMimicJoint:rotZ:referenceJoint = </Robotiq_2F_85/Joints/right_gripper_joint>
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        def PhysicsRevoluteJoint "right_right_inner_finger_joint" (
+            prepend apiSchemas = ["IsaacJointAPI", "PhysicsJointStateAPI:angular", "PhysxJointAPI", "PhysxMimicJointAPI:rotX"]
+        )
+        {
+            float drive:angular:physics:damping = 0
+            float drive:angular:physics:stiffness = 0
+            uniform token physics:axis = "Z"
+            rel physics:body0 = </Robotiq_2F_85/right_outer_finger>
+            rel physics:body1 = </Robotiq_2F_85/right_inner_finger>
+            point3f physics:localPos0 = (0, 0.06776, 0.09809)
+            point3f physics:localPos1 = (0, 0.06776, 0.09809)
+            quatf physics:localRot0 = (0.5, 0.5, -0.5, -0.5)
+            quatf physics:localRot1 = (0.5, 0.5, -0.5, -0.5)
+            float physics:lowerLimit = -180
+            float physics:upperLimit = 180
+            float physxJoint:maxJointVelocity = 10000
+            float physxMimicJoint:rotX:dampingRatio = 0
+            float physxMimicJoint:rotX:gearing = -1
+            float physxMimicJoint:rotX:naturalFrequency = 0
+            rel physxMimicJoint:rotX:referenceJoint = </Robotiq_2F_85/Joints/right_gripper_joint>
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        def PhysicsRevoluteJoint "right_right_inner_knuckle_joint" (
+            prepend apiSchemas = ["IsaacJointAPI", "PhysicsJointStateAPI:angular", "PhysxJointAPI", "PhysxMimicJointAPI:rotX"]
+        )
+        {
+            float drive:angular:physics:damping = 0
+            float drive:angular:physics:stiffness = 0
+            uniform token physics:axis = "Z"
+            rel physics:body0 = </Robotiq_2F_85/right_inner_finger>
+            rel physics:body1 = </Robotiq_2F_85/right_inner_knuckle>
+            point3f physics:localPos0 = (0, 0.04986, 0.1046)
+            point3f physics:localPos1 = (0, 0.04986, 0.1046)
+            quatf physics:localRot0 = (0.5, 0.5, -0.5, -0.5)
+            quatf physics:localRot1 = (0.5, 0.5, -0.5, -0.5)
+            float physics:lowerLimit = -180
+            float physics:upperLimit = 180
+            float physxJoint:maxJointVelocity = 10000
+            float physxMimicJoint:rotX:dampingRatio = 0
+            float physxMimicJoint:rotX:gearing = 1
+            float physxMimicJoint:rotX:naturalFrequency = 0
+            rel physxMimicJoint:rotX:referenceJoint = </Robotiq_2F_85/Joints/right_gripper_joint>
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        def PhysicsRevoluteJoint "right_left_inner_knuckle_joint" (
+            prepend apiSchemas = ["IsaacJointAPI", "PhysicsJointStateAPI:angular", "PhysxJointAPI", "PhysxMimicJointAPI:rotX"]
+        )
+        {
+            float drive:angular:physics:damping = 0
+            float drive:angular:physics:stiffness = 0
+            uniform token physics:axis = "Z"
+            rel physics:body0 = </Robotiq_2F_85/left_inner_finger>
+            rel physics:body1 = </Robotiq_2F_85/left_inner_knuckle>
+            point3f physics:localPos0 = (0, -0.04986, 0.1046)
+            point3f physics:localPos1 = (0, -0.04986, 0.1046)
+            quatf physics:localRot0 = (0.5, 0.5, 0.5, 0.5)
+            quatf physics:localRot1 = (0.5, 0.5, 0.5, 0.5)
+            float physics:lowerLimit = -180
+            float physics:upperLimit = 180
+            float physxJoint:maxJointVelocity = 10000
+            float physxMimicJoint:rotX:dampingRatio = 0
+            float physxMimicJoint:rotX:gearing = 1
+            float physxMimicJoint:rotX:naturalFrequency = 0
+            rel physxMimicJoint:rotX:referenceJoint = </Robotiq_2F_85/Joints/right_gripper_joint>
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        def PhysicsRevoluteJoint "right_left_inner_finger_joint" (
+            prepend apiSchemas = ["IsaacJointAPI", "PhysicsJointStateAPI:angular", "PhysxJointAPI", "PhysxMimicJointAPI:rotX"]
+        )
+        {
+            float drive:angular:physics:damping = 0
+            float drive:angular:physics:stiffness = 0
+            uniform token physics:axis = "Z"
+            rel physics:body0 = </Robotiq_2F_85/left_outer_finger>
+            rel physics:body1 = </Robotiq_2F_85/left_inner_finger>
+            point3f physics:localPos0 = (0, -0.06776, 0.09809)
+            point3f physics:localPos1 = (0, -0.06776, 0.09809)
+            quatf physics:localRot0 = (0.5, -0.5, -0.5, 0.5)
+            quatf physics:localRot1 = (0.5, -0.5, -0.5, 0.5)
+            float physics:lowerLimit = -180
+            float physics:upperLimit = 180
+            float physxJoint:maxJointVelocity = 10000
+            float physxMimicJoint:rotX:dampingRatio = 0
+            float physxMimicJoint:rotX:gearing = 1
+            float physxMimicJoint:rotX:naturalFrequency = 0
+            rel physxMimicJoint:rotX:referenceJoint = </Robotiq_2F_85/Joints/right_gripper_joint>
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+    }
+
+    # Sensor=acepro2|action6: rename optical Camera for dual-arm (AG2F90/Dex1 pattern).
+    # No-op when Sensor=none (overs create empty stubs only if camera kit is absent —
+    # wrist_camera is only composed under acepro2/action6).
+    over "wrist_camera"
+    {
+        over "optical_frame"
+        {
+            over "Camera" (
+                active = false
+            )
+            {
+            }
+
+            def Camera "right_hand_camera" (
+                prepend apiSchemas = ["OmniLensDistortionOpenCvFisheyeAPI"]
+            )
+            {
+                float2 clippingRange = (0.03, 100)
+                token projection = "perspective"
+                float focalLength = 7.695773
+                float focusDistance = 400
+                float horizontalAperture = 20.955
+                float verticalAperture = 11.787
+                float omni:lensdistortion:opencvFisheye:cx = 640.0
+                float omni:lensdistortion:opencvFisheye:cy = 360.0
+                float omni:lensdistortion:opencvFisheye:fx = 470.082993
+                float omni:lensdistortion:opencvFisheye:fy = 470.082993
+                float omni:lensdistortion:opencvFisheye:k1 = 0
+                float omni:lensdistortion:opencvFisheye:k2 = 0
+                float omni:lensdistortion:opencvFisheye:k3 = 0
+                float omni:lensdistortion:opencvFisheye:k4 = 0
+                int2 omni:lensdistortion:opencvFisheye:imageSize = (1280, 720)
+                token omni:lensdistortion:model = "opencvFisheye"
+                quatd xformOp:orient = (0, 0, 0, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient"]
+            }
+        }
+
+        over "Graph"
+        {
+            over "ROS_Camera"
+            {
+                over "RenderProduct"
+                {
+                    custom rel inputs:cameraPrim = </Robotiq_2F_85/wrist_camera/optical_frame/right_hand_camera> (
+                        customData = {
+                            dictionary omni = {
+                                dictionary graph = {
+                                    string relType = "target"
+                                }
+                            }
+                        }
+                    )
+                }
+
+                over "CameraInfoPublish"
+                {
+                    custom string inputs:frameId = "right_hand_camera"
+                    custom string inputs:nodeNamespace = "right_hand_camera"
+                }
+
+                over "RGBPublish"
+                {
+                    custom string inputs:frameId = "right_hand_camera"
+                    custom string inputs:nodeNamespace = "right_hand_camera"
+                }
+            }
+        }
+    }
+
+}

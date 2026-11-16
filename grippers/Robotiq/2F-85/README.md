@@ -20,6 +20,18 @@ FaSim 夹爪库里的 Robotiq 2F-85 包装，引用官方 Isaac 6.2 Multiphy 资
 
 其余（`right_outer_knuckle_joint`、`left/right_inner_finger_joint`）名称已一致。PhysX mimic 的 `referenceJoint` 已改指 `gripper_joint`。
 
+## Side（双臂）
+
+本地变体，默认 `default`。M6 / W2 等双臂主机在 EE 挂载上 sticky `Side=left|right`（与 AG2F90 / Dex1 相同）：
+
+| Side | 主 DOF | 腕部光学 Camera（Sensor=acepro2\|action6） |
+| --- | --- | --- |
+| `default` | `gripper_joint` | `wrist_camera/optical_frame/Camera` |
+| `left` | `left_gripper_joint` 等 `left_*` 前缀 | `left_hand_camera` |
+| `right` | `right_gripper_joint` 等 `right_*` 前缀 | `right_hand_camera` |
+
+手指解剖名里的 left/right（如 `left_inner_knuckle_joint`）在 Side=left 下会变成 `left_left_inner_knuckle_joint`，与臂 Side 前缀叠加，避免双臂 DOF 撞名。Side 相机重命名会烘焙 AcePro2 ultrawide 成像参数；单臂 UR5e/CR5 保持 `Side=default`，Lens 变体仍作用在 `Camera` 上。
+
 ## Sensor
 
 本地变体，默认 `none`。`acepro2` / `action6` 是整合套件（支架 + coupling + 相机），不再单独配对 `Bracket`。

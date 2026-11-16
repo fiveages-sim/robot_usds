@@ -24,6 +24,10 @@ bracket + coupling + robots/sensors/action_camera/{Insta360/AcePro2,DJI/Action6}
 the camera-kit offset translate (0, 0, 0.00745) along the gripper Z
 (Sensor=none stays at 0; tool0 when hung identity). Camera Lens / Frame variants live on the camera
 prim (wrist_camera), not on the Sensor option name.
+
+Side is a local variant set (default / left / right). Dual-arm hosts (M6 on W2)
+sticky-select Side=left|right so DOFs become left_gripper_joint / right_gripper_joint
+and the wrist optical Camera becomes left_hand_camera / right_hand_camera (AG2F90/Dex1).
 """
     metersPerUnit = 1
     upAxis = "Z"
@@ -41,8 +45,9 @@ def Xform "Robotiq_2F_85" (
     variants = {
         string Physics = "Physx_Mimic"
         string Sensor = "none"
+        string Side = "default"
     }
-    prepend variantSets = ["Sensor"]
+    prepend variantSets = ["Side", "Sensor"]
 )
 {
     uniform asset[] omni:scripting:scripts = [@./mount_asset_root.py@]
@@ -51,6 +56,21 @@ def Xform "Robotiq_2F_85" (
     # translate is authored on the Sensor variant (none=0, acepro2/action6=0.00745)
     # so switching the variant updates the viewport without waiting for Play.
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+    variantSet "Side" = {
+        "default" (
+            prepend payload = @./payloads/Side/default.usda@
+        ) {
+        }
+        "left" (
+            prepend payload = @./payloads/Side/left.usda@
+        ) {
+        }
+        "right" (
+            prepend payload = @./payloads/Side/right.usda@
+        ) {
+        }
+    }
 
     variantSet "Sensor" = {
         "none" (
