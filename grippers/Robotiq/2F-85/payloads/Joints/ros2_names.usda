@@ -119,19 +119,23 @@ over "Robotiq_2F_85"
             float state:angular:physics:velocity = 0
         }
 
-        # Surviving official joints: retarget mimic leader to gripper_joint.
+        # Surviving official joints. This sublayer is stronger than a payload of
+        # Robotiq_2F_85.usda, so these replace the official finger_joint target.
         over "right_outer_knuckle_joint"
         {
+            float physxMimicJoint:rotZ:gearing = -1
             rel physxMimicJoint:rotZ:referenceJoint = </Robotiq_2F_85/Joints/gripper_joint>
         }
 
         over "right_inner_finger_joint"
         {
+            float physxMimicJoint:rotX:gearing = -1
             rel physxMimicJoint:rotX:referenceJoint = </Robotiq_2F_85/Joints/gripper_joint>
         }
 
         over "left_inner_finger_joint"
         {
+            float physxMimicJoint:rotX:gearing = 1
             rel physxMimicJoint:rotX:referenceJoint = </Robotiq_2F_85/Joints/gripper_joint>
         }
     }

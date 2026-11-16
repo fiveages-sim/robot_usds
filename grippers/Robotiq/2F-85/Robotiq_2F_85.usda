@@ -20,9 +20,9 @@ that win over the official mount payload (do not use a sibling payload for this)
 
 Sensor is a local variant set (default none).
 Sensor=acepro2|action6 is an integrated kit: official RoboAPI wrist-camera
-bracket + coupling + robots/sensors/RoboAPI/{AcePro2,Action6}, and applies
-the measured coupling offset translate (0, 0, 0.007598894) along the gripper Z
-(tool0 when hung identity). Camera Lens / Frame variants live on the camera
+bracket + coupling + robots/sensors/action_camera/{Insta360/AcePro2,DJI/Action6}, and applies
+the camera-kit offset translate (0, 0, 0.00745) along the gripper Z
+(Sensor=none stays at 0; tool0 when hung identity). Camera Lens / Frame variants live on the camera
 prim (wrist_camera), not on the Sensor option name.
 """
     metersPerUnit = 1
@@ -48,21 +48,48 @@ def Xform "Robotiq_2F_85" (
     uniform asset[] omni:scripting:scripts = [@./mount_asset_root.py@]
     quatd xformOp:orient = (1, 0, 0, 0)
     double3 xformOp:scale = (1, 1, 1)
-    # translate is authored by Sensor payloads (none=0, acepro2/action6=coupling offset).
+    # translate is authored on the Sensor variant (none=0, acepro2/action6=0.00745)
+    # so switching the variant updates the viewport without waiting for Play.
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
     variantSet "Sensor" = {
         "none" (
             prepend payload = @./payloads/Sensor/none.usda@
         ) {
+            # Author translate here, not only on the joint. A nested payload
+            # opinion does not refresh the viewport; localPos0 is applied on Play.
+            double3 xformOp:translate = (0, 0, 0)
+            over "base_link"
+            {
+                over "AssemblerFixedJoint"
+                {
+                    point3f physics:localPos0 = (0, 0, 0)
+                }
+            }
         }
         "acepro2" (
             prepend payload = @./payloads/Sensor/acepro2.usda@
         ) {
+            double3 xformOp:translate = (0, 0, 0.00745)
+            over "base_link"
+            {
+                over "AssemblerFixedJoint"
+                {
+                    point3f physics:localPos0 = (0, 0, 0.00745)
+                }
+            }
         }
         "action6" (
             prepend payload = @./payloads/Sensor/action6.usda@
         ) {
+            double3 xformOp:translate = (0, 0, 0.00745)
+            over "base_link"
+            {
+                over "AssemblerFixedJoint"
+                {
+                    point3f physics:localPos0 = (0, 0, 0.00745)
+                }
+            }
         }
     }
 }

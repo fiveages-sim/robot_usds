@@ -1,19 +1,5 @@
 #usda 1.0
 (
-    defaultPrim = "World"
-    doc = """UR5e + Robotiq 2F-85 Sensor=action6 on the table_optical fruits scene.
-
-ROS=fiveages, Physics=physx, EE=robotiq85. Camera default: Lens=fov_boost.
-Joints spawn at ocs2 home_1 (RoboAPI Home). OCS2 infoFile=flange (eeFrame=flange).
-Scene global_camera + ROS_Camera graph deactivated (wrist camera only). Same
-fruits payload / apple·lime PhysX overs as CR5 env/fruits.usda. Open
-env/fiveages.usda for the gripper-only Grid scene.
-"""
-    endTimeCode = 1000000
-    metersPerUnit = 1
-    startTimeCode = 0
-    timeCodesPerSecond = 60
-    upAxis = "Z"
     customLayerData = {
         dictionary cameraSettings = {
             dictionary Front = {
@@ -21,8 +7,8 @@ env/fiveages.usda for the gripper-only Grid scene.
                 double radius = 5
             }
             dictionary Perspective = {
-                double3 position = (1.25, 0.44, 1.25)
-                double3 target = (-0.2, -0.2, 0.85)
+                double3 position = (1.666728848696064, -0.08959428739031597, 1.4957133530317903)
+                double3 target = (-0.8088857323239123, 0.2239743495926799, 0.9769787578467357)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -37,17 +23,34 @@ env/fiveages.usda for the gripper-only Grid scene.
         dictionary omni_layer = {
             string authoring_layer = "./fiveages_action6.usda"
         }
+        dictionary renderSettings = {
+        }
     }
+    defaultPrim = "World"
+    doc = """UR5e + Robotiq 2F-85 Sensor=action6 on the table_optical fruits scene.
+
+ROS=fiveages, Physics=physx, EE=robotiq85. Camera default: Lens=fov_boost.
+Joints spawn at home_1 with shoulder_pan_joint - 90 deg. OCS2 infoFile=flange (eeFrame=flange).
+Scene global_camera + ROS_Camera graph deactivated (wrist camera only). Same
+fruits payload / apple·lime PhysX overs as CR5 env/fruits.usda. Open
+env/fiveages.usda for the gripper-only Grid scene.
+"""
+    endTimeCode = 1000000
+    metersPerUnit = 1
+    startTimeCode = 0
+    timeCodesPerSecond = 60
+    upAxis = "Z"
 )
 
 def Xform "World"
 {
     def "UR5e" (
-        prepend references = @../UR5e.usda@
         customData = {
             string fasim_asset_root_rel_path = "Isaac/Robots_Multiphysics/UniversalRobots/ur5e/ur5e.usda"
-            string fasim_initial_joint_pose = "home_1"
+            string fasim_initial_joint_pose = "home_1_j1p90"
         }
+        prepend payload = @https://simready-cn.s3.oss-cn-shanghai.aliyuncs.com/Assets/Isaac/6.2/Isaac/Robots_Multiphysics/UniversalRobots/ur5e/ur5e.usda@
+        prepend references = @../UR5e.usda@
         variants = {
             string EE = "robotiq85"
             string Gripper = "none"
@@ -58,41 +61,38 @@ def Xform "World"
         }
     )
     {
-        # Same table-side pose as CR5 env/fruits.usda.
-        quatd xformOp:orient = (6.123233995736766e-17, 0, 0, 1)
+        quatd xformOp:orient = (1, 0, 0, 0)
         double3 xformOp:scale = (1, 1, 1)
         double3 xformOp:translate = (-0.4, 0, 0.8)
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
-        # ocs2_arm_controller home_1 / RoboAPI Home (rad→deg).
-        # [1.0128, -1.6481, 1.6395, -1.5622, -1.5708, -0.5580]
         over "joints"
         {
             over "shoulder_pan_joint"
             {
-                float drive:angular:physics:targetPosition = 58.029165
-                float state:angular:physics:position = 58.029165
+                float drive:angular:physics:targetPosition = -31.970835
+                float state:angular:physics:position = -31.970835
                 float state:angular:physics:velocity = 0
             }
 
             over "shoulder_lift_joint"
             {
-                float drive:angular:physics:targetPosition = -94.429174
-                float state:angular:physics:position = -94.429174
+                float drive:angular:physics:targetPosition = -94.42918
+                float state:angular:physics:position = -94.42918
                 float state:angular:physics:velocity = 0
             }
 
             over "elbow_joint"
             {
-                float drive:angular:physics:targetPosition = 93.936431
-                float state:angular:physics:position = 93.936431
+                float drive:angular:physics:targetPosition = 93.93643
+                float state:angular:physics:position = 93.93643
                 float state:angular:physics:velocity = 0
             }
 
             over "wrist_1_joint"
             {
-                float drive:angular:physics:targetPosition = -89.507467
-                float state:angular:physics:position = -89.507467
+                float drive:angular:physics:targetPosition = -89.50747
+                float state:angular:physics:position = -89.50747
                 float state:angular:physics:velocity = 0
             }
 
@@ -118,20 +118,21 @@ def Xform "World"
                 over "tool0"
                 {
                     over "EE" (
+                        prepend payload = @https://simready-cn.s3.oss-cn-shanghai.aliyuncs.com/Assets/Isaac/6.2/Isaac/Robots_Multiphysics/Robotiq/2F-85/Robotiq_2F_85.usda@
                         variants = {
                             string Sensor = "action6"
                         }
                     )
                     {
                         quatd xformOp:orient = (0.707106781186, 0, 0, 0.707106781186)
-                        double3 xformOp:translate = (0, 0, 0.007598894)
+                        double3 xformOp:translate = (0, 0, 0.00745)
 
                         over "base_link"
                         {
                             over "AssemblerFixedJoint"
                             {
-                                point3f physics:localPos0 = (0, 0, 0.007598894)
-                                quatf physics:localRot0 = (0.707106781186, 0, 0, 0.707106781186)
+                                point3f physics:localPos0 = (0, 0, 0.00745)
+                                quatf physics:localRot0 = (0.70710677, 0, 0, 0.70710677)
                             }
                         }
 
@@ -142,6 +143,17 @@ def Xform "World"
                             }
                         )
                         {
+                            over "optical_frame"
+                            {
+                                over "Camera" (
+                                    prepend apiSchemas = ["OmniRtxCameraAutoExposureAPI_1", "OmniRtxCameraExposureAPI_1"]
+                                )
+                                {
+                                    float exposure:fStop = 5
+                                    float exposure:responsivity = 1.1026709
+                                    float exposure:time = 0.02
+                                }
+                            }
                         }
                     }
                 }
@@ -154,13 +166,36 @@ def Xform "World"
             {
                 over "ROS2ControlLaunch"
                 {
-                    # ur5e_description/config/ocs2/flange.info — EE track ROS-Industrial flange.
+                    custom string inputs:arms
+                    custom bool inputs:enableArmsTargetManager
                     custom string inputs:infoFile = "flange"
                     custom token inputs:mode (
                         allowedTokens = ["demo", "split_body", "full_body"]
                     )
                     custom rel inputs:targetPrim = </World/UR5e/root_joint>
                     custom bool state:configured
+                }
+            }
+
+            over "ROS_Clock"
+            {
+                over "OnPhysicsStep"
+                {
+                    custom double outputs:deltaSystemTime
+                }
+
+                over "PublishClock"
+                {
+                    custom string inputs:nodeNamespace
+                    custom string inputs:qosProfile
+                    custom uint64 inputs:queueSize
+                    custom string inputs:topicName
+                }
+
+                over "ReadSimTime"
+                {
+                    custom uint64 inputs:referenceTimeDenominator
+                    custom int64 inputs:referenceTimeNumerator
                 }
             }
         }
@@ -170,7 +205,6 @@ def Xform "World"
         prepend payload = @../../../../../environment/fiveages_env/tasks/table_optical/fruits.usda@
     )
     {
-        # Disable optical-table global_camera + its ROS publish graph; use wrist camera only.
         over "empty"
         {
             over "global_camera" (
@@ -189,7 +223,9 @@ def Xform "World"
             }
         }
 
-        over "apple"
+        over "apple" (
+            prepend payload = @https://assets.simready.cn/Assets/Isaac/6.1/Isaac/SimReady/Residential/Kitchen/Food/Fruit/Apple_A01/sm_apple_a01_01.usd@
+        )
         {
             over "Geometry"
             {
@@ -201,7 +237,9 @@ def Xform "World"
             }
         }
 
-        over "lime"
+        over "lime" (
+            prepend payload = @https://assets.simready.cn/Assets/Isaac/6.2/Isaac/SimReady/Residential/Kitchen/Food/Fruit/Lime_A02/sm_food_produce_lime_a02_01.usd@
+        )
         {
             over "Geometry"
             {
@@ -219,6 +257,47 @@ def Xform "World"
                 }
             }
         }
+
+        over "bowl" (
+            prepend payload = @https://assets.simready.cn/Assets/Isaac/6.2/Isaac/Props/YCB/Axis_Aligned/024_bowl.usd@
+        )
+        {
+        }
+
+        over "mug" (
+            prepend payload = @https://assets.simready.cn/Assets/Isaac/6.2/Isaac/Props/YCB/Axis_Aligned/025_mug.usd@
+        )
+        {
+        }
+
+        over "banana" (
+            prepend payload = @https://assets.simready.cn/Assets/Isaac/6.2/Isaac/SimReady/Residential/Kitchen/Food/Fruit/Banana_A01/sm_food_produce_banana_a01_01.usd@
+        )
+        {
+        }
+
+        over "strawberry" (
+            prepend payload = @https://assets.simready.cn/Assets/Isaac/6.2/Isaac/SimReady/Residential/Kitchen/Food/Fruit/Strawberry_A01/sm_food_produce_strawberry_a01_01.usd@
+        )
+        {
+            over "Grasp"
+            {
+                over "grasp_identifier"
+                {
+                    over "grasp_identifier_curve" (
+                        prepend apiSchemas = ["OmniSceneVisualizationAPI"]
+                    )
+                    {
+                    }
+                }
+            }
+        }
+
+        over "pear" (
+            prepend payload = @https://assets.simready.cn/Assets/Isaac/6.2/Isaac/SimReady/Residential/Kitchen/Food/Fruit/Pear_A01/sm_food_produce_pear_a01_01.usd@
+        )
+        {
+        }
     }
 }
 
@@ -226,4 +305,205 @@ def PhysicsScene "PhysicsScene" (
     prepend apiSchemas = ["NewtonSceneAPI", "PhysxSceneAPI"]
 )
 {
+    uniform token physxScene:broadphaseType = "SAP"
+    bool physxScene:enableGPUDynamics = 0
+    uint physxScene:timeStepsPerSecond = 200
 }
+
+def "Render" (
+    hide_in_stage_window = true
+    no_delete = true
+)
+{
+    def "OmniverseKit"
+    {
+        def "HydraTextures" (
+            hide_in_stage_window = true
+            no_delete = true
+        )
+        {
+            def RenderProduct "omni_kit_widget_viewport_ViewportTexture_0" (
+                prepend apiSchemas = ["OmniRtxSettingsCommonAdvancedAPI_1", "OmniRtxSettingsRtAdvancedAPI_1", "OmniRtxSettingsPtAdvancedAPI_1", "OmniRtxSettingsParticleFieldAPI_1", "OmniRtxPostColorGradingAPI_1", "OmniRtxPostChromaticAberrationAPI_1", "OmniRtxPostBloomPhysicalAPI_1", "OmniRtxPostMatteObjectAPI_1", "OmniRtxPostCompositingAPI_1", "OmniRtxPostDofAPI_1", "OmniRtxPostMotionBlurAPI_1", "OmniRtxPostTvNoiseAPI_1", "OmniRtxPostTonemapIrayReinhardAPI_1", "OmniRtxPostDebugSettingsAPI_1", "OmniRtxDebugSettingsAPI_1"]
+                hide_in_stage_window = true
+                no_delete = true
+            )
+            {
+                rel camera = </OmniverseKit_Persp>
+                token omni:rtx:ambientOcclusion:denoiserMode = "none"
+                token omni:rtx:background:source:texture:textureMode = "repeatMirrored"
+                token omni:rtx:background:source:type = "domeLight"
+                bool omni:rtx:debug:view:pixelDebug:enableFixedTextPos = 1
+                token omni:rtx:directLighting:sampledLighting:denoisingTechnique = "None"
+                bool omni:rtx:dlss:frameGeneration = 0
+                bool omni:rtx:indirectDiffuse:denoiser:enabled = 0
+                bool omni:rtx:material:db:syncLoads = 1
+                token omni:rtx:post:dlss:execMode = "performance"
+                bool omni:rtx:post:registeredCompositing:invertColorCorrection = 1
+                bool omni:rtx:post:registeredCompositing:invertToneMap = 1
+                bool omni:rtx:pt:adaptiveSampling:filterError = 0
+                uint omni:rtx:pt:adaptiveSampling:fixedSppIterations = 2
+                uint omni:rtx:pt:maxSamplesPerLaunch = 2073600
+                uint omni:rtx:pt:mgpu:maxPixelsPerRegionExponent = 12
+                bool omni:rtx:reflections:denoiser:enabled = 0
+                token omni:rtx:rendermode = "RealTimePathTracing"
+                color3f omni:rtx:rt:ambientLight:color = (0.1, 0.1, 0.1)
+                bool omni:rtx:rt:demoire = 0
+                bool omni:rtx:rt:ecoMode:enabled
+                bool omni:rtx:rt:lightcache:spatialCache:dontResolveConflicts = 1
+                int omni:rtx:rt:sss:samples = 1
+                uint omni:rtx:rtpt:maxVolumeBounces = 15
+                float omni:rtx:rtpt:modulatingRoughnessThreshold = 0.08
+                bool omni:rtx:scene:hydra:materialSyncLoads = 1
+                bool omni:rtx:scene:hydra:mdlMaterialWarmup = 1
+                rel orderedVars = </Render/Vars/LdrColor>
+                custom bool overrideClipRange = 0
+                uniform int2 resolution = (1015, 632)
+            }
+
+            def RenderProduct "Replicator" (
+                prepend apiSchemas = ["OmniRtxSettingsCommonAdvancedAPI_1", "OmniRtxSettingsRtAdvancedAPI_1", "OmniRtxSettingsPtAdvancedAPI_1", "OmniRtxSettingsParticleFieldAPI_1", "OmniRtxPostColorGradingAPI_1", "OmniRtxPostChromaticAberrationAPI_1", "OmniRtxPostBloomPhysicalAPI_1", "OmniRtxPostMatteObjectAPI_1", "OmniRtxPostCompositingAPI_1", "OmniRtxPostDofAPI_1", "OmniRtxPostMotionBlurAPI_1", "OmniRtxPostTvNoiseAPI_1", "OmniRtxPostTonemapIrayReinhardAPI_1", "OmniRtxPostDebugSettingsAPI_1", "OmniRtxDebugSettingsAPI_1"]
+                hide_in_stage_window = true
+                no_delete = true
+            )
+            {
+                rel camera = </World/UR5e/wrist_3_link/flange/tool0/EE/wrist_camera/optical_frame/Camera>
+                bool omni:rtx:material:db:syncLoads = 1
+                bool omni:rtx:rt:ecoMode:enabled
+                bool omni:rtx:scene:hydra:materialSyncLoads = 1
+                rel orderedVars = </Render/Vars/LdrColor>
+                custom bool overrideClipRange = 0
+                uniform int2 resolution = (1280, 720)
+            }
+        }
+    }
+
+    def RenderSettings "OmniverseGlobalRenderSettings" (
+        prepend apiSchemas = ["OmniRtxSettingsGlobalRtAdvancedAPI_1", "OmniRtxSettingsGlobalPtAdvancedAPI_1"]
+        no_delete = true
+    )
+    {
+        rel products = [
+            </Render/OmniverseKit/HydraTextures/omni_kit_widget_viewport_ViewportTexture_0>,
+            </Render/OmniverseKit/HydraTextures/Replicator>,
+        ]
+    }
+
+    def "Vars" (
+        hide_in_stage_window = true
+        no_delete = true
+    )
+    {
+        def RenderVar "LdrColor" (
+            hide_in_stage_window = true
+            no_delete = true
+        )
+        {
+            uniform string sourceName = "LdrColor"
+            uniform token sourceType = "raw"
+        }
+    }
+}
+
+over "OmniverseKit_Persp" (
+    prepend apiSchemas = ["OmniRtxCameraAutoExposureAPI_1", "OmniRtxCameraExposureAPI_1"]
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (0.01, 10000000)
+    float exposure:fStop = 5
+    float exposure:responsivity = 1.1026709
+    float exposure:time = 0.02
+    float focalLength = 18.147562
+    float focusDistance = 400
+    custom uniform vector3d omni:kit:centerOfInterest = (-4.327623940088009e-17, 1.7310495760352036e-16, -2.54874055645134)
+    float3 xformOp:rotateXYZ = (78.25678, -1.0177775e-13, 82.78119)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (1.666728848696064, -0.08959428739031597, 1.4957133530317903)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+
+over "OmniverseKit_Front" (
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (1, 10000000)
+    float horizontalAperture = 50
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -5)
+    token projection = "orthographic"
+    float verticalAperture = 50
+    float3 xformOp:rotateXYZ = (90, -1.2722219e-14, 90)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (5, 0, 0)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+
+over "OmniverseKit_Right" (
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (1, 10000000)
+    float horizontalAperture = 50
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -5)
+    token projection = "orthographic"
+    float verticalAperture = 50
+    float3 xformOp:rotateXYZ = (90, -1.41245e-30, 1.2722219e-14)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (0, -5, 0)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+
+over "OmniverseKit_Top" (
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (1, 10000000)
+    float horizontalAperture = 50
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -5)
+    token projection = "orthographic"
+    float verticalAperture = 50
+    float3 xformOp:rotateXYZ = (-1.2722219e-14, -7.016709e-15, -90)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (0, 0, 5)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+

@@ -200,6 +200,9 @@ The following models are **Git submodules** (vendored repositories, checked in a
         - nanoScan3
     - sensing (`sensors/sensing/`)
         - SHW5G / AstraS56 / M3A
+    - Action cameras (`sensors/action_camera/`)
+        - Insta360 Ace Pro 2 (`Insta360/AcePro2`)
+        - DJI Osmo Action 6 (`DJI/Action6`)
 
 ## 4. Directory Structure
 
@@ -246,6 +249,7 @@ robots/
     orbbec/{305,336,336L,335Le,335Lg,dabai_agilex,dabai_dw,oradar_ms500}.usd
     robosense/airy.usd  linkhou/ds51.usd
     sensing/  sick/  ultrasonic/
+    action_camera/{Insta360/AcePro2,DJI/Action6}
   README.md
   LICENSE
 ```

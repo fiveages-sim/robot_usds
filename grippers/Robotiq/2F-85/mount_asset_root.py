@@ -4,7 +4,12 @@
 
 Reads ``customData["fasim_asset_root_rel_path"]``, resolves it with
 ``get_assets_root_path()`` (honors ``ISAACSIM_ASSET_REGION_PROFILE`` /
-``ISAACSIM_ASSET_ROOT``), and authors a payload on the session edit target.
+``ISAACSIM_ASSET_ROOT``), and authors that payload on ``Robotiq_2F_85.usda`` itself (not the session
+layer). ``payloads/Joints/ros2_names.usda`` is a sublayer of that file, so
+its joint rename and mimic retarget stay stronger than the official asset.
+
+Mount position is not this script's job. Offsets belong on the variant payload,
+the same way AG2F90 Flange and CR5 Sensor=KWR75B author ``xformOp:translate``.
 
 Do not hardcode S3 URLs here.
 """
@@ -18,19 +23,6 @@ from pxr import Sdf
 
 _REL_PATH_KEY = "fasim_asset_root_rel_path"
 _DEFAULT_REL_PATH = "Isaac/Robots_Multiphysics/Robotiq/2F-85/Robotiq_2F_85.usda"
-
-
-def _payload_asset_paths(prim) -> list[str]:
-    op = prim.GetMetadata("payload")
-    if not op:
-        return []
-    if hasattr(op, "GetAddedOrExplicitItems"):
-        return [str(p.assetPath) for p in op.GetAddedOrExplicitItems()]
-    paths: list[str] = []
-    for attr in ("explicitItems", "prependedItems", "addedItems"):
-        items = getattr(op, attr, None) or []
-        paths.extend(str(p.assetPath) for p in items)
-    return paths
 
 
 def _join_asset_root(root: str, rel: str) -> str:
@@ -47,22 +39,49 @@ def _is_official_mount(path: str, rel: str, full: str) -> bool:
     return "://" in path or normalized.startswith("/") or normalized.startswith("omniverse:")
 
 
+def _gripper_layer(prim):
+    """Layer that defines this gripper, so its sublayers stay stronger than the official payload."""
+    suffix = "/robots/grippers/Robotiq/2F-85/Robotiq_2F_85.usda"
+    for spec in prim.GetPrimStack():
+        ident = spec.layer.identifier.replace("\\", "/")
+        if ident.endswith(suffix):
+            return spec.layer
+    return None
+
+
+def _payload_items(sdf_prim):
+    op = sdf_prim.payloadList
+    return list(op.prependedItems) + list(op.appendedItems) + list(op.explicitItems)
+
+
 def _mount_rel_on_prim(prim, rel: str, asset_root: str) -> None:
     if not rel:
         carb.log_error(f"MountAssetRoot: empty {_REL_PATH_KEY} on {prim.GetPath()}")
         return
     full = _join_asset_root(asset_root, rel)
-    current = _payload_asset_paths(prim)
-    stale = [path for path in current if _is_official_mount(path, rel, full)]
-    if stale == [full] and current.count(full) == 1:
-        carb.log_info(f"MountAssetRoot: already mounted {full} -> {prim.GetPath()}")
+    layer = _gripper_layer(prim)
+    sdf_prim = layer.GetPrimAtPath("/Robotiq_2F_85") if layer is not None else None
+    if sdf_prim is None or not layer.permissionToEdit:
+        carb.log_error(
+            f"MountAssetRoot: cannot mount {full} under Robotiq_2F_85.usda "
+            f"for {prim.GetPath()}"
+        )
         return
 
-    payloads = prim.GetPayloads()
-    for path in stale:
-        payloads.RemovePayload(Sdf.Payload(path))
-    payloads.AddPayload(Sdf.Payload(full))
-    carb.log_info(f"MountAssetRoot: mounted {full} -> {prim.GetPath()} (was {current})")
+    def _keep(items):
+        return [item for item in items if not _is_official_mount(str(item.assetPath), rel, full)]
+
+    already = any(str(item.assetPath) == full for item in _payload_items(sdf_prim))
+    if not already:
+        # Appended on this layer: weaker than payloads/Joints/ros2_names.usda,
+        # which renames finger_joint and retargets the PhysX mimics.
+        sdf_prim.payloadList.prependedItems = _keep(sdf_prim.payloadList.prependedItems)
+        sdf_prim.payloadList.appendedItems = _keep(sdf_prim.payloadList.appendedItems) + [
+            Sdf.Payload(full)
+        ]
+        carb.log_info(f"MountAssetRoot: mounted {full} under Robotiq_2F_85.usda")
+    else:
+        carb.log_info(f"MountAssetRoot: already mounted {full} under Robotiq_2F_85.usda")
 
 
 class MountAssetRoot(BehaviorScript):

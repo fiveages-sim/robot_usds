@@ -1,7 +1,7 @@
 #usda 1.0
 (
-    defaultPrim = "AcePro2"
-    doc = """RoboAPI / Insta360 Ace Pro 2 wrist camera (sensor library). Identity frame = Robotiq 2F-85 gripper face (hang identity under the library gripper). Lens variant (on the camera, not the gripper Sensor option name) switches the official removable lens-guard visibility and the OpenCV fisheye FOV: native = 157 deg (standard Leica lens, guard visible); ultrawide (default, RoboAPI recommended) = advertised 189 deg Ultra Wide (sim fills 16:9 at 179 deg), official wide-lens mesh shown, standard guard hidden. Frame variant shows/hides the official Utility Frame (ace-cage prim); visual only, default utility. Colors from official GLB baseColorFactor. See README.md."""
+    defaultPrim = "Action6"
+    doc = """DJI Osmo Action 6 action camera (sensor library, sensors/action_camera/DJI). Identity frame = Robotiq 2F-85 gripper face. Lens variant (on the camera, not the gripper Sensor option name) switches the official removable lens-cover and the official FOV Boost lens mesh, plus the OpenCV fisheye FOV: native = 155 deg advertised, cover visible, boost lens hidden; fov_boost (default, RoboAPI companion 增广镜) = advertised 182 deg, sim fills 16:9 at 179 deg, cover hidden, boost lens shown. Colors from official GLB baseColorFactor / COLOR_0. See README.md."""
     metersPerUnit = 1
     subLayers = [
         @./payloads/bindings.usda@,
@@ -10,13 +10,12 @@
     upAxis = "Z"
 )
 
-def Xform "AcePro2" (
+def Xform "Action6" (
     variants = {
-        string Lens = "ultrawide"
-        string Frame = "utility"
+        string Lens = "fov_boost"
         string ROS = "none"
     }
-    prepend variantSets = ["Lens", "Frame", "ROS"]
+    prepend variantSets = ["Lens", "ROS"]
 )
 {
     def Xform "body" (
@@ -31,15 +30,9 @@ def Xform "AcePro2" (
     {
     }
 
-    def Xform "utility_frame" (
-        prepend references = @./payloads/geometries.usdc@</Geometries/utility_frame>
-    )
-    {
-    }
-
     def Xform "optical_frame"
     {
-        double3 xformOp:translate = (-0.092972511609, -0.003600000000, 0.043941224812)
+        double3 xformOp:translate = (-0.088161570094, -0.000043662724, 0.055081783812)
         quatd xformOp:orient = (0.183012701892, -0.683012701892, -0.683012701892, 0.183012701892)
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient"]
 
@@ -90,24 +83,24 @@ def Xform "AcePro2" (
                 # by its own lens mesh. Far plane unchanged.
                 float2 clippingRange = (0.03, 100)
                 token projection = "perspective"
-                float focalLength = 8.774161
+                float focalLength = 8.887376
                 float focusDistance = 400
                 float horizontalAperture = 20.955
                 float verticalAperture = 11.787
                 # OpenCV fisheye (equidistant approximation from advertised diagonal FOV).
                 # Official calibration (fx, fy, cx, cy, k1-k4) is not published; k1-k4 stay 0.
-                # advertisedDiagonalFovDeg = 157.0
+                # advertisedDiagonalFovDeg = 155.0
                 # intendedFps = 30 (RoboAPI USB MJPG 1280x720)
                 # distortionModel = opencvFisheye_equidistant_approx
-                #   Insta360 Ace Pro 2 standard / Leica lens, advertised 157 deg diagonal FOV.
+                #   DJI Osmo Action 6 native lens, advertised 155 deg FOV.
                 #   OpenCV fisheye, equidistant fx=fy from 1280x720 image diagonal; principal point at center.
                 #   k1-k4 = 0 because official OpenCV calibration is not published. Approximation only.
-                #   Visual: official GLB 'Ace Pro 2 removable lens guard' is shown (standard guard).
+                #   Visual: official removable lens cover is shown; FOV Boost wide-lens is hidden.
                 #   USB MJPG 1280x720 @ 30 FPS (RoboAPI hardware.md).
                 float omni:lensdistortion:opencvFisheye:cx = 640.0
                 float omni:lensdistortion:opencvFisheye:cy = 360.0
-                float omni:lensdistortion:opencvFisheye:fx = 535.954495
-                float omni:lensdistortion:opencvFisheye:fy = 535.954495
+                float omni:lensdistortion:opencvFisheye:fx = 542.870037
+                float omni:lensdistortion:opencvFisheye:fy = 542.870037
                 float omni:lensdistortion:opencvFisheye:k1 = 0
                 float omni:lensdistortion:opencvFisheye:k2 = 0
                 float omni:lensdistortion:opencvFisheye:k3 = 0
@@ -118,7 +111,7 @@ def Xform "AcePro2" (
                 }
             }
         }
-        "ultrawide" {
+        "fov_boost" {
             over "lens_guard"
             {
                 token visibility = "invisible"
@@ -143,17 +136,16 @@ def Xform "AcePro2" (
                 float verticalAperture = 11.787
                 # OpenCV fisheye (equidistant approximation from advertised diagonal FOV).
                 # Official calibration (fx, fy, cx, cy, k1-k4) is not published; k1-k4 stay 0.
-                # advertisedDiagonalFovDeg = 189.0 (optical-design max; sim fills 16:9 at 179 deg)
+                # advertisedDiagonalFovDeg = 182.0 (DJI / RoboAPI; sim fills 16:9 at 179 deg)
                 # intendedFps = 30 (RoboAPI USB MJPG 1280x720)
                 # distortionModel = opencvFisheye_equidistant_approx
-                #   Insta360 Ace Pro 2 Ultra Wide Lens, advertised 189 deg optical-design max FOV
-                #   (Insta360 store: actual results may vary with settings).
-                #   Isaac cannot image rays beyond 180 deg, so a 189 deg diagonal left blank
+                #   DJI Osmo Action 6 FOV Boost Lens, advertised 182 deg FOV (DJI / RoboAPI companion).
+                #   Isaac cannot image rays beyond 180 deg, so a 182 deg diagonal left blank
                 #   corners on 1280x720. Equidistant fx=fy is set for 179 deg at the corners
                 #   so the frame fills; principal point at center. k1-k4 stay 0.
                 #   k1-k4 = 0 because official OpenCV calibration is not published. Approximation only.
-                #   Visual: official assembly-viewer wide-lens mesh (Ultra Wide Lens) is shown;
-                #   the official removable lens guard is hidden.
+                #   Visual: official assembly-viewer FOV Boost lens mesh is shown;
+                #   the official removable lens cover is hidden.
                 #   USB MJPG 1280x720 @ 30 FPS (RoboAPI hardware.md).
                 float omni:lensdistortion:opencvFisheye:cx = 640.0
                 float omni:lensdistortion:opencvFisheye:cy = 360.0
@@ -167,21 +159,6 @@ def Xform "AcePro2" (
                 token omni:lensdistortion:model = "opencvFisheye"
 
                 }
-            }
-        }
-    }
-
-    variantSet "Frame" = {
-        "none" {
-            over "utility_frame"
-            {
-                token visibility = "invisible"
-            }
-        }
-        "utility" {
-            over "utility_frame"
-            {
-                token visibility = "inherited"
             }
         }
     }

@@ -7,8 +7,8 @@
                 double radius = 5
             }
             dictionary Perspective = {
-                double3 position = (0.48229698637053925, 0.8641224532537356, 1.6402135345280628)
-                double3 target = (-0.451834933055894, -1.1807572953981018, -0.06626543598845491)
+                double3 position = (1.019031291456438, 0.9717079539644656, 1.7825413086669206)
+                double3 target = (-0.8139411203610469, -1.0049251051493546, -0.1342470098056423)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -30,7 +30,7 @@
     doc = """UR5e + Robotiq 2F-85 Sensor=acepro2 on the table_optical fruits scene.
 
 ROS=fiveages, Physics=physx, EE=robotiq85. Camera defaults: Lens=ultrawide,
-Frame=utility. Joints spawn at ocs2 home_1 (RoboAPI Home). OCS2 infoFile=flange
+Frame=utility. Joints spawn at home_1 with shoulder_pan_joint - 90 deg. OCS2 infoFile=flange
 (eeFrame=flange). Scene global_camera + ROS_Camera graph deactivated (wrist
 camera only). Same fruits payload / apple·lime PhysX overs as CR5 env/fruits.usda.
 Open env/fiveages.usda for the gripper-only Grid scene.
@@ -47,7 +47,7 @@ def Xform "World"
     def "UR5e" (
         customData = {
             string fasim_asset_root_rel_path = "Isaac/Robots_Multiphysics/UniversalRobots/ur5e/ur5e.usda"
-            string fasim_initial_joint_pose = "home_1"
+            string fasim_initial_joint_pose = "home_1_j1p90"
         }
         prepend payload = @https://simready-cn.s3.oss-cn-shanghai.aliyuncs.com/Assets/Isaac/6.2/Isaac/Robots_Multiphysics/UniversalRobots/ur5e/ur5e.usda@
         prepend references = @../UR5e.usda@
@@ -61,7 +61,7 @@ def Xform "World"
         }
     )
     {
-        quatd xformOp:orient = (0.7071067811865476, 0, 0, -0.7071067811865475)
+        quatd xformOp:orient = (1, 0, 0, 0)
         double3 xformOp:scale = (1, 1, 1)
         double3 xformOp:translate = (-0.4, 0, 0.8)
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
@@ -70,8 +70,8 @@ def Xform "World"
         {
             over "shoulder_pan_joint"
             {
-                float drive:angular:physics:targetPosition = 58.029167
-                float state:angular:physics:position = 58.029167
+                float drive:angular:physics:targetPosition = -31.970833
+                float state:angular:physics:position = -31.970833
                 float state:angular:physics:velocity = 0
             }
 
@@ -125,13 +125,13 @@ def Xform "World"
                     )
                     {
                         quatd xformOp:orient = (0.707106781186, 0, 0, 0.707106781186)
-                        double3 xformOp:translate = (0, 0, 0.007598894)
+                        double3 xformOp:translate = (0, 0, 0.00745)
 
                         over "base_link"
                         {
                             over "AssemblerFixedJoint"
                             {
-                                point3f physics:localPos0 = (0, 0, 0.007598894)
+                                point3f physics:localPos0 = (0, 0, 0.00745)
                                 quatf physics:localRot0 = (0.70710677, 0, 0, 0.70710677)
                             }
                         }
@@ -357,7 +357,7 @@ def "Render" (
                 bool omni:rtx:scene:hydra:mdlMaterialWarmup = 1
                 rel orderedVars = </Render/Vars/LdrColor>
                 custom bool overrideClipRange = 0
-                uniform int2 resolution = (1280, 720)
+                uniform int2 resolution = (1122, 907)
             }
 
             def RenderProduct "Replicator" (
@@ -425,10 +425,10 @@ over "OmniverseKit_Persp" (
     float exposure:time = 0.02
     float focalLength = 18.147562
     float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (-4.7923624233406134e-17, 1.9169449693362454e-16, -2.822446829641407)
-    float3 xformOp:rotateXYZ = (52.799232, 2.7034715e-14, 155.44836)
+    custom uniform vector3d omni:kit:centerOfInterest = (-5.616312621976579e-17, 2.2465250487906314e-16, -3.3077097168129104)
+    float3 xformOp:rotateXYZ = (54.585243, 1.5902774e-14, 137.1596)
     float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (0.48229698637053925, 0.8641224532537356, 1.6402135345280628)
+    double3 xformOp:translate = (1.019031291456438, 0.9717079539644656, 1.7825413086669206)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 

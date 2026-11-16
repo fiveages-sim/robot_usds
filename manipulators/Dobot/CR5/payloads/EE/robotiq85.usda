@@ -1,0 +1,48 @@
+#usda 1.0
+(
+    defaultPrim = "CR5"
+    metersPerUnit = 1
+    upAxis = "Z"
+    doc = "Library Robotiq 2F-85 on CR5 tcp. tcp is already Link6 Rz(+90). Gripper root stays identity on tcp; an extra Rz(pi/2) like UR tool0 clocks the jaws 90 deg off this flange. Weld body is Link6, so localRot0 equals the tcp yaw. Z is not pinned: Sensor=none stays on the mount face, Sensor=acepro2|action6 shifts out by 0.00745 m."
+)
+
+def Xform "CR5"
+{
+    over "Link6"
+    {
+        over "tcp"
+        {
+            def "EE" (
+                prepend payload = @../../../../../grippers/Robotiq/2F-85/Robotiq_2F_85.usda@
+                delete apiSchemas = ["PhysicsArticulationRootAPI", "NewtonArticulationRootAPI", "PhysxArticulationAPI"]
+                variants = {
+                    string Sensor = "none"
+                }
+            )
+            {
+                # Identity on tcp. tcp already supplies the flange yaw.
+                # Do not author translate or localPos0 here. Sensor=none / acepro2 /
+                # action6 on the gripper payload owns that offset.
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+                over "base_link"
+                {
+                    def PhysicsFixedJoint "AssemblerFixedJoint"
+                    {
+                        # tcp is an Xform. Weld to Link6 so finger joints join the
+                        # arm. EE is identity on tcp, so localRot0 = tcp Rz(+90).
+                        # localPos0 comes from the Sensor variant (0 or 0.00745).
+                        rel physics:body0 = </CR5/Link6>
+                        rel physics:body1 = </CR5/Link6/tcp/EE/base_link>
+                        point3f physics:localPos1 = (0, 0, 0)
+                        quatf physics:localRot0 = (0.707106781186, 0, 0, 0.707106781186)
+                        quatf physics:localRot1 = (1, 0, 0, 0)
+                        bool physics:excludeFromArticulation = 0
+                    }
+                }
+            }
+        }
+    }
+}

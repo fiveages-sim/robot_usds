@@ -27,8 +27,8 @@ FaSim 夹爪库里的 Robotiq 2F-85 包装，引用官方 Isaac 6.2 Multiphy 资
 | 变体 | 作用 |
 | --- | --- |
 | `Sensor=none` | 无支架/相机；库内夹爪保持官方姿态（手臂安装偏航由引用方的 EE payload 写）。 |
-| `Sensor=acepro2\|action6` | 官方 RoboAPI 腕部支架与螺丝、法兰↔夹爪官方转接环 `coupling`（白/银色环 + 黑色通信线与接头）、以及 `robots/sensors/RoboAPI/{AcePro2,Action6}`。相对夹爪安装面。同时把夹爪沿 tool0 Z 平移 **0.007598894 m**（7.5989 mm）——官方 assembly 量到的法兰→夹爪面联轴节厚度，两套相机相同。官方 UR 腕部和官方夹爪本体/手指不再加入，以免和 Isaac UR5e、库内 2F-85 重复。颜色来自官方 GLB 的 `COLOR_0`。增广镜 / 极广角是**相机自己的** `Lens`（以及 Ace 的 `Frame`）变体，不在 Sensor 选项名上。 |
+| `Sensor=acepro2\|action6` | 官方 RoboAPI 腕部支架与螺丝、法兰↔夹爪官方转接环 `coupling`（白/银色环 + 黑色通信线与接头）、以及 `robots/sensors/action_camera/{Insta360/AcePro2,DJI/Action6}`。相对夹爪安装面。同时把夹爪沿工具 Z 外移 **0.00745 m**。支架、转接环和相机再沿夹爪 Z 退回 **0.0032 m**，相对法兰保持原位。不带相机时不外移。两套相机相同。官方 UR 腕部和官方夹爪本体/手指不再加入，以免和 Isaac UR5e、库内 2F-85 重复。颜色来自官方 GLB 的 `COLOR_0`。增广镜 / 极广角是**相机自己的** `Lens`（以及 Ace 的 `Frame`）变体，不在 Sensor 选项名上。 |
 
-当前 UR5e `payloads/EE/robotiq85.usda` 把 EE 的姿态和 `AssemblerFixedJoint` 写成绕 tool0 Z 的 `π/2`（平移为 0）。带相机的场景（`env/fiveages_acepro2.usda`、`env/fiveages_action6.usda`）会在 EE 上再写同一偏航，并沿 tool0 Z 加上 7.5989 mm 联轴节偏移，保证关节与 xform 一致。
+当前 UR5e `payloads/EE/robotiq85.usda` 只写绕 tool0 Z 的 `π/2`，不钉平移。`Sensor=acepro2|action6` 沿工具 Z 外移 7.45 mm；带相机的场景会再写同一偏航和这段平移，保证关节与 xform 一致。支架、转接环和相机相对夹爪退回 3.2 mm。
 
 第一次打开带 BehaviorScript 的 stage 时，若弹出允许 USD Python 的提示，需要允许；或用 `/app/scripting/ignoreWarningDialog=true`。

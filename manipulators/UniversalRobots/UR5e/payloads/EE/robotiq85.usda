@@ -3,7 +3,7 @@
     defaultPrim = "UR5e"
     metersPerUnit = 1
     upAxis = "Z"
-    doc = "Library Robotiq 2F-85 on UR5e tool0 with Rz(pi/2): official Multiphy fingers open along Y, RoboAPI / ROS 2F85 want the finger line along tool0 X. Library asset stays in its native frame."
+    doc = "Library Robotiq 2F-85 on UR5e tool0 with Rz(pi/2): official Multiphy fingers open along Y, so the finger line lies along tool0 X. Z translation is not pinned: Sensor=none stays on the flange face, Sensor=acepro2|action6 shifts out by 0.00745 m."
 )
 
 def Xform "UR5e"
@@ -21,7 +21,6 @@ def Xform "UR5e"
                 {
                     quatd xformOp:orient = (0.707106781186, 0, 0, 0.707106781186)
                     double3 xformOp:scale = (1, 1, 1)
-                    double3 xformOp:translate = (0, 0, 0)
                     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
                     over "base_link"
@@ -32,7 +31,6 @@ def Xform "UR5e"
                             # the rigid body so EE joints merge into the arm articulation.
                             rel physics:body0 = </UR5e/wrist_3_link>
                             rel physics:body1 = </UR5e/wrist_3_link/flange/tool0/EE/base_link>
-                            point3f physics:localPos0 = (0, 0, 0)
                             point3f physics:localPos1 = (0, 0, 0)
                             quatf physics:localRot0 = (0.707106781186, 0, 0, 0.707106781186)
                             quatf physics:localRot1 = (1, 0, 0, 0)

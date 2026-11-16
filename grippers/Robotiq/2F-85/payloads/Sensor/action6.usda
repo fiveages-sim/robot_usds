@@ -1,13 +1,13 @@
 #usda 1.0
 (
     defaultPrim = "Robotiq_2F_85"
-    doc = """Sensor=action6. Integrated RoboAPI Action 6 kit: wrist-camera bracket + fasteners, official coupling (adapter ring + gripper communication cable), and robots/sensors/RoboAPI/Action6 hung identity on the library gripper face.
+    doc = """Sensor=action6. Integrated RoboAPI Action 6 kit: wrist-camera bracket + fasteners, official coupling (adapter ring + gripper communication cable), and robots/sensors/action_camera/DJI/Action6 hung identity on the library gripper face.
 
-Applies the official coupling offset: translate the gripper (and this bracket/coupling/camera) by (0, 0, 0.007598894) along tool0 Z so the mounting face sits 7.5989 mm past the UR flange (same thickness on Ace Pro 2).
+Shifts the gripper out by (0, 0, 0.00745) along tool Z. That translate is authored on the Sensor variant in Robotiq_2F_85.usda so the viewport updates when the variant changes; the matching AssemblerFixedJoint localPos0 keeps Play from snapping. Bracket, coupling, and wrist_camera are translated (0, 0, -0.0032) so they stay on the previous flange position. Bare Sensor=none stays on the flange face. Same offset on Ace Pro 2.
 
 Meshes and colors come from the official developers.pokebot.com assembly GLB. Official UR wrist and official gripper body/fingers are omitted so they do not duplicate the Isaac UR5e wrist or the library Robotiq 2F-85. Camera Lens variants live on wrist_camera, not on this Sensor option name.
 
-When composed under UR5e payloads/EE/robotiq85.usda, that file pins EE translate and AssemblerFixedJoint to identity — camera-kit envs (env/fiveages_action6.usda) re-apply the same offset so the joint and xform stay consistent.
+When composed under an arm EE payload, that file must not pin translate or AssemblerFixedJoint localPos0, or this offset is hidden. UR5e and CR5 robotiq85 payloads leave Z free. Scenes only select Sensor=action6; they do not restate the offset.
 """
     metersPerUnit = 1
     subLayers = [
@@ -19,36 +19,30 @@ When composed under UR5e payloads/EE/robotiq85.usda, that file pins EE translate
 
 def Xform "Robotiq_2F_85"
 {
-    double3 xformOp:translate = (0, 0, 0.007598894)
-
-    over "base_link"
-    {
-        over "AssemblerFixedJoint"
-        {
-            point3f physics:localPos0 = (0, 0, 0.007598894)
-        }
-    }
-
     def Xform "bracket" (
         prepend references = @./geometries_action6.usdc@</Geometries>
     )
     {
+        double3 xformOp:translate = (0, 0, -0.0032)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
     }
 
     def Xform "coupling" (
         prepend references = @./geometries_coupling.usdc@</Geometries>
     )
     {
+        double3 xformOp:translate = (0, 0, -0.0032)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
     }
 
     def Xform "wrist_camera" (
-        prepend payload = @../../../../../sensors/RoboAPI/Action6/Action6.usda@
+        prepend payload = @../../../../../sensors/action_camera/DJI/Action6/Action6.usda@
     )
     {
         # Default Lens=fov_boost (RoboAPI companion 增广镜).
         quatd xformOp:orient = (1, 0, 0, 0)
         double3 xformOp:scale = (1, 1, 1)
-        double3 xformOp:translate = (0, 0, 0)
+        double3 xformOp:translate = (0, 0, -0.0032)
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
     }
 }

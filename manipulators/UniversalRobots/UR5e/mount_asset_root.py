@@ -28,7 +28,16 @@ _INITIAL_POSE_KEY = "fasim_initial_joint_pose"
 _HOME_POSES_RAD = {
     # ocs2_arm_controller / ros2_controllers.yaml home_1 (RoboAPI Home).
     "home_1": {
-        "shoulder_pan_joint": 1.0128,
+        "shoulder_pan_joint": -0.5580,
+        "shoulder_lift_joint": -1.6481,
+        "elbow_joint": 1.6395,
+        "wrist_1_joint": -1.5622,
+        "wrist_2_joint": -1.5708,
+        "wrist_3_joint": -0.5580,
+    },
+    # fiveages_acepro2: home_1 with shoulder_pan_joint - 90 deg.
+    "home_1_j1p90": {
+        "shoulder_pan_joint": -0.5579963267948966,
         "shoulder_lift_joint": -1.6481,
         "elbow_joint": 1.6395,
         "wrist_1_joint": -1.5622,
