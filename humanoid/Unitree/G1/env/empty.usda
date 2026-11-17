@@ -7,8 +7,8 @@
                 double radius = 5
             }
             dictionary Perspective = {
-                double3 position = (1.4167786597863297, 1.3935682639496252, 1.767524364158804)
-                double3 target = (-0.46125385806190544, -0.4353744725307105, 0.3370863254668368)
+                double3 position = (2.446790952887473, 1.8929448794597337, 1.955477009693331)
+                double3 target = (-0.984987031163016, -1.0898819704771572, 0.1198491750712416)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -21,6 +21,7 @@
             string boundCamera = "/OmniverseKit_Persp"
         }
         dictionary omni_layer = {
+            string authoring_layer = "./empty.usda"
             dictionary locked = {
             }
             dictionary muteness = {
@@ -37,16 +38,106 @@
     upAxis = "Z"
 )
 
-def Xform "World"
+def Xform "World" (
+    prepend apiSchemas = ["OmniScriptingAPI"]
+)
 {
+    uniform asset[] omni:scripting:scripts = [@../../../../../../dev_ws/robot-policy-deployment/src/g1_policy_deployment/isaac_sim/g1_sim_controller.py@] (
+        customData = {
+            dictionary fileExts = {
+                string "*.py" = "Python File"
+            }
+        }
+    )
+
     def "G1" (
         prepend payload = @../G1.usda@
+        variants = {
+            string ROS = "enable"
+        }
     )
     {
         quatd xformOp:orient = (1, 0, 0, 0)
         double3 xformOp:scale = (1, 1, 1)
         double3 xformOp:translate = (0, 0, 0.8178553984769515)
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "G1_Arms"
+        {
+            over "left_wrist_yaw_link"
+            {
+                over "left_tcp"
+                {
+                    over "RubberHand"
+                    {
+                        uniform bool newton:jointsAddMobility (
+                            displayName = "Joints Add Mobility"
+                        )
+                    }
+                }
+            }
+        }
+
+        over "G1_Lower"
+        {
+            over "pelvis"
+            {
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+        }
+
+        over "Graph"
+        {
+            over "ROS_Control"
+            {
+                over "ReadSimTime"
+                {
+                    custom uint64 inputs:referenceTimeDenominator
+                    custom int64 inputs:referenceTimeNumerator
+                }
+
+                over "ros2_publish_clock"
+                {
+                    custom string inputs:nodeNamespace
+                    custom string inputs:qosProfile
+                    custom uint64 inputs:queueSize
+                    custom string inputs:topicName
+                }
+
+                over "FilterArmCommands"
+                {
+                    custom token inputs:scriptPath
+                    custom bool state:omni_initialized
+                }
+
+                over "SubscriberJointState"
+                {
+                    custom string inputs:qosProfile
+                    custom uint64 inputs:queueSize
+                }
+
+                over "ArticulationController"
+                {
+                    custom double[] inputs:effortCommand
+                    custom int[] inputs:jointIndices
+                    custom string inputs:robotPath
+                    custom double[] inputs:velocityCommand
+                }
+
+                over "PublisherJointState"
+                {
+                    custom string inputs:qosProfile
+                    custom uint64 inputs:queueSize
+                    custom float inputs:sensorTime = 0
+                    float inputs:sensorTime.connect = None
+                    custom rel inputs:targetPrim
+                    custom double inputs:timeStamp
+                    double inputs:timeStamp.connect = </World/G1/Graph/ROS_Control/ReadSimTime.outputs:simulationTime>
+                }
+            }
+        }
     }
 
     def "default_environment" (
@@ -103,7 +194,7 @@ def "Render" (
                 bool omni:rtx:scene:hydra:mdlMaterialWarmup = 1
                 rel orderedVars = </Render/Vars/LdrColor>
                 custom bool overrideClipRange = 0
-                uniform int2 resolution = (949, 604)
+                uniform int2 resolution = (1767, 720)
             }
         }
     }
@@ -153,17 +244,22 @@ over "OmniverseKit_Persp" (
     float exposure:time = 0.02
     float focalLength = 18.147562
     float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -2.9863339823195396)
-    float3 xformOp:rotateXYZ = (61.380238, -9.541664e-15, 134.2413)
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -4.903456504931746)
+    float3 xformOp:rotateXYZ = (68.01562, -4.4527766e-14, 130.99646)
     float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (1.4167786597863297, 1.3935682639496252, 1.767524364158804)
+    double3 xformOp:translate = (2.446790952887473, 1.8929448794597337, 1.955477009693331)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 
 def PhysicsScene "PhysicsScene" (
+    delete apiSchemas = ["MjcSceneAPI"]
     prepend apiSchemas = ["NewtonSceneAPI", "PhysxSceneAPI"]
 )
 {
+    uniform token physxScene:broadphaseType = "SAP"
+    bool physxScene:enableGPUDynamics = 0
+    float physxScene:maxDepenetrationVelocity = 0.8
+    uint physxScene:timeStepsPerSecond = 200
 }
 
 over "OmniverseKit_Front" (
