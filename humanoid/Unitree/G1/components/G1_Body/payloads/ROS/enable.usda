@@ -95,8 +95,25 @@ def Xform "G1_Body"
                 prepend uint inputs:execIn.connect = [
                     </G1_Body/Graph/ROS_G1BodyCamera/RunOnce.outputs:step>
                 ]
-                # 1280 x round(1280 * 13.936 / 24.95) = 715 -> use 720 (native-ish).
-                custom uint inputs:height = 720
+                # ------------------------------------------------------------------
+                # 【临时改动 2026-11-14】发布分辨率从 1280x720 改为 640x480
+                #
+                # 原因：训练数据（sdg 采集）用的是 640x480（4:3），而这里原本
+                # 发布 1280x720（16:9）。Isaac 按分辨率比例推导有效垂直 aperture
+                # （HFOV 固定、方形像素），导致两者的**垂直视野差 12.3°（29%）**：
+                #     640x480  → HFOV 69.0° VFOV 54.5°   ← 训练数据
+                #     1280x720 → HFOV 69.0° VFOV 42.3°   ← 话题发布的
+                # 直接 resize 到 640x480 会把画面纵向压扁 29%，策略"看不懂"。
+                # 实测：用数据集图 20 帧推进 18.2mm，用实时图只有 0.7mm。
+                #
+                # 改这里让话题发布与训练数据同分辨率 → 零转换、零视野损失。
+                # 注意：sdg 采集**不受影响**（它直接读 Replicator，用
+                # task.yaml 的 resolution，本来就是 640x480）。
+                #
+                # TODO 后续方案：要么把采集分辨率统一到 1280x720，要么把这个
+                # 分辨率做成配置项（而不是写死在资产里）。
+                # ------------------------------------------------------------------
+                custom uint inputs:height = 480
                 custom rel inputs:renderProductPrim (
                     customData = {
                         dictionary omni = {
@@ -106,7 +123,7 @@ def Xform "G1_Body"
                         }
                     }
                 )
-                custom uint inputs:width = 1280
+                custom uint inputs:width = 640
                 token node:type = "isaacsim.core.nodes.IsaacCreateRenderProduct"
                 int node:typeVersion = 2
                 custom uint outputs:execOut (
