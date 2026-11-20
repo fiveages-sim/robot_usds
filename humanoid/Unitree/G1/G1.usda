@@ -41,10 +41,13 @@ def Xform "G1" (
         string Lower = "lower"
         string Physics = "physx"
         string ROS = "none"
+        # 相机发布图与 ROS 模式解耦（同 G1D）。默认开，数采/推理直接可用；
+        # 只想跑运控不拍照时把场景里改成 Camera = "none"。
+        string Camera = "enable"
         string Robot = "none"
         string Sensor = "none"
     }
-    prepend variantSets = ["Physics", "ROS", "Sensor", "Lower", "BodyHead", "Arms", "EE_Left", "EE_Right"]
+    prepend variantSets = ["Physics", "ROS", "Camera", "Sensor", "Lower", "BodyHead", "Arms", "EE_Left", "EE_Right"]
     append variantSets = "Robot"
 )
 {
@@ -108,8 +111,39 @@ def Xform "G1" (
         ) {
 
         }
+        # In-process ros2_control (ROS2ControlLaunch + IsaacSimSystem). Replaces the
+        # topic JointState bridge above: the controller_manager lives inside Isaac.
+        # Legs stay with the standing policy (robot-policy-deployment); only waist
+        # and arms are driven by OCS2 through this graph.
+        "fiveages" (
+            prepend payload = @./payloads/ROS/fiveages.usda@
+        ) {
+
+        }
         "none" (
             prepend payload = @./payloads/ROS/none.usda@
+        ) {
+
+        }
+    }
+
+    # Camera variant: 是否加载头部 + 双腕相机发布图。
+    # 与 ROS=* 独立：可只开相机（拍照/标定），也可 ROS=fiveages + Camera=enable
+    # （数采 + 推理的常规组合）。需要 Sensor=sensors（Camera prim 存在）与
+    # EE_*=dex1（腕部 Camera prim 来自 Dex1）。
+    #
+    # 话题（相对名 → 跟随机器人 namespace）：
+    #   /head_camera/{rgb,depth,camera_info}
+    #   /left_hand_camera/{rgb,depth,camera_info}
+    #   /right_hand_camera/{rgb,depth,camera_info}
+    variantSet "Camera" = {
+        "none" (
+            prepend payload = @./payloads/Camera/none.usda@
+        ) {
+
+        }
+        "enable" (
+            prepend payload = @./payloads/Camera/enable.usda@
         ) {
 
         }

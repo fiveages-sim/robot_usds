@@ -1,0 +1,72 @@
+#usda 1.0
+(
+    defaultPrim = "G1"
+    metersPerUnit = 1
+    upAxis = "Z"
+    doc = """G1 Camera=enable: turn on the camera publisher graphs.
+
+和 G1D/payloads/Camera/enable.usda 完全同构 —— 本层**没有任何 OmniGraph**，
+只把子组件的 ROS 变体切到 `enable`，发布图归组件自己所有：
+
+  G1_Body  -> /head_camera/{rgb,depth,camera_info}
+              (graph in G1_Body/payloads/ROS/enable.usda)
+  Dex1 (L) -> /left_hand_camera/{rgb,depth,camera_info}
+              (graph in Dex1/payloads/ROS/enable.usda, Side=left overlay)
+  Dex1 (R) -> /right_hand_camera/{rgb,depth,camera_info}
+              (graph in Dex1/payloads/ROS/enable.usda, Side=right overlay)
+
+为什么必须有这一层（2026-11-19 接入时发现）：
+  G1 原先没有 Camera 变体，也没有任何地方把 G1_Body 的 ROS 变体设为
+  enable —— 机器人级 ROS=fiveages 只加载 payloads/ROS/fiveages.usda
+  （进程内运控），相机发布图完全不加载。表现为三路相机话题全都不存在，
+  数采时 camera 字段直接采不到。
+
+  与 ROS=* 解耦是刻意的（同 G1D）：可以只开相机不开运控（拍照/标定），
+  也可以 ROS=fiveages + Camera=enable（数采 + 推理的常规组合）。
+
+Requires Sensor=sensors and EE_*=dex1 so the Camera prims exist. With
+Sensor=none the render-product targets are unresolved and the graphs do nothing.
+"""
+)
+
+over "G1"
+{
+    over "G1_Body" (
+        variants = {
+            string ROS = "enable"
+        }
+    )
+    {
+    }
+
+    over "G1_Arms"
+    {
+        over "left_wrist_yaw_link"
+        {
+            over "left_tcp"
+            {
+                over "Dex1" (
+                    variants = {
+                        string ROS = "enable"
+                    }
+                )
+                {
+                }
+            }
+        }
+
+        over "right_wrist_yaw_link"
+        {
+            over "right_tcp"
+            {
+                over "Dex1" (
+                    variants = {
+                        string ROS = "enable"
+                    }
+                )
+                {
+                }
+            }
+        }
+    }
+}

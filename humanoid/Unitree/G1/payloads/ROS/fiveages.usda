@@ -1,0 +1,306 @@
+#usda 1.0
+(
+    defaultPrim = "G1"
+    metersPerUnit = 1
+    upAxis = "Z"
+    doc = """In-process ros2_control via fasim.ros2.nodes.ROS2ControlLaunch.
+
+Same pattern as G1D/payloads/ROS/fiveages.usda, adapted to G1's fixed-base
+dual-arm layout:
+
+- No topic JointState bridge. The in-process controller_manager owns
+  waist + arms (+ Dex1 grippers); IsaacSimSystem writes the articulation
+  directly. There is no ROS2PublishJointState / ROS2SubscribeJointState and
+  no FilterArmCommands — nothing from ROS may touch the legs.
+- **Legs are NOT owned by ros2_control on G1.** A standing policy
+  (robot-policy-deployment, Unitree or NVIDIA model) drives them over its own
+  TCP session. The xacro therefore declares the 12 leg joints as
+  *state only* under hardware:=isaac_sim, so they still appear in
+  /joint_states and the TF tree without two writers fighting for the drive.
+- OCS2 info is isaac_waist.info (via config/ros2_control/isaac.yaml):
+  legs + waist are removeJoints, so only the 14 arm DOFs are planned.
+  mode=split_body selects ocs2_arm_controller (not ocs2_wbc_controller).
+
+ArticulationRoot / IsaacSimSystem targetPrim = /G1/G1_Lower/pelvis.
+This is the physx payload's ArtRoot prim, and it is also what
+robot-policy-deployment's g1_sim_controller.py uses as ROOT, so both
+controllers address the same articulation.
+
+world -> base_link: URDF base_link_joint is identity, so base_link pose =
+pelvis pose. Published on /tf from ComputeTransformTree, because OCS2's
+PoseBasedReferenceManager resolves frames through TF and world would
+otherwise be disconnected from the robot tree.
+
+robot=unitree_g1. EE_Left / EE_Right variants (dex1 | dex3 | rubber_hand)
+are read from USD by ROS2ControlLaunch, same as G1D.
+"""
+)
+
+over "G1"
+{
+    def Scope "Graph"
+    {
+        def OmniGraph "ROS_Control"
+        {
+            token evaluationMode = "Automatic"
+            token evaluator:type = "execution"
+            token fabricCacheBacking = "StageWithoutHistory"
+            int2 fileFormatVersion = (1, 9)
+            token pipelineStage = "pipelineStageSimulation"
+
+            def OmniGraphNode "OnPlaybackTick"
+            {
+                token node:type = "omni.graph.action.OnPlaybackTick"
+                int node:typeVersion = 2
+                custom double outputs:deltaSeconds
+                custom double outputs:frame
+                custom uint outputs:tick (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom double outputs:time
+            }
+
+            def OmniGraphNode "Context"
+            {
+                custom uchar inputs:domain_id
+                custom bool inputs:useDomainIDEnvVar = 1
+                token node:type = "isaacsim.ros2.bridge.ROS2Context"
+                int node:typeVersion = 2
+                custom uint64 outputs:context
+            }
+
+            # Starts emit_control -> in-process controller_manager on the first
+            # playback tick. targetPrim is the ArtRoot IsaacSimSystem drives and
+            # must match the xacro's isaac_prim_path (emit rewrites it anyway).
+            def OmniGraphNode "ROS2ControlLaunch"
+            {
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </G1/Graph/ROS_Control/OnPlaybackTick.outputs:tick>
+                custom rel inputs:targetPrim = </G1/G1_Lower/pelvis> (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
+                custom string inputs:robot = "unitree_g1"
+                custom string inputs:type = ""
+                # Fixed-base dual arm: ocs2_arm_controller, not the wheel-humanoid WBC.
+                custom token inputs:mode = "split_body"
+                custom string inputs:profile = ""
+                custom string inputs:namespace = ""
+                custom bool inputs:enableGripper = 1
+                custom string inputs:rosSetup = ""
+                custom bool inputs:publishRobotDescription = 1
+                custom bool inputs:useSimTime = 1
+                custom bool inputs:enableArmsTargetManager = 1
+                # G1 has no body/head controllers in ros2_control; keep the
+                # split_body body-detection step off so it cannot pick up a stray
+                # controller and hold the arm DOFs away from OCS2.
+                custom bool inputs:enableBody = 0
+                # Empty = use the description default picked by isaac.yaml
+                # (info_file_name: isaac_waist). Do not point this at task.info:
+                # task.info removes waist but the Isaac overlay relies on
+                # isaac_waist.info being the single source for the 14 arm DOFs.
+                custom string inputs:infoFile = ""
+                token node:type = "fasim.ros2.nodes.ROS2ControlLaunch"
+                int node:typeVersion = 1
+                custom uint outputs:execOut (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+            }
+
+            # Expose /get_prim_attribute so grasp_id can read USD-local grasp frames
+            # (same pattern as G1D / FiveAges_W2 / Dobot CR5). Needed once in the
+            # robot ROS graph; motion-generation's ObjectBind depends on it.
+            def OmniGraphNode "ros2_service_prim" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </G1/Graph/ROS_Control/Context.outputs:context>
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </G1/Graph/ROS_Control/OnPlaybackTick.outputs:tick>
+                custom string inputs:getAttributeServiceName
+                custom string inputs:getAttributesServiceName
+                custom string inputs:nodeNamespace
+                custom string inputs:primsServiceName
+                custom string inputs:qosProfile
+                custom string inputs:setAttributeServiceName
+                token node:type = "isaacsim.ros2.bridge.ROS2ServicePrim"
+                int node:typeVersion = 1
+                custom uint outputs:execOut (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                uniform token ui:nodegraph:node:expansionState = "open"
+            }
+
+            # Sim time for the world -> base_link TF stamp. Driven by OnPlaybackTick
+            # (this Automatic graph) but returns true physics sim time. resetOnStop
+            # kept at 0 to match Isaac's own usage on G1; the ROS_Clock graph owns
+            # /clock with resetOnStop=1 so both share one timeline after Stop->Play.
+            def OmniGraphNode "ReadSimTime"
+            {
+                custom bool inputs:resetOnStop = 0
+                token node:type = "isaacsim.core.nodes.IsaacReadSimulationTime"
+                int node:typeVersion = 1
+                custom double outputs:simulationTime
+            }
+
+            # URDF base_link_joint has identity transform: base_link pose = pelvis pose.
+            def OmniGraphNode "ComputeWorldPelvis"
+            {
+                token node:type = "isaacsim.core.nodes.IsaacComputeTransformTree"
+                int node:typeVersion = 1
+                custom uint inputs:execIn (customData = { bool isExecution = 1 })
+                prepend uint inputs:execIn.connect = </G1/Graph/ROS_Control/OnPlaybackTick.outputs:tick>
+                custom rel inputs:targetPrims = </G1/G1_Lower/pelvis>
+                custom token[] outputs:childFrames
+                custom token[] outputs:parentFrames
+                custom double3[] outputs:translations
+                custom double4[] outputs:orientations
+                custom uint outputs:execOut (customData = { bool isExecution = 1 })
+            }
+
+            def OmniGraphNode "BaseWorldPose"
+            {
+                token node:type = "omni.graph.scriptnode.ScriptNode"
+                int node:typeVersion = 2
+                custom uint inputs:execIn (customData = { bool isExecution = 1 })
+                prepend uint inputs:execIn.connect = </G1/Graph/ROS_Control/ComputeWorldPelvis.outputs:execOut>
+                custom double3[] inputs:translations
+                prepend double3[] inputs:translations.connect = </G1/Graph/ROS_Control/ComputeWorldPelvis.outputs:translations>
+                custom double4[] inputs:orientations
+                prepend double4[] inputs:orientations.connect = </G1/Graph/ROS_Control/ComputeWorldPelvis.outputs:orientations>
+                custom bool inputs:usePath = 0
+                custom string inputs:script = """import math
+import omni.graph.core as og
+
+def compute(db):
+    db.outputs.execOut = og.ExecutionAttributeState.DISABLED
+    if len(db.inputs.translations) != 1 or len(db.inputs.orientations) != 1:
+        return True
+    t = [float(v) for v in db.inputs.translations[0]]
+    q = [float(v) for v in db.inputs.orientations[0]]
+    if not all(math.isfinite(v) for v in t + q):
+        return True
+    norm = math.sqrt(sum(v * v for v in q))
+    if norm < 1e-8:
+        return True
+    # ComputeTransformTree and OG quatd use (x, y, z, w).
+    db.outputs.translation = tuple(t)
+    db.outputs.rotation = tuple(v / norm for v in q)
+    db.outputs.execOut = og.ExecutionAttributeState.ENABLED
+    return True
+"""
+                custom vector3d outputs:translation
+                custom quatd outputs:rotation
+                custom uint outputs:execOut (customData = { bool isExecution = 1 })
+            }
+
+            def OmniGraphNode "PublishWorldBaseTF"
+            {
+                token node:type = "isaacsim.ros2.bridge.ROS2PublishRawTransformTree"
+                int node:typeVersion = 1
+                custom uint inputs:execIn (customData = { bool isExecution = 1 })
+                prepend uint inputs:execIn.connect = </G1/Graph/ROS_Control/BaseWorldPose.outputs:execOut>
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </G1/Graph/ROS_Control/Context.outputs:context>
+                custom string inputs:parentFrameId = "world"
+                custom string inputs:childFrameId = "base_link"
+                custom string inputs:topicName = "/tf"
+                custom bool inputs:staticPublisher = 0
+                custom vector3d inputs:translation
+                prepend vector3d inputs:translation.connect = </G1/Graph/ROS_Control/BaseWorldPose.outputs:translation>
+                custom quatd inputs:rotation
+                prepend quatd inputs:rotation.connect = </G1/Graph/ROS_Control/BaseWorldPose.outputs:rotation>
+                custom double inputs:timeStamp
+                prepend double inputs:timeStamp.connect = </G1/Graph/ROS_Control/ReadSimTime.outputs:simulationTime>
+            }
+        }
+
+        # /clock on the physics step, in its own on-demand graph. OnPhysicsStep only
+        # fires in an on-demand (push) graph, so it cannot live in the Automatic
+        # ROS_Control graph. Publishing per physics step keeps /clock advancing one
+        # physics dt at a time; a render-frame OnPlaybackTick makes it jump
+        # 0/3/4 physics steps per CM update, which makes the controller period
+        # jitter instead of a steady 1/update_rate.
+        def OmniGraph "ROS_Clock"
+        {
+            token evaluationMode = "OnDemand"
+            token evaluator:type = "push"
+            token fabricCacheBacking = "StageWithoutHistory"
+            int2 fileFormatVersion = (1, 9)
+            token pipelineStage = "pipelineStageOnDemand"
+
+            def OmniGraphNode "Context" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom uchar inputs:domain_id
+                custom bool inputs:useDomainIDEnvVar
+                token node:type = "isaacsim.ros2.bridge.ROS2Context"
+                int node:typeVersion = 2
+                custom uint64 outputs:context
+            }
+
+            def OmniGraphNode "OnPhysicsStep" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                token node:type = "isaacsim.core.nodes.OnPhysicsStep"
+                int node:typeVersion = 1
+                custom double outputs:deltaSimulationTime
+                custom uint outputs:step (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+            }
+
+            def OmniGraphNode "ReadSimTime" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom bool inputs:resetOnStop = 1
+                token node:type = "isaacsim.core.nodes.IsaacReadSimulationTime"
+                int node:typeVersion = 1
+                custom double outputs:simulationTime
+            }
+
+            def OmniGraphNode "PublishClock" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </G1/Graph/ROS_Clock/Context.outputs:context>
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </G1/Graph/ROS_Clock/OnPhysicsStep.outputs:step>
+                custom double inputs:timeStamp
+                prepend double inputs:timeStamp.connect = </G1/Graph/ROS_Clock/ReadSimTime.outputs:simulationTime>
+                token node:type = "isaacsim.ros2.bridge.ROS2PublishClock"
+                int node:typeVersion = 1
+            }
+        }
+    }
+}
