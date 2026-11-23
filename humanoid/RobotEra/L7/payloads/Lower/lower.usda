@@ -1,0 +1,28 @@
+#usda 1.0
+(
+    defaultPrim = "L7"
+    metersPerUnit = 1
+    upAxis = "Z"
+    doc = "Attach both leg chains to the existing Upper base. The standalone Lower base is disabled here, avoiding a duplicate pelvis rigid body and articulation root."
+)
+over "L7"
+{
+    def Xform "L7_Lower" (
+        prepend payload = @../../components/L7_Lower/L7_Lower.usda@
+        variants = { string Physics = "physx" }
+    )
+    {
+        over "base" (active = false) { }
+        over "joints"
+        {
+            over "left_hip_roll_joint"
+            {
+                rel physics:body0 = </L7/L7_Upper/base>
+            }
+            over "right_hip_roll_joint"
+            {
+                rel physics:body0 = </L7/L7_Upper/base>
+            }
+        }
+    }
+}

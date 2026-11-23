@@ -1,0 +1,168 @@
+#usda 1.0
+(
+    defaultPrim = "L7"
+)
+
+def Xform "L7"
+{
+    def Scope "Graph"
+    {
+        def OmniGraph "ROS_Clock"
+        {
+            token evaluationMode = "Automatic"
+            token evaluator:type = "execution"
+            token pipelineStage = "pipelineStageSimulation"
+
+            def OmniGraphNode "Tick"
+            {
+                token node:type = "omni.graph.action.OnPlaybackTick"
+                int node:typeVersion = 2
+                custom uint outputs:tick (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+            }
+
+            def OmniGraphNode "Context"
+            {
+                custom uchar inputs:domain_id = 12
+                custom bool inputs:useDomainIDEnvVar = 1
+                token node:type = "isaacsim.ros2.bridge.ROS2Context"
+                int node:typeVersion = 2
+                custom uint64 outputs:context
+            }
+
+            def OmniGraphNode "ReadSimTime"
+            {
+                token node:type = "isaacsim.core.nodes.IsaacReadSimulationTime"
+                int node:typeVersion = 1
+                custom double outputs:simulationTime
+            }
+
+            def OmniGraphNode "PublishClock"
+            {
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </L7/Graph/ROS_Clock/Context.outputs:context>
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </L7/Graph/ROS_Clock/Tick.outputs:tick>
+                custom double inputs:timeStamp
+                prepend double inputs:timeStamp.connect = </L7/Graph/ROS_Clock/ReadSimTime.outputs:simulationTime>
+                custom string inputs:topicName = "/clock"
+                token node:type = "isaacsim.ros2.bridge.ROS2PublishClock"
+                int node:typeVersion = 1
+            }
+        }
+
+        def OmniGraph "ROS_JointStates"
+        {
+            token evaluationMode = "Automatic"
+            token evaluator:type = "execution"
+            token pipelineStage = "pipelineStageSimulation"
+
+            def OmniGraphNode "Tick"
+            {
+                token node:type = "omni.graph.action.OnPlaybackTick"
+                int node:typeVersion = 2
+                custom uint outputs:tick (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+            }
+
+            def OmniGraphNode "Context"
+            {
+                custom uchar inputs:domain_id = 12
+                custom bool inputs:useDomainIDEnvVar = 1
+                token node:type = "isaacsim.ros2.bridge.ROS2Context"
+                int node:typeVersion = 2
+                custom uint64 outputs:context
+            }
+
+            def OmniGraphNode "ReadSimTime"
+            {
+                token node:type = "isaacsim.core.nodes.IsaacReadSimulationTime"
+                int node:typeVersion = 1
+                custom double outputs:simulationTime
+            }
+
+            def OmniGraphNode "ReadJointState"
+            {
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </L7/Graph/ROS_JointStates/Tick.outputs:tick>
+                custom rel inputs:prim = </L7/L7_Upper/root_joint>
+                token node:type = "isaacsim.sensors.physics.IsaacReadJointState"
+                int node:typeVersion = 1
+                custom uint outputs:execOut (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom uchar[] outputs:jointDofTypes
+                custom double[] outputs:jointEfforts
+                custom token[] outputs:jointNames
+                custom double[] outputs:jointPositions
+                custom double[] outputs:jointVelocities
+                custom float outputs:sensorTime
+                custom float outputs:stageMetersPerUnit
+            }
+
+            def OmniGraphNode "PublishJointState"
+            {
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </L7/Graph/ROS_JointStates/Context.outputs:context>
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </L7/Graph/ROS_JointStates/ReadJointState.outputs:execOut>
+                custom uchar[] inputs:jointDofTypes
+                prepend uchar[] inputs:jointDofTypes.connect = </L7/Graph/ROS_JointStates/ReadJointState.outputs:jointDofTypes>
+                custom double[] inputs:jointEfforts
+                prepend double[] inputs:jointEfforts.connect = </L7/Graph/ROS_JointStates/ReadJointState.outputs:jointEfforts>
+                custom token[] inputs:jointNames
+                prepend token[] inputs:jointNames.connect = </L7/Graph/ROS_JointStates/ReadJointState.outputs:jointNames>
+                custom double[] inputs:jointPositions
+                prepend double[] inputs:jointPositions.connect = </L7/Graph/ROS_JointStates/ReadJointState.outputs:jointPositions>
+                custom double[] inputs:jointVelocities
+                prepend double[] inputs:jointVelocities.connect = </L7/Graph/ROS_JointStates/ReadJointState.outputs:jointVelocities>
+                custom float inputs:sensorTime
+                prepend float inputs:sensorTime.connect = </L7/Graph/ROS_JointStates/ReadJointState.outputs:sensorTime>
+                custom float inputs:stageMetersPerUnit
+                prepend float inputs:stageMetersPerUnit.connect = </L7/Graph/ROS_JointStates/ReadJointState.outputs:stageMetersPerUnit>
+                custom rel inputs:targetPrim
+                custom double inputs:timeStamp
+                prepend double inputs:timeStamp.connect = </L7/Graph/ROS_JointStates/ReadSimTime.outputs:simulationTime>
+                custom string inputs:topicName = "/isaac/joint_states"
+                token node:type = "isaacsim.ros2.bridge.ROS2PublishJointState"
+                int node:typeVersion = 1
+            }
+
+            def OmniGraphNode "SubscribeJointState"
+            {
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </L7/Graph/ROS_JointStates/Context.outputs:context>
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </L7/Graph/ROS_JointStates/Tick.outputs:tick>
+                custom string inputs:topicName = "/isaac/joint_command"
+                token node:type = "isaacsim.ros2.bridge.ROS2SubscribeJointState"
+                int node:typeVersion = 2
+            }
+        }
+    }
+}
+

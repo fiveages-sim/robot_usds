@@ -1,0 +1,130 @@
+#usda 1.0
+(
+    customLayerData = {
+        dictionary cameraSettings = {
+            dictionary Front = {
+                double3 position = (5, 0, 0)
+                double radius = 5
+            }
+            dictionary Perspective = {
+                double3 position = (2.7112332149209566, 2.7112332149209575, 2.71123326954977)
+                double3 target = (-3.978038431995401e-8, -3.978038254359717e-8, 7.956076908399723e-8)
+            }
+            dictionary Right = {
+                double3 position = (0, -5, 0)
+                double radius = 5
+            }
+            dictionary Top = {
+                double3 position = (0, 0, 5)
+                double radius = 5
+            }
+            string boundCamera = "/OmniverseKit_Persp"
+        }
+        dictionary omni_layer = {
+            string authoring_layer = "./robotera_l7.usd"
+        }
+        dictionary renderSettings = {
+        }
+    }
+    defaultPrim = "L7_Lower"
+    metersPerUnit = 1
+    subLayers = [@./physics.usda@]
+    upAxis = "Z"
+)
+
+def "L7_Lower"
+{
+    over "base" (prepend apiSchemas = ["PhysxArticulationAPI"])
+    {
+        bool physxArticulation:enabledSelfCollisions = 0
+        int physxArticulation:solverPositionIterationCount = 32
+        int physxArticulation:solverVelocityIterationCount = 1
+    }
+    over "joints"
+    {
+        over "left_hip_roll_joint" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = 417.11325
+        }
+
+        over "left_hip_yaw_joint" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = 759.742
+        }
+
+        over "left_hip_pitch_joint" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = 1145.9155
+        }
+
+        over "left_knee_joint" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = 1145.9155
+        }
+
+        over "left_ankle_pitch_joint" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = 782.08734
+        }
+
+        over "left_ankle_roll_joint" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = 782.08734
+        }
+
+        over "right_hip_roll_joint" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = 417.11325
+        }
+
+        over "right_hip_yaw_joint" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = 759.742
+        }
+
+        over "right_hip_pitch_joint" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = 1145.9155
+        }
+
+        over "right_knee_joint" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = 1145.9155
+        }
+
+        over "right_ankle_pitch_joint" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = 782.08734
+        }
+
+        over "right_ankle_roll_joint" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float physxJoint:maxJointVelocity = 782.08734
+        }
+    }
+}
+
