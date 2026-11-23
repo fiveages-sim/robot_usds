@@ -1,0 +1,988 @@
+#usda 1.0
+(
+    customLayerData = {
+        dictionary cameraSettings = {
+            dictionary Front = {
+                double3 position = (5, 0, 0)
+                double radius = 5
+            }
+            dictionary Perspective = {
+                double3 position = (8.257105506030191, -5.629844541178816, 4.854521588177417)
+                double3 target = (1.7763568394002505e-15, -6.217248937900877e-15, -0.4000000059604636)
+            }
+            dictionary Right = {
+                double3 position = (0, -5, 0)
+                double radius = 5
+            }
+            dictionary Top = {
+                double3 position = (0, 0, 5)
+                double radius = 5
+            }
+            string boundCamera = "/OmniverseKit_Persp"
+        }
+        dictionary metricsAssembler = {
+            dictionary "/World/EastRural_Table" = {
+            }
+            dictionary "/World/NaturalBostonRoundBottle_A01_PR_NVD_01" = {
+            }
+            dictionary "/World/default_environment/EastRural_Table/Apple" = {
+            }
+            dictionary "/World/default_environment/EastRural_Table/Billiard_CueStick" = {
+            }
+            dictionary "/World/default_environment/EastRural_Table/NaturalBostonRoundBottle_A01_PR_NVD_01" = {
+            }
+            dictionary "/World/default_environment/RubixCube" = {
+            }
+            int version = 1
+        }
+        dictionary omni_layer = {
+            string authoring_layer = "./tron2b_grasp_table.usda"
+            dictionary locked = {
+            }
+            dictionary muteness = {
+            }
+        }
+        dictionary renderSettings = {
+        }
+    }
+    defaultPrim = "World"
+    endTimeCode = 1000000
+    metersPerUnit = 1
+    startTimeCode = 0
+    subLayers = [
+        @./DACH_TRON2B.usda@
+    ]
+    timeCodesPerSecond = 60
+    upAxis = "Z"
+)
+
+def Xform "World"
+{
+    def "default_environment" (
+        prepend payload = @../../../../environment/fiveages_env/background/Grid/default_environment.usd@
+    )
+    {
+        def "EastRural_Table" (
+            prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysxRigidBodyAPI"]
+            prepend payload = @https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/ArchVis/Residential/Furniture/DiningSets/EastRural/EastRural_Table.usd@
+        )
+        {
+            bool physics:kinematicEnabled = 1
+            bool physics:rigidBodyEnabled = 1
+            quatf xformOp:orient = (1, 0, 0, 0)
+            float3 xformOp:scale = (1, 1, 1)
+            double3 xformOp:scale:unitsResolve = (0.009999999776482582, 0.009999999776482582, 0.009999999776482582)
+            double3 xformOp:translate = (0.7809491800025677, -0.024510217142726755, 4.99174007018155e-7)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale", "xformOp:scale:unitsResolve"]
+
+            over "TableTop" (
+                delete apiSchemas = ["PhysicsCollisionAPI", "PhysxCollisionAPI", "PhysicsMeshCollisionAPI", "PhysxTriangleMeshCollisionAPI"]
+                prepend apiSchemas = ["PhysicsCollisionAPI", "PhysxCollisionAPI", "PhysxConvexHullCollisionAPI", "PhysicsMeshCollisionAPI", "PhysicsMaterialAPI", "PhysxMaterialAPI"]
+            )
+            {
+                uniform token physics:approximation = "convexHull"
+                bool physics:collisionEnabled = 1
+                float physics:dynamicFriction = 1.2
+                float physics:restitution = 0
+                float physics:staticFriction = 1.5
+                float physxCollision:contactOffset = 0.002
+                float physxCollision:restOffset = 0
+                uniform token physxMaterial:frictionCombineMode = "max"
+                bool physxMaterial:improvePatchFriction = 1
+                uniform token physxMaterial:restitutionCombineMode = "min"
+            }
+
+            over "TableBase" (
+                delete apiSchemas = ["PhysicsCollisionAPI", "PhysxCollisionAPI", "PhysicsMeshCollisionAPI", "PhysxTriangleMeshCollisionAPI"]
+                prepend apiSchemas = ["PhysicsCollisionAPI", "PhysxCollisionAPI", "PhysxConvexHullCollisionAPI", "PhysicsMeshCollisionAPI", "PhysxConvexDecompositionCollisionAPI", "PhysicsMaterialAPI", "PhysxMaterialAPI"]
+            )
+            {
+                uniform token physics:approximation = "convexDecomposition"
+                bool physics:collisionEnabled = 1
+                float physics:dynamicFriction = 1.2
+                float physics:restitution = 0
+                float physics:staticFriction = 1.5
+                uniform token physxMaterial:frictionCombineMode = "max"
+                uniform token physxMaterial:restitutionCombineMode = "min"
+            }
+
+            def "sm_apple_a01_01" (
+                prepend payload = @https://omniverse-content-staging.s3-us-west-2.amazonaws.com/Assets/Isaac/6.0/Isaac/SimReady/Residential/Kitchen/Food/Fruit/Apple_A01/sm_apple_a01_01.usd@
+            )
+            {
+                quatf xformOp:orient = (1, 0, 0, 0)
+                float3 xformOp:scale = (100, 100, 100)
+                double3 xformOp:translate = (-8.25796788271272, -2.828646396976677, 81.37314657617344)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+                over "Geometry"
+                {
+                    over "model_normalized_0_vis_obj"
+                    {
+                    }
+                }
+            }
+
+            def "sm_food_produce_banana_a01_01" (
+                prepend payload = @https://omniverse-content-staging.s3-us-west-2.amazonaws.com/Assets/Isaac/6.0/Isaac/SimReady/Residential/Kitchen/Food/Fruit/Banana_A01/sm_food_produce_banana_a01_01.usd@
+            )
+            {
+                quatf xformOp:orient = (1, 0, 0, 0)
+                float3 xformOp:scale = (100, 100, 100)
+                double3 xformOp:translate = (-15.191919415567263, 14.802437351462663, 76.19999594092279)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+                over "Geometry"
+                {
+                    over "sm_food_produce_banana_a01_obj_00"
+                    {
+                    }
+                }
+            }
+
+            def "sm_food_produce_lime_a01_01" (
+                prepend payload = @https://omniverse-content-staging.s3-us-west-2.amazonaws.com/Assets/Isaac/6.0/Isaac/SimReady/Residential/Kitchen/Food/Fruit/Lime_A01/sm_food_produce_lime_a01_01.usd@
+            )
+            {
+                quatf xformOp:orient = (1, 0, 0, 0)
+                float3 xformOp:scale = (100, 100, 100)
+                double3 xformOp:translate = (3.068215601467571, -5.433901046000862, 76.72705408483168)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+                over "Geometry"
+                {
+                    over "lime_01_obj_00"
+                    {
+                    }
+                }
+            }
+
+            def "NaturalBostonRoundBottle_A01_PR_NVD_01" (
+                prepend apiSchemas = ["MaterialBindingAPI", "PhysicsRigidBodyAPI", "PhysxRigidBodyAPI", "PhysicsMassAPI"]
+                prepend payload = @https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/DigitalTwin/Assets/Warehouse/Storage/Bottles/Plastic/NaturalBostonRound_A/NaturalBostonRoundBottle_A01_PR_NVD_01.usd@
+            )
+            {
+                rel material:binding = </World/default_environment/EastRural_Table/NaturalBostonRoundBottle_A01_PR_NVD_01/PhysicsMaterial> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                bool physics:kinematicEnabled = 0
+                float physics:mass = 0.25
+                bool physics:rigidBodyEnabled = 1
+                quatf xformOp:orient = (1, 0, 0, 0)
+                float3 xformOp:scale = (100, 100, 100)
+                double3 xformOp:scale:unitsResolve = (0.01, 0.01, 0.01)
+                double3 xformOp:translate = (-16.891523777481382, -19.67202345466411, 76.2000019013874)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale", "xformOp:scale:unitsResolve"]
+
+                over "NaturalBostonRoundBottle_A01_01" (
+                    prepend apiSchemas = ["PhysicsCollisionAPI", "PhysxCollisionAPI", "PhysxConvexHullCollisionAPI", "PhysicsMeshCollisionAPI", "MaterialBindingAPI", "PhysicsMaterialAPI", "PhysxMaterialAPI"]
+                )
+                {
+                    rel material:binding = </World/default_environment/EastRural_Table/NaturalBostonRoundBottle_A01_PR_NVD_01/PhysicsMaterial> (
+                        bindMaterialAs = "weakerThanDescendants"
+                    )
+                    uniform token physics:approximation = "convexHull"
+                    bool physics:collisionEnabled = 1
+                    float physics:dynamicFriction = 1.6
+                    float physics:restitution = 0
+                    float physics:staticFriction = 2
+                    float physxCollision:contactOffset = 0.002
+                    float physxCollision:restOffset = 0
+                    uniform token physxMaterial:frictionCombineMode = "max"
+                    bool physxMaterial:improvePatchFriction = 1
+                    uniform token physxMaterial:restitutionCombineMode = "min"
+                }
+
+                def Material "PhysicsMaterial" (
+                    prepend apiSchemas = ["PhysicsMaterialAPI", "PhysxMaterialAPI"]
+                )
+                {
+                    float physics:dynamicFriction = 1.6
+                    float physics:restitution = 0
+                    float physics:staticFriction = 2
+                    uniform token physxMaterial:frictionCombineMode = "max"
+                    bool physxMaterial:improvePatchFriction = 1
+                    uniform token physxMaterial:restitutionCombineMode = "min"
+                }
+            }
+        }
+
+        over "GroundPlane"
+        {
+            float3 xformOp:scale = (10, 10, 1)
+        }
+
+        over "Environment"
+        {
+            over "Geometry"
+            {
+                double3 xformOp:scale = (10, 10, 1)
+            }
+        }
+    }
+}
+
+def "Render" (
+    hide_in_stage_window = true
+    no_delete = true
+)
+{
+    def "OmniverseKit"
+    {
+        def "HydraTextures" (
+            hide_in_stage_window = true
+            no_delete = true
+        )
+        {
+            def RenderProduct "omni_kit_widget_viewport_ViewportTexture_0" (
+                prepend apiSchemas = ["OmniRtxSettingsCommonAdvancedAPI_1", "OmniRtxSettingsRtAdvancedAPI_1", "OmniRtxSettingsPtAdvancedAPI_1", "OmniRtxPostColorGradingAPI_1", "OmniRtxPostChromaticAberrationAPI_1", "OmniRtxPostBloomPhysicalAPI_1", "OmniRtxPostMatteObjectAPI_1", "OmniRtxPostCompositingAPI_1", "OmniRtxPostDofAPI_1", "OmniRtxPostMotionBlurAPI_1", "OmniRtxPostTvNoiseAPI_1", "OmniRtxPostTonemapIrayReinhardAPI_1", "OmniRtxPostDebugSettingsAPI_1", "OmniRtxDebugSettingsAPI_1", "OmniRtxSettingsParticleFieldAPI_1"]
+                hide_in_stage_window = true
+                no_delete = true
+            )
+            {
+                rel camera = </OmniverseKit_Persp>
+                token omni:rtx:ambientOcclusion:denoiserMode = "none"
+                token omni:rtx:background:source:texture:textureMode = "repeatMirrored"
+                token omni:rtx:background:source:type = "domeLight"
+                bool omni:rtx:debug:view:pixelDebug:enableFixedTextPos = 1
+                token omni:rtx:debugMaterialType
+                token omni:rtx:directLighting:sampledLighting:denoisingTechnique = "None"
+                bool omni:rtx:dlss:frameGeneration = 1
+                float3 omni:rtx:domeLight:rotationAxis = (0, 0, 1)
+                bool omni:rtx:indirectDiffuse:denoiser:enabled = 0
+                bool omni:rtx:material:db:syncLoads = 1
+                token omni:rtx:post:dlss:execMode = "performance"
+                bool omni:rtx:post:registeredCompositing:invertColorCorrection = 1
+                bool omni:rtx:post:registeredCompositing:invertToneMap = 1
+                bool omni:rtx:pt:adaptiveSampling:filterError = 0
+                uint omni:rtx:pt:adaptiveSampling:fixedSppIterations = 2
+                int omni:rtx:pt:clampSpp = 64
+                uint omni:rtx:pt:limits:maxBounces
+                uint omni:rtx:pt:limits:maxFogBounces
+                uint omni:rtx:pt:limits:maxGlossyBounces
+                uint omni:rtx:pt:maxSamplesPerLaunch = 2073600
+                uint omni:rtx:pt:maxVolumeBounces
+                uint omni:rtx:pt:mgpu:maxPixelsPerRegionExponent = 12
+                bool omni:rtx:pt:ris:meshLights
+                int omni:rtx:pt:samplesPerIteration = 64
+                uint omni:rtx:pt:samplesPerPixel = 64
+                bool omni:rtx:reflections:denoiser:enabled = 0
+                token omni:rtx:rendermode = "RealTimePathTracing"
+                color3f omni:rtx:rt:ambientLight:color = (0.1, 0.1, 0.1)
+                bool omni:rtx:rt:demoire = 0
+                bool omni:rtx:rt:directLighting:ris:meshLights
+                uint omni:rtx:rt:directLighting:samples
+                bool omni:rtx:rt:ecoMode:enabled
+                bool omni:rtx:rt:fractionalOpacity
+                int omni:rtx:rt:indirectdiffuse:maxBounces
+                uint omni:rtx:rt:indirectdiffuse:samples
+                bool omni:rtx:rt:lightcache:spatialCache:dontResolveConflicts = 1
+                int omni:rtx:rt:reflections:maxBounces
+                float omni:rtx:rt:reflections:roughnessCacheThreshold
+                bool omni:rtx:rt:refractions:depthCorrection
+                int omni:rtx:rt:refractions:maxBounces
+                bool omni:rtx:rt:refractions:motionCorrection
+                bool omni:rtx:rt:refractions:reflectionInRefraction
+                bool omni:rtx:rt:refractions:roughnessSampling
+                bool omni:rtx:rt:sss:enabled
+                int omni:rtx:rt:sss:samples = 1
+                uint omni:rtx:rtpt:maxVolumeBounces = 15
+                float omni:rtx:rtpt:modulatingRoughnessThreshold = 0.08
+                bool omni:rtx:scene:hydra:materialSyncLoads = 1
+                bool omni:rtx:scene:hydra:mdlMaterialWarmup = 1
+                bool omni:rtx:scene:useViewLightingMode
+                token omni:rtx:wireframe:mode
+                rel orderedVars = </Render/Vars/LdrColor>
+                custom bool overrideClipRange = 0
+                uniform int2 resolution = (1280, 720)
+            }
+
+            def RenderProduct "Replicator" (
+                prepend apiSchemas = ["OmniRtxSettingsCommonAdvancedAPI_1", "OmniRtxSettingsRtAdvancedAPI_1", "OmniRtxSettingsPtAdvancedAPI_1", "OmniRtxPostColorGradingAPI_1", "OmniRtxPostChromaticAberrationAPI_1", "OmniRtxPostBloomPhysicalAPI_1", "OmniRtxPostMatteObjectAPI_1", "OmniRtxPostCompositingAPI_1", "OmniRtxPostDofAPI_1", "OmniRtxPostMotionBlurAPI_1", "OmniRtxPostTvNoiseAPI_1", "OmniRtxPostTonemapIrayReinhardAPI_1", "OmniRtxPostDebugSettingsAPI_1", "OmniRtxDebugSettingsAPI_1"]
+                hide_in_stage_window = true
+                no_delete = true
+            )
+            {
+                rel camera = </World/FiveAges_W2/Head_V1/head_link2/head_camera/head_camera>
+                bool omni:rtx:material:db:syncLoads = 1
+                bool omni:rtx:rt:ecoMode:enabled
+                bool omni:rtx:scene:hydra:materialSyncLoads = 1
+                rel orderedVars = </Render/Vars/LdrColor>
+                custom bool overrideClipRange = 0
+                uniform int2 resolution = (640, 480)
+            }
+        }
+    }
+
+    def RenderSettings "OmniverseGlobalRenderSettings" (
+        prepend apiSchemas = ["OmniRtxSettingsGlobalRtAdvancedAPI_1", "OmniRtxSettingsGlobalPtAdvancedAPI_1"]
+        no_delete = true
+    )
+    {
+        rel products = [
+            </Render/OmniverseKit/HydraTextures/omni_kit_widget_viewport_ViewportTexture_0>,
+            </Render/OmniverseKit/HydraTextures/Replicator>,
+        ]
+    }
+
+    def "Vars"
+    {
+        def RenderVar "LdrColor" (
+            hide_in_stage_window = true
+            no_delete = true
+        )
+        {
+            uniform string sourceName = "LdrColor"
+            uniform token sourceType = "raw"
+        }
+    }
+}
+
+over "OmniverseKit_Persp" (
+    prepend apiSchemas = ["OmniRtxCameraAutoExposureAPI_1", "OmniRtxCameraExposureAPI_1"]
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (0.01, 10000000)
+    float exposure:fStop = 5
+    float exposure:responsivity = 1.1026709
+    float exposure:time = 0.02
+    float focalLength = 18.147562
+    float focusDistance = 400
+    custom uniform vector3d omni:kit:centerOfInterest = (-4.8711497734099654e-8, 1.2907165890930187e-7, -11.290922817857545)
+    float3 xformOp:rotateXYZ = (62.265457, -0, 55.713123)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (8.257105506030191, -5.629844541178816, 4.854521588177417)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+
+over "OmniverseKit_Front" (
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (1, 10000000)
+    float horizontalAperture = 50
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -5)
+    token projection = "orthographic"
+    float verticalAperture = 50
+    float3 xformOp:rotateXYZ = (90, -1.2722219e-14, 90)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (5, 0, 0)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+
+over "OmniverseKit_Right" (
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (1, 10000000)
+    float horizontalAperture = 50
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -5)
+    token projection = "orthographic"
+    float verticalAperture = 50
+    float3 xformOp:rotateXYZ = (90, -1.41245e-30, 1.2722219e-14)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (0, -5, 0)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+
+over "OmniverseKit_Top" (
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (1, 10000000)
+    float horizontalAperture = 50
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -5)
+    token projection = "orthographic"
+    float verticalAperture = 50
+    float3 xformOp:rotateXYZ = (-1.2722219e-14, -7.016709e-15, -90)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (0, 0, 5)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+
+def PhysicsScene "PhysicsScene" (
+    delete apiSchemas = ["MjcSceneAPI", "NewtonXpbdSceneAPI"]
+    prepend apiSchemas = ["NewtonSceneAPI", "PhysxSceneAPI", "MjcSceneAPI"]
+)
+{
+    uniform token physxScene:broadphaseType = "MBP"
+    bool physxScene:enableCCD = 1
+    bool physxScene:enableGPUDynamics = 0
+    uint physxScene:timeStepsPerSecond = 100
+}
+
+over "dach_tron2b"
+{
+    double3 xformOp:rotateZYX
+    double3 xformOp:scale
+    double3 xformOp:translate = (0, 0, 1.20035)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateZYX", "xformOp:scale"]
+
+    over "Geometry"
+    {
+        over "base_link"
+        {
+            over "head_yaw_Link"
+            {
+                over "head_pitch_Link"
+                {
+                }
+            }
+
+            over "proximal_pitch_L_Link"
+            {
+                over "proximal_roll_L_Link"
+                {
+                    over "proximal_yaw_L_Link"
+                    {
+                        over "elbow_L_Link"
+                        {
+                            over "wrist_yaw_L_Link"
+                            {
+                                over "wrist_pitch_L_Link"
+                                {
+                                    over "wrist_roll_L_Link"
+                                    {
+                                        over "grasper_L_crank_left_Link"
+                                        {
+                                            over "grasper_L_jaw_left_Link"
+                                            {
+                                            }
+                                        }
+
+                                        over "grasper_L_bar_left_Link"
+                                        {
+                                        }
+
+                                        over "grasper_L_crank_right_Link"
+                                        {
+                                            over "grasper_L_jaw_right_Link"
+                                            {
+                                            }
+                                        }
+
+                                        over "grasper_L_bar_right_Link"
+                                        {
+                                        }
+
+                                        over "grasper_L_nut_Link"
+                                        {
+                                        }
+
+                                        over "grasper_L_jaw_left_ref_Link"
+                                        {
+                                        }
+
+                                        over "grasper_L_jaw_right_ref_Link"
+                                        {
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            over "proximal_pitch_R_Link"
+            {
+                over "proximal_roll_R_Link"
+                {
+                    over "proximal_yaw_R_Link"
+                    {
+                        over "elbow_R_Link"
+                        {
+                            over "wrist_yaw_R_Link"
+                            {
+                                over "wrist_pitch_R_Link"
+                                {
+                                    over "wrist_roll_R_Link"
+                                    {
+                                        over "grasper_R_crank_left_Link"
+                                        {
+                                            over "grasper_R_jaw_left_Link"
+                                            {
+                                            }
+                                        }
+
+                                        over "grasper_R_bar_left_Link"
+                                        {
+                                        }
+
+                                        over "grasper_R_crank_right_Link"
+                                        {
+                                            over "grasper_R_jaw_right_Link"
+                                            {
+                                            }
+                                        }
+
+                                        over "grasper_R_bar_right_Link"
+                                        {
+                                        }
+
+                                        over "grasper_R_nut_Link"
+                                        {
+                                        }
+
+                                        over "grasper_R_jaw_left_ref_Link"
+                                        {
+                                        }
+
+                                        over "grasper_R_jaw_right_ref_Link"
+                                        {
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    over "Physics"
+    {
+        over "head_yaw_Joint"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "proximal_pitch_L_Joint"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "proximal_pitch_R_Joint"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "head_pitch_Joint"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "proximal_roll_L_Joint"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "proximal_roll_R_Joint"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "proximal_yaw_L_Joint"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "proximal_yaw_R_Joint"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "elbow_L_Joint"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "elbow_R_Joint"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "wrist_yaw_L_Joint"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "wrist_yaw_R_Joint"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "wrist_pitch_L_Joint"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "wrist_pitch_R_Joint"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "wrist_roll_L_Joint"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "wrist_roll_R_Joint"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "grasper_L_drive_Joint"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "grasper_L_bar_left_Joint"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "grasper_L_crank_right_Joint"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "grasper_L_bar_right_Joint"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "grasper_L_nut_Joint"
+        {
+            float state:linear:physics:position = 0
+            float state:linear:physics:velocity = 0
+        }
+
+        over "grasper_L_jaw_left_Joint"
+        {
+            float state:linear:physics:position = 0
+            float state:linear:physics:velocity = 0
+        }
+
+        over "grasper_L_jaw_right_Joint"
+        {
+            float state:linear:physics:position = 0
+            float state:linear:physics:velocity = 0
+        }
+
+        over "grasper_R_drive_Joint"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "grasper_R_bar_left_Joint"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "grasper_R_crank_right_Joint"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "grasper_R_bar_right_Joint"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "grasper_R_nut_Joint"
+        {
+            float state:linear:physics:position = 0
+            float state:linear:physics:velocity = 0
+        }
+
+        over "grasper_R_jaw_left_Joint"
+        {
+            float state:linear:physics:position = 0
+            float state:linear:physics:velocity = 0
+        }
+
+        over "grasper_R_jaw_right_Joint"
+        {
+            float state:linear:physics:position = 0
+            float state:linear:physics:velocity = 0
+        }
+
+        over "grasper_L_tip_left_Joint"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "grasper_L_tip_right_Joint"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "grasper_R_tip_left_Joint"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+
+        over "grasper_R_tip_right_Joint"
+        {
+            float state:angular:physics:position = 0
+            float state:angular:physics:velocity = 0
+        }
+    }
+}
+
+def OmniGraph "ActionGraph"
+{
+    token evaluationMode = "Automatic"
+    token evaluator:type = "execution"
+    token fabricCacheBacking = "StageWithoutHistory"
+    int2 fileFormatVersion = (1, 9)
+    token pipelineStage = "pipelineStageSimulation"
+
+    def OmniGraphNode "OnPlaybackTick"
+    {
+        token node:type = "omni.graph.action.OnPlaybackTick"
+        int node:typeVersion = 2
+        custom double outputs:deltaSeconds
+        custom double outputs:frame
+        custom uint outputs:tick (
+            customData = {
+                bool isExecution = 1
+            }
+        )
+        custom double outputs:time
+    }
+
+    def OmniGraphNode "ReadSimTime"
+    {
+        custom uint64 inputs:referenceTimeDenominator
+        custom int64 inputs:referenceTimeNumerator
+        custom bool inputs:resetOnStop
+        token node:type = "isaacsim.core.nodes.IsaacReadSimulationTime"
+        int node:typeVersion = 1
+        custom double outputs:simulationTime
+    }
+
+    def OmniGraphNode "ReadJointState"
+    {
+        custom uint inputs:execIn (
+            customData = {
+                bool isExecution = 1
+            }
+        )
+        prepend uint inputs:execIn.connect = </ActionGraph/OnPlaybackTick.outputs:tick>
+        custom rel inputs:prim = </dach_tron2b/Geometry/base_link> (
+            customData = {
+                dictionary omni = {
+                    dictionary graph = {
+                        string relType = "target"
+                    }
+                }
+            }
+        )
+        token node:type = "isaacsim.sensors.physics.IsaacReadJointState"
+        int node:typeVersion = 1
+        custom uint outputs:execOut (
+            customData = {
+                bool isExecution = 1
+            }
+        )
+        custom uchar[] outputs:jointDofTypes
+        custom double[] outputs:jointEfforts
+        custom token[] outputs:jointNames
+        custom double[] outputs:jointPositions
+        custom double[] outputs:jointVelocities
+        custom float outputs:sensorTime
+        custom float outputs:stageMetersPerUnit
+    }
+
+    def OmniGraphNode "Context"
+    {
+        custom uchar inputs:domain_id = 143
+        custom bool inputs:useDomainIDEnvVar = 0
+        token node:type = "isaacsim.ros2.bridge.ROS2Context"
+        int node:typeVersion = 2
+        custom uint64 outputs:context
+    }
+
+    def OmniGraphNode "PublishJointState"
+    {
+        custom uint64 inputs:context
+        prepend uint64 inputs:context.connect = </ActionGraph/Context.outputs:context>
+        custom uint inputs:execIn (
+            customData = {
+                bool isExecution = 1
+            }
+        )
+        prepend uint inputs:execIn.connect = </ActionGraph/ReadJointState.outputs:execOut>
+        custom uchar[] inputs:jointDofTypes
+        prepend uchar[] inputs:jointDofTypes.connect = </ActionGraph/ReadJointState.outputs:jointDofTypes>
+        custom double[] inputs:jointEfforts
+        prepend double[] inputs:jointEfforts.connect = </ActionGraph/ReadJointState.outputs:jointEfforts>
+        custom token[] inputs:jointNames
+        prepend token[] inputs:jointNames.connect = </ActionGraph/ReadJointState.outputs:jointNames>
+        custom double[] inputs:jointPositions
+        prepend double[] inputs:jointPositions.connect = </ActionGraph/ReadJointState.outputs:jointPositions>
+        custom double[] inputs:jointVelocities
+        prepend double[] inputs:jointVelocities.connect = </ActionGraph/ReadJointState.outputs:jointVelocities>
+        custom string inputs:nodeNamespace
+        custom string inputs:qosProfile
+        custom uint64 inputs:queueSize
+        custom float inputs:sensorTime
+        prepend float inputs:sensorTime.connect = </ActionGraph/ReadJointState.outputs:sensorTime>
+        custom float inputs:stageMetersPerUnit
+        prepend float inputs:stageMetersPerUnit.connect = </ActionGraph/ReadJointState.outputs:stageMetersPerUnit>
+        custom rel inputs:targetPrim (
+            customData = {
+                dictionary omni = {
+                    dictionary graph = {
+                        string relType = "target"
+                    }
+                }
+            }
+        )
+        custom double inputs:timeStamp
+        custom string inputs:topicName = "/isaac/joint_states"
+        token node:type = "isaacsim.ros2.bridge.ROS2PublishJointState"
+        int node:typeVersion = 1
+    }
+
+    def OmniGraphNode "SubscribeJointState"
+    {
+        custom uint64 inputs:context
+        prepend uint64 inputs:context.connect = </ActionGraph/Context.outputs:context>
+        custom uint inputs:execIn (
+            customData = {
+                bool isExecution = 1
+            }
+        )
+        prepend uint inputs:execIn.connect = </ActionGraph/OnPlaybackTick.outputs:tick>
+        custom string inputs:nodeNamespace
+        custom string inputs:qosProfile
+        custom uint64 inputs:queueSize
+        custom string inputs:topicName = "/isaac/joint_command"
+        token node:type = "isaacsim.ros2.bridge.ROS2SubscribeJointState"
+        int node:typeVersion = 2
+        custom double[] outputs:effortCommand
+        custom uint outputs:execOut (
+            customData = {
+                bool isExecution = 1
+            }
+        )
+        custom token[] outputs:jointNames
+        custom double[] outputs:positionCommand
+        custom double outputs:timeStamp
+        custom double[] outputs:velocityCommand
+    }
+
+    def OmniGraphNode "ArticulationController"
+    {
+        custom double[] inputs:effortCommand
+        prepend double[] inputs:effortCommand.connect = </ActionGraph/SubscribeJointState.outputs:effortCommand>
+        custom uint inputs:execIn (
+            customData = {
+                bool isExecution = 1
+            }
+        )
+        prepend uint inputs:execIn.connect = </ActionGraph/OnPlaybackTick.outputs:tick>
+        custom int[] inputs:jointIndices
+        custom token[] inputs:jointNames
+        prepend token[] inputs:jointNames.connect = </ActionGraph/SubscribeJointState.outputs:jointNames>
+        custom double[] inputs:positionCommand
+        prepend double[] inputs:positionCommand.connect = </ActionGraph/SubscribeJointState.outputs:positionCommand>
+        custom string inputs:robotPath = "/dach_tron2b/Geometry/base_link"
+        custom rel inputs:targetPrim (
+            customData = {
+                dictionary omni = {
+                    dictionary graph = {
+                        string relType = "target"
+                    }
+                }
+            }
+        )
+        custom double[] inputs:velocityCommand
+        prepend double[] inputs:velocityCommand.connect = </ActionGraph/SubscribeJointState.outputs:velocityCommand>
+        token node:type = "isaacsim.core.nodes.IsaacArticulationController"
+        int node:typeVersion = 1
+    }
+
+    def OmniGraphNode "PublishClock"
+    {
+        custom uint64 inputs:context
+        prepend uint64 inputs:context.connect = </ActionGraph/Context.outputs:context>
+        custom uint inputs:execIn (
+            customData = {
+                bool isExecution = 1
+            }
+        )
+        prepend uint inputs:execIn.connect = </ActionGraph/OnPlaybackTick.outputs:tick>
+        custom string inputs:nodeNamespace
+        custom string inputs:qosProfile
+        custom uint64 inputs:queueSize
+        custom double inputs:timeStamp
+        prepend double inputs:timeStamp.connect = </ActionGraph/ReadSimTime.outputs:simulationTime>
+        custom string inputs:topicName
+        token node:type = "isaacsim.ros2.bridge.ROS2PublishClock"
+        int node:typeVersion = 1
+    }
+}
+
