@@ -1,0 +1,39 @@
+#usda 1.0
+(
+    defaultPrim = "dach_tron2b"
+)
+
+over "dach_tron2b"
+{
+    over "Geometry"
+    {
+        over "base_link"
+        {
+            over "head_yaw_Link"
+            {
+                over "head_pitch_Link"
+                {
+                    def Xform "d455" (
+                        prepend payload = @../../../../../../sensors/realsense/d455.usd@</World/d455>
+                    )
+                    {
+                        matrix4d xformOp:transform = ( (0, -1, 0, 0), (0, 0, -1, 0), (1, 0, 0, 0), (0.0532440883, 0.0174614228, 0.0343997601, 1) )
+                        uniform token[] xformOpOrder = ["xformOp:transform"]
+
+                        def Camera "head_camera"
+                        {
+                            float2 clippingRange = (0.01, 10000000)
+                            float focalLength = 1.93
+                            float horizontalAperture = 3.896
+                            float verticalAperture = 2.453
+                            # Optical +Z forward and +Y down to USD Camera -Z forward and +Y up.
+                            double xformOp:rotateX = 180
+                            token[] xformOpOrder = ["xformOp:rotateX"]
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+

@@ -36,7 +36,7 @@
             int version = 1
         }
         dictionary omni_layer = {
-            string authoring_layer = "./tron2b_grasp_table.usda"
+            string authoring_layer = "./grasp_table.usda"
             dictionary locked = {
             }
             dictionary muteness = {
@@ -50,7 +50,8 @@
     metersPerUnit = 1
     startTimeCode = 0
     subLayers = [
-        @./DACH_TRON2B.usda@
+        @../DACH_TRON2B.usda@,
+        @../payloads/ROS/ros2.usda@
     ]
     timeCodesPerSecond = 60
     upAxis = "Z"
@@ -59,7 +60,7 @@
 def Xform "World"
 {
     def "default_environment" (
-        prepend payload = @../../../../environment/fiveages_env/background/Grid/default_environment.usd@
+        prepend payload = @../../../../../../environment/fiveages_env/background/Grid/default_environment.usd@
     )
     {
         def "EastRural_Table" (
@@ -787,202 +788,6 @@ over "dach_tron2b"
             float state:angular:physics:position = 0
             float state:angular:physics:velocity = 0
         }
-    }
-}
-
-def OmniGraph "ActionGraph"
-{
-    token evaluationMode = "Automatic"
-    token evaluator:type = "execution"
-    token fabricCacheBacking = "StageWithoutHistory"
-    int2 fileFormatVersion = (1, 9)
-    token pipelineStage = "pipelineStageSimulation"
-
-    def OmniGraphNode "OnPlaybackTick"
-    {
-        token node:type = "omni.graph.action.OnPlaybackTick"
-        int node:typeVersion = 2
-        custom double outputs:deltaSeconds
-        custom double outputs:frame
-        custom uint outputs:tick (
-            customData = {
-                bool isExecution = 1
-            }
-        )
-        custom double outputs:time
-    }
-
-    def OmniGraphNode "ReadSimTime"
-    {
-        custom uint64 inputs:referenceTimeDenominator
-        custom int64 inputs:referenceTimeNumerator
-        custom bool inputs:resetOnStop
-        token node:type = "isaacsim.core.nodes.IsaacReadSimulationTime"
-        int node:typeVersion = 1
-        custom double outputs:simulationTime
-    }
-
-    def OmniGraphNode "ReadJointState"
-    {
-        custom uint inputs:execIn (
-            customData = {
-                bool isExecution = 1
-            }
-        )
-        prepend uint inputs:execIn.connect = </ActionGraph/OnPlaybackTick.outputs:tick>
-        custom rel inputs:prim = </dach_tron2b/Geometry/base_link> (
-            customData = {
-                dictionary omni = {
-                    dictionary graph = {
-                        string relType = "target"
-                    }
-                }
-            }
-        )
-        token node:type = "isaacsim.sensors.physics.IsaacReadJointState"
-        int node:typeVersion = 1
-        custom uint outputs:execOut (
-            customData = {
-                bool isExecution = 1
-            }
-        )
-        custom uchar[] outputs:jointDofTypes
-        custom double[] outputs:jointEfforts
-        custom token[] outputs:jointNames
-        custom double[] outputs:jointPositions
-        custom double[] outputs:jointVelocities
-        custom float outputs:sensorTime
-        custom float outputs:stageMetersPerUnit
-    }
-
-    def OmniGraphNode "Context"
-    {
-        custom uchar inputs:domain_id = 143
-        custom bool inputs:useDomainIDEnvVar = 0
-        token node:type = "isaacsim.ros2.bridge.ROS2Context"
-        int node:typeVersion = 2
-        custom uint64 outputs:context
-    }
-
-    def OmniGraphNode "PublishJointState"
-    {
-        custom uint64 inputs:context
-        prepend uint64 inputs:context.connect = </ActionGraph/Context.outputs:context>
-        custom uint inputs:execIn (
-            customData = {
-                bool isExecution = 1
-            }
-        )
-        prepend uint inputs:execIn.connect = </ActionGraph/ReadJointState.outputs:execOut>
-        custom uchar[] inputs:jointDofTypes
-        prepend uchar[] inputs:jointDofTypes.connect = </ActionGraph/ReadJointState.outputs:jointDofTypes>
-        custom double[] inputs:jointEfforts
-        prepend double[] inputs:jointEfforts.connect = </ActionGraph/ReadJointState.outputs:jointEfforts>
-        custom token[] inputs:jointNames
-        prepend token[] inputs:jointNames.connect = </ActionGraph/ReadJointState.outputs:jointNames>
-        custom double[] inputs:jointPositions
-        prepend double[] inputs:jointPositions.connect = </ActionGraph/ReadJointState.outputs:jointPositions>
-        custom double[] inputs:jointVelocities
-        prepend double[] inputs:jointVelocities.connect = </ActionGraph/ReadJointState.outputs:jointVelocities>
-        custom string inputs:nodeNamespace
-        custom string inputs:qosProfile
-        custom uint64 inputs:queueSize
-        custom float inputs:sensorTime
-        prepend float inputs:sensorTime.connect = </ActionGraph/ReadJointState.outputs:sensorTime>
-        custom float inputs:stageMetersPerUnit
-        prepend float inputs:stageMetersPerUnit.connect = </ActionGraph/ReadJointState.outputs:stageMetersPerUnit>
-        custom rel inputs:targetPrim (
-            customData = {
-                dictionary omni = {
-                    dictionary graph = {
-                        string relType = "target"
-                    }
-                }
-            }
-        )
-        custom double inputs:timeStamp
-        custom string inputs:topicName = "/isaac/joint_states"
-        token node:type = "isaacsim.ros2.bridge.ROS2PublishJointState"
-        int node:typeVersion = 1
-    }
-
-    def OmniGraphNode "SubscribeJointState"
-    {
-        custom uint64 inputs:context
-        prepend uint64 inputs:context.connect = </ActionGraph/Context.outputs:context>
-        custom uint inputs:execIn (
-            customData = {
-                bool isExecution = 1
-            }
-        )
-        prepend uint inputs:execIn.connect = </ActionGraph/OnPlaybackTick.outputs:tick>
-        custom string inputs:nodeNamespace
-        custom string inputs:qosProfile
-        custom uint64 inputs:queueSize
-        custom string inputs:topicName = "/isaac/joint_command"
-        token node:type = "isaacsim.ros2.bridge.ROS2SubscribeJointState"
-        int node:typeVersion = 2
-        custom double[] outputs:effortCommand
-        custom uint outputs:execOut (
-            customData = {
-                bool isExecution = 1
-            }
-        )
-        custom token[] outputs:jointNames
-        custom double[] outputs:positionCommand
-        custom double outputs:timeStamp
-        custom double[] outputs:velocityCommand
-    }
-
-    def OmniGraphNode "ArticulationController"
-    {
-        custom double[] inputs:effortCommand
-        prepend double[] inputs:effortCommand.connect = </ActionGraph/SubscribeJointState.outputs:effortCommand>
-        custom uint inputs:execIn (
-            customData = {
-                bool isExecution = 1
-            }
-        )
-        prepend uint inputs:execIn.connect = </ActionGraph/OnPlaybackTick.outputs:tick>
-        custom int[] inputs:jointIndices
-        custom token[] inputs:jointNames
-        prepend token[] inputs:jointNames.connect = </ActionGraph/SubscribeJointState.outputs:jointNames>
-        custom double[] inputs:positionCommand
-        prepend double[] inputs:positionCommand.connect = </ActionGraph/SubscribeJointState.outputs:positionCommand>
-        custom string inputs:robotPath = "/dach_tron2b/Geometry/base_link"
-        custom rel inputs:targetPrim (
-            customData = {
-                dictionary omni = {
-                    dictionary graph = {
-                        string relType = "target"
-                    }
-                }
-            }
-        )
-        custom double[] inputs:velocityCommand
-        prepend double[] inputs:velocityCommand.connect = </ActionGraph/SubscribeJointState.outputs:velocityCommand>
-        token node:type = "isaacsim.core.nodes.IsaacArticulationController"
-        int node:typeVersion = 1
-    }
-
-    def OmniGraphNode "PublishClock"
-    {
-        custom uint64 inputs:context
-        prepend uint64 inputs:context.connect = </ActionGraph/Context.outputs:context>
-        custom uint inputs:execIn (
-            customData = {
-                bool isExecution = 1
-            }
-        )
-        prepend uint inputs:execIn.connect = </ActionGraph/OnPlaybackTick.outputs:tick>
-        custom string inputs:nodeNamespace
-        custom string inputs:qosProfile
-        custom uint64 inputs:queueSize
-        custom double inputs:timeStamp
-        prepend double inputs:timeStamp.connect = </ActionGraph/ReadSimTime.outputs:simulationTime>
-        custom string inputs:topicName
-        token node:type = "isaacsim.ros2.bridge.ROS2PublishClock"
-        int node:typeVersion = 1
     }
 }
 
