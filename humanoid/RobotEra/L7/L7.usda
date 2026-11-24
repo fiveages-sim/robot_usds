@@ -7,8 +7,8 @@
                 double radius = 5
             }
             dictionary Perspective = {
-                double3 position = (1.64850332599276, 0.8572135768375414, 0.7974507843699434)
-                double3 target = (-0.2634006782574858, -0.010263837374858142, 0.038086906110985086)
+                double3 position = (1.7336052669444075, 0.8958264002413722, 0.8312512993459817)
+                double3 target = (-0.26340067825748514, -0.010263837374857698, 0.03808690611098531)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -121,6 +121,8 @@ def Xform "L7" (
 
             over "waist_roll_joint"
             {
+                float drive:angular:physics:damping = 600
+                float drive:angular:physics:stiffness = 6000
                 bool[] isaac:actuator (
                     displayName = "Actuator"
                 )
@@ -147,6 +149,8 @@ def Xform "L7" (
 
             over "waist_pitch_joint"
             {
+                float drive:angular:physics:damping = 600
+                float drive:angular:physics:stiffness = 6000
                 bool[] isaac:actuator (
                     displayName = "Actuator"
                 )
@@ -199,6 +203,8 @@ def Xform "L7" (
 
             over "waist_yaw_joint"
             {
+                float drive:angular:physics:damping = 600
+                float drive:angular:physics:stiffness = 6000
                 bool[] isaac:actuator (
                     displayName = "Actuator"
                 )
@@ -306,6 +312,15 @@ def Xform "L7" (
         ) {
 
         }
+        "sensors" {
+            over "L7_Upper" (
+                variants = {
+                    string Sensor = "sensors"
+                }
+            )
+            {
+            }
+        }
     }
 }
 
@@ -405,10 +420,10 @@ over "OmniverseKit_Persp" (
     float exposure:time = 0.02
     float focalLength = 18.147562
     float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -2.232605537313128)
-    float3 xformOp:rotateXYZ = (70.11554, -2.5444438e-14, 114.40495)
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -2.331982422440397)
+    float3 xformOp:rotateXYZ = (70.11554, -3.4986103e-14, 114.40495)
     float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (1.64850332599276, 0.8572135768375414, 0.7974507843699434)
+    double3 xformOp:translate = (1.7336052669444075, 0.8958264002413722, 0.8312512993459817)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 

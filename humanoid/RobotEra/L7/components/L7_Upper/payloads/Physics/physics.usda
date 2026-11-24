@@ -5,7 +5,7 @@
     upAxis = "Z"
 )
 
-over "robotera_l7"
+def "robotera_l7"
 {
     over "base" (
         prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
@@ -27,7 +27,7 @@ over "robotera_l7"
         quatf physics:principalAxes = (0.92387956, -0.00005574008, 0.38268343, -0.00009831884)
     }
 
-    over "joints"
+    def "joints"
     {
         def PhysicsRevoluteJoint "waist_yaw_joint" (
             prepend apiSchemas = ["PhysicsJointStateAPI:angular", "PhysicsDriveAPI:angular"]
@@ -453,6 +453,46 @@ over "robotera_l7"
             float physics:lowerLimit = -89.95437
             float physics:upperLimit = 89.95437
         }
+
+        def PhysicsRevoluteJoint "neck_yaw_joint" (
+            prepend apiSchemas = ["PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = 10
+            float drive:angular:physics:maxForce = 35
+            float drive:angular:physics:stiffness = 100
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            uniform token physics:axis = "Z"
+            rel physics:body0 = </robotera_l7/torso_link>
+            rel physics:body1 = </robotera_l7/neck_yaw_link>
+            point3f physics:localPos0 = (0, 0, 0.398)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -60.16057
+            float physics:upperLimit = 60.16057
+        }
+
+        def PhysicsRevoluteJoint "neck_pitch_joint" (
+            prepend apiSchemas = ["PhysicsDriveAPI:angular"]
+        )
+        {
+            float drive:angular:physics:damping = 10
+            float drive:angular:physics:maxForce = 35
+            float drive:angular:physics:stiffness = 100
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            uniform token physics:axis = "Y"
+            rel physics:body0 = </robotera_l7/neck_yaw_link>
+            rel physics:body1 = </robotera_l7/neck_pitch_link>
+            point3f physics:localPos0 = (0.04, 0, 0.0905)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -9.740282
+            float physics:upperLimit = 27.501974
+        }
     }
 
     over "waist_roll_link" (
@@ -469,10 +509,10 @@ over "robotera_l7"
         prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
     )
     {
-        point3f physics:centerOfMass = (-0.0020145348, -0.00010540611, 0.26445952)
-        float3 physics:diagonalInertia = (0.51573527, 0.45959482, 0.123392366)
-        float physics:mass = 17.422712
-        quatf physics:principalAxes = (0.99996096, -0.00031556637, 0.008723827, -0.0013982488)
+        point3f physics:centerOfMass = (-0.0056114495, -0.0002209458, 0.22427583)
+        float3 physics:diagonalInertia = (0.11401454, 0.2310655, 0.29107836)
+        float physics:mass = 15.381032
+        quatf physics:principalAxes = (-0.6852726, -0.0008882722, 0.72828394, 0.0017887524)
     }
 
     over "left_shoulder_pitch_link" (
@@ -620,6 +660,33 @@ over "robotera_l7"
     )
     {
         rel physics:body1 = </robotera_l7/base>
+    }
+
+    over "neck_yaw_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        point3f physics:centerOfMass = (0.033363, 0.00038788, 0.085731)
+        float3 physics:diagonalInertia = (0.00029946948, 0.00047800626, 0.0004905242)
+        float physics:mass = 0.57738
+        quatf physics:principalAxes = (0.0079730665, 0.95311385, -0.0066249017, 0.30243436)
+    }
+
+    over "neck_pitch_link" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        # Head plus fixed D455 (0.076907 kg), combined with the parallel-axis theorem.
+        point3f physics:centerOfMass = (-0.0139417488709695, 0.0008699936888101338, 0.11243717723687528)
+        float3 physics:diagonalInertia = (0.006527264198134125, 0.008149783711949871, 0.009310354279508212)
+        float physics:mass = 1.541207
+        quatf physics:principalAxes = (0.647194194328075, 0.6495953305417911, 0.2811683079538194, -0.28303703639050687)
+
+        over "collisions"
+        {
+            # Remove the 5 mm stereo frame marker collider; XbotL D455 has no collider.
+            over "stereo_link" (active = false) {}
+        }
     }
 }
 

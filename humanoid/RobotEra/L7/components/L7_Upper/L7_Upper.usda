@@ -7,8 +7,8 @@
                 double radius = 5
             }
             dictionary Perspective = {
-                double3 position = (5, 5, 5)
-                double3 target = (-3.978038431995401e-8, -3.978038254359717e-8, 7.956076863990802e-8)
+                double3 position = (2.3050828030105848, 1.652213716388802, 1.6876074235848635)
+                double3 target = (-0.3934690510433625, 0.1530634167792646, 0.34102972479840576)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -21,7 +21,7 @@
             string boundCamera = "/OmniverseKit_Persp"
         }
         dictionary omni_layer = {
-            string authoring_layer = "./robotera_l7.usda"
+            string authoring_layer = "./L7_Upper.usda"
         }
         dictionary renderSettings = {
         }
@@ -69,6 +69,7 @@ def "Render" (
                 token omni:rtx:rendermode = "RealTimePathTracing"
                 color3f omni:rtx:rt:ambientLight:color = (0.1, 0.1, 0.1)
                 bool omni:rtx:rt:demoire = 0
+                bool omni:rtx:rt:ecoMode:enabled
                 bool omni:rtx:rt:lightcache:spatialCache:dontResolveConflicts = 1
                 int omni:rtx:rt:sss:samples = 1
                 uint omni:rtx:rtpt:maxVolumeBounces = 15
@@ -127,10 +128,10 @@ over "OmniverseKit_Persp" (
     float exposure:time = 0.02
     float focalLength = 18.147562
     float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -8.660254037844386)
-    float3 xformOp:rotateXYZ = (54.73561, -6.3611094e-15, 135)
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -3.3679229843787093)
+    float3 xformOp:rotateXYZ = (66.4328, -3.1805547e-15, 119.05387)
     float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (5, 5, 5)
+    double3 xformOp:translate = (2.3050828030105848, 1.652213716388802, 1.6876074235848635)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 
@@ -138,11 +139,280 @@ def Xform "L7_Upper" (
     prepend references = @./payloads/base.usda@
     variants = {
         string Robot = "none"
-        string Sensor = "none"
+        string Sensor = "sensors"
     }
     append variantSets = ["Physics", "Sensor", "Robot"]
 )
 {
+    over "joints"
+    {
+        over "waist_yaw_joint"
+        {
+            float drive:angular:physics:damping = 600
+            float drive:angular:physics:stiffness = 6000
+            bool[] isaac:actuator (
+                displayName = "Actuator"
+            )
+            string isaac:NameOverride (
+                displayName = "Joint Name Override"
+            )
+            token[] isaac:physics:DofOffsetOpOrder (
+                displayName = "Dof Offset Op Order"
+            )
+        }
+
+        over "waist_roll_joint"
+        {
+            float drive:angular:physics:damping = 600
+            float drive:angular:physics:stiffness = 6000
+            bool[] isaac:actuator (
+                displayName = "Actuator"
+            )
+            string isaac:NameOverride (
+                displayName = "Joint Name Override"
+            )
+            token[] isaac:physics:DofOffsetOpOrder (
+                displayName = "Dof Offset Op Order"
+            )
+        }
+
+        over "waist_pitch_joint"
+        {
+            float drive:angular:physics:damping = 600
+            float drive:angular:physics:stiffness = 6000
+            bool[] isaac:actuator (
+                displayName = "Actuator"
+            )
+            string isaac:NameOverride (
+                displayName = "Joint Name Override"
+            )
+            token[] isaac:physics:DofOffsetOpOrder (
+                displayName = "Dof Offset Op Order"
+            )
+        }
+
+        over "left_shoulder_pitch_joint"
+        {
+            float drive:angular:physics:damping = 600
+            float drive:angular:physics:stiffness = 6000
+            bool[] isaac:actuator (
+                displayName = "Actuator"
+            )
+            string isaac:NameOverride (
+                displayName = "Joint Name Override"
+            )
+            token[] isaac:physics:DofOffsetOpOrder (
+                displayName = "Dof Offset Op Order"
+            )
+        }
+
+        over "left_elbow_yaw_joint"
+        {
+            float drive:angular:physics:damping = 400
+            float drive:angular:physics:stiffness = 4000
+            bool[] isaac:actuator (
+                displayName = "Actuator"
+            )
+            string isaac:NameOverride (
+                displayName = "Joint Name Override"
+            )
+            token[] isaac:physics:DofOffsetOpOrder (
+                displayName = "Dof Offset Op Order"
+            )
+        }
+
+        over "left_shoulder_roll_joint"
+        {
+            float drive:angular:physics:damping = 600
+            float drive:angular:physics:stiffness = 6000
+            bool[] isaac:actuator (
+                displayName = "Actuator"
+            )
+            string isaac:NameOverride (
+                displayName = "Joint Name Override"
+            )
+            token[] isaac:physics:DofOffsetOpOrder (
+                displayName = "Dof Offset Op Order"
+            )
+        }
+
+        over "left_arm_yaw_joint"
+        {
+            float drive:angular:physics:damping = 600
+            float drive:angular:physics:stiffness = 6000
+            bool[] isaac:actuator (
+                displayName = "Actuator"
+            )
+            string isaac:NameOverride (
+                displayName = "Joint Name Override"
+            )
+            token[] isaac:physics:DofOffsetOpOrder (
+                displayName = "Dof Offset Op Order"
+            )
+            token visibility = "inherited"
+        }
+
+        over "left_elbow_pitch_joint"
+        {
+            float drive:angular:physics:damping = 400
+            float drive:angular:physics:stiffness = 4000
+            bool[] isaac:actuator (
+                displayName = "Actuator"
+            )
+            string isaac:NameOverride (
+                displayName = "Joint Name Override"
+            )
+            token[] isaac:physics:DofOffsetOpOrder (
+                displayName = "Dof Offset Op Order"
+            )
+        }
+
+        over "left_wrist_pitch_joint"
+        {
+            float drive:angular:physics:damping = 200
+            float drive:angular:physics:stiffness = 2000
+            bool[] isaac:actuator (
+                displayName = "Actuator"
+            )
+            string isaac:NameOverride (
+                displayName = "Joint Name Override"
+            )
+            token[] isaac:physics:DofOffsetOpOrder (
+                displayName = "Dof Offset Op Order"
+            )
+        }
+
+        over "left_wrist_roll_joint"
+        {
+            float drive:angular:physics:damping = 200
+            float drive:angular:physics:stiffness = 2000
+            bool[] isaac:actuator (
+                displayName = "Actuator"
+            )
+            string isaac:NameOverride (
+                displayName = "Joint Name Override"
+            )
+            token[] isaac:physics:DofOffsetOpOrder (
+                displayName = "Dof Offset Op Order"
+            )
+        }
+
+        over "right_shoulder_roll_joint"
+        {
+            float drive:angular:physics:damping = 600
+            float drive:angular:physics:stiffness = 6000
+            bool[] isaac:actuator (
+                displayName = "Actuator"
+            )
+            string isaac:NameOverride (
+                displayName = "Joint Name Override"
+            )
+            token[] isaac:physics:DofOffsetOpOrder (
+                displayName = "Dof Offset Op Order"
+            )
+        }
+
+        over "right_shoulder_pitch_joint"
+        {
+            float drive:angular:physics:damping = 600
+            float drive:angular:physics:stiffness = 6000
+            bool[] isaac:actuator (
+                displayName = "Actuator"
+            )
+            string isaac:NameOverride (
+                displayName = "Joint Name Override"
+            )
+            token[] isaac:physics:DofOffsetOpOrder (
+                displayName = "Dof Offset Op Order"
+            )
+        }
+
+        over "right_arm_yaw_joint"
+        {
+            float drive:angular:physics:damping = 600
+            float drive:angular:physics:stiffness = 6000
+            bool[] isaac:actuator (
+                displayName = "Actuator"
+            )
+            string isaac:NameOverride (
+                displayName = "Joint Name Override"
+            )
+            token[] isaac:physics:DofOffsetOpOrder (
+                displayName = "Dof Offset Op Order"
+            )
+        }
+
+        over "right_elbow_pitch_joint"
+        {
+            float drive:angular:physics:damping = 400
+            float drive:angular:physics:stiffness = 4000
+            bool[] isaac:actuator (
+                displayName = "Actuator"
+            )
+            string isaac:NameOverride (
+                displayName = "Joint Name Override"
+            )
+            token[] isaac:physics:DofOffsetOpOrder (
+                displayName = "Dof Offset Op Order"
+            )
+        }
+
+        over "right_elbow_yaw_joint"
+        {
+            float drive:angular:physics:damping = 400
+            float drive:angular:physics:stiffness = 4000
+            bool[] isaac:actuator (
+                displayName = "Actuator"
+            )
+            string isaac:NameOverride (
+                displayName = "Joint Name Override"
+            )
+            token[] isaac:physics:DofOffsetOpOrder (
+                displayName = "Dof Offset Op Order"
+            )
+        }
+
+        over "right_wrist_pitch_joint"
+        {
+            float drive:angular:physics:damping = 200
+            float drive:angular:physics:stiffness = 2000
+            bool[] isaac:actuator (
+                displayName = "Actuator"
+            )
+            string isaac:NameOverride (
+                displayName = "Joint Name Override"
+            )
+            token[] isaac:physics:DofOffsetOpOrder (
+                displayName = "Dof Offset Op Order"
+            )
+        }
+
+        over "right_wrist_roll_joint"
+        {
+            float drive:angular:physics:damping = 200
+            float drive:angular:physics:stiffness = 2000
+            bool[] isaac:actuator (
+                displayName = "Actuator"
+            )
+            string isaac:NameOverride (
+                displayName = "Joint Name Override"
+            )
+            token[] isaac:physics:DofOffsetOpOrder (
+                displayName = "Dof Offset Op Order"
+            )
+        }
+    }
+
+    over "neck_pitch_link"
+    {
+        over "stereo_link"
+        {
+            over "Camera"
+            {
+                float focalLength = 9
+            }
+        }
+    }
     variantSet "Physics" = {
         "none" (
             prepend payload = @./payloads/Physics/none.usda@
@@ -255,5 +525,11 @@ over "OmniverseKit_Top" (
     float3 xformOp:scale = (1, 1, 1)
     double3 xformOp:translate = (0, 0, 5)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+
+def PhysicsScene "PhysicsScene" (
+    prepend apiSchemas = ["NewtonSceneAPI", "PhysxSceneAPI"]
+)
+{
 }
 

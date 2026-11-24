@@ -5,6 +5,7 @@
 """
     metersPerUnit = 1
     subLayers = [
+        @./visual_sync.usda@,
         @./robot.usda@
     ]
     upAxis = "Z"
@@ -301,46 +302,6 @@ def Xform "robotera_l7"
                             double3 xformOp:scale = (1, 1, 1)
                             double3 xformOp:translate = (0, 0, 0)
                             uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
-
-                            def Xform "neck_yaw_link"
-                            {
-                                quatd xformOp:orient = (1, 0, 0, 0)
-                                double3 xformOp:scale = (1, 1, 1)
-                                double3 xformOp:translate = (0, 0, 0)
-                                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
-
-                                def Xform "neck_pitch_link"
-                                {
-                                    quatd xformOp:orient = (1, 0, 0, 0)
-                                    double3 xformOp:scale = (1, 1, 1)
-                                    double3 xformOp:translate = (0.03999999910593033, 0, 0.09049999713897705)
-                                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
-
-                                    def Xform "lidar_link"
-                                    {
-                                        quatd xformOp:orient = (1, 0, 0, 0)
-                                        double3 xformOp:scale = (1, 1, 1)
-                                        double3 xformOp:translate = (-0.014255000278353691, 0, 0.1067499965429306)
-                                        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
-                                    }
-
-                                    def Xform "mic_link"
-                                    {
-                                        quatd xformOp:orient = (1, 0, 0, 0)
-                                        double3 xformOp:scale = (1, 1, 1)
-                                        double3 xformOp:translate = (-0.014255000278353691, 0, 0.18884000182151794)
-                                        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
-                                    }
-
-                                    def Xform "stereo_link"
-                                    {
-                                        quatd xformOp:orient = (0.9659256935119629, 0, 0.2588196396827698, 0)
-                                        double3 xformOp:scale = (1, 1, 1)
-                                        double3 xformOp:translate = (0.0597120001912117, 0, 0.1328199952840805)
-                                        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
-                                    }
-                                }
-                            }
                         }
                     }
 
@@ -461,66 +422,6 @@ def Xform "robotera_l7"
                 uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
             }
 
-            def Xform "neck_yaw_link" (
-                instanceable = true
-                prepend references = @./instances.usda@</Instances/mesh_9>
-            )
-            {
-                token visibility = "inherited"
-                quatd xformOp:orient = (1, 0, 0, 0)
-                double3 xformOp:scale = (1, 1, 1)
-                double3 xformOp:translate = (0, 0, 0.3980000019)
-                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
-            }
-
-            def Xform "neck_pitch_link" (
-                instanceable = true
-                prepend references = @./instances.usda@</Instances/mesh_10>
-            )
-            {
-                token visibility = "inherited"
-                quatd xformOp:orient = (1, 0, 0, 0)
-                double3 xformOp:scale = (1, 1, 1)
-                double3 xformOp:translate = (0.03999999911, 0, 0.488499999)
-                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
-            }
-
-            def Xform "lidar_link" (
-                instanceable = true
-                prepend references = @./instances.usda@</Instances/mesh_1_3>
-            )
-            {
-                token visibility = "inherited"
-                quatd xformOp:orient = (1, 0, 0, 0)
-                double3 xformOp:scale = (1, 1, 1)
-                double3 xformOp:translate = (0.02574499883, 0, 0.5952500105)
-                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
-            }
-
-            def Xform "mic_link" (
-                instanceable = true
-                prepend references = @./instances.usda@</Instances/mesh_1_1>
-            )
-            {
-                token visibility = "inherited"
-                quatd xformOp:orient = (1, 0, 0, 0)
-                double3 xformOp:scale = (1, 1, 1)
-                double3 xformOp:translate = (0.02574499883, 0, 0.6773400307)
-                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
-            }
-
-            def Xform "stereo_link" (
-                instanceable = true
-                prepend references = @./instances.usda@</Instances/mesh_1_3>
-            )
-            {
-                token visibility = "inherited"
-                quatd xformOp:orient = (0.9659256935, 0, 0.2588195406, 0)
-                double3 xformOp:scale = (1, 1, 1)
-                double3 xformOp:translate = (0.0997119993, 0, 0.6213200092)
-                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
-            }
-
             def Xform "arm_flange_link_0" (
                 instanceable = true
                 prepend references = @./instances.usda@</Instances/mesh_1_1>
@@ -634,71 +535,6 @@ def Xform "robotera_l7"
                 quatd xformOp:orient = (1, 0, 0, 0)
                 double3 xformOp:scale = (1, 1, 1)
                 double3 xformOp:translate = (0, 0, 0.3980000019)
-                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
-            }
-
-            def Xform "neck_yaw_link" (
-                instanceable = true
-                prepend references = @./instances.usda@</Instances/mesh_9_1>
-            )
-            {
-                uniform token purpose = "guide"
-                token visibility = "inherited"
-                quatd xformOp:orient = (1, 0, 0, 0)
-                double3 xformOp:scale = (1, 1, 1)
-                double3 xformOp:translate = (0, 0, 0.3980000019)
-                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
-            }
-
-            def Xform "neck_pitch_link" (
-                instanceable = true
-                prepend references = @./instances.usda@</Instances/mesh_10_1>
-            )
-            {
-                uniform token purpose = "guide"
-                token visibility = "inherited"
-                quatd xformOp:orient = (1, 0, 0, 0)
-                double3 xformOp:scale = (1, 1, 1)
-                double3 xformOp:translate = (0.03999999911, 0, 0.488499999)
-                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
-            }
-
-            def Xform "lidar_link" (
-                instanceable = true
-                prepend references = @./instances.usda@</Instances/mesh_1_4>
-            )
-            {
-                uniform token purpose = "guide"
-                token visibility = "inherited"
-                quatd xformOp:orient = (1, 0, 0, 0)
-                double3 xformOp:scale = (1, 1, 1)
-                double3 xformOp:translate = (0.02574499883, 0, 0.5952500105)
-                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
-            }
-
-            def Xform "mic_link" (
-                instanceable = true
-                prepend references = @./instances.usda@</Instances/mesh_1_2>
-            )
-            {
-                uniform token purpose = "guide"
-                token visibility = "inherited"
-                quatd xformOp:orient = (1, 0, 0, 0)
-                double3 xformOp:scale = (1, 1, 1)
-                double3 xformOp:translate = (0.02574499883, 0, 0.6773400307)
-                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
-            }
-
-            def Xform "stereo_link" (
-                instanceable = true
-                prepend references = @./instances.usda@</Instances/mesh_1_4>
-            )
-            {
-                uniform token purpose = "guide"
-                token visibility = "inherited"
-                quatd xformOp:orient = (0.9659256935, 0, 0.2588195406, 0)
-                double3 xformOp:scale = (1, 1, 1)
-                double3 xformOp:translate = (0.0997119993, 0, 0.6213200092)
                 uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
             }
 
@@ -1348,6 +1184,179 @@ def Xform "robotera_l7"
 
     def Scope "VisualMaterials"
     {
+    }
+
+    def Xform "neck_yaw_link"
+    {
+        double3 xformOp:translate = (0, 0, 0.3980000019)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def Xform "visuals"
+        {
+            def Xform "neck_yaw_link" (
+                instanceable = true
+                prepend references = @./instances.usda@</Instances/mesh_9>
+            )
+            {
+                token visibility = "inherited"
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+        }
+
+        def Xform "collisions"
+        {
+            def Xform "neck_yaw_link" (
+                instanceable = true
+                prepend references = @./instances.usda@</Instances/mesh_9_1>
+            )
+            {
+                uniform token purpose = "guide"
+                token visibility = "inherited"
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+        }
+    }
+
+    def Xform "neck_pitch_link"
+    {
+        double3 xformOp:translate = (0.03999999911, 0, 0.488499999)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def Xform "visuals"
+        {
+            def Xform "neck_pitch_link" (
+                instanceable = true
+                prepend references = @./instances.usda@</Instances/mesh_10>
+            )
+            {
+                token visibility = "inherited"
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Xform "lidar_link" (
+                instanceable = true
+                prepend references = @./instances.usda@</Instances/mesh_1_3>
+            )
+            {
+                token visibility = "inherited"
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (-0.014255000279999996, 0, 0.10675001150000002)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Xform "mic_link" (
+                instanceable = true
+                prepend references = @./instances.usda@</Instances/mesh_1_1>
+            )
+            {
+                token visibility = "inherited"
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (-0.014255000279999996, 0, 0.18884003170000002)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Xform "stereo_link" (
+                instanceable = true
+                prepend references = @./instances.usda@</Instances/mesh_1_3>
+            )
+            {
+                token visibility = "inherited"
+                quatd xformOp:orient = (0.9659256935, 0, 0.2588195406, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0.05971200019000001, 0, 0.13282001019999995)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+        }
+
+        def Xform "collisions"
+        {
+            def Xform "neck_pitch_link" (
+                instanceable = true
+                prepend references = @./instances.usda@</Instances/mesh_10_1>
+            )
+            {
+                uniform token purpose = "guide"
+                token visibility = "inherited"
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Xform "lidar_link" (
+                instanceable = true
+                prepend references = @./instances.usda@</Instances/mesh_1_4>
+            )
+            {
+                uniform token purpose = "guide"
+                token visibility = "inherited"
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (-0.014255000279999996, 0, 0.10675001150000002)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Xform "mic_link" (
+                instanceable = true
+                prepend references = @./instances.usda@</Instances/mesh_1_2>
+            )
+            {
+                uniform token purpose = "guide"
+                token visibility = "inherited"
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (-0.014255000279999996, 0, 0.18884003170000002)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Xform "stereo_link" (
+                instanceable = true
+                prepend references = @./instances.usda@</Instances/mesh_1_4>
+            )
+            {
+                uniform token purpose = "guide"
+                token visibility = "inherited"
+                quatd xformOp:orient = (0.9659256935, 0, 0.2588195406, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0.05971200019000001, 0, 0.13282001019999995)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+        }
+
+        def Xform "lidar_link"
+        {
+            quatd xformOp:orient = (1, 0, 0, 0)
+            double3 xformOp:scale = (1, 1, 1)
+            double3 xformOp:translate = (-0.014255000278353691, 0, 0.1067499965429306)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+        }
+
+        def Xform "mic_link"
+        {
+            quatd xformOp:orient = (1, 0, 0, 0)
+            double3 xformOp:scale = (1, 1, 1)
+            double3 xformOp:translate = (-0.014255000278353691, 0, 0.18884000182151794)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+        }
+
+        def Xform "stereo_link"
+        {
+            quatd xformOp:orient = (0.9659256935119629, 0, 0.2588196396827698, 0)
+            double3 xformOp:scale = (1, 1, 1)
+            double3 xformOp:translate = (0.0597120001912117, 0, 0.1328199952840805)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+        }
     }
 }
 

@@ -7,6 +7,22 @@
 )
 over "L7"
 {
+    over "L7_Upper"
+    {
+        # Release the fixed-world joint only when the legs are composed.
+        over "root_joint" (active = false) { }
+
+        # Keep the original articulation settings on the floating pelvis.
+        over "base" (
+            prepend apiSchemas = ["PhysicsArticulationRootAPI", "PhysxArticulationAPI"]
+        )
+        {
+            bool physxArticulation:enabledSelfCollisions = 0
+            int physxArticulation:solverPositionIterationCount = 32
+            int physxArticulation:solverVelocityIterationCount = 1
+        }
+    }
+
     def Xform "L7_Lower" (
         prepend payload = @../../components/L7_Lower/L7_Lower.usda@
         variants = { string Physics = "physx" }

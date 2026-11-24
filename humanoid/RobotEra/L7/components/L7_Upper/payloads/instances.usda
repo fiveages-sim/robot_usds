@@ -579,6 +579,8 @@ def Scope "Instances"
     {
         over "mesh_10"
         {
+            uniform bool doubleSided = 1
+
             over "white_shell" (
                 apiSchemas = ["MaterialBindingAPI"]
             )
@@ -614,17 +616,27 @@ def Scope "Instances"
             }
 
             def Material "black_matte_0" (
-                instanceable = true
+                instanceable = false
                 prepend references = @./materials.usda@</Materials/black_matte_0>
             )
             {
+                over "black_matte"
+                {
+                    float inputs:metallic_factor = 0.3499999940395355
+                    float inputs:roughness_factor = 0.44999998807907104
+                }
             }
 
             def Material "black_metal" (
-                instanceable = true
+                instanceable = false
                 prepend references = @./materials.usda@</Materials/black_metal>
             )
             {
+                over "black_metal"
+                {
+                    float inputs:metallic_factor = 0.7402439117431641
+                    float inputs:roughness_factor = 0.44999998807907104
+                }
             }
         }
     }

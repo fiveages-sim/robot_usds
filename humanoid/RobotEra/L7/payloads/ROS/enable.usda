@@ -161,6 +161,212 @@ def Xform "L7"
                 custom string inputs:topicName = "/isaac/joint_command"
                 token node:type = "isaacsim.ros2.bridge.ROS2SubscribeJointState"
                 int node:typeVersion = 2
+                custom uint outputs:execOut (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom token[] outputs:jointNames
+                custom double[] outputs:positionCommand
+            }
+
+            def OmniGraphNode "ArticulationController"
+            {
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </L7/Graph/ROS_JointStates/SubscribeJointState.outputs:execOut>
+                custom token[] inputs:jointNames
+                prepend token[] inputs:jointNames.connect = </L7/Graph/ROS_JointStates/SubscribeJointState.outputs:jointNames>
+                custom double[] inputs:positionCommand
+                prepend double[] inputs:positionCommand.connect = </L7/Graph/ROS_JointStates/SubscribeJointState.outputs:positionCommand>
+                custom rel inputs:targetPrim = </L7/L7_Upper/root_joint>
+                token node:type = "isaacsim.core.nodes.IsaacArticulationController"
+                int node:typeVersion = 1
+            }
+        }
+
+        # RGB publisher for /L7/L7_Upper/neck_pitch_link/stereo_link/Camera.
+        # Camera is authored only by L7_Upper Sensor=sensors. CameraGate skips
+        # the render product when that prim is absent, so Sensor=none does not
+        # error this graph or the sibling joint-state graph.
+        def OmniGraph "ROS_Camera"
+        {
+            token evaluationMode = "Automatic"
+            token evaluator:type = "execution"
+            token fabricCacheBacking = "Shared"
+            int2 fileFormatVersion = (1, 9)
+            token pipelineStage = "pipelineStageSimulation"
+
+            def OmniGraphNode "on_playback_tick" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                token node:type = "omni.graph.action.OnPlaybackTick"
+                int node:typeVersion = 2
+                custom double outputs:deltaSeconds
+                custom double outputs:frame
+                custom uint outputs:tick (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom double outputs:time
+            }
+
+            def OmniGraphNode "CameraGate" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                token node:type = "omni.graph.scriptnode.ScriptNode"
+                int node:typeVersion = 2
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </L7/Graph/ROS_Camera/on_playback_tick.outputs:tick>
+                custom bool inputs:usePath = 0
+                custom string inputs:script = """import omni.graph.core as og
+import omni.usd
+
+CAMERA_PATH = "/L7/L7_Upper/neck_pitch_link/stereo_link/Camera"
+
+def _camera_ready():
+    stage = omni.usd.get_context().get_stage()
+    prim = stage.GetPrimAtPath(CAMERA_PATH) if stage else None
+    return bool(prim and prim.IsValid() and prim.IsActive() and prim.GetTypeName() == "Camera")
+
+def compute(db):
+    if _camera_ready():
+        db.outputs.execOut = og.ExecutionAttributeState.ENABLED
+    else:
+        db.outputs.execOut = og.ExecutionAttributeState.DISABLED
+    return True
+"""
+                custom uint outputs:execOut (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+            }
+
+            def OmniGraphNode "isaac_create_render_product" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom rel inputs:cameraPrim = </L7/L7_Upper/neck_pitch_link/stereo_link/Camera> (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
+                custom bool inputs:enabled
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </L7/Graph/ROS_Camera/CameraGate.outputs:execOut>
+                custom uint inputs:height = 720
+                custom rel inputs:renderProductPrim (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
+                custom uint inputs:width = 1280
+                token node:type = "isaacsim.core.nodes.IsaacCreateRenderProduct"
+                int node:typeVersion = 3
+                custom uint outputs:execOut (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom token outputs:renderProductPath
+            }
+
+            def OmniGraphNode "ros2_context" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom uchar inputs:domain_id = 12
+                custom bool inputs:useDomainIDEnvVar = 1
+                token node:type = "isaacsim.ros2.bridge.ROS2Context"
+                int node:typeVersion = 2
+                custom uint64 outputs:context
+            }
+
+            def OmniGraphNode "ros2_camera_helper" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </L7/Graph/ROS_Camera/ros2_context.outputs:context>
+                custom bool inputs:enabled
+                custom bool inputs:enableSemanticLabels
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </L7/Graph/ROS_Camera/isaac_create_render_product.outputs:execOut>
+                custom string inputs:frameId = "stereo_optical_frame"
+                custom uint inputs:frameSkipCount
+                custom string inputs:nodeNamespace
+                custom string inputs:qosProfile
+                custom uint64 inputs:queueSize
+                custom token inputs:renderProductPath
+                prepend token inputs:renderProductPath.connect = </L7/Graph/ROS_Camera/isaac_create_render_product.outputs:renderProductPath>
+                custom bool inputs:resetSimulationTimeOnStop
+                custom string inputs:semanticLabelsTopicName
+                custom string inputs:srtxCompressionType
+                custom float2 inputs:stereoOffset
+                custom string inputs:topicName = "camera/color/image_raw"
+                custom token inputs:type = "rgb" (
+                    allowedTokens = ["rgb", "rgb_h264", "rgb_hevc", "depth", "depth_pcl", "instance_segmentation", "semantic_segmentation", "bbox_2d_tight", "bbox_2d_loose", "bbox_3d"]
+                )
+                custom bool inputs:useSystemTime
+                token node:type = "isaacsim.ros2.bridge.ROS2CameraHelper"
+                int node:typeVersion = 4
+            }
+
+            def OmniGraphNode "ros2_camera_info_helper" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </L7/Graph/ROS_Camera/ros2_context.outputs:context>
+                custom bool inputs:enabled
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </L7/Graph/ROS_Camera/isaac_create_render_product.outputs:execOut>
+                custom string inputs:frameId = "stereo_optical_frame"
+                custom string inputs:frameIdRight
+                custom uint inputs:frameSkipCount
+                custom string inputs:nodeNamespace
+                custom string inputs:qosProfile
+                custom uint64 inputs:queueSize
+                custom token inputs:renderProductPath
+                prepend token inputs:renderProductPath.connect = </L7/Graph/ROS_Camera/isaac_create_render_product.outputs:renderProductPath>
+                custom token inputs:renderProductPathRight
+                custom bool inputs:resetSimulationTimeOnStop
+                custom string inputs:topicName = "camera/color/camera_info"
+                custom string inputs:topicNameRight
+                custom bool inputs:useSystemTime
+                token node:type = "isaacsim.ros2.bridge.ROS2CameraInfoHelper"
+                int node:typeVersion = 1
             }
         }
     }

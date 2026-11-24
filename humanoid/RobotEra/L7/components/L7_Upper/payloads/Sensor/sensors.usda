@@ -7,5 +7,42 @@
 
 def Xform "robotera_l7"
 {
+    over "neck_pitch_link"
+    {
+        over "visuals"
+        {
+            over "stereo_link" (active = false) {}
+        }
+
+        over "stereo_link"
+        {
+            def Xform "stereo_optical_frame"
+            {
+                double3 xformOp:translate = (0.0165, 0.04746145, 0)
+                quatd xformOp:orient = (0.5, -0.5, 0.5, -0.5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient"]
+
+                def Xform "D455" (
+                    prepend payload = @../../../../../../../sensors/realsense/d455.usd@
+                ) {}
+            }
+
+            def Camera "Camera" (
+                prepend apiSchemas = ["OmniRtxCameraAutoExposureAPI_1", "OmniRtxCameraExposureAPI_1"]
+            )
+            {
+                float2 clippingRange = (0.01, 10000000)
+                float exposure:fStop = 5
+                float exposure:responsivity = 1.1026709
+                float exposure:time = 0.02
+                float focalLength = 18.147562
+                float focusDistance = 400
+                quatd xformOp:orient = (-0.5000000000000002, -0.4999999999999999, 0.5000000000000001, 0.5)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0.0165, 0.04746145, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+        }
+    }
 }
 

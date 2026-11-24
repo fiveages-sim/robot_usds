@@ -317,20 +317,16 @@ def Xform "L7_Lower"
             instanceable = false
         )
         {
-            def Xform "mesh_0"
+            def Xform "hip_pitch_link"
             {
                 uniform token purpose = "guide"
-                quatd xformOp:orient = (1, 0, 0, 0)
-                double3 xformOp:scale = (0.10000000149011612, 0.05999999865889549, 0.15000000596046448)
-                double3 xformOp:translate = (0.019999999552965164, 0, -0.20000000298023224)
-                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
-                def Cube "box" (
-                    prepend apiSchemas = ["PhysicsCollisionAPI"]
+                def Mesh "mesh_5" (
+                    prepend apiSchemas = ["PhysicsCollisionAPI", "PhysicsMeshCollisionAPI"]
+                    prepend references = @./geometries.usd@</Geometries/mesh_5/mesh_5>
                 )
                 {
-                    float3[] extent = [(-0.05, -0.03, -0.075), (0.05, 0.03, 0.075)]
-                    double size = 1
+                    uniform token physics:approximation = "convexHull"
                 }
             }
         }
@@ -551,20 +547,20 @@ def Xform "L7_Lower"
             instanceable = false
         )
         {
-            def Xform "mesh_0"
+            def Xform "hip_pitch_link"
             {
                 uniform token purpose = "guide"
-                quatd xformOp:orient = (1, 0, 0, 0)
-                double3 xformOp:scale = (0.10000000149011612, 0.05999999865889549, 0.15000000596046448)
-                double3 xformOp:translate = (0.019999999552965164, 0, -0.20000000298023224)
+                quatd xformOp:orient = (0, 0, 0, 1)
+                double3 xformOp:scale = (-1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
                 uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
-                def Cube "box" (
-                    prepend apiSchemas = ["PhysicsCollisionAPI"]
+                def Mesh "mesh_5" (
+                    prepend apiSchemas = ["PhysicsCollisionAPI", "PhysicsMeshCollisionAPI"]
+                    prepend references = @./geometries.usd@</Geometries/mesh_5/mesh_5>
                 )
                 {
-                    float3[] extent = [(-0.05, -0.03, -0.075), (0.05, 0.03, 0.075)]
-                    double size = 1
+                    uniform token physics:approximation = "convexHull"
                 }
             }
         }
