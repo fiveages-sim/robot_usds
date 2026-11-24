@@ -1,0 +1,69 @@
+#usda 1.0
+(
+    defaultPrim = "tron2b_dach"
+)
+
+over "tron2b_dach"
+{
+    over "Geometry"
+    {
+        over "base_link"
+        {
+            over "head_yaw_Link"
+            {
+                over "head_pitch_Link"
+                {
+                    def Xform "d455"
+                    {
+                        matrix4d xformOp:transform = ( (0, -1, 0, 0), (0, 0, -1, 0), (1, 0, 0, 0), (0.0532440883, 0.0174614228, 0.0343997601, 1) )
+                        uniform token[] xformOpOrder = ["xformOp:transform"]
+
+                        def Xform "Housing" (
+                            prepend payload = @../../../../../../sensors/realsense/d455.usd@</World>
+                        )
+                        {
+                            double3 xformOp:translate = (0, -0.010, 0)
+                            uniform token[] xformOpOrder = ["xformOp:translate"]
+                        }
+
+                        def Camera "head_camera"
+                        {
+                            float2 clippingRange = (0.01, 10000000)
+                            float focalLength = 1.93
+                            float horizontalAperture = 3.896
+                            float verticalAperture = 2.453
+                            double xformOp:rotateX = 180
+                            token[] xformOpOrder = ["xformOp:rotateX"]
+                        }
+                    }
+                }
+            }
+
+            def Xform "D435_Housing" (
+                prepend payload = @../../../../../../sensors/realsense/d435.usd@</World>
+            )
+            {
+                matrix4d xformOp:transform = ( (-3.7210103664975236e-8, -0.9999999999999993, -1.7297999782561746e-8, 0), (-0.9068020416271008, 4.10342855250434e-8, -0.4215567070999115, 0), (0.4215567070999119, -3.071987109137808e-13, -0.9068020416271017, 0), (0.098716379399, 0.000116607174, -0.007652967437, 1) )
+                uniform token[] xformOpOrder = ["xformOp:transform"]
+                over "d435"
+                {
+                    # Match the shared GLB axes used by the ROS description.
+                    quatd xformOp:orient:glbAxes = (2.9015769342777276e-08, 0.7071068286895752, 0.0, 0.7071068286895752)
+                    uniform token[] xformOpOrder = ["xformOp:orient:glbAxes", "xformOp:orient"]
+                }
+            }
+
+            def Camera "bottom_camera"
+            {
+                float2 clippingRange = (0.01, 10000000)
+                float focalLength = 1.93
+                float horizontalAperture = 3.896
+                float verticalAperture = 2.453
+                # Use the ROS optical origin and aim along the mounted lens normal.
+                matrix4d xformOp:transform = ( (-7.265765367665217e-13, -1, 5.0487097934144733e-29, 0), (0.9068020589254667, -6.588610995068169e-13, 0.4215566698897479, -0), (-0.4215566698897479, 3.062931852593208e-13, 0.9068020589254667, 0), (0.09680000000000001, 0.01759, -0.004090000000000002, 1) )
+                uniform token[] xformOpOrder = ["xformOp:transform"]
+            }
+        }
+    }
+}
+
