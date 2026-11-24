@@ -1,0 +1,133 @@
+#usda 1.0
+(
+    customLayerData = {
+        string creator = "URDF USD Converter v0.3.2"
+    }
+    defaultPrim = "tron2b_dach"
+    endTimeCode = 1000000
+    kilogramsPerUnit = 1
+    metersPerUnit = 1
+    startTimeCode = 0
+    subLayers = [
+        @./Robot/robot.usda@,
+        @./Arm/arm.usda@,
+        @./Head/head.usda@
+    ]
+    upAxis = "Z"
+)
+
+def Xform "tron2b_dach" (
+    prepend apiSchemas = ["GeomModelAPI"]
+    assetInfo = {
+        string name = "tron2b_dach"
+    }
+    kind = "component"
+)
+{
+    float3[] extentsHint = [(-0.35944033, -0.36009002, -1.20035), (0.36055967, 0.35991, 0.44130036), (3.4028235e38, 3.4028235e38, 3.4028235e38), (-3.4028235e38, -3.4028235e38, -3.4028235e38), (3.4028235e38, 3.4028235e38, 3.4028235e38), (-3.4028235e38, -3.4028235e38, -3.4028235e38), (-0.35944033, -0.36009002, -1.20035), (0.36055967, 0.35991, 0.44130036)]
+
+    def Scope "Geometry"
+    {
+        def Xform "base_link"
+        {
+            def Xform "base_1" (
+                displayName = "base"
+                instanceable = true
+                prepend references = @./instances.usda@</Instances/base_1>
+                uiHints = {
+                    string displayName = "base"
+                }
+            )
+            {
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Cube "box" (
+                prepend apiSchemas = ["PhysicsCollisionAPI"]
+            )
+            {
+                float3[] extent = [(-0.5, -0.5, -0.5), (0.5, 0.5, 0.5)]
+                uniform token purpose = "guide"
+                double size = 1
+                quatf xformOp:orient = (1, 0, 0, 0)
+                float3 xformOp:scale = (0.118, 0.085, 0.98)
+                double3 xformOp:translate = (0.00056, -0.00009, -0.53147)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Xform "base_3_1" (
+                displayName = "base_3"
+                instanceable = true
+                prepend references = @./instances.usda@</Instances/base_3_1>
+                uiHints = {
+                    string displayName = "base_3"
+                }
+            )
+            {
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0.00056, -0.00009, -1.00235)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Xform "head_base_1" (
+                displayName = "head_base"
+                instanceable = true
+                prepend references = @./instances.usda@</Instances/head_base_1>
+                uiHints = {
+                    string displayName = "head_base"
+                }
+            )
+            {
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0.04656, 0.00009, 0.26115)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Xform "Colored_base_Link_0" (
+                instanceable = true
+                prepend references = @./geometries.usd@</Visuals/body_base>
+            )
+            {
+                matrix4d xformOp:transform = ( (1, 0, 0, 0), (0, 1, 0, 0), (0, 0, 1, 0), (0, 0, 0, 1) )
+                uniform token[] xformOpOrder = ["xformOp:transform"]
+            }
+
+            def Xform "Colored_base_3_Link_0" (
+                instanceable = true
+                prepend references = @./geometries.usd@</Visuals/body_base_3>
+            )
+            {
+                matrix4d xformOp:transform = ( (1, 0, 0, 0), (0, 1, 0, 0), (0, 0, 1, 0), (0.00056, -0.00009, -1.00235, 1) )
+                uniform token[] xformOpOrder = ["xformOp:transform"]
+            }
+
+            def Xform "Colored_head_base_Link_0" (
+                instanceable = true
+                prepend references = @./geometries.usd@</Visuals/head_head_base>
+            )
+            {
+                matrix4d xformOp:transform = ( (1, 0, 0, 0), (0, 1, 0, 0), (0, 0, 1, 0), (0.04656, 0.00009, 0.26115, 1) )
+                uniform token[] xformOpOrder = ["xformOp:transform"]
+            }
+
+            def Xform "Colored_base_2_Link_0" (
+                instanceable = true
+                prepend references = @./geometries.usd@</Visuals/body_base_2>
+            )
+            {
+                matrix4d xformOp:transform = ( (1, 0, 0, 0), (0, 1, 0, 0), (0, 0, 1, 0), (0.00056, -0.00009, -0.07285, 1) )
+                uniform token[] xformOpOrder = ["xformOp:transform"]
+            }
+        }
+    }
+
+    def Scope "Physics"
+    {
+    }
+}
+
