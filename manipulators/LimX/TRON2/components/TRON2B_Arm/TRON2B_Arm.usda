@@ -15,10 +15,13 @@ def Xform "tron2b_arm" (
     prepend references = @./payloads/base.usda@
     variants = {
         string Physics = "physx"
+        string EE = "none"
         string Side = "default"
         string Robot = "none"
     }
-    prepend variantSets = ["Physics", "Side"]
+    # Side before EE (M6): Side=left|right redefines EE payloads so Gripper
+    # Side is pinned in the payload def (stronger than asset default).
+    prepend variantSets = ["Physics", "Side", "EE"]
     append variantSets = ["Robot"]
 )
 {
@@ -36,6 +39,16 @@ def Xform "tron2b_arm" (
         "physx" (
             prepend payload = @./payloads/Physics/physx.usda@
         ) {
+        }
+    }
+    variantSet "EE" = {
+        "none" {
+        }
+        "tron2_gripper" (
+            prepend payload = @./payloads/EE/tron2_gripper.usda@
+        ) {
+            prepend rel isaac:physics:robotJoints = </tron2b_arm/Geometry/arm_base/proximal_pitch_Link/proximal_roll_Link/proximal_yaw_Link/elbow_Link/wrist_yaw_Link/wrist_pitch_Link/wrist_roll_Link/tcp/Gripper>
+            prepend rel isaac:physics:robotLinks = </tron2b_arm/Geometry/arm_base/proximal_pitch_Link/proximal_roll_Link/proximal_yaw_Link/elbow_Link/wrist_yaw_Link/wrist_pitch_Link/wrist_roll_Link/tcp/Gripper>
         }
     }
     variantSet "Side" = {

@@ -1,0 +1,90 @@
+#usda 1.0
+(
+    defaultPrim = "tron2b_arm"
+    doc = """Mount TRON2_Gripper on arm tcp (Side=default).
+
+Side=left|right arms use Side/*/EE → tron2_gripper_{left,right}.usda which
+pin Gripper Side in the payload def (stronger than the asset default).
+"""
+)
+
+def Xform "tron2b_arm"
+{
+    over "Geometry"
+    {
+        over "arm_base"
+        {
+            over "proximal_pitch_Link"
+            {
+                over "proximal_roll_Link"
+                {
+                    over "proximal_yaw_Link"
+                    {
+                        over "elbow_Link"
+                        {
+                            over "wrist_yaw_Link"
+                            {
+                                over "wrist_pitch_Link"
+                                {
+                                    over "wrist_roll_Link"
+                                    {
+                                        over "tcp"
+                                        {
+                                            def "Gripper" (
+                                                prepend payload = @../../../TRON2_Gripper/TRON2_Gripper.usda@
+                                                variants = {
+                                                    string Physics = "physx"
+                                                    string Side = "default"
+                                                    string Robot = "none"
+                                                }
+                                            )
+                                            {
+                                                quatd xformOp:orient = (1, 0, 0, 0)
+                                                double3 xformOp:scale = (1, 1, 1)
+                                                double3 xformOp:translate = (0, 0, 0)
+                                                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+                                                # Pattern B: ArtRoot on grasper_base_Link. Disable
+                                                # standalone fixed joint; weld into arm via tcp.
+                                                over "Physics"
+                                                {
+                                                    over "grasper_base_Joint" (
+                                                        active = false
+                                                    )
+                                                    {
+                                                    }
+                                                }
+
+                                                over "Geometry"
+                                                {
+                                                    over "wrist_roll_Link"
+                                                    {
+                                                        over "grasper_base_Link" (
+                                                            delete apiSchemas = ["PhysicsArticulationRootAPI", "NewtonArticulationRootAPI"]
+                                                        )
+                                                        {
+                                                            def PhysicsFixedJoint "AssemblerFixedJoint"
+                                                            {
+                                                                rel physics:body0 = </tron2b_arm/Geometry/arm_base/proximal_pitch_Link/proximal_roll_Link/proximal_yaw_Link/elbow_Link/wrist_yaw_Link/wrist_pitch_Link/wrist_roll_Link/tcp>
+                                                                rel physics:body1 = </tron2b_arm/Geometry/arm_base/proximal_pitch_Link/proximal_roll_Link/proximal_yaw_Link/elbow_Link/wrist_yaw_Link/wrist_pitch_Link/wrist_roll_Link/tcp/Gripper/Geometry/wrist_roll_Link/grasper_base_Link>
+                                                                bool physics:excludeFromArticulation = false
+                                                                point3f physics:localPos0 = (-0.0317, 0, -0.0812)
+                                                                point3f physics:localPos1 = (0, 0, 0)
+                                                                quatf physics:localRot0 = (1, 0, 0, 0)
+                                                                quatf physics:localRot1 = (1, 0, 0, 0)
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

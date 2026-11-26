@@ -38,47 +38,44 @@ over "tron2b_dach"
             )
             {
                 bool physxArticulation:enabledSelfCollisions = 1
-                int physxArticulation:solverPositionIterationCount = 32
-                int physxArticulation:solverVelocityIterationCount = 1
+                int physxArticulation:solverPositionIterationCount = 64
+                int physxArticulation:solverVelocityIterationCount = 4
             }
         }
     }
 
-    over "Body_Upper"
+    over "Arm_Left" (
+        variants = {
+            string Physics = "physx"
+        }
+    )
     {
-        over "Arm_Left" (
-            variants = {
-                string Physics = "physx"
-            }
-        )
+        over "Geometry"
         {
-            over "Geometry"
+            over "arm_base"
             {
-                over "arm_base"
+                over "proximal_pitch_Link"
                 {
-                    over "proximal_pitch_Link"
+                    over "proximal_roll_Link"
                     {
-                        over "proximal_roll_Link"
+                        over "proximal_yaw_Link"
                         {
-                            over "proximal_yaw_Link"
+                            over "elbow_Link"
                             {
-                                over "elbow_Link"
+                                over "wrist_yaw_Link"
                                 {
-                                    over "wrist_yaw_Link"
+                                    over "wrist_pitch_Link"
                                     {
-                                        over "wrist_pitch_Link"
+                                        over "wrist_roll_Link"
                                         {
-                                            over "wrist_roll_Link"
+                                            over "tcp"
                                             {
-                                                over "tcp"
-                                                {
-                                                    over "Gripper" (
-                                                        variants = {
-                                                            string Physics = "physx"
-                                                        }
-                                                    )
-                                                    {
+                                                over "Gripper" (
+                                                    variants = {
+                                                        string Physics = "physx"
                                                     }
+                                                )
+                                                {
                                                 }
                                             }
                                         }
@@ -90,40 +87,40 @@ over "tron2b_dach"
                 }
             }
         }
+    }
 
-        over "Arm_Right" (
-            variants = {
-                string Physics = "physx"
-            }
-        )
+    over "Arm_Right" (
+        variants = {
+            string Physics = "physx"
+        }
+    )
+    {
+        over "Geometry"
         {
-            over "Geometry"
+            over "arm_base"
             {
-                over "arm_base"
+                over "proximal_pitch_Link"
                 {
-                    over "proximal_pitch_Link"
+                    over "proximal_roll_Link"
                     {
-                        over "proximal_roll_Link"
+                        over "proximal_yaw_Link"
                         {
-                            over "proximal_yaw_Link"
+                            over "elbow_Link"
                             {
-                                over "elbow_Link"
+                                over "wrist_yaw_Link"
                                 {
-                                    over "wrist_yaw_Link"
+                                    over "wrist_pitch_Link"
                                     {
-                                        over "wrist_pitch_Link"
+                                        over "wrist_roll_Link"
                                         {
-                                            over "wrist_roll_Link"
+                                            over "tcp"
                                             {
-                                                over "tcp"
-                                                {
-                                                    over "Gripper" (
-                                                        variants = {
-                                                            string Physics = "physx"
-                                                        }
-                                                    )
-                                                    {
+                                                over "Gripper" (
+                                                    variants = {
+                                                        string Physics = "physx"
                                                     }
+                                                )
+                                                {
                                                 }
                                             }
                                         }

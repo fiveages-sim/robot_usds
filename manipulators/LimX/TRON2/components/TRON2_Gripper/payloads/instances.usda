@@ -167,13 +167,20 @@ def Scope "Instances"
     )
     {
         over "tn__jaw002_k9" (
-            apiSchemas = ["PhysicsCollisionAPI", "NewtonCollisionAPI", "PhysicsMeshCollisionAPI", "NewtonMeshCollisionAPI", "PhysxCollisionAPI"]
+            apiSchemas = ["PhysicsCollisionAPI", "NewtonCollisionAPI", "PhysicsMeshCollisionAPI", "NewtonMeshCollisionAPI", "PhysxCollisionAPI", "PhysicsMaterialAPI", "PhysxMaterialAPI"]
         )
         {
             token physics:approximation = "convexHull"
             bool physics:collisionEnabled = 1
+            # Polymer jaw pad — match grasp_table object μ for reliable pinch.
+            float physics:dynamicFriction = 1.6
+            float physics:restitution = 0
+            float physics:staticFriction = 2
             float physxCollision:contactOffset = 0.002
             float physxCollision:restOffset = 0.0
+            uniform token physxMaterial:frictionCombineMode = "max"
+            bool physxMaterial:improvePatchFriction = 1
+            uniform token physxMaterial:restitutionCombineMode = "min"
             uniform token purpose = "guide"
         }
     }
@@ -208,13 +215,19 @@ def Scope "Instances"
     )
     {
         over "tn__jaw001_k9" (
-            apiSchemas = ["PhysicsCollisionAPI", "NewtonCollisionAPI", "PhysicsMeshCollisionAPI", "NewtonMeshCollisionAPI", "PhysxCollisionAPI"]
+            apiSchemas = ["PhysicsCollisionAPI", "NewtonCollisionAPI", "PhysicsMeshCollisionAPI", "NewtonMeshCollisionAPI", "PhysxCollisionAPI", "PhysicsMaterialAPI", "PhysxMaterialAPI"]
         )
         {
             token physics:approximation = "convexHull"
             bool physics:collisionEnabled = 1
+            float physics:dynamicFriction = 1.6
+            float physics:restitution = 0
+            float physics:staticFriction = 2
             float physxCollision:contactOffset = 0.002
             float physxCollision:restOffset = 0.0
+            uniform token physxMaterial:frictionCombineMode = "max"
+            bool physxMaterial:improvePatchFriction = 1
+            uniform token physxMaterial:restitutionCombineMode = "min"
             uniform token purpose = "guide"
         }
     }

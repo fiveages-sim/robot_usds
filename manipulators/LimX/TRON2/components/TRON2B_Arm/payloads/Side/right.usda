@@ -4,6 +4,8 @@
 )
 
 def "tron2b_arm" (
+    # Nest EE under Side (M6): Side=right EE payloads pin Gripper Side=right.
+    prepend variantSets = ["EE"]
 )
 {
     delete rel isaac:physics:robotJoints
@@ -570,6 +572,7 @@ def "tron2b_arm" (
                                             }
 
                                         }
+
                                     }
                                 }
                             }
@@ -577,6 +580,18 @@ def "tron2b_arm" (
                     }
                 }
             }
+        }
+    }
+
+    # M6-style: Side=right replaces EE payloads so Gripper Side is pinned in the def.
+    variantSet "EE" = {
+        "none" {
+        }
+        "tron2_gripper" (
+            prepend payload = @../EE/tron2_gripper_right.usda@
+        ) {
+            prepend rel isaac:physics:robotJoints = </tron2b_arm/Geometry/arm_base/proximal_pitch_Link/proximal_roll_Link/proximal_yaw_Link/elbow_Link/wrist_yaw_Link/wrist_pitch_Link/wrist_roll_Link/tcp/Gripper>
+            prepend rel isaac:physics:robotLinks = </tron2b_arm/Geometry/arm_base/proximal_pitch_Link/proximal_roll_Link/proximal_yaw_Link/elbow_Link/wrist_yaw_Link/wrist_pitch_Link/wrist_roll_Link/tcp/Gripper>
         }
     }
 

@@ -94,9 +94,15 @@ def Xform "tron2b_dach" (
         "upper" (
             prepend payload = @./payloads/Body/upper.usda@
         ) {
-            # Dual arms + EE only (Torso is separate).
-            prepend rel isaac:physics:robotJoints = </tron2b_dach/Body_Upper>
-            prepend rel isaac:physics:robotLinks = </tron2b_dach/Body_Upper>
+            # Dual arms as robot-root children; EE on each arm (W2-style).
+            prepend rel isaac:physics:robotJoints = [
+                </tron2b_dach/Arm_Left>,
+                </tron2b_dach/Arm_Right>,
+            ]
+            prepend rel isaac:physics:robotLinks = [
+                </tron2b_dach/Arm_Left>,
+                </tron2b_dach/Arm_Right>,
+            ]
         }
         "lower" (
             prepend payload = @./payloads/Body/lower.usda@

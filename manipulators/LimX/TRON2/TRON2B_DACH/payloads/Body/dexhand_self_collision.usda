@@ -7,9 +7,9 @@ Mirror of M6_CCS/.../EE/dexhand_self_collision.usda for TRON2B_DACH.
 WHEN ADDING A DEXHAND EE (LinkerHand_o7 / Xhand1 / …)
 ----------------------------------------------------
 1. Mount with ArtRoot/root_joint inactive + AssemblerFixedJoint into arm tcp.
-2. Sublayer this file from the EE adapter usda (EE_Left / EE_Right).
+2. Sublayer this file from the arm EE adapter usda (TRON2B_Arm payloads/EE/…).
 3. Append the hand prim under tcp to collection:colliders:excludes below.
-4. Gripper variants (dach_gripper, AG2F90, …) must NOT sublayer this file.
+4. Gripper variants (tron2_gripper, AG2F90, …) must NOT sublayer this file.
 
 Parent ArtRoot keeps enabledSelfCollisions=1; fingers stay ungrouped so
 hand-internal FilteredPairs + fingertip contact still work.
@@ -26,8 +26,8 @@ over "tron2b_dach"
         {
             prepend rel collection:colliders:excludes = [
                 # Extend when EE hand variants land, e.g.:
-                # </tron2b_dach/Body_Upper/Arm_Left/.../tcp/LinkerHand_o7>,
-                # </tron2b_dach/Body_Upper/Arm_Right/.../tcp/LinkerHand_o7>,
+                # </tron2b_dach/Arm_Left/.../tcp/LinkerHand_o7>,
+                # </tron2b_dach/Arm_Right/.../tcp/LinkerHand_o7>,
             ]
         }
     }
