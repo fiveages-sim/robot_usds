@@ -1,0 +1,57 @@
+#usda 1.0
+(
+    customLayerData = {
+        string creator = "URDF USD Converter v0.3.2"
+    }
+    defaultPrim = "tron2b_base"
+    endTimeCode = 1000000
+    kilogramsPerUnit = 1
+    metersPerUnit = 1
+    startTimeCode = 0
+    upAxis = "Z"
+)
+
+over "tron2b_base" (
+    prepend apiSchemas = ["IsaacRobotAPI"]
+)
+{
+    prepend rel isaac:physics:robotJoints = [
+        </tron2b_base/Physics/root_joint>,
+        </tron2b_base/Physics/base_3_Joint>,
+    ]
+    prepend rel isaac:physics:robotLinks = [
+        </tron2b_base/Geometry/base_2_Link>,
+        </tron2b_base/Geometry/base_2_Link/base_3_Link>,
+    ]
+    token isaac:robotType = "Default"
+
+    over "Geometry"
+    {
+        over "base_2_Link" (
+            prepend apiSchemas = ["IsaacLinkAPI"]
+        )
+        {
+            over "base_3_Link" (
+                prepend apiSchemas = ["IsaacLinkAPI"]
+            )
+            {
+            }
+        }
+    }
+
+    over "Physics"
+    {
+        over "root_joint" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+        }
+
+        over "base_3_Joint" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+        }
+    }
+}
+

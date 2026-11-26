@@ -1,0 +1,43 @@
+#usda 1.0
+(
+    doc = """TRON2B_DACH NonDexHand mute — subLayer of payloads/Physics/physx.usda.
+
+Same convention as M6_CCS / W2 (fasim-dexhand-asset §挂载灵巧手自碰):
+
+  ArtRoot self-col ON
+  NonDexHand = Base + Torso + Arms + Head (+ Gripper under tcp via expand)
+  filteredGroups self-filter → arm↔arm / gripper↔wrist 不互顶
+
+Grippers stay IN the group (no excludes) — parallel jaws mute with the arm.
+DexHand EE must subLayer payloads/Body/dexhand_self_collision.usda and list
+hand roots under excludes so fingers stay ungrouped (finger self-col + hand
+FilteredPairs). Do NOT put dach_gripper / AG2F90 / RG75 in excludes.
+"""
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+over "tron2b_dach"
+{
+    def Scope "CollisionGroups"
+    {
+        def PhysicsCollisionGroup "NonDexHand" (
+            prepend apiSchemas = ["CollectionAPI:colliders"]
+        )
+        {
+            uniform token collection:colliders:expansionRule = "expandPrims"
+            prepend rel collection:colliders:includes = [
+                </tron2b_dach/Base_Dach>,
+                </tron2b_dach/Torso>,
+                </tron2b_dach/Body_Upper/Arm_Left>,
+                </tron2b_dach/Body_Upper/Arm_Right>,
+                </tron2b_dach/Head_V1>,
+            ]
+            # DexHand excludes filled by payloads/Body/dexhand_self_collision.usda
+            # when an EE hand variant is selected (not for dach_gripper).
+            prepend rel physics:filteredGroups = [
+                </tron2b_dach/CollisionGroups/NonDexHand>,
+            ]
+        }
+    }
+}

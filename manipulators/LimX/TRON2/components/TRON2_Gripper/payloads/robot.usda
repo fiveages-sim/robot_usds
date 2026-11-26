@@ -1,0 +1,176 @@
+#usda 1.0
+(
+    customLayerData = {
+        string creator = "URDF USD Converter v0.3.2"
+    }
+    defaultPrim = "tron2b_gripper"
+    endTimeCode = 1000000
+    kilogramsPerUnit = 1
+    metersPerUnit = 1
+    startTimeCode = 0
+    upAxis = "Z"
+)
+
+over "tron2b_gripper" (
+    prepend apiSchemas = ["IsaacRobotAPI"]
+)
+{
+    prepend rel isaac:physics:robotJoints = [
+        </tron2b_gripper/Physics/grasper_base_Joint>,
+        </tron2b_gripper/Physics/gripper_joint>,
+        </tron2b_gripper/Physics/grasper_bar_left_Joint>,
+        </tron2b_gripper/Physics/grasper_crank_right_Joint>,
+        </tron2b_gripper/Physics/grasper_bar_right_Joint>,
+        </tron2b_gripper/Physics/grasper_nut_Joint>,
+        </tron2b_gripper/Physics/grasper_jaw_left_Joint>,
+        </tron2b_gripper/Physics/grasper_jaw_right_Joint>,
+        </tron2b_gripper/Physics/grasper_tip_left_Joint>,
+        </tron2b_gripper/Physics/grasper_tip_right_Joint>,
+    ]
+    prepend rel isaac:physics:robotLinks = [
+        </tron2b_gripper/Geometry/wrist_roll_Link/grasper_base_Link>,
+        </tron2b_gripper/Geometry/wrist_roll_Link/grasper_base_Link/grasper_crank_left_Link>,
+        </tron2b_gripper/Geometry/wrist_roll_Link/grasper_base_Link/grasper_crank_left_Link/grasper_jaw_left_Link>,
+        </tron2b_gripper/Geometry/wrist_roll_Link/grasper_base_Link/grasper_bar_left_Link>,
+        </tron2b_gripper/Geometry/wrist_roll_Link/grasper_base_Link/grasper_crank_right_Link>,
+        </tron2b_gripper/Geometry/wrist_roll_Link/grasper_base_Link/grasper_crank_right_Link/grasper_jaw_right_Link>,
+        </tron2b_gripper/Geometry/wrist_roll_Link/grasper_base_Link/grasper_bar_right_Link>,
+        </tron2b_gripper/Geometry/wrist_roll_Link/grasper_base_Link/grasper_nut_Link>,
+        </tron2b_gripper/Geometry/wrist_roll_Link/grasper_base_Link/grasper_jaw_left_ref_Link>,
+        </tron2b_gripper/Geometry/wrist_roll_Link/grasper_base_Link/grasper_jaw_right_ref_Link>,
+    ]
+    token isaac:robotType = "End Effector"
+
+    over "Geometry"
+    {
+        over "wrist_roll_Link"
+        {
+            over "grasper_base_Link" (
+                prepend apiSchemas = ["IsaacLinkAPI"]
+            )
+            {
+                over "grasper_crank_left_Link" (
+                    prepend apiSchemas = ["IsaacLinkAPI"]
+                )
+                {
+                    over "grasper_jaw_left_Link" (
+                        prepend apiSchemas = ["IsaacLinkAPI"]
+                    )
+                    {
+                    }
+                }
+
+                over "grasper_bar_left_Link" (
+                    prepend apiSchemas = ["IsaacLinkAPI"]
+                )
+                {
+                }
+
+                over "grasper_crank_right_Link" (
+                    prepend apiSchemas = ["IsaacLinkAPI"]
+                )
+                {
+                    over "grasper_jaw_right_Link" (
+                        prepend apiSchemas = ["IsaacLinkAPI"]
+                    )
+                    {
+                    }
+                }
+
+                over "grasper_bar_right_Link" (
+                    prepend apiSchemas = ["IsaacLinkAPI"]
+                )
+                {
+                }
+
+                over "grasper_nut_Link" (
+                    prepend apiSchemas = ["IsaacLinkAPI"]
+                )
+                {
+                }
+
+                over "grasper_jaw_left_ref_Link" (
+                    prepend apiSchemas = ["IsaacLinkAPI"]
+                )
+                {
+                }
+
+                over "grasper_jaw_right_ref_Link" (
+                    prepend apiSchemas = ["IsaacLinkAPI"]
+                )
+                {
+                }
+
+                over "ee_link" (
+                    prepend apiSchemas = ["IsaacSiteAPI"]
+                )
+                {
+                }
+            }
+        }
+    }
+
+    over "Physics"
+    {
+        over "grasper_base_Joint" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+        }
+
+        over "gripper_joint" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+        }
+
+        over "grasper_tip_left_Joint" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+        }
+
+        over "grasper_bar_left_Joint" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+        }
+
+        over "grasper_crank_right_Joint" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+        }
+
+        over "grasper_tip_right_Joint" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+        }
+
+        over "grasper_bar_right_Joint" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+        }
+
+        over "grasper_nut_Joint" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+        }
+
+        over "grasper_jaw_left_Joint" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+        }
+
+        over "grasper_jaw_right_Joint" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+        }
+    }
+}
+

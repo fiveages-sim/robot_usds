@@ -1,0 +1,75 @@
+#usda 1.0
+(
+    customLayerData = {
+        string creator = "URDF USD Converter v0.3.2"
+    }
+    defaultPrim = "tron2b_base"
+    endTimeCode = 1000000
+    kilogramsPerUnit = 1
+    metersPerUnit = 1
+    startTimeCode = 0
+    upAxis = "Z"
+)
+
+over "tron2b_base"
+{
+    over "Geometry"
+    {
+        over "base_2_Link" (
+            prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsArticulationRootAPI", "NewtonArticulationRootAPI", "PhysicsMassAPI", "NewtonMassAPI"]
+        )
+        {
+            double[] newton:inertia = [0.80635, 0.811937, 0.017624, 0, 0, 0]
+            bool newton:selfCollisionEnabled = 0
+            point3f physics:centerOfMass = (0, 0, -0.45862)
+            float3 physics:diagonalInertia = (0.017624, 0.80635, 0.811937)
+            float physics:mass = 10
+            quatf physics:principalAxes = (-0.5, 0.5, 0.5, 0.5)
+
+            over "base_3_Link" (
+                prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "NewtonMassAPI"]
+            )
+            {
+                double[] newton:inertia = [0.9485, 0.9485, 1.6803, 0, 0, 0]
+                point3f physics:centerOfMass = (0, 0, -0.05442)
+                float3 physics:diagonalInertia = (0.9485, 0.9485, 1.6803)
+                float physics:mass = 20
+                quatf physics:principalAxes = (1, 0, 0, 0)
+            }
+
+            over "box" (
+                prepend apiSchemas = ["NewtonCollisionAPI"]
+            )
+            {
+            }
+        }
+    }
+
+    over "Physics"
+    {
+        def PhysicsFixedJoint "root_joint"
+        {
+            custom rel physics:body0
+            append rel physics:body0 = </tron2b_base>
+            custom rel physics:body1
+            append rel physics:body1 = </tron2b_base/Geometry/base_2_Link>
+            point3f physics:localPos0 = (0, 0, 0)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+        }
+
+        def PhysicsFixedJoint "base_3_Joint"
+        {
+            custom rel physics:body0
+            append rel physics:body0 = </tron2b_base/Geometry/base_2_Link>
+            custom rel physics:body1
+            append rel physics:body1 = </tron2b_base/Geometry/base_2_Link/base_3_Link>
+            point3f physics:localPos0 = (0, 0, -0.9295)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+        }
+    }
+}
+

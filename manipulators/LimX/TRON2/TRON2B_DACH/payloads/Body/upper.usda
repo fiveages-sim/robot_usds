@@ -1,0 +1,110 @@
+#usda 1.0
+(
+    defaultPrim = "tron2b_dach"
+)
+
+# Body=upper: dual arms + EE only. Torso lives under Torso=v1.
+def Xform "tron2b_dach"
+{
+    def "Body_Upper" (
+        prepend variantSets = ["EE_Left", "EE_Right"]
+        variants = {
+            string EE_Left = "dach_gripper"
+            string EE_Right = "dach_gripper"
+        }
+    )
+    {
+        def "Arm_Left" (
+            prepend payload = @../../../components/TRON2B_Arm/TRON2B_Arm.usda@
+            variants = {
+                string Physics = "physx"
+                string Side = "left"
+                string Robot = "none"
+            }
+        )
+        {
+            quatd xformOp:orient = (1, 0, 0, 0)
+            double3 xformOp:scale = (1, 1, 1)
+            double3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            # xacro: proximal_pitch_Joint parent=base_link (revolute).
+            over "Geometry"
+            {
+                over "arm_base"
+                {
+                    over "proximal_pitch_Link" (
+                        delete apiSchemas = ["PhysicsArticulationRootAPI", "NewtonArticulationRootAPI"]
+                    )
+                    {
+                    }
+                }
+            }
+
+            over "Physics"
+            {
+                over "left_proximal_pitch_Joint"
+                {
+                    rel physics:body0 = </tron2b_dach/Torso/Geometry/base_link>
+                }
+            }
+        }
+
+        def "Arm_Right" (
+            prepend payload = @../../../components/TRON2B_Arm/TRON2B_Arm.usda@
+            variants = {
+                string Physics = "physx"
+                string Side = "right"
+                string Robot = "none"
+            }
+        )
+        {
+            quatd xformOp:orient = (1, 0, 0, 0)
+            double3 xformOp:scale = (1, 1, 1)
+            double3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            over "Geometry"
+            {
+                over "arm_base"
+                {
+                    over "proximal_pitch_Link" (
+                        delete apiSchemas = ["PhysicsArticulationRootAPI", "NewtonArticulationRootAPI"]
+                    )
+                    {
+                    }
+                }
+            }
+
+            over "Physics"
+            {
+                over "right_proximal_pitch_Joint"
+                {
+                    rel physics:body0 = </tron2b_dach/Torso/Geometry/base_link>
+                }
+            }
+        }
+
+        variantSet "EE_Left" = {
+            "none" {
+            }
+            "dach_gripper" (
+                prepend payload = @./EE_Left/dach_gripper.usda@
+            ) {
+                prepend rel isaac:physics:robotJoints = </tron2b_dach/Body_Upper/Arm_Left/Geometry/arm_base/proximal_pitch_Link/proximal_roll_Link/proximal_yaw_Link/elbow_Link/wrist_yaw_Link/wrist_pitch_Link/wrist_roll_Link/tcp/Gripper>
+                prepend rel isaac:physics:robotLinks = </tron2b_dach/Body_Upper/Arm_Left/Geometry/arm_base/proximal_pitch_Link/proximal_roll_Link/proximal_yaw_Link/elbow_Link/wrist_yaw_Link/wrist_pitch_Link/wrist_roll_Link/tcp/Gripper>
+            }
+        }
+
+        variantSet "EE_Right" = {
+            "none" {
+            }
+            "dach_gripper" (
+                prepend payload = @./EE_Right/dach_gripper.usda@
+            ) {
+                prepend rel isaac:physics:robotJoints = </tron2b_dach/Body_Upper/Arm_Right/Geometry/arm_base/proximal_pitch_Link/proximal_roll_Link/proximal_yaw_Link/elbow_Link/wrist_yaw_Link/wrist_pitch_Link/wrist_roll_Link/tcp/Gripper>
+                prepend rel isaac:physics:robotLinks = </tron2b_dach/Body_Upper/Arm_Right/Geometry/arm_base/proximal_pitch_Link/proximal_roll_Link/proximal_yaw_Link/elbow_Link/wrist_yaw_Link/wrist_pitch_Link/wrist_roll_Link/tcp/Gripper>
+            }
+        }
+    }
+}

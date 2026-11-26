@@ -1,0 +1,148 @@
+#usda 1.0
+(
+    defaultPrim = "tron2b_dach"
+    metersPerUnit = 1
+    upAxis = "Z"
+    doc = """In-process ros2_control via fasim.ros2.nodes.ROS2ControlLaunch.
+
+targetPrim = Torso ArtRoot. Default mode=demo (no head). Head=v1 overs
+inputs:mode → full_body. No body JointState topic bridge (CM owns DOFs).
+"""
+)
+
+def Xform "tron2b_dach"
+{
+    def Scope "Graph"
+    {
+        def OmniGraph "ROS_Control"
+        {
+            token evaluationMode = "Automatic"
+            token evaluator:type = "execution"
+            token fabricCacheBacking = "StageWithoutHistory"
+            int2 fileFormatVersion = (1, 9)
+            token pipelineStage = "pipelineStageSimulation"
+
+            def OmniGraphNode "OnPlaybackTick"
+            {
+                token node:type = "omni.graph.action.OnPlaybackTick"
+                int node:typeVersion = 2
+                custom double outputs:deltaSeconds
+                custom double outputs:frame
+                custom uint outputs:tick (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom double outputs:time
+            }
+
+            def OmniGraphNode "Context"
+            {
+                custom uchar inputs:domain_id
+                custom bool inputs:useDomainIDEnvVar
+                token node:type = "isaacsim.ros2.bridge.ROS2Context"
+                int node:typeVersion = 2
+                custom uint64 outputs:context
+            }
+
+            def OmniGraphNode "ROS2ControlLaunch"
+            {
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </tron2b_dach/Graph/ROS_Control/OnPlaybackTick.outputs:tick>
+                custom rel inputs:targetPrim = </tron2b_dach/Torso/Geometry/base_link> (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
+                custom string inputs:robot = "tron2b_dach"
+                custom string inputs:type = ""
+                # Head=none → demo; Head=v1 overs this to full_body.
+                custom token inputs:mode = "demo"
+                custom string inputs:profile = ""
+                custom string inputs:namespace = ""
+                custom bool inputs:enableGripper = 1
+                custom string inputs:rosSetup = ""
+                custom bool inputs:publishRobotDescription = 1
+                custom bool inputs:useSimTime = 1
+                custom bool inputs:enableArmsTargetManager = 1
+                token node:type = "fasim.ros2.nodes.ROS2ControlLaunch"
+                int node:typeVersion = 1
+                custom uint outputs:execOut (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+            }
+        }
+
+        def OmniGraph "ROS_Clock"
+        {
+            token evaluationMode = "OnDemand"
+            token evaluator:type = "push"
+            token fabricCacheBacking = "StageWithoutHistory"
+            int2 fileFormatVersion = (1, 9)
+            token pipelineStage = "pipelineStageOnDemand"
+
+            def OmniGraphNode "Context" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom uchar inputs:domain_id
+                custom bool inputs:useDomainIDEnvVar
+                token node:type = "isaacsim.ros2.bridge.ROS2Context"
+                int node:typeVersion = 2
+                custom uint64 outputs:context
+            }
+
+            def OmniGraphNode "OnPhysicsStep" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                token node:type = "isaacsim.core.nodes.OnPhysicsStep"
+                int node:typeVersion = 1
+                custom double outputs:deltaSimulationTime
+                custom uint outputs:step (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+            }
+
+            def OmniGraphNode "ReadSimTime" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom bool inputs:resetOnStop = 1
+                token node:type = "isaacsim.core.nodes.IsaacReadSimulationTime"
+                int node:typeVersion = 1
+                custom double outputs:simulationTime
+            }
+
+            def OmniGraphNode "PublishClock" (
+                prepend apiSchemas = ["NodeGraphNodeAPI"]
+            )
+            {
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </tron2b_dach/Graph/ROS_Clock/Context.outputs:context>
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </tron2b_dach/Graph/ROS_Clock/OnPhysicsStep.outputs:step>
+                custom double inputs:timeStamp
+                prepend double inputs:timeStamp.connect = </tron2b_dach/Graph/ROS_Clock/ReadSimTime.outputs:simulationTime>
+                token node:type = "isaacsim.ros2.bridge.ROS2PublishClock"
+                int node:typeVersion = 1
+            }
+        }
+    }
+}

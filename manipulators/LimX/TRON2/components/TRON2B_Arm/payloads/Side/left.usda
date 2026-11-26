@@ -1,0 +1,233 @@
+#usda 1.0
+(
+    defaultPrim = "tron2b_arm"
+)
+
+def "tron2b_arm" (
+)
+{
+    delete rel isaac:physics:robotJoints
+    prepend rel isaac:physics:robotJoints = [
+        </tron2b_arm/Physics/left_proximal_pitch_Joint>,
+        </tron2b_arm/Physics/left_proximal_roll_Joint>,
+        </tron2b_arm/Physics/left_proximal_yaw_Joint>,
+        </tron2b_arm/Physics/left_elbow_Joint>,
+        </tron2b_arm/Physics/left_wrist_yaw_Joint>,
+        </tron2b_arm/Physics/left_wrist_pitch_Joint>,
+        </tron2b_arm/Physics/left_wrist_roll_Joint>,
+    ]
+
+    over "Physics"
+    {
+        over "proximal_pitch_Joint" (
+            active = false
+        )
+        {
+        }
+
+        def PhysicsRevoluteJoint "left_proximal_pitch_Joint" (
+                    prepend apiSchemas = ["NewtonJointAPI", "PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular"]
+                )
+                {
+                    float drive:angular:physics:maxForce = 200
+            float drive:angular:physics:damping = 200.0
+            float drive:angular:physics:stiffness = 2000.0
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+                    float newton:velocityLimit = 977.99884
+                    uniform token physics:axis = "X"
+                    custom rel physics:body0
+                    append rel physics:body0 = </tron2b_arm>
+                    custom rel physics:body1
+                    append rel physics:body1 = </tron2b_arm/Geometry/arm_base/proximal_pitch_Link>
+                    point3f physics:localPos0 = (-0.00044, 0.09497, 0.05446)
+                    point3f physics:localPos1 = (0, 0, 0)
+                    quatf physics:localRot0 = (0.70710677, 0, 0.061628185, 0.70441604)
+                    quatf physics:localRot1 = (0.70710677, 0, 0.061628185, 0.70441604)
+                    float physics:lowerLimit = -180
+                    float physics:upperLimit = 149
+                    custom float urdf:limit:effort = 200
+                }
+
+        over "proximal_roll_Joint" (
+            active = false
+        )
+        {
+        }
+
+        def PhysicsRevoluteJoint "left_proximal_roll_Joint" (
+                    prepend apiSchemas = ["NewtonJointAPI", "PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular"]
+                )
+                {
+                    float drive:angular:physics:maxForce = 200
+            float drive:angular:physics:damping = 200.0
+            float drive:angular:physics:stiffness = 2000.0
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+                    float newton:velocityLimit = 977.99884
+                    uniform token physics:axis = "X"
+                    custom rel physics:body0
+                    append rel physics:body0 = </tron2b_arm/Geometry/arm_base/proximal_pitch_Link>
+                    custom rel physics:body1
+                    append rel physics:body1 = </tron2b_arm/Geometry/arm_base/proximal_pitch_Link/proximal_roll_Link>
+                    point3f physics:localPos0 = (-0.0352, 0.07261, -0.00635)
+                    point3f physics:localPos1 = (0, 0, 0)
+                    quatf physics:localRot0 = (1, 0, 0, 0)
+                    quatf physics:localRot1 = (1, 0, 0, 0)
+                    float physics:lowerLimit = -15
+                    float physics:upperLimit = 183
+                    custom float urdf:limit:effort = 200
+                }
+
+        over "proximal_yaw_Joint" (
+            active = false
+        )
+        {
+        }
+
+        def PhysicsRevoluteJoint "left_proximal_yaw_Joint" (
+                    prepend apiSchemas = ["NewtonJointAPI", "PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular"]
+                )
+                {
+                    float drive:angular:physics:maxForce = 70
+            float drive:angular:physics:damping = 100.0
+            float drive:angular:physics:stiffness = 1000.0
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+                    float newton:velocityLimit = 936.00104
+                    uniform token physics:axis = "Z"
+                    custom rel physics:body0
+                    append rel physics:body0 = </tron2b_arm/Geometry/arm_base/proximal_pitch_Link/proximal_roll_Link>
+                    custom rel physics:body1
+                    append rel physics:body1 = </tron2b_arm/Geometry/arm_base/proximal_pitch_Link/proximal_roll_Link/proximal_yaw_Link>
+                    point3f physics:localPos0 = (0.0352, 0, -0.1348)
+                    point3f physics:localPos1 = (0, 0, 0)
+                    quatf physics:localRot0 = (1, 0, 0, 0)
+                    quatf physics:localRot1 = (1, 0, 0, 0)
+                    float physics:lowerLimit = -210
+                    float physics:upperLimit = 85
+                    custom float urdf:limit:effort = 70
+                }
+
+        over "elbow_Joint" (
+            active = false
+        )
+        {
+        }
+
+        def PhysicsRevoluteJoint "left_elbow_Joint" (
+                    prepend apiSchemas = ["NewtonJointAPI", "PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular"]
+                )
+                {
+                    float drive:angular:physics:maxForce = 70
+            float drive:angular:physics:damping = 100.0
+            float drive:angular:physics:stiffness = 1000.0
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+                    float newton:velocityLimit = 936.00104
+                    uniform token physics:axis = "Y"
+                    custom rel physics:body0
+                    append rel physics:body0 = </tron2b_arm/Geometry/arm_base/proximal_pitch_Link/proximal_roll_Link/proximal_yaw_Link>
+                    custom rel physics:body1
+                    append rel physics:body1 = </tron2b_arm/Geometry/arm_base/proximal_pitch_Link/proximal_roll_Link/proximal_yaw_Link/elbow_Link>
+                    point3f physics:localPos0 = (0.004, 0.0348, -0.2152)
+                    point3f physics:localPos1 = (0, 0, 0)
+                    quatf physics:localRot0 = (1, 0, 0, 0)
+                    quatf physics:localRot1 = (1, 0, 0, 0)
+                    float physics:lowerLimit = -150
+                    float physics:upperLimit = 0
+                    custom float urdf:limit:effort = 70
+                }
+
+        over "wrist_yaw_Joint" (
+            active = false
+        )
+        {
+        }
+
+        def PhysicsRevoluteJoint "left_wrist_yaw_Joint" (
+                    prepend apiSchemas = ["NewtonJointAPI", "PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular"]
+                )
+                {
+                    float drive:angular:physics:maxForce = 15
+            float drive:angular:physics:damping = 40.0
+            float drive:angular:physics:stiffness = 400.0
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+                    float newton:velocityLimit = 827.9985
+                    uniform token physics:axis = "Z"
+                    custom rel physics:body0
+                    append rel physics:body0 = </tron2b_arm/Geometry/arm_base/proximal_pitch_Link/proximal_roll_Link/proximal_yaw_Link/elbow_Link>
+                    custom rel physics:body1
+                    append rel physics:body1 = </tron2b_arm/Geometry/arm_base/proximal_pitch_Link/proximal_roll_Link/proximal_yaw_Link/elbow_Link/wrist_yaw_Link>
+                    point3f physics:localPos0 = (-0.00367, -0.03481, -0.0685)
+                    point3f physics:localPos1 = (0, 0, 0)
+                    quatf physics:localRot0 = (1, 0, 0, 0)
+                    quatf physics:localRot1 = (1, 0, 0, 0)
+                    float physics:lowerLimit = -100
+                    float physics:upperLimit = 80
+                    custom float urdf:limit:effort = 15
+                }
+
+        over "wrist_pitch_Joint" (
+            active = false
+        )
+        {
+        }
+
+        def PhysicsRevoluteJoint "left_wrist_pitch_Joint" (
+                    prepend apiSchemas = ["NewtonJointAPI", "PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular"]
+                )
+                {
+                    float drive:angular:physics:maxForce = 15
+            float drive:angular:physics:damping = 40.0
+            float drive:angular:physics:stiffness = 400.0
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+                    float newton:velocityLimit = 827.9985
+                    uniform token physics:axis = "Y"
+                    custom rel physics:body0
+                    append rel physics:body0 = </tron2b_arm/Geometry/arm_base/proximal_pitch_Link/proximal_roll_Link/proximal_yaw_Link/elbow_Link/wrist_yaw_Link>
+                    custom rel physics:body1
+                    append rel physics:body1 = </tron2b_arm/Geometry/arm_base/proximal_pitch_Link/proximal_roll_Link/proximal_yaw_Link/elbow_Link/wrist_yaw_Link/wrist_pitch_Link>
+                    point3f physics:localPos0 = (0, 0.0367, -0.1743)
+                    point3f physics:localPos1 = (0, 0, 0)
+                    quatf physics:localRot0 = (1, 0, 0, 0)
+                    quatf physics:localRot1 = (1, 0, 0, 0)
+                    float physics:lowerLimit = -45
+                    float physics:upperLimit = 45
+                    custom float urdf:limit:effort = 15
+                }
+
+        over "wrist_roll_Joint" (
+            active = false
+        )
+        {
+        }
+
+        def PhysicsRevoluteJoint "left_wrist_roll_Joint" (
+                    prepend apiSchemas = ["NewtonJointAPI", "PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular"]
+                )
+                {
+                    float drive:angular:physics:maxForce = 15
+            float drive:angular:physics:damping = 40.0
+            float drive:angular:physics:stiffness = 400.0
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+                    float newton:velocityLimit = 827.9985
+                    uniform token physics:axis = "X"
+                    custom rel physics:body0
+                    append rel physics:body0 = </tron2b_arm/Geometry/arm_base/proximal_pitch_Link/proximal_roll_Link/proximal_yaw_Link/elbow_Link/wrist_yaw_Link/wrist_pitch_Link>
+                    custom rel physics:body1
+                    append rel physics:body1 = </tron2b_arm/Geometry/arm_base/proximal_pitch_Link/proximal_roll_Link/proximal_yaw_Link/elbow_Link/wrist_yaw_Link/wrist_pitch_Link/wrist_roll_Link>
+                    point3f physics:localPos0 = (0.0317, -0.0367, 0)
+                    point3f physics:localPos1 = (0, 0, 0)
+                    quatf physics:localRot0 = (1, 0, 0, 0)
+                    quatf physics:localRot1 = (1, 0, 0, 0)
+                    float physics:lowerLimit = -90
+                    float physics:upperLimit = 90
+                    custom float urdf:limit:effort = 15
+                }
+
+    }
+}

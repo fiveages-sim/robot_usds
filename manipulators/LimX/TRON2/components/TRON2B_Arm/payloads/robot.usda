@@ -1,0 +1,132 @@
+#usda 1.0
+(
+    customLayerData = {
+        string creator = "URDF USD Converter v0.3.2"
+    }
+    defaultPrim = "tron2b_arm"
+    endTimeCode = 1000000
+    kilogramsPerUnit = 1
+    metersPerUnit = 1
+    startTimeCode = 0
+    upAxis = "Z"
+)
+
+over "tron2b_arm" (
+    prepend apiSchemas = ["IsaacRobotAPI"]
+)
+{
+    prepend rel isaac:physics:robotJoints = [
+        </tron2b_arm/Physics/proximal_pitch_Joint>,
+        </tron2b_arm/Physics/proximal_roll_Joint>,
+        </tron2b_arm/Physics/proximal_yaw_Joint>,
+        </tron2b_arm/Physics/elbow_Joint>,
+        </tron2b_arm/Physics/wrist_yaw_Joint>,
+        </tron2b_arm/Physics/wrist_pitch_Joint>,
+        </tron2b_arm/Physics/wrist_roll_Joint>,
+    ]
+    prepend rel isaac:physics:robotLinks = [
+        </tron2b_arm/Geometry/arm_base/proximal_pitch_Link>,
+        </tron2b_arm/Geometry/arm_base/proximal_pitch_Link/proximal_roll_Link>,
+        </tron2b_arm/Geometry/arm_base/proximal_pitch_Link/proximal_roll_Link/proximal_yaw_Link>,
+        </tron2b_arm/Geometry/arm_base/proximal_pitch_Link/proximal_roll_Link/proximal_yaw_Link/elbow_Link>,
+        </tron2b_arm/Geometry/arm_base/proximal_pitch_Link/proximal_roll_Link/proximal_yaw_Link/elbow_Link/wrist_yaw_Link>,
+        </tron2b_arm/Geometry/arm_base/proximal_pitch_Link/proximal_roll_Link/proximal_yaw_Link/elbow_Link/wrist_yaw_Link/wrist_pitch_Link>,
+        </tron2b_arm/Geometry/arm_base/proximal_pitch_Link/proximal_roll_Link/proximal_yaw_Link/elbow_Link/wrist_yaw_Link/wrist_pitch_Link/wrist_roll_Link>,
+    ]
+    token isaac:robotType = "Manipulator"
+
+    over "Geometry"
+    {
+        over "arm_base"
+        {
+            over "proximal_pitch_Link" (
+                prepend apiSchemas = ["IsaacLinkAPI"]
+            )
+            {
+                over "proximal_roll_Link" (
+                    prepend apiSchemas = ["IsaacLinkAPI"]
+                )
+                {
+                    over "proximal_yaw_Link" (
+                        prepend apiSchemas = ["IsaacLinkAPI"]
+                    )
+                    {
+                        over "elbow_Link" (
+                            prepend apiSchemas = ["IsaacLinkAPI"]
+                        )
+                        {
+                            over "wrist_yaw_Link" (
+                                prepend apiSchemas = ["IsaacLinkAPI"]
+                            )
+                            {
+                                over "wrist_pitch_Link" (
+                                    prepend apiSchemas = ["IsaacLinkAPI"]
+                                )
+                                {
+                                    over "wrist_roll_Link" (
+                        prepend apiSchemas = ["IsaacLinkAPI"]
+                    )
+                    {
+                        def Xform "tcp"
+                        {
+                            quatd xformOp:orient = (1, 0, 0, 0)
+                            double3 xformOp:scale = (1, 1, 1)
+                            double3 xformOp:translate = (0, 0, 0)
+                            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                        }
+                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    over "Physics"
+    {
+        over "proximal_pitch_Joint" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+        }
+
+        over "proximal_roll_Joint" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+        }
+
+        over "proximal_yaw_Joint" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+        }
+
+        over "elbow_Joint" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+        }
+
+        over "wrist_yaw_Joint" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+        }
+
+        over "wrist_pitch_Joint" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+        }
+
+        over "wrist_roll_Joint" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+        }
+    }
+}
+

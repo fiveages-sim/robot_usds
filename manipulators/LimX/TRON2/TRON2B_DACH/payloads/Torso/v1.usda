@@ -1,0 +1,24 @@
+#usda 1.0
+(
+    defaultPrim = "tron2b_dach"
+)
+
+def Xform "tron2b_dach"
+{
+    # Core body / ArtRoot — independent of Body=upper|lower (arms vs future legs).
+    def "Torso" (
+        prepend payload = @../../../components/TRON2B_Torso/TRON2B_Torso.usda@
+        variants = {
+            string Physics = "physics"
+        }
+    )
+    {
+        quatd xformOp:orient = (1, 0, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        # Sole live ArticulationRoot on Geometry/base_link.
+        # Keep root_joint active so the plant is fixed to the robot Xform.
+    }
+}

@@ -1,0 +1,583 @@
+#usda 1.0
+(
+    defaultPrim = "tron2b_arm"
+)
+
+def "tron2b_arm" (
+)
+{
+    delete rel isaac:physics:robotJoints
+    prepend rel isaac:physics:robotJoints = [
+        </tron2b_arm/Physics/right_proximal_pitch_Joint>,
+        </tron2b_arm/Physics/right_proximal_roll_Joint>,
+        </tron2b_arm/Physics/right_proximal_yaw_Joint>,
+        </tron2b_arm/Physics/right_elbow_Joint>,
+        </tron2b_arm/Physics/right_wrist_yaw_Joint>,
+        </tron2b_arm/Physics/right_wrist_pitch_Joint>,
+        </tron2b_arm/Physics/right_wrist_roll_Joint>,
+    ]
+
+    over "Physics"
+    {
+        over "proximal_pitch_Joint" (
+            active = false
+        )
+        {
+        }
+
+        def PhysicsRevoluteJoint "right_proximal_pitch_Joint" (
+                    prepend apiSchemas = ["NewtonJointAPI", "PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular"]
+                )
+                {
+                    float drive:angular:physics:maxForce = 200
+            float drive:angular:physics:damping = 200.0
+            float drive:angular:physics:stiffness = 2000.0
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+                    float newton:velocityLimit = 977.99884
+                    uniform token physics:axis = "X"
+                    custom rel physics:body0
+                    append rel physics:body0 = </tron2b_arm>
+                    custom rel physics:body1
+                    append rel physics:body1 = </tron2b_arm/Geometry/arm_base/proximal_pitch_Link>
+                    point3f physics:localPos0 = (-0.00044, -0.09497, 0.05446)
+                    point3f physics:localPos1 = (0, 0, 0)
+                    quatf physics:localRot0 = (0.70710677, 0, -0.061628185, 0.70441604)
+                    quatf physics:localRot1 = (0.70710677, 0, -0.061628185, 0.70441604)
+                    float physics:lowerLimit = -180
+                    float physics:upperLimit = 149
+                    custom float urdf:limit:effort = 200
+                }
+
+        over "proximal_roll_Joint" (
+            active = false
+        )
+        {
+        }
+
+        def PhysicsRevoluteJoint "right_proximal_roll_Joint" (
+                    prepend apiSchemas = ["NewtonJointAPI", "PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular"]
+                )
+                {
+                    float drive:angular:physics:maxForce = 200
+            float drive:angular:physics:damping = 200.0
+            float drive:angular:physics:stiffness = 2000.0
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+                    float newton:velocityLimit = 977.99884
+                    uniform token physics:axis = "X"
+                    custom rel physics:body0
+                    append rel physics:body0 = </tron2b_arm/Geometry/arm_base/proximal_pitch_Link>
+                    custom rel physics:body1
+                    append rel physics:body1 = </tron2b_arm/Geometry/arm_base/proximal_pitch_Link/proximal_roll_Link>
+                    point3f physics:localPos0 = (-0.0352, -0.07261, -0.00635)
+                    point3f physics:localPos1 = (0, 0, 0)
+                    quatf physics:localRot0 = (1, 0, 0, 0)
+                    quatf physics:localRot1 = (1, 0, 0, 0)
+                    float physics:lowerLimit = -183
+                    float physics:upperLimit = 15
+                    custom float urdf:limit:effort = 200
+                }
+
+        over "proximal_yaw_Joint" (
+            active = false
+        )
+        {
+        }
+
+        def PhysicsRevoluteJoint "right_proximal_yaw_Joint" (
+                    prepend apiSchemas = ["NewtonJointAPI", "PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular"]
+                )
+                {
+                    float drive:angular:physics:maxForce = 70
+            float drive:angular:physics:damping = 100.0
+            float drive:angular:physics:stiffness = 1000.0
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+                    float newton:velocityLimit = 936.00104
+                    uniform token physics:axis = "Z"
+                    custom rel physics:body0
+                    append rel physics:body0 = </tron2b_arm/Geometry/arm_base/proximal_pitch_Link/proximal_roll_Link>
+                    custom rel physics:body1
+                    append rel physics:body1 = </tron2b_arm/Geometry/arm_base/proximal_pitch_Link/proximal_roll_Link/proximal_yaw_Link>
+                    point3f physics:localPos0 = (0.0352, 0, -0.1348)
+                    point3f physics:localPos1 = (0, 0, 0)
+                    quatf physics:localRot0 = (1, 0, 0, 0)
+                    quatf physics:localRot1 = (1, 0, 0, 0)
+                    float physics:lowerLimit = -85
+                    float physics:upperLimit = 210
+                    custom float urdf:limit:effort = 70
+                }
+
+        over "elbow_Joint" (
+            active = false
+        )
+        {
+        }
+
+        def PhysicsRevoluteJoint "right_elbow_Joint" (
+                    prepend apiSchemas = ["NewtonJointAPI", "PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular"]
+                )
+                {
+                    float drive:angular:physics:maxForce = 70
+            float drive:angular:physics:damping = 100.0
+            float drive:angular:physics:stiffness = 1000.0
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+                    float newton:velocityLimit = 936.00104
+                    uniform token physics:axis = "Y"
+                    custom rel physics:body0
+                    append rel physics:body0 = </tron2b_arm/Geometry/arm_base/proximal_pitch_Link/proximal_roll_Link/proximal_yaw_Link>
+                    custom rel physics:body1
+                    append rel physics:body1 = </tron2b_arm/Geometry/arm_base/proximal_pitch_Link/proximal_roll_Link/proximal_yaw_Link/elbow_Link>
+                    point3f physics:localPos0 = (0.004, -0.0348, -0.2152)
+                    point3f physics:localPos1 = (0, 0, 0)
+                    quatf physics:localRot0 = (1, 0, 0, 0)
+                    quatf physics:localRot1 = (1, 0, 0, 0)
+                    float physics:lowerLimit = -150
+                    float physics:upperLimit = 0
+                    custom float urdf:limit:effort = 70
+                }
+
+        over "wrist_yaw_Joint" (
+            active = false
+        )
+        {
+        }
+
+        def PhysicsRevoluteJoint "right_wrist_yaw_Joint" (
+                    prepend apiSchemas = ["NewtonJointAPI", "PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular"]
+                )
+                {
+                    float drive:angular:physics:maxForce = 15
+            float drive:angular:physics:damping = 40.0
+            float drive:angular:physics:stiffness = 400.0
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+                    float newton:velocityLimit = 827.9985
+                    uniform token physics:axis = "Z"
+                    custom rel physics:body0
+                    append rel physics:body0 = </tron2b_arm/Geometry/arm_base/proximal_pitch_Link/proximal_roll_Link/proximal_yaw_Link/elbow_Link>
+                    custom rel physics:body1
+                    append rel physics:body1 = </tron2b_arm/Geometry/arm_base/proximal_pitch_Link/proximal_roll_Link/proximal_yaw_Link/elbow_Link/wrist_yaw_Link>
+                    point3f physics:localPos0 = (-0.00367, 0.03481, -0.0685)
+                    point3f physics:localPos1 = (0, 0, 0)
+                    quatf physics:localRot0 = (1, 0, 0, 0)
+                    quatf physics:localRot1 = (1, 0, 0, 0)
+                    float physics:lowerLimit = -80
+                    float physics:upperLimit = 100
+                    custom float urdf:limit:effort = 15
+                }
+
+        over "wrist_pitch_Joint" (
+            active = false
+        )
+        {
+        }
+
+        def PhysicsRevoluteJoint "right_wrist_pitch_Joint" (
+                    prepend apiSchemas = ["NewtonJointAPI", "PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular"]
+                )
+                {
+                    float drive:angular:physics:maxForce = 15
+            float drive:angular:physics:damping = 40.0
+            float drive:angular:physics:stiffness = 400.0
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+                    float newton:velocityLimit = 827.9985
+                    uniform token physics:axis = "Y"
+                    custom rel physics:body0
+                    append rel physics:body0 = </tron2b_arm/Geometry/arm_base/proximal_pitch_Link/proximal_roll_Link/proximal_yaw_Link/elbow_Link/wrist_yaw_Link>
+                    custom rel physics:body1
+                    append rel physics:body1 = </tron2b_arm/Geometry/arm_base/proximal_pitch_Link/proximal_roll_Link/proximal_yaw_Link/elbow_Link/wrist_yaw_Link/wrist_pitch_Link>
+                    point3f physics:localPos0 = (0, -0.0367, -0.1743)
+                    point3f physics:localPos1 = (0, 0, 0)
+                    quatf physics:localRot0 = (1, 0, 0, 0)
+                    quatf physics:localRot1 = (1, 0, 0, 0)
+                    float physics:lowerLimit = -45
+                    float physics:upperLimit = 45
+                    custom float urdf:limit:effort = 15
+                }
+
+        over "wrist_roll_Joint" (
+            active = false
+        )
+        {
+        }
+
+        def PhysicsRevoluteJoint "right_wrist_roll_Joint" (
+                    prepend apiSchemas = ["NewtonJointAPI", "PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular"]
+                )
+                {
+                    float drive:angular:physics:maxForce = 15
+            float drive:angular:physics:damping = 40.0
+            float drive:angular:physics:stiffness = 400.0
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+                    float newton:velocityLimit = 827.9985
+                    uniform token physics:axis = "X"
+                    custom rel physics:body0
+                    append rel physics:body0 = </tron2b_arm/Geometry/arm_base/proximal_pitch_Link/proximal_roll_Link/proximal_yaw_Link/elbow_Link/wrist_yaw_Link/wrist_pitch_Link>
+                    custom rel physics:body1
+                    append rel physics:body1 = </tron2b_arm/Geometry/arm_base/proximal_pitch_Link/proximal_roll_Link/proximal_yaw_Link/elbow_Link/wrist_yaw_Link/wrist_pitch_Link/wrist_roll_Link>
+                    point3f physics:localPos0 = (0.0317, 0.0367, 0)
+                    point3f physics:localPos1 = (0, 0, 0)
+                    quatf physics:localRot0 = (1, 0, 0, 0)
+                    quatf physics:localRot1 = (1, 0, 0, 0)
+                    float physics:lowerLimit = -90
+                    float physics:upperLimit = 90
+                    custom float urdf:limit:effort = 15
+                }
+
+    }
+
+    over "Geometry"
+    {
+        over "arm_base"
+        {
+            over "proximal_pitch_Link"
+            {
+                double3 xformOp:translate = (-0.00044, -0.09497, 0.05446)
+
+                over "proximal_pitch"
+                {
+                    over "tn__proximal_pitch005_aQ" (
+                        delete references = @../instances.usda@</Instances/tn__proximal_pitch005_aQ>
+                        prepend references = @../instances_right.usda@</Instances/tn__proximal_pitch005_aQ>
+                    )
+                    {
+                    }
+
+                    over "tn__proximal_pitch004_aQ" (
+                        delete references = @../instances.usda@</Instances/tn__proximal_pitch004_aQ>
+                        prepend references = @../instances_right.usda@</Instances/tn__proximal_pitch004_aQ>
+                    )
+                    {
+                    }
+
+                    over "tn__proximal_pitch002_aQ" (
+                        delete references = @../instances.usda@</Instances/tn__proximal_pitch002_aQ>
+                        prepend references = @../instances_right.usda@</Instances/tn__proximal_pitch002_aQ>
+                    )
+                    {
+                    }
+
+                    over "tn__proximal_pitch001_aQ" (
+                        delete references = @../instances.usda@</Instances/tn__proximal_pitch001_aQ>
+                        prepend references = @../instances_right.usda@</Instances/tn__proximal_pitch001_aQ>
+                    )
+                    {
+                    }
+
+                    over "tn__proximal_pitch003_aQ" (
+                        delete references = @../instances.usda@</Instances/tn__proximal_pitch003_aQ>
+                        prepend references = @../instances_right.usda@</Instances/tn__proximal_pitch003_aQ>
+                    )
+                    {
+                    }
+
+                }
+
+                over "proximal_roll_Link"
+                {
+                    double3 xformOp:translate = (-0.0352, -0.07261, -0.00635)
+
+                    over "proximal_roll"
+                    {
+                        over "tn__proximal_roll001_pO" (
+                            delete references = @../instances.usda@</Instances/tn__proximal_roll001_pO>
+                            prepend references = @../instances_right.usda@</Instances/tn__proximal_roll001_pO>
+                        )
+                        {
+                        }
+
+                        over "tn__proximal_roll002_pO" (
+                            delete references = @../instances.usda@</Instances/tn__proximal_roll002_pO>
+                            prepend references = @../instances_right.usda@</Instances/tn__proximal_roll002_pO>
+                        )
+                        {
+                        }
+
+                    }
+
+                    over "proximal_yaw_Link"
+                    {
+                        double3 xformOp:translate = (0.0352, 0, -0.1348)
+
+                        over "proximal_yaw"
+                        {
+                            over "tn__Upper_Arm_Full_Groove_Cover001_wj0" (
+                                delete references = @../instances.usda@</Instances/tn__Upper_Arm_Full_Groove_Cover001_wj0>
+                                prepend references = @../instances_right.usda@</Instances/tn__Upper_Arm_Full_Groove_Cover001_wj0>
+                            )
+                            {
+                            }
+
+                            over "tn__proximal_yaw004_ZN" (
+                                delete references = @../instances.usda@</Instances/tn__proximal_yaw004_ZN>
+                                prepend references = @../instances_right.usda@</Instances/tn__proximal_yaw004_ZN>
+                            )
+                            {
+                            }
+
+                            over "tn__proximal_yaw003_ZN" (
+                                delete references = @../instances.usda@</Instances/tn__proximal_yaw003_ZN>
+                                prepend references = @../instances_right.usda@</Instances/tn__proximal_yaw003_ZN>
+                            )
+                            {
+                            }
+
+                            over "tn__proximal_yaw005_ZN" (
+                                delete references = @../instances.usda@</Instances/tn__proximal_yaw005_ZN>
+                                prepend references = @../instances_right.usda@</Instances/tn__proximal_yaw005_ZN>
+                            )
+                            {
+                            }
+
+                            over "tn__proximal_yaw005_1_YQ" (
+                                delete references = @../instances.usda@</Instances/tn__proximal_yaw005_1_YQ>
+                                prepend references = @../instances_right.usda@</Instances/tn__proximal_yaw005_1_YQ>
+                            )
+                            {
+                            }
+
+                            over "tn__proximal_yaw001_ZN" (
+                                delete references = @../instances.usda@</Instances/tn__proximal_yaw001_ZN>
+                                prepend references = @../instances_right.usda@</Instances/tn__proximal_yaw001_ZN>
+                            )
+                            {
+                            }
+
+                            over "tn__proximal_yaw001_1_YQ" (
+                                delete references = @../instances.usda@</Instances/tn__proximal_yaw001_1_YQ>
+                                prepend references = @../instances_right.usda@</Instances/tn__proximal_yaw001_1_YQ>
+                            )
+                            {
+                            }
+
+                            over "tn__proximal_yaw001_2_YQ" (
+                                delete references = @../instances.usda@</Instances/tn__proximal_yaw001_2_YQ>
+                                prepend references = @../instances_right.usda@</Instances/tn__proximal_yaw001_2_YQ>
+                            )
+                            {
+                            }
+
+                            over "tn__proximal_yaw001_3_YQ" (
+                                delete references = @../instances.usda@</Instances/tn__proximal_yaw001_3_YQ>
+                                prepend references = @../instances_right.usda@</Instances/tn__proximal_yaw001_3_YQ>
+                            )
+                            {
+                            }
+
+                        }
+
+                        over "elbow_Link"
+                        {
+                            double3 xformOp:translate = (0.004, -0.0348, -0.2152)
+
+                            over "elbow"
+                            {
+                                over "tn__elbow003_lC" (
+                                    delete references = @../instances.usda@</Instances/tn__elbow003_lC>
+                                    prepend references = @../instances_right.usda@</Instances/tn__elbow003_lC>
+                                )
+                                {
+                                }
+
+                                over "tn__elbow004_lC" (
+                                    delete references = @../instances.usda@</Instances/tn__elbow004_lC>
+                                    prepend references = @../instances_right.usda@</Instances/tn__elbow004_lC>
+                                )
+                                {
+                                }
+
+                                over "tn__elbow001_lC" (
+                                    delete references = @../instances.usda@</Instances/tn__elbow001_lC>
+                                    prepend references = @../instances_right.usda@</Instances/tn__elbow001_lC>
+                                )
+                                {
+                                }
+
+                                over "tn__elbow002_lC" (
+                                    delete references = @../instances.usda@</Instances/tn__elbow002_lC>
+                                    prepend references = @../instances_right.usda@</Instances/tn__elbow002_lC>
+                                )
+                                {
+                                }
+
+                            }
+
+                            over "wrist_yaw_Link"
+                            {
+                                double3 xformOp:translate = (-0.00367, 0.03481, -0.0685)
+
+                                over "wrist_yaw"
+                                {
+                                    over "tn__wrist_yaw007_nI" (
+                                        delete references = @../instances.usda@</Instances/tn__wrist_yaw007_nI>
+                                        prepend references = @../instances_right.usda@</Instances/tn__wrist_yaw007_nI>
+                                    )
+                                    {
+                                    }
+
+                                    over "tn__wrist_yaw002_nI" (
+                                        delete references = @../instances.usda@</Instances/tn__wrist_yaw002_nI>
+                                        prepend references = @../instances_right.usda@</Instances/tn__wrist_yaw002_nI>
+                                    )
+                                    {
+                                    }
+
+                                    over "tn__wrist_yaw010_nI" (
+                                        delete references = @../instances.usda@</Instances/tn__wrist_yaw010_nI>
+                                        prepend references = @../instances_right.usda@</Instances/tn__wrist_yaw010_nI>
+                                    )
+                                    {
+                                    }
+
+                                    over "tn__wrist_yaw008_nI" (
+                                        delete references = @../instances.usda@</Instances/tn__wrist_yaw008_nI>
+                                        prepend references = @../instances_right.usda@</Instances/tn__wrist_yaw008_nI>
+                                    )
+                                    {
+                                    }
+
+                                    over "tn__wrist_yaw005_nI" (
+                                        delete references = @../instances.usda@</Instances/tn__wrist_yaw005_nI>
+                                        prepend references = @../instances_right.usda@</Instances/tn__wrist_yaw005_nI>
+                                    )
+                                    {
+                                    }
+
+                                    over "tn__wrist_yaw003_nI" (
+                                        delete references = @../instances.usda@</Instances/tn__wrist_yaw003_nI>
+                                        prepend references = @../instances_right.usda@</Instances/tn__wrist_yaw003_nI>
+                                    )
+                                    {
+                                    }
+
+                                    over "tn__wrist_yaw011_nI" (
+                                        delete references = @../instances.usda@</Instances/tn__wrist_yaw011_nI>
+                                        prepend references = @../instances_right.usda@</Instances/tn__wrist_yaw011_nI>
+                                    )
+                                    {
+                                    }
+
+                                    over "tn__wrist_yaw009_nI" (
+                                        delete references = @../instances.usda@</Instances/tn__wrist_yaw009_nI>
+                                        prepend references = @../instances_right.usda@</Instances/tn__wrist_yaw009_nI>
+                                    )
+                                    {
+                                    }
+
+                                    over "tn__wrist_yaw006_nI" (
+                                        delete references = @../instances.usda@</Instances/tn__wrist_yaw006_nI>
+                                        prepend references = @../instances_right.usda@</Instances/tn__wrist_yaw006_nI>
+                                    )
+                                    {
+                                    }
+
+                                    over "tn__wrist_yaw004_nI" (
+                                        delete references = @../instances.usda@</Instances/tn__wrist_yaw004_nI>
+                                        prepend references = @../instances_right.usda@</Instances/tn__wrist_yaw004_nI>
+                                    )
+                                    {
+                                    }
+
+                                    over "tn__wrist_yaw001_nI" (
+                                        delete references = @../instances.usda@</Instances/tn__wrist_yaw001_nI>
+                                        prepend references = @../instances_right.usda@</Instances/tn__wrist_yaw001_nI>
+                                    )
+                                    {
+                                    }
+
+                                }
+
+                                over "wrist_pitch_Link"
+                                {
+                                    double3 xformOp:translate = (0, -0.0367, -0.1743)
+
+                                    over "wrist_pitch"
+                                    {
+                                        over "tn__wrist_pitch003_oL" (
+                                            delete references = @../instances.usda@</Instances/tn__wrist_pitch003_oL>
+                                            prepend references = @../instances_right.usda@</Instances/tn__wrist_pitch003_oL>
+                                        )
+                                        {
+                                        }
+
+                                        over "tn__wrist_pitch002_oL" (
+                                            delete references = @../instances.usda@</Instances/tn__wrist_pitch002_oL>
+                                            prepend references = @../instances_right.usda@</Instances/tn__wrist_pitch002_oL>
+                                        )
+                                        {
+                                        }
+
+                                        over "tn__wrist_pitch001_oL" (
+                                            delete references = @../instances.usda@</Instances/tn__wrist_pitch001_oL>
+                                            prepend references = @../instances_right.usda@</Instances/tn__wrist_pitch001_oL>
+                                        )
+                                        {
+                                        }
+
+                                        over "tn__wrist_pitch006_oL" (
+                                            delete references = @../instances.usda@</Instances/tn__wrist_pitch006_oL>
+                                            prepend references = @../instances_right.usda@</Instances/tn__wrist_pitch006_oL>
+                                        )
+                                        {
+                                        }
+
+                                        over "tn__wrist_pitch004_oL" (
+                                            delete references = @../instances.usda@</Instances/tn__wrist_pitch004_oL>
+                                            prepend references = @../instances_right.usda@</Instances/tn__wrist_pitch004_oL>
+                                        )
+                                        {
+                                        }
+
+                                        over "tn__wrist_pitch005_oL" (
+                                            delete references = @../instances.usda@</Instances/tn__wrist_pitch005_oL>
+                                            prepend references = @../instances_right.usda@</Instances/tn__wrist_pitch005_oL>
+                                        )
+                                        {
+                                        }
+
+                                    }
+
+                                    over "wrist_roll_Link"
+                                    {
+                                        double3 xformOp:translate = (0.0317, 0.0367, 0)
+
+                                        over "wrist_roll"
+                                        {
+                                            over "tn__wrist_roll001_YK" (
+                                                delete references = @../instances.usda@</Instances/tn__wrist_roll001_YK>
+                                                prepend references = @../instances_right.usda@</Instances/tn__wrist_roll001_YK>
+                                            )
+                                            {
+                                            }
+
+                                            over "tn__wrist_roll002_YK" (
+                                                delete references = @../instances.usda@</Instances/tn__wrist_roll002_YK>
+                                                prepend references = @../instances_right.usda@</Instances/tn__wrist_roll002_YK>
+                                            )
+                                            {
+                                            }
+
+                                            over "tn__wrist_roll003_YK" (
+                                                delete references = @../instances.usda@</Instances/tn__wrist_roll003_YK>
+                                                prepend references = @../instances_right.usda@</Instances/tn__wrist_roll003_YK>
+                                            )
+                                            {
+                                            }
+
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+}

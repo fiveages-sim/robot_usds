@@ -1,0 +1,95 @@
+#usda 1.0
+(
+    customLayerData = {
+        string creator = "URDF USD Converter v0.3.2"
+    }
+    defaultPrim = "tron2b_torso"
+    endTimeCode = 1000000
+    kilogramsPerUnit = 1
+    metersPerUnit = 1
+    startTimeCode = 0
+    upAxis = "Z"
+)
+
+over "tron2b_torso"
+{
+    over "Geometry"
+    {
+        over "base_link" (
+            # Live ArtRoot after TRON2B merge. Self-col ON (M6/W2); NonDexHand
+            # mute lives on TRON2B_DACH/payloads/Physics/body_self_collision_mute.usda
+            # so arm/gripper do not shove each other, while future DexHand can
+            # opt out via dexhand_self_collision excludes.
+            prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsArticulationRootAPI", "NewtonArticulationRootAPI", "PhysxArticulationAPI", "PhysicsMassAPI", "NewtonMassAPI"]
+        )
+        {
+            double[] newton:inertia = [0.11544842, 0.13779136, 0.10571445, -0.00000632, 0.00636327, -0.0000276]
+            bool newton:selfCollisionEnabled = 1
+            bool physxArticulation:enabledSelfCollisions = 1
+            point3f physics:centerOfMass = (0.00241, -0.00022, 0.11116)
+            float3 physics:diagonalInertia = (0.10257026, 0.11859258, 0.1377914)
+            float physics:mass = 13.4
+            quatf physics:principalAxes = (-0.3731536, 0.37318003, 0.6010178, 0.6002255)
+
+            over "base_imu" (
+                prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "NewtonMassAPI"]
+            )
+            {
+                double[] newton:inertia = [1e-8, 1e-8, 1e-8, 0, 0, 0]
+                float3 physics:diagonalInertia = (1e-8, 1e-8, 1e-8)
+                float physics:mass = 0.001
+                quatf physics:principalAxes = (1, 0, 0, 0)
+            }
+
+            over "body_camera" (
+                prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "NewtonMassAPI"]
+            )
+            {
+                double[] newton:inertia = [1e-7, 1e-7, 1e-7, 0, 0, 0]
+                float3 physics:diagonalInertia = (1e-7, 1e-7, 1e-7)
+                float physics:mass = 0.001
+                quatf physics:principalAxes = (1, 0, 0, 0)
+            }
+        }
+    }
+
+    over "Physics"
+    {
+        def PhysicsFixedJoint "root_joint"
+        {
+            custom rel physics:body0
+            append rel physics:body0 = </tron2b_torso>
+            custom rel physics:body1
+            append rel physics:body1 = </tron2b_torso/Geometry/base_link>
+            point3f physics:localPos0 = (0, 0, 0)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+        }
+
+        def PhysicsFixedJoint "base_imu_Joint"
+        {
+            custom rel physics:body0
+            append rel physics:body0 = </tron2b_torso/Geometry/base_link>
+            custom rel physics:body1
+            append rel physics:body1 = </tron2b_torso/Geometry/base_link/base_imu>
+            point3f physics:localPos0 = (0, 0, 0)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+        }
+
+        def PhysicsFixedJoint "body_camera_joint"
+        {
+            custom rel physics:body0
+            append rel physics:body0 = </tron2b_torso/Geometry/base_link>
+            custom rel physics:body1
+            append rel physics:body1 = </tron2b_torso/Geometry/base_link/body_camera>
+            point3f physics:localPos0 = (0.0968, 0.01759, -0.00409)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (-0.38511795, -0.5930296, 0.5930296, 0.38511798)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+        }
+    }
+}
+

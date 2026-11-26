@@ -1,0 +1,299 @@
+#usda 1.0
+(
+    defaultPrim = "tron2b_gripper"
+)
+
+def "tron2b_gripper" (
+)
+{
+    delete rel isaac:physics:robotJoints
+    prepend rel isaac:physics:robotJoints = [
+        </tron2b_gripper/Physics/right_grasper_tip_left_Joint>,
+        </tron2b_gripper/Physics/right_grasper_bar_left_Joint>,
+        </tron2b_gripper/Physics/right_grasper_crank_right_Joint>,
+        </tron2b_gripper/Physics/right_grasper_tip_right_Joint>,
+        </tron2b_gripper/Physics/right_grasper_bar_right_Joint>,
+        </tron2b_gripper/Physics/right_grasper_nut_Joint>,
+        </tron2b_gripper/Physics/right_grasper_jaw_left_Joint>,
+        </tron2b_gripper/Physics/right_grasper_jaw_right_Joint>,
+        </tron2b_gripper/Physics/right_gripper_joint>,
+    ]
+
+    over "Physics"
+    {
+        over "grasper_tip_left_Joint" (
+            active = false
+        )
+        {
+        }
+
+        def PhysicsRevoluteJoint "right_grasper_tip_left_Joint" (
+                    prepend apiSchemas = ["NewtonJointAPI", "NewtonMimicAPI", "PhysicsJointStateAPI:angular", "PhysxJointAPI", "PhysxMimicJointAPI:rotX"]
+                )
+                {
+                    float newton:mimicCoef1 = -1
+                    rel newton:mimicJoint = </tron2b_gripper/Physics/right_gripper_joint>
+                    float physxMimicJoint:rotX:dampingRatio = 0
+                    float physxMimicJoint:rotX:gearing = 1.0
+                    float physxMimicJoint:rotX:naturalFrequency = 0
+                    float physxMimicJoint:rotX:offset = 0
+                    rel physxMimicJoint:rotX:referenceJoint = </tron2b_gripper/Physics/right_gripper_joint>
+                    token physxMimicJoint:rotX:referenceJointAxis = "rotX"
+                    float newton:velocityLimit = 572.9578
+                    uniform token physics:axis = "X"
+                    custom rel physics:body0
+                    append rel physics:body0 = </tron2b_gripper/Geometry/wrist_roll_Link/grasper_base_Link/grasper_crank_left_Link>
+                    custom rel physics:body1
+                    append rel physics:body1 = </tron2b_gripper/Geometry/wrist_roll_Link/grasper_base_Link/grasper_crank_left_Link/grasper_jaw_left_Link>
+                    point3f physics:localPos0 = (0, -0.01401, -0.048)
+                    point3f physics:localPos1 = (0, 0, 0)
+                    quatf physics:localRot0 = (1, 0, 0, 0)
+                    quatf physics:localRot1 = (1, 0, 0, 0)
+                    float physics:lowerLimit = -44.290783
+                    float physics:upperLimit = 5.455704
+                    custom float urdf:limit:effort = 2
+                }
+
+        over "grasper_bar_left_Joint" (
+            active = false
+        )
+        {
+        }
+
+        def PhysicsRevoluteJoint "right_grasper_bar_left_Joint" (
+                    prepend apiSchemas = ["NewtonJointAPI", "NewtonMimicAPI", "PhysicsJointStateAPI:angular", "PhysxJointAPI", "PhysxMimicJointAPI:rotX"]
+                )
+                {
+                    rel newton:mimicJoint = </tron2b_gripper/Physics/right_gripper_joint>
+                    float physxMimicJoint:rotX:dampingRatio = 0
+                    float physxMimicJoint:rotX:gearing = -1.0
+                    float physxMimicJoint:rotX:naturalFrequency = 0
+                    float physxMimicJoint:rotX:offset = 0
+                    rel physxMimicJoint:rotX:referenceJoint = </tron2b_gripper/Physics/right_gripper_joint>
+                    token physxMimicJoint:rotX:referenceJointAxis = "rotX"
+                    float newton:velocityLimit = 572.9578
+                    uniform token physics:axis = "X"
+                    custom rel physics:body0
+                    append rel physics:body0 = </tron2b_gripper/Geometry/wrist_roll_Link/grasper_base_Link>
+                    custom rel physics:body1
+                    append rel physics:body1 = </tron2b_gripper/Geometry/wrist_roll_Link/grasper_base_Link/grasper_bar_left_Link>
+                    point3f physics:localPos0 = (0, 0.04136, -0.0609)
+                    point3f physics:localPos1 = (0, 0, 0)
+                    quatf physics:localRot0 = (1, 0, 0, 0)
+                    quatf physics:localRot1 = (1, 0, 0, 0)
+                    float physics:lowerLimit = -5.455704
+                    float physics:upperLimit = 44.290783
+                    custom float urdf:limit:effort = 2
+                }
+
+        over "grasper_crank_right_Joint" (
+            active = false
+        )
+        {
+        }
+
+        def PhysicsRevoluteJoint "right_grasper_crank_right_Joint" (
+                    prepend apiSchemas = ["NewtonJointAPI", "NewtonMimicAPI", "PhysicsJointStateAPI:angular", "PhysxJointAPI", "PhysxMimicJointAPI:rotX"]
+                )
+                {
+                    rel newton:mimicJoint = </tron2b_gripper/Physics/right_gripper_joint>
+                    float physxMimicJoint:rotX:dampingRatio = 0
+                    float physxMimicJoint:rotX:gearing = -1.0
+                    float physxMimicJoint:rotX:naturalFrequency = 0
+                    float physxMimicJoint:rotX:offset = 0
+                    rel physxMimicJoint:rotX:referenceJoint = </tron2b_gripper/Physics/right_gripper_joint>
+                    token physxMimicJoint:rotX:referenceJointAxis = "rotX"
+                    float newton:velocityLimit = 572.9578
+                    uniform token physics:axis = "X"
+                    custom rel physics:body0
+                    append rel physics:body0 = </tron2b_gripper/Geometry/wrist_roll_Link/grasper_base_Link>
+                    custom rel physics:body1
+                    append rel physics:body1 = </tron2b_gripper/Geometry/wrist_roll_Link/grasper_base_Link/grasper_crank_right_Link>
+                    point3f physics:localPos0 = (0, -0.0275, -0.0689)
+                    point3f physics:localPos1 = (0, 0, 0)
+                    quatf physics:localRot0 = (0, 0, -1, 0)
+                    quatf physics:localRot1 = (0, 0, -1, 0)
+                    float physics:lowerLimit = -5.455704
+                    float physics:upperLimit = 44.290783
+                    custom float urdf:limit:effort = 2
+                }
+
+        over "grasper_tip_right_Joint" (
+            active = false
+        )
+        {
+        }
+
+        def PhysicsRevoluteJoint "right_grasper_tip_right_Joint" (
+                    prepend apiSchemas = ["NewtonJointAPI", "NewtonMimicAPI", "PhysicsJointStateAPI:angular", "PhysxJointAPI", "PhysxMimicJointAPI:rotX"]
+                )
+                {
+                    float newton:mimicCoef1 = -1
+                    rel newton:mimicJoint = </tron2b_gripper/Physics/right_gripper_joint>
+                    float physxMimicJoint:rotX:dampingRatio = 0
+                    float physxMimicJoint:rotX:gearing = 1.0
+                    float physxMimicJoint:rotX:naturalFrequency = 0
+                    float physxMimicJoint:rotX:offset = 0
+                    rel physxMimicJoint:rotX:referenceJoint = </tron2b_gripper/Physics/right_gripper_joint>
+                    token physxMimicJoint:rotX:referenceJointAxis = "rotX"
+                    float newton:velocityLimit = 572.9578
+                    uniform token physics:axis = "X"
+                    custom rel physics:body0
+                    append rel physics:body0 = </tron2b_gripper/Geometry/wrist_roll_Link/grasper_base_Link/grasper_crank_right_Link>
+                    custom rel physics:body1
+                    append rel physics:body1 = </tron2b_gripper/Geometry/wrist_roll_Link/grasper_base_Link/grasper_crank_right_Link/grasper_jaw_right_Link>
+                    point3f physics:localPos0 = (0, 0.01401, -0.048)
+                    point3f physics:localPos1 = (0, 0, 0)
+                    quatf physics:localRot0 = (0, 0, -1, 0)
+                    quatf physics:localRot1 = (0, 0, -1, 0)
+                    float physics:lowerLimit = -44.290783
+                    float physics:upperLimit = 5.455704
+                    custom float urdf:limit:effort = 2
+                }
+
+        over "grasper_bar_right_Joint" (
+            active = false
+        )
+        {
+        }
+
+        def PhysicsRevoluteJoint "right_grasper_bar_right_Joint" (
+                    prepend apiSchemas = ["NewtonJointAPI", "NewtonMimicAPI", "PhysicsJointStateAPI:angular", "PhysxJointAPI", "PhysxMimicJointAPI:rotX"]
+                )
+                {
+                    rel newton:mimicJoint = </tron2b_gripper/Physics/right_gripper_joint>
+                    float physxMimicJoint:rotX:dampingRatio = 0
+                    float physxMimicJoint:rotX:gearing = -1.0
+                    float physxMimicJoint:rotX:naturalFrequency = 0
+                    float physxMimicJoint:rotX:offset = 0
+                    rel physxMimicJoint:rotX:referenceJoint = </tron2b_gripper/Physics/right_gripper_joint>
+                    token physxMimicJoint:rotX:referenceJointAxis = "rotX"
+                    float newton:velocityLimit = 572.9578
+                    uniform token physics:axis = "X"
+                    custom rel physics:body0
+                    append rel physics:body0 = </tron2b_gripper/Geometry/wrist_roll_Link/grasper_base_Link>
+                    custom rel physics:body1
+                    append rel physics:body1 = </tron2b_gripper/Geometry/wrist_roll_Link/grasper_base_Link/grasper_bar_right_Link>
+                    point3f physics:localPos0 = (0, -0.04136, -0.0609)
+                    point3f physics:localPos1 = (0, 0, 0)
+                    quatf physics:localRot0 = (0, 0, -1, 0)
+                    quatf physics:localRot1 = (0, 1, 6.123234e-17, 0)
+                    float physics:lowerLimit = -5.455704
+                    float physics:upperLimit = 44.290783
+                    custom float urdf:limit:effort = 2
+                }
+
+        over "grasper_nut_Joint" (
+            active = false
+        )
+        {
+        }
+
+        def PhysicsPrismaticJoint "right_grasper_nut_Joint" (
+                    prepend apiSchemas = ["NewtonJointAPI", "NewtonMimicAPI", "PhysicsJointStateAPI:linear", "PhysxJointAPI"]
+                )
+                {
+                    # Sensor/nut DOF — Newton mimic for mujoco; physx strips it (no PhysX hard mimic).
+                    float newton:mimicCoef1 = 0.02
+                    rel newton:mimicJoint = </tron2b_gripper/Physics/right_gripper_joint>
+                    float newton:velocityLimit = 0.5
+                    uniform token physics:axis = "Z"
+                    custom rel physics:body0
+                    append rel physics:body0 = </tron2b_gripper/Geometry/wrist_roll_Link/grasper_base_Link>
+                    custom rel physics:body1
+                    append rel physics:body1 = </tron2b_gripper/Geometry/wrist_roll_Link/grasper_base_Link/grasper_nut_Link>
+                    point3f physics:localPos0 = (0, 0, 0)
+                    point3f physics:localPos1 = (0, 0, 0)
+                    quatf physics:localRot0 = (1, 0, 0, 0)
+                    quatf physics:localRot1 = (1, 0, 0, 0)
+                    float physics:lowerLimit = -0.0019044
+                    float physics:upperLimit = 0.0154604
+                    custom float urdf:limit:effort = 10
+                }
+
+        over "grasper_jaw_left_Joint" (
+            active = false
+        )
+        {
+        }
+
+        def PhysicsPrismaticJoint "right_grasper_jaw_left_Joint" (
+                    prepend apiSchemas = ["NewtonJointAPI", "NewtonMimicAPI", "PhysicsJointStateAPI:linear", "PhysxJointAPI"]
+                )
+                {
+                    float newton:mimicCoef1 = 0.048992
+                    rel newton:mimicJoint = </tron2b_gripper/Physics/right_gripper_joint>
+                    float newton:velocityLimit = 0.5
+                    uniform token physics:axis = "Y"
+                    custom rel physics:body0
+                    append rel physics:body0 = </tron2b_gripper/Geometry/wrist_roll_Link/grasper_base_Link>
+                    custom rel physics:body1
+                    append rel physics:body1 = </tron2b_gripper/Geometry/wrist_roll_Link/grasper_base_Link/grasper_jaw_left_ref_Link>
+                    point3f physics:localPos0 = (0, 0, 0)
+                    point3f physics:localPos1 = (0, 0, 0)
+                    quatf physics:localRot0 = (1, 0, 0, 0)
+                    quatf physics:localRot1 = (1, 0, 0, 0)
+                    float physics:lowerLimit = -0.0045
+                    float physics:upperLimit = 0.0375
+                    custom float urdf:limit:effort = 20
+                }
+
+        over "grasper_jaw_right_Joint" (
+            active = false
+        )
+        {
+        }
+
+        def PhysicsPrismaticJoint "right_grasper_jaw_right_Joint" (
+                    prepend apiSchemas = ["NewtonJointAPI", "NewtonMimicAPI", "PhysicsJointStateAPI:linear", "PhysxJointAPI"]
+                )
+                {
+                    float newton:mimicCoef1 = 0.048992
+                    rel newton:mimicJoint = </tron2b_gripper/Physics/right_gripper_joint>
+                    float newton:velocityLimit = 0.5
+                    uniform token physics:axis = "Y"
+                    custom rel physics:body0
+                    append rel physics:body0 = </tron2b_gripper/Geometry/wrist_roll_Link/grasper_base_Link>
+                    custom rel physics:body1
+                    append rel physics:body1 = </tron2b_gripper/Geometry/wrist_roll_Link/grasper_base_Link/grasper_jaw_right_ref_Link>
+                    point3f physics:localPos0 = (0, 0, 0)
+                    point3f physics:localPos1 = (0, 0, 0)
+                    quatf physics:localRot0 = (0, -1, 0, 0)
+                    quatf physics:localRot1 = (0, -1, 0, 0)
+                    float physics:lowerLimit = -0.0045
+                    float physics:upperLimit = 0.0375
+                    custom float urdf:limit:effort = 20
+                }
+
+        over "gripper_joint" (
+            active = false
+        )
+        {
+        }
+
+        def PhysicsRevoluteJoint "right_gripper_joint" (
+                    prepend apiSchemas = ["NewtonJointAPI", "PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular", "PhysxJointAPI"]
+                )
+                {
+                    float drive:angular:physics:maxForce = 3
+            float drive:angular:physics:damping = 0.6981317
+            float drive:angular:physics:stiffness = 13.962634
+            float drive:angular:physics:targetPosition = -5.455704
+            uniform token drive:angular:physics:type = "force"
+                    float newton:velocityLimit = 572.9578
+                    uniform token physics:axis = "X"
+                    custom rel physics:body0
+                    append rel physics:body0 = </tron2b_gripper/Geometry/wrist_roll_Link/grasper_base_Link>
+                    custom rel physics:body1
+                    append rel physics:body1 = </tron2b_gripper/Geometry/wrist_roll_Link/grasper_base_Link/grasper_crank_left_Link>
+                    point3f physics:localPos0 = (0, 0.0275, -0.0689)
+                    point3f physics:localPos1 = (0, 0, 0)
+                    quatf physics:localRot0 = (1, 0, 0, 0)
+                    quatf physics:localRot1 = (1, 0, 0, 0)
+                    float physics:lowerLimit = -5.455704
+                    float physics:upperLimit = 44.290783
+                    custom float urdf:limit:effort = 2
+                }
+
+    }
+}

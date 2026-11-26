@@ -1,227 +1,147 @@
 #usda 1.0
 (
-    customLayerData = {
-        string creator = "URDF USD Converter v0.3.2"
-    }
     defaultPrim = "tron2b_dach"
-    endTimeCode = 1000000
-    kilogramsPerUnit = 1
+    doc = """Push Physics=physx onto nested components + M6/W2-style self-col.
+
+ArtRoot self-col ON; NonDexHand mute (body_self_collision_mute.usda) filters
+Base/Torso/Arms/Head/Gripper. Future DexHand EE sublayers
+payloads/Body/dexhand_self_collision.usda to exclude finger roots.
+"""
     metersPerUnit = 1
-    startTimeCode = 0
     subLayers = [
-        @./grippers.usda@,
-        @./physics.usda@
+        @./body_self_collision_mute.usda@
     ]
     upAxis = "Z"
 )
 
 over "tron2b_dach"
 {
-    over "Physics"
+    over "Base_Dach" (
+        variants = {
+            string Physics = "physics"
+        }
+    )
     {
-        over "head_yaw_Joint" (
-            prepend apiSchemas = ["PhysxJointAPI"]
-        )
-        {
-        }
+    }
 
-        over "head_pitch_Joint" (
-            prepend apiSchemas = ["PhysxJointAPI"]
-        )
-        {
+    over "Torso" (
+        variants = {
+            string Physics = "physics"
         }
-
-        over "proximal_pitch_L_Joint" (
-            prepend apiSchemas = ["PhysxJointAPI"]
-        )
+    )
+    {
+        # Live ArtRoot after component merge — M6/W2: self-col ON + NonDexHand.
+        over "Geometry"
         {
-        }
-
-        over "proximal_roll_L_Joint" (
-            prepend apiSchemas = ["PhysxJointAPI"]
-        )
-        {
-        }
-
-        over "proximal_yaw_L_Joint" (
-            prepend apiSchemas = ["PhysxJointAPI"]
-        )
-        {
-        }
-
-        over "elbow_L_Joint" (
-            prepend apiSchemas = ["PhysxJointAPI"]
-        )
-        {
-        }
-
-        over "wrist_yaw_L_Joint" (
-            prepend apiSchemas = ["PhysxJointAPI"]
-        )
-        {
-        }
-
-        over "wrist_pitch_L_Joint" (
-            prepend apiSchemas = ["PhysxJointAPI"]
-        )
-        {
-        }
-
-        over "wrist_roll_L_Joint" (
-            prepend apiSchemas = ["PhysxJointAPI"]
-        )
-        {
-        }
-
-        over "grasper_L_drive_Joint" (
-            prepend apiSchemas = ["PhysxJointAPI"]
-        )
-        {
-        }
-
-        over "grasper_L_tip_left_Joint" (
-            prepend apiSchemas = ["PhysxJointAPI"]
-        )
-        {
-        }
-
-        over "grasper_L_bar_left_Joint" (
-            prepend apiSchemas = ["PhysxJointAPI"]
-        )
-        {
-        }
-
-        over "grasper_L_crank_right_Joint" (
-            prepend apiSchemas = ["PhysxJointAPI"]
-        )
-        {
-        }
-
-        over "grasper_L_tip_right_Joint" (
-            prepend apiSchemas = ["PhysxJointAPI"]
-        )
-        {
-        }
-
-        over "grasper_L_bar_right_Joint" (
-            prepend apiSchemas = ["PhysxJointAPI"]
-        )
-        {
-        }
-
-        over "grasper_L_nut_Joint" (
-            prepend apiSchemas = ["PhysxJointAPI"]
-        )
-        {
-        }
-
-        over "grasper_L_jaw_left_Joint" (
-            prepend apiSchemas = ["PhysxJointAPI"]
-        )
-        {
-        }
-
-        over "grasper_L_jaw_right_Joint" (
-            prepend apiSchemas = ["PhysxJointAPI"]
-        )
-        {
-        }
-
-        over "proximal_pitch_R_Joint" (
-            prepend apiSchemas = ["PhysxJointAPI"]
-        )
-        {
-        }
-
-        over "proximal_roll_R_Joint" (
-            prepend apiSchemas = ["PhysxJointAPI"]
-        )
-        {
-        }
-
-        over "proximal_yaw_R_Joint" (
-            prepend apiSchemas = ["PhysxJointAPI"]
-        )
-        {
-        }
-
-        over "elbow_R_Joint" (
-            prepend apiSchemas = ["PhysxJointAPI"]
-        )
-        {
-        }
-
-        over "wrist_yaw_R_Joint" (
-            prepend apiSchemas = ["PhysxJointAPI"]
-        )
-        {
-        }
-
-        over "wrist_pitch_R_Joint" (
-            prepend apiSchemas = ["PhysxJointAPI"]
-        )
-        {
-        }
-
-        over "wrist_roll_R_Joint" (
-            prepend apiSchemas = ["PhysxJointAPI"]
-        )
-        {
-        }
-
-        over "grasper_R_drive_Joint" (
-            prepend apiSchemas = ["PhysxJointAPI"]
-        )
-        {
-        }
-
-        over "grasper_R_tip_left_Joint" (
-            prepend apiSchemas = ["PhysxJointAPI"]
-        )
-        {
-        }
-
-        over "grasper_R_bar_left_Joint" (
-            prepend apiSchemas = ["PhysxJointAPI"]
-        )
-        {
-        }
-
-        over "grasper_R_crank_right_Joint" (
-            prepend apiSchemas = ["PhysxJointAPI"]
-        )
-        {
-        }
-
-        over "grasper_R_tip_right_Joint" (
-            prepend apiSchemas = ["PhysxJointAPI"]
-        )
-        {
-        }
-
-        over "grasper_R_bar_right_Joint" (
-            prepend apiSchemas = ["PhysxJointAPI"]
-        )
-        {
-        }
-
-        over "grasper_R_nut_Joint" (
-            prepend apiSchemas = ["PhysxJointAPI"]
-        )
-        {
-        }
-
-        over "grasper_R_jaw_left_Joint" (
-            prepend apiSchemas = ["PhysxJointAPI"]
-        )
-        {
-        }
-
-        over "grasper_R_jaw_right_Joint" (
-            prepend apiSchemas = ["PhysxJointAPI"]
-        )
-        {
+            over "base_link" (
+                prepend apiSchemas = ["PhysxArticulationAPI"]
+            )
+            {
+                bool physxArticulation:enabledSelfCollisions = 1
+                int physxArticulation:solverPositionIterationCount = 32
+                int physxArticulation:solverVelocityIterationCount = 1
+            }
         }
     }
-}
 
+    over "Body_Upper"
+    {
+        over "Arm_Left" (
+            variants = {
+                string Physics = "physx"
+            }
+        )
+        {
+            over "Geometry"
+            {
+                over "arm_base"
+                {
+                    over "proximal_pitch_Link"
+                    {
+                        over "proximal_roll_Link"
+                        {
+                            over "proximal_yaw_Link"
+                            {
+                                over "elbow_Link"
+                                {
+                                    over "wrist_yaw_Link"
+                                    {
+                                        over "wrist_pitch_Link"
+                                        {
+                                            over "wrist_roll_Link"
+                                            {
+                                                over "tcp"
+                                                {
+                                                    over "Gripper" (
+                                                        variants = {
+                                                            string Physics = "physx"
+                                                        }
+                                                    )
+                                                    {
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        over "Arm_Right" (
+            variants = {
+                string Physics = "physx"
+            }
+        )
+        {
+            over "Geometry"
+            {
+                over "arm_base"
+                {
+                    over "proximal_pitch_Link"
+                    {
+                        over "proximal_roll_Link"
+                        {
+                            over "proximal_yaw_Link"
+                            {
+                                over "elbow_Link"
+                                {
+                                    over "wrist_yaw_Link"
+                                    {
+                                        over "wrist_pitch_Link"
+                                        {
+                                            over "wrist_roll_Link"
+                                            {
+                                                over "tcp"
+                                                {
+                                                    over "Gripper" (
+                                                        variants = {
+                                                            string Physics = "physx"
+                                                        }
+                                                    )
+                                                    {
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    over "Head_V1" (
+        variants = {
+            string Physics = "physx"
+        }
+    )
+    {
+    }
+}

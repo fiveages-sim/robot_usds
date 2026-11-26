@@ -1,0 +1,320 @@
+#usda 1.0
+(
+    defaultPrim = "tron2b_gripper"
+    metersPerUnit = 1
+    subLayers = [
+        @./physics.usda@
+    ]
+    upAxis = "Z"
+    doc = """PhysX Mimic (official default = hard): tip/bar/crank only.
+  naturalFrequency=0, dampingRatio=0 → non-compliant hard constraint.
+  Drive: K≈14 D≈0.7 Fmax=3 (same scale as proven monolithic TRON2B).
+
+Prismatic nut / jaw_ref: strip Newton mimic, NO PhysxMimicJointAPI.
+  These are sensor/aux DOFs; visual jaws already follow via tip revolutes.
+  Do NOT hard-mimic revolute→prismatic with URDF radian gearing — that
+  was a componentization regression (arm yank / incomplete open).
+
+Standalone: ArtRoot on grasper_base_Link (self-col flag here).
+Mounted under TRON2B_DACH: ArtRoot is Torso/base_link with self-col ON +
+NonDexHand mute (grippers stay in the group; DexHand EE excludes later).
+"""
+)
+
+over "tron2b_gripper"
+{
+    over "Geometry"
+    {
+        over "wrist_roll_Link"
+        {
+            over "grasper_base_Link" (
+                prepend apiSchemas = ["PhysxArticulationAPI"]
+            )
+            {
+                # Standalone only. Mounted robot uses Torso/base_link ArtRoot.
+                bool physxArticulation:enabledSelfCollisions = 0
+                int physxArticulation:solverPositionIterationCount = 32
+                int physxArticulation:solverVelocityIterationCount = 1
+            }
+        }
+    }
+
+    over "Physics"
+    {
+        over "gripper_joint" (
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            float drive:angular:physics:damping = 0.6981317
+            float drive:angular:physics:maxForce = 3
+            float drive:angular:physics:stiffness = 13.962634
+            float drive:angular:physics:targetPosition = -5.455704
+            uniform token drive:angular:physics:type = "force"
+            float physxJoint:maxJointVelocity = 10
+        }
+
+        over "grasper_tip_left_Joint" (
+            delete apiSchemas = ["NewtonMimicAPI", "PhysicsDriveAPI:angular"]
+            prepend apiSchemas = ["PhysxJointAPI", "PhysxMimicJointAPI:rotX"]
+        )
+        {
+            rel newton:mimicJoint = None
+            float physxMimicJoint:rotX:dampingRatio = 0
+            float physxMimicJoint:rotX:gearing = 1.0
+            float physxMimicJoint:rotX:naturalFrequency = 0
+            float physxMimicJoint:rotX:offset = 0
+            rel physxMimicJoint:rotX:referenceJoint = </tron2b_gripper/Physics/gripper_joint>
+            token physxMimicJoint:rotX:referenceJointAxis = "rotX"
+        }
+        over "grasper_bar_left_Joint" (
+            delete apiSchemas = ["NewtonMimicAPI", "PhysicsDriveAPI:angular"]
+            prepend apiSchemas = ["PhysxJointAPI", "PhysxMimicJointAPI:rotX"]
+        )
+        {
+            rel newton:mimicJoint = None
+            float physxMimicJoint:rotX:dampingRatio = 0
+            float physxMimicJoint:rotX:gearing = -1.0
+            float physxMimicJoint:rotX:naturalFrequency = 0
+            float physxMimicJoint:rotX:offset = 0
+            rel physxMimicJoint:rotX:referenceJoint = </tron2b_gripper/Physics/gripper_joint>
+            token physxMimicJoint:rotX:referenceJointAxis = "rotX"
+        }
+        over "grasper_crank_right_Joint" (
+            delete apiSchemas = ["NewtonMimicAPI", "PhysicsDriveAPI:angular"]
+            prepend apiSchemas = ["PhysxJointAPI", "PhysxMimicJointAPI:rotX"]
+        )
+        {
+            rel newton:mimicJoint = None
+            float physxMimicJoint:rotX:dampingRatio = 0
+            float physxMimicJoint:rotX:gearing = -1.0
+            float physxMimicJoint:rotX:naturalFrequency = 0
+            float physxMimicJoint:rotX:offset = 0
+            rel physxMimicJoint:rotX:referenceJoint = </tron2b_gripper/Physics/gripper_joint>
+            token physxMimicJoint:rotX:referenceJointAxis = "rotX"
+        }
+        over "grasper_tip_right_Joint" (
+            delete apiSchemas = ["NewtonMimicAPI", "PhysicsDriveAPI:angular"]
+            prepend apiSchemas = ["PhysxJointAPI", "PhysxMimicJointAPI:rotX"]
+        )
+        {
+            rel newton:mimicJoint = None
+            float physxMimicJoint:rotX:dampingRatio = 0
+            float physxMimicJoint:rotX:gearing = 1.0
+            float physxMimicJoint:rotX:naturalFrequency = 0
+            float physxMimicJoint:rotX:offset = 0
+            rel physxMimicJoint:rotX:referenceJoint = </tron2b_gripper/Physics/gripper_joint>
+            token physxMimicJoint:rotX:referenceJointAxis = "rotX"
+        }
+        over "grasper_bar_right_Joint" (
+            delete apiSchemas = ["NewtonMimicAPI", "PhysicsDriveAPI:angular"]
+            prepend apiSchemas = ["PhysxJointAPI", "PhysxMimicJointAPI:rotX"]
+        )
+        {
+            rel newton:mimicJoint = None
+            float physxMimicJoint:rotX:dampingRatio = 0
+            float physxMimicJoint:rotX:gearing = -1.0
+            float physxMimicJoint:rotX:naturalFrequency = 0
+            float physxMimicJoint:rotX:offset = 0
+            rel physxMimicJoint:rotX:referenceJoint = </tron2b_gripper/Physics/gripper_joint>
+            token physxMimicJoint:rotX:referenceJointAxis = "rotX"
+        }
+        # Prismatic sensor/nut DOFs — match legacy: drop Newton mimic, no PhysX hard mimic.
+        over "grasper_nut_Joint" (
+            delete apiSchemas = ["NewtonMimicAPI", "PhysicsDriveAPI:linear", "PhysxMimicJointAPI:transZ"]
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            rel newton:mimicJoint = None
+        }
+        over "grasper_jaw_left_Joint" (
+            delete apiSchemas = ["NewtonMimicAPI", "PhysicsDriveAPI:linear", "PhysxMimicJointAPI:transY"]
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            rel newton:mimicJoint = None
+        }
+        over "grasper_jaw_right_Joint" (
+            delete apiSchemas = ["NewtonMimicAPI", "PhysicsDriveAPI:linear", "PhysxMimicJointAPI:transY"]
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            rel newton:mimicJoint = None
+        }
+
+        # Side=left — strip Newton on all revolute mimics; prismatic = no PhysX mimic.
+        over "left_grasper_tip_left_Joint" (
+            delete apiSchemas = ["NewtonMimicAPI", "PhysicsDriveAPI:angular"]
+            prepend apiSchemas = ["PhysxJointAPI", "PhysxMimicJointAPI:rotX"]
+        )
+        {
+            rel newton:mimicJoint = None
+            float physxMimicJoint:rotX:dampingRatio = 0
+            float physxMimicJoint:rotX:gearing = 1.0
+            float physxMimicJoint:rotX:naturalFrequency = 0
+            float physxMimicJoint:rotX:offset = 0
+            rel physxMimicJoint:rotX:referenceJoint = </tron2b_gripper/Physics/left_gripper_joint>
+            token physxMimicJoint:rotX:referenceJointAxis = "rotX"
+        }
+        over "left_grasper_bar_left_Joint" (
+            delete apiSchemas = ["NewtonMimicAPI", "PhysicsDriveAPI:angular"]
+            prepend apiSchemas = ["PhysxJointAPI", "PhysxMimicJointAPI:rotX"]
+        )
+        {
+            rel newton:mimicJoint = None
+            float physxMimicJoint:rotX:dampingRatio = 0
+            float physxMimicJoint:rotX:gearing = -1.0
+            float physxMimicJoint:rotX:naturalFrequency = 0
+            float physxMimicJoint:rotX:offset = 0
+            rel physxMimicJoint:rotX:referenceJoint = </tron2b_gripper/Physics/left_gripper_joint>
+            token physxMimicJoint:rotX:referenceJointAxis = "rotX"
+        }
+        over "left_grasper_crank_right_Joint" (
+            delete apiSchemas = ["NewtonMimicAPI", "PhysicsDriveAPI:angular"]
+            prepend apiSchemas = ["PhysxJointAPI", "PhysxMimicJointAPI:rotX"]
+        )
+        {
+            rel newton:mimicJoint = None
+            float physxMimicJoint:rotX:dampingRatio = 0
+            float physxMimicJoint:rotX:gearing = -1.0
+            float physxMimicJoint:rotX:naturalFrequency = 0
+            float physxMimicJoint:rotX:offset = 0
+            rel physxMimicJoint:rotX:referenceJoint = </tron2b_gripper/Physics/left_gripper_joint>
+            token physxMimicJoint:rotX:referenceJointAxis = "rotX"
+        }
+        over "left_grasper_tip_right_Joint" (
+            delete apiSchemas = ["NewtonMimicAPI", "PhysicsDriveAPI:angular"]
+            prepend apiSchemas = ["PhysxJointAPI", "PhysxMimicJointAPI:rotX"]
+        )
+        {
+            rel newton:mimicJoint = None
+            float physxMimicJoint:rotX:dampingRatio = 0
+            float physxMimicJoint:rotX:gearing = 1.0
+            float physxMimicJoint:rotX:naturalFrequency = 0
+            float physxMimicJoint:rotX:offset = 0
+            rel physxMimicJoint:rotX:referenceJoint = </tron2b_gripper/Physics/left_gripper_joint>
+            token physxMimicJoint:rotX:referenceJointAxis = "rotX"
+        }
+        over "left_grasper_bar_right_Joint" (
+            delete apiSchemas = ["NewtonMimicAPI", "PhysicsDriveAPI:angular"]
+            prepend apiSchemas = ["PhysxJointAPI", "PhysxMimicJointAPI:rotX"]
+        )
+        {
+            rel newton:mimicJoint = None
+            float physxMimicJoint:rotX:dampingRatio = 0
+            float physxMimicJoint:rotX:gearing = -1.0
+            float physxMimicJoint:rotX:naturalFrequency = 0
+            float physxMimicJoint:rotX:offset = 0
+            rel physxMimicJoint:rotX:referenceJoint = </tron2b_gripper/Physics/left_gripper_joint>
+            token physxMimicJoint:rotX:referenceJointAxis = "rotX"
+        }
+        over "left_grasper_nut_Joint" (
+            delete apiSchemas = ["NewtonMimicAPI", "PhysicsDriveAPI:linear", "PhysxMimicJointAPI:transZ"]
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            rel newton:mimicJoint = None
+        }
+        over "left_grasper_jaw_left_Joint" (
+            delete apiSchemas = ["NewtonMimicAPI", "PhysicsDriveAPI:linear", "PhysxMimicJointAPI:transY"]
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            rel newton:mimicJoint = None
+        }
+        over "left_grasper_jaw_right_Joint" (
+            delete apiSchemas = ["NewtonMimicAPI", "PhysicsDriveAPI:linear", "PhysxMimicJointAPI:transY"]
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            rel newton:mimicJoint = None
+        }
+
+        # Side=right
+        over "right_grasper_tip_left_Joint" (
+            delete apiSchemas = ["NewtonMimicAPI", "PhysicsDriveAPI:angular"]
+            prepend apiSchemas = ["PhysxJointAPI", "PhysxMimicJointAPI:rotX"]
+        )
+        {
+            rel newton:mimicJoint = None
+            float physxMimicJoint:rotX:dampingRatio = 0
+            float physxMimicJoint:rotX:gearing = 1.0
+            float physxMimicJoint:rotX:naturalFrequency = 0
+            float physxMimicJoint:rotX:offset = 0
+            rel physxMimicJoint:rotX:referenceJoint = </tron2b_gripper/Physics/right_gripper_joint>
+            token physxMimicJoint:rotX:referenceJointAxis = "rotX"
+        }
+        over "right_grasper_bar_left_Joint" (
+            delete apiSchemas = ["NewtonMimicAPI", "PhysicsDriveAPI:angular"]
+            prepend apiSchemas = ["PhysxJointAPI", "PhysxMimicJointAPI:rotX"]
+        )
+        {
+            rel newton:mimicJoint = None
+            float physxMimicJoint:rotX:dampingRatio = 0
+            float physxMimicJoint:rotX:gearing = -1.0
+            float physxMimicJoint:rotX:naturalFrequency = 0
+            float physxMimicJoint:rotX:offset = 0
+            rel physxMimicJoint:rotX:referenceJoint = </tron2b_gripper/Physics/right_gripper_joint>
+            token physxMimicJoint:rotX:referenceJointAxis = "rotX"
+        }
+        over "right_grasper_crank_right_Joint" (
+            delete apiSchemas = ["NewtonMimicAPI", "PhysicsDriveAPI:angular"]
+            prepend apiSchemas = ["PhysxJointAPI", "PhysxMimicJointAPI:rotX"]
+        )
+        {
+            rel newton:mimicJoint = None
+            float physxMimicJoint:rotX:dampingRatio = 0
+            float physxMimicJoint:rotX:gearing = -1.0
+            float physxMimicJoint:rotX:naturalFrequency = 0
+            float physxMimicJoint:rotX:offset = 0
+            rel physxMimicJoint:rotX:referenceJoint = </tron2b_gripper/Physics/right_gripper_joint>
+            token physxMimicJoint:rotX:referenceJointAxis = "rotX"
+        }
+        over "right_grasper_tip_right_Joint" (
+            delete apiSchemas = ["NewtonMimicAPI", "PhysicsDriveAPI:angular"]
+            prepend apiSchemas = ["PhysxJointAPI", "PhysxMimicJointAPI:rotX"]
+        )
+        {
+            rel newton:mimicJoint = None
+            float physxMimicJoint:rotX:dampingRatio = 0
+            float physxMimicJoint:rotX:gearing = 1.0
+            float physxMimicJoint:rotX:naturalFrequency = 0
+            float physxMimicJoint:rotX:offset = 0
+            rel physxMimicJoint:rotX:referenceJoint = </tron2b_gripper/Physics/right_gripper_joint>
+            token physxMimicJoint:rotX:referenceJointAxis = "rotX"
+        }
+        over "right_grasper_bar_right_Joint" (
+            delete apiSchemas = ["NewtonMimicAPI", "PhysicsDriveAPI:angular"]
+            prepend apiSchemas = ["PhysxJointAPI", "PhysxMimicJointAPI:rotX"]
+        )
+        {
+            rel newton:mimicJoint = None
+            float physxMimicJoint:rotX:dampingRatio = 0
+            float physxMimicJoint:rotX:gearing = -1.0
+            float physxMimicJoint:rotX:naturalFrequency = 0
+            float physxMimicJoint:rotX:offset = 0
+            rel physxMimicJoint:rotX:referenceJoint = </tron2b_gripper/Physics/right_gripper_joint>
+            token physxMimicJoint:rotX:referenceJointAxis = "rotX"
+        }
+        over "right_grasper_nut_Joint" (
+            delete apiSchemas = ["NewtonMimicAPI", "PhysicsDriveAPI:linear", "PhysxMimicJointAPI:transZ"]
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            rel newton:mimicJoint = None
+        }
+        over "right_grasper_jaw_left_Joint" (
+            delete apiSchemas = ["NewtonMimicAPI", "PhysicsDriveAPI:linear", "PhysxMimicJointAPI:transY"]
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            rel newton:mimicJoint = None
+        }
+        over "right_grasper_jaw_right_Joint" (
+            delete apiSchemas = ["NewtonMimicAPI", "PhysicsDriveAPI:linear", "PhysxMimicJointAPI:transY"]
+            prepend apiSchemas = ["PhysxJointAPI"]
+        )
+        {
+            rel newton:mimicJoint = None
+        }
+    }
+}

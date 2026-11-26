@@ -1,0 +1,71 @@
+#usda 1.0
+(
+    customLayerData = {
+        string creator = "URDF USD Converter v0.3.2"
+    }
+    defaultPrim = "tron2b_torso"
+    endTimeCode = 1000000
+    kilogramsPerUnit = 1
+    metersPerUnit = 1
+    startTimeCode = 0
+    upAxis = "Z"
+)
+
+over "tron2b_torso" (
+    prepend apiSchemas = ["IsaacRobotAPI"]
+)
+{
+    prepend rel isaac:physics:robotJoints = [
+        </tron2b_torso/Physics/root_joint>,
+        </tron2b_torso/Physics/base_imu_Joint>,
+        </tron2b_torso/Physics/body_camera_joint>,
+    ]
+    prepend rel isaac:physics:robotLinks = [
+        </tron2b_torso/Geometry/base_link>,
+        </tron2b_torso/Geometry/base_link/base_imu>,
+        </tron2b_torso/Geometry/base_link/body_camera>,
+    ]
+    token isaac:robotType = "Default"
+
+    over "Geometry"
+    {
+        over "base_link" (
+            prepend apiSchemas = ["IsaacLinkAPI"]
+        )
+        {
+            over "base_imu" (
+                prepend apiSchemas = ["IsaacLinkAPI"]
+            )
+            {
+            }
+
+            over "body_camera" (
+                prepend apiSchemas = ["IsaacLinkAPI"]
+            )
+            {
+            }
+        }
+    }
+
+    over "Physics"
+    {
+        over "root_joint" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+        }
+
+        over "base_imu_Joint" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+        }
+
+        over "body_camera_joint" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+        }
+    }
+}
+

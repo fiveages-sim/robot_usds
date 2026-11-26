@@ -1,0 +1,65 @@
+#usda 1.0
+(
+    defaultPrim = "tron2b_dach"
+)
+
+def Xform "tron2b_dach"
+{
+    def "Head_V1" (
+        prepend payload = @../../../components/TRON2B_Head/TRON2B_Head.usda@
+        variants = {
+            string Physics = "physx"
+        }
+    )
+    {
+        quatd xformOp:orient = (1, 0, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        # xacro head_base_Joint: fixed parent=base_link → head_base_Link
+        # origin xyz="0.04656 9e-05 0.26115". Pattern B ArtRoot on head_base_Link.
+        over "Physics"
+        {
+            over "head_base_Joint" (
+                active = false
+            )
+            {
+            }
+        }
+
+        over "Geometry"
+        {
+            over "base_link"
+            {
+                over "head_base_Link" (
+                    delete apiSchemas = ["PhysicsArticulationRootAPI", "NewtonArticulationRootAPI"]
+                )
+                {
+                    def PhysicsFixedJoint "AssemblerFixedJoint"
+                    {
+                        rel physics:body0 = </tron2b_dach/Torso/Geometry/base_link>
+                        rel physics:body1 = </tron2b_dach/Head_V1/Geometry/base_link/head_base_Link>
+                        bool physics:excludeFromArticulation = false
+                        point3f physics:localPos0 = (0.04656, 0.00009, 0.26115)
+                        point3f physics:localPos1 = (0, 0, 0)
+                        quatf physics:localRot0 = (1, 0, 0, 0)
+                        quatf physics:localRot1 = (1, 0, 0, 0)
+                    }
+                }
+            }
+        }
+    }
+
+    # Head present → fiveages CM uses full_body (WBC + head). No-op if ROS≠fiveages.
+    over "Graph"
+    {
+        over "ROS_Control"
+        {
+            over "ROS2ControlLaunch"
+            {
+                custom token inputs:mode = "full_body"
+            }
+        }
+    }
+}

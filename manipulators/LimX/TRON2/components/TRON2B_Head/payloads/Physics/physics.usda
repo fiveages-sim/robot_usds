@@ -1,0 +1,142 @@
+#usda 1.0
+(
+    customLayerData = {
+        string creator = "URDF USD Converter v0.3.2"
+    }
+    defaultPrim = "tron2b_head"
+    endTimeCode = 1000000
+    kilogramsPerUnit = 1
+    metersPerUnit = 1
+    startTimeCode = 0
+    upAxis = "Z"
+)
+
+over "tron2b_head"
+{
+    over "Geometry"
+    {
+        over "base_link"
+        {
+            over "head_base_Link" (
+                prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsArticulationRootAPI", "NewtonArticulationRootAPI", "PhysicsMassAPI", "NewtonMassAPI"]
+            )
+            {
+                double[] newton:inertia = [0.00015008, 0.0000986, 0.00024625, 1e-8, 0.00000161, 0]
+                bool newton:selfCollisionEnabled = 0
+                point3f physics:centerOfMass = (-0.0094, 0, 0.0033)
+                float3 physics:diagonalInertia = (0.0000986, 0.00015005306, 0.00024627693)
+                float physics:mass = 0.13
+                quatf physics:principalAxes = (-0.0059167985, 0.7070133, 0.70715076, -0.00591645)
+
+                over "head_yaw_Link" (
+                    prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "NewtonMassAPI"]
+                )
+                {
+                    double[] newton:inertia = [0.00150459, 0.00204199, 0.00101816, -0.0000309, -0.00071408, -0.00004724]
+                    point3f physics:centerOfMass = (0.02452, 0.00153, 0.06142)
+                    float3 physics:diagonalInertia = (0.0005049424, 0.0020155413, 0.002044256)
+                    float physics:mass = 0.84
+                    quatf physics:principalAxes = (-0.59603107, 0.65996826, 0.32153937, 0.32527107)
+
+                    over "head_pitch_Link" (
+                        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "NewtonMassAPI"]
+                    )
+                    {
+                        double[] newton:inertia = [0.00122942, 0.00139833, 0.0019056, 3.7e-7, 0.00010434, 0.00000747]
+                        point3f physics:centerOfMass = (-0.00469, -0.02957, 0.02678)
+                        float3 physics:diagonalInertia = (0.0012136826, 0.0013982272, 0.0019214402)
+                        float physics:mass = 0.46
+                        quatf physics:principalAxes = (0.9971733, -0.006940952, 0.074770644, 0.0025525496)
+
+                        over "head_camera" (
+                            prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "NewtonMassAPI"]
+                        )
+                        {
+                            double[] newton:inertia = [0.00001481043, 0.00015238478, 0.00015547099, 4.493e-8, 3.4889e-7, -8.749e-8]
+                            point3f physics:centerOfMass = (0.04728142, -0.01008024, -0.00887409)
+                            float3 physics:diagonalInertia = (0.00001480955, 0.00015238233, 0.00015547432)
+                            float physics:mass = 0.15
+                            quatf physics:principalAxes = (0.99989927, 0.01413657, 0.0012378321, -0.0001815977)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    over "Physics"
+    {
+        def PhysicsRevoluteJoint "head_yaw_Joint" (
+            prepend apiSchemas = ["NewtonJointAPI", "PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular"]
+        )
+        {
+            float drive:angular:physics:maxForce = 15
+            float drive:angular:physics:damping = 40
+            float drive:angular:physics:stiffness = 400
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float newton:velocityLimit = 827.9985
+            uniform token physics:axis = "Z"
+            custom rel physics:body0
+            append rel physics:body0 = </tron2b_head/Geometry/base_link/head_base_Link>
+            custom rel physics:body1
+            append rel physics:body1 = </tron2b_head/Geometry/base_link/head_base_Link/head_yaw_Link>
+            point3f physics:localPos0 = (0, 0, 0.008)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -90
+            float physics:upperLimit = 90
+            custom float urdf:limit:effort = 15
+        }
+
+        def PhysicsRevoluteJoint "head_pitch_Joint" (
+            prepend apiSchemas = ["NewtonJointAPI", "PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular"]
+        )
+        {
+            float drive:angular:physics:maxForce = 15
+            float drive:angular:physics:damping = 40
+            float drive:angular:physics:stiffness = 400
+            float drive:angular:physics:targetPosition = 0
+            uniform token drive:angular:physics:type = "force"
+            float newton:velocityLimit = 827.9985
+            uniform token physics:axis = "Y"
+            custom rel physics:body0
+            append rel physics:body0 = </tron2b_head/Geometry/base_link/head_base_Link/head_yaw_Link>
+            custom rel physics:body1
+            append rel physics:body1 = </tron2b_head/Geometry/base_link/head_base_Link/head_yaw_Link/head_pitch_Link>
+            point3f physics:localPos0 = (0.051, 0.03, 0.097)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -45
+            float physics:upperLimit = 60
+            custom float urdf:limit:effort = 15
+        }
+
+        def PhysicsFixedJoint "head_base_Joint"
+        {
+            custom rel physics:body0
+            append rel physics:body0 = </tron2b_head>
+            custom rel physics:body1
+            append rel physics:body1 = </tron2b_head/Geometry/base_link/head_base_Link>
+            point3f physics:localPos0 = (0.04656, 0.00009, 0.26115)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+        }
+
+        def PhysicsFixedJoint "head_camera_joint"
+        {
+            custom rel physics:body0
+            append rel physics:body0 = </tron2b_head/Geometry/base_link/head_base_Link/head_yaw_Link/head_pitch_Link>
+            custom rel physics:body1
+            append rel physics:body1 = </tron2b_head/Geometry/base_link/head_base_Link/head_yaw_Link/head_pitch_Link/head_camera>
+            point3f physics:localPos0 = (0.05324409, 0.01746142, 0.04439976)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (0.5, -0.5, 0.5, -0.5)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+        }
+    }
+}
+
